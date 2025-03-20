@@ -4985,7 +4985,7 @@ export type Query = {
   variantTypes: BrowseVariantTypeConnection;
   /** List and filter variants. */
   variants: VariantInterfaceConnection;
-  variantsTypeahead: Array<Variant>;
+  variantsTypeahead: Array<VariantInterface>;
   viewer?: Maybe<User>;
 };
 
@@ -9627,7 +9627,7 @@ export type VariantSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type VariantSelectTypeaheadQuery = { __typename: 'Query', variantsTypeahead: Array<{ __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> }> };
+export type VariantSelectTypeaheadQuery = { __typename: 'Query', variantsTypeahead: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> }> };
 
 export type VariantSelectTagQueryVariables = Exact<{
   variantId: Scalars['Int']['input'];
