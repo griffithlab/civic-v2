@@ -27,11 +27,11 @@ fragment VariantSelectTypeaheadFields on VariantInterface {
   link
   deprecated
   variantAliases
-  singleVariantMolecularProfileId
-  singleVariantMolecularProfile {
-    id
-    name
-    link
-    molecularProfileAliases
-  }
+  # singleVariantMolecularProfileId
+  # singleVariantMolecularProfile {
+  #   id
+  #   name
+  #   link
+  #   molecularProfileAliases
+  # }
 }

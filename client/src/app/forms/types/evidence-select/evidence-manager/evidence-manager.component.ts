@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 import { ApolloQueryResult, gql } from '@apollo/client/core'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
-import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
+import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.types'
 import {
   EvidenceItem,
   EvidenceItemConnection,
@@ -74,11 +74,11 @@ export type EvidenceManagerSettings = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-manager',
-    templateUrl: './evidence-manager.component.html',
-    styleUrls: ['./evidence-manager.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-manager',
+  templateUrl: './evidence-manager.component.html',
+  styleUrls: ['./evidence-manager.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableSettings?: EvidenceManagerSettings
