@@ -1,7 +1,7 @@
 module AdvancedSearches
   class Gene < AdvancedSearches::Base
     def base_query
-      ::Gene.left_outer_joins(:gene_aliases)
+      Feature.where(feature_instance_type: "Features::Gene").left_outer_joins(:feature_aliases)
     end
 
     def resolve_search_fields(node)
@@ -21,7 +21,7 @@ module AdvancedSearches
         return nil
       end
 
-      (clause, value) = node.id.resolve_query_for_type("genes.id")
+      (clause, value) = node.id.resolve_query_for_type("features.id")
       base_query.where(clause, value)
     end
 
@@ -31,7 +31,13 @@ module AdvancedSearches
       end
 
       (clause, value) = node.entrez_id.resolve_query_for_type("genes.entrez_id")
-      base_query.where(clause, value)
+
+      matching_ids = ::Features::Gene
+        .joins(:feature)
+        .where(clause, value)
+        .pluck("features.id")
+
+      base_query.where(id: matching_ids)
     end
 
     def resolve_entrez_symbol_filter(node)
@@ -39,7 +45,7 @@ module AdvancedSearches
         return nil
       end
 
-      (clause, value) = node.entrez_symbol.resolve_query_for_type("genes.name")
+      (clause, value) = node.entrez_symbol.resolve_query_for_type("features.name")
       base_query.where(clause, value)
     end
 
@@ -48,7 +54,7 @@ module AdvancedSearches
         return nil
       end
 
-      (clause, value) = node.description.resolve_query_for_type("genes.description")
+      (clause, value) = node.description.resolve_query_for_type("features.description")
       base_query.where(clause, value)
     end
 
@@ -57,7 +63,7 @@ module AdvancedSearches
         return nil
       end
 
-      (clause, value) = node.alias.resolve_query_for_type("gene_aliases.name")
+      (clause, value) = node.alias.resolve_query_for_type("feature_aliases.name")
       base_query.where(clause, value)
     end
 
@@ -68,12 +74,12 @@ module AdvancedSearches
 
       (clause, value) = node.open_revision_count.resolve_query_for_type("count(revisions.id)")
 
-      matching_ids = ::Gene.joins(:revisions)
+      matching_ids = ::Feature.joins(:revisions)
         .where("status = 'new'")
-        .group("genes.id")
+        .group("features.id")
         .having(clause, value)
         .distinct
-        .pluck("genes.id")
+        .pluck("features.id")
 
       base_query.where(id: matching_ids)
     end
@@ -83,7 +89,7 @@ module AdvancedSearches
         return nil
       end
 
-      matching_ids = ::Assertion.joins(molecular_profile: { variants: :gene }).distinct.pluck("genes.id")
+      matching_ids = ::Assertion.joins(molecular_profile: { variants: [ :feature ] }).where('features.feature_instance_type': "Features::Gene").distinct.pluck("features.id")
 
 
       if node.has_assertion.value
