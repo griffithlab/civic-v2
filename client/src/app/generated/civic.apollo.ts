@@ -9586,9 +9586,9 @@ export type SelectOrCreateFusionVariantMutationVariables = Exact<{
 }>;
 
 
-export type SelectOrCreateFusionVariantMutation = { __typename: 'Mutation', createFusionVariant?: { __typename: 'CreateFusionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
+export type SelectOrCreateFusionVariantMutation = { __typename: 'Mutation', createFusionVariant?: { __typename: 'CreateFusionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } } | undefined };
 
-export type CreateFusionVariantFieldsFragment = { __typename: 'CreateFusionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
+export type CreateFusionVariantFieldsFragment = { __typename: 'CreateFusionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } };
 
 export type VariantManagerQueryVariables = Exact<{
   variantName?: InputMaybe<Scalars['String']['input']>;
@@ -9617,9 +9617,9 @@ export type QuickAddVariantMutationVariables = Exact<{
 }>;
 
 
-export type QuickAddVariantMutation = { __typename: 'Mutation', createVariant?: { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
+export type QuickAddVariantMutation = { __typename: 'Mutation', createVariant?: { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } } | undefined };
 
-export type QuickAddVariantFieldsFragment = { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
+export type QuickAddVariantFieldsFragment = { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } };
 
 export type VariantSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -9627,22 +9627,22 @@ export type VariantSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type VariantSelectTypeaheadQuery = { __typename: 'Query', variantsTypeahead: Array<{ __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } }> };
+export type VariantSelectTypeaheadQuery = { __typename: 'Query', variantsTypeahead: Array<{ __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> }> };
 
 export type VariantSelectTagQueryVariables = Exact<{
   variantId: Scalars['Int']['input'];
 }>;
 
 
-export type VariantSelectTagQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | undefined };
+export type VariantSelectTagQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> } | undefined };
 
-type VariantSelectTypeaheadFields_FactorVariant_Fragment = { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } };
+type VariantSelectTypeaheadFields_FactorVariant_Fragment = { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> };
 
-type VariantSelectTypeaheadFields_FusionVariant_Fragment = { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } };
+type VariantSelectTypeaheadFields_FusionVariant_Fragment = { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> };
 
-type VariantSelectTypeaheadFields_GeneVariant_Fragment = { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } };
+type VariantSelectTypeaheadFields_GeneVariant_Fragment = { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> };
 
-type VariantSelectTypeaheadFields_Variant_Fragment = { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } };
+type VariantSelectTypeaheadFields_Variant_Fragment = { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string> };
 
 export type VariantSelectTypeaheadFieldsFragment = VariantSelectTypeaheadFields_FactorVariant_Fragment | VariantSelectTypeaheadFields_FusionVariant_Fragment | VariantSelectTypeaheadFields_GeneVariant_Fragment | VariantSelectTypeaheadFields_Variant_Fragment;
 
@@ -12784,13 +12784,6 @@ export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
   link
   deprecated
   variantAliases
-  singleVariantMolecularProfileId
-  singleVariantMolecularProfile {
-    id
-    name
-    link
-    molecularProfileAliases
-  }
 }
     `;
 export const CreateFusionVariantFieldsFragmentDoc = gql`

@@ -41,6 +41,7 @@ export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
   entity: any
 ): entity is LinkableEntity => {
   return (
+    entity !== null &&
     entity !== undefined &&
     entity.__typename &&
     entity.id &&
@@ -91,10 +92,17 @@ export const getFragmentDoc = (
   typename: string,
   isLinked: boolean
 ): Maybe<ReturnType<typeof gql>> => {
+  let fragmentDoc
   if (isLinked) {
-    return entityLinkableTagFieldsMap.get(typename)
+    fragmentDoc = entityLinkableTagFieldsMap.get(typename)
+  } else {
+    fragmentDoc = entityTagFieldsMap.get(typename)
   }
-  return entityTagFieldsMap.get(typename)
+  if (!fragmentDoc) {
+    console.error(`Could not find fragment for ${typename}.`)
+    return
+  }
+  return fragmentDoc
 }
 
 export const getFragment = (
