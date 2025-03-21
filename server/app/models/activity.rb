@@ -17,7 +17,7 @@ class Activity < ApplicationRecord
   end
 
   def link_entities!(entities)
-    Array(entities).flatten.each do |e|
+    Array(entities).flatten.compact.each do |e|
       ActivityLinkedEntity.where(activity: self, entity: e).first_or_create!
     end
   end

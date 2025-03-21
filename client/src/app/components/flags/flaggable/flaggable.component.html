@@ -4,6 +4,10 @@
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
+<ng-container *ngIf="endorsements === 0">
+  <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
+</ng-container>
+
 <ng-container *ngIf="flags">
   <nz-ribbon
     [nzText]="flaggedText"
@@ -24,6 +28,34 @@
       </a>
     </ng-template>
     <ng-template #flaggedTooltip> {{ flags }} open flags </ng-template>
+    <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
+  </nz-ribbon>
+</ng-container>
+
+
+<ng-container *ngIf="endorsements">
+  <nz-ribbon
+    [nzText]="endorsementRibbonText"
+    nzPlacement="start"
+    nzColor="#EFBF04">
+    <ng-template #endorsementRibbonText>
+      <i
+        nz-icon
+        nzType="safety-certificate"
+        nzTheme="fill"
+        nz-tooltip
+        nzTooltipPlacement="top"
+        nzTooltipColor="#EFBF04"
+        [nzTooltipTitle]="endorsementRibbonTooltip"></i>
+    </ng-template>
+    <ng-template #endorsementRibbonTooltip>
+      Endorsed by {{ endorsements }} 
+      @if (endorsements === 1) {
+        organization
+      } @else {
+        organizations
+      }
+    </ng-template>
     <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
   </nz-ribbon>
 </ng-container>

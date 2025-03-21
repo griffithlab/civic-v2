@@ -15,6 +15,7 @@ import { CvcQuicksearchModule } from '@app/components/layout/quicksearch/quickse
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcLoginButtonModule } from '@app/components/layout/login-button/login-button.module'
 import { CvcViewerButtonModule } from '@app/components/layout/viewer-button/viewer-button.module'
+import { PushPipe } from '@ngrx/component'
 
 @NgModule({
   declarations: [LayoutComponent],
@@ -28,6 +29,7 @@ import { CvcViewerButtonModule } from '@app/components/layout/viewer-button/view
     NzToolTipModule,
     NzTypographyModule,
     NgxJsonViewerModule,
+    PushPipe,
     CvcLoginButtonModule,
     CvcViewerButtonModule,
     CvcQuicksearchModule,

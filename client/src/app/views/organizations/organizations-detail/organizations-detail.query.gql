@@ -9,6 +9,8 @@ fragment OrganizationDetailFields on Organization {
   name
   url
   description
+  canEndorse
+  hasEndorsingSubgroups
   profileImagePath(size: 256)
   subGroups {
     id

@@ -1,0 +1,48 @@
+query EndorsementList(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $assertionId: Int
+  $sortBy: DateSort
+) {
+  endorsements(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    endorsedAssertionId: $assertionId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...endorsementListNode
+      }
+    }
+  }
+}
+
+fragment endorsementListNode on Endorsement {
+  id
+  organization {
+    id
+    name
+    profileImagePath(size: 64)
+  }
+  user {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  lastReviewed
+  status
+}

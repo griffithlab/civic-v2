@@ -8,6 +8,7 @@ module Types::Entities
     field :bio, String, null: true
     field :country, Types::Entities::CountryType, null: true
     field :organizations, [ Types::Entities::OrganizationType ], null: false
+    field :organizations_with_endorsement_privileges, [ Types::Entities::OrganizationType ], null: false
     field :events, Types::Entities::EventType.connection_type, null: false
     field :display_name, String, null: false
     field :area_of_expertise, Types::AreaOfExpertiseType, null: true
@@ -62,6 +63,10 @@ module Types::Entities
 
     def organizations
       Loaders::AssociationLoader.for(User, :organizations).load(object)
+    end
+
+    def organizations_with_endorsement_privileges
+      Loaders::AssociationLoader.for(User, :organizations_with_endorsement_privileges).load(object)
     end
 
     def notifications(notification_type: nil, subscription_id: nil, event_type: nil, include_seen:)

@@ -1,5 +1,6 @@
 class FlagEntityActivity < Activity
   has_one_linked :flag
+  has_many_linked :endorsements
 
   def flaggable
     self.subject

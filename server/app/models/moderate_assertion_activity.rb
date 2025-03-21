@@ -1,4 +1,6 @@
 class ModerateAssertionActivity < Activity
+  has_many_linked :endorsements
+
   def assertion
     self.subject
   end
