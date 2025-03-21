@@ -466,6 +466,11 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     endorsingOrganizationId: Int
 
     """
+    Limit to endorsements from a FDA-approved ClinGen SC-VCEPs.
+    """
+    endorsingOrganizationIsApprovedVcep: Boolean
+
+    """
     CIViC User ID of the user endorsing the assertion.
     """
     endorsingUserId: Int
@@ -9018,6 +9023,11 @@ type Query {
     CIViC Organization ID of the organization endorsing the assertion.
     """
     endorsingOrganizationId: Int
+
+    """
+    Limit to endorsements from a FDA-approved ClinGen SC-VCEPs.
+    """
+    endorsingOrganizationIsApprovedVcep: Boolean
 
     """
     CIViC User ID of the user endorsing the assertion.

@@ -2137,6 +2137,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "endorsingOrganizationIsApprovedVcep",
+                  "description": "Limit to endorsements from a FDA-approved ClinGen SC-VCEPs.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "status",
                   "description": "Limit to endorsements of a particular status",
                   "type": {
@@ -41684,6 +41696,18 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "endorsingOrganizationIsApprovedVcep",
+                  "description": "Limit to endorsements from a FDA-approved ClinGen SC-VCEPs.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
                     "ofType": null
                   },
                   "defaultValue": null,

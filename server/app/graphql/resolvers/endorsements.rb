@@ -22,6 +22,10 @@ class Resolvers::Endorsements < GraphQL::Schema::Resolver
     scope.where(organization_id: value)
   end
 
+  option(:endorsing_organization_is_approved_vcep, type: Boolean, description: "Limit to endorsements from a FDA-approved ClinGen SC-VCEPs.") do |scope, value|
+    scope.joins(:organization).where('organizations.is_approved_vcep': true)
+  end
+
   option(:status, type: Types::EndorsementStatusType, description: "Limit to endorsements of a particular status") do |scope, value|
     scope.where(status: value)
   end
