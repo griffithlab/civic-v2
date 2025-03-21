@@ -28,8 +28,12 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Assertion already has status #{new_status}."
     end
 
-    if new_status == "rejected" && comment.blank?
-      raise GraphQL::ExecutionError, "A comment is required when rejecting an assertion."
+    if (new_status == "rejected" || new_status == "submitted") && comment.blank?
+      raise GraphQL::ExecutionError, "A comment is required when rejecting or reverting an Assertion."
+    end
+
+    if new_status == "accepted" && comment.present?
+      raise GraphQL::ExecutionError, "Do not supply a comment when accepting an Assertion."
     end
 
     return true

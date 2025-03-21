@@ -28,8 +28,12 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "EvidenceItem already has status #{new_stats}."
     end
 
-    if new_status == "rejected" && comment.blank?
-      raise GraphQL::ExecutionError, "A comment is required when rejecting an Evidence Item."
+    if (new_status == "rejected" || new_status == "submitted") && comment.blank?
+      raise GraphQL::ExecutionError, "A comment is required when rejecting or reverting an Evidence Item."
+    end
+
+    if new_status == "accepted" && comment.present?
+      raise GraphQL::ExecutionError, "Do not supply a comment when accepting an Evidence Item"
     end
 
     return true
