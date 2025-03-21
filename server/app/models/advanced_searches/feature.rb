@@ -13,6 +13,7 @@ module AdvancedSearches
         resolve_alias_filter(node),
         resolve_open_revision_count_filter(node),
         resolve_has_assertion_filter(node),
+        resolve_is_flagged_filter(node),
         resolve_feature_instance_type_filter(node),
         resolve_ncit_id_filter(node),
         resolve_five_prime_partner_entrez_id(node),
@@ -88,6 +89,15 @@ module AdvancedSearches
         .pluck("features.id")
 
       base_query.where(id: matching_ids)
+    end
+
+    def resolve_is_flagged_filter(node)
+      if node.is_flagged.nil?
+        return nil
+      end
+
+      (clause, value) = node.is_flagged.resolve_query_for_type("features.flagged")
+      base_query.where(clause, value)
     end
 
     def resolve_has_assertion_filter(node)

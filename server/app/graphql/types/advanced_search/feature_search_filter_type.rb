@@ -4,6 +4,7 @@ module Types::AdvancedSearch
     argument :description, Types::AdvancedSearch::StringSearchInput, required: false
     argument :alias, Types::AdvancedSearch::StringSearchInput, required: false
     argument :open_revision_count, Types::AdvancedSearch::IntSearchInput, required: false
+    argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
     argument :feature_instance_type, Types::AdvancedSearch::EnumSearchInput.for(Types::FeatureInstanceTypes), required: false
     argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
     argument :sub_filters, [ Types::AdvancedSearch::FeatureSearchFilterType ], required: false

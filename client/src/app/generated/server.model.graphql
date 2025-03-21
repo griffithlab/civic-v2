@@ -4564,6 +4564,7 @@ input FeatureSearchFilter {
   fivePrimePartnerEntrezSymbol: StringSearchInput
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
+  isFlagged: BooleanSearchInput
   ncitId: StringSearchInput
   openRevisionCount: IntSearchInput
   subFilters: [FeatureSearchFilter!]
