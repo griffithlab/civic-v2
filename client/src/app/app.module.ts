@@ -24,6 +24,7 @@ import { Observable } from 'rxjs'
 import { AppErrorHandler } from './core/utilities/app-error-handler'
 import { CvcForms2Module } from '@app/forms/forms.module'
 import { graphqlProvider } from './graphql/graphql.module'
+import { CvcEnvironmentBannerComponent } from './components/app/environment-banner/environment-banner.component'
 
 registerLocaleData(en)
 
@@ -44,6 +45,7 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     LetDirective,
     PushPipe,
     CvcNetworkErrorAlertModule,
+    CvcEnvironmentBannerComponent,
   ],
   providers: [
     graphqlProvider,
