@@ -18,6 +18,7 @@ import {
   UpdateSourceSuggestionGQL,
   UpdateSourceSuggestionMutation,
   UpdateSourceSuggestionMutationVariables,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service'
@@ -25,10 +26,10 @@ import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 
 @Component({
-    selector: 'cvc-update-source-suggestion-form',
-    templateUrl: './update-source-suggestion.form.html',
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'cvc-update-source-suggestion-form',
+  templateUrl: './update-source-suggestion.form.html',
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CvcUpdateSourceSuggestionForm implements OnDestroy {
   @Input() sourceSuggestionId!: number
@@ -37,8 +38,8 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
   @Output() commentAddedEvent = new EventEmitter<void>()
 
   private destroy$ = new Subject<void>()
-  organizations!: Array<Organization>
-  mostRecentOrg!: Maybe<Organization>
+  organizations!: Array<ViewerOrganizationFragment>
+  mostRecentOrg!: Maybe<ViewerOrganizationFragment>
 
   reason?: string
   newStatus?: SourceSuggestionStatus
@@ -64,7 +65,7 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
     this.viewerService.viewer$
       .pipe(takeUntil(this.destroy$))
       .subscribe((v: Viewer) => {
-        this.organizations = v.organizations
+        this.organizations = v.user?.organizations || []
         this.mostRecentOrg = v.mostRecentOrg
       })
 

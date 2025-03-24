@@ -15,6 +15,7 @@ import {
   ModerateEvidenceItemGQL,
   ModerateEvidenceItemMutation,
   ModerateEvidenceItemMutationVariables,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable, Subject } from 'rxjs'
@@ -22,10 +23,10 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-revert-entity-button',
-    templateUrl: './revert-entity-button.component.html',
-    styleUrls: ['./revert-entity-button.component.less'],
-    standalone: false
+  selector: 'cvc-revert-entity-button',
+  templateUrl: './revert-entity-button.component.html',
+  styleUrls: ['./revert-entity-button.component.less'],
+  standalone: false,
 })
 export class CvcRevertEntityButtonComponent implements OnInit {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
@@ -47,7 +48,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
   isSubmitting = false
   showConfirm = false
 
-  mostRecentOrg: Maybe<Organization>
+  mostRecentOrg: Maybe<ViewerOrganizationFragment>
 
   destroy$ = new Subject<void>()
   viewer$: Observable<Viewer>

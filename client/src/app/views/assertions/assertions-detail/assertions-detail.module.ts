@@ -20,7 +20,11 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module'
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcEndorseAssertionButtonComponent } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -38,6 +42,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzIconModule,
     NzAlertModule,
     NzGridModule,
+    NzPopoverModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
     CvcFlaggableModule,
@@ -47,6 +52,9 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
     CvcMolecularProfileTagModule,
+    CvcEndorseAssertionButtonComponent,
+    CvcUserTagModule,
+    CvcOrganizationTagModule,
   ],
 })
 export class AssertionsDetailModule {}

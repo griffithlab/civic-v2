@@ -13,6 +13,9 @@ module Types::Entities
     field :member_count, Int, null: false
     field :event_count, Int, null: false
     field :ranks, Types::Entities::RanksType, null: false
+    field :can_endorse, Boolean, null: false
+    field :has_endorsing_subgroups, Boolean, null: false
+    field :is_approved_vcep, Boolean, null: false
 
     profile_image_sizes = [ 256, 128, 64, 32, 18, 12 ]
     field :profile_image_path, String, null: true do
@@ -31,6 +34,12 @@ module Types::Entities
 
     def sub_groups
       Loaders::AssociationLoader.for(Organization, :groups).load(object)
+    end
+
+    def has_endorsing_subgroups
+      Loaders::AssociationLoader.for(Organization, :groups).load(object).then do |orgs|
+        orgs.map(&:can_endorse).any?
+      end
     end
 
     def members

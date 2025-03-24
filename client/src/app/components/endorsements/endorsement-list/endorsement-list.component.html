@@ -1,0 +1,33 @@
+<ng-container>
+  <nz-card
+    nzTitle="Endorsements">
+    <nz-list
+      [nzDataSource]="endorsements$ | ngrxPush"
+      [nzLoading]="loading$ | ngrxPush"
+      [nzRenderItem]="endorsement"
+      nzSize="small"
+      nzItemLayout="horizontal">
+      <nz-list-header *ngIf="pageInfo$ | ngrxPush as pageInfo">
+        <div
+          nz-list-load-more
+          *ngIf="pageInfo.hasPreviousPage">
+          <button
+            nz-button
+            nzType="link"
+            nzSize="small"
+            nzBlock
+            (click)="onLoadMore(pageInfo.startCursor)">
+            Load more
+          </button>
+        </div>
+      </nz-list-header>
+      <ng-template
+        #endorsement
+        let-endorsement>
+        <nz-list-item>
+          <cvc-endorsement-display [endorsement]="endorsement"></cvc-endorsement-display>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-card>
+</ng-container>

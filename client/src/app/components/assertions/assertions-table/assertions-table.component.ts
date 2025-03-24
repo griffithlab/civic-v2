@@ -48,11 +48,11 @@ import { ActivatedRoute } from '@angular/router'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-assertions-table',
-    templateUrl: './assertions-table.component.html',
-    styleUrls: ['./assertions-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-assertions-table',
+  templateUrl: './assertions-table.component.html',
+  styleUrls: ['./assertions-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
@@ -67,6 +67,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() endorsingOrganizationId: Maybe<number>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -90,7 +91,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   isScrolling: boolean = false
 
   private debouncedQuery = new Subject<void>()
-  
+
   queryParamsSub$: Subscription
 
   isLoading$?: Observable<boolean>
@@ -144,7 +145,8 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.scrollIndex$ = new Subject<number>()
     this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
       if (params.has('includeSubgroups')) {
-        this.includeSubgroups = params.get('includeSubgroups') === 'true' ? true : false
+        this.includeSubgroups =
+          params.get('includeSubgroups') === 'true' ? true : false
       }
     })
   }
@@ -156,7 +158,10 @@ export class CvcAssertionsTableComponent implements OnInit {
       molecularProfileId: this.molecularProfileId,
       evidenceId: this.evidenceId,
       organizationId: this.organizationId ? [this.organizationId] : [],
-      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false, 
+      endorsingOrganizationIds: this.endorsingOrganizationId
+        ? [this.endorsingOrganizationId]
+        : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
