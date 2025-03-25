@@ -20,6 +20,17 @@ fragment geneVariantLinkableTagFields on GeneVariant {
   link
 }
 
+fragment featureTagFields on Feature {
+  id
+  name
+}
+
+fragment featureLinkableTagFields on Feature {
+  id
+  name
+  link
+}
+
 fragment factorVariantTagFields on FactorVariant {
   id
   name

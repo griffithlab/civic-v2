@@ -8898,6 +8898,10 @@ export type GeneVariantTagFieldsFragment = { __typename: 'GeneVariant', id: numb
 
 export type GeneVariantLinkableTagFieldsFragment = { __typename: 'GeneVariant', id: number, name: string, link: string };
 
+export type FeatureTagFieldsFragment = { __typename: 'Feature', id: number, name: string };
+
+export type FeatureLinkableTagFieldsFragment = { __typename: 'Feature', id: number, name: string, link: string };
+
 export type FactorVariantTagFieldsFragment = { __typename: 'FactorVariant', id: number, name: string };
 
 export type FactorVariantLinkableTagFieldsFragment = { __typename: 'FactorVariant', id: number, name: string, link: string };
@@ -11955,6 +11959,19 @@ export const GeneVariantTagFieldsFragmentDoc = gql`
     `;
 export const GeneVariantLinkableTagFieldsFragmentDoc = gql`
     fragment geneVariantLinkableTagFields on GeneVariant {
+  id
+  name
+  link
+}
+    `;
+export const FeatureTagFieldsFragmentDoc = gql`
+    fragment featureTagFields on Feature {
+  id
+  name
+}
+    `;
+export const FeatureLinkableTagFieldsFragmentDoc = gql`
+    fragment featureLinkableTagFields on Feature {
   id
   name
   link

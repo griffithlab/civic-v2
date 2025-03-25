@@ -34,6 +34,8 @@ import {
   AcmgCodeTagFieldsFragmentDoc,
   PhenotypeTagFieldsFragmentDoc,
   PhenotypeLinkableTagFieldsFragmentDoc,
+  FeatureTagFieldsFragmentDoc,
+  FeatureLinkableTagFieldsFragmentDoc,
 } from '@app/generated/civic.apollo'
 import { OperationVariables } from '@apollo/client/core'
 
@@ -51,6 +53,7 @@ export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
 
 const entityTagFieldsMap = new Map<string, Maybe<ReturnType<typeof gql>>>([
   ['Variant', VariantTagFieldsFragmentDoc],
+  ['Feature', FeatureTagFieldsFragmentDoc],
   ['GeneVariant', GeneVariantTagFieldsFragmentDoc],
   ['FactorVariant', FactorVariantTagFieldsFragmentDoc],
   ['FusionVariant', FusionVariantTagFieldsFragmentDoc],
@@ -73,6 +76,7 @@ const entityLinkableTagFieldsMap = new Map<
   Maybe<ReturnType<typeof gql>>
 >([
   ['Variant', VariantLinkableTagFieldsFragmentDoc],
+  ['Feature', FeatureLinkableTagFieldsFragmentDoc],
   ['GeneVariant', GeneVariantLinkableTagFieldsFragmentDoc],
   ['FactorVariant', FactorVariantLinkableTagFieldsFragmentDoc],
   ['FusionVariant', FusionVariantLinkableTagFieldsFragmentDoc],
