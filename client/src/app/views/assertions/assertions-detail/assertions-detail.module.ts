@@ -25,6 +25,7 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEndorseAssertionButtonComponent } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcFlaggableComponent } from '@app/components/shared/flaggable/flaggable.component'
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -45,7 +46,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
     NzPopoverModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
-    CvcFlaggableModule,
+    CvcFlaggableComponent,
     CvcEntitySubscriptionButtonModule,
     CvcRevertEntityButtonModule,
     CvcModerateEntityButtonsModule,

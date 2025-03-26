@@ -351,6 +351,7 @@ export type AssertionEndorsementsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   endorsingOrganizationId?: InputMaybe<Scalars['Int']['input']>;
+  endorsingOrganizationIsApprovedVcep?: InputMaybe<Scalars['Boolean']['input']>;
   endorsingUserId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -5382,6 +5383,7 @@ export type QueryEndorsementsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   endorsedAssertionId?: InputMaybe<Scalars['Int']['input']>;
   endorsingOrganizationId?: InputMaybe<Scalars['Int']['input']>;
+  endorsingOrganizationIsApprovedVcep?: InputMaybe<Scalars['Boolean']['input']>;
   endorsingUserId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;

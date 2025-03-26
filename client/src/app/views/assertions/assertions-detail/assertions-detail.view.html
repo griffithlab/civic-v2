@@ -23,14 +23,12 @@
   </ng-template>
   <div
     cvcFlaggable
-    [flags]="flagsTotal$ | ngrxPush"
-    [endorsements]="endorsementCount ? endorsementCount() : 0">
+    [cvcFlaggableCounts]="{flags: 0, endorsements: 1}">
     <nz-page-header
       *ngrxLet="viewer$ as viewer"
       class="site-page-header">
       <!-- title -->
       <nz-page-header-title
-        cvcFlaggableOptions
         [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.activeEndorsements.totalCount > 0 }">
         <i
           nz-icon
@@ -38,35 +36,6 @@
           [nzTwotoneColor]="'Assertion' | entityColor"
           nzType="civic-assertion"></i>
         {{ assertion.name }}
-        <!-- @if (assertion.activeEndorsements.totalCount > 0 || assertion.requiresReviewEndorsements.totalCount > 0) {
-          <nz-tag
-            nz-popover
-            [nzPopoverContent]="endorsementPopoverContent"
-            nzPopoverPlacement="bottom"
-            nzColor="gold">
-            <span style="color: #efbf04">
-              <i
-                nz-icon
-                nzType="safety-certificate"
-                nzTheme="fill">
-              </i>
-              Endorsed by {{ assertion.activeEndorsements.totalCount + assertion.requiresReviewEndorsements.totalCount }}
-              @if (( assertion.activeEndorsements.totalCount + assertion.requiresReviewEndorsements.totalCount) > 1) {
-                organizations
-              } @else {
-                organization
-              }
-            </span>
-            <ng-template #endorsementPopoverContent>
-              @for (
-                endorsement of (assertion.activeEndorsements.nodes.concat(assertion.requiresReviewEndorsements.nodes));
-                track endorsement.id
-              ) {
-                <cvc-user-tag [user]="endorsement.user"></cvc-user-tag> endorsed on behalf of <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>
-              }
-            </ng-template>
-          </nz-tag>
-        } -->
       </nz-page-header-title>
 
       <!-- header action btns, actions menu -->
