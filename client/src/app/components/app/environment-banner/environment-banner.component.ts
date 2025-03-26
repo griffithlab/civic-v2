@@ -11,5 +11,6 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
   imports: [NzAlertModule],
 })
 export class CvcEnvironmentBannerComponent {
-  isProduction = environment.production
+  displayBanner: boolean = environment.displayEnvBanner
+  displayMsg: string = `You are in the ${environment.backendEnv} environment`
 }

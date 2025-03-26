@@ -1,8 +1,8 @@
-@if (!isProduction) {
+@if (displayBanner) {
   <div class="alert-container">
     <nz-alert
       nzType="info"
-      nzMessage="You are in a development environment.">
+      [nzMessage]="displayMsg">
     </nz-alert>
   </div>
 }
