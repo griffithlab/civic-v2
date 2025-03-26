@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
-import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.types'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableClinicalTrial {

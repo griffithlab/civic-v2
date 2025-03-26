@@ -6,7 +6,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core'
-import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.types'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkablePhenotype {
