@@ -7716,6 +7716,7 @@ export enum VariantMenuSortColumns {
 export enum VariantOrigin {
   Combined = 'COMBINED',
   CommonGermline = 'COMMON_GERMLINE',
+  Mixed = 'MIXED',
   Na = 'NA',
   RareGermline = 'RARE_GERMLINE',
   Somatic = 'SOMATIC',
