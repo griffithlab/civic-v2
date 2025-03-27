@@ -3,7 +3,7 @@ braf_vhl_fusion:
   three_prime_gene: vhl
   five_prime_partner_status: known
   three_prime_partner_status: known
-  regulatory_fusion_type: reg_enhancer
+  regulatory_fusion_type: enhancer
 
 braf_fusion:
   five_prime_gene: braf
@@ -24,4 +24,4 @@ regulatory_fusion:
   three_prime_gene: vhl
   five_prime_partner_status: regulatory
   three_prime_partner_status: known
-  regulatory_fusion_type: reg_enhancer
+  regulatory_fusion_type: enhancer
