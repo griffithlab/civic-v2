@@ -18,7 +18,7 @@ class FusionFeatureTest < ActiveSupport::TestCase
   end
 
   test "invalid fusion with one gene set and known partner status" do
-    @braf_fusion.three_prime_partner_status = 'known'
+    @braf_fusion.three_prime_partner_status = "known"
     assert_not @braf_fusion.valid?
     assert_includes @braf_fusion.errors[:three_prime_gene], "Partner status cannot be 'known' or 'regulatory' if the gene isn't set"
   end
@@ -30,7 +30,7 @@ class FusionFeatureTest < ActiveSupport::TestCase
   end
 
   test "invalid fusion with both partners marked as regulatory" do
-    @regulatory_fusion.three_prime_partner_status = 'regulatory'
+    @regulatory_fusion.three_prime_partner_status = "regulatory"
     assert_not @regulatory_fusion.valid?
     assert_includes @regulatory_fusion.errors[:base], "Only one fusion partner may be marked as regulatory"
   end
