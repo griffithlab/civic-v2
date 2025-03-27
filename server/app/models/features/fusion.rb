@@ -6,8 +6,8 @@ module Features
     belongs_to :five_prime_gene, class_name: "Features::Gene", optional: true
     belongs_to :three_prime_gene, class_name: "Features::Gene", optional: true
 
-    enum :five_prime_partner_status, Constants::FUSION_PARTNER_STATUSES, _prefix: true
-    enum :three_prime_partner_status, Constants::FUSION_PARTNER_STATUSES, _prefix: true
+    enum :five_prime_partner_status, Constants::FUSION_PARTNER_STATUSES, prefix: true
+    enum :three_prime_partner_status, Constants::FUSION_PARTNER_STATUSES, prefix: true
 
     enum :regulatory_fusion_type, Constants::REGULATORY_FUSION_ENUM_TYPES
 
