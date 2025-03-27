@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-molecular-profiles-flags',
-  templateUrl: './molecular-profiles-flags.page.html',
-  styleUrls: ['./molecular-profiles-flags.page.less'],
+    selector: 'cvc-molecular-profiles-flags',
+    templateUrl: './molecular-profiles-flags.page.html',
+    styleUrls: ['./molecular-profiles-flags.page.less'],
+    standalone: false
 })
 export class MolecularProfilesFlagsPage {
   flaggable: FlaggableInput

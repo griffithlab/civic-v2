@@ -2,7 +2,7 @@ module Types::Interfaces
   module EventSubject
     include Types::BaseInterface
 
-    description 'The subject of an event log event.'
+    description "The subject of an event log event."
 
     field :id, Int, null: false
     field :name, String, null: false

@@ -120,31 +120,31 @@
 
       <nz-page-header-content>
         <nz-alert
-          *ngFor="let error of this.errors"
+          *ngFor="let error of errors"
           nzBanner
           [nzMessage]="error"
           nzType="error"
           nzCloseable
           (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
         <nz-alert
-          *ngIf="this.successMessage"
+          *ngIf="successMessage"
           nzBanner
-          [nzMessage]="this.successMessage"
+          [nzMessage]="successMessage"
           nzType="success"
           nzCloseable
           (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <nz-alert
-          *ngIf="this.evidence.status == 'SUBMITTED'"
+          *ngIf="evidence.status == 'SUBMITTED'"
           nzBanner
           nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
         <nz-alert
-          *ngIf="this.evidence.status == 'REJECTED'"
+          *ngIf="evidence.status == 'REJECTED'"
           nzBanner
           nzMessage="This Evidence Item has been rejected."
           nzType="error">
         </nz-alert>
-        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
+        <cvc-tab-navigation [tabs]="tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars

@@ -13,7 +13,6 @@ class GenerateDatabaseBackup < ApplicationJob
   end
 
   def homedir
-    ENV['HOME'] || File.join('/home', ENV['USER'])
+    ENV["HOME"] || File.join("/home", ENV["USER"])
   end
 end
-

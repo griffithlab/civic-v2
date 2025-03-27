@@ -7,7 +7,7 @@
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="flagPopover"
-    nzPopoverPlacement="right"
+    [nzPopoverPlacement]="popoverPlacement"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>

@@ -1,5 +1,4 @@
 class FixPubmedEntriesMissingAuthors < ApplicationJob
-
   def perform
     publications_to_process = find_publications_without_authors
     get_authors_from_pubmed(publications_to_process)
@@ -7,7 +6,7 @@ class FixPubmedEntriesMissingAuthors < ApplicationJob
 
   private
   def find_publications_without_authors
-    Source.left_outer_joins(:authors).where(source_type: 'PubMed').where("authors.id IS NULL")
+    Source.left_outer_joins(:authors).where(source_type: "PubMed").where("authors.id IS NULL")
   end
 
   def get_authors_from_pubmed(sources)
@@ -17,4 +16,3 @@ class FixPubmedEntriesMissingAuthors < ApplicationJob
     end
   end
 end
-

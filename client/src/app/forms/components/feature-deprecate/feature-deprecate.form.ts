@@ -45,35 +45,32 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
 
 @UntilDestroy()
 @Component({
-  standalone: true,
-  selector: 'cvc-feature-deprecate-form',
-  templateUrl: './feature-deprecate.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    LetDirective,
-    PushPipe,
-
-    NzFormModule,
-    NzAlertModule,
-    NzGridModule,
-    NzButtonModule,
-    NzSpinModule,
-    NzCardModule,
-    NzSpaceModule,
-    NzTypographyModule,
-    NzToolTipModule,
-    NzSelectModule,
-
-    CvcFormErrorsAlertModule,
-    CvcFormButtonsModule,
-    CvcSubmitButtonTypeModule,
-    CvcCommentInputFormModule,
-    CvcVariantTagModule,
-  ],
+    selector: 'cvc-feature-deprecate-form',
+    templateUrl: './feature-deprecate.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        LetDirective,
+        PushPipe,
+        NzFormModule,
+        NzAlertModule,
+        NzGridModule,
+        NzButtonModule,
+        NzSpinModule,
+        NzCardModule,
+        NzSpaceModule,
+        NzTypographyModule,
+        NzToolTipModule,
+        NzSelectModule,
+        CvcFormErrorsAlertModule,
+        CvcFormButtonsModule,
+        CvcSubmitButtonTypeModule,
+        CvcCommentInputFormModule,
+        CvcVariantTagModule,
+    ]
 })
 export class CvcFeatureDeprecateForm implements OnDestroy, OnInit {
   @Input() featureId!: number

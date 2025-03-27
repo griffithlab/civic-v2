@@ -38,27 +38,26 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message'
 
 @Component({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NzFormModule,
-    ReactiveFormsModule,
-    NzCardModule,
-    NzAlertModule,
-    NzRadioModule,
-    NzButtonModule,
-    NzSpinModule,
-    NzListModule,
-    NzTypographyModule,
-    NzIconModule,
-    NzToolTipModule,
-    NzMessageModule,
-    CvcFormErrorsAlertModule,
-  ],
-  standalone: true,
-  selector: 'cvc-user-api-keys-form',
-  templateUrl: './user-api-keys.form.html',
-  styleUrls: ['./user-api-keys.form.less'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NzFormModule,
+        ReactiveFormsModule,
+        NzCardModule,
+        NzAlertModule,
+        NzRadioModule,
+        NzButtonModule,
+        NzSpinModule,
+        NzListModule,
+        NzTypographyModule,
+        NzIconModule,
+        NzToolTipModule,
+        NzMessageModule,
+        CvcFormErrorsAlertModule,
+    ],
+    selector: 'cvc-user-api-keys-form',
+    templateUrl: './user-api-keys.form.html',
+    styleUrls: ['./user-api-keys.form.less']
 })
 export class CvcUserApiKeysForm implements OnDestroy {
   success: boolean = false

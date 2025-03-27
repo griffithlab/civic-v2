@@ -101,6 +101,7 @@ export class EvidenceManagerConfig {
         showStatus: true,
         tag: {
           fullWidth: true,
+          popoverPlacement: 'right',
         },
         sort: {
           default: 'ascend',

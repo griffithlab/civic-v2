@@ -25,6 +25,7 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
   selector: 'cvc-revert-entity-button',
   templateUrl: './revert-entity-button.component.html',
   styleUrls: ['./revert-entity-button.component.less'],
+  standalone: false,
 })
 export class CvcRevertEntityButtonComponent implements OnInit {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
@@ -45,6 +46,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
 
   isSubmitting = false
   showConfirm = false
+  revertComment?: string
 
   mostRecentOrg: Maybe<Organization>
 
@@ -71,6 +73,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
           evidenceItemId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
           newStatus: EvidenceStatus.Submitted,
+          comment: this.revertComment,
         },
       })
     } else {
@@ -79,6 +82,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
           assertionId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
           newStatus: EvidenceStatus.Submitted,
+          comment: this.revertComment,
         },
       })
     }

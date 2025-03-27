@@ -40,10 +40,11 @@ type OrganizationLeaderboard = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-organization-leaderboards',
-  templateUrl: './organization-leaderboards.component.html',
-  styleUrls: ['./organization-leaderboards.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-organization-leaderboards',
+    templateUrl: './organization-leaderboards.component.html',
+    styleUrls: ['./organization-leaderboards.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcOrganizationLeaderboardsComponent implements OnInit {
   // SOURCE STREAMS

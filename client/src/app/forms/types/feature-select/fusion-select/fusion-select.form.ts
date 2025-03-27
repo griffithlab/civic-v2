@@ -56,7 +56,6 @@ export interface FusionSelectModalData {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   selector: 'cvc-fusion-select-form',
   templateUrl: './fusion-select.form.html',
   styleUrls: ['./fusion-select.form.less'],
@@ -491,12 +490,6 @@ export class CvcFusionSelectForm {
       if (model.threePrimeGeneId == model.fivePrimeGeneId) {
         return
       }
-    }
-  }
-
-  toggleForm(mode: 'regulatory' | 'transcript') {
-    if (mode == 'regulatory') {
-    } else {
     }
   }
 

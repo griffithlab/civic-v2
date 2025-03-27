@@ -7,7 +7,7 @@
   <span>{{ display.message }}</span>
 </ng-container>
 <cvc-form-submission-status-display
-  [mutationState]="this.mutationState"
+  [mutationState]="mutationState"
   entityType="Source"
   [successMessage]="success">
   <ng-template #success>{{ successMessage }}</ng-template>

@@ -1,11 +1,11 @@
 class Mutations::DeleteComment < Mutations::MutationWithOrg
-  description 'Mark a comment as deleted. You can only delete your own comments.'
+  description "Mark a comment as deleted. You can only delete your own comments."
 
   argument :comment_id, Int, required: true,
-    description: 'The ID of the comment to delete.'
+    description: "The ID of the comment to delete."
 
   field :comment, Types::Entities::CommentType, null: true,
-    description: 'The deleted comment.'
+    description: "The deleted comment."
 
   attr_reader :comment
 
@@ -52,7 +52,7 @@ class Mutations::DeleteComment < Mutations::MutationWithOrg
         comment: res.comment,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

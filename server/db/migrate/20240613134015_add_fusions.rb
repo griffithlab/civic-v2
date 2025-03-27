@@ -1,6 +1,6 @@
 class AddFusions < ActiveRecord::Migration[7.1]
   def change
-    create_enum :fusion_partner_status, ["known", "unknown", "multiple"]
+    create_enum :fusion_partner_status, [ "known", "unknown", "multiple" ]
 
     create_table :fusions do |t|
       t.references :five_prime_gene, null: true, index: true, foreign_key: { to_table: :genes }

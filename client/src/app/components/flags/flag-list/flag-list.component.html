@@ -1,14 +1,14 @@
 <nz-alert
-  *ngFor="let error of this.errors"
+  *ngFor="let error of errors"
   nzBanner
   [nzMessage]="error"
   nzType="error"
   nzCloseable
   (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
 <nz-alert
-  *ngIf="this.success"
+  *ngIf="success"
   nzBanner
-  nzMessage="Revision(s) successfully {{ this.success }}."
+  nzMessage="Revision(s) successfully {{ success }}."
   nzType="success"
   nzCloseable
   (nzOnClose)="onSuccessBannerClose()"></nz-alert>

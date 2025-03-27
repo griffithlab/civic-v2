@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core'
 import {
   RevisionPopoverFragment,
   RevisionPopoverGQL,
@@ -12,13 +21,25 @@ import { Observable } from 'rxjs'
   selector: 'cvc-revision-popover',
   templateUrl: './revision-popover.component.html',
   styleUrls: ['./revision-popover.component.less'],
+  standalone: false,
 })
-export class CvcRevisionPopoverComponent implements OnInit {
+export class CvcRevisionPopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() revisionId!: number
+  @Output() contentRendered = new EventEmitter<void>()
 
   revision$?: Observable<Maybe<RevisionPopoverFragment>>
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: RevisionPopoverGQL) {}
+  constructor(
+    private gql: RevisionPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
     if (this.revisionId == undefined) {
@@ -30,5 +51,12 @@ export class CvcRevisionPopoverComponent implements OnInit {
         map(({ data }) => data?.revision),
         filter(isNonNulled)
       )
+  }
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

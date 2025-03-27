@@ -18,9 +18,10 @@ import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-molecular-profile-menu',
-  templateUrl: './molecular-profiles-menu.component.html',
-  styleUrls: ['./molecular-profiles-menu.component.less'],
+    selector: 'cvc-molecular-profile-menu',
+    templateUrl: './molecular-profiles-menu.component.html',
+    styleUrls: ['./molecular-profiles-menu.component.less'],
+    standalone: false
 })
 export class CvcMolecularProfilesMenuComponent implements OnInit {
   @Input() featureId?: number

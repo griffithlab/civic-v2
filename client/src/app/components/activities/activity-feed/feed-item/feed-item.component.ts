@@ -35,7 +35,6 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { Subject } from 'rxjs'
-import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import {
@@ -79,7 +78,6 @@ export type FeedItemToggle = {
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     NzCardModule,
@@ -99,7 +97,6 @@ export type FeedItemToggle = {
     CvcVariantGroupTagModule,
     CvcSourceTagModule,
     CvcMolecularProfileTagModule,
-    CvcCommentActivity,
     CvcFeatureVariantTagModule,
     CvcCommentTagModule,
   ],

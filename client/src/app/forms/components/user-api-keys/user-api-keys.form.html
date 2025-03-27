@@ -10,12 +10,12 @@
   </nz-col>
   <nz-col nzSpan="24">
     <nz-alert
-      *ngIf="this.success"
+      *ngIf="success"
       nzBanner
-      [nzMessage]="this.successMessage"
+      [nzMessage]="successMessage"
       nzType="success"></nz-alert>
-    <nz-form-item *ngIf="this.errorMessages.length > 0">
-      <cvc-form-errors-alert [errors]="this.errorMessages">
+    <nz-form-item *ngIf="errorMessages.length > 0">
+      <cvc-form-errors-alert [errors]="errorMessages">
       </cvc-form-errors-alert>
     </nz-form-item>
   </nz-col>

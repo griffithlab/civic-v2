@@ -3,9 +3,10 @@ import { FieldType } from '@ngx-formly/core'
 import { TypeOption } from '@ngx-formly/core/lib/models'
 
 @Component({
-  selector: 'cvc-submit-button-type',
-  templateUrl: './submit-button.type.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-submit-button-type',
+    templateUrl: './submit-button.type.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SubmitButtonComponent extends FieldType<any> {
   defaultOptions = {

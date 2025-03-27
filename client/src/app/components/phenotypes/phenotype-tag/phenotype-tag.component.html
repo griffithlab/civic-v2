@@ -9,12 +9,15 @@
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="enablePopover ? phenotypePopover : undefined"
-    nzPopoverPlacement="right">
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #phenotypePopover>
-    <cvc-phenotype-popover [phenotypeId]="phenotype.id"></cvc-phenotype-popover>
+    <cvc-phenotype-popover
+      [phenotypeId]="phenotype.id"
+      (contentRendered)="updatePopoverPosition()">
+    </cvc-phenotype-popover>
   </ng-template>
 </ng-template>
 

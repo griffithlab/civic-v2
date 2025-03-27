@@ -40,10 +40,11 @@ type UserLeaderboard = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-user-leaderboards',
-  templateUrl: './user-leaderboards.component.html',
-  styleUrls: ['./user-leaderboards.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-user-leaderboards',
+    templateUrl: './user-leaderboards.component.html',
+    styleUrls: ['./user-leaderboards.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcUserLeaderboardsComponent implements OnInit {
   // SOURCE STREAMS

@@ -35,7 +35,7 @@ module Types::Revisions
     end
 
     def acceptance_activity
-      if object.status == 'accepted'
+      if object.status == "accepted"
         Loaders::AssociationLoader.for(Revision, :acceptance_activity).load(object)
       else
         nil
@@ -43,7 +43,7 @@ module Types::Revisions
     end
 
     def superseding_activity
-      if object.status == 'superseded'
+      if object.status == "superseded"
         Loaders::AssociationLoader.for(Revision, :acceptance_activity).load(object)
       else
         nil
@@ -51,7 +51,7 @@ module Types::Revisions
     end
 
     def rejection_activity
-      if object.status == 'rejected'
+      if object.status == "rejected"
         Loaders::AssociationLoader.for(Revision, :rejection_activity).load(object)
       else
         nil
@@ -59,7 +59,7 @@ module Types::Revisions
     end
 
     def resolution_activity
-      if object.status != 'new'
+      if object.status != "new"
         Loaders::AssociationLoader.for(Revision, :resolution_activity).load(object)
       else
         nil

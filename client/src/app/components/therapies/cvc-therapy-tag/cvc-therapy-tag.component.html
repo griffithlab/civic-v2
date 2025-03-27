@@ -8,12 +8,15 @@
   <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="enablePopover ? therapyPopover : undefined">
+    [nzPopoverContent]="enablePopover ? therapyPopover : undefined"
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #therapyPopover>
-    <cvc-therapy-popover [therapyId]="therapy.id"></cvc-therapy-popover>
+    <cvc-therapy-popover
+      [therapyId]="therapy.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-therapy-popover>
   </ng-template>
 </ng-template>
 

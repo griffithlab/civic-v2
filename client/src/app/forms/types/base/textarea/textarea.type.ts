@@ -30,9 +30,10 @@ const TextareaMixin = mixin(
 )
 
 @Component({
-  selector: 'formly-field-nz-textarea',
-  templateUrl: './textarea.type.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'formly-field-nz-textarea',
+    templateUrl: './textarea.type.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcTextareaField extends TextareaMixin implements AfterViewInit {
   defaultOptions: CvcTextareaFieldOptions = {

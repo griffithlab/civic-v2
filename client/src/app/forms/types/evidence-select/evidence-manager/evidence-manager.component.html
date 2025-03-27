@@ -50,7 +50,7 @@
               (nzSortOrderChange)="
                 entityTagCol.sort!.changes!.next({
                   key: entityTagCol.key,
-                  value: $event
+                  value: $event,
                 })
               ">
               <span
@@ -121,11 +121,11 @@
                   filter.transform
                     ? filter.changes!.next({
                         key: entityTagCol.key,
-                        value: filter.transform($event)
+                        value: filter.transform($event),
                       })
                     : filter.changes!.next({
                         key: entityTagCol.key,
-                        value: $event
+                        value: $event,
                       })
                 ">
               </cvc-table-filter-input>
@@ -149,7 +149,7 @@
               (nzSortOrderChange)="
                 enumTagCol.sort!.changes!.next({
                   key: enumTagCol.key,
-                  value: $event
+                  value: $event,
                 })
               "
               nzCustomFilter
@@ -209,7 +209,7 @@
                       (cvcModelChange)="
                         textTagCol.filter.changes!.next({
                           key: textTagCol.key,
-                          value: $event
+                          value: $event,
                         })
                       ">
                     </cvc-table-filter-input>
@@ -260,7 +260,7 @@
                           $implicit: row[colKey],
                           config: entityTagCol,
                           emphasize: (entityTagCol.filter.changes | ngrxPush)
-                            ?.value
+                            ?.value,
                         }
                       ">
                     </ng-container>
@@ -284,7 +284,7 @@
                         showPopover: !isScrolling,
                         status:
                           config.showStatus === true ? data.status : undefined,
-                        emphasize: emphasize
+                        emphasize: emphasize,
                       }">
                     </cvc-entity-tag-list>
 
@@ -302,7 +302,7 @@
                             config.showStatus === true
                               ? data.status
                               : undefined,
-                          emphasize: emphasize
+                          emphasize: emphasize,
                         }"
                         [cvcTagTemplate]="entityTag"
                         [cvcShowFullLabels]="true"></cvc-entity-collection-tag>
@@ -320,6 +320,7 @@
                     [cvcTruncateLabel]="config.tag?.truncateLabel"
                     [cvcLinkableEntity]="data"
                     [cvcEmphasize]="emphasize"
+                    [cvcPopoverPlacement]="config.tag?.popoverPlacement"
                     [cvcShowPopover]="!isScrolling"
                     [cvcStatus]="
                       config.showStatus === true ? data.status : undefined

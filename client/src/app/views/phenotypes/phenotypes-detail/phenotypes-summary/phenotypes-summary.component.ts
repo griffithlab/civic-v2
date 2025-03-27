@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-phenotypes-summary',
-  templateUrl: './phenotypes-summary.component.html',
-  styleUrls: ['./phenotypes-summary.component.less'],
+    selector: 'cvc-phenotypes-summary',
+    templateUrl: './phenotypes-summary.component.html',
+    styleUrls: ['./phenotypes-summary.component.less'],
+    standalone: false
 })
 export class PhenotypesSummaryComponent implements OnDestroy {
   routeSub: Subscription

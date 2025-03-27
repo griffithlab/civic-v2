@@ -11,13 +11,13 @@
         <cvc-feature-tag
           *ngIf="f.__typename == 'Feature'"
           [feature]="f"
-          [enablePopover]="this.enablePopover">
+          [enablePopover]="enablePopover">
         </cvc-feature-tag>
       </ng-container>
 
       <cvc-variant-tag
         [variant]="s"
-        [enablePopover]="this.enablePopover"></cvc-variant-tag>
+        [enablePopover]="enablePopover"></cvc-variant-tag>
     </cvc-tag-group>
   </ng-container>
 </ng-container>

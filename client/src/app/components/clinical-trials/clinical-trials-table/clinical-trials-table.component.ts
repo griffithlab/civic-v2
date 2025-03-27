@@ -52,9 +52,10 @@ export interface ClinicalTrialsTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-clinical-trials-table',
-  templateUrl: './clinical-trials-table.component.html',
-  styleUrls: ['./clinical-trials-table.component.less'],
+    selector: 'cvc-clinical-trials-table',
+    templateUrl: './clinical-trials-table.component.html',
+    styleUrls: ['./clinical-trials-table.component.less'],
+    standalone: false
 })
 export class CvcClinicalTrialsTableComponent implements OnInit {
   @Input() cvcHeight?: number

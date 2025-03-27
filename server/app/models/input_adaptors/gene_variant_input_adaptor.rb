@@ -1,8 +1,8 @@
-#Conversion from a GraphQL VariantFields input object to Variant model type
+# Conversion from a GraphQL VariantFields input object to Variant model type
 class InputAdaptors::GeneVariantInputAdaptor
   attr_reader :input
 
-  def initialize(variant_input_object: )
+  def initialize(variant_input_object:)
     @input = variant_input_object
   end
 
@@ -26,7 +26,7 @@ class InputAdaptors::GeneVariantInputAdaptor
 
   def get_hgvs_ids
     input.hgvs_descriptions.map do |hgvs|
-      existing = HgvsDescription.where('description ILIKE ?', hgvs).first
+      existing = HgvsDescription.where("description ILIKE ?", hgvs).first
       if existing
         existing.id
       else
@@ -39,11 +39,11 @@ class InputAdaptors::GeneVariantInputAdaptor
     clinvar = input.clinvar_ids
     if clinvar.none_found
       return [
-        ClinvarEntry.find_by!(clinvar_id: 'NONE FOUND').id
+        ClinvarEntry.find_by!(clinvar_id: "NONE FOUND").id,
       ]
     elsif clinvar.not_applicable
       return [
-        ClinvarEntry.find_by!(clinvar_id: 'N/A').id
+        ClinvarEntry.find_by!(clinvar_id: "N/A").id,
       ]
     else
       return clinvar.ids.map do |id|

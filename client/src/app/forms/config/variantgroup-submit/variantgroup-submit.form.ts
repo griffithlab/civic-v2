@@ -24,9 +24,10 @@ import { variantgroupSuggestFields } from './variantgroup-submit.form.config'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-variantgroup-submit-form',
-  templateUrl: './variantgroup-submit.form.html',
-  styleUrls: ['./variantgroup-submit.form.less'],
+    selector: 'cvc-variantgroup-submit-form',
+    templateUrl: './variantgroup-submit.form.html',
+    styleUrls: ['./variantgroup-submit.form.less'],
+    standalone: false
 })
 export class CvcVariantgroupSubmitForm {
   model: VariantGroupSubmitModel

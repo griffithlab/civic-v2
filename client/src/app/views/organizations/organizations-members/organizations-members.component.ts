@@ -8,8 +8,9 @@ import { isNotNullish } from "rxjs-etc";
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cvc-organizations-members',
-  templateUrl: './organizations-members.component.html',
+    selector: 'cvc-organizations-members',
+    templateUrl: './organizations-members.component.html',
+    standalone: false
 })
 export class OrganizationsMembersComponent implements OnDestroy {
   queryRef?: QueryRef<
@@ -32,7 +33,7 @@ export class OrganizationsMembersComponent implements OnDestroy {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
-        organizationId: +params.organizationId,
+        organizationId: [+params.organizationId],
         first: this.initialPageSize,
       })
 

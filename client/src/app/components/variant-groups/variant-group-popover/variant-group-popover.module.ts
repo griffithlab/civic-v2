@@ -9,6 +9,8 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcVariantGroupPopoverComponent } from './variant-group-popover.component'
+import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
+import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 
 @NgModule({
   declarations: [CvcVariantGroupPopoverComponent],
@@ -16,15 +18,15 @@ import { CvcVariantGroupPopoverComponent } from './variant-group-popover.compone
     CommonModule,
     LetDirective,
     PushPipe,
-
     NzCardModule,
     NzDescriptionsModule,
     NzIconModule,
-
     CvcSourceTagModule,
     CvcFeatureVariantTagModule,
     CvcTagListModule,
     CvcPipesModule,
+    CvcEntityChildCounts,
+    CvcEmptyValueModule,
   ],
   exports: [CvcVariantGroupPopoverComponent],
 })

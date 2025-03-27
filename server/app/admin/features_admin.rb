@@ -11,7 +11,7 @@ Trestle.resource(:features) do
   remove_action :new
 
   menu do
-    item :features, icon: "fa fa-align-center" #TODO: see if we can use our custom icons here
+    item :features, icon: "fa fa-align-center" # TODO: see if we can use our custom icons here
   end
 
   scope :all
@@ -65,7 +65,7 @@ Trestle.resource(:features) do
       end
     end
 
-    tab :flags, badge: feature.flags.where(state: 'open').exists? do
+    tab :flags, badge: feature.flags.where(state: "open").exists? do
       table feature.flags do
         column :id do |flag|
           link_to flag.id, FlagsAdmin.instance_path(flag)
@@ -80,7 +80,7 @@ Trestle.resource(:features) do
       end
     end
 
-    tab :revisions, badge: feature.revisions.where(status: 'new').exists? do
+    tab :revisions, badge: feature.revisions.where(status: "new").exists? do
       table feature.revisions do
         column :id do |revision|
           link_to revision.id, RevisionsAdmin.instance_path(revision)
@@ -95,7 +95,6 @@ Trestle.resource(:features) do
         end
       end
     end
-
   end
 
   # By default, all parameters passed to the update and create actions will be

@@ -3,8 +3,8 @@ module Features
     include Subscribable
     include IsFeatureInstance
 
-    #TODO - move to feature?
-    has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+    # TODO - move to feature?
+    has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
 
     def display_name
       name
@@ -17,7 +17,7 @@ module Features
         :description,
         :ncit_id,
         :source_ids,
-        :feature_alias_ids
+        :feature_alias_ids,
       ]
     end
 

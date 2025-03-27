@@ -44,9 +44,10 @@ export type EventDisplayOption =
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-event-feed',
-  templateUrl: './event-feed.component.html',
-  styleUrls: ['./event-feed.component.less'],
+    selector: 'cvc-event-feed',
+    templateUrl: './event-feed.component.html',
+    styleUrls: ['./event-feed.component.less'],
+    standalone: false
 })
 export class CvcEventFeedComponent implements OnInit, OnDestroy {
   @Input() subscribable?: SubscribableQueryInput

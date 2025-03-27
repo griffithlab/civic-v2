@@ -14,9 +14,10 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 
 @Component({
-  selector: 'cvc-features-summary',
-  templateUrl: './features-summary.page.html',
-  styleUrls: ['./features-summary.page.less'],
+    selector: 'cvc-features-summary',
+    templateUrl: './features-summary.page.html',
+    styleUrls: ['./features-summary.page.less'],
+    standalone: false
 })
 export class FeaturesSummaryPage implements OnDestroy {
   feature$?: Observable<Maybe<FeatureSummaryFieldsFragment>>

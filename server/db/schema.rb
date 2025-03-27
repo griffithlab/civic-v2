@@ -1025,7 +1025,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url"
+    t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"

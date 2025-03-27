@@ -28,16 +28,16 @@ module Actions
     end
 
     def construct_fusion_partner_name(gene_id, partner_status)
-      if partner_status == 'known'
+      if partner_status == "known"
         Features::Gene.find(gene_id).name
-      elsif partner_status == 'regulatory'
+      elsif partner_status == "regulatory"
         gene_name = Features::Gene.find(gene_id).name
         rft = Features::Fusion.format_regulatory_fusion_type(regulatory_fusion_type)
         "#{rft}@#{gene_name}"
-      elsif partner_status == 'unknown'
-        '?'
-      elsif partner_status == 'multiple'
-        'v'
+      elsif partner_status == "unknown"
+        "?"
+      elsif partner_status == "multiple"
+        "v"
       end
     end
 
@@ -71,15 +71,15 @@ module Actions
     end
 
     def stub_remaining_coordinates(variant)
-      if five_prime_partner_status == 'known'
-        variant.five_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime Start Exon Coordinate')
-        variant.five_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime End Exon Coordinate')
-        variant.five_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Five Prime Fusion Coordinate')
+      if five_prime_partner_status == "known"
+        variant.five_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, "Five Prime Start Exon Coordinate")
+        variant.five_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, "Five Prime End Exon Coordinate")
+        variant.five_prime_coordinates = VariantCoordinate.generate_stub(variant, "Five Prime Fusion Coordinate")
       end
-      if three_prime_partner_status == 'known'
-        variant.three_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime End Exon Coordinate')
-        variant.three_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime Start Exon Coordinate')
-        variant.three_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Three Prime Fusion Coordinate')
+      if three_prime_partner_status == "known"
+        variant.three_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, "Three Prime End Exon Coordinate")
+        variant.three_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, "Three Prime Start Exon Coordinate")
+        variant.three_prime_coordinates = VariantCoordinate.generate_stub(variant, "Three Prime Fusion Coordinate")
       end
     end
 
@@ -88,7 +88,7 @@ module Actions
       feature.save!
 
       event = Event.new(
-        action: 'feature created',
+        action: "feature created",
         originating_user: originating_user,
         subject: feature,
         organization_id: organization_id,

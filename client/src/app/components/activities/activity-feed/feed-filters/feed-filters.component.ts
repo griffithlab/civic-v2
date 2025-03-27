@@ -6,7 +6,6 @@ import {
   Output,
   Signal,
   WritableSignal,
-  computed,
   effect,
   input,
   signal,
@@ -16,22 +15,16 @@ import {
   ActivityFeedFilters,
   ActivityFeedFilterOptions,
   ActivityFeedScope,
-  ActivityFeedSettings,
   FeedQueryRefetchEvent,
 } from '../activity-feed.types'
 import {
   ActivityFeedUpdatesGQL,
   ActivitySubjectInput,
   ActivityTypeInput,
-  DateSort,
   DateSortColumns,
-  Maybe,
   SortDirection,
-  UserFilterSearchGQL,
-  UserFilterSearchQuery,
-  UserFilterSearchQueryVariables,
 } from '@app/generated/civic.apollo'
-import { CommonModule, KeyValuePipe } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzSelectModule } from 'ng-zorro-antd/select'
@@ -56,17 +49,16 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcUserFilterSelect } from './user-filter-select/user-filter-select.component'
 import { CvcOrgFilterSelect } from './org-filter-select/org-filter-select.component'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 export const defaultFilters = {}
 
 @UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed-filters',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    KeyValuePipe,
     NzAlertModule,
     NzButtonModule,
     NzIconModule,
@@ -74,6 +66,7 @@ export const defaultFilters = {}
     NzFormModule,
     NzSelectModule,
     NzDatePickerModule,
+    NzCheckboxModule,
     CvcPipesModule,
     CvcUserFilterSelect,
     CvcOrgFilterSelect,
@@ -104,6 +97,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
 
   eventType!: WritableSignal<ActivityTypeInput[]>
   organizationId!: WritableSignal<number[]>
+  includeSubgroups!: WritableSignal<boolean>
   subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
   occurredAfter!: WritableSignal<Date | null>
@@ -122,6 +116,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
       this.cvcFiltersChange.emit({
         activityType: this.eventType(),
         organizationId: this.organizationId(),
+        includeSubgroups: this.includeSubgroups(),
         subjectType: this.subjectType(),
         userId: this.userId(),
         occurredAfter: this.occurredAfter(),
@@ -178,6 +173,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     this.eventType = signal(this.cvcFilters().activityType)
     this.subjectType = signal(this.cvcFilters().subjectType)
     this.organizationId = signal(this.cvcFilters().organizationId)
+    this.includeSubgroups = signal(this.cvcFilters().includeSubgroups)
     this.userId = signal(this.cvcFilters().userId)
     this.occurredAfter = signal(this.cvcFilters().occurredAfter)
     this.occurredBefore = signal(this.cvcFilters().occurredBefore)

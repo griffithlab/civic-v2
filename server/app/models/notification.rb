@@ -1,11 +1,11 @@
 class Notification < ActiveRecord::Base
   self.inheritance_column = :_unused
-  belongs_to :notified_user, foreign_key: :notified_user_id, class_name: 'User'
-  belongs_to :originating_user, foreign_key: :originating_user_id, class_name: 'User'
+  belongs_to :notified_user, foreign_key: :notified_user_id, class_name: "User"
+  belongs_to :originating_user, foreign_key: :originating_user_id, class_name: "User"
   belongs_to :event
   belongs_to :subscription, optional: true, dependent: :destroy
 
-  enum type: [:subscribed_event, :mention]
+  enum :type, [ :subscribed_event, :mention ]
 
   def self.unread_count_for_user(user)
     where(notified_user: user, seen: false).count

@@ -18,9 +18,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'assertions-detail',
-  templateUrl: './assertions-detail.view.html',
-  styleUrls: ['./assertions-detail.view.less'],
+    selector: 'assertions-detail',
+    templateUrl: './assertions-detail.view.html',
+    styleUrls: ['./assertions-detail.view.less'],
+    standalone: false
 })
 export class AssertionsDetailView implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>

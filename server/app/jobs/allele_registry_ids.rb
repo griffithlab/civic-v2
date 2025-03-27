@@ -1,4 +1,4 @@
-require 'rbconfig'
+require "rbconfig"
 
 class AlleleRegistryIds < ApplicationJob
   def delete_allele_registry_link(allele_registry_id)
@@ -14,12 +14,12 @@ class AlleleRegistryIds < ApplicationJob
   end
 
   def script_path
-    File.join(Rails.root, 'misc_scripts', 'add_allele_registry_link.rb')
+    File.join(Rails.root, "misc_scripts", "add_allele_registry_link.rb")
   end
 
   def get_allele_registry_id(variant)
     response = response(variant)
-    JSON.parse(response)['@id'].split('/')[-1] rescue nil
+    JSON.parse(response)["@id"].split("/")[-1] rescue nil
   end
 
   def response(variant)
@@ -42,11 +42,10 @@ class AlleleRegistryIds < ApplicationJob
   end
 
   def allele_registry_username
-    ENV['ALLELE_REGISTRY_USERNAME'] || Rails.application.credentials.allele_registry_username
+    ENV["ALLELE_REGISTRY_USERNAME"] || Rails.application.credentials.allele_registry_username
   end
 
   def allele_registry_password
-    ENV['ALLELE_REGISTRY_PASSWORD'] || Rails.application.credentials.allele_registry_password
+    ENV["ALLELE_REGISTRY_PASSWORD"] || Rails.application.credentials.allele_registry_password
   end
 end
-

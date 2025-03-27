@@ -3,6 +3,7 @@
   *ngIf="cvcContext === 'default'"
   class="default">
   <nz-tag
+    #defaultTag
     [nzMode]="cvcMode"
     [nzChecked]="cvcTagChecked"
     (nzCheckedChange)="(cvcTagCheckedChange)"
@@ -10,8 +11,10 @@
     <span
       nz-popover
       nzPopoverTrigger="hover"
+      [nzPopoverMouseEnterDelay]="0.5"
+      [nzPopoverPlacement]="cvcPopoverPlacement"
       [nzPopoverContent]="
-        cvcShowPopover && this.popoverInput ? popoverContent : undefined
+        cvcShowPopover && popoverInput ? popoverContent : undefined
       ">
       <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
     </span>
@@ -53,15 +56,16 @@ pseudo-tag styles & close btn -->
   <span
     nz-popover
     nzPopoverTrigger="hover"
-    [nzPopoverContent]="this.popoverInput ? popoverContent : undefined">
+    [nzPopoverContent]="popoverInput ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </span>
 </ng-template>
 
 <ng-template #popoverContent>
   <cvc-entity-tag-popover
-    *ngIf="this.popoverInput"
-    [entity]="this.popoverInput"></cvc-entity-tag-popover>
+    *ngIf="popoverInput"
+    [entity]="popoverInput"
+    (contentRendered)="updatePopoverPosition()"></cvc-entity-tag-popover>
 </ng-template>
 
 <!-- tag contents, just the tag icon and label, used by the context templates above-->
@@ -85,7 +89,7 @@ pseudo-tag styles & close btn -->
         [nzTwotoneColor]="typename | entityColor"></span>
       <span
         class="tag-label"
-        [innerHtml]="entity.name | highlightTypeahead : cvcEmphasize"></span>
+        [innerHtml]="entity.name | highlightTypeahead: cvcEmphasize"></span>
     </ng-template>
   </ng-container>
 
@@ -102,6 +106,6 @@ pseudo-tag styles & close btn -->
 
 <ng-template #popoverContent>
   <cvc-entity-tag-popover
-    *ngIf="this.popoverInput"
-    [entity]="this.popoverInput"></cvc-entity-tag-popover>
+    *ngIf="popoverInput"
+    [entity]="popoverInput"></cvc-entity-tag-popover>
 </ng-template>

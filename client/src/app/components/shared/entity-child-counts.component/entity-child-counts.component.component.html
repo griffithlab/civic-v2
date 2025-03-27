@@ -1,0 +1,35 @@
+@let route = cvcRoute();
+@let entity = cvcEntity();
+<a routerLink="/{{ route }}/{{ entity.id }}/flags">
+  <nz-tag
+    nzColor="red"
+    nz-tooltip
+    nzTooltipTitle="Flags">
+    <i
+      nz-icon
+      nzType="civic-flag"></i>
+    {{ entity.flags.totalCount }}
+  </nz-tag>
+</a>
+<a routerLink="/{{ route }}/{{ entity.id }}/revisions">
+  <nz-tag
+    nzColor="orange"
+    nz-tooltip
+    nzTooltipTitle="Revisions">
+    <i
+      nz-icon
+      nzType="civic-revision"></i>
+    {{ entity.revisions.totalCount }}
+  </nz-tag>
+</a>
+<a routerLink="/{{ route }}/{{ entity.id }}/comments">
+  <nz-tag
+    nzColor="blue"
+    nz-tooltip
+    nzTooltipTitle="Comments">
+    <i
+      nz-icon
+      nzType="civic-comment"></i>
+    {{ entity.comments.totalCount }}
+  </nz-tag>
+</a>

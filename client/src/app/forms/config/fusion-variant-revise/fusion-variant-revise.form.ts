@@ -30,9 +30,10 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-fusion-variant-revise-form',
-  templateUrl: './fusion-variant-revise.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-fusion-variant-revise-form',
+    templateUrl: './fusion-variant-revise.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFusionVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number

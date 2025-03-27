@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core'
 import { TypePolicies } from '@apollo/client/cache'
 import {
   ApolloClientOptions,
@@ -6,10 +5,11 @@ import {
   InMemoryCache,
 } from '@apollo/client/core'
 import result from '@app/generated/civic.possible-types'
-import { ApolloModule, APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular'
+import { provideApollo } from 'apollo-angular'
 import { HttpLink } from 'apollo-angular/http'
 import { CvcTypePolicies } from './graphql.type-policies'
 import { onError } from '@apollo/client/link/error'
+import { inject } from '@angular/core'
 
 const uri = '/api/graphql' // <-- URL of the GraphQL server
 
@@ -50,20 +50,9 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   }
 }
 
-@NgModule({
-  imports: [ApolloModule],
-  providers: [
-    {
-      provide: APOLLO_FLAGS,
-      useValue: {
-        useInitialLoading: true, // enable it here
-      },
-    },
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory: createApollo,
-      deps: [HttpLink],
-    },
-  ],
-})
-export class GraphQLModule {}
+export const graphqlProvider = provideApollo(
+  (httpLink: HttpLink = inject(HttpLink)) => createApollo(httpLink),
+  {
+    useInitialLoading: true,
+  }
+)
