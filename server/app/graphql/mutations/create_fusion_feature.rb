@@ -36,12 +36,20 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
 
     # check that partner status matches gene_id presence
     [ five_prime_gene, three_prime_gene ].each do |gene_input|
-      if gene_input.gene_id.present? && gene_input.partner_status != "known"
-        raise GraphQL::ExecutionError, "Partner status needs to be 'known' if a gene_id is set"
+      if gene_input.gene_id.present? && (gene_input.partner_status != "known" && gene_input.partner_status != "regulatory")
+        raise GraphQL::ExecutionError, "Partner status needs to be 'known' or 'regulatory' if a gene_id is set"
       end
-      if gene_input.gene_id.blank? && gene_input.partner_status == "known"
-        raise GraphQL::ExecutionError, "Partner status can't be 'known' if a gene_id is not set"
+      if gene_input.gene_id.blank? && (gene_input.partner_status == "known" || gene_input.partner_status == "regulatory")
+        raise GraphQL::ExecutionError, "Partner status can't be 'known' or 'regulatory' if a gene_id is not set"
       end
+    end
+
+    # check that maximum one gene has regulatory_fusion_type set
+    if five_prime_gene.partner_status == "regulatory" && three_prime_gene.partner_status == "regulatory"
+      raise GraphQL::ExecutionError, "Only one Fusion partner can be marked 'regulatory'"
+    end
+    if five_prime_gene.regulatory_fusion_type.present? && three_prime_gene.regulatory_fusion_type.present?
+      raise GraphQL::ExecutionError, "Only one Fusion partner can have a regulatory fusion type set."
     end
 
     return true
@@ -53,12 +61,16 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
   end
 
   def resolve(five_prime_gene:, three_prime_gene:, organization_id: nil)
+    # only one can be set
+    regulatory_fusion_type = five_prime_gene.regulatory_fusion_type || three_prime_gene.regulatory_fusion_type
+
     existing_feature_instance = Features::Fusion
       .find_by(
         five_prime_gene_id: five_prime_gene.gene_id,
         three_prime_gene_id: three_prime_gene.gene_id,
         five_prime_partner_status: five_prime_gene.partner_status,
         three_prime_partner_status: three_prime_gene.partner_status,
+        regulatory_fusion_type: regulatory_fusion_type
       )
 
     if existing_feature_instance.present?
@@ -73,6 +85,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
         three_prime_gene_id: three_prime_gene.gene_id,
         five_prime_partner_status: five_prime_gene.partner_status,
         three_prime_partner_status: three_prime_gene.partner_status,
+        regulatory_fusion_type: regulatory_fusion_type,
         originating_user: context[:current_user],
         organization_id: organization_id,
       )

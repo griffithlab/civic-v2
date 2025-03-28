@@ -2931,6 +2931,7 @@ export type Fusion = Commentable & EventOriginObject & EventSubject & Flaggable 
   link: Scalars['String']['output'];
   name: Scalars['String']['output'];
   openRevisionCount: Scalars['Int']['output'];
+  regulatoryFusionType?: Maybe<RegulatoryFusionType>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
@@ -3052,11 +3053,14 @@ export type FusionPartnerInput = {
   geneId?: InputMaybe<Scalars['Int']['input']>;
   /** The status of the fusion partner */
   partnerStatus: FusionPartnerStatus;
+  /** If the fusion partner status is set to regulatory, what type of regulatory fusion is it? */
+  regulatoryFusionType?: InputMaybe<RegulatoryFusionType>;
 };
 
 export enum FusionPartnerStatus {
   Known = 'KNOWN',
   Multiple = 'MULTIPLE',
+  Regulatory = 'REGULATORY',
   Unknown = 'UNKNOWN'
 }
 
@@ -5729,6 +5733,35 @@ export enum ReferenceBuild {
   Grch37 = 'GRCH37',
   Grch38 = 'GRCH38',
   Ncbi36 = 'NCBI36'
+}
+
+export enum RegulatoryFusionType {
+  CaatSignal = 'CAAT_signal',
+  DNaseIHypersensitiveSite = 'DNase_I_hypersensitive_site',
+  GcSignal = 'GC_signal',
+  TataBox = 'TATA_box',
+  Attenuator = 'attenuator',
+  Enhancer = 'enhancer',
+  EnhancerBlockingElement = 'enhancer_blocking_element',
+  ImprintingControlRegion = 'imprinting_control_region',
+  Insulator = 'insulator',
+  LocusControlRegion = 'locus_control_region',
+  MatrixAttachmentRegion = 'matrix_attachment_region',
+  Minus_10Signal = 'minus_10_signal',
+  Minus_35Signal = 'minus_35_signal',
+  Other = 'other',
+  PolyASignalSequence = 'polyA_signal_sequence',
+  Promoter = 'promoter',
+  RecodingStimulatoryRegion = 'recoding_stimulatory_region',
+  RecombinationEnhancer = 'recombination_enhancer',
+  ReplicationRegulatoryRegion = 'replication_regulatory_region',
+  ResponseElement = 'response_element',
+  RibosomeBindingSite = 'ribosome_binding_site',
+  Riboswitch = 'riboswitch',
+  Silencer = 'silencer',
+  Terminator = 'terminator',
+  TranscriptionalCisRegulatoryRegion = 'transcriptional_cis_regulatory_region',
+  UOrf = 'uORF'
 }
 
 export type RejectRevisionsActivity = ActivityInterface & {
@@ -9408,8 +9441,10 @@ export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: 
 export type SelectOrCreateFusionMutationVariables = Exact<{
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   fivePrimeGeneId?: InputMaybe<Scalars['Int']['input']>;
+  fivePrimeRegulatoryFusionType?: InputMaybe<RegulatoryFusionType>;
   fivePrimePartnerStatus: FusionPartnerStatus;
   threePrimeGeneId?: InputMaybe<Scalars['Int']['input']>;
+  threePrimeRegulatoryFusionType?: InputMaybe<RegulatoryFusionType>;
   threePrimePartnerStatus: FusionPartnerStatus;
 }>;
 
@@ -17375,9 +17410,9 @@ export const FeatureSelectTagDocument = gql`
     }
   }
 export const SelectOrCreateFusionDocument = gql`
-    mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimePartnerStatus: FusionPartnerStatus!) {
+    mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimeRegulatoryFusionType: RegulatoryFusionType, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimeRegulatoryFusionType: RegulatoryFusionType, $threePrimePartnerStatus: FusionPartnerStatus!) {
   createFusionFeature(
-    input: {organizationId: $organizationId, fivePrimeGene: {geneId: $fivePrimeGeneId, partnerStatus: $fivePrimePartnerStatus}, threePrimeGene: {geneId: $threePrimeGeneId, partnerStatus: $threePrimePartnerStatus}}
+    input: {organizationId: $organizationId, fivePrimeGene: {geneId: $fivePrimeGeneId, partnerStatus: $fivePrimePartnerStatus, regulatoryFusionType: $fivePrimeRegulatoryFusionType}, threePrimeGene: {geneId: $threePrimeGeneId, partnerStatus: $threePrimePartnerStatus, regulatoryFusionType: $threePrimeRegulatoryFusionType}}
   ) {
     new
     feature {

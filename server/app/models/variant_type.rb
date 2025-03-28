@@ -3,6 +3,7 @@ class VariantType < ActiveRecord::Base
 
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :pipeline_types
+  enum :regulatory_fusion_type, Constants::REGULATORY_FUSION_ENUM_TYPES
 
   def url
     if self.soid != "N/A"

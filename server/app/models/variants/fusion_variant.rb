@@ -65,7 +65,16 @@ module Variants
 
     def generate_vicc_name
       if name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
-        "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
+        # for vicc names, the regulatory component is always first, regardless of 5' vs 3'
+        if fusion.regulatory_fusion_type.present?
+          if fusion.five_prime_partner_status == "regulatory"
+            "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
+          else
+            "#{construct_three_prime_name(name_type: :representative)}::#{construct_five_prime_name(name_type: :representative)}"
+          end
+        else
+          "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
+        end
       else
         "#{construct_five_prime_name(name_type: :vicc)}::#{construct_three_prime_name(name_type: :vicc)}"
       end
@@ -102,6 +111,7 @@ module Variants
             partner_status: fusion.five_prime_partner_status,
             gene: fusion.five_prime_gene,
             exon_coords: five_prime_end_exon_coordinates,
+            regulatory_type: fusion.regulatory_fusion_type
           )
     end
 
@@ -111,10 +121,11 @@ module Variants
             partner_status: fusion.three_prime_partner_status,
             gene: fusion.three_prime_gene,
             exon_coords: three_prime_start_exon_coordinates,
+            regulatory_type: fusion.regulatory_fusion_type
           )
     end
 
-    def construct_partner_name(name_type:, partner_status:, gene:, exon_coords:)
+    def construct_partner_name(name_type:, partner_status:, gene:, exon_coords:, regulatory_type:)
       if partner_status == "known"
         case name_type
         when :representative
@@ -128,6 +139,8 @@ module Variants
         "?"
       elsif partner_status == "multiple"
         "v"
+      elsif partner_status == "regulatory"
+        "#{Features::Fusion.format_regulatory_fusion_type(regulatory_type)}@#{gene.name}(entrez:#{gene.entrez_id})"
       end
     end
 

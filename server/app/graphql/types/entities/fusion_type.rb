@@ -6,6 +6,8 @@ module Types::Entities
     field :five_prime_partner_status, Types::Fusion::FusionPartnerStatus, null: false
     field :three_prime_partner_status, Types::Fusion::FusionPartnerStatus, null: false
 
+    field :regulatory_fusion_type, Types::Fusion::RegulatoryFusionTypeType, null: true
+
     def five_prime_gene
       Loaders::AssociationLoader.for(Features::Fusion, :five_prime_gene).load(object)
     end

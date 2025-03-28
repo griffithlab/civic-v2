@@ -13,3 +13,8 @@ msi:
   full_name: Microsatellite Instability
   description: The description for the MSI factor
   feature_instance: msi (Features::Factor)
+
+braf_fusion:
+  name: BRAF::?
+  description: BRAF and unknown partner
+  feature_instance: braf_fusion (Features::Fusion)

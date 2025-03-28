@@ -3,5 +3,6 @@ module Types::Fusion
     value "KNOWN", value: "known"
     value "UNKNOWN", value: "unknown"
     value "MULTIPLE", value: "multiple"
+    value "REGULATORY", value: "regulatory"
   end
 end
