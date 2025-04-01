@@ -336,6 +336,30 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.text "name", null: false
   end
 
+  create_table "cytogenetic_coordinates", force: :cascade do |t|
+    t.bigint "cytogenetic_region_id", null: false
+    t.text "reference_build", null: false
+    t.integer "chromosome", null: false
+    t.integer "start", null: false
+    t.integer "stop", null: false
+    t.index ["chromosome"], name: "index_cytogenetic_coordinates_on_chromosome"
+    t.index ["cytogenetic_region_id"], name: "index_cytogenetic_coordinates_on_cytogenetic_region_id"
+    t.index ["reference_build"], name: "index_cytogenetic_coordinates_on_reference_build"
+    t.index ["start"], name: "index_cytogenetic_coordinates_on_start"
+    t.index ["stop"], name: "index_cytogenetic_coordinates_on_stop"
+  end
+
+  create_table "cytogenetic_regions", force: :cascade do |t|
+    t.text "name", null: false
+    t.integer "chromosome", null: false
+    t.text "band", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band"], name: "index_cytogenetic_regions_on_band"
+    t.index ["chromosome"], name: "index_cytogenetic_regions_on_chromosome"
+    t.index ["name"], name: "index_cytogenetic_regions_on_name"
+  end
+
   create_table "data_versions", id: :serial, force: :cascade do |t|
     t.integer "version", default: 0
   end
@@ -706,6 +730,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.index ["variant_type_id", "pipeline_type_id"], name: "idx_variant_type_pipeline_type"
   end
 
+  create_table "region_members", force: :cascade do |t|
+    t.bigint "regions_id", null: false
+    t.bigint "cytogenetic_regions_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cytogenetic_regions_id"], name: "index_region_members_on_cytogenetic_regions_id"
+    t.index ["position"], name: "index_region_members_on_position"
+    t.index ["regions_id"], name: "index_region_members_on_regions_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "regulatory_agencies", id: :serial, force: :cascade do |t|
     t.text "abbreviation"
     t.text "name"
@@ -1073,6 +1113,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
   add_foreign_key "badge_claims", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "conflict_of_interest_statements", "users"
+  add_foreign_key "cytogenetic_coordinates", "cytogenetic_regions"
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
@@ -1108,6 +1149,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
   add_foreign_key "notifications", "users", column: "notified_user_id"
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
+  add_foreign_key "region_members", "cytogenetic_regions", column: "cytogenetic_regions_id"
+  add_foreign_key "region_members", "regions", column: "regions_id"
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
