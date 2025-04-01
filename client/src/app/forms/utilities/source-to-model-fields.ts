@@ -33,7 +33,7 @@ export function sourceFormModelToCreateLinkedSourceInput(model: LinkedSourceFiel
         sourceId: fields.sourceId,
         linkedSourceId: fields.linkedSourceId,
         reason: model.reason,
-        note: model.note,
+        note: model.comment,
       }
     : undefined
 }

@@ -63,7 +63,6 @@ export class CvcRelatedSourceSubmitForm implements OnInit{
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe((params) => {
       this.sourceId = +params['sourceId'];
-      console.log("Extracted sourceId from URL:", this.sourceId);
     });
   }
 
@@ -80,7 +79,7 @@ export class CvcRelatedSourceSubmitForm implements OnInit{
         linkedSourceId: model.fields.sourceId,
       },
       reason: model.fields.reason,
-      note: model.note
+      comment: model.comment
     })
 
     if (input) {
@@ -89,8 +88,10 @@ export class CvcRelatedSourceSubmitForm implements OnInit{
         { input },
         undefined,
         (data) => {
-          console.log("Mutation response received:", data);
           this.newSourceId = Number(data.createLinkedSource?.sourceLink.id) || undefined;
+          if (this.newSourceId) {
+            this.url = `/sources/${this.sourceId}/summary`
+          }
         }
       )
     }
