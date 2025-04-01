@@ -94,6 +94,10 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:source_id, type: GraphQL::Types::Int, description: "Exact match filtering of the evidence items based on the interal CIViC source id") do |scope, value|
     scope.joins(:source).where("sources.id = ?", value)
   end
+  option(:linked_source_id, type: GraphQL::Types::Int, description: "Exact match filtering of the evidence items based on the interal CIViC linked source id") do |scope, value|
+    scope.joins("INNER JOIN source_links ON source_links.source_id = evidence_items.source_id")
+         .where("source_links.source_id = ?", value)
+  end
   option(:clinical_trial_id, type: GraphQL::Types::Int, description: "Exact match filtering of the evidence items based on the CIViC clinical trial id linked to the evidence item's source") do |scope, value|
     scope.joins(source: [ :clinical_trials ]).where("clinical_trials.id = ?", value)
   end

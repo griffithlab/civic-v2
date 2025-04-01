@@ -13,6 +13,12 @@ class Source < ActiveRecord::Base
   has_many :authors, through: :authors_sources
   has_many :variant_groups
 
+  has_many :source_links, foreign_key: :source_id, class_name: "SourceLink", dependent: :destroy
+  has_many :linked_source_links, foreign_key: :linked_source_id, class_name: "SourceLink", dependent: :destroy
+
+  has_many :linked_sources, through: :source_links, source: :linked_source
+  has_many :primary_sources, through: :linked_source_links, source: :source
+
   enum :source_type, [ "PubMed", "ASCO", "ASH" ]
 
   validate :citation_id_format_matches_source_type

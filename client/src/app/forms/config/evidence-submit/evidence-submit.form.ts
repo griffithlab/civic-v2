@@ -26,6 +26,9 @@ import {
   FullyCuratedSourceGQL,
   FullyCuratedSourceQuery,
   FullyCuratedSourceQueryVariables,
+  RelatedEvidenceCountGQL,
+  RelatedEvidenceCountQuery,
+  RelatedEvidenceCountQueryVariables,
   Maybe,
   SubmitEvidenceItemGQL,
   SubmitEvidenceItemMutation,
@@ -74,10 +77,15 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
     FullyCuratedSourceQuery,
     FullyCuratedSourceQueryVariables
   >
+  relatedCountQueryRef?: QueryRef<
+    RelatedEvidenceCountQuery,
+    RelatedEvidenceCountQueryVariables
+  >
   existingEvidenceId?: number
   routeSub: Subscription
 
   existingEvidenceCount$?: Observable<number>
+  relatedEvidenceCount$?: Observable<number>
   fullyCuratedSource$?: Observable<Maybe<boolean>>
 
   constructor(
@@ -85,6 +93,7 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private existingEvidenceGQL: ExistingEvidenceCountGQL,
     private fullyCuratedSourceGQL: FullyCuratedSourceGQL,
+    private relatedEvidenceCountGQL: RelatedEvidenceCountGQL,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     networkErrorService: NetworkErrorsService
@@ -110,6 +119,10 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
       sourceId: 0,
     })
     this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({ sourceId: 0 })
+    this.relatedCountQueryRef = this.relatedEvidenceCountGQL.watch({
+      molecularProfileId: 0,
+      sourceId: 0,
+    })
 
     this.existingEvidenceCount$ = this.countQueryRef?.valueChanges.pipe(
       map((c) => c.data?.evidenceItems?.totalCount),
@@ -118,6 +131,11 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
     )
     this.fullyCuratedSource$ = this.curatedQueryRef?.valueChanges.pipe(
       map((c) => c.data?.source?.fullyCurated),
+      untilDestroyed(this)
+    )
+    this.relatedEvidenceCount$ = this.relatedCountQueryRef?.valueChanges.pipe(
+      map((c) => c.data?.evidenceItems?.totalCount),
+      filter(isNonNulled),
       untilDestroyed(this)
     )
   }
@@ -175,6 +193,10 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
         this.selectedSourceId = newModel.fields.sourceId
         this.selectedMpId = newModel.fields.molecularProfileId
         this.countQueryRef?.refetch({
+          molecularProfileId: newModel.fields.molecularProfileId,
+          sourceId: newModel.fields.sourceId,
+        })
+        this.relatedCountQueryRef?.refetch({
           molecularProfileId: newModel.fields.molecularProfileId,
           sourceId: newModel.fields.sourceId,
         })
