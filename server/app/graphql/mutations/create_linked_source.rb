@@ -8,7 +8,7 @@ class Mutations::CreateLinkedSource < Mutations::BaseMutation
     description: "The ID of the source being linked."
     
   argument :reason, String, required: true,
-    description: "Reason for linking the sources. Must be one of: #{SourceLink.reasons.join(', ')}"
+    description: "Reason for linking the sources. Must be one of: #{SourceLink.reasons.keys.join(', ')}"
     
   argument :note, String, required: false,
     description: "Optional note for additional context."
@@ -28,9 +28,9 @@ class Mutations::CreateLinkedSource < Mutations::BaseMutation
     if @source.nil? || @linked_source.nil?
       raise GraphQL::ExecutionError, "One or both source IDs do not exist."
     end
-  
-    unless SourceLink.reasons.include?(reason)
-      raise GraphQL::ExecutionError, "Invalid reason. Must be one of: #{SourceLink.reasons.join(', ')}"
+    
+    unless SourceLink.reasons.keys.include?(reason)
+      raise GraphQL::ExecutionError, "Invalid reason. Must be one of: #{SourceLink.reasons.keys.join(', ')}"
     end
   
     true
@@ -46,7 +46,7 @@ class Mutations::CreateLinkedSource < Mutations::BaseMutation
     source_link = SourceLink.create!(
       source: @source,
       linked_source: @linked_source,
-      reason: reason,
+      reason: reason.to_sym,
       note: note
     )
   
