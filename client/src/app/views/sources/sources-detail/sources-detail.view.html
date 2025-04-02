@@ -6,16 +6,6 @@
   <ng-template #sourcesActions>
     <ng-container *ngrxLet="viewer$ as viewer">
       <button
-        [routerLink]="['/sources', sourceId, 'add-related']"
-        *ngIf="viewer.signedIn"
-        nz-button
-        nzSize="small">
-        <i
-          nz-icon
-          nzType="plus-circle"></i>
-        Add a Related Source
-      </button>
-      <button
         routerLink="/sources/add"
         *ngIf="viewer.signedIn"
         nz-button
@@ -40,6 +30,18 @@
       <nz-tag *ngIf="source.fullyCurated" nzColor='success'>
         Fully Curated
       </nz-tag>
+      <ng-container *ngrxLet="viewer$ as viewer">
+        <button
+          [routerLink]="['/sources', sourceId, 'add-related']"
+          *ngIf="viewer.signedIn"
+          nz-button
+          nzSize="small">
+          <i
+            nz-icon
+            nzType="plus-circle"></i>
+          Add a Related Source
+        </button>
+      </ng-container>
       <cvc-link-tag
         *ngIf="source.sourceUrl"
         [href]="source.sourceUrl"

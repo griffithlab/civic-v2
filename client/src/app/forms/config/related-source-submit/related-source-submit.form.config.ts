@@ -45,7 +45,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: {
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
@@ -64,10 +69,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'org-submit-button',
             props: {
               submitLabel: 'Submit Source Linkage',
+              align: 'right',
             },
           },
         ],
-      },
+      }
     ],
   },
 ]
