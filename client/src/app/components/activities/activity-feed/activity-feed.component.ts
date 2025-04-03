@@ -37,7 +37,6 @@ import {
 import {
   combineLatest,
   filter,
-  interval,
   map,
   merge,
   Observable,
@@ -46,25 +45,15 @@ import {
   Subject,
   switchMap,
   take,
-  timer,
   withLatestFrom,
 } from 'rxjs'
-import {
-  CvcActivityFeedItem,
-  FeedItemToggle,
-} from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import { CvcActivityFeedItem } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 import {
   connectionToFeedCounts,
   connectionToFilterOptions,
   queryParamsToQueryVariables,
 } from '@app/components/activities/activity-feed/activity-feed.functions'
-import {
-  distinctUntilChanged,
-  mapTo,
-  shareReplay,
-  skip,
-  startWith,
-} from 'rxjs/operators'
+import { distinctUntilChanged, shareReplay } from 'rxjs/operators'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   ActivityFeedGQL,
@@ -86,7 +75,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { EmbeddedProperty, NzGridModule } from 'ng-zorro-antd/grid'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
 import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
@@ -100,49 +89,45 @@ import { tag } from 'rxjs-spy/operators'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import {
-  BreakpointMap,
-  gridResponsiveMap,
-  NzBreakpointService,
-} from 'ng-zorro-antd/core/services'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { NzBreakpointService } from 'ng-zorro-antd/core/services'
+import { AutoHeightTarget } from '@app/directives/auto-height-div/auto-height-div.directive'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
-@UntilDestroy()
+
 @Component({
-    selector: 'cvc-activity-feed',
-    templateUrl: './activity-feed.component.html',
-    styleUrl: './activity-feed.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        UiScrollModule,
-        NzAlertModule,
-        NzCardModule,
-        NzGridModule,
-        NzSpaceModule,
-        NzTagModule,
-        NzSpinModule,
-        NzResultModule,
-        NzButtonModule,
-        NzIconModule,
-        CvcActivityFeedItem,
-        CvcAutoHeightDivModule,
-        CvcActivityFeedCounts,
-        CvcActivityFeedSettingsButton,
-        CvcActivityFeedFilterSelects,
-    ],
-    providers: [
-        {
-            provide: FEED_SCROLL_SERVICE_TOKEN,
-            useFactory: (zone: NgZone) => {
-                return new ScrollerStateService(zone);
-            },
-            deps: [NgZone],
-        },
-    ],
-    animations: []
+  selector: 'cvc-activity-feed',
+  templateUrl: './activity-feed.component.html',
+  styleUrl: './activity-feed.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    UiScrollModule,
+    NzAlertModule,
+    NzCardModule,
+    NzGridModule,
+    NzSpaceModule,
+    NzTagModule,
+    NzSpinModule,
+    NzResultModule,
+    NzButtonModule,
+    NzIconModule,
+    CvcActivityFeedItem,
+    CvcAutoHeightDivModule,
+    CvcActivityFeedCounts,
+    CvcActivityFeedSettingsButton,
+    CvcActivityFeedFilterSelects,
+  ],
+  providers: [
+    {
+      provide: FEED_SCROLL_SERVICE_TOKEN,
+      useFactory: (zone: NgZone) => {
+        return new ScrollerStateService(zone)
+      },
+      deps: [NgZone],
+    },
+  ],
+  animations: [],
 })
 export class CvcActivityFeed implements OnInit {
   // INPUTS
@@ -152,6 +137,8 @@ export class CvcActivityFeed implements OnInit {
   cvcScope = input<ActivityFeedScope>(feedDefaultScope)
   cvcTitle = input<string>('Activity Feed')
   cvcCheckInterval = input<number>(0)
+  cvcAutoHeightTarget = input<AutoHeightTarget>('viewport')
+  cvcAutoHeightOffset = input<number>(40)
 
   // SOURCE STREAMS
   onSettingChange$: Subject<ActivityFeedSettings>

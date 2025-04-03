@@ -9,21 +9,23 @@ import {
   NgZone,
   ChangeDetectorRef,
 } from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 import { Subject } from 'rxjs'
 import { throttleTime } from 'rxjs/operators'
 
-type AutoHeightTarget = 'parent' | 'viewport' | undefined
-type AutoHeightOffset = string | number | undefined
+export type AutoHeightTarget = Maybe<
+  'parent' | 'viewport' | ElementRef | HTMLElement
+>
 
 //
 // From zorro-sharper: https://github.com/1-2-3/zorro-sharper/blob/master/README-en_US.md
 // NOTE: significantly refactored to allow parent or viewport target for height calculation;
 // switched from HostListener to element listeners for resize updates
 @Directive({
-    // tslint:disable-next-line: directive-selector
-    selector: '[cvcAutoHeightDiv]',
-    standalone: false
+  // tslint:disable-next-line: directive-selector
+  selector: '[cvcAutoHeightDiv]',
+  standalone: false,
 })
 export class CvcAutoHeightDivDirective implements OnInit {
   // optional offset value, if provided will be added to height calculation
@@ -34,8 +36,8 @@ export class CvcAutoHeightDivDirective implements OnInit {
   divTop = 0
 
   @Input()
-  set cvcAutoHeightDiv(v: string) {
-    const value = parseInt(v, 0)
+  set cvcAutoHeightDiv(v: string | number) {
+    const value = typeof v === 'string' ? parseInt(v, 0) : v
     if (!isNaN(value) && value >= 0) {
       this._offset = value
     }
@@ -81,7 +83,6 @@ export class CvcAutoHeightDivDirective implements OnInit {
 
   private resizeToFitContent() {
     const div = this.el.nativeElement
-    const divParentHeight = div.parentElement.getBoundingClientRect().height
 
     if (div && div.getBoundingClientRect && div.getBoundingClientRect().top) {
       this.divTop = div.getBoundingClientRect().top
@@ -89,19 +90,40 @@ export class CvcAutoHeightDivDirective implements OnInit {
 
     if (div) {
       if (this._target === 'parent') {
-        div.style.height = divParentHeight
+        const divParentHeight = div.parentElement.getBoundingClientRect().height
+        div.style.height = `${divParentHeight}px`
       } else if (this._target === 'viewport') {
         if (div.getBoundingClientRect && div.getBoundingClientRect().top) {
           this.divTop = div.getBoundingClientRect().top
         }
         const viewportOffset = this.divTop + this._offset
         div.style.height = `calc(100vh - ${viewportOffset}px)`
+      } else if (this.isElementRef(this._target)) {
+        const divConainerHeight =
+          this._target.nativeElement.getBoundingClientRect().height
+        div.style.height = `${divConainerHeight + this._offset}px`
+      } else if (this.isHTMLElement(this._target)) {
+        const divConainerHeight = this._target.getBoundingClientRect().height
+        div.style.height = `${divConainerHeight + this._offset}px`
+      } else {
+        console.warn(
+          'Invalid target type for cvcAutoHeightDiv, setting to default minHeight of 350px',
+          this._target
+        )
+        div.style.minHeight = '350px'
       }
       div.style['overflow-y'] = 'auto'
       this.cdr.detectChanges()
     }
   }
 
+  private isElementRef(value: any): value is ElementRef {
+    return value && typeof value === 'object' && 'nativeElement' in value
+  }
+
+  private isHTMLElement(value: any): value is HTMLElement {
+    return value instanceof HTMLElement
+  }
   ngOnDestroy(): void {
     this.onResized$.unsubscribe()
     this.resizeObserver.unobserve(this.el.nativeElement)
