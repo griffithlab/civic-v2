@@ -1,4 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
+import { feedDefaultFilters } from '@app/components/activities/activity-feed/activity-feed.config'
+import { ActivityFeedFilters } from '@app/components/activities/activity-feed/activity-feed.types'
+import { ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   EndorsementListGQL,
   EndorsementListNodeFragment,
@@ -12,13 +20,15 @@ import { QueryRef } from 'apollo-angular'
 
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, map, pluck } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/dist/esm/operators'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-endorsement-list',
   templateUrl: './endorsement-list.component.html',
   styleUrls: ['./endorsement-list.component.less'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEndorsementListComponent implements OnInit {
   @Input() assertionId!: number
@@ -33,8 +43,10 @@ export class CvcEndorsementListComponent implements OnInit {
   >
 
   private pageSize = 5
-
-  constructor(private gql: EndorsementListGQL) {}
+  constructor(
+    private gql: EndorsementListGQL,
+    viewer: ViewerService
+  ) {}
 
   ngOnInit() {
     this.queryRef$ = this.gql.watch({
@@ -45,17 +57,16 @@ export class CvcEndorsementListComponent implements OnInit {
     let results = this.queryRef$.valueChanges
 
     this.pageInfo$ = results.pipe(
-      pluck('data'),
-      filter(isNonNulled),
-      map(({ endorsements }) => endorsements.pageInfo)
+      pluck('data', 'endorsements', 'pageInfo'),
+      filter(isNonNulled)
     )
 
     this.loading$ = results.pipe(map(({ loading }) => loading))
 
     this.endorsements$ = results.pipe(
-      pluck('data'),
+      pluck('data', 'endorsements', 'edges'),
       filter(isNonNulled),
-      map(({ endorsements }) => endorsements.edges.map((e) => e.node))
+      map((edges) => edges.map((e) => e.node))
     )
   }
 
@@ -70,5 +81,12 @@ export class CvcEndorsementListComponent implements OnInit {
 
   refreshList() {
     this.queryRef$.refetch()
+  }
+  feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
+    return {
+      ...feedDefaultFilters,
+      linkedEndorsementId: endorsement.id,
+      occurredAfter: new Date(endorsement.lastReviewed),
+    }
   }
 }

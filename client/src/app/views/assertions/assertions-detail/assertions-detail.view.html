@@ -10,7 +10,8 @@
         nz-typography
         class="label"
         *nzSpaceItem
-        >Related to <strong>{{ assertion.name }}</strong>:</span
+        >Related to <strong>{{ assertion.name }}</strong
+        >:</span
       >
       <span
         *nzSpaceItem
@@ -23,13 +24,20 @@
   </ng-template>
   <div
     cvcFlaggable
-    [cvcFlaggableCounts]="{flags: 0, endorsements: 1}">
+    [cvcFlaggableCounts]="{
+      flags: assertion.flags.totalCount,
+      endorsements: assertion.activeEndorsements.totalCount,
+    }">
     <nz-page-header
       *ngrxLet="viewer$ as viewer"
       class="site-page-header">
       <!-- title -->
       <nz-page-header-title
-        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.activeEndorsements.totalCount > 0 }">
+        [ngClass]="{
+          flagged:
+            assertion.flags.totalCount > 0 ||
+            assertion.activeEndorsements.totalCount > 0,
+        }">
         <i
           nz-icon
           nzTheme="twotone"
@@ -59,18 +67,18 @@
 
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
-          @if(viewer.signedIn) {
-          <span *nzSpaceItem>
-            <button
-              routerLink="flags"
-              routerLinkActive
-              #rlaComments="routerLinkActive"
-              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              Flag
-            </button>
-          </span>
+          @if (viewer.signedIn) {
+            <span *nzSpaceItem>
+              <button
+                routerLink="flags"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                Flag
+              </button>
+            </span>
           }
 
           <span *nzSpaceItem>
@@ -85,7 +93,7 @@
 
           <span *nzSpaceItem>
             <ng-container
-              *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'">
+              *ngIf="viewer.canModerate && assertion.status != 'SUBMITTED'">
               <cvc-revert-entity-button
                 entityType="Assertion"
                 [entityId]="assertion.id"
@@ -93,28 +101,41 @@
               </cvc-revert-entity-button>
             </ng-container>
           </span>
-          @if(viewer.signedIn && viewer.canModerate && viewer.mostRecentOrg &&
-          viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
-          !hasActiveEndorsement(viewer.mostRecentOrg.id,
-          assertion.activeEndorsements.nodes)) {
-          <span *nzSpaceItem>
-            <cvc-endorse-assertion-button
-              mode="endorse"
-              [assertionId]="assertion.id"
-              (onEndorsed)="onEndorsementAction($event)">
-            </cvc-endorse-assertion-button>
-          </span>
-          } @if(viewer.signedIn && viewer.canModerate && viewer.mostRecentOrg &&
-          viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
-          hasActiveEndorsement(viewer.mostRecentOrg.id,
-          assertion.activeEndorsements.nodes)) {
-          <span *nzSpaceItem>
-            <cvc-endorse-assertion-button
-              mode="revoke"
-              [assertionId]="assertion.id"
-              (onEndorsed)="onEndorsementAction($event)">
-            </cvc-endorse-assertion-button>
-          </span>
+          @if (
+            viewer.signedIn &&
+            viewer.canModerate &&
+            viewer.mostRecentOrg &&
+            viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
+            !hasActiveEndorsement(
+              viewer.mostRecentOrg.id,
+              assertion.activeEndorsements.nodes
+            )
+          ) {
+            <span *nzSpaceItem>
+              <cvc-endorse-assertion-button
+                mode="endorse"
+                [assertionId]="assertion.id"
+                (onEndorsed)="onEndorsementAction($event)">
+              </cvc-endorse-assertion-button>
+            </span>
+          }
+          @if (
+            viewer.signedIn &&
+            viewer.canModerate &&
+            viewer.mostRecentOrg &&
+            viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
+            hasActiveEndorsement(
+              viewer.mostRecentOrg.id,
+              assertion.activeEndorsements.nodes
+            )
+          ) {
+            <span *nzSpaceItem>
+              <cvc-endorse-assertion-button
+                mode="revoke"
+                [assertionId]="assertion.id"
+                (onEndorsed)="onEndorsementAction($event)">
+              </cvc-endorse-assertion-button>
+            </span>
           }
         </nz-space>
       </nz-page-header-extra>
@@ -155,7 +176,13 @@
         </cvc-tab-navigation>
         <nz-space
           nzDirection="vertical"
-          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.user?.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
+          *ngIf="
+            (viewer.canModerate ||
+              (viewer.signedIn &&
+                viewer.user?.id ==
+                  assertion.submissionEvent?.originatingUser?.id)) &&
+            assertion.status == 'SUBMITTED'
+          ">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons
               entityType="Assertion"
