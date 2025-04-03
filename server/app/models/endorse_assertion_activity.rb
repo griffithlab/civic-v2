@@ -6,6 +6,6 @@ class EndorseAssertionActivity < Activity
   end
 
   def generate_verbiage
-    "endorsed assertion"
+    "endorsed"
   end
 end
