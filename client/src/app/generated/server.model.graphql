@@ -3008,9 +3008,11 @@ type EndorseAssertionPayload {
 type Endorsement {
   assertion: Assertion!
   createdAt: ISO8601DateTime!
+  endorsementActivity: EndorseAssertionActivity!
   id: Int!
   lastReviewed: ISO8601DateTime!
   organization: Organization!
+  revocationActivity: RevokeEndorsementActivity
   status: EndorsementStatus!
   updatedAt: ISO8601DateTime!
   user: User!
