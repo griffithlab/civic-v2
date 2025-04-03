@@ -8362,9 +8362,9 @@ export type EndorsementListQueryVariables = Exact<{
 }>;
 
 
-export type EndorsementListQuery = { __typename: 'Query', endorsements: { __typename: 'EndorsementConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'EndorsementEdge', cursor: string, node?: { __typename: 'Endorsement', id: number, lastReviewed: any, status: EndorsementStatus, organization: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined }> } };
+export type EndorsementListQuery = { __typename: 'Query', endorsements: { __typename: 'EndorsementConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'EndorsementEdge', cursor: string, node?: { __typename: 'Endorsement', id: number, status: EndorsementStatus, lastReviewed: any, organization: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }, revocationActivity?: { __typename: 'RevokeEndorsementActivity', note?: string | undefined } | undefined, endorsementActivity: { __typename: 'EndorseAssertionActivity', note?: string | undefined } } | undefined }> } };
 
-export type EndorsementListNodeFragment = { __typename: 'Endorsement', id: number, lastReviewed: any, status: EndorsementStatus, organization: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } };
+export type EndorsementListNodeFragment = { __typename: 'Endorsement', id: number, status: EndorsementStatus, lastReviewed: any, organization: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }, revocationActivity?: { __typename: 'RevokeEndorsementActivity', note?: string | undefined } | undefined, endorsementActivity: { __typename: 'EndorseAssertionActivity', note?: string | undefined } };
 
 export type EventFeedCountQueryVariables = Exact<{
   subject?: InputMaybe<SubscribableQueryInput>;
@@ -11168,6 +11168,8 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
 export const EndorsementListNodeFragmentDoc = gql`
     fragment endorsementListNode on Endorsement {
   id
+  status
+  lastReviewed
   organization {
     id
     name
@@ -11179,8 +11181,12 @@ export const EndorsementListNodeFragmentDoc = gql`
     role
     profileImagePath(size: 32)
   }
-  lastReviewed
-  status
+  revocationActivity {
+    note
+  }
+  endorsementActivity {
+    note
+  }
 }
     `;
 export const EventFeedNodeFragmentDoc = gql`

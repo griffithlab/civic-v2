@@ -47,7 +47,7 @@
           [org]="cvcEndorsement().organization"
           [enablePopover]="false"></cvc-organization-tag>
       </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Endorsing Editor">
+      <nz-descriptions-item nzTitle="Endorsed by">
         <cvc-user-tag
           [user]="cvcEndorsement().user"
           [enablePopover]="false"></cvc-user-tag>
@@ -75,7 +75,7 @@
           [org]="cvcEndorsement().organization"
           [enablePopover]="false"></cvc-organization-tag>
       </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Endorsing Editor">
+      <nz-descriptions-item nzTitle="Endorsed by">
         <cvc-user-tag
           [user]="cvcEndorsement().user"
           [enablePopover]="false"></cvc-user-tag>
@@ -131,10 +131,17 @@
       <nz-descriptions-item
         nzTitle="Revocation Note"
         nzSpan="2">
-        <p nz-typography>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-          quos. Adipisci accusamus doloremque quaerat quos quibusdam.
-        </p>
+        @if (cvcEndorsement().revocationActivity?.note) {
+          <p nz-typography>
+            {{ cvcEndorsement().revocationActivity?.note }}
+          </p>
+        } @else {
+          <p
+            nz-typography
+            nzType="secondary">
+            No note provided
+          </p>
+        }
       </nz-descriptions-item>
     </nz-descriptions>
   </div>

@@ -32,6 +32,8 @@ query EndorsementList(
 
 fragment endorsementListNode on Endorsement {
   id
+  status
+  lastReviewed
   organization {
     id
     name
@@ -43,6 +45,12 @@ fragment endorsementListNode on Endorsement {
     role
     profileImagePath(size: 32)
   }
-  lastReviewed
-  status
+  revocationActivity {
+    # ...RevokeEndorsementActivityDetail
+    note
+  }
+  endorsementActivity {
+    # ...EndorseAssertionActivityDetail
+    note
+  }
 }
