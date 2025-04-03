@@ -127,17 +127,19 @@ export class AssertionsDetailView implements OnDestroy {
               if (tab.tabLabel === 'Revisions') {
                 return {
                   badgeCount: assertionResp?.revisions.totalCount,
+                  badgeColor: '#4096ff', // blue-5
                   ...tab,
                 }
               } else if (tab.tabLabel === 'Flags') {
                 return {
                   badgeCount: assertionResp?.flags.totalCount,
+                  badgeColor: '#4096ff', // blue-5
                   ...tab,
                 }
               } else if (tab.tabLabel === 'Comments') {
                 return {
                   badgeCount: assertionResp?.comments.totalCount,
-                  badgeColor: '#cccccc',
+                  badgeColor: '#4096ff', // blue-5
                   ...tab,
                 }
               } else if (tab.tabLabel === 'Endorsements') {
@@ -154,7 +156,7 @@ export class AssertionsDetailView implements OnDestroy {
                 }
                 return {
                   badgeCount: count,
-                  badgeColor: '#EFBF04',
+                  badgeColor: '#4096ff', // blue-5
                   ...tab,
                 }
               } else {

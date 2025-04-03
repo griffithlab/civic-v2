@@ -32,22 +32,26 @@
       @switch (endorsement.status) {
         @case ('ACTIVE') {
           <span>
-            AID{{ assertionId }} has been endorsed by
-            {{ endorsement.organization.name }} under the authority of editor
-            {{ endorsement.user.displayName }}.
+            <strong>AID{{ assertionId }}</strong> has been endorsed by
+            <strong>{{ endorsement.organization.name }}</strong> under the
+            authority of editor
+            <strong>{{ endorsement.user.displayName }}</strong
+            >.
           </span>
         }
         @case ('REVOKED') {
           <span>
-            AID{{ assertionId }} endorsement has been revoked by
-            {{ endorsement.organization.name }} under the authority of editor
-            {{ endorsement.user.displayName }}.
+            <strong>AID{{ assertionId }}</strong> endorsement has been revoked
+            by <strong>{{ endorsement.organization.name }}</strong> under the
+            authority of editor
+            <strong>{{ endorsement.user.displayName }}</strong
+            >.
           </span>
         }
         @case ('REQUIRES_REVIEW') {
           <span>
-            AID{{ assertionId }} post-endorsement revisions require review by an
-            endorsing editor.
+            <strong>AID{{ assertionId }}</strong> post-endorsement revisions
+            <strong>require review by an endorsing editor.</strong>
           </span>
         }
       }
