@@ -24,46 +24,37 @@
     </ng-template>
     <ng-template #itemTitle>
       <span>Endorsed by {{ endorsement.organization.name }} </span>
-      <span>
+      <!-- <span>
         {{ endorsement.lastReviewed | timeAgo }}
-      </span>
+      </span> -->
     </ng-template>
     <ng-template #itemDescription>
       @switch (endorsement.status) {
         @case ('ACTIVE') {
           <span>
-            Assertion is under active endorsement by its endorsing organization.
+            AID{{ assertionId }} has been endorsed by
+            {{ endorsement.organization.name }} under the authority of editor
+            {{ endorsement.user.displayName }}.
           </span>
         }
         @case ('REVOKED') {
           <span>
-            Assertion endorsement has been revoked by its endorsing
-            organization.
+            AID{{ assertionId }} endorsement has been revoked by
+            {{ endorsement.organization.name }} under the authority of editor
+            {{ endorsement.user.displayName }}.
           </span>
         }
         @case ('REQUIRES_REVIEW') {
           <span>
-            Assertion revisions require review by its endorsing organization.
+            AID{{ assertionId }} post-endorsement revisions require review by an
+            endorsing editor.
           </span>
         }
       }
     </ng-template>
     <ng-template #itemExtra>
-      @if (endorsement.status === 'REQUIRES_REVIEW') {
-        <cvc-endorsement-revisions-tag
-          [cvcEndorsement]="endorsement"></cvc-endorsement-revisions-tag>
-      }
-      <nz-tag
-        [ngClass]="{
-          active: endorsement.status === 'ACTIVE',
-          revoked: endorsement.status === 'REVOKED',
-          review: endorsement.status === 'REQUIRES_REVIEW',
-        }">
-        <nz-icon
-          nzType="safety-certificate"
-          nzTheme="outline"></nz-icon>
-        {{ endorsement.status | enumToTitle }}
-      </nz-tag>
+      <cvc-endorsement-status-tag
+        [cvcEndorsement]="endorsement"></cvc-endorsement-status-tag>
     </ng-template>
   </ng-template>
   <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
