@@ -1935,9 +1935,11 @@ export type Endorsement = {
   __typename: 'Endorsement';
   assertion: Assertion;
   createdAt: Scalars['ISO8601DateTime']['output'];
+  endorsementActivity: EndorseAssertionActivity;
   id: Scalars['Int']['output'];
   lastReviewed: Scalars['ISO8601DateTime']['output'];
   organization: Organization;
+  revocationActivity?: Maybe<RevokeEndorsementActivity>;
   status: EndorsementStatus;
   updatedAt: Scalars['ISO8601DateTime']['output'];
   user: User;
