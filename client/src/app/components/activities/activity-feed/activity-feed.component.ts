@@ -381,7 +381,6 @@ export class CvcActivityFeed implements OnInit {
     // force scroller check when toggled items change
     effect(
       () => {
-        const toggledItems = this.scroller().toggledItems
         this.scrollAdapter?.check()
       },
       { injector: this.injector }

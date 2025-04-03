@@ -7,7 +7,7 @@
     nzType="civic-revision"
     nzTheme="twotone"
     [nzTwotoneColor]="'Revision' | entityColor"></nz-icon>
-  Show Revisions
+  Show Unendorsed Revisions
 </nz-tag>
 <ng-template #revisionsPopover>
   <div
@@ -15,6 +15,7 @@
     #revisionsContainer>
     <cvc-activity-feed
       [cvcFilters]="feedFilters(cvcEndorsement())"
+      [cvcSettings]="feedSettings()"
       [cvcShowFilters]="false"
       [cvcAutoHeightTarget]="revisionsContainer"
       [cvcAutoHeightOffset]="20"

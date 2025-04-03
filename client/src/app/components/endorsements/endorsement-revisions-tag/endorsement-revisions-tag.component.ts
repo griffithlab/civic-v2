@@ -1,7 +1,13 @@
-import { Component, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, input } from '@angular/core'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
-import { feedDefaultFilters } from '@app/components/activities/activity-feed/activity-feed.config'
-import { ActivityFeedFilters } from '@app/components/activities/activity-feed/activity-feed.types'
+import {
+  feedDefaultFilters,
+  feedDefaultSettings,
+} from '@app/components/activities/activity-feed/activity-feed.config'
+import {
+  ActivityFeedFilters,
+  ActivityFeedSettings,
+} from '@app/components/activities/activity-feed/activity-feed.types'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { EndorsementListNodeFragment } from '@app/generated/civic.apollo'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -19,9 +25,16 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
   ],
   templateUrl: './endorsement-revisions-tag.component.html',
   styleUrl: './endorsement-revisions-tag.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEndorsementRevisionsTag {
   cvcEndorsement = input.required<EndorsementListNodeFragment>()
+  feedSettings(): ActivityFeedSettings {
+    return {
+      ...feedDefaultSettings,
+      showOrganization: false,
+    }
+  }
   feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
     return {
       ...feedDefaultFilters,
