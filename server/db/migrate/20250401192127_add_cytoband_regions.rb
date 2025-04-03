@@ -6,15 +6,15 @@ class AddCytobandRegions < ActiveRecord::Migration[8.0]
 
     create_table :cytogenetic_regions do |t|
       t.text :name, null: false, index: true
-      t.integer :chromosome, null: false, index: true
-      t.text :band, null: false, index: true
+      t.text :chromosome, null: false, index: true
+      t.text :band, null: true, index: true
       t.timestamps
     end
 
     create_table :cytogenetic_coordinates do |t|
       t.references :cytogenetic_region, null: false, index: true, foreign_key: true
-      t.text :reference_build, null: false, index: true
-      t.integer :chromosome, null: false, index: true
+      t.integer :reference_build, null: false, index: true
+      t.text :chromosome, null: false, index: true
       t.integer :start, null: false, index: true
       t.integer :stop, null: false, index: true
     end

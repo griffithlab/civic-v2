@@ -338,8 +338,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
 
   create_table "cytogenetic_coordinates", force: :cascade do |t|
     t.bigint "cytogenetic_region_id", null: false
-    t.text "reference_build", null: false
-    t.integer "chromosome", null: false
+    t.integer "reference_build", null: false
+    t.text "chromosome", null: false
     t.integer "start", null: false
     t.integer "stop", null: false
     t.index ["chromosome"], name: "index_cytogenetic_coordinates_on_chromosome"
@@ -351,8 +351,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
 
   create_table "cytogenetic_regions", force: :cascade do |t|
     t.text "name", null: false
-    t.integer "chromosome", null: false
-    t.text "band", null: false
+    t.text "chromosome", null: false
+    t.text "band"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["band"], name: "index_cytogenetic_regions_on_band"
