@@ -1,10 +1,10 @@
 module Activities
   class CreateRegionFeature < Base
-    attr_reader :feature, :cytogeneic_region_ids
+    attr_reader :feature, :cytogenetic_region_ids
 
-    def initialize(originating_user:, organization_id:, cytogeneic_region_ids:)
+    def initialize(originating_user:, organization_id:, cytogenetic_region_ids:)
       super(organization_id: organization_id, user: originating_user)
-      @cytogeneic_region_ids = cytogeneic_region_ids
+      @cytogenetic_region_ids = cytogenetic_region_ids
     end
 
     private
@@ -19,7 +19,7 @@ module Activities
       cmd = Actions::CreateRegionFeature.new(
         originating_user: user,
         organization_id: organization&.id,
-        cytogeneic_region_ids: cytogeneic_region_ids,
+        cytogenetic_region_ids: cytogenetic_region_ids,
       )
 
       cmd.perform
