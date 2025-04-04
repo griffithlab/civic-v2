@@ -4,7 +4,7 @@ module Features
     include IsFeatureInstance
 
     #TODO order by rank
-    has_many :region_members
+    has_many :region_members, -> () { order(:position) }
     has_many :cytogenetic_regions, through: :region_members
     has_many :cytogenetic_coordinates, through: :cytogenetic_regions
 

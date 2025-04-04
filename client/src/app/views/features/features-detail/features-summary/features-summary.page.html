@@ -20,6 +20,13 @@
           [featureId]="feature.id"
           [fusion]="feature.featureInstance"></cvc-fusion-summary>
       }
+      @case ('Region') {
+        <span style="width: 100%">
+        <cvc-region-summary
+          [featureId]="feature.id"
+          [region]="feature.featureInstance"></cvc-region-summary>
+        </span>
+      }
     }
 
     <!-- variant menu row -->

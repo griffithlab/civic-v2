@@ -4,7 +4,7 @@ module Types::Entities
     field :name, String, null: false
     field :chromosome, String, null: false
     field :band, String, null: true
-    field :cytogenetic_coordinates, Types::Entities::CytogeneticCoordinateType, null: false
+    field :cytogenetic_coordinates, [ Types::Entities::CytogeneticCoordinateType ], null: false
 
     def cytogenetic_coordinates
       Loaders::AssociationLoader.for(CytogeneticRegion, :cytogenetic_coordinates).load(object)

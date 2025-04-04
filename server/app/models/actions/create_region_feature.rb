@@ -5,20 +5,19 @@ module Actions
     attr_reader :feature, :originating_user, :organization_id, :cytogenetic_region_ids
 
     def initialize(originating_user:, organization_id: nil, cytogenetic_region_ids:)
+      @originating_user = originating_user
+      @organization_id = organization_id
+      @cytogenetic_region_ids = cytogenetic_region_ids
       @feature = Feature.new(name: construct_feature_name)
       Features::Region.create(
         feature: feature,
       )
-      @originating_user = originating_user
-      @organization_id = organization_id
-      @cytogenetic_region_ids = cytogenetic_region_ids
     end
 
     def construct_feature_name
       # TODO - correct delimiter?
-      CytogeneticRegion.where(id: cytogenetic_region_ids)
-        .pluck(:name)
-        .join(" ")
+      # less efficient but ensures that order is preserved
+      cytogenetic_region_ids.map{|region_id| CytogeneticRegion.find(region_id).name}.join(" ")
     end
 
     private

@@ -47,6 +47,7 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
       "Revision",
       "Source",
       "SourcePopover",
@@ -66,6 +67,7 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
       "Revision",
       "SourceSuggestion",
       "Variant"
@@ -84,6 +86,7 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
       "Revision",
       "RevisionSet",
       "Source",
@@ -96,7 +99,8 @@
     "FeatureInstance": [
       "Factor",
       "Fusion",
-      "Gene"
+      "Gene",
+      "Region"
     ],
     "Flaggable": [
       "Assertion",
@@ -110,6 +114,7 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
       "Variant",
       "VariantGroup"
     ],
@@ -129,6 +134,7 @@
       "FusionVariant",
       "Gene",
       "GeneVariant",
+      "Region",
       "Variant"
     ],
     "MolecularProfileSegment": [
@@ -154,6 +160,7 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
       "Variant",
       "VariantCoordinate",
       "VariantGroup"

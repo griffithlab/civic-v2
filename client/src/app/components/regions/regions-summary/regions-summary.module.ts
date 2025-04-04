@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { FeaturesSummaryPage } from './features-summary.page'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
@@ -17,14 +16,12 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profiles/molecular-profiles-menu/molecular-profiles-menu.module'
-import { GenesSummaryModule } from '@app/components/genes/genes-summary/genes-summary.module'
-import { FactorSummaryComponent } from '@app/components/factors/factor-summary/factor-summary.page'
-import { FusionSummaryComponent } from '@app/components/fusions/fusion-summary/fusion-summary.page'
-import { CvcFusionsMenuModule } from '@app/components/fusions/fusions-menu/fusions-menu.module'
-import { RegionsSummaryModule } from '@app/components/regions/regions-summary/regions-summary.module'
+import { RegionsSummaryPage } from './regions-summary.page'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzCardModule } from 'ng-zorro-antd/card'
 
 @NgModule({
-  declarations: [FeaturesSummaryPage],
+  declarations: [RegionsSummaryPage],
   imports: [
     CommonModule,
     LetDirective,
@@ -35,6 +32,7 @@ import { RegionsSummaryModule } from '@app/components/regions/regions-summary/re
     NzSpaceModule,
     NzTagModule,
     NzTabsModule,
+    NzCardModule,
 
     CvcEmptyRevisableModule,
     CvcTagListModule,
@@ -45,12 +43,8 @@ import { RegionsSummaryModule } from '@app/components/regions/regions-summary/re
     CvcVariantsMenuModule,
     CvcMyGeneInfoModule,
     CvcMolecularProfilesMenuModule,
-    GenesSummaryModule,
-    FactorSummaryComponent,
-    FusionSummaryComponent,
-    RegionsSummaryModule,
-    CvcFusionsMenuModule,
+    CvcPipesModule,
   ],
-  exports: [FeaturesSummaryPage],
+  exports: [RegionsSummaryPage],
 })
-export class FeaturesSummaryModule {}
+export class RegionsSummaryModule {}
