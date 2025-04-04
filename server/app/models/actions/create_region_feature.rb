@@ -25,6 +25,14 @@ module Actions
     def execute
       feature.save!
 
+      cytogenetic_region_ids.each_with_index do | region_id, index |
+          RegionMember.create(
+            region_id: feature.feature_instance_id,
+            cytogenetic_region_id: region_id,
+            position: index + 1
+          )
+      end
+
       event = Event.new(
         action: "feature created",
         originating_user: originating_user,
