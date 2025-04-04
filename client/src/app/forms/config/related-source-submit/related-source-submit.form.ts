@@ -16,8 +16,7 @@ import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { relatedSourceSuggestFields } from './related-source-submit.form.config'
 import { Observable, Subscription } from 'rxjs'
-import { sourceFormModelToCreateLinkedSourceInput } from '@app/forms/utilities/source-to-model-fields'
-import { LinkedSourceFields } from '@app/forms/models/linked-source-fields.model'
+import { LinkedSourceModel, sourceFormModelToCreateLinkedSourceInput } from '@app/forms/utilities/source-to-model-fields'
 
 @UntilDestroy()
 @Component({
@@ -30,7 +29,7 @@ export class CvcRelatedSourceSubmitForm implements OnInit{
   private routeSub?: Subscription
   sourceId?: number
 
-  model: LinkedSourceFields
+  model: LinkedSourceModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
 
@@ -66,20 +65,20 @@ export class CvcRelatedSourceSubmitForm implements OnInit{
     });
   }
 
-  onModelChange(newModel: LinkedSourceFields) {
-    if(newModel.sourceId != this.selectedSourceId) {
-      this.selectedSourceId = newModel.sourceId
+  onModelChange(newModel: LinkedSourceModel) {
+    if(newModel.fields.sourceId != this.selectedSourceId) {
+      this.selectedSourceId = newModel.fields.sourceId
     }
   }
 
-  onSubmit(model: LinkedSourceFields) {
+  onSubmit(model: LinkedSourceModel) {
     const input = sourceFormModelToCreateLinkedSourceInput({
+      ...model,
       fields: {
+        ...model.fields,
         sourceId: this.sourceId,
         linkedSourceId: model.fields.sourceId,
-      },
-      reason: model.fields.reason,
-      comment: model.comment
+      }
     })
 
     if (input) {

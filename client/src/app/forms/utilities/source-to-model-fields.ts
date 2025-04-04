@@ -7,6 +7,10 @@ export interface SourceModel extends FormReviseBaseModel {
   fields: SourceFields
 }
 
+export interface LinkedSourceModel extends FormReviseBaseModel {
+  fields: LinkedSourceFields
+}
+
 export function sourceFormModelToInput(model: SourceModel): Maybe<SuggestSourceInput> {
   const fields = model.fields
   const requiredFields = [
@@ -26,13 +30,14 @@ export function sourceFormModelToInput(model: SourceModel): Maybe<SuggestSourceI
   }
 }
 
-export function sourceFormModelToCreateLinkedSourceInput(model: LinkedSourceFields): Maybe<CreateLinkedSourceInput> {
+export function sourceFormModelToCreateLinkedSourceInput(model: LinkedSourceModel): Maybe<CreateLinkedSourceInput> {
   const fields = model.fields
-  return fields.sourceId && fields.linkedSourceId && model.reason
+  return fields.sourceId && fields.linkedSourceId && fields.reason
     ? {
         sourceId: fields.sourceId,
         linkedSourceId: fields.linkedSourceId,
-        reason: model.reason,
+        organizationId: model.organizationId,
+        reason: fields.reason,
         note: model.comment,
       }
     : undefined

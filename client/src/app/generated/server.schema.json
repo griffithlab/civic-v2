@@ -12020,6 +12020,18 @@
               "deprecationReason": null
             },
             {
+              "name": "organizationId",
+              "description": "The ID of the organization to credit the user's contributions to.\nIf the user belongs to a single organization or no organizations, this field is not required.\nThis field is required if the user belongs to more than one organization.\nThe user must belong to the organization provided.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sourceId",
               "description": "The ID of the source.",
               "type": {
@@ -12027,7 +12039,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -12043,7 +12055,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "Int",
                   "ofType": null
                 }
               },

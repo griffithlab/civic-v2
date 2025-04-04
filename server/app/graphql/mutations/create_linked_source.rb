@@ -1,10 +1,10 @@
-class Mutations::CreateLinkedSource < Mutations::BaseMutation
+class Mutations::CreateLinkedSource < Mutations::MutationWithOrg
   description "Create a link between two sources with a reason and an optional note."
   
-  argument :source_id, ID, required: true,
+  argument :source_id, GraphQL::Types::Int, required: true,
     description: "The ID of the source."
     
-  argument :linked_source_id, ID, required: true,
+  argument :linked_source_id, GraphQL::Types::Int, required: true,
     description: "The ID of the source being linked."
     
   argument :reason, String, required: true,
@@ -32,26 +32,32 @@ class Mutations::CreateLinkedSource < Mutations::BaseMutation
     unless SourceLink.reasons.keys.include?(reason)
       raise GraphQL::ExecutionError, "Invalid reason. Must be one of: #{SourceLink.reasons.keys.join(', ')}"
     end
+
+    existing_link = SourceLink.find_by(source: @source, linked_source: @linked_source)
+    if existing_link
+      raise GraphQL::ExecutionError, "A link between these sources already exists."
+    end
   
     true
   end
   
-  def resolve(reason:, note: nil, **_args)
-    existing_link = SourceLink.find_by(source: @source, linked_source: @linked_source)
-
-    if existing_link
-      raise GraphQL::ExecutionError, "A link between these sources already exists."
-    end
-    
-    source_link = SourceLink.create!(
+  def resolve(organization_id: nil, reason:, note: nil, **_args)
+    cmd = Activities::CreateLinkedSource.new(
       source: @source,
       linked_source: @linked_source,
+      originating_user: context[:current_user],
+      organization_id: organization_id,
       reason: reason.to_sym,
       note: note
     )
-  
-    { source_link: source_link }
-  rescue ActiveRecord::RecordInvalid => e
-    raise GraphQL::ExecutionError, e.record.errors.full_messages.join(", ")
+    res = cmd.perform
+
+    if res.succeeded?
+      {
+        source_link: cmd.source_link,
+      }
+    else
+      raise GraphQL::ExecutionError, res.errors.join(", ")
+    end
   end
 end

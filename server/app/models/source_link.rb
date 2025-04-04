@@ -1,4 +1,6 @@
 class SourceLink < ActiveRecord::Base
+  include WithActivities
+
   belongs_to :source, class_name: "Source"
   belongs_to :linked_source, class_name: "Source"
   
@@ -10,4 +12,6 @@ class SourceLink < ActiveRecord::Base
   }, prefix: true
 
   validates :reason, presence: true
+
+  has_activity :creation_activity, activity_type: "CreateLinkedSourceActivity"
 end

@@ -2340,12 +2340,20 @@ input CreateLinkedSourceInput {
   """
   The ID of the source being linked.
   """
-  linkedSourceId: ID!
+  linkedSourceId: Int!
 
   """
   Optional note for additional context.
   """
   note: String
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
 
   """
   Reason for linking the sources. Must be one of: same_clinical_trial, overlapping_data_or_patients, related_abstract, other
@@ -2355,7 +2363,7 @@ input CreateLinkedSourceInput {
   """
   The ID of the source.
   """
-  sourceId: ID!
+  sourceId: Int!
 }
 
 """
