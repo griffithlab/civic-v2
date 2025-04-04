@@ -731,14 +731,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
   end
 
   create_table "region_members", force: :cascade do |t|
-    t.bigint "regions_id", null: false
-    t.bigint "cytogenetic_regions_id", null: false
+    t.bigint "region_id", null: false
+    t.bigint "cytogenetic_region_id", null: false
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cytogenetic_regions_id"], name: "index_region_members_on_cytogenetic_regions_id"
+    t.index ["cytogenetic_region_id"], name: "index_region_members_on_cytogenetic_region_id"
     t.index ["position"], name: "index_region_members_on_position"
-    t.index ["regions_id"], name: "index_region_members_on_regions_id"
+    t.index ["region_id"], name: "index_region_members_on_region_id"
   end
 
   create_table "regions", force: :cascade do |t|

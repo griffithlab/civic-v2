@@ -1,7 +1,7 @@
 class Mutations::CreateRegionFeature < Mutations::MutationWithOrg
   description "Create a new Region Feature in the database."
 
-  argument :cytogenetic_region_ids, [ Int ], null: false
+  argument :cytogenetic_region_ids, [ Int ], required: true
 
   field :feature, Types::Entities::FeatureType, null: false,
     description: "The newly created Feature."
@@ -35,12 +35,12 @@ class Mutations::CreateRegionFeature < Mutations::MutationWithOrg
 
   def resolve(organization_id: nil, cytogenetic_region_ids:, **kwargs)
     potential_existing_feature_instances = Features::Region.includes(:region_members)
-      .where(region_members: { cytogenetic_regions_id: cytogenetic_region_ids })
+      .where(region_members: { cytogenetic_region_id: cytogenetic_region_ids })
 
     existing_feature_instances = potential_existing_feature_instances.select do |f|
       f.region_members
         .sort_by { |x| x.position }
-        .map(&:cytogenetic_regions_id) == cytogenetic_region_ids
+        .map(&:cytogenetic_region_id) == cytogenetic_region_ids
     end
 
     if existing_feature_instances.size > 1

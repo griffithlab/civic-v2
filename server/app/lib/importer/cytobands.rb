@@ -60,7 +60,7 @@ module Importer
                 )
                 arm_first_line = parsed_line
               end
-              if parsed_line[:band] != band_first_line[:band]
+              if (parsed_line[:arm] + parsed_line[:band]) != (band_first_line[:arm] + band_first_line[:band])
                 region = CytogeneticRegion.where(
                   chromosome: band_first_line[:chromosome],
                   band: band_first_line[:arm] + band_first_line[:band],
