@@ -6552,6 +6552,11 @@ input ModerateAssertionInput {
   clientMutationId: String
 
   """
+  Comment explaining the moderation action. Required when rejecting.
+  """
+  comment: String
+
+  """
   The desired status of the Assertion
   """
   newStatus: EvidenceStatus!
@@ -6600,6 +6605,11 @@ input ModerateEvidenceItemInput {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+
+  """
+  Optional comment explaining the moderation action. Required if the new status is 'rejected'.
+  """
+  comment: String
 
   """
   ID of the Evidence Item to moderate
@@ -13226,6 +13236,7 @@ enum VariantMenuSortColumns {
 enum VariantOrigin {
   COMBINED
   COMMON_GERMLINE
+  MIXED
   NA
   RARE_GERMLINE
   SOMATIC

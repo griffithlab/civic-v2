@@ -8,6 +8,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcModerateEntityButtonsComponent } from './moderate-entity-buttons.component'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { NzInputModule } from 'ng-zorro-antd/input'
 
 @NgModule({
   declarations: [CvcModerateEntityButtonsComponent],
@@ -20,6 +22,8 @@ import { CvcModerateEntityButtonsComponent } from './moderate-entity-buttons.com
     NzSpinModule,
     NzSpaceModule,
     NzGridModule,
+    NzDividerModule,
+    NzInputModule,
     LetDirective,
     PushPipe,
   ],
