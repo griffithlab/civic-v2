@@ -7,7 +7,7 @@
       nzPopoverTrigger="click"
       [nzPopoverContent]="endorsementDetailsPopover">
       <nz-icon nzType="safety-certificate"></nz-icon>
-      Endorsement Details
+      Active
     </nz-tag>
   }
   @case ('REQUIRES_REVIEW') {
@@ -18,7 +18,7 @@
       nzColor="processing"
       [nzPopoverContent]="revisionsPopover">
       <nz-icon nzType="info-circle"></nz-icon>
-      Unendorsed Revisions
+      Unreviewed
     </nz-tag>
   }
   @case ('REVOKED') {
@@ -29,7 +29,7 @@
       nzColor="error"
       [nzPopoverContent]="revocationDetailsPopover">
       <nz-icon nzType="exclamation-circle"></nz-icon>
-      Revocation Details
+      Revoked
     </nz-tag>
   }
 }

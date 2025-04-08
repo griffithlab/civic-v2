@@ -1,8 +1,60 @@
 @import 'ng-zorro-antd/style/color/colors.less';
 :host {
   display: block;
+  ::ng-deep nz-list-item {
+    padding: 12px 12px !important;
+    border-bottom: none !important;
+    background-color: #efefef;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+  ::ng-deep nz-list-item-meta {
+    margin-bottom: 0 !important;
+    // border: 1px solid green;
+    nz-list-item-meta-title > h4 {
+      margin-bottom: 0 !important;
+      line-height: 1.2em !important;
+    }
+    .endorsement-details {
+      display: inline-block;
+      line-height: 12px;
+      margin-bottom: 8px;
+    }
+  }
+  ::ng-deep nz-list-item-extra {
+    margin-left: 12px !important;
+    width: 125px;
+  }
+  ::ng-deep nz-collapse {
+    border-radius: 4px;
+    overflow: hidden;
+    & > nz-collapse-panel {
+      background-color: #fff;
+      .ant-collapse-header {
+        padding: 4px 8px !important;
+      }
+      .ant-collapse-header-text {
+        font-weight: 500;
+        color: #666;
+      }
+      .ant-collapse-arrow {
+        color: #999;
+      }
+    }
+  }
 }
 
+.organization-image-container {
+  width: 48px;
+  height: 48px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+  }
+}
 .active {
   background-color: @gold-1;
   border: 1px solid @gold-4;

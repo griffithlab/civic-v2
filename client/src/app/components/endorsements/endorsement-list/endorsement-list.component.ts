@@ -89,4 +89,8 @@ export class CvcEndorsementListComponent implements OnInit {
       occurredAfter: new Date(endorsement.lastReviewed),
     }
   }
+
+  readonly collapseStyle = {
+    border: '1px solid red',
+  }
 }

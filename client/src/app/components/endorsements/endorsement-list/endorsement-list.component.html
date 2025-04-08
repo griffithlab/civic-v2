@@ -3,8 +3,7 @@
   [nzLoading]="loading$ | ngrxPush"
   [nzRenderItem]="endorsement"
   nzSize="small"
-  nzBordered
-  nzItemLayout="horizontal">
+  nzItemLayout="vertical">
   <ng-template
     #endorsement
     let-endorsement>
@@ -16,44 +15,52 @@
       </nz-list-item-meta>
     </nz-list-item>
     <ng-template #itemAvatar>
-      <nz-avatar
-        [nzSrc]="endorsement.organization.profileImagePath"
-        nzShape="square"
-        nzSize="large">
-      </nz-avatar>
+      <div class="organization-image-container">
+        <img
+          class="organization-image"
+          src="{{ endorsement.organization.profileImagePath }}" />
+      </div>
     </ng-template>
     <ng-template #itemTitle>
-      <span>Endorsed by {{ endorsement.organization.name }} </span>
-      <!-- <span>
-        {{ endorsement.lastReviewed | timeAgo }}
-      </span> -->
+      <span class="endorsement-title">
+        Endorsed by {{ endorsement.organization.name }}
+      </span>
     </ng-template>
     <ng-template #itemDescription>
-      @switch (endorsement.status) {
-        @case ('ACTIVE') {
-          <span>
+      <span
+        nz-typography
+        nzType="secondary"
+        class="endorsement-details">
+        @switch (endorsement.status) {
+          @case ('ACTIVE') {
             <strong>AID{{ assertionId }}</strong> has been endorsed by
             <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
-            <strong>{{ endorsement.user.displayName }}</strong
+            <strong>
+              {{ endorsement.user.displayName }} </strong
             >.
-          </span>
-        }
-        @case ('REVOKED') {
-          <span>
+          }
+          @case ('REVOKED') {
             <strong>AID{{ assertionId }}</strong> endorsement has been revoked
             by <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
-            <strong>{{ endorsement.user.displayName }}</strong
-            >.
-          </span>
-        }
-        @case ('REQUIRES_REVIEW') {
-          <span>
-            <strong>AID{{ assertionId }}</strong> post-endorsement revisions
+            <strong> {{ endorsement.user.displayName }} </strong>.
+          }
+          @case ('REQUIRES_REVIEW') {
+            <strong>AID{{ assertionId }}</strong> post-endorsement changes
             <strong>require review by an endorsing editor.</strong>
-          </span>
+          }
         }
+      </span>
+      @if (endorsement.status == 'REQUIRES_REVIEW') {
+        <nz-collapse [nzBordered]="false">
+          <nz-collapse-panel nzHeader="Show Unendorsed Changes">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos. Adipisci accusamus doloremque quaerat quos quibusdam.
+            </p>
+          </nz-collapse-panel>
+        </nz-collapse>
       }
     </ng-template>
     <ng-template #itemExtra>
