@@ -101,16 +101,7 @@
               </cvc-revert-entity-button>
             </ng-container>
           </span>
-          @if (
-            viewer.signedIn &&
-            viewer.canModerate &&
-            viewer.mostRecentOrg &&
-            viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
-            !hasActiveEndorsement(
-              viewer.mostRecentOrg.id,
-              assertion.activeEndorsements.nodes
-            )
-          ) {
+          @if (viewer | canEndorseAssertion: assertion) {
             <span *nzSpaceItem>
               <cvc-endorse-assertion-button
                 mode="endorse"
@@ -119,16 +110,7 @@
               </cvc-endorse-assertion-button>
             </span>
           }
-          @if (
-            viewer.signedIn &&
-            viewer.canModerate &&
-            viewer.mostRecentOrg &&
-            viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
-            hasActiveEndorsement(
-              viewer.mostRecentOrg.id,
-              assertion.activeEndorsements.nodes
-            )
-          ) {
+          @if (viewer | canRevokeAssertion: assertion) {
             <span *nzSpaceItem>
               <cvc-endorse-assertion-button
                 mode="revoke"
