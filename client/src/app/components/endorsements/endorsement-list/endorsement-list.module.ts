@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common'
 import { CvcEndorsementListComponent } from './endorsement-list.component'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzFlexModule } from 'ng-zorro-antd/flex'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEndorsementDisplayModule } from '../endorsement-display/endorsement-display.module'
@@ -17,6 +17,7 @@ import { CvcActivityFeed } from '@app/components/activities/activity-feed/activi
 import { CvcEndorsementStatusTag } from '../endorsement-status-tag/endorsement-status-tag.component'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 
 @NgModule({
   declarations: [CvcEndorsementListComponent],
@@ -31,13 +32,14 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
     NzAvatarModule,
     NzTagModule,
     NzTypographyModule,
-    NzSpaceModule,
+    NzFlexModule,
     NzPopoverModule,
     NzCollapseModule,
     NzDescriptionsModule,
     CvcPipesModule,
     CvcEndorsementDisplayModule,
     CvcOrganizationTagModule,
+    CvcUserTagModule,
     CvcActivityFeed,
     CvcEndorsementStatusTag,
   ],

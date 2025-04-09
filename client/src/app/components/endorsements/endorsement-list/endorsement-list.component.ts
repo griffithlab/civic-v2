@@ -4,8 +4,14 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { feedDefaultFilters } from '@app/components/activities/activity-feed/activity-feed.config'
-import { ActivityFeedFilters } from '@app/components/activities/activity-feed/activity-feed.types'
+import {
+  feedDefaultFilters,
+  feedDefaultSettings,
+} from '@app/components/activities/activity-feed/activity-feed.config'
+import {
+  ActivityFeedFilters,
+  ActivityFeedSettings,
+} from '@app/components/activities/activity-feed/activity-feed.types'
 import { ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   EndorsementListGQL,
@@ -81,6 +87,12 @@ export class CvcEndorsementListComponent implements OnInit {
 
   refreshList() {
     this.queryRef$.refetch()
+  }
+  feedSettings(): ActivityFeedSettings {
+    return {
+      ...feedDefaultSettings,
+      showOrganization: false,
+    }
   }
   feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
     return {

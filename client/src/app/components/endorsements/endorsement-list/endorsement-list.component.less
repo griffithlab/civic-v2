@@ -27,11 +27,12 @@
   }
   ::ng-deep nz-collapse {
     border-radius: 4px;
-    overflow: hidden;
     & > nz-collapse-panel {
       background-color: #fff;
+      border-radius: 4px !important;
       .ant-collapse-header {
         padding: 4px 8px !important;
+        border-radius: 4px !important;
       }
       .ant-collapse-header-text {
         font-weight: 500;
@@ -73,11 +74,8 @@
   color: @geekblue-8;
 }
 
-// nz-list-header {
-//   padding: 0;
-//   margin: 0;
-//   [nz-list-load-more] {
-//     margin-top: -0.5em;
-//     padding-bottom: 0.5em;
-//   }
-// }
+.revisions-container {
+  width: 100%;
+  height: 300px;
+  // border: 1px solid red;
+}

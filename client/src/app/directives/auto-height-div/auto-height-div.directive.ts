@@ -38,7 +38,7 @@ export class CvcAutoHeightDivDirective implements OnInit {
   @Input()
   set cvcAutoHeightDiv(v: string | number) {
     const value = typeof v === 'string' ? parseInt(v, 0) : v
-    if (!isNaN(value) && value >= 0) {
+    if (!isNaN(value)) {
       this._offset = value
     }
   }

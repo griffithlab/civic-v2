@@ -27,18 +27,17 @@
       </span>
     </ng-template>
     <ng-template #itemDescription>
+      <!-- endorsement summary -->
       <span
         nz-typography
         nzType="secondary"
-        class="endorsement-details">
+        class="endorsement-summary">
         @switch (endorsement.status) {
           @case ('ACTIVE') {
             <strong>AID{{ assertionId }}</strong> has been endorsed by
             <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
-            <strong>
-              {{ endorsement.user.displayName }} </strong
-            >.
+            <strong> {{ endorsement.user.displayName }} </strong>.
           }
           @case ('REVOKED') {
             <strong>AID{{ assertionId }}</strong> endorsement has been revoked
@@ -47,22 +46,90 @@
             <strong> {{ endorsement.user.displayName }} </strong>.
           }
           @case ('REQUIRES_REVIEW') {
-            <strong>AID{{ assertionId }}</strong> post-endorsement changes
-            <strong>require review by an endorsing editor.</strong>
+            Post-endorsement changes to
+            <strong>AID{{ assertionId }}</strong> require
+            <strong>review by an endorsing editor.</strong>
           }
         }
       </span>
-      @if (endorsement.status == 'REQUIRES_REVIEW') {
-        <nz-collapse [nzBordered]="false">
-          <nz-collapse-panel nzHeader="Show Unendorsed Changes">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-              quos. Adipisci accusamus doloremque quaerat quos quibusdam.
-            </p>
-          </nz-collapse-panel>
-        </nz-collapse>
+      @switch (endorsement.status) {
+        @case ('ACTIVE') {
+          <nz-collapse [nzBordered]="false">
+            <nz-collapse-panel nzHeader="Show Endorsement Details">
+              <div
+                nz-flex
+                nzVertical
+                [nzGap]="8">
+                <ng-container
+                  *ngTemplateOutlet="endorsementDetails"></ng-container>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        }
+        @case ('REVOKED') {
+          <nz-collapse [nzBordered]="false">
+            <nz-collapse-panel nzHeader="Show Revocation Details">
+              <div
+                nz-flex
+                nzVertical
+                [nzGap]="8">
+                <ng-container
+                  *ngTemplateOutlet="endorsementDetails"></ng-container>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        }
+        @case ('REQUIRES_REVIEW') {
+          <nz-collapse [nzBordered]="false">
+            <nz-collapse-panel nzHeader="Show Unendorsed Changes">
+              <div
+                nz-flex
+                nzVertical
+                [nzGap]="8">
+                <ng-container
+                  *ngTemplateOutlet="endorsementDetails"></ng-container>
+                <div
+                  class="revisions-container"
+                  #revisionsContainer>
+                  <cvc-activity-feed
+                    [cvcFilters]="feedFilters(endorsement)"
+                    [cvcSettings]="feedSettings()"
+                    [cvcShowFilters]="false"
+                    [cvcAutoHeightTarget]="revisionsContainer"
+                    [cvcAutoHeightOffset]="-40"
+                    cvcTitle="Unendorsed Changes"></cvc-activity-feed>
+                </div>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        }
       }
+      <!-- details template-->
+      <ng-template #endorsementDetails>
+        <nz-descriptions
+          nzBordered
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="2">
+          <nz-descriptions-item nzTitle="Endorsing Organization">
+            <cvc-organization-tag
+              [org]="endorsement.organization"
+              [enablePopover]="false"></cvc-organization-tag>
+          </nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Endorsed by">
+            <cvc-user-tag
+              [user]="endorsement.user"
+              [enablePopover]="false"></cvc-user-tag>
+            <span
+              nz-typography
+              nzType="secondary">
+              {{ endorsement.lastReviewed | timeAgo }}
+            </span>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </ng-template>
     </ng-template>
+    <!-- endorsement status & action button -->
     <ng-template #itemExtra>
       <cvc-endorsement-status-tag
         [cvcEndorsement]="endorsement"></cvc-endorsement-status-tag>
