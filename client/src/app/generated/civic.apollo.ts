@@ -9876,6 +9876,8 @@ export type AssertionDetailFieldsFragment = { __typename: 'Assertion', id: numbe
 
 export type AssertionSubmissionActivityFragment = { __typename: 'Assertion', submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } };
 
+export type EndorsementFieldsFragment = { __typename: 'Endorsement', id: number, organization: { __typename: 'Organization', id: number, name: string }, user: { __typename: 'User', id: number, displayName: string, role: UserRole } };
+
 export type AssertionSummaryQueryVariables = Exact<{
   assertionId: Scalars['Int']['input'];
 }>;
@@ -12925,6 +12927,20 @@ export const VariantTypeSelectTypeaheadFieldsFragmentDoc = gql`
   soid
 }
     `;
+export const EndorsementFieldsFragmentDoc = gql`
+    fragment EndorsementFields on Endorsement {
+  id
+  organization {
+    id
+    name
+  }
+  user {
+    id
+    displayName
+    role
+  }
+}
+    `;
 export const AssertionSubmissionActivityFragmentDoc = gql`
     fragment assertionSubmissionActivity on Assertion {
   submissionActivity {
@@ -12968,36 +12984,19 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   activeEndorsements: endorsements(status: ACTIVE) {
     totalCount
     nodes {
-      id
-      organization {
-        id
-        name
-      }
-      user {
-        id
-        displayName
-        role
-      }
+      ...EndorsementFields
     }
   }
   requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
     totalCount
     nodes {
-      id
-      organization {
-        id
-        name
-      }
-      user {
-        id
-        displayName
-        role
-      }
+      ...EndorsementFields
     }
   }
   ...assertionSubmissionActivity
 }
-    ${AssertionSubmissionActivityFragmentDoc}`;
+    ${EndorsementFieldsFragmentDoc}
+${AssertionSubmissionActivityFragmentDoc}`;
 export const AssertionSummaryFieldsFragmentDoc = gql`
     fragment AssertionSummaryFields on Assertion {
   id

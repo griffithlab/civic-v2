@@ -100,7 +100,9 @@
               </cvc-revert-entity-button>
             </ng-container>
           </span>
-          @if ($viewer() | canEndorseAssertion: assertion) {
+          @if (
+            $viewer() | canEndorseAssertion: assertion.activeEndorsements.nodes
+          ) {
             <span *nzSpaceItem>
               <cvc-endorse-assertion-button
                 mode="endorse"
@@ -109,7 +111,9 @@
               </cvc-endorse-assertion-button>
             </span>
           }
-          @if ($viewer() | canRevokeAssertion: assertion) {
+          @if (
+            $viewer() | canRevokeAssertion: assertion.activeEndorsements.nodes
+          ) {
             <span *nzSpaceItem>
               <cvc-endorse-assertion-button
                 mode="revoke"
