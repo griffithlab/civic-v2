@@ -37,13 +37,13 @@
             <strong>AID{{ assertionId }}</strong> has been endorsed by
             <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
-            <strong> {{ endorsement.user.displayName }} </strong>.
+            <strong> {{ endorsement.user.displayName }}.</strong>
           }
           @case ('REVOKED') {
             <strong>AID{{ assertionId }}</strong> endorsement has been revoked
             by <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
-            <strong> {{ endorsement.user.displayName }} </strong>.
+            <strong> {{ endorsement.user.displayName }}.</strong>
           }
           @case ('REQUIRES_REVIEW') {
             Post-endorsement changes to
@@ -55,7 +55,9 @@
       @switch (endorsement.status) {
         @case ('ACTIVE') {
           <nz-collapse [nzBordered]="false">
-            <nz-collapse-panel nzHeader="Show Endorsement Details">
+            <nz-collapse-panel
+              nzHeader="Show Endorsement Details"
+              [nzExtra]="statusTag">
               <div
                 nz-flex
                 nzVertical
@@ -68,7 +70,9 @@
         }
         @case ('REVOKED') {
           <nz-collapse [nzBordered]="false">
-            <nz-collapse-panel nzHeader="Show Revocation Details">
+            <nz-collapse-panel
+              nzHeader="Show Revocation Details"
+              [nzExtra]="statusTag">
               <div
                 nz-flex
                 nzVertical
@@ -81,7 +85,9 @@
         }
         @case ('REQUIRES_REVIEW') {
           <nz-collapse [nzBordered]="false">
-            <nz-collapse-panel nzHeader="Show Unendorsed Changes">
+            <nz-collapse-panel
+              nzHeader="Show Unendorsed Changes"
+              [nzExtra]="statusTag">
               <div
                 nz-flex
                 nzVertical
@@ -104,6 +110,21 @@
           </nz-collapse>
         }
       }
+      <!-- status tag template -->
+      <ng-template #statusTag>
+        Endorsement Status:
+        @switch (endorsement.status) {
+          @case ('ACTIVE') {
+            <nz-tag nzColor="success"> Active </nz-tag>
+          }
+          @case ('REQUIRES_REVIEW') {
+            <nz-tag nzColor="processing"> Unreviewed </nz-tag>
+          }
+          @case ('REVOKED') {
+            <nz-tag nzColor="error"> Revoked </nz-tag>
+          }
+        }
+      </ng-template>
       <!-- details template-->
       <ng-template #endorsementDetails>
         <nz-descriptions
@@ -130,10 +151,7 @@
       </ng-template>
     </ng-template>
     <!-- endorsement status & action button -->
-    <ng-template #itemExtra>
-      <cvc-endorsement-status-tag
-        [cvcEndorsement]="endorsement"></cvc-endorsement-status-tag>
-    </ng-template>
+    <ng-template #itemExtra> </ng-template>
   </ng-template>
   <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
     <nz-list-footer *ngIf="pageInfo.hasNextPage">

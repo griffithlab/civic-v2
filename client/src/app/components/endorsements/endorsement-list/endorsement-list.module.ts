@@ -14,7 +14,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
-import { CvcEndorsementStatusTag } from '../endorsement-status-tag/endorsement-status-tag.component'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
@@ -41,7 +40,6 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
     CvcOrganizationTagModule,
     CvcUserTagModule,
     CvcActivityFeed,
-    CvcEndorsementStatusTag,
   ],
   exports: [CvcEndorsementListComponent],
 })
