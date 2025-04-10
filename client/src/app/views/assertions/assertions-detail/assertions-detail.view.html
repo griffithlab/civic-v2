@@ -28,9 +28,7 @@
       flags: assertion.flags.totalCount,
       endorsements: assertion.activeEndorsements.totalCount,
     }">
-    <nz-page-header
-      *ngrxLet="viewer$ as viewer"
-      class="site-page-header">
+    <nz-page-header class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         [ngClass]="{
@@ -55,7 +53,7 @@
           <span *nzSpaceItem>
             <button
               [routerLink]="['/assertions', assertion.id, 'revise']"
-              *ngIf="viewer.signedIn"
+              *ngIf="$viewer()?.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
@@ -67,7 +65,7 @@
 
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
-          @if (viewer.signedIn) {
+          @if ($viewer()?.signedIn) {
             <span *nzSpaceItem>
               <button
                 routerLink="flags"
@@ -82,9 +80,10 @@
           }
 
           <span *nzSpaceItem>
-            <ng-container *ngIf="viewer.signedIn && subscribable">
+            <ng-container
+              *ngIf="$viewer() && $viewer()?.signedIn && subscribable">
               <cvc-entity-subscription-button
-                [viewer]="viewer"
+                [viewer]="$viewer()!"
                 [subscribableId]="subscribable.id"
                 typename="Assertion">
               </cvc-entity-subscription-button>
@@ -93,7 +92,7 @@
 
           <span *nzSpaceItem>
             <ng-container
-              *ngIf="viewer.canModerate && assertion.status != 'SUBMITTED'">
+              *ngIf="$viewer()?.canModerate && assertion.status != 'SUBMITTED'">
               <cvc-revert-entity-button
                 entityType="Assertion"
                 [entityId]="assertion.id"
@@ -101,7 +100,7 @@
               </cvc-revert-entity-button>
             </ng-container>
           </span>
-          @if (viewer | canEndorseAssertion: assertion) {
+          @if ($viewer() | canEndorseAssertion: assertion) {
             <span *nzSpaceItem>
               <cvc-endorse-assertion-button
                 mode="endorse"
@@ -110,7 +109,7 @@
               </cvc-endorse-assertion-button>
             </span>
           }
-          @if (viewer | canRevokeAssertion: assertion) {
+          @if ($viewer() | canRevokeAssertion: assertion) {
             <span *nzSpaceItem>
               <cvc-endorse-assertion-button
                 mode="revoke"
@@ -159,9 +158,9 @@
         <nz-space
           nzDirection="vertical"
           *ngIf="
-            (viewer.canModerate ||
-              (viewer.signedIn &&
-                viewer.user?.id ==
+            ($viewer()?.canModerate ||
+              ($viewer()?.signedIn &&
+                $viewer()?.user?.id ==
                   assertion.submissionEvent?.originatingUser?.id)) &&
             assertion.status == 'SUBMITTED'
           ">

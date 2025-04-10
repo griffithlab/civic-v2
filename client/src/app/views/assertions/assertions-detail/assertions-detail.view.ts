@@ -40,6 +40,7 @@ export class AssertionsDetailView implements OnDestroy {
   activeEndorsementTotal$?: Observable<number>
   requiresReviewEndorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
+  $viewer: Signal<Maybe<Viewer>>
 
   paramsSub: Subscription
   subscribable?: SubscribableInput
@@ -92,7 +93,7 @@ export class AssertionsDetailView implements OnDestroy {
     this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
     this.viewer$ = this.viewerService.viewer$
-
+    this.$viewer = toSignal(this.viewer$, { initialValue: undefined })
     this.paramsSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ assertionId: +params.assertionId })
 

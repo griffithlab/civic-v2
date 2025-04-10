@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { AssertionDetailFieldsFragment } from '@app/generated/civic.apollo'
+import {
+  AssertionDetailFieldsFragment,
+  Maybe,
+} from '@app/generated/civic.apollo'
 import { Viewer } from '../services/viewer/viewer.service'
 
 @Pipe({
@@ -7,7 +10,10 @@ import { Viewer } from '../services/viewer/viewer.service'
   standalone: false,
 })
 export class CanEndorseAssertionPipe implements PipeTransform {
-  transform(viewer: Viewer, assertion: AssertionDetailFieldsFragment): boolean {
+  transform(
+    viewer: Maybe<Viewer>,
+    assertion: AssertionDetailFieldsFragment
+  ): boolean {
     if (!viewer || !viewer.mostRecentOrg) return false
 
     const hasActiveEndorsement = (
