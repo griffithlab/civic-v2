@@ -18,5 +18,9 @@ module Types::BrowseTables
         end
       end
     end
+
+    def country
+      Loaders::AssociationLoader.for(MaterializedViews::UserBrowseTableRow, :country).load(object)
+    end
   end
 end
