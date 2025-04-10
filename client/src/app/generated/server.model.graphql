@@ -4597,6 +4597,7 @@ enum FeatureInstanceTypes {
   FACTOR
   FUSION
   GENE
+  REGION
 }
 
 input FeaturesSort {

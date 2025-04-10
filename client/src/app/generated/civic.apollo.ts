@@ -2748,7 +2748,8 @@ export type FeatureInstance = Factor | Fusion | Gene | Region;
 export enum FeatureInstanceTypes {
   Factor = 'FACTOR',
   Fusion = 'FUSION',
-  Gene = 'GENE'
+  Gene = 'GENE',
+  Region = 'REGION'
 }
 
 export type FeaturesSort = {
