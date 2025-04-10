@@ -1624,7 +1624,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createRegionFeature' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createRegionFeature' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestRegionRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1662,6 +1662,7 @@ export type MutationFieldPolicy = {
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestMolecularProfileRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestRegionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestSource?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestVariantGroupRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2373,6 +2374,12 @@ export type SuggestMolecularProfileRevisionPayloadKeySpecifier = ('clientMutatio
 export type SuggestMolecularProfileRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SuggestRegionRevisionPayloadKeySpecifier = ('clientMutationId' | 'region' | 'results' | SuggestRegionRevisionPayloadKeySpecifier)[];
+export type SuggestRegionRevisionPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	region?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SuggestRevisionSetActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'revisionSet' | 'revisions' | 'subject' | 'user' | 'verbiage' | SuggestRevisionSetActivityKeySpecifier)[];
@@ -3577,6 +3584,10 @@ export type StrictTypedTypePolicies = {
 	SuggestMolecularProfileRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestMolecularProfileRevisionPayloadKeySpecifier | (() => undefined | SuggestMolecularProfileRevisionPayloadKeySpecifier),
 		fields?: SuggestMolecularProfileRevisionPayloadFieldPolicy,
+	},
+	SuggestRegionRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestRegionRevisionPayloadKeySpecifier | (() => undefined | SuggestRegionRevisionPayloadKeySpecifier),
+		fields?: SuggestRegionRevisionPayloadFieldPolicy,
 	},
 	SuggestRevisionSetActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestRevisionSetActivityKeySpecifier | (() => undefined | SuggestRevisionSetActivityKeySpecifier),

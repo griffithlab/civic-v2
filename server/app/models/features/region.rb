@@ -12,6 +12,7 @@ module Features
       [
         :description,
         :source_ids,
+        :feature_alias_ids,
       ]
     end
 

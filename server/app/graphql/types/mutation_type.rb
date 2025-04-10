@@ -8,6 +8,7 @@ module Types
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
     field :suggest_factor_revision, mutation: Mutations::SuggestFactorRevision
     field :suggest_fusion_revision, mutation: Mutations::SuggestFusionRevision
+    field :suggest_region_revision, mutation: Mutations::SuggestRegionRevision
     field :suggest_gene_variant_revision, mutation: Mutations::SuggestGeneVariantRevision
     field :suggest_factor_variant_revision, mutation: Mutations::SuggestFactorVariantRevision
     field :suggest_fusion_variant_revision, mutation: Mutations::SuggestFusionVariantRevision
