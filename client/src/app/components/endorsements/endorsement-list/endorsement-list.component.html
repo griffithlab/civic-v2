@@ -87,7 +87,8 @@
           <nz-collapse [nzBordered]="false">
             <nz-collapse-panel
               nzHeader="Show Unendorsed Changes"
-              [nzExtra]="statusTag">
+              [nzExtra]="statusTag"
+              [nzActive]="true">
               <div
                 nz-flex
                 nzVertical
@@ -129,7 +130,7 @@
       <ng-template #endorsementDetails>
         <nz-descriptions
           nzBordered
-          nzLayout="horizontal"
+          nzLayout="vertical"
           nzSize="small"
           [nzColumn]="2">
           <nz-descriptions-item nzTitle="Endorsing Organization">
