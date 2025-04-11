@@ -3,12 +3,16 @@
   <!-- prettier-ignore -->
   @switch(variant.__typename) {
     @case('GeneVariant') {
-  <cvc-gene-variant-summary [variant]="variant"></cvc-gene-variant-summary>
+      <cvc-gene-variant-summary [variant]="variant"></cvc-gene-variant-summary>
   <!-- prettier-ignore -->
-  } @case('FactorVariant') {
-  <cvc-factor-variant-summary [variant]="variant"></cvc-factor-variant-summary>
+    } @case('FactorVariant') {
+      <cvc-factor-variant-summary [variant]="variant"></cvc-factor-variant-summary>
   <!-- prettier-ignore -->
-  } @case('FusionVariant') {
-  <cvc-fusion-variant-summary [variant]="variant"></cvc-fusion-variant-summary>
-  } }
+    } @case('FusionVariant') {
+      <cvc-fusion-variant-summary [variant]="variant"></cvc-fusion-variant-summary>
+  <!-- prettier-ignore -->
+    } @case('RegionVariant') {
+      <cvc-region-variant-summary [variant]="variant"></cvc-region-variant-summary>
+    }
+  }
 </ng-container>

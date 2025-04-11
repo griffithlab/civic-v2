@@ -48,6 +48,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Region",
+      "RegionVariant",
       "Revision",
       "Source",
       "SourcePopover",
@@ -68,6 +69,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Region",
+      "RegionVariant",
       "Revision",
       "SourceSuggestion",
       "Variant"
@@ -87,6 +89,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Region",
+      "RegionVariant",
       "Revision",
       "RevisionSet",
       "Source",
@@ -115,6 +118,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Region",
+      "RegionVariant",
       "Variant",
       "VariantGroup"
     ],
@@ -135,6 +139,7 @@
       "Gene",
       "GeneVariant",
       "Region",
+      "RegionVariant",
       "Variant"
     ],
     "MolecularProfileSegment": [
@@ -146,6 +151,7 @@
       "FactorVariant",
       "FusionVariant",
       "GeneVariant",
+      "RegionVariant",
       "Variant"
     ],
     "WithRevisions": [
@@ -161,6 +167,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Region",
+      "RegionVariant",
       "Variant",
       "VariantCoordinate",
       "VariantGroup"
