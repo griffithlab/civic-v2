@@ -6,14 +6,14 @@ class OpenCravat
   end
 
   def response
-    #Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
+    Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
       if variant.open_cravat_url_parameters.present?
         response = make_request(variant.open_cravat_url_parameters)
         parse_response(response)
       else
         nil
       end
-    #end
+    end
   rescue StandardError => e
     nil
   end
@@ -23,7 +23,7 @@ class OpenCravat
     benignity = {}
     pathogenicity = {}
     p.each do |predictor, results|
-      if ['bp4_benign', 'pp3_pathogenic'].all?{|key| results.key?(key)}
+      if [ "bp4_benign", "pp3_pathogenic" ].all? { |key| results.key?(key) }
         benignity[predictor] = results.dig("bp4_benign")
         pathogenicity[predictor] = results.dig("pp3_pathogenic")
       end
