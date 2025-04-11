@@ -10,7 +10,7 @@ import {
   CvcEntityTagStatus,
   CvcTagLabelMax,
   LinkableEntity,
-} from '../entity-tag/entity-tag.component'
+} from '../entity-tag/entity-tag.types'
 
 export interface CvcEntityTagListConfig {
   tagList: LinkableEntity[]
@@ -31,11 +31,11 @@ export interface CvcEntityTagListContext {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-entity-tag-list',
-    templateUrl: './entity-tag-list.component.html',
-    styleUrls: ['./entity-tag-list.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-entity-tag-list',
+  templateUrl: './entity-tag-list.component.html',
+  styleUrls: ['./entity-tag-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EntityTagListComponent {
   @Input() set cvcTagListConfig(config: CvcEntityTagListConfig) {

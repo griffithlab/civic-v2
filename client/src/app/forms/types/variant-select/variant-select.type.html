@@ -38,7 +38,7 @@
       nz-button
       nzBlock
       class="manager-button"
-    (click)="onShowMgrClick$.next()">
+      (click)="onShowMgrClick$.next()">
       <span
         nz-icon
         [ngClass]="{
@@ -102,6 +102,7 @@
       [cvcCacheId]="'Variant:' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+      [cvcDisableLink]="false"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
   </div>
 </ng-template>

@@ -58,7 +58,7 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :variants_typeahead, [ Types::Entities::VariantType ], null: false do
+      klass.field :variants_typeahead, [ Types::Interfaces::VariantInterface ], null: false do
         argument :query_term, GraphQL::Types::String, required: true
         argument :feature_id, GraphQL::Types::Int, required: false
       end
