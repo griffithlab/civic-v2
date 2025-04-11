@@ -6,40 +6,28 @@ class OpenCravat
   end
 
   def response
-    Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
+    #Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
       if variant.open_cravat_url_parameters.present?
         response = make_request(variant.open_cravat_url_parameters)
         parse_response(response)
       else
         nil
       end
-    end
+    #end
   rescue StandardError => e
     nil
   end
 
   def parse_response(response)
     p = JSON.parse(response)
-    benignity = {
-      'cadd_exome': p.dig("cadd_exome", "bp4_benign"),
-      'cadd': p.dig("cadd", "bp4_benign"),
-      'revel': p.dig("revel", "bp4_benign"),
-      'sift': p.dig("sift", "bp4_benign"),
-      'gerp': p.dig("gerp", "bp4_benign"),
-      'phylop': p.dig("phylop", "bp4_benign"),
-      'vest': p.dig("vest", "bp4_benign"),
-      'bayesdel': p.dig("bayesdel", "bp4_benign"),
-    }
-    pathogenicity = {
-      'cadd_exome': p.dig("cadd_exome", "pp3_pathogenic"),
-      'cadd': p.dig("cadd", "pp3_pathogenic"),
-      'revel': p.dig("revel", "pp3_pathogenic"),
-      'sift': p.dig("sift", "pp3_pathogenic"),
-      'fathmm': p.dig("fathmm", "pp3_pathogenic"),
-      'phylop': p.dig("phylop", "pp3_pathogenic"),
-      'vest': p.dig("vest", "pp3_pathogenic"),
-      'bayesdel': p.dig("bayesdel", "pp3_pathogenic"),
-    }
+    benignity = {}
+    pathogenicity = {}
+    p.each do |predictor, results|
+      if ['bp4_benign', 'pp3_pathogenic'].all?{|key| results.key?(key)}
+        benignity[predictor] = results.dig("bp4_benign")
+        pathogenicity[predictor] = results.dig("pp3_pathogenic")
+      end
+    end
     {
       'benignity': benignity,
       'benignity_counts': benignity.values.compact.tally,
