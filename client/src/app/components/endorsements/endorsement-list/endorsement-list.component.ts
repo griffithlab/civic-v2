@@ -3,7 +3,9 @@ import {
   Component,
   Input,
   OnInit,
+  Signal,
 } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import {
   feedDefaultFilters,
   feedDefaultSettings,
@@ -12,7 +14,7 @@ import {
   ActivityFeedFilters,
   ActivityFeedSettings,
 } from '@app/components/activities/activity-feed/activity-feed.types'
-import { ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   EndorsementListGQL,
   EndorsementListNodeFragment,
@@ -29,6 +31,11 @@ import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { filter, map } from 'rxjs/operators'
 
+type ActiveEndorsement = {
+  organization: {
+    id: number
+  }
+}
 @Component({
   selector: 'cvc-endorsement-list',
   templateUrl: './endorsement-list.component.html',
@@ -41,8 +48,8 @@ export class CvcEndorsementListComponent implements OnInit {
 
   loading$?: Observable<boolean>
   pageInfo$?: Observable<PageInfo>
-  endorsements$?: Observable<Maybe<EndorsementListNodeFragment>[]>
-
+  endorsements$!: Observable<Maybe<EndorsementListNodeFragment>[]>
+  $viewer: Signal<Maybe<Viewer>>
   private queryRef$!: QueryRef<
     EndorsementListQuery,
     EndorsementListQueryVariables
@@ -51,8 +58,12 @@ export class CvcEndorsementListComponent implements OnInit {
   private pageSize = 5
   constructor(
     private gql: EndorsementListGQL,
-    viewer: ViewerService
-  ) {}
+    viewerService: ViewerService
+  ) {
+    this.$viewer = toSignal(viewerService.viewer$, {
+      initialValue: undefined,
+    })
+  }
 
   ngOnInit() {
     this.queryRef$ = this.gql.watch({
@@ -102,6 +113,16 @@ export class CvcEndorsementListComponent implements OnInit {
     }
   }
 
+  hasActiveEndorsement(
+    currentOrgId: number,
+    activeEndorsements: Maybe<EndorsementListNodeFragment>[]
+  ): boolean {
+    if (activeEndorsements.length === 0) return false
+    return (
+      activeEndorsements.filter((ae) => ae!.organization.id === currentOrgId)
+        .length > 0
+    )
+  }
   readonly collapseStyle = {
     border: '1px solid red',
   }

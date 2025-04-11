@@ -17,6 +17,7 @@ import { CvcActivityFeed } from '@app/components/activities/activity-feed/activi
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 
 @NgModule({
   declarations: [CvcEndorsementListComponent],
@@ -24,7 +25,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
     CommonModule,
     LetDirective,
     PushPipe,
-    NzAvatarModule,
+    NzAlertModule,
     NzButtonModule,
     NzListModule,
     NzIconModule,

@@ -32,13 +32,13 @@ fragment AssertionDetailFields on Assertion {
   activeEndorsements: endorsements(status: ACTIVE) {
     totalCount
     nodes {
-      ...EndorsementFields
+      ...endorsementListNode
     }
   }
   requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
     totalCount
     nodes {
-      ...EndorsementFields
+      ...endorsementListNode
     }
   }
   ...assertionSubmissionActivity
@@ -53,18 +53,5 @@ fragment assertionSubmissionActivity on Assertion {
     user {
       ...commenterFields
     }
-  }
-}
-
-fragment EndorsementFields on Endorsement {
-  id
-  organization {
-    id
-    name
-  }
-  user {
-    id
-    displayName
-    role
   }
 }

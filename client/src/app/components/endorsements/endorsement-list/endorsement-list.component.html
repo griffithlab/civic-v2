@@ -1,5 +1,22 @@
+@let endorsements = (endorsements$ | ngrxPush) || [];
+@if (
+  (endorsements.length > 0 &&
+    ($viewer() | canEndorseAssertion: endorsements)) ||
+  ($viewer() | canRevokeAssertion: endorsements)
+) {
+  <nz-alert
+    nzType="info"
+    [nzMessage]="endorsementMessage"
+    nzShowIcon
+    style="margin-bottom: 12px"></nz-alert>
+  <ng-template #endorsementMessage>
+    Your endorsement actions will be executed under the authority granted to you
+    by
+    <strong>{{ $viewer()?.mostRecentOrg?.name }}.</strong>
+  </ng-template>
+}
 <nz-list
-  [nzDataSource]="endorsements$ | ngrxPush"
+  [nzDataSource]="endorsements"
   [nzLoading]="loading$ | ngrxPush"
   [nzRenderItem]="endorsement"
   nzSize="small"
@@ -141,26 +158,63 @@
               {{ endorsement.lastReviewed | timeAgo }}
             </span>
           </nz-descriptions-item>
-          <nz-descriptions-item
-            nzTitle="Revocation Note"
-            nzSpan="2">
-            @if (endorsement.revocationActivity?.note) {
-              <p nz-typography>
-                {{ endorsement.revocationActivity?.note }}
-              </p>
-            } @else {
-              <p
-                nz-typography
-                nzType="secondary">
-                No note provided
-              </p>
-            }
-          </nz-descriptions-item>
+          @if (endorsement.revocationActivity) {
+            <nz-descriptions-item
+              nzTitle="Revocation Note"
+              nzSpan="2">
+              @if (endorsement.revocationActivity?.note) {
+                <p nz-typography>
+                  {{ endorsement.revocationActivity?.note }}
+                </p>
+              } @else {
+                <p
+                  nz-typography
+                  nzType="secondary">
+                  No note provided
+                </p>
+              }
+            </nz-descriptions-item>
+          }
         </nz-descriptions>
       </ng-template>
     </ng-template>
     <!-- endorsement status & action button -->
-    <ng-template #itemExtra> </ng-template>
+    <ng-template #itemExtra>
+      @let viewer = $viewer();
+      @if (
+        endorsement.status === 'REQUIRES_REVIEW' &&
+        viewer &&
+        viewer.signedIn &&
+        viewer.canModerate &&
+        viewer.mostRecentOrg &&
+        viewer.endorsableOrgIds.includes(endorsement.organization.id)
+      ) {
+        <button
+          nz-button
+          nzType="primary"
+          nzBlock
+          style="margin-bottom: 12px">
+          Re-Endorse
+        </button>
+      }
+      @if (
+        (endorsement.status === 'ACTIVE' ||
+          endorsement.status === 'REQUIRES_REVIEW') &&
+        viewer &&
+        viewer.signedIn &&
+        viewer.canModerate &&
+        viewer.mostRecentOrg &&
+        viewer.endorsableOrgIds.includes(endorsement.organization.id)
+      ) {
+        <button
+          nz-button
+          nzType="primary"
+          nzDanger
+          nzBlock>
+          Revoke
+        </button>
+      }
+    </ng-template>
   </ng-template>
   <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
     <nz-list-footer *ngIf="pageInfo.hasNextPage">
@@ -177,3 +231,7 @@
     </nz-list-footer>
   </ng-container>
 </nz-list>
+<!-- <h3>Endorsements</h3>
+<pre>{{ endorsements | json }}</pre>
+<h3>Viewer</h3>
+<pre>{{ $viewer() | json }}</pre> -->
