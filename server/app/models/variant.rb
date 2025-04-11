@@ -183,6 +183,7 @@ class Variant < ApplicationRecord
       Variants::GeneVariant,
       Variants::FactorVariant,
       Variants::FusionVariant,
+      Variants::RegionVariant,
     ]
   end
 end

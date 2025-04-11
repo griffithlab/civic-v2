@@ -1,5 +1,7 @@
 module Variants
   class RegionVariant < Variant
+    has_one :region, through: :feature, source: :feature_instance, source_type: "Features::Region"
+
     def unique_editable_fields
       []
     end
