@@ -31,19 +31,19 @@ module Types::Entities
     field :deprecated, Boolean, null: false
 
     field :source_links, [Types::SourceLinkType], null: true
-    field :linked_sources, [Types::Entities::SourceType], null: true
-    field :primary_sources, [Types::Entities::SourceType], null: true
+    field :linked_sources, [Types::SourceLinkType], null: true
 
     def source_links
       Loaders::AssociationLoader.for(Source, :source_links).load(object)
     end
 
     def linked_sources
-      Loaders::AssociationLoader.for(Source, :linked_sources).load(object)
-    end
-
-    def primary_sources
-      Loaders::AssociationLoader.for(Source, :primary_sources).load(object)
+      Promise.all([
+        Loaders::AssociationLoader.for(Source, :source_links).load(object),
+        Loaders::AssociationLoader.for(Source, :linked_source_links).load(object)
+      ]).then do |outgoing, incoming|
+        (outgoing + incoming).uniq { |link| link.linked_source_id || link.source_id }
+      end
     end
 
     def deprecated

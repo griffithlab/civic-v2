@@ -10443,11 +10443,10 @@ type Source implements Commentable & EventSubject {
   journal: String
   lastCommentEvent: Event
   link: String!
-  linkedSources: [Source!]
+  linkedSources: [SourceLink!]
   name: String!
   openAccess: Boolean!
   pmcId: String
-  primarySources: [Source!]
   publicationDate: String
   publicationDay: Int
   publicationMonth: Int
@@ -10616,11 +10615,10 @@ type SourcePopover implements Commentable & EventSubject {
   journal: String
   lastCommentEvent: Event
   link: String!
-  linkedSources: [Source!]
+  linkedSources: [SourceLink!]
   name: String!
   openAccess: Boolean!
   pmcId: String
-  primarySources: [Source!]
   publicationDate: String
   publicationDay: Int
   publicationMonth: Int

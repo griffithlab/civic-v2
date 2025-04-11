@@ -26,6 +26,12 @@ export class SourcesSummaryPage implements OnDestroy {
 
   loading$?: Observable<boolean>
   source$?: Observable<Maybe<SourceSummaryFieldsFragment>>
+  linkedSources?: {
+    id: string,
+    linkedSource: { id: number, title?: string },
+    reason: string,
+    note?: string
+  }[];
 
   constructor(private route: ActivatedRoute, private gql: SourceSummaryGQL) {
     this.routeSub = this.route.params.subscribe((params) => {
@@ -39,6 +45,21 @@ export class SourcesSummaryPage implements OnDestroy {
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
       this.source$ = observable.pipe(pluck('data', 'source'))
+      this.source$.subscribe((source) => {
+        if (source) {
+          const currentId = source.id
+          this.linkedSources = source.linkedSources?.map(link => {
+            const isCurrentSource = link.linkedSource.id === currentId
+            const otherSource = isCurrentSource ? link.source : link.linkedSource
+            return {
+              id: otherSource.id.toString(),
+              linkedSource: otherSource,
+              reason: link.reason,
+              note: link.note
+            }
+          }) ?? []
+        }
+      })
     })
   }
   ngOnDestroy() {

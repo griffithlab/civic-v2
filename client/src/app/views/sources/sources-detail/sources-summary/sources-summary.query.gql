@@ -27,4 +27,16 @@ fragment SourceSummaryFields on Source {
   retractionDate
   retractionReasons
   deprecated
+  linkedSources {
+    source {
+      id
+      title
+    }
+    linkedSource {
+      id
+      title
+    }
+    reason
+    note
+  }
 }
