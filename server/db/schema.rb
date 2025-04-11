@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_11_132524) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1062,6 +1062,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
+    t.string "iscn_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -1069,6 +1070,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
     t.index ["gene_id"], name: "index_variants_on_gene_id"
+    t.index ["iscn_name"], name: "index_variants_on_iscn_name"
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
     t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"

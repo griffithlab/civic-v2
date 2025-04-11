@@ -64,6 +64,7 @@ module Types
     field :create_fusion_feature, mutation: Mutations::CreateFusionFeature
     field :create_fusion_variant, mutation: Mutations::CreateFusionVariant
     field :create_region_feature, mutation: Mutations::CreateRegionFeature
+    field :create_region_variant, mutation: Mutations::CreateRegionVariant
 
     # api keys
     field :generate_api_key, mutation: Mutations::GenerateApiKey

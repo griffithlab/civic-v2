@@ -17,7 +17,7 @@ module Features
     end
 
     def compatible_variant_type
-      #Variants::RegionVariant
+      Variants::RegionVariant
     end
   end
 end
