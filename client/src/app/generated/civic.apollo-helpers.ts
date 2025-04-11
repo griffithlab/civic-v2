@@ -1310,7 +1310,7 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'coordinates' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'openRevisionCount' | 'primaryCoordinates' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | GeneVariantKeySpecifier)[];
+export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'coordinates' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatAnnotations' | 'openCravatUrl' | 'openRevisionCount' | 'primaryCoordinates' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | GeneVariantKeySpecifier)[];
 export type GeneVariantFieldPolicy = {
 	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1334,6 +1334,7 @@ export type GeneVariantFieldPolicy = {
 	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	myVariantInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	openCravatAnnotations?: FieldPolicy<any> | FieldReadFunction<any>,
 	openCravatUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	openRevisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	primaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
