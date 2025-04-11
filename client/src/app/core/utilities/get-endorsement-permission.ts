@@ -1,7 +1,7 @@
 import { EndorsementListNodeFragment, Maybe } from '@app/generated/civic.apollo'
 import { Viewer } from '../services/viewer/viewer.service'
 
-export type EndorsementAction = 'endorse' | 'revoke'
+export type EndorsementAction = 'endorse' | 're-endorse' | 'revoke'
 
 export function getEndorsementsPermission(
   action: EndorsementAction,

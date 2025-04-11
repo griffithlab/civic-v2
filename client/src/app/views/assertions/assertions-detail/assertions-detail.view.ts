@@ -8,16 +8,18 @@ import {
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
+  EndorsementListNodeFragment,
 } from '@app/generated/civic.apollo'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
 import { AssertionDetailQuery } from '@app/generated/civic.apollo'
-import { map, startWith, takeUntil } from 'rxjs/operators'
+import { filter, map, shareReplay, startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 import { toSignal } from '@angular/core/rxjs-interop'
+import { isNonNulled } from 'rxjs-etc'
 
 type ActiveEndorsement = {
   organization: {
@@ -34,14 +36,16 @@ type ActiveEndorsement = {
 export class AssertionsDetailView implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
 
-  assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
+  assertion$!: Observable<Maybe<AssertionDetailFieldsFragment>>
+  endorsement$!: Observable<Maybe<EndorsementListNodeFragment[]>>
+  activeCount!: Signal<number>
+  requiresReviewCount!: Signal<number>
   loading$?: Observable<boolean>
   flagsTotal$?: Observable<number>
   activeEndorsementTotal$?: Observable<number>
   requiresReviewEndorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
   $viewer: Signal<Maybe<Viewer>>
-
   paramsSub: Subscription
   subscribable?: SubscribableInput
 
@@ -101,24 +105,37 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.assertion$ = observable.pipe(pluck('data', 'assertion'))
+      this.assertion$ = observable.pipe(
+        pluck('data', 'assertion'),
+        shareReplay(1)
+      )
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
-      const activeCount = toSignal(
-        (this.activeEndorsementTotal$ = this.assertion$.pipe(
-          pluck('activeEndorsements', 'totalCount')
-        ))
+      this.endorsement$ = this.assertion$.pipe(pluck('endorsements', 'nodes'))
+
+      this.activeCount = toSignal(
+        this.endorsement$.pipe(
+          filter(isNonNulled),
+          map((nodes) => nodes.filter((node) => node.status === 'ACTIVE')),
+          map((filteredNodes) => filteredNodes.length)
+        ),
+        { initialValue: 0 }
       )
 
-      const requiresReviewCount = toSignal(
-        (this.requiresReviewEndorsementTotal$ = this.assertion$.pipe(
-          pluck('requiresReviewEndorsements', 'totalCount')
-        ))
+      this.requiresReviewCount = toSignal(
+        this.endorsement$.pipe(
+          filter(isNonNulled),
+          map((nodes) =>
+            nodes.filter((node) => node.status === 'REQUIRES_REVIEW')
+          ),
+          map((filteredNodes) => filteredNodes.length)
+        ),
+        { initialValue: 0 }
       )
 
       this.endorsementCount = computed(
-        () => (activeCount() || 0) + (requiresReviewCount() || 0)
+        () => (this.activeCount() || 0) + (this.requiresReviewCount() || 0)
       )
 
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
@@ -144,16 +161,10 @@ export class AssertionsDetailView implements OnDestroy {
                   ...tab,
                 }
               } else if (tab.tabLabel === 'Endorsements') {
-                let activeCount = assertionResp?.activeEndorsements.totalCount
-                  ? assertionResp?.activeEndorsements.totalCount
-                  : 0
-                let requiresReviewCount = assertionResp
-                  ?.requiresReviewEndorsements.totalCount
-                  ? assertionResp?.requiresReviewEndorsements.totalCount
-                  : 0
-                let count = activeCount + requiresReviewCount
+                let count: Maybe<number> =
+                  this.activeCount() + this.requiresReviewCount()
                 if (count == 0) {
-                  let count = undefined
+                  count = undefined
                 }
                 return {
                   badgeCount: count,
