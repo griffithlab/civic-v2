@@ -20,6 +20,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { isNonNulled } from 'rxjs-etc'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 type ActiveEndorsement = {
   organization: {
@@ -27,13 +28,14 @@ type ActiveEndorsement = {
   }
 }
 
+@UntilDestroy()
 @Component({
   selector: 'assertions-detail',
   templateUrl: './assertions-detail.view.html',
   styleUrls: ['./assertions-detail.view.less'],
   standalone: false,
 })
-export class AssertionsDetailView implements OnDestroy {
+export class AssertionsDetailView {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
 
   assertion$!: Observable<Maybe<AssertionDetailFieldsFragment>>
@@ -46,11 +48,9 @@ export class AssertionsDetailView implements OnDestroy {
   requiresReviewEndorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
   $viewer: Signal<Maybe<Viewer>>
-  paramsSub: Subscription
   subscribable?: SubscribableInput
 
   tabs$: BehaviorSubject<RouteableTab[]>
-  destroy$ = new Subject<void>()
   defaultTabs: RouteableTab[] = [
     {
       routeName: 'summary',
@@ -98,7 +98,9 @@ export class AssertionsDetailView implements OnDestroy {
 
     this.viewer$ = this.viewerService.viewer$
     this.$viewer = toSignal(this.viewer$, { initialValue: undefined })
-    this.paramsSub = this.route.params.subscribe((params) => {
+
+    // ActiveRoute params subscriptions are automatically destroyed when the component is destroyed
+    this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ assertionId: +params.assertionId })
 
       let observable = this.queryRef.valueChanges
@@ -138,7 +140,7 @@ export class AssertionsDetailView implements OnDestroy {
         () => (this.activeCount() || 0) + (this.requiresReviewCount() || 0)
       )
 
-      this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
+      this.assertion$.pipe(untilDestroyed(this)).subscribe({
         next: (assertionResp) => {
           this.tabs$.next(
             this.defaultTabs.map((tab) => {
@@ -184,12 +186,6 @@ export class AssertionsDetailView implements OnDestroy {
         entityType: SubscribableEntities.Assertion,
       }
     })
-  }
-
-  ngOnDestroy() {
-    this.paramsSub.unsubscribe()
-    this.destroy$.next()
-    this.destroy$.unsubscribe()
   }
 
   onRevertCompleted(res: true | string[]) {
