@@ -117,6 +117,17 @@
             </nz-descriptions-item>
           </ng-template>
         </ng-container>
+        <nz-descriptions-item nzTitle="Related Sources">
+          <ng-container *ngIf="linkedSources?.length; else notAvailable">
+            <ng-container *ngFor="let s of linkedSources">
+              <cvc-link-tag
+                [href]="'/sources/' + s.linkedSource.id + '/summary'"
+                [tooltip]="('Reason: ' + s.reason) + (s.note ? ' | Note: ' + s.note : '')">
+                {{ s.linkedSource.id }}
+              </cvc-link-tag>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
       </nz-descriptions>
       <ng-template #notAvailable>
         <span

@@ -9,3 +9,9 @@ query FullyCuratedSource($sourceId: Int!) {
     fullyCurated
   }
 }
+
+query RelatedEvidenceCount($molecularProfileId: Int!, $sourceId: Int!) {
+  evidenceItems(molecularProfileId: $molecularProfileId, linkedSourceId: $sourceId) {
+    totalCount
+  }
+}

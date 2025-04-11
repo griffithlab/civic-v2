@@ -1,0 +1,21 @@
+<cvc-form-submission-status-display
+  [mutationState]="mutationState"
+  entityType="Linked Source"
+  [redirectUrl]="url"
+  [successMessage]="success">
+  <ng-template #success>
+    You will be redirected shortly.
+  </ng-template>
+  <form
+    [formGroup]="form"
+    nz-form
+    nzLayout="vertical"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      (modelChange)="model = $event; onModelChange($event)">
+    </formly-form>
+  </form>
+</cvc-form-submission-status-display>

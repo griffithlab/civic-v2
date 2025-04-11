@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
+  create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -768,6 +769,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
   end
 
+  create_table "source_links", force: :cascade do |t|
+    t.enum "reason", null: false, enum_type: "source_link_reason"
+    t.bigint "source_id", null: false
+    t.bigint "linked_source_id", null: false
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["linked_source_id"], name: "index_source_links_on_linked_source_id"
+    t.index ["source_id"], name: "index_source_links_on_source_id"
+  end
+
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
@@ -1017,7 +1029,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url_parameters"
+    t.text "open_cravat_url"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
@@ -1112,6 +1124,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
+  add_foreign_key "source_links", "sources"
+  add_foreign_key "source_links", "sources", column: "linked_source_id"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "subscriptions", "users"

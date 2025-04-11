@@ -57,6 +57,7 @@ export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
     | 'Gene'
     | 'Variant Group'
     | 'Feature'
+    | 'Linked Source'
 
   @Input() successMessage?: TemplateRef<void>
   @Input() redirectUrl?: string
