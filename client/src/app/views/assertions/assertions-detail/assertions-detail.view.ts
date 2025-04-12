@@ -46,7 +46,6 @@ export class AssertionsDetailView {
   flagsTotal$?: Observable<number>
   activeEndorsementTotal$?: Observable<number>
   requiresReviewEndorsementTotal$?: Observable<number>
-  viewer$: Observable<Viewer>
   $viewer: Signal<Maybe<Viewer>>
   subscribable?: SubscribableInput
 
@@ -96,8 +95,9 @@ export class AssertionsDetailView {
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
-    this.viewer$ = this.viewerService.viewer$
-    this.$viewer = toSignal(this.viewer$, { initialValue: undefined })
+    this.$viewer = toSignal(this.viewerService.viewer$, {
+      initialValue: undefined,
+    })
 
     // ActiveRoute params subscriptions are automatically destroyed when the component is destroyed
     this.route.params.subscribe((params) => {
