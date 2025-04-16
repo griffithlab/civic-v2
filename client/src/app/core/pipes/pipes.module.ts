@@ -35,11 +35,13 @@ import { SortEnumPipe } from './sort-enum.pipe'
 import { EntityTypeToTypelabelPipe } from './entity-type-to-type-label.pipe'
 import { CanEndorseAssertionPipe } from './can-endorse-assertion.pipe'
 import { CanRevokeAssertionPipe } from './can-revoke-assertion.pipe'
+import { CanCreateEndorsementPipe } from './can-create-endorsement.pipe'
 
 @NgModule({
   declarations: [
     AmpFormatPipe,
     CamelCaseToWordPipe,
+    CanCreateEndorsementPipe,
     CanEndorseAssertionPipe,
     CanRevokeAssertionPipe,
     ColorNameForStatusPipe,
@@ -81,6 +83,7 @@ import { CanRevokeAssertionPipe } from './can-revoke-assertion.pipe'
     CamelCaseToWordPipe,
     CanEndorseAssertionPipe,
     CanRevokeAssertionPipe,
+    CanCreateEndorsementPipe,
     ColorNameForStatusPipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,

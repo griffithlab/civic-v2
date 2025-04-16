@@ -117,9 +117,10 @@ export class AssertionsDetailView {
   onSuccessBannerClose$: Subject<void>
 
   /* DERIVED SIGNALS */
+  viewer: Signal<Maybe<Viewer>>
   loading: Signal<boolean>
   assertion: Signal<Maybe<AssertionDetailFieldsFragment>>
-  viewer: Signal<Maybe<Viewer>>
+  endorsements: Signal<EndorsementListNodeFragment[]>
   endorsementCounts: Signal<EndorsementCounts>
   flaggableCounts: Signal<CvcFlaggableCounts>
   tabConfig: Signal<RouteableTab[]>
@@ -235,6 +236,12 @@ export class AssertionsDetailView {
         }
       }
       return subscribable
+    })
+
+    // provide endorsements as signal derived from assertion endorsement connection
+    this.endorsements = computed(() => {
+      const assertion = this.assertion()
+      return assertion?.endorsements.nodes || []
     })
 
     // provide endorsement counts as signal derived from assertion endorsement connection
@@ -381,15 +388,4 @@ export class AssertionsDetailView {
         }
       })
   } // end constructor
-
-  hasActiveEndorsement(
-    currentOrgId: number,
-    endorsements: EndorsementListNodeFragment[]
-  ): boolean {
-    const activeEndorsements = endorsements.filter((e) => e.status === 'ACTIVE')
-    return (
-      activeEndorsements.filter((ae) => ae.organization.id === currentOrgId)
-        .length > 0
-    )
-  }
 }

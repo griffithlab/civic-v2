@@ -67,41 +67,30 @@
                   (onReverted)="onRevert$.next($event)">
                 </cvc-revert-entity-button>
               }
-              <!-- ENDORSEMENT ACTION BUTTONS -->
-              @if (
-                vwr.mostRecentOrg &&
-                vwr.endorsableOrgIds.includes(vwr.mostRecentOrg.id)
-              ) {
-                <!-- Create Endorsement Button -->
-                @if (
-                  !hasActiveEndorsement(
-                    vwr.mostRecentOrg.id,
-                    entity.endorsements.nodes
-                  )
-                ) {
-                  <cvc-endorse-assertion-button
-                    *nzSpaceItem
-                    mode="endorse"
-                    [assertionId]="entity.id"
-                    (onEndorsed)="onEndorsement$.next($event)">
-                  </cvc-endorse-assertion-button>
-                }
-
-                <!-- Revoke Endorsement Button -->
-                @if (
-                  hasActiveEndorsement(
-                    vwr.mostRecentOrg.id,
-                    entity.endorsements.nodes
-                  )
-                ) {
-                  <cvc-endorse-assertion-button
-                    *nzSpaceItem
-                    mode="revoke"
-                    [assertionId]="entity.id"
-                    (onEndorsed)="onEndorsement$.next($event)">
-                  </cvc-endorse-assertion-button>
-                }
+              <!-- Create Endorsement Button -->
+              @if (vwr | canCreateEndorsement: endorsements()) {
+                <cvc-endorse-assertion-button
+                  *nzSpaceItem
+                  mode="endorse"
+                  [assertionId]="entity.id"
+                  (onEndorsed)="onEndorsement$.next($event)">
+                </cvc-endorse-assertion-button>
               }
+
+              <!-- Revoke Endorsement Button -->
+              <!-- @if (
+                hasActiveEndorsement(
+                  vwr.mostRecentOrg.id,
+                  entity.endorsements.nodes
+                )
+              ) {
+                <cvc-endorse-assertion-button
+                  *nzSpaceItem
+                  mode="revoke"
+                  [assertionId]="entity.id"
+                  (onEndorsed)="onEndorsement$.next($event)">
+                </cvc-endorse-assertion-button>
+              } -->
             }
           </nz-space>
         }
@@ -110,54 +99,55 @@
         @let errs = errors();
         @let successMsg = successMessage();
 
-        @for (error of errs; track error) {
-          <nz-alert
-            nzBanner
-            [nzMessage]="error"
-            nzType="error"
-            nzCloseable
-            (nzOnClose)="onErrorBannerClose$.next(error)"></nz-alert>
-        }
-        @if (successMsg) {
-          <nz-alert
-            nzBanner
-            [nzMessage]="successMsg"
-            nzType="success"
-            nzCloseable
-            (nzOnClose)="onSuccessBannerClose$.next()"></nz-alert>
-        }
-        @if (entity.status == 'SUBMITTED') {
-          <nz-alert
-            nzBanner
-            nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
-            nzType="warning"></nz-alert>
-        }
-        @if (entity.status == 'REJECTED') {
-          <nz-alert
-            nzBanner
-            nzMessage="This Assertion has been rejected."
-            nzType="error">
-          </nz-alert>
-        }
-        <cvc-tab-navigation [tabs]="tabConfig()">
-          <ng-template #tabBarExtraContent>
-            <cvc-contributor-avatars
-              [subscribable]="subscribableInput()"></cvc-contributor-avatars>
-          </ng-template>
-        </cvc-tab-navigation>
-        @if (vwr && vwr.signedIn && entity.status === 'SUBMITTED') {
-          @if (
-            vwr.canModerate ||
-            vwr.user?.id === entity.submissionEvent.originatingUser.id
-          ) {
-            <cvc-moderate-entity-buttons
-              entityType="Assertion"
-              [entityId]="entity.id"
-              (onModerated)="onModeration$.next($event)">
-            </cvc-moderate-entity-buttons>
+        <div nz-flex>
+          @for (error of errs; track error) {
+            <nz-alert
+              nzBanner
+              [nzMessage]="error"
+              nzType="error"
+              nzCloseable
+              (nzOnClose)="onErrorBannerClose$.next(error)"></nz-alert>
           }
-        }
-
+          @if (successMsg) {
+            <nz-alert
+              nzBanner
+              [nzMessage]="successMsg"
+              nzType="success"
+              nzCloseable
+              (nzOnClose)="onSuccessBannerClose$.next()"></nz-alert>
+          }
+          @if (entity.status == 'SUBMITTED') {
+            <nz-alert
+              nzBanner
+              nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
+              nzType="warning"></nz-alert>
+          }
+          @if (entity.status == 'REJECTED') {
+            <nz-alert
+              nzBanner
+              nzMessage="This Assertion has been rejected."
+              nzType="error">
+            </nz-alert>
+          }
+          <cvc-tab-navigation [tabs]="tabConfig()">
+            <ng-template #tabBarExtraContent>
+              <cvc-contributor-avatars
+                [subscribable]="subscribableInput()"></cvc-contributor-avatars>
+            </ng-template>
+          </cvc-tab-navigation>
+          @if (vwr && vwr.signedIn && entity.status === 'SUBMITTED') {
+            @if (
+              vwr.canModerate ||
+              vwr.user?.id === entity.submissionEvent.originatingUser.id
+            ) {
+              <cvc-moderate-entity-buttons
+                entityType="Assertion"
+                [entityId]="entity.id"
+                (onModerated)="onModeration$.next($event)">
+              </cvc-moderate-entity-buttons>
+            }
+          }
+        </div>
         <div
           [cvcAutoHeightDiv]="32"
           cvcAutoHeightTarget="viewport">
