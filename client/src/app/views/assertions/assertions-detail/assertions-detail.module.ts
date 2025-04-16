@@ -26,6 +26,9 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEndorseAssertionButtonComponent } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcFlaggableComponent } from '@app/components/shared/flaggable/flaggable.component'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -44,6 +47,8 @@ import { CvcFlaggableComponent } from '@app/components/shared/flaggable/flaggabl
     NzAlertModule,
     NzGridModule,
     NzPopoverModule,
+    NzSpinModule,
+    NzEmptyModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
     CvcFlaggableComponent,
@@ -56,6 +61,7 @@ import { CvcFlaggableComponent } from '@app/components/shared/flaggable/flaggabl
     CvcEndorseAssertionButtonComponent,
     CvcUserTagModule,
     CvcOrganizationTagModule,
+    CvcAutoHeightDivModule,
   ],
 })
 export class AssertionsDetailModule {}
