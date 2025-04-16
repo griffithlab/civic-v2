@@ -1,59 +1,32 @@
-<ng-container *ngIf="assertion$ | ngrxPush as assertion">
-  <cvc-section-navigation
-    [displayName]="assertion.name"
-    [relationsTpl]="assertionRelations">
-  </cvc-section-navigation>
-  <ng-template #assertionRelations>
-    <nz-space nzDirection="horizontal">
-      <!-- parent relations -->
-      <span
-        nz-typography
-        class="label"
-        *nzSpaceItem
-        >Related to <strong>{{ assertion.name }}</strong
-        >:</span
-      >
-      <span
-        *nzSpaceItem
-        class="tags">
-        <cvc-molecular-profile-tag
-          [molecularProfile]="assertion.molecularProfile"
-          [enablePopover]="false"></cvc-molecular-profile-tag>
-      </span>
-    </nz-space>
-  </ng-template>
+@let entity = assertion();
+@let vwr = viewer();
+@if (entity) {
+  <cvc-section-navigation [displayName]="entity.name"> </cvc-section-navigation>
   <div
     cvcFlaggable
-    [cvcFlaggableCounts]="{
-      flags: assertion.flags.totalCount,
-      endorsements: assertion.activeEndorsements.totalCount,
-    }">
+    [cvcFlaggableCounts]="flaggableCounts()">
     <nz-page-header class="site-page-header">
-      <!-- title -->
       <nz-page-header-title
         [ngClass]="{
           flagged:
-            assertion.flags.totalCount > 0 ||
-            assertion.activeEndorsements.totalCount > 0,
+            flaggableCounts().endorsements > 0 || flaggableCounts().flags > 0,
         }">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Assertion' | entityColor"
           nzType="civic-assertion"></i>
-        {{ assertion.name }}
+        {{ entity.name }}
       </nz-page-header-title>
-
-      <!-- header action btns, actions menu -->
       <nz-page-header-extra>
-        <nz-space
-          nzDirection="horizontal"
-          nzSize="small">
-          <!-- add revision btn -->
-          <span *nzSpaceItem>
+        @if (vwr && vwr.signedIn) {
+          <nz-space
+            nzDirection="horizontal"
+            nzSize="small">
+            <!-- Revise Button-->
             <button
-              [routerLink]="['/assertions', assertion.id, 'revise']"
-              *ngIf="$viewer()?.signedIn"
+              *nzSpaceItem
+              [routerLink]="['/assertions', entity.id, 'revise']"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
@@ -61,121 +34,143 @@
               nzSize="small">
               Revise
             </button>
-          </span>
+            <!-- Flag Button -->
+            <button
+              *nzSpaceItem
+              routerLink="flags"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
 
-          <!-- add flag btn -->
-          <!-- TODO implement as flag form within popover window -->
-          @if ($viewer()?.signedIn) {
-            <span *nzSpaceItem>
-              <button
-                routerLink="flags"
-                routerLinkActive
-                #rlaComments="routerLinkActive"
-                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                Flag
-              </button>
-            </span>
-          }
-
-          <span *nzSpaceItem>
-            <ng-container
-              *ngIf="$viewer() && $viewer()?.signedIn && subscribable">
+            <!-- Subscription Button -->
+            @if (SUBSCRIBABLE_ENTITY_TYPE) {
               <cvc-entity-subscription-button
-                [viewer]="$viewer()!"
-                [subscribableId]="subscribable.id"
-                typename="Assertion">
+                *nzSpaceItem
+                [viewer]="vwr"
+                [subscribableId]="entity.id"
+                [typename]="SUBSCRIBABLE_ENTITY_TYPENAME">
               </cvc-entity-subscription-button>
-            </ng-container>
-          </span>
+            }
 
-          <span *nzSpaceItem>
-            <ng-container
-              *ngIf="$viewer()?.canModerate && assertion.status != 'SUBMITTED'">
-              <cvc-revert-entity-button
-                entityType="Assertion"
-                [entityId]="assertion.id"
-                (onReverted)="onRevertCompleted($event)">
-              </cvc-revert-entity-button>
-            </ng-container>
-          </span>
-          @let viewer = $viewer();
-          @if (
-            viewer | canEndorseAssertion: assertion.activeEndorsements.nodes
-          ) {
-            <span *nzSpaceItem>
-              <cvc-endorse-assertion-button
-                mode="endorse"
-                [assertionId]="assertion.id"
-                (onEndorsed)="onEndorsementAction($event)">
-              </cvc-endorse-assertion-button>
-            </span>
-          }
-          @if (
-            viewer | canRevokeAssertion: assertion.activeEndorsements.nodes
-          ) {
-            <span *nzSpaceItem>
-              <cvc-endorse-assertion-button
-                mode="revoke"
-                [assertionId]="assertion.id"
-                (onEndorsed)="onEndorsementAction($event)">
-              </cvc-endorse-assertion-button>
-            </span>
-          }
-        </nz-space>
+            <!-- CURATION ACTION BUTTONS-->
+            @if (vwr.canModerate) {
+              @if (entity.status === 'SUBMITTED') {
+                <!-- Revert Button -->
+                <cvc-revert-entity-button
+                  *nzSpaceItem
+                  entityType="Assertion"
+                  [entityId]="entity.id"
+                  (onReverted)="onRevert$.next($event)">
+                </cvc-revert-entity-button>
+              }
+              <!-- ENDORSEMENT ACTION BUTTONS -->
+              @if (
+                vwr.mostRecentOrg &&
+                vwr.endorsableOrgIds.includes(vwr.mostRecentOrg.id)
+              ) {
+                <!-- Create Endorsement Button -->
+                @if (
+                  !hasActiveEndorsement(
+                    vwr.mostRecentOrg.id,
+                    entity.endorsements.nodes
+                  )
+                ) {
+                  <cvc-endorse-assertion-button
+                    *nzSpaceItem
+                    mode="endorse"
+                    [assertionId]="entity.id"
+                    (onEndorsed)="onEndorsement$.next($event)">
+                  </cvc-endorse-assertion-button>
+                }
+
+                <!-- Revoke Endorsement Button -->
+                @if (
+                  hasActiveEndorsement(
+                    vwr.mostRecentOrg.id,
+                    entity.endorsements.nodes
+                  )
+                ) {
+                  <cvc-endorse-assertion-button
+                    *nzSpaceItem
+                    mode="revoke"
+                    [assertionId]="entity.id"
+                    (onEndorsed)="onEndorsement$.next($event)">
+                  </cvc-endorse-assertion-button>
+                }
+              }
+            }
+          </nz-space>
+        }
       </nz-page-header-extra>
-
       <nz-page-header-content>
-        <nz-alert
-          *ngFor="let error of errors"
-          nzBanner
-          [nzMessage]="error"
-          nzType="error"
-          nzCloseable
-          (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
-        <nz-alert
-          *ngIf="successMessage"
-          nzBanner
-          [nzMessage]="successMessage"
-          nzType="success"
-          nzCloseable
-          (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-        <nz-alert
-          *ngIf="assertion.status == 'SUBMITTED'"
-          nzBanner
-          nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
-          nzType="warning"></nz-alert>
-        <nz-alert
-          *ngIf="assertion.status == 'REJECTED'"
-          nzBanner
-          nzMessage="This Assertion has been rejected."
-          nzType="error">
-        </nz-alert>
-        <cvc-tab-navigation [tabs]="tabs$ | ngrxPush">
+        @let errs = errors();
+        @let successMsg = successMessage();
+
+        @for (error of errs; track error) {
+          <nz-alert
+            nzBanner
+            [nzMessage]="error"
+            nzType="error"
+            nzCloseable
+            (nzOnClose)="onErrorBannerClose$.next(error)"></nz-alert>
+        }
+        @if (successMsg) {
+          <nz-alert
+            nzBanner
+            [nzMessage]="successMsg"
+            nzType="success"
+            nzCloseable
+            (nzOnClose)="onSuccessBannerClose$.next()"></nz-alert>
+        }
+        @if (entity.status == 'SUBMITTED') {
+          <nz-alert
+            nzBanner
+            nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
+            nzType="warning"></nz-alert>
+        }
+        @if (entity.status == 'REJECTED') {
+          <nz-alert
+            nzBanner
+            nzMessage="This Assertion has been rejected."
+            nzType="error">
+          </nz-alert>
+        }
+        <cvc-tab-navigation [tabs]="tabConfig()">
           <ng-template #tabBarExtraContent>
-            <nz-col id="contributors-col">
-              <cvc-contributor-avatars
-                [subscribable]="subscribable"></cvc-contributor-avatars>
-            </nz-col>
+            <cvc-contributor-avatars
+              [subscribable]="subscribableInput()"></cvc-contributor-avatars>
           </ng-template>
         </cvc-tab-navigation>
-        <cvc-moderate-entity-buttons
-          *ngIf="
-            ($viewer()?.canModerate ||
-              ($viewer()?.signedIn &&
-                $viewer()?.user?.id ==
-                  assertion.submissionEvent?.originatingUser?.id)) &&
-            assertion.status == 'SUBMITTED'
-          "
-          entityType="Assertion"
-          [entityId]="assertion.id"
-          (onModerated)="onModerateCompleted($event)">
-        </cvc-moderate-entity-buttons>
-        <div class="content">
+        @if (vwr && vwr.signedIn && entity.status === 'SUBMITTED') {
+          @if (
+            vwr.canModerate ||
+            vwr.user?.id === entity.submissionEvent.originatingUser.id
+          ) {
+            <cvc-moderate-entity-buttons
+              entityType="Assertion"
+              [entityId]="entity.id"
+              (onModerated)="onModeration$.next($event)">
+            </cvc-moderate-entity-buttons>
+          }
+        }
+
+        <div
+          [cvcAutoHeightDiv]="32"
+          cvcAutoHeightTarget="viewport">
           <router-outlet></router-outlet>
         </div>
       </nz-page-header-content>
     </nz-page-header>
   </div>
-</ng-container>
+} @else if (this.loading()) {
+  <nz-spin nzSimple></nz-spin>
+} @else {
+  <nz-empty
+    nzNotFoundContent="No Assertion found with ID {{
+      assertionId
+    }} "></nz-empty>
+}
