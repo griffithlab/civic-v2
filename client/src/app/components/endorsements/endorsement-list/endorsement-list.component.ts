@@ -1,11 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EnvironmentInjector,
+  inject,
+  input,
   Input,
   OnInit,
+  runInInjectionContext,
+  signal,
   Signal,
+  WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
+import { ApolloQueryResult } from '@apollo/client/core'
 import {
   feedDefaultFilters,
   feedDefaultSettings,
@@ -16,6 +23,7 @@ import {
 } from '@app/components/activities/activity-feed/activity-feed.types'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
+  AssertionDetailFieldsFragment,
   EndorsementListGQL,
   EndorsementListNodeFragment,
   EndorsementListQuery,
@@ -26,16 +34,10 @@ import {
 
 import { QueryRef } from 'apollo-angular'
 
-import { Observable } from 'rxjs'
+import { filter, map, Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/dist/esm/operators'
-import { filter, map } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
 
-type ActiveEndorsement = {
-  organization: {
-    id: number
-  }
-}
 @Component({
   selector: 'cvc-endorsement-list',
   templateUrl: './endorsement-list.component.html',
@@ -44,34 +46,72 @@ type ActiveEndorsement = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEndorsementListComponent implements OnInit {
-  @Input() assertionId!: number
+  assertionId = input.required<number>()
 
+  /* SOURCE STREAMS */
+  private response$!: Observable<ApolloQueryResult<EndorsementListQuery>>
+
+  /* PRESENTATION SIGNALS */
+  viewer!: Signal<Maybe<Viewer>>
+  assertion!: Signal<Maybe<AssertionDetailFieldsFragment>>
+  endorsements!: Signal<Maybe<EndorsementListNodeFragment>[]>
+  loading!: Signal<boolean>
+  pageInfo!: Signal<Maybe<PageInfo>>
+  errors: WritableSignal<string[]>
+  successMessage: WritableSignal<Maybe<string>>
+
+  /* ATTRIBUTES */
+  private queryRef!: QueryRef<
+    EndorsementListQuery,
+    EndorsementListQueryVariables
+  >
+  private pageSize = 5
+
+  /* ATTRS TO BE REFACTORED */
   loading$?: Observable<boolean>
   pageInfo$?: Observable<PageInfo>
   endorsements$!: Observable<Maybe<EndorsementListNodeFragment>[]>
   $viewer: Signal<Maybe<Viewer>>
-  private queryRef$!: QueryRef<
-    EndorsementListQuery,
-    EndorsementListQueryVariables
-  >
 
-  private pageSize = 5
   constructor(
     private gql: EndorsementListGQL,
-    viewerService: ViewerService
+    private injector: EnvironmentInjector,
+    private viewerService: ViewerService
   ) {
-    this.$viewer = toSignal(viewerService.viewer$, {
+    this.$viewer = toSignal(this.viewerService.viewer$, {
       initialValue: undefined,
     })
+    this.errors = signal<string[]>([])
+    this.successMessage = signal<Maybe<string>>(undefined)
   }
 
   ngOnInit() {
-    this.queryRef$ = this.gql.watch({
-      assertionId: this.assertionId,
-      last: this.pageSize,
+    this.queryRef = this.gql.watch({
+      assertionId: this.assertionId(),
+      first: this.pageSize,
     })
 
-    let results = this.queryRef$.valueChanges
+    this.response$ = this.queryRef.valueChanges
+
+    runInInjectionContext(this.injector, () => {
+      this.viewer = toSignal(
+        this.viewerService.viewer$.pipe(
+          map((viewer) => ({ ...viewer })) // create new object to trigger change detection
+        )
+      )
+      this.endorsements = toSignal(
+        this.response$.pipe(
+          pluck('data', 'endorsements', 'edges'),
+          filter(isNonNulled),
+          map((edges) => edges.map((e) => e.node))
+        ),
+        {
+          initialValue: [],
+        }
+      )
+    })
+
+    let results = this.queryRef.valueChanges
 
     this.pageInfo$ = results.pipe(
       pluck('data', 'endorsements', 'pageInfo'),
@@ -88,7 +128,7 @@ export class CvcEndorsementListComponent implements OnInit {
   }
 
   onLoadMore(cursor: Maybe<string>): void {
-    this.queryRef$.fetchMore({
+    this.queryRef.fetchMore({
       variables: {
         last: this.pageSize,
         before: cursor,
@@ -97,7 +137,7 @@ export class CvcEndorsementListComponent implements OnInit {
   }
 
   refreshList() {
-    this.queryRef$.refetch()
+    this.queryRef.refetch()
   }
   feedSettings(): ActivityFeedSettings {
     return {

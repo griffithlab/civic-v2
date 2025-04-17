@@ -64,20 +64,20 @@
         class="endorsement-summary">
         @switch (endorsement.status) {
           @case ('ACTIVE') {
-            <strong>AID{{ assertionId }}</strong> has been endorsed by
+            <strong>AID{{ assertionId() }}</strong> has been endorsed by
             <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
             <strong> {{ endorsement.user.displayName }}.</strong>
           }
           @case ('REVOKED') {
-            <strong>AID{{ assertionId }}</strong> endorsement has been revoked
+            <strong>AID{{ assertionId() }}</strong> endorsement has been revoked
             by <strong>{{ endorsement.organization.name }}</strong> under the
             authority of editor
             <strong> {{ endorsement.user.displayName }}.</strong>
           }
           @case ('REQUIRES_REVIEW') {
             Post-endorsement changes to
-            <strong>AID{{ assertionId }}</strong> require
+            <strong>AID{{ assertionId() }}</strong> require
             <strong>review by an endorsing editor.</strong>
           }
         }

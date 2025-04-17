@@ -13,7 +13,6 @@ import { EndorsementResult } from '@app/components/shared/endorse-assertion-butt
 import { CvcFlaggableCounts } from '@app/components/shared/flaggable/flaggable.component'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { EndorsementAction } from '@app/core/utilities/get-endorsement-permission'
 import {
   AssertionDetailFieldsFragment,
   AssertionDetailGQL,
@@ -25,20 +24,11 @@ import {
   SubscribableEntities,
   SubscribableInput,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import {
-  BehaviorSubject,
-  combineLatest,
-  filter,
-  map,
-  Observable,
-  Subject,
-} from 'rxjs'
+import { filter, map, Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
-import { $enum } from 'ts-enum-util'
 
 type EndorsementCounts = {
   active: number
@@ -55,63 +45,10 @@ type EndorsementCounts = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssertionsDetailView {
-  // queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
-
-  // assertion$!: Observable<Maybe<AssertionDetailFieldsFragment>>
-  // $assertion!: Signal<Maybe<AssertionDetailFieldsFragment>>
-  // endorsement$!: Observable<Maybe<EndorsementListNodeFragment[]>>
-  // activeCount!: Signal<number>
-  // requiresReviewCount!: Signal<number>
-  // loading$?: Observable<boolean>
-  // flagsTotal$?: Observable<number>
-  // activeEndorsementTotal$?: Observable<number>
-  // requiresReviewEndorsementTotal$?: Observable<number>
-  // $viewer: Signal<Maybe<Viewer>>
-  // subscribable?: SubscribableInput
-
-  // tabs$: BehaviorSubject<RouteableTab[]>
-  // defaultTabs: RouteableTab[] = [
-  //   {
-  //     routeName: 'summary',
-  //     iconName: 'pic-left',
-  //     tabLabel: 'Summary',
-  //   },
-  //   {
-  //     routeName: 'comments',
-  //     iconName: 'civic-comment',
-  //     tabLabel: 'Comments',
-  //   },
-  //   {
-  //     routeName: 'revisions',
-  //     iconName: 'civic-revision',
-  //     tabLabel: 'Revisions',
-  //   },
-  //   {
-  //     routeName: 'flags',
-  //     iconName: 'civic-flag',
-  //     tabLabel: 'Flags',
-  //   },
-  //   {
-  //     routeName: 'endorsements',
-  //     iconName: 'safety-certificate',
-  //     tabLabel: 'Endorsements',
-  //   },
-  //   {
-  //     routeName: 'events',
-  //     iconName: 'civic-event',
-  //     tabLabel: 'Activity',
-  //   },
-  // ]
-
-  // errors: string[] = []
-  // successMessage: Maybe<string>
-
-  // endorsementCount?: Signal<number>
-
-  /* EVENT SOURCES */
+  /* SOURCE STREAMS */
   private response$: Observable<ApolloQueryResult<AssertionDetailQuery>>
 
-  /* DERIVED SIGNALS */
+  /* PRESENTATION SIGNALS */
   viewer: Signal<Maybe<Viewer>>
   loading: Signal<boolean>
   assertion: Signal<Maybe<AssertionDetailFieldsFragment>>
@@ -120,6 +57,8 @@ export class AssertionsDetailView {
   flaggableCounts: Signal<CvcFlaggableCounts>
   tabConfig: Signal<RouteableTab[]>
   subscribableInput: Signal<Maybe<SubscribableInput>>
+  errors: WritableSignal<string[]>
+  successMessage: WritableSignal<Maybe<string>>
 
   /* INTERACTION HANDLERS */
   onRevert: (revertEvent: true | string[]) => void
@@ -127,10 +66,6 @@ export class AssertionsDetailView {
   onEndorsement: (endorsementEvent: EndorsementResult) => void
   onErrorBannerClose: (err: Maybe<string>) => void
   onSuccessBannerClose: () => void
-
-  /* INTERACTION FEEDBACK*/
-  errors: WritableSignal<string[]>
-  successMessage: WritableSignal<Maybe<string>>
 
   /* ATTRIBUTES */
   private queryRef: QueryRef<
@@ -204,10 +139,7 @@ export class AssertionsDetailView {
     this.viewer = toSignal(
       this.viewerService.viewer$.pipe(
         map((viewer) => ({ ...viewer })) // create new object to trigger change detection
-      ),
-      {
-        initialValue: undefined,
-      }
+      )
     )
 
     // pluck loading from response$, provide as signal
