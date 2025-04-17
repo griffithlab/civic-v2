@@ -110,11 +110,6 @@ export class AssertionsDetailView {
 
   /* EVENT SOURCES */
   private response$: Observable<ApolloQueryResult<AssertionDetailQuery>>
-  onRevert$: Subject<true | string[]>
-  onModeration$: Subject<EvidenceStatus | string[]>
-  onEndorsement$: Subject<EndorsementResult>
-  onErrorBannerClose$: Subject<Maybe<string>>
-  onSuccessBannerClose$: Subject<void>
 
   /* DERIVED SIGNALS */
   viewer: Signal<Maybe<Viewer>>
@@ -124,9 +119,18 @@ export class AssertionsDetailView {
   endorsementCounts: Signal<EndorsementCounts>
   flaggableCounts: Signal<CvcFlaggableCounts>
   tabConfig: Signal<RouteableTab[]>
+  subscribableInput: Signal<Maybe<SubscribableInput>>
+
+  /* INTERACTION HANDLERS */
+  onRevert: (revertEvent: true | string[]) => void
+  onModeration: (moderationEvent: EvidenceStatus | string[]) => void
+  onEndorsement: (endorsementEvent: EndorsementResult) => void
+  onErrorBannerClose: (err: Maybe<string>) => void
+  onSuccessBannerClose: () => void
+
+  /* INTERACTION FEEDBACK*/
   errors: WritableSignal<string[]>
   successMessage: WritableSignal<Maybe<string>>
-  subscribableInput: Signal<Maybe<SubscribableInput>>
 
   /* ATTRIBUTES */
   private queryRef: QueryRef<
@@ -327,18 +331,12 @@ export class AssertionsDetailView {
       return tabConfig
     })
 
+    // provide interation feedback signals
     this.errors = signal<string[]>([])
     this.successMessage = signal<Maybe<string>>(undefined)
 
-    // provide action and user input event emitters
-    this.onRevert$ = new Subject<true | string[]>()
-    this.onErrorBannerClose$ = new Subject<Maybe<string>>()
-    this.onSuccessBannerClose$ = new Subject<void>()
-    this.onModeration$ = new Subject<EvidenceStatus | string[]>()
-    this.onEndorsement$ = new Subject<EndorsementResult>()
-
     // handle action and user input events
-    this.onRevert$.pipe(untilDestroyed(this)).subscribe((revertEvent) => {
+    this.onRevert = (revertEvent: true | string[]) => {
       if (revertEvent === true) {
         this.errors.set([])
         this.successMessage.set(
@@ -349,43 +347,39 @@ export class AssertionsDetailView {
         this.errors.set(revertEvent)
         this.successMessage.set(undefined)
       }
-    })
+    }
 
-    this.onModeration$
-      .pipe(untilDestroyed(this))
-      .subscribe((moderationEvent) => {
-        if (Array.isArray(moderationEvent)) {
-          this.errors.set(moderationEvent)
-          this.successMessage.set(undefined)
-        } else {
-          this.errors.set([])
-          this.successMessage.set(moderationEvent)
-        }
-      })
+    this.onModeration = (moderationEvent: EvidenceStatus | string[]) => {
+      if (Array.isArray(moderationEvent)) {
+        this.errors.set(moderationEvent)
+        this.successMessage.set(undefined)
+      } else {
+        this.errors.set([])
+        this.successMessage.set(moderationEvent)
+      }
+    }
 
-    this.onErrorBannerClose$.pipe(untilDestroyed(this)).subscribe((err) => {
+    this.onErrorBannerClose = (err: Maybe<string>) => {
       if (err) {
         this.errors.set(this.errors().filter((e) => e != err))
       }
-    })
+    }
 
-    this.onSuccessBannerClose$.pipe(untilDestroyed(this)).subscribe(() => {
+    this.onSuccessBannerClose = () => {
       this.successMessage.set(undefined)
-    })
+    }
 
-    this.onEndorsement$
-      .pipe(untilDestroyed(this))
-      .subscribe((endorsementEvent) => {
-        if (endorsementEvent.success) {
-          switch (endorsementEvent.action) {
-            case 'endorse':
-              this.successMessage.set('Assertion endorsed successfully')
-              break
-            case 'revoke':
-              this.successMessage.set('Successfully revoked endorsement')
-              break
-          }
+    this.onEndorsement = (endorsementEvent: EndorsementResult) => {
+      if (endorsementEvent.success) {
+        switch (endorsementEvent.action) {
+          case 'endorse':
+            this.successMessage.set('Assertion endorsed successfully')
+            break
+          case 'revoke':
+            this.successMessage.set('Successfully revoked endorsement')
+            break
         }
-      })
+      }
+    }
   } // end constructor
 }

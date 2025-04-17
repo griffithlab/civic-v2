@@ -64,7 +64,7 @@
                   *nzSpaceItem
                   entityType="Assertion"
                   [entityId]="entity.id"
-                  (onReverted)="onRevert$.next($event)">
+                  (onReverted)="onRevert($event)">
                 </cvc-revert-entity-button>
               }
               <!-- Create Endorsement Button -->
@@ -73,24 +73,19 @@
                   *nzSpaceItem
                   mode="endorse"
                   [assertionId]="entity.id"
-                  (onEndorsed)="onEndorsement$.next($event)">
+                  (onEndorsed)="onEndorsement($event)">
                 </cvc-endorse-assertion-button>
               }
 
               <!-- Revoke Endorsement Button -->
-              <!-- @if (
-                hasActiveEndorsement(
-                  vwr.mostRecentOrg.id,
-                  entity.endorsements.nodes
-                )
-              ) {
+              @if (!(vwr | canCreateEndorsement: endorsements())) {
                 <cvc-endorse-assertion-button
                   *nzSpaceItem
                   mode="revoke"
                   [assertionId]="entity.id"
-                  (onEndorsed)="onEndorsement$.next($event)">
+                  (onEndorsed)="onEndorsement($event)">
                 </cvc-endorse-assertion-button>
-              } -->
+              }
             }
           </nz-space>
         }
@@ -98,15 +93,17 @@
       <nz-page-header-content>
         @let errs = errors();
         @let successMsg = successMessage();
-
-        <div nz-flex>
+        <div
+          nz-flex
+          [nzGap]="8"
+          nzVertical>
           @for (error of errs; track error) {
             <nz-alert
               nzBanner
               [nzMessage]="error"
               nzType="error"
               nzCloseable
-              (nzOnClose)="onErrorBannerClose$.next(error)"></nz-alert>
+              (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
           }
           @if (successMsg) {
             <nz-alert
@@ -114,7 +111,7 @@
               [nzMessage]="successMsg"
               nzType="success"
               nzCloseable
-              (nzOnClose)="onSuccessBannerClose$.next()"></nz-alert>
+              (nzOnClose)="onSuccessBannerClose()"></nz-alert>
           }
           @if (entity.status == 'SUBMITTED') {
             <nz-alert
@@ -143,7 +140,7 @@
               <cvc-moderate-entity-buttons
                 entityType="Assertion"
                 [entityId]="entity.id"
-                (onModerated)="onModeration$.next($event)">
+                (onModerated)="onModeration($event)">
               </cvc-moderate-entity-buttons>
             }
           }
