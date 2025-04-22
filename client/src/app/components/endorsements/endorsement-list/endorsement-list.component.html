@@ -1,10 +1,7 @@
 <!-- @let endorsements = (endorsements$ | ngrxPush) || []; -->
 @let list = endorsements();
 @let vwr = viewer();
-@if (
-  (list.length > 0 && (vwr | canEndorseAssertion: list)) ||
-  (vwr | canRevokeAssertion: list)
-) {
+@if (list.length > 0 && (vwr | canEndorse)) {
   <nz-alert
     nzType="info"
     [nzMessage]="endorsementMessage"
@@ -22,6 +19,7 @@
   [nzRenderItem]="endorsement"
   nzSize="small"
   nzItemLayout="vertical">
+  <!-- ENDORSEMENT ITEM TEMPLATE -->
   <ng-template
     #endorsement
     let-endorsement>
@@ -32,6 +30,8 @@
         [nzDescription]="itemDescription">
       </nz-list-item-meta>
     </nz-list-item>
+
+    <!-- item avatar template -->
     <ng-template #itemAvatar>
       <div class="organization-image-container">
         <img
@@ -39,6 +39,8 @@
           src="{{ endorsement.organization.profileImagePath }}" />
       </div>
     </ng-template>
+
+    <!-- item title template -->
     <ng-template #itemTitle>
       <span class="endorsement-title">
         @switch (endorsement.status) {
@@ -54,22 +56,10 @@
         }
         {{ endorsement.organization.name }}
       </span>
-      <span class="endorsement-status">
-        @switch (endorsement.status) {
-          @case ('ACTIVE') {
-            <nz-tag nzColor="success"> Active </nz-tag>
-          }
-          @case ('REQUIRES_REVIEW') {
-            <nz-tag nzColor="processing"> Requires Review</nz-tag>
-          }
-          @case ('REVOKED') {
-            <nz-tag nzColor="error"> Revoked </nz-tag>
-          }
-        }
-      </span>
     </ng-template>
+
+    <!-- endorsement summary -->
     <ng-template #itemDescription>
-      <!-- endorsement summary -->
       <span
         nz-typography
         nzType="secondary"
@@ -94,10 +84,14 @@
           }
         }
       </span>
+
+      <!-- endorsement details collapsible panels -->
       @switch (endorsement.status) {
         @case ('ACTIVE') {
           <nz-collapse [nzBordered]="false">
-            <nz-collapse-panel nzHeader="Show Endorsement Details">
+            <nz-collapse-panel
+              nzHeader="Show Endorsement Details"
+              [nzExtra]="endorsementStatus">
               <div
                 nz-flex
                 nzVertical
@@ -110,7 +104,9 @@
         }
         @case ('REVOKED') {
           <nz-collapse [nzBordered]="false">
-            <nz-collapse-panel nzHeader="Show Revocation Details">
+            <nz-collapse-panel
+              nzHeader="Show Revocation Details"
+              [nzExtra]="endorsementStatus">
               <div
                 nz-flex
                 nzVertical
@@ -125,7 +121,8 @@
           <nz-collapse [nzBordered]="false">
             <nz-collapse-panel
               nzHeader="Show Unendorsed Changes"
-              [nzActive]="true">
+              [nzActive]="true"
+              [nzExtra]="endorsementStatus">
               <div
                 nz-flex
                 nzVertical
@@ -148,6 +145,21 @@
           </nz-collapse>
         }
       }
+      <!-- endorsement status template -->
+      <ng-template #endorsementStatus>
+        <span>Status: </span>
+        @switch (endorsement.status) {
+          @case ('ACTIVE') {
+            <nz-tag nzColor="success"> Active </nz-tag>
+          }
+          @case ('REQUIRES_REVIEW') {
+            <nz-tag nzColor="processing"> Requires Review</nz-tag>
+          }
+          @case ('REVOKED') {
+            <nz-tag nzColor="error"> Revoked </nz-tag>
+          }
+        }
+      </ng-template>
       <!-- details template-->
       <ng-template #endorsementDetails>
         <nz-descriptions
@@ -190,40 +202,31 @@
         </nz-descriptions>
       </ng-template>
     </ng-template>
+
     <!-- endorsement status & action button -->
     <ng-template #itemExtra>
-      @if (
-        endorsement.status === 'REQUIRES_REVIEW' &&
-        vwr &&
-        vwr.signedIn &&
-        vwr.canModerate &&
-        vwr.mostRecentOrg &&
-        vwr.endorsableOrgIds.includes(endorsement.organization.id)
-      ) {
-        <button
-          nz-button
-          nzType="primary"
-          nzBlock
-          style="margin-bottom: 12px">
-          Re-Endorse
-        </button>
-      }
-      @if (
-        (endorsement.status === 'ACTIVE' ||
-          endorsement.status === 'REQUIRES_REVIEW') &&
-        vwr &&
-        vwr.signedIn &&
-        vwr.canModerate &&
-        vwr.mostRecentOrg &&
-        vwr.endorsableOrgIds.includes(endorsement.organization.id)
-      ) {
-        <button
-          nz-button
-          nzType="primary"
-          nzDanger
-          nzBlock>
-          Revoke
-        </button>
+      @if (!(endorsement.status === 'REVOKED')) {
+        <div
+          nz-flex
+          nzVertical
+          [nzGap]="8">
+          <button
+            nz-button
+            [disabled]="!(vwr | canApproveEndorsement: endorsement)"
+            nzType="primary"
+            nzBlock>
+            Endorse Changes
+          </button>
+          @if (vwr | canRevokeEndorsement: endorsement) {
+            <button
+              nz-button
+              nzType="primary"
+              nzDanger
+              nzBlock>
+              Revoke
+            </button>
+          }
+        </div>
       }
     </ng-template>
   </ng-template>
@@ -242,7 +245,3 @@
     </nz-list-footer>
   }
 </nz-list>
-<!-- <h3>Endorsements</h3>
-<pre>{{ endorsements | json }}</pre>
-<h3>Viewer</h3>
-<pre>{{ $viewer() | json }}</pre> -->

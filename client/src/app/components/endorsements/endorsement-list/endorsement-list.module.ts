@@ -18,7 +18,9 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-
+import { CvcCanEndorse } from '../endorsement-pipes/can-endorse.pipe'
+import { CvcCanApproveEndorsement } from '../endorsement-pipes/can-approve-endorsement.pipe'
+import { CvcCanRevokeEndorsement } from '../endorsement-pipes/can-revoke-endorsement.pipe'
 @NgModule({
   declarations: [CvcEndorsementListComponent],
   imports: [
@@ -41,6 +43,9 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     CvcOrganizationTagModule,
     CvcUserTagModule,
     CvcActivityFeed,
+    CvcCanEndorse,
+    CvcCanApproveEndorsement,
+    CvcCanRevokeEndorsement,
   ],
   exports: [CvcEndorsementListComponent],
 })

@@ -2,6 +2,16 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { EndorsementListNodeFragment, Maybe } from '@app/generated/civic.apollo'
 
+/**
+ * Returns true if viewer can create an endorsement for an assertion.
+ * It checks if the viewer can create endorsements, and ensures the viewer's
+ * endorsing organization has not already endorsed the assertion.
+ *
+ * @param viewer - The viewer object
+ * @param endorsements - The assertion's endorsements
+ * @returns true if viewer can create an endorsement, false otherwise
+ */
+
 @Pipe({
   name: 'canCreateEndorsement',
   standalone: true,

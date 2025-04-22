@@ -46,11 +46,11 @@ fragment endorsementListNode on Endorsement {
     profileImagePath(size: 32)
   }
   revocationActivity {
-    # ...RevokeEndorsementActivityDetail
+    ...RevokeEndorsementActivityDetail
     note
   }
   endorsementActivity {
-    # ...EndorseAssertionActivityDetail
+    ...EndorseAssertionActivityDetail
     note
   }
 }
