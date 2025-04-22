@@ -45,8 +45,8 @@ type EndorsementCounts = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssertionsDetailView {
-  /* SOURCE STREAMS */
-  private response$: Observable<ApolloQueryResult<AssertionDetailQuery>>
+  /* SOURCE SIGNALS */
+  private response: Signal<Maybe<ApolloQueryResult<AssertionDetailQuery>>>
 
   /* PRESENTATION SIGNALS */
   viewer: Signal<Maybe<Viewer>>
@@ -60,13 +60,6 @@ export class AssertionsDetailView {
   errors: WritableSignal<string[]>
   successMessage: WritableSignal<Maybe<string>>
 
-  /* INTERACTION HANDLERS */
-  onRevert: (revertEvent: true | string[]) => void
-  onModeration: (moderationEvent: EvidenceStatus | string[]) => void
-  onEndorsement: (endorsementEvent: EndorsementResult) => void
-  onErrorBannerClose: (err: Maybe<string>) => void
-  onSuccessBannerClose: () => void
-
   /* ATTRIBUTES */
   private queryRef: QueryRef<
     AssertionDetailQuery,
@@ -74,7 +67,7 @@ export class AssertionsDetailView {
   >
   assertionId?: number
 
-  // CONTANTS
+  // CONSTANTS
   SUBSCRIBABLE_ENTITY_TYPE = SubscribableEntities.Assertion
   SUBSCRIBABLE_ENTITY_TYPENAME = 'Assertion'
   DEFAULT_TAB_CONFIG: RouteableTab[] = [
@@ -124,16 +117,10 @@ export class AssertionsDetailView {
     // save query reference for calling refetch() or fetchMore()
     this.queryRef = this.gql.watch({ assertionId: this.assertionId })
 
-    this.response$ = this.queryRef.valueChanges
-
-    /**************************
-    DERIVED SIGNALS
-    **************************/
-    // NOTE: the 'pluck' operator from rxjs-etc preserves types,
-    // while the 'pluck' operator in the core rxjs lib does not
-    // (and is deprecated). Using map((data) => data.to.be.plucked)
-    // is also an option, but IMHO 'pluck' easier to type and read.
-    // Note that rxjs-etc/pluck is limited to 6 arguments.
+    // provide valueChanges observable as response signal
+    this.response = toSignal(this.queryRef.valueChanges, {
+      initialValue: undefined,
+    })
 
     // provide viewer$ observable as signal
     this.viewer = toSignal(
@@ -142,24 +129,14 @@ export class AssertionsDetailView {
       )
     )
 
-    // pluck loading from response$, provide as signal
-    this.loading = toSignal(this.response$.pipe(pluck('loading')), {
-      initialValue: false,
+    this.loading = computed(() => {
+      return this.response()?.loading ?? false
     })
 
-    // provide assertion detail fragment as signal derived from response observable
-    this.assertion = toSignal(
-      this.response$.pipe(
-        pluck('data', 'assertion'),
-        filter(isNonNulled),
-        map((assertion) => ({
-          ...assertion,
-        })) // create new object to trigger change detection
-      ),
-      {
-        initialValue: undefined,
-      }
-    )
+    this.assertion = computed(() => {
+      const assertion = this.response()?.data?.assertion
+      return assertion ? { ...assertion } : undefined
+    })
 
     // provide subscribable input as signal derived from assertion & entity type constant
     this.subscribableInput = computed(() => {
@@ -176,20 +153,18 @@ export class AssertionsDetailView {
 
     // provide endorsements as signal derived from assertion endorsement connection
     this.endorsements = computed(() => {
-      const assertion = this.assertion()
-      return assertion?.endorsements.nodes || []
+      return this.assertion()?.endorsements.nodes || []
     })
 
     // provide endorsement counts as signal derived from assertion endorsement connection
     this.endorsementCounts = computed(() => {
-      const assertion = this.assertion()
+      const endorsements = this.endorsements()
       let counts = {
         active: 0,
         requiresReview: 0,
         revoked: 0,
       }
-      if (assertion) {
-        const endorsements = assertion.endorsements.nodes
+      if (endorsements.length > 0) {
         counts = {
           active: endorsements.filter((node) => node.status === 'ACTIVE')
             .length,
@@ -219,7 +194,7 @@ export class AssertionsDetailView {
       return counts
     })
 
-    // configure tabs
+    // compute tab configuration
     this.tabConfig = computed(() => {
       const assertion = this.assertion()
       let tabConfig = [...this.DEFAULT_TAB_CONFIG]
@@ -266,52 +241,51 @@ export class AssertionsDetailView {
     // provide interation feedback signals
     this.errors = signal<string[]>([])
     this.successMessage = signal<Maybe<string>>(undefined)
+  } // end constructor
 
-    // handle action and user input events
-    this.onRevert = (revertEvent: true | string[]) => {
-      if (revertEvent === true) {
-        this.errors.set([])
-        this.successMessage.set(
-          `Assertion AID${this.assertionId} reverted to Submitted status.`
-        )
-        this.queryRef.refetch()
-      } else {
-        this.errors.set(revertEvent)
-        this.successMessage.set(undefined)
-      }
-    }
-
-    this.onModeration = (moderationEvent: EvidenceStatus | string[]) => {
-      if (Array.isArray(moderationEvent)) {
-        this.errors.set(moderationEvent)
-        this.successMessage.set(undefined)
-      } else {
-        this.errors.set([])
-        this.successMessage.set(moderationEvent)
-      }
-    }
-
-    this.onErrorBannerClose = (err: Maybe<string>) => {
-      if (err) {
-        this.errors.set(this.errors().filter((e) => e != err))
-      }
-    }
-
-    this.onSuccessBannerClose = () => {
+  onRevert(revertEvent: true | string[]) {
+    if (revertEvent === true) {
+      this.errors.set([])
+      this.successMessage.set(
+        `Assertion AID${this.assertionId} reverted to Submitted status.`
+      )
+      this.queryRef.refetch()
+    } else {
+      this.errors.set(revertEvent)
       this.successMessage.set(undefined)
     }
+  }
 
-    this.onEndorsement = (endorsementEvent: EndorsementResult) => {
-      if (endorsementEvent.success) {
-        switch (endorsementEvent.action) {
-          case 'endorse':
-            this.successMessage.set('Assertion endorsed successfully')
-            break
-          case 'revoke':
-            this.successMessage.set('Successfully revoked endorsement')
-            break
-        }
+  onModeration(moderationEvent: EvidenceStatus | string[]) {
+    if (Array.isArray(moderationEvent)) {
+      this.errors.set(moderationEvent)
+      this.successMessage.set(undefined)
+    } else {
+      this.errors.set([])
+      this.successMessage.set(moderationEvent)
+    }
+  }
+
+  onErrorBannerClose(err: Maybe<string>) {
+    if (err) {
+      this.errors.set(this.errors().filter((e) => e != err))
+    }
+  }
+
+  onSuccessBannerClose() {
+    this.successMessage.set(undefined)
+  }
+
+  onEndorsement(endorsementEvent: EndorsementResult) {
+    if (endorsementEvent.success) {
+      switch (endorsementEvent.action) {
+        case 'endorse':
+          this.successMessage.set('Assertion endorsed successfully')
+          break
+        case 'revoke':
+          this.successMessage.set('Successfully revoked endorsement')
+          break
       }
     }
-  } // end constructor
+  }
 }
