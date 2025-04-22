@@ -1,8 +1,9 @@
-@let endorsements = (endorsements$ | ngrxPush) || [];
+<!-- @let endorsements = (endorsements$ | ngrxPush) || []; -->
+@let list = endorsements();
+@let vwr = viewer();
 @if (
-  (endorsements.length > 0 &&
-    ($viewer() | canEndorseAssertion: endorsements)) ||
-  ($viewer() | canRevokeAssertion: endorsements)
+  (list.length > 0 && (vwr | canEndorseAssertion: list)) ||
+  (vwr | canRevokeAssertion: list)
 ) {
   <nz-alert
     nzType="info"
@@ -12,12 +13,12 @@
   <ng-template #endorsementMessage>
     Your endorsement actions will be executed under the authority granted to you
     by
-    <strong>{{ $viewer()?.mostRecentOrg?.name }}.</strong>
+    <strong>{{ vwr?.mostRecentOrg?.name }}.</strong>
   </ng-template>
 }
 <nz-list
-  [nzDataSource]="endorsements"
-  [nzLoading]="loading$ | ngrxPush"
+  [nzDataSource]="list"
+  [nzLoading]="loading()"
   [nzRenderItem]="endorsement"
   nzSize="small"
   nzItemLayout="vertical">
@@ -40,7 +41,18 @@
     </ng-template>
     <ng-template #itemTitle>
       <span class="endorsement-title">
-        Endorsed by {{ endorsement.organization.name }}
+        @switch (endorsement.status) {
+          @case ('REVOKED') {
+            Previously endorsed by
+          }
+          @case ('ACTIVE') {
+            Endorsed by
+          }
+          @case ('REQUIRES_REVIEW') {
+            Endorsement under review by
+          }
+        }
+        {{ endorsement.organization.name }}
       </span>
       <span class="endorsement-status">
         @switch (endorsement.status) {
@@ -180,14 +192,13 @@
     </ng-template>
     <!-- endorsement status & action button -->
     <ng-template #itemExtra>
-      @let viewer = $viewer();
       @if (
         endorsement.status === 'REQUIRES_REVIEW' &&
-        viewer &&
-        viewer.signedIn &&
-        viewer.canModerate &&
-        viewer.mostRecentOrg &&
-        viewer.endorsableOrgIds.includes(endorsement.organization.id)
+        vwr &&
+        vwr.signedIn &&
+        vwr.canModerate &&
+        vwr.mostRecentOrg &&
+        vwr.endorsableOrgIds.includes(endorsement.organization.id)
       ) {
         <button
           nz-button
@@ -200,11 +211,11 @@
       @if (
         (endorsement.status === 'ACTIVE' ||
           endorsement.status === 'REQUIRES_REVIEW') &&
-        viewer &&
-        viewer.signedIn &&
-        viewer.canModerate &&
-        viewer.mostRecentOrg &&
-        viewer.endorsableOrgIds.includes(endorsement.organization.id)
+        vwr &&
+        vwr.signedIn &&
+        vwr.canModerate &&
+        vwr.mostRecentOrg &&
+        vwr.endorsableOrgIds.includes(endorsement.organization.id)
       ) {
         <button
           nz-button
@@ -216,20 +227,20 @@
       }
     </ng-template>
   </ng-template>
-  <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-    <nz-list-footer *ngIf="pageInfo.hasNextPage">
+  @if (pageInfo()?.hasNextPage) {
+    <nz-list-footer>
       <div nz-list-load-more>
         <button
           nz-button
           nzType="link"
           nzSize="small"
           nzBlock
-          (click)="onLoadMore(pageInfo.startCursor)">
+          (click)="onLoadMore(pageInfo()?.startCursor)">
           Load more
         </button>
       </div>
     </nz-list-footer>
-  </ng-container>
+  }
 </nz-list>
 <!-- <h3>Endorsements</h3>
 <pre>{{ endorsements | json }}</pre>

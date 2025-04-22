@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EnvironmentInjector,
   inject,
   input,
@@ -48,8 +49,8 @@ import { pluck } from 'rxjs-etc/operators'
 export class CvcEndorsementListComponent implements OnInit {
   assertionId = input.required<number>()
 
-  /* SOURCE STREAMS */
-  private response$!: Observable<ApolloQueryResult<EndorsementListQuery>>
+  /* SOURCE SIGNALS */
+  private response!: Signal<Maybe<ApolloQueryResult<EndorsementListQuery>>>
 
   /* PRESENTATION SIGNALS */
   viewer!: Signal<Maybe<Viewer>>
@@ -67,20 +68,16 @@ export class CvcEndorsementListComponent implements OnInit {
   >
   private pageSize = 5
 
-  /* ATTRS TO BE REFACTORED */
-  loading$?: Observable<boolean>
-  pageInfo$?: Observable<PageInfo>
-  endorsements$!: Observable<Maybe<EndorsementListNodeFragment>[]>
-  $viewer: Signal<Maybe<Viewer>>
-
   constructor(
     private gql: EndorsementListGQL,
     private injector: EnvironmentInjector,
     private viewerService: ViewerService
   ) {
-    this.$viewer = toSignal(this.viewerService.viewer$, {
-      initialValue: undefined,
-    })
+    this.viewer = toSignal(
+      this.viewerService.viewer$.pipe(
+        map((viewer) => ({ ...viewer })) // create new object to trigger change detection
+      )
+    )
     this.errors = signal<string[]>([])
     this.successMessage = signal<Maybe<string>>(undefined)
   }
@@ -91,40 +88,27 @@ export class CvcEndorsementListComponent implements OnInit {
       first: this.pageSize,
     })
 
-    this.response$ = this.queryRef.valueChanges
-
     runInInjectionContext(this.injector, () => {
-      this.viewer = toSignal(
-        this.viewerService.viewer$.pipe(
-          map((viewer) => ({ ...viewer })) // create new object to trigger change detection
-        )
-      )
-      this.endorsements = toSignal(
-        this.response$.pipe(
-          pluck('data', 'endorsements', 'edges'),
-          filter(isNonNulled),
-          map((edges) => edges.map((e) => e.node))
-        ),
-        {
-          initialValue: [],
-        }
-      )
+      this.response = toSignal(this.queryRef.valueChanges, {
+        initialValue: undefined,
+      })
+    })
+    this.endorsements = computed(() => {
+      let endorsements: Maybe<EndorsementListNodeFragment>[] = []
+      const nodes = this.response()?.data?.endorsements.edges.map((e) => e.node)
+      if (nodes) {
+        endorsements = [...nodes]
+      }
+      return endorsements
     })
 
-    let results = this.queryRef.valueChanges
+    this.pageInfo = computed(() => {
+      return this.response()?.data?.endorsements.pageInfo || undefined
+    })
 
-    this.pageInfo$ = results.pipe(
-      pluck('data', 'endorsements', 'pageInfo'),
-      filter(isNonNulled)
-    )
-
-    this.loading$ = results.pipe(map(({ loading }) => loading))
-
-    this.endorsements$ = results.pipe(
-      pluck('data', 'endorsements', 'edges'),
-      filter(isNonNulled),
-      map((edges) => edges.map((e) => e.node))
-    )
+    this.loading = computed(() => {
+      return this.response()?.loading ?? false
+    })
   }
 
   onLoadMore(cursor: Maybe<string>): void {
@@ -139,12 +123,14 @@ export class CvcEndorsementListComponent implements OnInit {
   refreshList() {
     this.queryRef.refetch()
   }
+
   feedSettings(): ActivityFeedSettings {
     return {
       ...feedDefaultSettings,
       showOrganization: false,
     }
   }
+
   feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
     return {
       ...feedDefaultFilters,
@@ -162,8 +148,5 @@ export class CvcEndorsementListComponent implements OnInit {
       activeEndorsements.filter((ae) => ae!.organization.id === currentOrgId)
         .length > 0
     )
-  }
-  readonly collapseStyle = {
-    border: '1px solid red',
   }
 }
