@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  computed,
+  input,
+  output,
+  Signal,
+  signal,
+} from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -8,19 +16,20 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  Maybe,
+  AssertionDetailGQL,
   EndorseAssertionGQL,
-  EndorseAssertionMutationVariables,
   EndorseAssertionMutation,
-  ViewerOrganizationFragment,
+  EndorseAssertionMutationVariables,
+  EndorsementListGQL,
+  Maybe,
   RevokeEndorsementGQL,
   RevokeEndorsementMutation,
   RevokeEndorsementMutationVariables,
-  AssertionDetailGQL,
-  EndorsementListGQL,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzButtonModule, NzButtonType } from 'ng-zorro-antd/button'
+import { NzSizeLDSType } from 'ng-zorro-antd/core/types'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
@@ -28,14 +37,24 @@ import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { Observable, Subject } from 'rxjs'
-import { pluck } from 'rxjs-etc/dist/esm/operators'
+import { map } from 'rxjs'
 
-export type EndorsementMode = 'endorse' | 'revoke'
+export type EndorsementMode = 'endorse' | 'revoke' | 'endorseChanges'
 export type EndorsementResult = {
   action: EndorsementMode
   success: boolean
   errors: string[]
+}
+
+type ButtonConfig = {
+  label: string
+  icon: string
+  size: NzSizeLDSType
+  display: 'inline' | 'block'
+  disabled: boolean
+  danger: boolean
+  tooltipText: string
+  type: NzButtonType
 }
 
 @UntilDestroy()
@@ -58,11 +77,24 @@ export type EndorsementResult = {
     NzDividerModule,
   ],
 })
-export class CvcEndorseAssertionButtonComponent implements OnInit {
-  @Input() assertionId!: number
-  @Input() mode!: EndorsementMode
+export class CvcEndorseAssertionButtonComponent {
+  assertionId = input.required<number>()
+  mode = input.required<EndorsementMode>()
 
-  @Output() onEndorsed = new EventEmitter<EndorsementResult>()
+  size = input<NzSizeLDSType>('small')
+  display = input<'inline' | 'block'>('inline')
+  disabled = input<boolean>(false)
+  tooltipText = input<Maybe<string>>()
+  onEndorsed = output<EndorsementResult>()
+
+  viewer: Signal<Maybe<Viewer>>
+  mostRecentOrg: Signal<Maybe<ViewerOrganizationFragment>>
+  isSubmitting = signal(false)
+  showConfirm = signal(false)
+  showRevokeConfirm = signal(false)
+  revocationComment = signal<Maybe<string>>(undefined)
+
+  buttonConfig: Signal<Maybe<ButtonConfig>>
 
   endorseAssertionMutator: MutatorWithState<
     EndorseAssertionGQL,
@@ -76,16 +108,6 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
     RevokeEndorsementMutationVariables
   >
 
-  isSubmitting = false
-  showConfirm = false
-  showRevokeConfirm = false
-
-  revocationComment?: string
-
-  mostRecentOrg: Maybe<ViewerOrganizationFragment>
-
-  destroy$ = new Subject<void>()
-  viewer$: Observable<Viewer>
   constructor(
     private endorseAssertionGql: EndorseAssertionGQL,
     private revokeEndorsementGql: RevokeEndorsementGQL,
@@ -94,16 +116,38 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
     private networkErrorService: NetworkErrorsService,
     private viewerService: ViewerService
   ) {
+    this.viewer = toSignal(this.viewerService.viewer$)
+    this.mostRecentOrg = computed(() => {
+      return this.viewer()?.mostRecentOrg
+    })
     this.endorseAssertionMutator = new MutatorWithState(
       this.networkErrorService
     )
     this.revokeAssertionMutator = new MutatorWithState(this.networkErrorService)
 
-    this.viewer$ = this.viewerService.viewer$
+    this.buttonConfig = computed(() => {
+      return this.mode() && this.viewer() ? this.getButtonConfig() : undefined
+    })
   }
 
+  getButtonConfig() {
+    let config: ButtonConfig = {
+      label: 'Endorse',
+      icon: '',
+      size: 'small',
+      display: 'inline',
+      disabled: false,
+      danger: false,
+      tooltipText: '',
+      type: 'default',
+    }
+    return config
+  }
+  showForm() {
+    console.log('showForm')
+  }
   perform() {
-    this.isSubmitting = true
+    this.isSubmitting.set(true)
     let state: MutationState
 
     let mutationOptions = {
@@ -119,13 +163,13 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
       ],
     }
 
-    if (this.mode === 'endorse') {
+    if (this.mode() === 'endorse') {
       state = this.endorseAssertionMutator.mutate(
         this.endorseAssertionGql,
         {
           input: {
-            assertionId: this.assertionId,
-            organizationId: this.mostRecentOrg?.id,
+            assertionId: this.assertionId(),
+            organizationId: this.mostRecentOrg()?.id,
           },
         },
         mutationOptions
@@ -135,9 +179,9 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
         this.revokeEndorsementGql,
         {
           input: {
-            assertionId: this.assertionId,
-            organizationId: this.mostRecentOrg?.id,
-            comment: this.revocationComment || '',
+            assertionId: this.assertionId(),
+            organizationId: this.mostRecentOrg()?.id,
+            comment: this.revocationComment() || '',
           },
         },
         mutationOptions
@@ -146,11 +190,11 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
 
     state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res) {
-        this.isSubmitting = false
-        this.showConfirm = false
-        this.showRevokeConfirm = false
+        this.isSubmitting.set(false)
+        this.showConfirm.set(false)
+        this.showRevokeConfirm.set(false)
         this.onEndorsed.emit({
-          action: this.mode,
+          action: this.mode(),
           success: true,
           errors: [],
         })
@@ -159,11 +203,11 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
 
     state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
       if (errs) {
-        this.isSubmitting = false
-        this.showConfirm = false
-        this.showRevokeConfirm = false
+        this.isSubmitting.set(false)
+        this.showConfirm.set(false)
+        this.showRevokeConfirm.set(false)
         this.onEndorsed.emit({
-          action: this.mode,
+          action: this.mode(),
           success: false,
           errors: errs,
         })
@@ -171,29 +215,12 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
     })
 
     state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
-      this.isSubmitting = loading
+      this.isSubmitting.set(loading)
     })
   }
 
   handleConfirmModalCancel() {
-    this.showConfirm = false
-    this.showRevokeConfirm = false
-  }
-
-  ngOnInit() {
-    if (this.assertionId === undefined) {
-      throw new Error(
-        'Must pass in an assertion id to the CvcEndorseAssertionButtonComponent'
-      )
-    }
-    if (this.mode === undefined) {
-      throw new Error(
-        'Must pass in a mode to the CvcEndorseAssertionButtonComponent'
-      )
-    }
-
-    this.viewer$
-      .pipe(pluck('mostRecentOrg'), untilDestroyed(this))
-      .subscribe((org) => (this.mostRecentOrg = org))
+    this.showConfirm.set(false)
+    this.showRevokeConfirm.set(false)
   }
 }

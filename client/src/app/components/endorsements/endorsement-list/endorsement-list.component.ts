@@ -3,9 +3,7 @@ import {
   Component,
   computed,
   EnvironmentInjector,
-  inject,
   input,
-  Input,
   OnInit,
   runInInjectionContext,
   signal,
@@ -35,9 +33,7 @@ import {
 
 import { QueryRef } from 'apollo-angular'
 
-import { filter, map, Observable } from 'rxjs'
-import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/operators'
+import { map } from 'rxjs'
 
 @Component({
   selector: 'cvc-endorsement-list',
@@ -53,7 +49,7 @@ export class CvcEndorsementListComponent implements OnInit {
   private response!: Signal<Maybe<ApolloQueryResult<EndorsementListQuery>>>
 
   /* PRESENTATION SIGNALS */
-  viewer!: Signal<Maybe<Viewer>>
+  viewer: Signal<Maybe<Viewer>>
   assertion!: Signal<Maybe<AssertionDetailFieldsFragment>>
   endorsements!: Signal<Maybe<EndorsementListNodeFragment>[]>
   loading!: Signal<boolean>

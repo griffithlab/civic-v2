@@ -123,11 +123,7 @@ export class AssertionsDetailView {
     })
 
     // provide viewer$ observable as signal
-    this.viewer = toSignal(
-      this.viewerService.viewer$.pipe(
-        map((viewer) => ({ ...viewer })) // create new object to trigger change detection
-      )
-    )
+    this.viewer = toSignal(this.viewerService.viewer$)
 
     this.loading = computed(() => {
       return this.response()?.loading ?? false
@@ -286,6 +282,9 @@ export class AssertionsDetailView {
           this.successMessage.set('Successfully revoked endorsement')
           break
       }
+    } else {
+      this.errors.set(endorsementEvent.errors)
+      this.successMessage.set(undefined)
     }
   }
 }
