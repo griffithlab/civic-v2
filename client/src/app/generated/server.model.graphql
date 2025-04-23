@@ -3440,6 +3440,11 @@ enum EvidenceSignificance {
   DOMINANT_NEGATIVE
   GAIN_OF_FUNCTION
   LIKELY_BENIGN
+
+  """
+  Likely Oncogenic
+  """
+  LIKELY_ONCOGENIC
   LIKELY_PATHOGENIC
   LOSS_OF_FUNCTION
   NA
