@@ -2186,6 +2186,8 @@ export enum EvidenceSignificance {
   DominantNegative = 'DOMINANT_NEGATIVE',
   GainOfFunction = 'GAIN_OF_FUNCTION',
   LikelyBenign = 'LIKELY_BENIGN',
+  /** Likely Oncogenic */
+  LikelyOncogenic = 'LIKELY_ONCOGENIC',
   LikelyPathogenic = 'LIKELY_PATHOGENIC',
   LossOfFunction = 'LOSS_OF_FUNCTION',
   Na = 'NA',

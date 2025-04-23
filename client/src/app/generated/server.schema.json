@@ -17560,6 +17560,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "LIKELY_ONCOGENIC",
+              "description": "Likely Oncogenic",
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
