@@ -9,7 +9,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
+import { EndorsementResult } from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
 import { CvcFlaggableCounts } from '@app/components/shared/flaggable/flaggable.component'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
