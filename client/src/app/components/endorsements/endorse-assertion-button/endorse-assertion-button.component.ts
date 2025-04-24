@@ -207,7 +207,7 @@ export class CvcEndorseAssertionButtonComponent {
       refetchQueries: [
         {
           query: this.assertionDetailGql.document,
-          variables: { id: this.assertionId() },
+          variables: { assertionId: this.assertionId() },
         },
         {
           query: this.endorsementListGql.document,
@@ -216,7 +216,7 @@ export class CvcEndorseAssertionButtonComponent {
       ],
     }
 
-    if (this.mode() === 'endorse') {
+    if (this.mode() === 'endorse' || this.mode() === 'approveChanges') {
       state = this.endorseAssertionMutator.mutate(
         this.endorseAssertionGql,
         {
