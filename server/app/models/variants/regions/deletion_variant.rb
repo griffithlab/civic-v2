@@ -1,6 +1,6 @@
 module Variants::Regions
-  class DeletionVariant
-    def self.generate_iscn_name(variant)
+  class DeletionVariant < VariantAdapterBase
+    def generate_iscn_name
       if variant.region.cytogenetic_regions.size == 1
         cr = variant.region.cytogenetic_regions.first
         if cr.is_chromosome?
@@ -13,7 +13,7 @@ module Variants::Regions
       end
     end
 
-    def self.validate(variant)
+    def validate
       # no op
     end
   end

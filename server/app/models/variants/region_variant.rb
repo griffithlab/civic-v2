@@ -51,7 +51,7 @@ module Variants
 
     # TODO
     def generate_iscn_name
-      variant_adapter.generate_iscn_name(self)
+      variant_adapter.generate_iscn_name
     end
 
     def correct_coordinate_type
@@ -61,7 +61,7 @@ module Variants
     end
 
     def region_variant_subtype
-      variant_adapter.validate(self)
+      variant_adapter.validate
     end
 
     def number_of_cytogenetic_regions
@@ -83,7 +83,7 @@ module Variants
     private
     def variant_adapter
       if VALID_SINGLE_REGION_VARIANT_NAMES.include?(name) || VALID_MULTIPLE_REGION_VARIANT_NAMES.include?(name)
-        "Variants::Regions::#{name.gsub(" ", "").classify}Variant".constantize
+        @adapter ||= "Variants::Regions::#{name.gsub(" ", "").classify}Variant".constantize.new(self)
       else
         raise StandardError.new("Invalid Region Variant Name: #{name}")
       end

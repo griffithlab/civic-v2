@@ -1,23 +1,16 @@
 module Variants::Regions
-  class HomozygousDeletionVariant
-    def self.generate_iscn_name(variant)
-      if region.cytogenetic_regions.size == 1
-        cr = region.cytogenetic_regions.first
-        if cr.is_chromosome?
-          raise StandardError.new("Homozyguous Deletion cannot specify Chromosome only bands")
-        else
-          "del(#{cr.name}),del(#{cr.name})"
-        end
-      else
-        raise StandardError.new("Homozyguous Deletion can only specify a single cytogenomic region")
-      end
+  class HomozygousDeletionVariant < VariantAdapterBase
+    def generate_iscn_name
+      validate!
+      cr = variant.region.cytogenetic_regions.first
+      "del(#{cr.name}),del(#{cr.name})"
     end
 
-    def self.validate(variant)
-      if region.cytogenetic_regions.size == 1
-        cr = region.cytogenetic_regions.first
+    def validate
+      if variant.region.cytogenetic_regions.size == 1
+        cr = variant.region.cytogenetic_regions.first
         if cr.is_chromosome?
-          variant.errors.add(:region, "Homozyguous Deletion cannot specify Chromosome only bands")
+          variant.errors.add(:region, "Homozyguous Deletion cannot specify Chromosome only bands. Did you mean Nullisomy?")
         end
       else
         variant.errors.add(:region, "Homozyguous Deletion can only specify a single cytogenomic region")
