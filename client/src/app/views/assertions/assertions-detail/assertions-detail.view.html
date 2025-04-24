@@ -69,11 +69,17 @@
               }
               <!-- Create Endorsement Button -->
               @if (vwr | canCreateEndorsement: endorsements()) {
+                @let hasFlags = flaggableCounts().flags > 0;
                 <cvc-endorse-assertion-button
                   *nzSpaceItem
                   mode="endorse"
                   [assertionId]="entity.id"
-                  [tooltipText]="'Endorse this Assertion'"
+                  [disabled]="hasFlags"
+                  [tooltipText]="
+                    hasFlags
+                      ? 'Flagged Assertions cannot be endorsed.'
+                      : 'Endorse this Assertion'
+                  "
                   (onEndorsed)="onEndorsement($event)">
                 </cvc-endorse-assertion-button>
               }

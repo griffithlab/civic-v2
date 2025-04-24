@@ -223,19 +223,26 @@
           @if (endorsement.status === 'REQUIRES_REVIEW') {
             @let approveTip =
               canApprove
-                ? 'Approve pending changes to this endorsement.'
+                ? 'Approve the pending changes to this endorsement.'
                 : 'You are not authorized to approve changes.';
             @let alternateOrgTip =
-              'Switch to original endorsing organization (' +
+              'Switch to original endorsing organization to approve these changes. (' +
               hasAlternateApprovingOrg +
-              ') to approve these changes.';
+              ')';
+            @let hasFlags = (assertion()?.flags)!.totalCount > 0;
+            @let hasFlagsTip =
+              'Changes to flagged Assertions cannot be approved';
             <cvc-endorse-assertion-button
               [assertionId]="assertionId()"
               mode="approveChanges"
-              [disabled]="!canApprove"
+              [disabled]="!canApprove || hasFlags"
               display="block"
               [tooltipText]="
-                hasAlternateApprovingOrg ? alternateOrgTip : approveTip
+                hasFlags
+                  ? hasFlagsTip
+                  : hasAlternateApprovingOrg
+                    ? alternateOrgTip
+                    : approveTip
               "
               (onEndorsed)="
                 onEndorsement($event)

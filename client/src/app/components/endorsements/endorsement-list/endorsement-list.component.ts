@@ -23,6 +23,7 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   AssertionDetailFieldsFragment,
+  AssertionDetailGQL,
   EndorsementListGQL,
   EndorsementListNodeFragment,
   EndorsementListQuery,
@@ -67,6 +68,7 @@ export class CvcEndorsementListComponent implements OnInit {
 
   constructor(
     private gql: EndorsementListGQL,
+    private assertionGQL: AssertionDetailGQL,
     private injector: EnvironmentInjector,
     private viewerService: ViewerService
   ) {
@@ -89,6 +91,19 @@ export class CvcEndorsementListComponent implements OnInit {
       this.response = toSignal(this.queryRef.valueChanges, {
         initialValue: undefined,
       })
+      this.assertion = toSignal(
+        this.assertionGQL
+          .watch(
+            {
+              assertionId: this.assertionId(),
+            },
+            { fetchPolicy: 'cache-only' }
+          )
+          .valueChanges.pipe(map((res) => res.data?.assertion)),
+        {
+          initialValue: undefined,
+        }
+      )
     })
     this.endorsements = computed(() => {
       let endorsements: Maybe<EndorsementListNodeFragment>[] = []
