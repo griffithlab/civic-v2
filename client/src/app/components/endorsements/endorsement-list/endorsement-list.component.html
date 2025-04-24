@@ -212,14 +212,6 @@
         @let canRevoke = vwr | canRevokeEndorsement: endorsement;
         @let hasAlternateApprovingOrg =
           vwr | hasAlternateApprovingOrg: endorsement;
-        @let approveTip =
-          canApprove
-            ? 'Approve pending changes to this endorsement.'
-            : 'You are not authorized to approve changes.';
-        @let alternateOrgTip =
-          'Switch to original endorsing organization (' +
-          hasAlternateApprovingOrg +
-          ') to approve these changes.';
         @let revokeTooltip =
           canRevoke
             ? 'Revoke this Endorsement'
@@ -228,15 +220,27 @@
           nz-flex
           nzVertical
           [nzGap]="8">
-          <cvc-endorse-assertion-button
-            [assertionId]="assertionId()"
-            mode="approveChanges"
-            [disabled]="!canApprove"
-            display="block"
-            [tooltipText]="
-              hasAlternateApprovingOrg ? alternateOrgTip : approveTip
-            "
-            (onEndorsed)="onEndorsement($event)"></cvc-endorse-assertion-button>
+          @if (endorsement.status === 'REQUIRES_REVIEW') {
+            @let approveTip =
+              canApprove
+                ? 'Approve pending changes to this endorsement.'
+                : 'You are not authorized to approve changes.';
+            @let alternateOrgTip =
+              'Switch to original endorsing organization (' +
+              hasAlternateApprovingOrg +
+              ') to approve these changes.';
+            <cvc-endorse-assertion-button
+              [assertionId]="assertionId()"
+              mode="approveChanges"
+              [disabled]="!canApprove"
+              display="block"
+              [tooltipText]="
+                hasAlternateApprovingOrg ? alternateOrgTip : approveTip
+              "
+              (onEndorsed)="
+                onEndorsement($event)
+              "></cvc-endorse-assertion-button>
+          }
           <cvc-endorse-assertion-button
             [assertionId]="assertionId()"
             mode="revoke"

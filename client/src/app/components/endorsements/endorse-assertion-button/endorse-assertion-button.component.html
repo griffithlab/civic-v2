@@ -10,13 +10,99 @@
     [nzLoading]="isSubmitting()"
     nz-tooltip
     [nzTooltipTitle]="btnConfig.tooltipText"
-    (click)="showForm()">
+    (click)="createModal()">
     <i
       nz-icon
       [nzType]="btnConfig.icon"></i>
     {{ btnConfig.label }}
   </button>
 }
+
+<!-- modal title -->
+<ng-template #modalTitle>
+  @if (this.mode() === 'endorse') {
+    Endorse This Assertion
+  } @else if (this.mode() === 'revoke') {
+    Revoke This Assertion's Endorsement
+  } @else if (this.mode() === 'approveChanges') {
+    Approve Changes to This Assertion's Endorsement
+  }
+</ng-template>
+
+<!-- Endorse Assertion modal content-->
+<ng-template #endorseModalContent>
+  <nz-spin [nzSpinning]="isSubmitting()">
+    <span>
+      You are about to formally
+      <strong>
+        Endorse this Assertion on behalf of
+        {{ mostRecentOrg()?.name }} </strong
+      >. Are you sure you wish to proceed?
+    </span>
+  </nz-spin>
+</ng-template>
+
+<!-- Revoke Assertion modal content-->
+<ng-template #revokeModalContent>
+  <nz-spin [nzSpinning]="isSubmitting()">
+    <span>
+      You are about to formally
+      <strong>
+        Revoke {{ mostRecentOrg()?.name }}'s Endorsement of this
+        Assertion</strong
+      >. Are you sure you wish to proceed?
+    </span>
+    <nz-divider class="endorsement-divider"></nz-divider>
+    <textarea
+      placeholder="Enter a reason for revoking this Endorsement"
+      rows="4"
+      nz-input
+      [(ngModel)]="revocationComment"></textarea>
+  </nz-spin>
+</ng-template>
+
+<!-- Approve Assertion Changes modal content-->
+<ng-template #approveChangesModalContent>
+  APPROVE ASSERTION CHANGES
+</ng-template>
+
+<!-- modal footer -->
+<ng-template
+  #modalFooter
+  let-ref="modalRef">
+  <button
+    nz-button
+    (click)="ref.destroy()"
+    nzSize="small">
+    Cancel
+  </button>
+  @if (mode() === 'endorse' || mode() === 'approveChanges') {
+    <button
+      nzType="primary"
+      nzSize="small"
+      nz-button
+      (click)="perform()"
+      nz-tooltip
+      [nzTooltipTrigger]="mostRecentOrg() ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + mostRecentOrg()?.name">
+      Endorse
+    </button>
+  }
+  @if (mode() === 'revoke') {
+    @let comment = revocationComment();
+    <button
+      [disabled]="comment == undefined || comment.length < 10"
+      nzType="primary"
+      nzSize="small"
+      nz-button
+      (click)="perform()"
+      nz-tooltip
+      [nzTooltipTrigger]="mostRecentOrg() ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + mostRecentOrg()?.name">
+      Revoke Endorsement
+    </button>
+  }
+</ng-template>
 
 <!-- @if (mode() === 'endorse') {
   <button

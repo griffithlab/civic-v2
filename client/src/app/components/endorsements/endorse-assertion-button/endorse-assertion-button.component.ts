@@ -6,6 +6,8 @@ import {
   output,
   Signal,
   signal,
+  ViewChild,
+  TemplateRef,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -33,7 +35,7 @@ import { NzSizeLDSType } from 'ng-zorro-antd/core/types'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { NzModalModule } from 'ng-zorro-antd/modal'
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
@@ -78,6 +80,13 @@ type ButtonConfig = {
   ],
 })
 export class CvcEndorseAssertionButtonComponent {
+  @ViewChild('endorseModalContent') endorseModalContent!: TemplateRef<any>
+  @ViewChild('revokeModalContent') revokeModalContent!: TemplateRef<any>
+  @ViewChild('approveChangesModalContent')
+  approveChangesModalContent!: TemplateRef<any>
+  @ViewChild('modalTitle') modalTitle!: TemplateRef<any>
+  @ViewChild('modalFooter') modalFooter!: TemplateRef<any>
+
   assertionId = input.required<number>()
   mode = input.required<EndorsementMode>()
 
@@ -91,8 +100,6 @@ export class CvcEndorseAssertionButtonComponent {
   viewer: Signal<Maybe<Viewer>>
   mostRecentOrg: Signal<Maybe<ViewerOrganizationFragment>>
   isSubmitting = signal(false)
-  showConfirm = signal(false)
-  showRevokeConfirm = signal(false)
   revocationComment = signal<Maybe<string>>(undefined)
 
   buttonConfig: Signal<Maybe<ButtonConfig>>
@@ -115,7 +122,8 @@ export class CvcEndorseAssertionButtonComponent {
     private assertionDetailGql: AssertionDetailGQL,
     private endorsementListGql: EndorsementListGQL,
     private networkErrorService: NetworkErrorsService,
-    private viewerService: ViewerService
+    private viewerService: ViewerService,
+    private modal: NzModalService
   ) {
     this.viewer = toSignal(this.viewerService.viewer$)
     this.mostRecentOrg = computed(() => {
@@ -132,7 +140,7 @@ export class CvcEndorseAssertionButtonComponent {
   }
 
   getButtonConfig() {
-    let configBase: Partial<ButtonConfig> = {
+    const configBase: Partial<ButtonConfig> = {
       size: this.size(),
       type: this.type(),
       display: this.display(),
@@ -166,9 +174,31 @@ export class CvcEndorseAssertionButtonComponent {
         return undefined
     }
   }
-  showForm() {
-    console.log('showForm')
+
+  createModal() {
+    const mode = this.mode()
+    const modalBase = {
+      nzTitle: this.modalTitle,
+      nzFooter: this.modalFooter,
+    }
+    if (mode === 'endorse') {
+      this.modal.create({
+        ...modalBase,
+        nzContent: this.endorseModalContent,
+      })
+    } else if (mode === 'revoke') {
+      this.modal.create({
+        ...modalBase,
+        nzContent: this.revokeModalContent,
+      })
+    } else if (mode === 'approveChanges') {
+      this.modal.create({
+        ...modalBase,
+        nzContent: this.approveChangesModalContent,
+      })
+    }
   }
+
   perform() {
     this.isSubmitting.set(true)
     let state: MutationState
@@ -177,11 +207,11 @@ export class CvcEndorseAssertionButtonComponent {
       refetchQueries: [
         {
           query: this.assertionDetailGql.document,
-          variables: { id: this.assertionId },
+          variables: { id: this.assertionId() },
         },
         {
           query: this.endorsementListGql.document,
-          variables: { assertionId: this.assertionId },
+          variables: { assertionId: this.assertionId() },
         },
       ],
     }
@@ -214,36 +244,29 @@ export class CvcEndorseAssertionButtonComponent {
     state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res) {
         this.isSubmitting.set(false)
-        this.showConfirm.set(false)
-        this.showRevokeConfirm.set(false)
         this.onEndorsed.emit({
           action: this.mode(),
           success: true,
           errors: [],
         })
+        this.modal.closeAll()
       }
     })
 
     state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
       if (errs) {
         this.isSubmitting.set(false)
-        this.showConfirm.set(false)
-        this.showRevokeConfirm.set(false)
         this.onEndorsed.emit({
           action: this.mode(),
           success: false,
           errors: errs,
         })
+        this.modal.closeAll()
       }
     })
 
     state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
       this.isSubmitting.set(loading)
     })
-  }
-
-  handleConfirmModalCancel() {
-    this.showConfirm.set(false)
-    this.showRevokeConfirm.set(false)
   }
 }
