@@ -26,9 +26,6 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { filter, map, Observable } from 'rxjs'
-import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/operators'
 
 type EndorsementCounts = {
   active: number
