@@ -182,9 +182,11 @@
               {{ endorsement.lastReviewed | timeAgo }}
             </span>
           </nz-descriptions-item>
-          @if (endorsement.revocationActivity) {
+          @if (
+            endorsement.status === 'REVOKED' && endorsement.revocationActivity
+          ) {
             <nz-descriptions-item
-              nzTitle="Revocation Note"
+              nzTitle="Reason for Revocation"
               nzSpan="2">
               @if (endorsement.revocationActivity?.note) {
                 <p nz-typography>
@@ -205,12 +207,46 @@
 
     <!-- endorsement status & action button -->
     <ng-template #itemExtra>
-      @if (!(endorsement.status === 'REVOKED')) {
+      @if (endorsement.status !== 'REVOKED') {
+        @let canApprove = vwr | canApproveEndorsement: endorsement;
+        @let canRevoke = vwr | canRevokeEndorsement: endorsement;
+        @let hasAlternateApprovingOrg =
+          vwr | hasAlternateApprovingOrg: endorsement;
+        @let approveTip =
+          canApprove
+            ? 'Approve pending changes to this endorsement.'
+            : 'You are not authorized to approve changes.';
+        @let alternateOrgTip =
+          'Switch to original endorsing organization (' +
+          hasAlternateApprovingOrg +
+          ') to approve these changes.';
+        @let revokeTooltip =
+          canRevoke
+            ? 'Revoke this Endorsement'
+            : 'You are not authorized to revoke endorsement';
         <div
           nz-flex
           nzVertical
           [nzGap]="8">
-          <button
+          <cvc-endorse-assertion-button
+            [assertionId]="assertionId()"
+            mode="approveChanges"
+            [disabled]="!canApprove"
+            display="block"
+            [tooltipText]="
+              hasAlternateApprovingOrg ? alternateOrgTip : approveTip
+            "
+            (onEndorsed)="onEndorsement($event)"></cvc-endorse-assertion-button>
+          <cvc-endorse-assertion-button
+            [assertionId]="assertionId()"
+            mode="revoke"
+            [disabled]="!canRevoke"
+            display="block"
+            [tooltipText]="revokeTooltip"
+            (onEndorsed)="onEndorsement($event)"></cvc-endorse-assertion-button>
+        </div>
+      }
+      <!-- <button
             nz-button
             [disabled]="!(vwr | canApproveEndorsement: endorsement)"
             nzType="primary"
@@ -225,9 +261,7 @@
               nzBlock>
               Revoke
             </button>
-          }
-        </div>
-      }
+          } -->
     </ng-template>
   </ng-template>
   @if (pageInfo()?.hasNextPage) {

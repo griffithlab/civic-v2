@@ -34,6 +34,7 @@ import {
 import { QueryRef } from 'apollo-angular'
 
 import { map } from 'rxjs'
+import { EndorsementResult } from '../endorse-assertion-button/endorse-assertion-button.component'
 
 @Component({
   selector: 'cvc-endorsement-list',
@@ -116,6 +117,9 @@ export class CvcEndorsementListComponent implements OnInit {
     })
   }
 
+  onEndorsement(endorsementResult: EndorsementResult) {
+    console.log('onEndorsement', endorsementResult)
+  }
   refreshList() {
     this.queryRef.refetch()
   }

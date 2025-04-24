@@ -1,4 +1,24 @@
-@if (mode() === 'endorse') {
+@let btnConfig = buttonConfig();
+@if (btnConfig) {
+  <button
+    nz-button
+    [nzType]="btnConfig.type"
+    [nzSize]="btnConfig.size"
+    [disabled]="btnConfig.disabled"
+    [nzDanger]="btnConfig.danger"
+    [nzBlock]="btnConfig.display === 'block'"
+    [nzLoading]="isSubmitting()"
+    nz-tooltip
+    [nzTooltipTitle]="btnConfig.tooltipText"
+    (click)="showForm()">
+    <i
+      nz-icon
+      [nzType]="btnConfig.icon"></i>
+    {{ btnConfig.label }}
+  </button>
+}
+
+<!-- @if (mode() === 'endorse') {
   <button
     nz-button
     nz-tooltip="Endorse This Assertion"
@@ -120,4 +140,4 @@
       </nz-spin>
     </ng-template>
   </nz-modal>
-}
+} -->

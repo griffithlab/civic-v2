@@ -37,9 +37,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { map } from 'rxjs'
+import { config, map } from 'rxjs'
 
-export type EndorsementMode = 'endorse' | 'revoke' | 'endorseChanges'
+export type EndorsementMode = 'endorse' | 'revoke' | 'approveChanges'
 export type EndorsementResult = {
   action: EndorsementMode
   success: boolean
@@ -53,7 +53,7 @@ type ButtonConfig = {
   display: 'inline' | 'block'
   disabled: boolean
   danger: boolean
-  tooltipText: string
+  tooltipText: Maybe<string>
   type: NzButtonType
 }
 
@@ -82,6 +82,7 @@ export class CvcEndorseAssertionButtonComponent {
   mode = input.required<EndorsementMode>()
 
   size = input<NzSizeLDSType>('small')
+  type = input<NzButtonType>('default')
   display = input<'inline' | 'block'>('inline')
   disabled = input<boolean>(false)
   tooltipText = input<Maybe<string>>()
@@ -126,22 +127,44 @@ export class CvcEndorseAssertionButtonComponent {
     this.revokeAssertionMutator = new MutatorWithState(this.networkErrorService)
 
     this.buttonConfig = computed(() => {
-      return this.mode() && this.viewer() ? this.getButtonConfig() : undefined
+      return this.mode() ? this.getButtonConfig() : undefined
     })
   }
 
   getButtonConfig() {
-    let config: ButtonConfig = {
-      label: 'Endorse',
-      icon: '',
-      size: 'small',
-      display: 'inline',
-      disabled: false,
+    let configBase: Partial<ButtonConfig> = {
+      size: this.size(),
+      type: this.type(),
+      display: this.display(),
+      disabled: this.disabled(),
       danger: false,
-      tooltipText: '',
-      type: 'default',
+      tooltipText: this.tooltipText(),
     }
-    return config
+    switch (this.mode()) {
+      case 'endorse':
+        return {
+          ...configBase,
+          label: 'Endorse',
+          icon: 'safety-certificate',
+        } as ButtonConfig
+      case 'revoke':
+        return {
+          ...configBase,
+          label: 'Revoke',
+          icon: 'stop',
+          type: 'primary',
+          danger: true,
+        } as ButtonConfig
+      case 'approveChanges':
+        return {
+          ...configBase,
+          label: 'Approve',
+          icon: 'safety-certificate',
+          type: 'primary',
+        } as ButtonConfig
+      default:
+        return undefined
+    }
   }
   showForm() {
     console.log('showForm')

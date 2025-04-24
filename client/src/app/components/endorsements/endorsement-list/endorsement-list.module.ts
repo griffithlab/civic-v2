@@ -21,6 +21,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcCanEndorse } from '../endorsement-pipes/can-endorse.pipe'
 import { CvcCanApproveEndorsement } from '../endorsement-pipes/can-approve-endorsement.pipe'
 import { CvcCanRevokeEndorsement } from '../endorsement-pipes/can-revoke-endorsement.pipe'
+import { CvcEndorseAssertionButtonComponent } from '../endorse-assertion-button/endorse-assertion-button.component'
+import { CvcHasAlternateApprovingOrg } from '../endorsement-pipes/has-alternate-approving-org.pipe'
 @NgModule({
   declarations: [CvcEndorsementListComponent],
   imports: [
@@ -39,6 +41,7 @@ import { CvcCanRevokeEndorsement } from '../endorsement-pipes/can-revoke-endorse
     NzCollapseModule,
     NzDescriptionsModule,
     CvcPipesModule,
+    CvcEndorseAssertionButtonComponent,
     CvcEndorsementDisplayModule,
     CvcOrganizationTagModule,
     CvcUserTagModule,
@@ -46,6 +49,7 @@ import { CvcCanRevokeEndorsement } from '../endorsement-pipes/can-revoke-endorse
     CvcCanEndorse,
     CvcCanApproveEndorsement,
     CvcCanRevokeEndorsement,
+    CvcHasAlternateApprovingOrg,
   ],
   exports: [CvcEndorsementListComponent],
 })
