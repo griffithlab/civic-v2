@@ -63,7 +63,9 @@
 
 <!-- Approve Assertion Changes modal content-->
 <ng-template #approveChangesModalContent>
-  APPROVE ASSERTION CHANGES
+  Before approving this Assertion's changes, ensure that they do not effect the
+  original endorsement by <strong>{{ mostRecentOrg()?.name }}</strong
+  >.
 </ng-template>
 
 <!-- modal footer -->
@@ -77,6 +79,7 @@
     Cancel
   </button>
   @if (mode() === 'endorse' || mode() === 'approveChanges') {
+    @let label = mode() === 'endorse' ? 'Endorse' : 'Approve Changes';
     <button
       nzType="primary"
       nzSize="small"
@@ -85,7 +88,7 @@
       nz-tooltip
       [nzTooltipTrigger]="mostRecentOrg() ? 'hover' : null"
       [nzTooltipTitle]="'For ' + mostRecentOrg()?.name">
-      Endorse
+      {{ label }}
     </button>
   }
   @if (mode() === 'revoke') {
