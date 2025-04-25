@@ -7,7 +7,7 @@ class Mutations::CreateLinkedSource < Mutations::MutationWithOrg
   argument :linked_source_id, GraphQL::Types::Int, required: true,
     description: "The ID of the source being linked."
 
-  argument :reason, String, required: true,
+  argument :reason, Types::SourceLinkReasonType, required: true,
     description: "Reason for linking the sources. Must be one of: #{SourceLink.reasons.keys.join(', ')}"
 
   argument :note, String, required: false,

@@ -2358,7 +2358,7 @@ input CreateLinkedSourceInput {
   """
   Reason for linking the sources. Must be one of: same_clinical_trial, overlapping_data_or_patients, related_abstract, other
   """
-  reason: String!
+  reason: SourceLinkReason!
 
   """
   The ID of the source.
@@ -10511,9 +10511,16 @@ type SourceLink {
   id: ID!
   linkedSource: Source!
   note: String
-  reason: String!
+  reason: SourceLinkReason!
   source: Source!
   updatedAt: ISO8601DateTime!
+}
+
+enum SourceLinkReason {
+  OTHER
+  OVERLAPPING_DATA_OR_PATIENTS
+  RELATED_ABSTRACT
+  SAME_CLINICAL_TRIAL
 }
 
 type SourcePopover implements Commentable & EventSubject {

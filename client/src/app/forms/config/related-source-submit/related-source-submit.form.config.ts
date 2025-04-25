@@ -35,10 +35,13 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Reason for Linking',
               required: true,
               options: [
-                { value: 'same_clinical_trial', label: 'Same Clinical Trial' },
-                { value: 'overlapping_data_or_patients', label: 'Overlapping Data or Patients' },
-                { value: 'related_abstract', label: 'Related Abstract' },
-                { value: 'other', label: 'Other' },
+                { value: 'SAME_CLINICAL_TRIAL', label: 'Same Clinical Trial' },
+                {
+                  value: 'OVERLAPPING_DATA_OR_PATIENTS',
+                  label: 'Overlapping Data or Patients',
+                },
+                { value: 'RELATED_ABSTRACT', label: 'Related Abstract' },
+                { value: 'OTHER', label: 'Other' },
               ],
             },
           },
@@ -73,7 +76,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
         ],
-      }
+      },
     ],
   },
 ]
