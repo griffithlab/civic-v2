@@ -44,10 +44,10 @@ import { ActivatedRoute } from '@angular/router'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-submit-form',
-    templateUrl: './evidence-submit.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-submit-form',
+  templateUrl: './evidence-submit.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   model?: EvidenceSubmitModel
@@ -196,6 +196,7 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
           molecularProfileId: newModel.fields.molecularProfileId,
           sourceId: newModel.fields.sourceId,
         })
+        console.log(newModel.fields.sourceId)
         this.relatedCountQueryRef?.refetch({
           molecularProfileId: newModel.fields.molecularProfileId,
           sourceId: newModel.fields.sourceId,

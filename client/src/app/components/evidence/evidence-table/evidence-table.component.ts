@@ -65,11 +65,11 @@ export interface EvidenceTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-table',
-    templateUrl: './evidence-table.component.html',
-    styleUrls: ['./evidence-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-table',
+  templateUrl: './evidence-table.component.html',
+  styleUrls: ['./evidence-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() cvcHeight: Maybe<string>
@@ -83,6 +83,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() organizationId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() sourceId: Maybe<number>
+  @Input() linkedSourceId: Maybe<number>
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
@@ -153,7 +154,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.scrollIndex$ = new Subject<number>()
     this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
       if (params.has('includeSubgroups')) {
-        this.includeSubgroups = params.get('includeSubgroups') === 'true' ? true : false
+        this.includeSubgroups =
+          params.get('includeSubgroups') === 'true' ? true : false
       }
     })
   }
@@ -181,6 +183,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       phenotypeId: this.phenotypeId,
       rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
       sourceId: this.sourceId,
+      linkedSourceId: this.linkedSourceId,
       status: this.status || EvidenceStatusFilter.NonRejected,
       userId: this.userId,
       variantId: this.variantId,

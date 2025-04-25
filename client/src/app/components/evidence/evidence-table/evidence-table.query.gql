@@ -24,6 +24,7 @@ query EvidenceBrowse(
   $diseaseId: Int
   $therapyId: Int
   $sourceId: Int
+  $linkedSourceId: Int
   $clinicalTrialId: Int
   $molecularProfileName: String
   $status: EvidenceStatusFilter
@@ -52,6 +53,7 @@ query EvidenceBrowse(
     diseaseId: $diseaseId
     therapyId: $therapyId
     sourceId: $sourceId
+    linkedSourceId: $linkedSourceId
     clinicalTrialId: $clinicalTrialId
     molecularProfileName: $molecularProfileName
     status: $status

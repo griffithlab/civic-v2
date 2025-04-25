@@ -8289,6 +8289,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   diseaseId?: InputMaybe<Scalars['Int']['input']>;
   therapyId?: InputMaybe<Scalars['Int']['input']>;
   sourceId?: InputMaybe<Scalars['Int']['input']>;
+  linkedSourceId?: InputMaybe<Scalars['Int']['input']>;
   clinicalTrialId?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<EvidenceStatusFilter>;
@@ -14397,7 +14398,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $linkedSourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -14422,6 +14423,7 @@ export const EvidenceBrowseDocument = gql`
     diseaseId: $diseaseId
     therapyId: $therapyId
     sourceId: $sourceId
+    linkedSourceId: $linkedSourceId
     clinicalTrialId: $clinicalTrialId
     molecularProfileName: $molecularProfileName
     status: $status
