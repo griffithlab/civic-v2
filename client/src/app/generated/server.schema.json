@@ -17694,6 +17694,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "LIKELY_ONCOGENIC",
+              "description": "Likely Oncogenic",
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -30832,6 +30838,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": "Comment explaining the moderation action. Required when rejecting.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
@@ -31103,6 +31121,18 @@
                   "name": "EvidenceStatus",
                   "ofType": null
                 }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": "Optional comment explaining the moderation action. Required if the new status is 'rejected'.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -37309,12 +37339,20 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "id",
-              "description": "The organization ID.",
+              "name": "ids",
+              "description": "An array of organization IDs.",
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -38445,20 +38483,12 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "organizationId",
-                  "description": null,
+                  "name": "organization",
+                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
                   "type": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Int",
-                        "ofType": null
-                      }
-                    }
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
+                    "ofType": null
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
@@ -38756,11 +38786,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "organizationId",
-                  "description": "Exact match filtering on the ID of the organization the assertion was submitted under.",
+                  "name": "organization",
+                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -41139,11 +41169,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "organizationId",
-                  "description": "Exact match filtering on the ID of the organization the evidence item was submitted under.",
+                  "name": "organization",
+                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -43757,6 +43787,18 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "hasLinkedEvidence",
+                  "description": "Limit to therapies that are linked to at least one non-rejected Evidence Item or Assertion",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -59174,6 +59216,12 @@
             },
             {
               "name": "COMBINED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "MIXED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

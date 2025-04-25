@@ -173,12 +173,13 @@
           <td nzLeft>
             <cvc-molecular-profile-tag
               [molecularProfile]="mp"
-              [truncateLongName]="true"></cvc-molecular-profile-tag>
+              [truncateLongName]="true"
+              popoverPlacement="right"></cvc-molecular-profile-tag>
           </td>
           <td>
             <cvc-plain-tag-overflow
               [maxDisplayCount]="1"
-              [tags]="mp.aliases | pluck : 'name'"
+              [tags]="mp.aliases | pluck: 'name'"
               [maxDisplayCount]="1"
               [matchingText]="aliasInput"></cvc-plain-tag-overflow>
           </td>

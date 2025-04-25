@@ -33,6 +33,7 @@
         <nz-col [nzSpan]="24">
           <nz-descriptions
             nzSize="small"
+            nzLayout="horizontal"
             [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
             nzBordered="true">
             <!-- assertion type -->
@@ -89,26 +90,31 @@
 
             <!-- AMP/ASO/CAP -->
             <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
-              <ng-container *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType); else valueNotApplicable">
+              <ng-container
+                *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType); else valueNotApplicable">
                 <nz-tag>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-tag>
               </ng-container>
             </nz-descriptions-item>
 
             <!-- ACMG Codes -->
-            <nz-descriptions-item [nzSpan]='2' [nzTitle]="acmgTitle">
+            <nz-descriptions-item
+              [nzSpan]="2"
+              [nzTitle]="acmgTitle">
               <ng-template #acmgTitle>
                 ACMG Codes
-                <span nz-typography
+                <span
+                  nz-typography
                   nzType="secondary">
-                  <i nz-icon
+                  <i
+                    nz-icon
                     nzType="info-circle"
                     nz-tooltip
-                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met."
-                    >
+                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
                   </i>
                 </span>
               </ng-template>
-              <ng-container *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else valueNotApplicable">
+              <ng-container
+                *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else valueNotApplicable">
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
@@ -130,16 +136,19 @@
             </nz-descriptions-item>
 
             <!-- ClinGen Codes -->
-            <nz-descriptions-item [nzSpan]='2' [nzTitle]="clingenTitle">
+            <nz-descriptions-item
+              [nzSpan]="2"
+              [nzTitle]="clingenTitle">
               <ng-template #clingenTitle>
                 ClinGen/CGC/VICC Codes
-                <span nz-typography
+                <span
+                  nz-typography
                   nzType="secondary">
-                  <i nz-icon
+                  <i
+                    nz-icon
                     nzType="info-circle"
                     nz-tooltip
-                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met."
-                    >
+                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
                   </i>
                 </span>
               </ng-template>
@@ -151,7 +160,8 @@
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.clingenCodes"
-                      >{{ code.code }}</nz-tag>
+                      >{{ code.code }}</nz-tag
+                    >
                   </cvc-tag-list>
                 </ng-container>
                 <ng-container *ngIf="assertion.clingenCodes.length == 0">
@@ -228,11 +238,12 @@
             <ng-container
               *ngIf="assertion.rejectionEvent !== null || assertion.acceptanceEvent !== null">
               <!-- show acceptance only if no rejection event exists and the AID is accepted -->
-              <ng-container *ngIf="assertion.status == statusValues.Accepted && assertion.acceptanceEvent">
-                <nz-descriptions-item
-                  [nzTitle]="acceptedTitle">
+              <ng-container
+                *ngIf="assertion.status == statusValues.Accepted && assertion.acceptanceEvent">
+                <nz-descriptions-item [nzTitle]="acceptedTitle">
                   by
-                  <cvc-user-tag [user]="assertion.acceptanceEvent!.originatingUser"></cvc-user-tag>
+                  <cvc-user-tag
+                    [user]="assertion.acceptanceEvent!.originatingUser"></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #acceptedTitle>
                   Accepted
@@ -244,23 +255,23 @@
                 </ng-template>
               </ng-container>
 
-                <ng-container *ngIf="assertion.status == statusValues.Rejected && assertion.rejectionEvent">
-                  <nz-descriptions-item
-                    [nzTitle]="rejectedTitle">
-                    by {{ assertion.rejectionEvent!.createdAt | timeAgo }} by
-                    <cvc-user-tag
-                      [user]="assertion.rejectionEvent!.originatingUser"></cvc-user-tag>
-                  </nz-descriptions-item>
-                  <ng-template #rejectedTitle>
-                    Rejected
-                    <span
-                      nz-typography
-                      nzType="secondary">
-                      ({{ assertion.rejectionEvent!.createdAt | timeAgo }})
-                    </span>
-                  </ng-template>
-                </ng-container>
+              <ng-container
+                *ngIf="assertion.status == statusValues.Rejected && assertion.rejectionEvent">
+                <nz-descriptions-item [nzTitle]="rejectedTitle">
+                  by {{ assertion.rejectionEvent!.createdAt | timeAgo }} by
+                  <cvc-user-tag
+                    [user]="assertion.rejectionEvent!.originatingUser"></cvc-user-tag>
+                </nz-descriptions-item>
+                <ng-template #rejectedTitle>
+                  Rejected
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ assertion.rejectionEvent!.createdAt | timeAgo }})
+                  </span>
+                </ng-template>
               </ng-container>
+            </ng-container>
           </nz-descriptions>
         </nz-col>
 
@@ -268,6 +279,7 @@
         <nz-col [nzSpan]="24">
           <nz-descriptions
             nzSize="small"
+            nzLayout="horizontal"
             nzBordered="true"
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- molecular profile -->

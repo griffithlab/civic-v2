@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_144840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -337,6 +337,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
     t.text "name", null: false
   end
 
+  create_table "cytogenetic_coordinates", force: :cascade do |t|
+    t.bigint "cytogenetic_region_id", null: false
+    t.integer "reference_build", null: false
+    t.text "chromosome", null: false
+    t.integer "start", null: false
+    t.integer "stop", null: false
+    t.index ["chromosome"], name: "index_cytogenetic_coordinates_on_chromosome"
+    t.index ["cytogenetic_region_id"], name: "index_cytogenetic_coordinates_on_cytogenetic_region_id"
+    t.index ["reference_build"], name: "index_cytogenetic_coordinates_on_reference_build"
+    t.index ["start"], name: "index_cytogenetic_coordinates_on_start"
+    t.index ["stop"], name: "index_cytogenetic_coordinates_on_stop"
+  end
+
+  create_table "cytogenetic_regions", force: :cascade do |t|
+    t.text "name", null: false
+    t.text "chromosome", null: false
+    t.text "band"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band"], name: "index_cytogenetic_regions_on_band"
+    t.index ["chromosome"], name: "index_cytogenetic_regions_on_chromosome"
+    t.index ["name"], name: "index_cytogenetic_regions_on_name"
+  end
+
   create_table "data_versions", id: :serial, force: :cascade do |t|
     t.integer "version", default: 0
   end
@@ -578,6 +602,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
     t.boolean "deleted", default: false
     t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
+    t.text "uniprot_ids", default: [], array: true
     t.index "char_length((name)::text)", name: "gene_name_size_idx"
     t.index ["deleted"], name: "index_genes_on_deleted"
     t.index ["name"], name: "index_genes_on_name"
@@ -705,6 +730,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
     t.integer "pipeline_types_id"
     t.index ["pipeline_type_id"], name: "index_pipeline_types_variant_types_on_pipeline_type_id"
     t.index ["variant_type_id", "pipeline_type_id"], name: "idx_variant_type_pipeline_type"
+  end
+
+  create_table "region_members", force: :cascade do |t|
+    t.bigint "region_id", null: false
+    t.bigint "cytogenetic_region_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cytogenetic_region_id"], name: "index_region_members_on_cytogenetic_region_id"
+    t.index ["position"], name: "index_region_members_on_position"
+    t.index ["region_id"], name: "index_region_members_on_region_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "regulatory_agencies", id: :serial, force: :cascade do |t|
@@ -1029,11 +1070,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url"
+    t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
+    t.text "open_cravat_url"
+    t.string "iscn_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -1041,6 +1084,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
     t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
     t.index ["gene_id"], name: "index_variants_on_gene_id"
+    t.index ["iscn_name"], name: "index_variants_on_iscn_name"
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
     t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
@@ -1085,6 +1129,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
   add_foreign_key "badge_claims", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "conflict_of_interest_statements", "users"
+  add_foreign_key "cytogenetic_coordinates", "cytogenetic_regions"
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
@@ -1120,6 +1165,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_131554) do
   add_foreign_key "notifications", "users", column: "notified_user_id"
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
+  add_foreign_key "region_members", "cytogenetic_regions"
+  add_foreign_key "region_members", "regions"
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"

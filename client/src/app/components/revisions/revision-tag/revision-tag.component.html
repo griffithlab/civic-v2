@@ -9,13 +9,15 @@
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="revisionPopover"
-    nzPopoverPlacement="right"
+    [nzPopoverPlacement]="popoverPlacement"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #revisionPopover>
-    <cvc-revision-popover [revisionId]="revision.id"></cvc-revision-popover>
+    <cvc-revision-popover
+      [revisionId]="revision.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-revision-popover>
   </ng-template>
 </ng-template>
 

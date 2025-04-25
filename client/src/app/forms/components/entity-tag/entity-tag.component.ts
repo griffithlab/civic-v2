@@ -1,11 +1,16 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
+  QueryList,
   SimpleChanges,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
@@ -20,6 +25,7 @@ import {
   EntityTagTypeWithPopover,
   ENTITY_TAG_TYPES_WITH_POPOVER,
 } from '../entity-tag-popover/entity-tag-popover.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export type LinkableEntity = {
   __typename: string
@@ -28,6 +34,21 @@ export type LinkableEntity = {
   link?: string
   tooltip?: string
 }
+
+export type PopoverPlacement =
+  | 'top'
+  | 'left'
+  | 'right'
+  | 'bottom'
+  | 'topLeft'
+  | 'topRight'
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'leftTop'
+  | 'leftBottom'
+  | 'rightTop'
+  | 'rightBottom'
+  | Array<string>
 
 export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
   entity: any
@@ -55,35 +76,35 @@ export type CvcTagLabelMax =
 export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
 
 @Component({
-    selector: 'cvc-entity-tag',
-    templateUrl: './entity-tag.component.html',
-    styleUrls: ['./entity-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        '[class.full-width]': `cvcFullWidth === true`,
-        '[class.label-max]': `cvcTruncateLabel !== undefined`,
-        '[class.label-max-50]': `cvcTruncateLabel === '50px'`,
-        '[class.label-max-75]': `cvcTruncateLabel === '75px'`,
-        '[class.label-max-100]': `cvcTruncateLabel === '100px'`,
-        '[class.label-max-125]': `cvcTruncateLabel === '125px'`,
-        '[class.label-max-150]': `cvcTruncateLabel === '150px'`,
-        '[class.label-max-175]': `cvcTruncateLabel === '175px'`,
-        '[class.label-max-200]': `cvcTruncateLabel === '200px'`,
-        '[class.label-max-250]': `cvcTruncateLabel === '250px'`,
-        '[class.label-max-300]': `cvcTruncateLabel === '300px'`,
-        '[class.label-max-350]': `cvcTruncateLabel === '350px'`,
-        '[class.label-max-400]': `cvcTruncateLabel === '400px'`,
-        '[class.label-max-450]': `cvcTruncateLabel === '450px'`,
-        '[class.label-max-500]': `cvcTruncateLabel === '500px'`,
-        '[class.rejected]': `cvcStatus === 'REJECTED'`,
-        '[class.accepted]': `cvcStatus === 'ACCEPTED'`,
-        '[class.submitted]': `cvcStatus === 'SUBMITTED'`,
-        '[class.new]': `cvcStatus === 'NEW'`,
-        '[class.superseded]': `cvcStatus === 'SUPERSEDED'`,
-    },
-    standalone: false
+  selector: 'cvc-entity-tag',
+  templateUrl: './entity-tag.component.html',
+  styleUrls: ['./entity-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.full-width]': `cvcFullWidth === true`,
+    '[class.label-max]': `cvcTruncateLabel !== undefined`,
+    '[class.label-max-50]': `cvcTruncateLabel === '50px'`,
+    '[class.label-max-75]': `cvcTruncateLabel === '75px'`,
+    '[class.label-max-100]': `cvcTruncateLabel === '100px'`,
+    '[class.label-max-125]': `cvcTruncateLabel === '125px'`,
+    '[class.label-max-150]': `cvcTruncateLabel === '150px'`,
+    '[class.label-max-175]': `cvcTruncateLabel === '175px'`,
+    '[class.label-max-200]': `cvcTruncateLabel === '200px'`,
+    '[class.label-max-250]': `cvcTruncateLabel === '250px'`,
+    '[class.label-max-300]': `cvcTruncateLabel === '300px'`,
+    '[class.label-max-350]': `cvcTruncateLabel === '350px'`,
+    '[class.label-max-400]': `cvcTruncateLabel === '400px'`,
+    '[class.label-max-450]': `cvcTruncateLabel === '450px'`,
+    '[class.label-max-500]': `cvcTruncateLabel === '500px'`,
+    '[class.rejected]': `cvcStatus === 'REJECTED'`,
+    '[class.accepted]': `cvcStatus === 'ACCEPTED'`,
+    '[class.submitted]': `cvcStatus === 'SUBMITTED'`,
+    '[class.new]': `cvcStatus === 'NEW'`,
+    '[class.superseded]': `cvcStatus === 'SUPERSEDED'`,
+  },
+  standalone: false,
 })
-export class CvcEntityTagComponent implements OnChanges {
+export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   @Input()
   set cvcLinkableEntity(entity: Maybe<LinkableEntity>) {
     if (!entity) return
@@ -106,10 +127,14 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcShowPopover: boolean = false
   @Input() cvcShowIcon: boolean = true
   @Input() cvcTruncateLabel?: CvcTagLabelMax
+  @Input() cvcPopoverPlacement: PopoverPlacement = 'top'
 
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
   @Output() cvcOnClose: EventEmitter<MouseEvent>
+
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
 
   typename?: string
   id?: number
@@ -196,6 +221,11 @@ export class CvcEntityTagComponent implements OnChanges {
     }
   }
 
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
   // ngOnChanges(changes: SimpleChanges): void {
   ngOnChanges(changes: SimpleChanges): void {
     // disable link for checkable mode
@@ -211,6 +241,14 @@ export class CvcEntityTagComponent implements OnChanges {
       if (context !== 'default') {
         this.cvcDisableLink = true
       }
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    } else {
+      console.warn('NzPopoverDirective not found in entity-tag view')
     }
   }
 }

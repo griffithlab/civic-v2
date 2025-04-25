@@ -1,40 +1,64 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core'
+import { AssertionState } from '@app/forms/states/assertion.state'
 import {
   AssertionPopoverFragment,
   AssertionPopoverGQL,
   Maybe,
 } from '@app/generated/civic.apollo'
-import { filter, map } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { AssertionState } from '@app/forms/states/assertion.state'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-assertion-popover',
-    templateUrl: './assertion-popover.component.html',
-    styleUrls: ['./assertion-popover.component.less'],
-    standalone: false
+  selector: 'cvc-assertion-popover',
+  templateUrl: './assertion-popover.component.html',
+  styleUrls: ['./assertion-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcAssertionPopoverComponent implements OnInit {
+export class CvcAssertionPopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() assertionId!: number
+  @Output() contentRendered = new EventEmitter<void>()
 
   assertion$?: Observable<Maybe<AssertionPopoverFragment>>
 
-
   assertionRules = new AssertionState()
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: AssertionPopoverGQL) {}
+  constructor(
+    private gql: AssertionPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
-    if (this.assertionId == undefined) {
-      throw new Error('cvc-assertion-popover requires valid assertionId input.')
-    }
-    this.assertion$ = this.gql
-      .watch({ assertionId: this.assertionId })
-      .valueChanges.pipe(
-        map((r) => r.data),
-        filter(isNonNulled),
-        map(({ assertion }) => assertion)
-      )
+    this.assertion$ = this.gql.fetch({ assertionId: this.assertionId }).pipe(
+      map((r) => r.data),
+      filter(isNonNulled),
+      map(({ assertion }) => assertion)
+    )
+  }
+
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

@@ -3,7 +3,10 @@ import { ApolloError } from '@apollo/client/core'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueCategory } from '@app/forms/components/empty-value/empty-value.component'
-import { CvcTagLabelMax } from '@app/forms/components/entity-tag/entity-tag.component'
+import {
+  CvcTagLabelMax,
+  PopoverPlacement,
+} from '@app/forms/components/entity-tag/entity-tag.component'
 import {
   EvidenceItem,
   EvidenceManagerFieldsFragment,
@@ -172,6 +175,7 @@ interface TagConfig {
     truncateLabel?: CvcTagLabelMax
     fullWidth?: boolean
     maxTags?: number // max tags if value is tag array
+    popoverPlacement?: PopoverPlacement
   }
 }
 

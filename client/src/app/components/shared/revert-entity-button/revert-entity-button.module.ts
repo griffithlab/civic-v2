@@ -9,6 +9,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NzInputModule } from 'ng-zorro-antd/input'
 
 @NgModule({
   declarations: [CvcRevertEntityButtonComponent],
@@ -20,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     NzIconModule,
     NzToolTipModule,
     NzModalModule,
+    NzInputModule,
     NzSpinModule,
     NzSpaceModule,
     LetDirective,

@@ -3493,6 +3493,11 @@ enum EvidenceSignificance {
   DOMINANT_NEGATIVE
   GAIN_OF_FUNCTION
   LIKELY_BENIGN
+
+  """
+  Likely Oncogenic
+  """
+  LIKELY_ONCOGENIC
   LIKELY_PATHOGENIC
   LOSS_OF_FUNCTION
   NA
@@ -6605,6 +6610,11 @@ input ModerateAssertionInput {
   clientMutationId: String
 
   """
+  Comment explaining the moderation action. Required when rejecting.
+  """
+  comment: String
+
+  """
   The desired status of the Assertion
   """
   newStatus: EvidenceStatus!
@@ -6653,6 +6663,11 @@ input ModerateEvidenceItemInput {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+
+  """
+  Optional comment explaining the moderation action. Required if the new status is 'rejected'.
+  """
+  comment: String
 
   """
   ID of the Evidence Item to moderate
@@ -8000,9 +8015,9 @@ Filter on organization id and whether or not to include the organization's subgr
 """
 input OrganizationFilter {
   """
-  The organization ID.
+  An array of organization IDs.
   """
-  id: Int
+  ids: [Int!]
 
   """
   Whether or not to include the organization's subgroup.
@@ -8280,7 +8295,11 @@ type Query {
     mode: EventFeedMode
     occurredAfter: ISO8601DateTime
     occurredBefore: ISO8601DateTime
-    organizationId: [Int!]
+
+    """
+    Filter EIDs on the organization the evidence item was submitted under.
+    """
+    organization: OrganizationFilter
 
     """
     Sort order for the activities. Defaults to most recent.
@@ -8371,9 +8390,9 @@ type Query {
     molecularProfileName: String
 
     """
-    Exact match filtering on the ID of the organization the assertion was submitted under.
+    Filter EIDs on the organization the evidence item was submitted under.
     """
-    organizationId: Int
+    organization: OrganizationFilter
 
     """
     Exact match filtering of the assertions based on the internal CIViC phenotype id
@@ -8993,9 +9012,9 @@ type Query {
     molecularProfileName: String
 
     """
-    Exact match filtering on the ID of the organization the evidence item was submitted under.
+    Filter EIDs on the organization the evidence item was submitted under.
     """
-    organizationId: Int
+    organization: OrganizationFilter
 
     """
     Exact match filtering of the evidence items based on the internal CIViC phenotype id
@@ -9637,6 +9656,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Limit to therapies that are linked to at least one non-rejected Evidence Item or Assertion
+    """
+    hasLinkedEvidence: Boolean
 
     """
     Filter on a therapy's internal CIViC id
@@ -13306,6 +13330,7 @@ enum VariantMenuSortColumns {
 enum VariantOrigin {
   COMBINED
   COMMON_GERMLINE
+  MIXED
   NA
   RARE_GERMLINE
   SOMATIC

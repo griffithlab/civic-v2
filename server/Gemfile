@@ -22,7 +22,7 @@ gem "omniauth-google-oauth2", "~> 0.8.1"
 gem "omniauth-orcid", "~> 2.1.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0.0"
 
-gem "graphql", "~> 2.2.5"
+gem "graphql", "~> 2.2.17"
 gem "graphql-batch", "~>0.5.3"
 gem "search_object_graphql", "1.0.5"
 
@@ -67,7 +67,7 @@ gem "angular_rails_csrf", "~> 7.0.0"
 
 
 gem "sidekiq", "< 8"
-gem "sidekiq-cron", "~> 1.10.0"
+gem "sidekiq-cron", "~> 2.0"
 
 gem "aws-sdk-s3", "~> 1.94.0"
 gem "awesome_nested_set", "~> 3.6"

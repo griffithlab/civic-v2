@@ -136,7 +136,6 @@ module Types::Queries
           secondary_results = base_query.eager_load(:feature_aliases)
             .where("feature_aliases.name ILIKE ?", "#{query_term}%")
             .where.not(id: results.select("id"))
-            .order("LENGTH(features.name) ASC")
             .distinct
             .limit(10 - results.size)
           return (results + secondary_results).uniq

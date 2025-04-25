@@ -24,7 +24,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
+import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
@@ -104,7 +104,7 @@ const typeConfig: ConfigOption = {
     NzGridModule,
     NzIconModule,
     NzInputModule,
-    NzInputNumberModule,
+    NzInputNumberLegacyModule,
     NzPopoverModule,
     NzTableModule,
     NzTagModule,
