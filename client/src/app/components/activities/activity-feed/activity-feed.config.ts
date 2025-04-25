@@ -59,6 +59,7 @@ export const commentOnlyActivityTypes = new Set([
   'DeprecateComplexMolecularProfileActivity',
   'ModerateAssertionActivity',
   'ModerateEvidenceItemActivity',
+  'CreateSourceLinkActivity',
 ])
 
 //TODO: Remove me, not needed

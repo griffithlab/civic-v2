@@ -19,5 +19,6 @@ module Types::Activities
     value "CREATE_FEATURE", value: "CreateFeatureActivity"
     value "DEPRECATE_FEATURE", value: "DeprecateFeatureActivity"
     value "DELETE_COMMENT", value: "DeleteCommentActivity"
+    value "CREATE_LINKED_SOURCE", value: "CreateLinkedSourceActivity"
   end
 end

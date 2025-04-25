@@ -11,6 +11,7 @@
       "CommentActivity",
       "CreateComplexMolecularProfileActivity",
       "CreateFeatureActivity",
+      "CreateSourceLinkActivity",
       "CreateVariantActivity",
       "DeleteCommentActivity",
       "DeprecateComplexMolecularProfileActivity",
@@ -67,6 +68,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Revision",
+      "SourceLink",
       "SourceSuggestion",
       "Variant"
     ],

@@ -85,6 +85,11 @@
         [cvcUpdateSourceSuggestionStatusActivity]="activity">
       </cvc-update-source-suggestion-activity-details>
     }
+    @case ('CreateSourceLinkActivity') {
+      <cvc-create-source-link-activity-details
+        [cvcCreateSourceLinkActivity]="activity">
+      </cvc-create-source-link-activity-details>
+    }
     @default {
       <h4 style="margin: 8px">Unhandled activity type</h4>
       <pre

@@ -61,6 +61,7 @@ module Types::Interfaces
       Types::Activities::CreateFeatureActivityType,
       Types::Activities::DeprecateFeatureActivityType,
       Types::Activities::DeleteCommentActivityType,
+      Types::Activities::CreateSourceLinkActivityType
     )
 
     definition_methods do
@@ -104,6 +105,8 @@ module Types::Interfaces
           Types::Activities::DeprecateFeatureActivityType
         when DeleteCommentActivity
           Types::Activities::DeleteCommentActivityType
+        when CreateLinkedSourceActivity
+          Types::Activities::CreateSourceLinkActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

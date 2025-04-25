@@ -175,6 +175,7 @@ enum ActivityTypeInput {
   COMMENT
   CREATE_COMPLEX_MOLECULAR_PROFILE
   CREATE_FEATURE
+  CREATE_LINKED_SOURCE
   CREATE_VARIANT
   DELETE_COMMENT
   DEPRECATE_COMPLEX_MOLECULAR_PROFILE
@@ -2419,6 +2420,19 @@ type CreateMolecularProfilePayload {
   molecularProfile: MolecularProfile!
 }
 
+type CreateSourceLinkActivity implements ActivityInterface {
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  note: String
+  organization: Organization
+  parsedNote: [CommentBodySegment!]!
+  sourceLink: SourceLink!
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
+}
+
 type CreateVariantActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
@@ -2988,6 +3002,7 @@ enum EventAction {
   REVISION_REJECTED
   REVISION_SUGGESTED
   REVISION_SUPERSEDED
+  SOURCE_LINKED
   SUBMITTED
   VARIANT_CREATED
 }
@@ -10530,10 +10545,12 @@ type SourceEdge {
   node: Source
 }
 
-type SourceLink {
+type SourceLink implements EventOriginObject {
   createdAt: ISO8601DateTime!
   id: Int!
+  link: String!
   linkedSource: Source!
+  name: String!
   note: String
   reason: SourceLinkReason!
   source: Source!
