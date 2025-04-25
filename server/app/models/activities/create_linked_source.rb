@@ -10,7 +10,7 @@ module Activities
     end
 
     private
-    
+
     def create_activity
       @activity = CreateLinkedSourceActivity.create!(
         subject: source,
@@ -39,7 +39,7 @@ module Activities
     end
 
     def linked_entities
-      [source_link]
+      [ source_link ]
     end
   end
 end

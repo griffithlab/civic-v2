@@ -5,7 +5,7 @@ module Types
     field :note, String, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-  
+
     field :source, Types::Entities::SourceType, null: false
     field :linked_source, Types::Entities::SourceType, null: false
   end
