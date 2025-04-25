@@ -6,6 +6,6 @@ class CreateLinkedSourceActivity < Activity
   end
 
   def generate_verbiage
-    "create a source link"
+    "created a source link"
   end
 end
