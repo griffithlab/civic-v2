@@ -86,10 +86,11 @@ const AcmgCodeSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-acmg-code-select',
-  templateUrl: './acmg-code-select.type.html',
-  styleUrls: ['./acmg-code-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-acmg-code-select',
+    templateUrl: './acmg-code-select.type.html',
+    styleUrls: ['./acmg-code-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcAcmgCodeSelectField
   extends AcmgCodeSelectMixin

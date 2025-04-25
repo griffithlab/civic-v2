@@ -1,4 +1,4 @@
-Event.where(action: ['assertion accepted', 'assertion rejected', 'assertion reverted'], activity_id: nil).find_each do |event|
+Event.where(action: [ 'assertion accepted', 'assertion rejected', 'assertion reverted' ], activity_id: nil).find_each do |event|
   if !event.subject.nil?
     activity = ModerateAssertionActivity.create(
       subject: event.subject,

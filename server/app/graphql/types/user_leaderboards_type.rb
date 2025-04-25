@@ -6,4 +6,3 @@ module Types
     field :moderation_leaderboard, resolver: Resolvers::Leaderboards::UserModerationLeaderboard
   end
 end
-

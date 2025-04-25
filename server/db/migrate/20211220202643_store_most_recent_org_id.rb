@@ -4,7 +4,7 @@ class StoreMostRecentOrgId < ActiveRecord::Migration[6.1]
     add_foreign_key :users, :organizations, column: :most_recent_organization_id
 
     User.joins(:events).find_each do |u|
-      #newest event
+      # newest event
       e = u.events.first
       u.most_recent_organization_id = e.organization_id
       u.save

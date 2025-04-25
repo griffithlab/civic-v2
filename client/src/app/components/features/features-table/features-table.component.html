@@ -194,7 +194,8 @@
           <td nzLeft>
             <cvc-feature-tag
               [feature]="feature!"
-              [enablePopover]="!isScrolling"></cvc-feature-tag>
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-feature-tag>
           </td>
           <td>
             <span
@@ -263,11 +264,11 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate!"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
   <span class="table-info">
     <cvc-table-counts

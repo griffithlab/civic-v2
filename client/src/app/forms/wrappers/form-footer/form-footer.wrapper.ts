@@ -8,11 +8,11 @@ const defaultProps = {
 }
 
 @Component({
-  selector: 'cvc-form-footer',
-  templateUrl: './form-footer.wrapper.html',
-  styleUrls: ['./form-footer.wrapper.less'],
+    selector: 'cvc-form-footer',
+    templateUrl: './form-footer.wrapper.html',
+    styleUrls: ['./form-footer.wrapper.less'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-
+    standalone: false
 })
 export class CvcFormFooterWrapper extends FieldWrapper<FormlyFieldConfig<CvcFormFooterWrapperProps>> implements OnInit {
 

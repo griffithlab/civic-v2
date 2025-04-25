@@ -18,13 +18,13 @@ module Actions
 
     def resolve_flag
       flag.lock!
-      flag.state = 'resolved'
+      flag.state = "resolved"
       flag.resolving_user = resolving_user
       flag.save
     end
 
     def update_flaggable_status
-      unless flaggable.flags.where(state: 'open').exists?
+      unless flaggable.flags.where(state: "open").exists?
         flaggable.flagged = false
         flaggable.save
       end
@@ -32,7 +32,7 @@ module Actions
 
     def create_event
       events << Event.new(
-        action: 'flag resolved',
+        action: "flag resolved",
         originating_user: resolving_user,
         subject: flaggable,
         originating_object: flag,

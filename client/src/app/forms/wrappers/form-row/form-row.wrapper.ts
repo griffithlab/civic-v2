@@ -45,10 +45,11 @@ const defaultWrapperOptions: FormRowOptions = {
 }
 
 @Component({
-  selector: 'cvc-form-row',
-  templateUrl: './form-row.wrapper.html',
-  styleUrls: ['./form-row.wrapper.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-form-row',
+    templateUrl: './form-row.wrapper.html',
+    styleUrls: ['./form-row.wrapper.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFormRowWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormRowWrapperProps>>

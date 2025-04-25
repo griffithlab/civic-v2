@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core'
 import {
   Maybe,
   OrgPopoverFragment,
@@ -12,22 +21,37 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-organization-popover',
   templateUrl: './organization-popover.component.html',
   styleUrls: ['./organization-popover.component.less'],
+  standalone: false,
 })
-export class CvcOrganizationPopoverComponent implements OnInit {
+export class CvcOrganizationPopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() orgId!: number
+  @Output() contentRendered = new EventEmitter<void>()
 
   org$?: Observable<Maybe<OrgPopoverFragment>>
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: OrgPopoverGQL) {}
+  constructor(
+    private gql: OrgPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
-    if (this.orgId === undefined) {
-      throw new Error('cvc-org-popover requires orgId input.')
-    }
-
     this.org$ = this.gql.watch({ orgId: this.orgId }).valueChanges.pipe(
       map(({ data }) => data?.organization),
       filter(isNonNulled)
     )
+  }
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

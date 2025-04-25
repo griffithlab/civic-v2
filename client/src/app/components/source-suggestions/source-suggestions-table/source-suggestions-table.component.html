@@ -141,7 +141,7 @@
         <th></th>
         <th>
           <cvc-clearable-input-filter
-            *ngIf="!this.submitterId"
+            *ngIf="!submitterId"
             [(inputModel)]="submitterInput"
             (inputModelChange)="
               filterChange$.next()
@@ -226,11 +226,16 @@
               </ng-container>
               <ng-template #statusNote>
                 <i
-                  *ngIf="suggestion.lastStatusUpdateActivity && suggestion.lastStatusUpdateActivity.parsedNote.length > 0"
+                  *ngIf="
+                    suggestion.lastStatusUpdateActivity &&
+                    suggestion.lastStatusUpdateActivity.parsedNote.length > 0
+                  "
                   nz-icon
                   nz-popover
-                  [nzPopoverContent]="!isScrolling ? statusNoteContentTemplate : ''"
-                  [nzPopoverOverlayStyle]="{'width': '300px'}"
+                  [nzPopoverContent]="
+                    !isScrolling ? statusNoteContentTemplate : ''
+                  "
+                  [nzPopoverOverlayStyle]="{ width: '300px' }"
                   nzType="civic-comment"></i>
               </ng-template>
               <ng-template #statusNoteContentTemplate>
@@ -251,7 +256,7 @@
             nzAlign="center"
             nz-popover
             [nzPopoverContent]="!isScrolling ? creationCommentTemplate : ''"
-            [nzPopoverOverlayStyle]="{'width': '300px'}">
+            [nzPopoverOverlayStyle]="{ width: '300px' }">
             <i
               nz-icon
               nzTheme="twotone"
@@ -259,9 +264,7 @@
               nzType="civic-comment"></i>
             <ng-template #creationCommentTemplate>
               <cvc-comment-body
-                [commentBodySegments]="
-                  suggestion.creationActivity!.parsedNote
-                ">
+                [commentBodySegments]="suggestion.creationActivity!.parsedNote">
               </cvc-comment-body>
             </ng-template>
           </td>
@@ -306,7 +309,7 @@
                 [queryParams]="{
                   molecularProfileId: suggestion.molecularProfile?.id,
                   sourceId: suggestion.source?.id,
-                  diseaseId: suggestion.disease?.id
+                  diseaseId: suggestion.disease?.id,
                 }"
                 [disabled]="suggestion.status != status.New"
                 nz-button
@@ -349,9 +352,9 @@
 </ng-template>
 <ng-template #manageSuggestionTemplate>
   <cvc-update-source-suggestion-form
-    *ngIf="this.selectedSourceId && this.selectedStatus"
-    [currentStatus]="this.selectedStatus"
-    [sourceSuggestionId]="this.selectedSourceId">
+    *ngIf="selectedSourceId && selectedStatus"
+    [currentStatus]="selectedStatus"
+    [sourceSuggestionId]="selectedSourceId">
   </cvc-update-source-suggestion-form>
 </ng-template>
 
@@ -362,11 +365,11 @@
     nzTheme="twotone"
     [nzTwotoneColor]="'Source' | entityColor"
     nzType="civic-source"></i>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

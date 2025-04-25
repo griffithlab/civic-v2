@@ -30,7 +30,6 @@ import { CommonModule } from '@angular/common'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
-import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
@@ -39,7 +38,6 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { NZ_MODAL_DATA, NzModalModule, NzModalRef } from 'ng-zorro-antd/modal'
-import { LinkableFeature } from '@app/components/features/feature-tag/feature-tag.component'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 type FusionVariantSelectModel = {
@@ -80,16 +78,13 @@ export const isEnsemblTranscript = (c: AbstractControl) => {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   selector: 'cvc-fusion-variant-select-form',
   templateUrl: './fusion-variant-select.form.html',
   styleUrls: ['./fusion-variant-select.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    PushPipe,
     ReactiveFormsModule,
-    LetDirective,
     NzFormModule,
     NzButtonModule,
     NzAlertModule,

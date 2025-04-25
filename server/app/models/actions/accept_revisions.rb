@@ -4,7 +4,7 @@ class Actions::AcceptRevisions
 
   attr_reader :revisions, :accepting_user, :organization_id, :subject, :superseded_revisions
 
-  def initialize(revisions:, accepting_user:, organization_id: nil )
+  def initialize(revisions:, accepting_user:, organization_id: nil)
     @revisions = revisions
     @accepting_user = accepting_user
     @organization_id = organization_id
@@ -12,21 +12,21 @@ class Actions::AcceptRevisions
   end
 
   def execute
-    revisions.each{|r| r.lock!}
+    revisions.each { |r| r.lock! }
     subject.lock!
 
     receiver = if subject.is_a?(Feature)
                  subject.feature_instance
-               else
+    else
                  subject
-               end
+    end
     revisions.each do |revision|
       receiver.send("#{revision.field_name}=", revision.suggested_value)
     end
     receiver.save!
 
     revisions.each do |revision|
-      revision.status = 'accepted'
+      revision.status = "accepted"
       revision.save!
       supersede_conflicting_revisions(revision)
       create_event(revision)
@@ -39,13 +39,13 @@ class Actions::AcceptRevisions
     @superseded_revisions = Revision.where(
       subject: revision.subject,
       field_name: revision.field_name,
-      status: 'new'
+      status: "new"
     )
     superseded_revisions.each do |sc|
-      sc.status = 'superseded'
+      sc.status = "superseded"
       sc.save!
       events << Event.new(
-        action: 'revision superseded',
+        action: "revision superseded",
         originating_user: accepting_user,
         subject: subject,
         originating_object: sc,
@@ -56,7 +56,7 @@ class Actions::AcceptRevisions
 
   def create_event(revision)
     events << Event.new(
-      action: 'revision accepted',
+      action: "revision accepted",
       originating_user: accepting_user,
       subject: subject,
       originating_object: revision,

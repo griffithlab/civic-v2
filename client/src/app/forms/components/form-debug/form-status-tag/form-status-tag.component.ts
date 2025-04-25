@@ -10,9 +10,10 @@ export const statusColorMap = {
 }
 
 @Component({
-  selector: 'cvc-form-status-tag',
-  templateUrl: './form-status-tag.component.html',
-  styleUrls: ['./form-status-tag.component.less']
+    selector: 'cvc-form-status-tag',
+    templateUrl: './form-status-tag.component.html',
+    styleUrls: ['./form-status-tag.component.less'],
+    standalone: false
 })
 export class CvcFormStatusTagComponent {
   _status!: Maybe<FormControlStatus>

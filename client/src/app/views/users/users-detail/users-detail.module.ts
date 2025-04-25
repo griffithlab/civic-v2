@@ -29,6 +29,7 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcUserApiKeysForm } from '@app/forms/components/user-api-keys/user-api-keys.form'
 
 @NgModule({
   declarations: [UsersDetailComponent],
@@ -63,6 +64,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
     CvcAvatarUploaderModule,
     CvcOrganizationTagModule,
     CvcStatsCardModule,
+    CvcUserApiKeysForm
   ],
 })
 export class UsersDetailModule {}

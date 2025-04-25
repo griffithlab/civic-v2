@@ -12,12 +12,12 @@ class Mutations::SuggestFusionRevision < Mutations::MutationWithOrg
 
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
+    description: "Text describing the reason for the change. Will be attached to the Revision as a comment."
 
   field :fusion, Types::Entities::FusionType, null: false,
-    description: 'The Fusion the user has proposed a Revision to.'
+    description: "The Fusion the user has proposed a Revision to."
 
-  field :results, [Types::Revisions::RevisionResult], null: false,
+  field :results, [ Types::Revisions::RevisionResult ], null: false,
     description: <<~DOC.strip
       A list of Revisions generated as a result of this suggestion.
       If an existing Revision exactly matches the proposed one, it will be returned instead.
@@ -72,11 +72,10 @@ class Mutations::SuggestFusionRevision < Mutations::MutationWithOrg
     if res.succeeded?
       {
         fusion: fusion,
-        results: res.revision_results
+        results: res.revision_results,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end
-

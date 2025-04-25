@@ -32,7 +32,7 @@ module Types
     end
 
     field :subscription_for_entity, Types::Subscribable::SubscriptionType, null: true do
-      description 'Get the active subscription for the entity and logged in user, if any'
+      description "Get the active subscription for the entity and logged in user, if any"
       argument :subscribable,  Types::Subscribable::SubscribableInput, required: true
       def authorized?(object, args, context)
         context[:current_user].present?
@@ -103,37 +103,37 @@ module Types
     end
 
     field :organization, Types::Entities::OrganizationType, null: true do
-      description 'Find an organization by CIViC ID'
+      description "Find an organization by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :phenotype, Types::Entities::PhenotypeType, null: true do
-      description 'Find a phenotype by CIViC ID'
+      description "Find a phenotype by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :variant_type, Types::Entities::VariantTypeType, null: true do
-      description 'Find a variant type by CIViC ID'
+      description "Find a variant type by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :clinical_trial, Types::Entities::ClinicalTrialType, null: true do
-      description 'Find a clinical trial by CIViC ID'
+      description "Find a clinical trial by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :flag, Types::Entities::FlagType, null: true do
-      description 'Find a flag by CIViC ID'
+      description "Find a flag by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :comment, Types::Entities::CommentType, null: true do
-      description 'Find a comment by CIViC ID'
+      description "Find a comment by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :revision, Types::Revisions::RevisionType, null: true do
-      description 'Find a revision by CIViC ID'
+      description "Find a revision by CIViC ID"
       argument :id, Int, required: true
     end
 
@@ -152,8 +152,8 @@ module Types
       argument :id, Int, required: true
     end
 
-    field :countries, [Types::Entities::CountryType], null: false do
-      description 'Fetch a list of countries for user profiles.'
+    field :countries, [ Types::Entities::CountryType ], null: false do
+      description "Fetch a list of countries for user profiles."
     end
 
     field :activity, Types::Interfaces::ActivityInterface, null: true do
@@ -173,7 +173,7 @@ module Types
       argument :permalink_id, String, required: true
     end
 
-    field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
+    field :preview_comment_text, [ Types::Commentable::CommentBodySegment ], null: false do
       argument :comment_text, String, required: true
     end
 
@@ -212,24 +212,24 @@ module Types
 
     field :activities, resolver: Resolvers::Activities
 
-    def molecular_profile(id: )
+    def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)
     end
 
-    def disease(id: )
+    def disease(id:)
       Disease.find_by(id: id)
     end
 
-    def therapy(id: )
+    def therapy(id:)
       Therapy.find_by(id: id)
     end
 
     def gene(id: :unspecified, entrez_symbol: :unspecified)
       if (id == :unspecified && entrez_symbol == :unspecified) || (id != :unspecified && entrez_symbol != :unspecified)
-        raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
+        raise GraphQL::ExecutionError.new("Must specify exactly one of id or entrezSymbol")
       end
-      if (id != :unspecified)
-        Feature.find_by(feature_instance_type: 'Features::Gene', id: id)&.feature_instance
+      if id != :unspecified
+        Feature.find_by(feature_instance_type: "Features::Gene", id: id)&.feature_instance
       else
         Features::Gene.find_by(name: entrez_symbol)
       end
@@ -237,72 +237,72 @@ module Types
 
     def factor(id: :unspecified, ncit_id: :unspecified)
       if (id == :unspecified && ncit_id == :unspecified) || (id != :unspecified && ncit_id != :unspecified)
-        raise GraphQL::ExecutionError.new('Must specify exactly one of id or ncitId')
+        raise GraphQL::ExecutionError.new("Must specify exactly one of id or ncitId")
       end
-      if (id != :unspecified)
-        Feature.find_by(feature_instance_type: 'Features::Factor', id: id)&.feature_instance
+      if id != :unspecified
+        Feature.find_by(feature_instance_type: "Features::Factor", id: id)&.feature_instance
       else
         Features::Factor.find_by(ncit_id: ncit_id)
       end
     end
 
-    def fusion(id: )
-      Feature.find_by(feature_instance_type: 'Features::Fusion', id: id)&.feature_instance
+    def fusion(id:)
+      Feature.find_by(feature_instance_type: "Features::Fusion", id: id)&.feature_instance
     end
 
-    def feature(id: )
+    def feature(id:)
       Feature.find_by(id: id)
     end
 
-    def variant(id: )
+    def variant(id:)
       Variant.find_by(id: id)
     end
 
-    def variant_group(id: )
+    def variant_group(id:)
       VariantGroup.find_by(id: id)
     end
 
-    def assertion(id: )
+    def assertion(id:)
       Assertion.find_by(id: id)
     end
 
-    def source(id: )
+    def source(id:)
       Source.find_by(id: id)
     end
 
-    def organization(id: )
+    def organization(id:)
       Organization.find_by(id: id)
     end
 
-    def phenotype(id: )
+    def phenotype(id:)
       Phenotype.find_by(id: id)
     end
 
-    def variant_type(id: )
+    def variant_type(id:)
       VariantType.find_by(id: id)
     end
 
-    def clinical_trial(id: )
+    def clinical_trial(id:)
       ClinicalTrial.find_by(id: id)
     end
 
-    def flag(id: )
+    def flag(id:)
       Flag.find_by(id: id)
     end
 
-    def comment(id: )
+    def comment(id:)
       Comment.find_by(id: id)
     end
 
-    def revision(id: )
+    def revision(id:)
       Revision.find_by(id: id)
     end
 
-    def activity(id: )
+    def activity(id:)
       Activity.find_by(id: id)
     end
 
-    def subscription_for_entity(subscribable: )
+    def subscription_for_entity(subscribable:)
       if subscribable
         Subscription.find_by(
           user: context[:current_user],
@@ -317,17 +317,17 @@ module Types
       permalink = if create_permalink
                     ::AdvancedSearch.where(
                       params: context.query.query_string,
-                      search_type: 'searchGenes'
+                      search_type: "searchGenes"
                     ).first_or_create
                       .token
-                  else
+      else
                     nil
-                  end
+      end
 
       {
         result_ids: ::AdvancedSearches::Gene.new(query: query).results,
         permalink_id: permalink,
-        search_endpoint: 'searchGenes'
+        search_endpoint: "searchGenes",
       }
     end
 
@@ -339,11 +339,11 @@ module Types
       end
 
       result = Civic2Schema.execute(saved_search.params, context: context)
-      formatted_hash = result.to_h.dig('data', saved_search.search_type)
+      formatted_hash = result.to_h.dig("data", saved_search.search_type)
       {
-        permalink_id: formatted_hash['permalinkId'],
-        result_ids: formatted_hash['resultIds'],
-        search_endpoint: saved_search.search_type
+        permalink_id: formatted_hash["permalinkId"],
+        result_ids: formatted_hash["resultIds"],
+        search_endpoint: saved_search.search_type,
       }
     end
 
@@ -352,11 +352,11 @@ module Types
     end
 
     def preview_molecular_profile_name(structure: nil)
-      if structure.nil? 
+      if structure.nil?
         return {
           segments: [],
           existing_molecular_profile: nil,
-          deprecated_variants: []
+          deprecated_variants: [],
         }
       end
 
@@ -366,14 +366,14 @@ module Types
         return {
           segments: [],
           existing_molecular_profile: nil,
-          deprecated_variants: deprecated_variants
+          deprecated_variants: deprecated_variants,
         }
       else
         variants = Variant.where(id: variant_ids)
 
         if variants.size !=  variant_ids.size
           missing = variant_ids - variants.map(&:id)
-          raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+          raise GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
         end
 
         name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
@@ -381,10 +381,9 @@ module Types
         return {
           segments: ::MolecularProfile.new(name: name).segments,
           existing_molecular_profile: ::MolecularProfile.find_by(name: name),
-          deprecated_variants: []
+          deprecated_variants: [],
         }
       end
-
     end
 
     def acmg_code(id:)

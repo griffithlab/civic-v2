@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_144840) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
-  create_enum "fusion_partner_status", ["known", "unknown", "multiple", "regulatory"]
-  create_enum "regulatory_fusion_types", ["reg_attenuator", "reg_CAAT_signal", "reg_DNase_I_hypersensitive_site", "reg_enhancer", "reg_enhancer_blocking_element", "reg_GC_signal", "reg_imprinting_control_region", "reg_insulator", "reg_locus_control_region", "reg_matrix_attachment_region", "reg_minus_35_signal", "reg_minus_10_signal", "reg_polyA_signal_sequence", "reg_promoter", "reg_recoding_stimulatory_region", "reg_recombination_enhancer", "reg_replication_regulatory_region", "reg_response_element", "reg_ribosome_binding_site", "reg_riboswitch", "reg_silencer", "reg_TATA_box", "reg_terminator", "reg_transcriptional_cis_regulatory_region", "reg_uORF", "reg_other"]
+  create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
+  create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -105,6 +105,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "bearer_type"
+    t.bigint "bearer_id"
+    t.text "token_prefix", null: false
+    t.text "token_suffix", null: false
+    t.text "token_digest", null: false
+    t.boolean "revoked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+    t.index ["revoked"], name: "index_api_keys_on_revoked"
+    t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
@@ -323,6 +337,30 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.text "name", null: false
   end
 
+  create_table "cytogenetic_coordinates", force: :cascade do |t|
+    t.bigint "cytogenetic_region_id", null: false
+    t.integer "reference_build", null: false
+    t.text "chromosome", null: false
+    t.integer "start", null: false
+    t.integer "stop", null: false
+    t.index ["chromosome"], name: "index_cytogenetic_coordinates_on_chromosome"
+    t.index ["cytogenetic_region_id"], name: "index_cytogenetic_coordinates_on_cytogenetic_region_id"
+    t.index ["reference_build"], name: "index_cytogenetic_coordinates_on_reference_build"
+    t.index ["start"], name: "index_cytogenetic_coordinates_on_start"
+    t.index ["stop"], name: "index_cytogenetic_coordinates_on_stop"
+  end
+
+  create_table "cytogenetic_regions", force: :cascade do |t|
+    t.text "name", null: false
+    t.text "chromosome", null: false
+    t.text "band"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band"], name: "index_cytogenetic_regions_on_band"
+    t.index ["chromosome"], name: "index_cytogenetic_regions_on_chromosome"
+    t.index ["name"], name: "index_cytogenetic_regions_on_name"
+  end
+
   create_table "data_versions", id: :serial, force: :cascade do |t|
     t.integer "version", default: 0
   end
@@ -537,7 +575,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.enum "three_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["five_prime_gene_id"], name: "index_fusions_on_five_prime_gene_id"
     t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
   end
@@ -565,6 +602,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.boolean "deleted", default: false
     t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
+    t.text "uniprot_ids", default: [], array: true
     t.index "char_length((name)::text)", name: "gene_name_size_idx"
     t.index ["deleted"], name: "index_genes_on_deleted"
     t.index ["name"], name: "index_genes_on_name"
@@ -694,6 +732,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.index ["variant_type_id", "pipeline_type_id"], name: "idx_variant_type_pipeline_type"
   end
 
+  create_table "region_members", force: :cascade do |t|
+    t.bigint "region_id", null: false
+    t.bigint "cytogenetic_region_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cytogenetic_region_id"], name: "index_region_members_on_cytogenetic_region_id"
+    t.index ["position"], name: "index_region_members_on_position"
+    t.index ["region_id"], name: "index_region_members_on_region_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "regulatory_agencies", id: :serial, force: :cascade do |t|
     t.text "abbreviation"
     t.text "name"
@@ -754,6 +808,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
+  end
+
+  create_table "source_links", force: :cascade do |t|
+    t.enum "reason", null: false, enum_type: "source_link_reason"
+    t.bigint "source_id", null: false
+    t.bigint "linked_source_id", null: false
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["linked_source_id"], name: "index_source_links_on_linked_source_id"
+    t.index ["source_id"], name: "index_source_links_on_source_id"
   end
 
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
@@ -965,10 +1030,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
-    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["display_name"], name: "index_variant_types_on_display_name"
     t.index ["name"], name: "index_variant_types_on_name"
-    t.index ["regulatory_fusion_type"], name: "index_variant_types_on_regulatory_fusion_type"
     t.index ["soid"], name: "index_variant_types_on_soid"
   end
 
@@ -1007,11 +1070,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url"
+    t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
+    t.text "open_cravat_url"
+    t.string "iscn_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -1019,6 +1084,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
     t.index ["gene_id"], name: "index_variants_on_gene_id"
+    t.index ["iscn_name"], name: "index_variants_on_iscn_name"
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
     t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
@@ -1063,6 +1129,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
   add_foreign_key "badge_claims", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "conflict_of_interest_statements", "users"
+  add_foreign_key "cytogenetic_coordinates", "cytogenetic_regions"
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
@@ -1098,10 +1165,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
   add_foreign_key "notifications", "users", column: "notified_user_id"
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
+  add_foreign_key "region_members", "cytogenetic_regions"
+  add_foreign_key "region_members", "regions"
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
+  add_foreign_key "source_links", "sources"
+  add_foreign_key "source_links", "sources", column: "linked_source_id"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "subscriptions", "users"

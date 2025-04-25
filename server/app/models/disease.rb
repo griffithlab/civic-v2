@@ -9,14 +9,14 @@ class Disease < ApplicationRecord
   has_many :source_suggestions
   has_and_belongs_to_many :disease_aliases
 
-  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name, :aliases]
+  searchkick highlight: [ :name, :aliases ], callbacks: :async, word_start: [ :name, :aliases ]
   scope :search_import, -> { includes(:disease_aliases) }
 
   def search_data
     {
       name: name,
       doid: "DOID:#{doid}",
-      aliases: disease_aliases.map(&:name)
+      aliases: disease_aliases.map(&:name),
     }
   end
 
@@ -45,10 +45,10 @@ class Disease < ApplicationRecord
   def self.timepoint_query
     ->(x) {
       self.joins(:evidence_items)
-        .group('diseases.id')
-        .select('diseases.id')
+        .group("diseases.id")
+        .select("diseases.id")
         .where("evidence_items.status != 'rejected'")
-        .having('MIN(evidence_items.created_at) >= ?', x)
+        .having("MIN(evidence_items.created_at) >= ?", x)
         .distinct
         .count
     }

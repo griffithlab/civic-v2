@@ -38,9 +38,10 @@ type VariantQuickAddDisplay = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-variant-quick-add-form',
-  templateUrl: './variant-quick-add.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-variant-quick-add-form',
+    templateUrl: './variant-quick-add.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcVariantQuickAddForm implements OnChanges {
   @Input()

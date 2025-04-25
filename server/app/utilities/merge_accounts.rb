@@ -1,5 +1,4 @@
 class MergeAccounts < ActionWrapper
-
   def self.name
     "Merge User Accounts"
   end

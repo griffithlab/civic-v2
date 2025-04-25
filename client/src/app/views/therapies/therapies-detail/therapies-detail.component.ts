@@ -13,9 +13,10 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'cvc-therapies-detail',
-  templateUrl: './therapies-detail.component.html',
-  styleUrls: ['./therapies-detail.component.less'],
+    selector: 'cvc-therapies-detail',
+    templateUrl: './therapies-detail.component.html',
+    styleUrls: ['./therapies-detail.component.less'],
+    standalone: false
 })
 export class TherapiesDetailComponent implements OnDestroy {
   therapyId?: number

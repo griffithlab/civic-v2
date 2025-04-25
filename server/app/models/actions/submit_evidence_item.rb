@@ -3,7 +3,7 @@ module Actions
     include Actions::Transactional
     attr_reader :evidence_item, :originating_user, :organization_id
 
-    def initialize(evidence_item:, originating_user:, organization_id: )
+    def initialize(evidence_item:, originating_user:, organization_id:)
       @evidence_item = evidence_item
       @originating_user = originating_user
       @organization_id = organization_id
@@ -11,7 +11,7 @@ module Actions
 
     private
     def execute
-      evidence_item.status = 'submitted'
+      evidence_item.status = "submitted"
       evidence_item.save!
       evidence_item.subscribe_user(originating_user)
       create_event
@@ -19,7 +19,7 @@ module Actions
 
     def create_event
       events << Event.new(
-        action: 'submitted',
+        action: "submitted",
         originating_user: originating_user,
         subject: evidence_item,
         organization_id: organization_id,

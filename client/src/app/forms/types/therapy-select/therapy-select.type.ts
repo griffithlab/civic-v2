@@ -80,10 +80,11 @@ const TherapySelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-therapy-select',
-  templateUrl: './therapy-select.type.html',
-  styleUrls: ['./therapy-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-therapy-select',
+    templateUrl: './therapy-select.type.html',
+    styleUrls: ['./therapy-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcTherapySelectField
   extends TherapySelectMixin

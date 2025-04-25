@@ -80,8 +80,9 @@
             </cvc-link-tag>
             <cvc-link-tag
               [href]="
-                'https://pecan.stjude.cloud/variants/protein-paint/?gene=' +
-                gene.name
+                'https://proteinpaint.stjude.org/?genome=hg19&gene=' +
+                gene.name +
+                '&dataset=CIViC'
               "
               [tooltip]="'View ' + gene.name + ' on ProteinPaint'">
               ProteinPaint

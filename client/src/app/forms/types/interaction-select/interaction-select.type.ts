@@ -58,9 +58,10 @@ const InteractionSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-interaction-select',
-  templateUrl: './interaction-select.type.html',
-  styleUrls: ['./interaction-select.type.less'],
+    selector: 'cvc-interaction-select',
+    templateUrl: './interaction-select.type.html',
+    styleUrls: ['./interaction-select.type.less'],
+    standalone: false
 })
 export class CvcInteractionSelectField
   extends InteractionSelectMixin

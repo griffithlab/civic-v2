@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core'
 import {
   DiseasePopover,
   DiseasePopoverGQL,
@@ -10,15 +17,24 @@ import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-disease-popover',
-  templateUrl: './cvc-disease-popover.component.html',
-  styleUrls: ['./cvc-disease-popover.component.less'],
+  templateUrl: './disease-popover.component.html',
+  styleUrls: ['./disease-popover.component.less'],
+  standalone: false,
 })
 export class CvcDiseasePopoverComponent implements OnInit {
   @Input() diseaseId!: number
-
+  @Output() contentRendered = new EventEmitter<void>()
   disease$?: Observable<Maybe<DiseasePopover>>
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: DiseasePopoverGQL) {}
+  constructor(
+    private gql: DiseasePopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
     if (this.diseaseId == undefined) {
@@ -30,5 +46,13 @@ export class CvcDiseasePopoverComponent implements OnInit {
         map(({ data }) => data?.diseasePopover),
         filter(isNonNulled)
       )
+  }
+
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

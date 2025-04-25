@@ -1,5 +1,4 @@
 class ToggleMaintenanceMode < ActionWrapper
-
   def self.name
     "Toggle Maintenance Mode"
   end
@@ -10,7 +9,7 @@ class ToggleMaintenanceMode < ActionWrapper
 
   def self.inputs
     {
-      maintenance_mode_enabled: :boolean
+      maintenance_mode_enabled: :boolean,
     }
   end
 

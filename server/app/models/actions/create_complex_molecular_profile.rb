@@ -28,7 +28,7 @@ module Actions
         mp.save!
 
         event = Event.new(
-          action: 'complex molecular profile created',
+          action: "complex molecular profile created",
           originating_user: originating_user,
           organization_id: organization_id,
           subject: mp,
@@ -39,7 +39,7 @@ module Actions
 
         @molecular_profile = mp
       end
-      #TODO: do we want to subscribe the creating user to the mp?
+      # TODO: do we want to subscribe the creating user to the mp?
     end
   end
 end

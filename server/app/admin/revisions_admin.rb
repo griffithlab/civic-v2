@@ -5,7 +5,7 @@ Trestle.resource(:revisions) do
   end
 
   scope :all
-  scope :new, -> { Revision.where(status: 'new') }, default: true
+  scope :new, -> { Revision.where(status: "new") }, default: true
 
   # Customize the table columns shown on the index view.
   table do

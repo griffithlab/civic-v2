@@ -6,7 +6,8 @@ import { BehaviorSubject } from "rxjs";
 @Component({
     selector: 'cvc-my-disease-info',
     templateUrl: './my-disease-info.component.html',
-    styleUrls: ['./my-disease-info.component.less']
+    styleUrls: ['./my-disease-info.component.less'],
+    standalone: false
 })
 export class CvcMyDiseaseInfoComponent implements OnDestroy {
   @Input() diseaseInfo: Maybe<MyDiseaseInfoFieldsFragment>;

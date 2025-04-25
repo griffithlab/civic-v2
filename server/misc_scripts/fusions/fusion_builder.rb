@@ -1,4 +1,4 @@
-#run after backfill variant coords
+# run after backfill variant coords
 require 'net/http'
 require 'json'
 require 'uri'
@@ -22,7 +22,7 @@ def call_fusion_builder(chr:, start:, stop:, transcript:)
     chromosome: chr,
     start: start,
     end: stop,
-    transcript: transcript
+    transcript: transcript,
   }
 
   res = call_api("http://fusion-builder.cancervariants.org/api/utilities/get_exon?#{q.to_query}")
@@ -41,6 +41,3 @@ begin
 rescue StandardError => e
   binding.irb
 end
-
-
-

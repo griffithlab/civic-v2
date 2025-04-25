@@ -5,7 +5,8 @@ import { BehaviorSubject } from "rxjs";
 @Component({
     selector: 'cvc-my-chem-info',
     templateUrl: './my-chem-info.component.html',
-    styleUrls: ['./my-chem-info.component.less']
+    styleUrls: ['./my-chem-info.component.less'],
+    standalone: false
 })
 export class CvcMyChemInfoComponent implements OnDestroy {
   @Input() chemInfo: Maybe<MyChemInfoFieldsFragment>;

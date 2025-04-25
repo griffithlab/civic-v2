@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-assertions-suggest-page',
-  templateUrl: './assertion-suggest.page.html',
+    selector: 'cvc-assertions-suggest-page',
+    templateUrl: './assertion-suggest.page.html',
+    standalone: false
 })
 export class AssertionSuggestPage implements OnDestroy {
   assertionId?: number

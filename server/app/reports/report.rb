@@ -1,5 +1,4 @@
 class Report
-
   def initialize(params)
     setup(**params)
   rescue => e
@@ -27,9 +26,9 @@ class Report
   end
 
   def self.inputs
-    #format input_name: :type
-    #supported primitive types :text, :date, :boolean, :int
-    #or you can provide an array of objects and a select will be rendered
+    # format input_name: :type
+    # supported primitive types :text, :date, :boolean, :int
+    # or you can provide an array of objects and a select will be rendered
     {}
   end
 

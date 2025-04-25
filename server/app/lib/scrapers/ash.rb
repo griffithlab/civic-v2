@@ -1,14 +1,14 @@
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 module Scrapers
   class Ash
-    def self.get_citation_from_doi(doi: )
+    def self.get_citation_from_doi(doi:)
       resp = fetch_ash_page(doi: doi)
       resp.citation
     end
 
-    def self.fetch_ash_page(doi: )
+    def self.fetch_ash_page(doi:)
       resp = Util.make_get_request("https://doi.org/#{doi}")
       AshRecordResponse.new(resp)
     end

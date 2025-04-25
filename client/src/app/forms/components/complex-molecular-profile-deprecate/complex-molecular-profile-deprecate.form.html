@@ -1,6 +1,6 @@
-<nz-spin [nzSpinning]="this.isLoading$ | ngrxPush">
+<nz-spin [nzSpinning]="isLoading$ | ngrxPush">
   <nz-space nzDirection="vertical">
-    <ng-container *ngrxLet="this.hasEvidence$ as hasEvidence">
+    <ng-container *ngrxLet="hasEvidence$ as hasEvidence">
       <ng-container *ngIf="hasEvidence">
         <nz-alert
           *nzSpaceItem
@@ -14,7 +14,7 @@
 
 <nz-card nzType="inner">
   <nz-alert
-    *ngIf="this.success"
+    *ngIf="success"
     nzBanner
     nzMessage="Molecular Profile deprecated"
     nzType="success"
@@ -55,7 +55,7 @@
     <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
     <nz-spin
       nzTip="Submitting"
-      [nzSpinning]="this.mutationLoading$ | ngrxPush">
+      [nzSpinning]="mutationLoading$ | ngrxPush">
       <nz-form-item>
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
@@ -78,7 +78,7 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !this.reason "
+                  [disabled]="!(comment !== undefined && comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !reason "
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
                   [nzTooltipTitle]="'For ' + selectedOrg?.name">
