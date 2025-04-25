@@ -26,5 +26,6 @@ module Types::Events
     value "DEPRECATED_FEATURE", value: "deprecated feature"
     value "FEATURE_CREATED", value: "feature created"
     value "COMMENT_DELETED", value: "comment deleted"
+    value "SOURCE_LINKED", value: "source linked"
   end
 end

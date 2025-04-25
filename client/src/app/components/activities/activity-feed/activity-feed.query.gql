@@ -181,4 +181,5 @@ fragment ActivityFeedItem on ActivityInterface {
   ...SuggestRevisionSetActivityDetail @include(if: $requestDetails)
   ...SuggestSourceActivityDetail @include(if: $requestDetails)
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
+  ...CreateSourceLinkActivityDetail @include(if: $requestDetails)
 }
