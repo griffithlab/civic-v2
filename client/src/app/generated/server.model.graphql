@@ -10508,7 +10508,7 @@ type SourceEdge {
 
 type SourceLink {
   createdAt: ISO8601DateTime!
-  id: ID!
+  id: Int!
   linkedSource: Source!
   note: String
   reason: SourceLinkReason!

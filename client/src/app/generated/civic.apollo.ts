@@ -6118,7 +6118,7 @@ export type SourceEdge = {
 export type SourceLink = {
   __typename: 'SourceLink';
   createdAt: Scalars['ISO8601DateTime']['output'];
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   linkedSource: Source;
   note?: Maybe<Scalars['String']['output']>;
   reason: SourceLinkReason;
@@ -9273,7 +9273,7 @@ export type CreateLinkedSourceMutationVariables = Exact<{
 }>;
 
 
-export type CreateLinkedSourceMutation = { __typename: 'Mutation', createLinkedSource?: { __typename: 'CreateLinkedSourcePayload', sourceLink: { __typename: 'SourceLink', id: string, reason: SourceLinkReason, note?: string | undefined, source: { __typename: 'Source', id: number, name: string }, linkedSource: { __typename: 'Source', id: number, name: string } } } | undefined };
+export type CreateLinkedSourceMutation = { __typename: 'Mutation', createLinkedSource?: { __typename: 'CreateLinkedSourcePayload', sourceLink: { __typename: 'SourceLink', id: number, reason: SourceLinkReason, note?: string | undefined, source: { __typename: 'Source', id: number, name: string }, linkedSource: { __typename: 'Source', id: number, name: string } } } | undefined };
 
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -9896,9 +9896,9 @@ export type SourceSummaryQueryVariables = Exact<{
 }>;
 
 
-export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, retracted: boolean, retractionNature?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, deprecated: boolean, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined, linkedSources?: Array<{ __typename: 'SourceLink', reason: SourceLinkReason, note?: string | undefined, source: { __typename: 'Source', id: number, title?: string | undefined }, linkedSource: { __typename: 'Source', id: number, title?: string | undefined } }> | undefined } | undefined };
+export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, retracted: boolean, retractionNature?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, deprecated: boolean, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined, linkedSources?: Array<{ __typename: 'SourceLink', reason: SourceLinkReason, note?: string | undefined, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, deprecated: boolean, link: string }, linkedSource: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, deprecated: boolean, link: string } }> | undefined } | undefined };
 
-export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, retracted: boolean, retractionNature?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, deprecated: boolean, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined, linkedSources?: Array<{ __typename: 'SourceLink', reason: SourceLinkReason, note?: string | undefined, source: { __typename: 'Source', id: number, title?: string | undefined }, linkedSource: { __typename: 'Source', id: number, title?: string | undefined } }> | undefined };
+export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, retracted: boolean, retractionNature?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, deprecated: boolean, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined, linkedSources?: Array<{ __typename: 'SourceLink', reason: SourceLinkReason, note?: string | undefined, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, deprecated: boolean, link: string }, linkedSource: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, deprecated: boolean, link: string } }> | undefined };
 
 export type TherapyDetailQueryVariables = Exact<{
   therapyId: Scalars['Int']['input'];
@@ -13489,11 +13489,17 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   linkedSources {
     source {
       id
-      title
+      citation
+      sourceType
+      deprecated
+      link
     }
     linkedSource {
       id
-      title
+      citation
+      sourceType
+      deprecated
+      link
     }
     reason
     note
