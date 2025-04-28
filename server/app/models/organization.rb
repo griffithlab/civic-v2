@@ -1,6 +1,7 @@
 class Organization < ActiveRecord::Base
   has_many :events
   has_many :affiliations
+  has_many :clinvar_api_keys
   has_many :users, through: :affiliations
   has_many :groups, class_name: "Organization", foreign_key: "parent_id"
   belongs_to :parent, class_name: "Organization", optional: true
