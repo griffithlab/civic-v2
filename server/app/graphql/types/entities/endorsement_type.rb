@@ -8,6 +8,7 @@ module Types::Entities
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :last_reviewed, GraphQL::Types::ISO8601DateTime, null: false
+    field :ready_for_clinvar_submission, Boolean, null: false
 
     def organization
       Loaders::AssociationLoader.for(Endorsement, :organization).load(object)
@@ -19,6 +20,10 @@ module Types::Entities
 
     def user
       Loaders::AssociationLoader.for(Endorsement, :user).load(object)
+    end
+
+    def ready_for_clinvar_submission
+      object.ready_for_clinvar_submission?
     end
   end
 end
