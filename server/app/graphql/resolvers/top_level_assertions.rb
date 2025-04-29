@@ -33,7 +33,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:evidence_id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of evidence underlying the assertion.") do |scope, value|
     scope.joins(:evidence_items).where("evidence_items.id = ?", value)
   end
-  option(:organization, type: Types::OrganizationFilterType, description: "Filter EIDs on the organization the evidence item was submitted under.") do  |scope, value|
+  option(:organization, type: Types::OrganizationFilterType, description: "Filter AIDs on the organization the evidence item was submitted under.") do  |scope, value|
     if value.include_subgroups && !value.ids.blank?
       org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }
       scope.joins(:submission_event).where({ events: { organization_id: org_ids } })
@@ -101,6 +101,25 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
       scope.unscope(where: :status).where.not(status: "rejected")
     else
       scope.unscope(where: :status).where(status: value)
+    end
+  end
+
+  option(:endorsing_organizations, type: Types::OrganizationFilterType, description: "Filter AIDs by Organziations that have endorsed them. Specifying multiple IDs will return Assertions endorsed by any of the Organizations.") do |scope, value|
+    included_statuses = [ "active", "requires_review" ]
+
+    if value.include_subgroups && !value.ids.blank?
+      org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }
+      scope.joins(:endorsements)
+        .where(endorsements: { status: included_statuses, organization_id: org_ids })
+    elsif !value.ids.blank?
+      scope.joins(:endorsements)
+        .where(endorsements: { status: included_statuses, organization_id: value.ids })
+    elsif !value.name.blank?
+      org_id = Organization.where("ILIKE ?", value.name).pluck(:id)
+      scope.joins(:endorsements)
+        .where(endorsements: { status: included_statuses, organization_id: org_id })
+    else
+      scope
     end
   end
 

@@ -361,9 +361,11 @@
           nz-col
           nzFlex="1 0 auto"
           id="header-viewer">
-          <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
+          @let viewer = viewer$ | ngrxPush;
+          <cvc-login-button
+            *ngIf="!viewer || viewer.signedOut"></cvc-login-button>
           <cvc-viewer-button
-            *ngIf="signedIn$ | async"
+            *ngIf="viewer && viewer.signedIn"
             [cvcCollapsed]="isCollapsed"></cvc-viewer-button>
         </div>
       </div>

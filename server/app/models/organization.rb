@@ -3,6 +3,11 @@ class Organization < ActiveRecord::Base
   has_many :affiliations
   has_many :clinvar_api_keys
   has_many :users, through: :affiliations
+  has_many :users_with_endorsement_privileges,
+    ->() { where("affiliations.can_endorse = 't'") },
+    through: :affiliations,
+    source: :user
+
   has_many :groups, class_name: "Organization", foreign_key: "parent_id"
   belongs_to :parent, class_name: "Organization", optional: true
 
@@ -13,6 +18,8 @@ class Organization < ActiveRecord::Base
   has_one :most_recent_event,
     ->() { order("created_at DESC").limit(1) },
     class_name: "Event", foreign_key: :organization_id
+
+  validate :no_endorsing_users
 
   # TODO: org membership helper methods
   # TODO: only allow one level of nesting
@@ -51,5 +58,11 @@ class Organization < ActiveRecord::Base
 
   def org_and_suborg_ids
     return [ self.id ] + self.group_ids
+  end
+
+  def no_endorsing_users
+    if !self.can_endorse? && self.users_with_endorsement_privileges.exists?
+      self.errors.add(:can_endorse, "cannot unset can_endorse while users still have endorsement permissions.")
+    end
   end
 end

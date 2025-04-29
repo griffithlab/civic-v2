@@ -1,7 +1,5 @@
 import {
   ActivityInterfaceEdge,
-  ActivitySubjectInput,
-  ActivityTypeInput,
   DateSortColumns,
   EventFeedMode,
   SortDirection,
@@ -32,6 +30,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   userId: [],
   activityType: [],
   subjectType: [],
+  linkedEndorsementId: null,
   occurredAfter: null,
   occurredBefore: null,
   sortByColumn: DateSortColumns.Created,
@@ -47,6 +46,7 @@ export const simpleActivityTypes = new Set([
   'CreateVariantActivity',
   'CreateFeatureActivity',
   'DeleteCommentActivity',
+  'EndorseAssertionActivity',
 ])
 
 //TODO: Remove me, not needed
@@ -59,6 +59,7 @@ export const commentOnlyActivityTypes = new Set([
   'DeprecateComplexMolecularProfileActivity',
   'ModerateAssertionActivity',
   'ModerateEvidenceItemActivity',
+  'RevokeEndorsementActivity',
 ])
 
 //TODO: Remove me, not needed

@@ -310,6 +310,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.integer "star_rating"
     t.text "note"
     t.bigint "organization_id", null: false
+    t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["api_key"], name: "index_clinvar_api_keys_on_api_key", unique: true
@@ -320,7 +321,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.bigint "clinvar_batch_submission_id", null: false
     t.bigint "assertion_id", null: false
     t.string "clinvar_accession"
-    t.string "status"
+    t.string "status", null: false
+    t.datetime "date_last_evaluated", null: false
     t.jsonb "errors"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

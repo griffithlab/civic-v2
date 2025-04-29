@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, computed, OnDestroy, Signal, signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -12,16 +12,24 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
 import { AssertionDetailQuery } from '@app/generated/civic.apollo'
-import { startWith, takeUntil } from 'rxjs/operators'
+import { map, startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
+import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
+import { toSignal } from '@angular/core/rxjs-interop'
+
+type ActiveEndorsement = {
+  organization: {
+    id: number
+  }
+}
 
 @Component({
-    selector: 'assertions-detail',
-    templateUrl: './assertions-detail.view.html',
-    styleUrls: ['./assertions-detail.view.less'],
-    standalone: false
+  selector: 'assertions-detail',
+  templateUrl: './assertions-detail.view.html',
+  styleUrls: ['./assertions-detail.view.less'],
+  standalone: false,
 })
 export class AssertionsDetailView implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
@@ -29,6 +37,8 @@ export class AssertionsDetailView implements OnDestroy {
   assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
   loading$?: Observable<boolean>
   flagsTotal$?: Observable<number>
+  activeEndorsementTotal$?: Observable<number>
+  requiresReviewEndorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
   paramsSub: Subscription
@@ -58,6 +68,11 @@ export class AssertionsDetailView implements OnDestroy {
       tabLabel: 'Flags',
     },
     {
+      routeName: 'endorsements',
+      iconName: 'safety-certificate',
+      tabLabel: 'Endorsements',
+    },
+    {
       routeName: 'events',
       iconName: 'civic-event',
       tabLabel: 'Activity',
@@ -66,6 +81,8 @@ export class AssertionsDetailView implements OnDestroy {
 
   errors: string[] = []
   successMessage: Maybe<string>
+
+  endorsementCount?: Signal<number>
 
   constructor(
     private gql: AssertionDetailGQL,
@@ -87,6 +104,22 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
+      const activeCount = toSignal(
+        (this.activeEndorsementTotal$ = this.assertion$.pipe(
+          pluck('activeEndorsements', 'totalCount')
+        ))
+      )
+
+      const requiresReviewCount = toSignal(
+        (this.requiresReviewEndorsementTotal$ = this.assertion$.pipe(
+          pluck('requiresReviewEndorsements', 'totalCount')
+        ))
+      )
+
+      this.endorsementCount = computed(
+        () => (activeCount() || 0) + (requiresReviewCount() || 0)
+      )
+
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (assertionResp) => {
           this.tabs$.next(
@@ -105,6 +138,23 @@ export class AssertionsDetailView implements OnDestroy {
                 return {
                   badgeCount: assertionResp?.comments.totalCount,
                   badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Endorsements') {
+                let activeCount = assertionResp?.activeEndorsements.totalCount
+                  ? assertionResp?.activeEndorsements.totalCount
+                  : 0
+                let requiresReviewCount = assertionResp
+                  ?.requiresReviewEndorsements.totalCount
+                  ? assertionResp?.requiresReviewEndorsements.totalCount
+                  : 0
+                let count = activeCount + requiresReviewCount
+                if (count == 0) {
+                  let count = undefined
+                }
+                return {
+                  badgeCount: count,
+                  badgeColor: '#EFBF04',
                   ...tab,
                 }
               } else {
@@ -156,5 +206,30 @@ export class AssertionsDetailView implements OnDestroy {
       this.successMessage = `Assertion successfully ${res}.`
       this.queryRef?.refetch()
     }
+  }
+
+  onEndorsementAction(res: EndorsementResult) {
+    if (res.success) {
+      if (res.action == 'endorse') {
+        this.successMessage = `Assertion Endorsed Successfully`
+      } else {
+        this.successMessage = `Successfully Revoked Endorsement`
+      }
+      this.errors = []
+      this.queryRef?.refetch()
+    } else {
+      this.successMessage = undefined
+      this.errors = res.errors
+    }
+  }
+
+  hasActiveEndorsement(
+    currentOrgId: number,
+    activeEndorsements: ActiveEndorsement[]
+  ): boolean {
+    return (
+      activeEndorsements.filter((ae) => ae.organization.id === currentOrgId)
+        .length > 0
+    )
   }
 }

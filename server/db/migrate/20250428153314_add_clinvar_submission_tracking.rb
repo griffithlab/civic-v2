@@ -5,6 +5,7 @@ class AddClinvarSubmissionTracking < ActiveRecord::Migration[8.0]
       t.integer :star_rating
       t.text :note
       t.references :organization, null: false, foreign_key: true
+      t.boolean :active, null: false, default: false
       t.timestamps
     end
 
@@ -36,7 +37,8 @@ class AddClinvarSubmissionTracking < ActiveRecord::Migration[8.0]
       t.references :clinvar_batch_submission, null: false, foreign_key: true, index: { name: 'index_clinvar_entries_on_batch_submission_id' } # Custom index name for length
       t.references :assertion, null: false, foreign_key: true
       t.string :clinvar_accession, index: true
-      t.string :status, index: true
+      t.string :status, index: true, null: false
+      t.datetime :date_last_evaluated, null: false
       t.jsonb :errors
       t.timestamps
     end

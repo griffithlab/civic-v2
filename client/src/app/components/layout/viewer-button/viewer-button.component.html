@@ -1,224 +1,227 @@
 <ng-container *ngIf="viewer$ | ngrxPush as viewer">
-  <nz-space
-    nzDirection="horizontal"
-    nzSize="middle"
-    *ngrxLet="unreadCount$ as unreadCount">
-    <!-- ADD ENTITY DROPDOWN -->
-    <button
-      class="add-btn"
-      nz-button
-      nzSize="small"
-      nzType="link"
-      nz-dropdown
-      nzTrigger="click"
-      [nzDropdownMenu]="addMenu"
-      nzPlacement="bottomRight"
-      *nzSpaceItem>
-      Add
-      <i
-        nz-icon
-        nzType="caret-down"
-        nzTheme="outline"></i>
-    </button>
-
-    <!-- NOTIFICATION BUTTON -->
-    <nz-badge
-      [nzCount]="unreadCount"
-      [nzOverflowCount]="999"
-      [nzStyle]="{
-        backgroundColor: '#096dd9',
-        color: '#fff1f0',
-        boxShadow: '0 0 0 1px #1890ff inset'
-      }"
-      *nzSpaceItem>
+  @if (viewer.signedIn) {
+    @let user = viewer.user!;
+    <nz-space
+      nzDirection="horizontal"
+      nzSize="middle"
+      *ngrxLet="unreadCount$ as unreadCount">
+      <!-- ADD ENTITY DROPDOWN -->
       <button
-        class="notification-btn"
+        class="add-btn"
         nz-button
-        nzSize="large"
-        nzShape="circle"
+        nzSize="small"
         nzType="link"
-        routerLink="/users/{{ viewer.id }}/notifications">
-        <i
-          nz-icon
-          nzType="bell"
-          nzTheme="outline"></i>
-      </button>
-    </nz-badge>
-
-    <!-- VIEWER BUTTON -->
-    <button
-      class="viewer-btn"
-      nz-button
-      nzSize="large"
-      nzShape="round"
-      nz-dropdown
-      nzTrigger="click"
-      [nzDropdownMenu]="userMenu"
-      nzPlacement="bottomRight"
-      *nzSpaceItem>
-      <nz-space
-        nzDirection="horizontal"
-        nzSize="small">
-        <cvc-user-avatar
-          [user]="viewer"
-          [size]="22"
-          shape="circle"
-          [ngClass]="{ 'update-coi': viewer.invalidCoi }"
-          *nzSpaceItem></cvc-user-avatar>
-        <ng-container *ngIf="!cvcCollapsed">
-          <div
-            class="viewer-name"
-            *nzSpaceItem>
-            {{ viewer.username }}
-          </div>
-        </ng-container>
-        <ng-container *ngIf="viewer.mostRecentOrg">
-          <span
-            *nzSpaceItem
-            class="org-label">
-            for
-          </span>
-          <span *nzSpaceItem>
-            <cvc-organization-avatar
-              [size]="18"
-              shape="square"
-              [organization]="viewer.mostRecentOrg">
-            </cvc-organization-avatar>
-          </span>
-        </ng-container>
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="addMenu"
+        nzPlacement="bottomRight"
+        *nzSpaceItem>
+        Add
         <i
           nz-icon
           nzType="caret-down"
-          nzTheme="outline"
-          *nzSpaceItem></i>
-      </nz-space>
-    </button>
-  </nz-space>
+          nzTheme="outline"></i>
+      </button>
 
-  <!-- VIEWER BUTTON DROPDOWN MENU -->
-  <nz-dropdown-menu #userMenu="nzDropdownMenu">
-    <ul nz-menu>
-      <!-- INVALID COI STATEMENT GROUP -->
-      <li
-        *ngIf="viewer.invalidCoi"
-        nz-menu-group
-        [nzTitle]="coiGroupTitle">
-        <ng-template #coiGroupTitle>
-          <span
-            nz-typography
-            nzType="danger">
-            <i
-              nz-icon
-              nzType="exclamation-circle"></i>
-            Conflict of Interest Invalid
-          </span>
-        </ng-template>
-        <ul>
-          <li nz-menu-item>
-            <button
-              *ngIf="viewer.invalidCoi"
-              (click)="coiUpdateModalVisible = true"
-              nz-button
-              nzType="primary"
-              nzShape="round"
-              nzSize="small"
-              nzDanger
-              nzBlock>
-              Please Update COI statement
-            </button>
-          </li>
-        </ul>
-      </li>
-      <li
-        nz-menu-group
-        nzTitle="Curation">
-        <ul>
-          <li
-            nz-menu-item
-            nzMatchRouter
-            [routerLink]="['/users', viewer.id]">
-            View Profile
-          </li>
-          <li
-            *ngIf="viewer.organizations.length > 1"
-            nz-menu-group
-            nzTitle="Change Organization">
-            <ul>
-              <li
-                *ngFor="let org of viewer.organizations"
-                (click)="menuSelection$.next(org.id)"
-                [nzSelected]="viewer.mostRecentOrg?.id === org.id"
-                nz-menu-item>
-                <nz-avatar
-                  [nzSrc]="org?.profileImagePath"
-                  [nzSize]="14"
-                  [nzShape]="'square'"></nz-avatar>
-                <span class="org-name">{{ org.name }}</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li
-        nz-menu-group
-        nzTitle="Administration"
-        *ngIf="viewer.isAdmin">
-        <ul>
-          <li
-            nz-menu-item
-            href="/admin">
-            <a href="/admin"> Admin Console </a>
-          </li>
-          <li
-            nz-menu-item
-            href="/errors">
-            <a href="/errors"> Error Monitoring </a>
-          </li>
-          <li
-            nz-menu-item
-            href="/jobs">
-            <a href="/jobs"> Background Workers </a>
-          </li>
-        </ul>
-      </li>
-      <li nz-menu-divider></li>
-      <li
-        nz-menu-item
-        (click)="signOut()">
-        Sign Out
-      </li>
-    </ul>
-  </nz-dropdown-menu>
-  <nz-dropdown-menu #addMenu="nzDropdownMenu">
-    <ul nz-menu>
-      <li
-        nz-menu-item
-        routerLink="/evidence/add/submit">
-        Evidence Item
-      </li>
-      <li
-        nz-menu-item
-        routerLink="/assertions/add/submit">
-        Assertion
-      </li>
-      <li
-        nz-menu-item
-        routerLink="/sources/add">
-        Source Suggestion
-      </li>
-      <li
-        nz-menu-item
-        *ngIf="viewer.isEditor"
-        (click)="addVariantModalVisible$.next(true)">
-        Variant
-      </li>
-      <li
-        nz-menu-item
-        routerLink="/variant-groups/add/submit">
-        Variant Group
-      </li>
-    </ul>
-  </nz-dropdown-menu>
+      <!-- NOTIFICATION BUTTON -->
+      <nz-badge
+        [nzCount]="unreadCount"
+        [nzOverflowCount]="999"
+        [nzStyle]="{
+          backgroundColor: '#096dd9',
+          color: '#fff1f0',
+          boxShadow: '0 0 0 1px #1890ff inset',
+        }"
+        *nzSpaceItem>
+        <button
+          class="notification-btn"
+          nz-button
+          nzSize="large"
+          nzShape="circle"
+          nzType="link"
+          routerLink="/users/{{ user.id }}/notifications">
+          <i
+            nz-icon
+            nzType="bell"
+            nzTheme="outline"></i>
+        </button>
+      </nz-badge>
+
+      <!-- VIEWER BUTTON -->
+      <button
+        class="viewer-btn"
+        nz-button
+        nzSize="large"
+        nzShape="round"
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="userMenu"
+        nzPlacement="bottomRight"
+        *nzSpaceItem>
+        <nz-space
+          nzDirection="horizontal"
+          nzSize="small">
+          <cvc-user-avatar
+            [user]="user"
+            [size]="22"
+            shape="circle"
+            [ngClass]="{ 'update-coi': viewer.invalidCoi }"
+            *nzSpaceItem></cvc-user-avatar>
+          <ng-container *ngIf="!cvcCollapsed">
+            <div
+              class="viewer-name"
+              *nzSpaceItem>
+              {{ user.username }}
+            </div>
+          </ng-container>
+          <ng-container *ngIf="viewer.mostRecentOrg">
+            <span
+              *nzSpaceItem
+              class="org-label">
+              for
+            </span>
+            <span *nzSpaceItem>
+              <cvc-organization-avatar
+                [size]="18"
+                shape="square"
+                [organization]="viewer.mostRecentOrg">
+              </cvc-organization-avatar>
+            </span>
+          </ng-container>
+          <i
+            nz-icon
+            nzType="caret-down"
+            nzTheme="outline"
+            *nzSpaceItem></i>
+        </nz-space>
+      </button>
+    </nz-space>
+
+    <!-- VIEWER BUTTON DROPDOWN MENU -->
+    <nz-dropdown-menu #userMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <!-- INVALID COI STATEMENT GROUP -->
+        <li
+          *ngIf="viewer.invalidCoi"
+          nz-menu-group
+          [nzTitle]="coiGroupTitle">
+          <ng-template #coiGroupTitle>
+            <span
+              nz-typography
+              nzType="danger">
+              <i
+                nz-icon
+                nzType="exclamation-circle"></i>
+              Conflict of Interest Invalid
+            </span>
+          </ng-template>
+          <ul>
+            <li nz-menu-item>
+              <button
+                *ngIf="viewer.invalidCoi"
+                (click)="coiUpdateModalVisible = true"
+                nz-button
+                nzType="primary"
+                nzShape="round"
+                nzSize="small"
+                nzDanger
+                nzBlock>
+                Please Update COI statement
+              </button>
+            </li>
+          </ul>
+        </li>
+        <li
+          nz-menu-group
+          nzTitle="Curation">
+          <ul>
+            <li
+              nz-menu-item
+              nzMatchRouter
+              [routerLink]="['/users', user.id]">
+              View Profile
+            </li>
+            <li
+              *ngIf="user.organizations.length > 1"
+              nz-menu-group
+              nzTitle="Change Organization">
+              <ul>
+                <li
+                  *ngFor="let org of user.organizations"
+                  (click)="menuSelection$.next(org.id)"
+                  [nzSelected]="viewer.mostRecentOrg?.id === org.id"
+                  nz-menu-item>
+                  <nz-avatar
+                    [nzSrc]="org?.profileImagePath"
+                    [nzSize]="14"
+                    [nzShape]="'square'"></nz-avatar>
+                  <span class="org-name">{{ org.name }}</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li
+          nz-menu-group
+          nzTitle="Administration"
+          *ngIf="viewer.isAdmin">
+          <ul>
+            <li
+              nz-menu-item
+              href="/admin">
+              <a href="/admin"> Admin Console </a>
+            </li>
+            <li
+              nz-menu-item
+              href="/errors">
+              <a href="/errors"> Error Monitoring </a>
+            </li>
+            <li
+              nz-menu-item
+              href="/jobs">
+              <a href="/jobs"> Background Workers </a>
+            </li>
+          </ul>
+        </li>
+        <li nz-menu-divider></li>
+        <li
+          nz-menu-item
+          (click)="signOut()">
+          Sign Out
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <nz-dropdown-menu #addMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          routerLink="/evidence/add/submit">
+          Evidence Item
+        </li>
+        <li
+          nz-menu-item
+          routerLink="/assertions/add/submit">
+          Assertion
+        </li>
+        <li
+          nz-menu-item
+          routerLink="/sources/add">
+          Source Suggestion
+        </li>
+        <li
+          nz-menu-item
+          *ngIf="viewer.isEditor"
+          (click)="addVariantModalVisible$.next(true)">
+          Variant
+        </li>
+        <li
+          nz-menu-item
+          routerLink="/variant-groups/add/submit">
+          Variant Group
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  }
 </ng-container>
 
 <nz-modal
@@ -231,8 +234,7 @@
     <span>Update your Conflict of Interest Statement</span>
   </ng-template>
   <ng-template #coiModalContent>
-    <cvc-user-coi-form
-      (coiUpdatedEvent)="coiUpdated()"></cvc-user-coi-form>
+    <cvc-user-coi-form (coiUpdatedEvent)="coiUpdated()"></cvc-user-coi-form>
   </ng-template>
 </nz-modal>
 
