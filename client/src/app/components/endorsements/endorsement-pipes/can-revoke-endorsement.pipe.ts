@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { EndorsementListNodeFragment, Maybe } from '@app/generated/civic.apollo'
-import { canModerateEndorsement } from '@app/components/endorsements/pipes/endorsement.functions'
+import { canModerateEndorsement } from '@app/components/endorsements/endorsement-pipes/endorsement.functions'
 
 /**
  * Returns true if a viewer can approve changes to an existing endorsement.

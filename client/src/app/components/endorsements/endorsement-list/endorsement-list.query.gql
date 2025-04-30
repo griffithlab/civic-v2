@@ -39,7 +39,7 @@ fragment endorsementListNode on Endorsement {
     id
     name
     status
-    flags {
+    flags(state: OPEN) {
       totalCount
     }
   }

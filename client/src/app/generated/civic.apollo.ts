@@ -12911,7 +12911,7 @@ export const EndorsementListNodeFragmentDoc = gql`
     id
     name
     status
-    flags {
+    flags(state: OPEN) {
       totalCount
     }
   }

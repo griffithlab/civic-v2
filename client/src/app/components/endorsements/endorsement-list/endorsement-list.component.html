@@ -205,43 +205,19 @@
 
     <!-- endorsement status & action button -->
     <ng-template #itemExtra>
+      @let entity = assertion()!;
       @if (endorsement.status !== 'REVOKED') {
-        @let canApprove = vwr | canApproveEndorsement: endorsement;
-        @let canRevoke = vwr | canRevokeEndorsement: endorsement;
-        @let hasAlternateApprovingOrg =
-          vwr | hasAlternateApprovingOrg: endorsement;
-        @let revokeTooltip =
-          canRevoke
-            ? 'Revoke this Endorsement'
-            : 'You are not authorized to revoke endorsement';
         <div
           nz-flex
           nzVertical
           [nzGap]="8">
           @if (endorsement.status === 'REQUIRES_REVIEW') {
-            @let approveTip =
-              canApprove
-                ? 'Approve the pending changes to this endorsement.'
-                : 'You are not authorized to approve changes.';
-            @let alternateOrgTip =
-              'Switch to original endorsing organization to approve these changes. (' +
-              hasAlternateApprovingOrg +
-              ')';
-            @let hasFlags = (assertion()?.flags)!.totalCount > 0;
-            @let hasFlagsTip =
-              'Changes to flagged Assertions cannot be approved';
             <cvc-endorse-assertion-button
               [assertionId]="assertionId()"
               mode="approveChanges"
-              [disabled]="!canApprove || hasFlags"
+              [disabled]="!(vwr | canApproveEndorsement :endorsement)"
               display="block"
-              [tooltipText]="
-                hasFlags
-                  ? hasFlagsTip
-                  : hasAlternateApprovingOrg
-                    ? alternateOrgTip
-                    : approveTip
-              "
+              [tooltipText]="(vwr | endorsementActionTooltip : 'approveChanges' : entity : endorsement.id)"
               (onEndorsed)="
                 onEndorsement($event)
               "></cvc-endorse-assertion-button>
@@ -249,28 +225,12 @@
           <cvc-endorse-assertion-button
             [assertionId]="assertionId()"
             mode="revoke"
-            [disabled]="!canRevoke"
+            [disabled]="!(vwr | canRevokeEndorsement :endorsement)"
             display="block"
-            [tooltipText]="revokeTooltip"
+            [tooltipText]="(vwr | endorsementActionTooltip : 'revoke' : entity : endorsement.id)"
             (onEndorsed)="onEndorsement($event)"></cvc-endorse-assertion-button>
         </div>
       }
-      <!-- <button
-            nz-button
-            [disabled]="!(vwr | canApproveEndorsement: endorsement)"
-            nzType="primary"
-            nzBlock>
-            Endorse Changes
-          </button>
-          @if (vwr | canRevokeEndorsement: endorsement) {
-            <button
-              nz-button
-              nzType="primary"
-              nzDanger
-              nzBlock>
-              Revoke
-            </button>
-          } -->
     </ng-template>
   </ng-template>
   @if (pageInfo()?.hasNextPage) {

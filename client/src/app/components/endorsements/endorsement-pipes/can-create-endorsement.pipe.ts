@@ -1,45 +1,39 @@
 import { Pipe, PipeTransform } from '@angular/core'
+import {
+  AssertionDetailFieldsFragment,
+  Maybe,
+} from '@app/generated/civic.apollo'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
-import { EndorsementListNodeFragment, Maybe } from '@app/generated/civic.apollo'
+import {
+  canBeEndorsed,
+  canModerateEndorsement,
+  canPerformEndorsementActions,
+} from '@app/components/endorsements/endorsement-pipes/endorsement.functions'
 
 /**
- * Returns true if viewer can create an endorsement for the assertion.
- * It checks if the viewer can create endorsements, and ensures the viewer's
- * endorsing organization has not already endorsed the assertion.
+ * Returns true if the viewer can endorse an endorsable entity.
  *
- * @param viewer - The viewer object
- * @param endorsements - The assertion's endorsements
+ * @param {Maybe<Viewer>} viewer - The viewer
+ * @param {AssertionDetailFieldsFragment} entity - The entity (currently only Assertions)
  * @returns true if viewer can create an endorsement, false otherwise
  */
-
 @Pipe({
   name: 'canCreateEndorsement',
   standalone: true,
 })
-export class CvcCanCreateEndorsement implements PipeTransform {
+export class CvcCanCreateEndorsementPipe implements PipeTransform {
   transform(
     viewer: Maybe<Viewer>,
-    endorsements: EndorsementListNodeFragment[] = []
+    entity: AssertionDetailFieldsFragment
   ): boolean {
-    let canCreateEndorsement = false
-    if (
-      viewer &&
-      viewer.signedIn &&
-      viewer.canModerate &&
-      viewer.endorsableOrgIds.length > 0 &&
-      viewer.mostRecentOrg
-    ) {
-      const endorseOrgId = viewer.mostRecentOrg.id
-      const isEndorsableOrg = viewer.endorsableOrgIds.includes(endorseOrgId)
-      const currentEndorsements = endorsements.filter(
-        (e) => e.status === 'ACTIVE' || e.status === 'REQUIRES_REVIEW'
-      )
-      if (isEndorsableOrg) {
-        canCreateEndorsement = !currentEndorsements.some((ce) => {
-          return endorseOrgId === ce.organization.id
-        })
-      }
+    if (viewer === undefined) return false
+    if (canPerformEndorsementActions(viewer) && canBeEndorsed(entity)) {
+      // viewer can't create a new endorsement if they can moderate
+      // any currently live (active or requires review) endorsements
+      return !entity.endorsements.nodes.some((endorsement) => {
+        return canModerateEndorsement(viewer, endorsement)
+      })
     }
-    return canCreateEndorsement
+    return false
   }
 }

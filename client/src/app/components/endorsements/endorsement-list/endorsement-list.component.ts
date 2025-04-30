@@ -72,11 +72,7 @@ export class CvcEndorsementListComponent implements OnInit {
     private injector: EnvironmentInjector,
     private viewerService: ViewerService
   ) {
-    this.viewer = toSignal(
-      this.viewerService.viewer$.pipe(
-        map((viewer) => ({ ...viewer })) // create new object to trigger change detection
-      )
-    )
+    this.viewer = toSignal(this.viewerService.viewer$)
     this.errors = signal<string[]>([])
     this.successMessage = signal<Maybe<string>>(undefined)
   }
@@ -135,6 +131,7 @@ export class CvcEndorsementListComponent implements OnInit {
   onEndorsement(endorsementResult: EndorsementResult) {
     console.log('onEndorsement', endorsementResult)
   }
+
   refreshList() {
     this.queryRef.refetch()
   }

@@ -1,7 +1,7 @@
 @let entity = assertion();
 @let vwr = viewer();
 @if (entity) {
-  <cvc-section-navigation [displayName]="entity.name"> </cvc-section-navigation>
+  <cvc-section-navigation [displayName]="entity.name"></cvc-section-navigation>
   <div
     cvcFlaggable
     [cvcFlaggableCounts]="flaggableCounts()">
@@ -68,18 +68,13 @@
                 </cvc-revert-entity-button>
               }
               <!-- Create Endorsement Button -->
-              @if (vwr | canCreateEndorsement: entity) {
-                @let hasFlags = flaggableCounts().flags > 0;
+              @if (vwr | canPerformEndorsementActions) {
                 <cvc-endorse-assertion-button
                   *nzSpaceItem
                   mode="endorse"
                   [assertionId]="entity.id"
-                  [disabled]="hasFlags"
-                  [tooltipText]="
-                    hasFlags
-                      ? 'Flagged Assertions cannot be endorsed.'
-                      : 'Endorse this Assertion'
-                  "
+                  [disabled]="!(vwr | canCreateEndorsement: entity)"
+                  [tooltipText]="(vwr | endorsementActionTooltip : 'create' : entity)"
                   (onEndorsed)="onEndorsement($event)">
                 </cvc-endorse-assertion-button>
               }
@@ -130,10 +125,8 @@
             </ng-template>
           </cvc-tab-navigation>
           @if (vwr && vwr.signedIn && entity.status === 'SUBMITTED') {
-            @if (
-              vwr.canModerate ||
-              vwr.user?.id === entity.submissionEvent.originatingUser.id
-            ) {
+            @if (vwr.canModerate ||
+            vwr.user?.id === entity.submissionEvent.originatingUser.id) {
               <cvc-moderate-entity-buttons
                 entityType="Assertion"
                 [entityId]="entity.id"
