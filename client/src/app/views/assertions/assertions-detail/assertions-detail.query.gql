@@ -35,18 +35,6 @@ fragment AssertionDetailFields on Assertion {
       ...endorsementListNode
     }
   }
-  # activeEndorsements: endorsements(status: ACTIVE) {
-  #   totalCount
-  #   nodes {
-  #     ...endorsementListNode
-  #   }
-  # }
-  # requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
-  #   totalCount
-  #   nodes {
-  #     ...endorsementListNode
-  #   }
-  # }
   ...assertionSubmissionActivity
 }
 

@@ -34,6 +34,15 @@ fragment endorsementListNode on Endorsement {
   id
   status
   lastReviewed
+  updatedAt
+  assertion {
+    id
+    name
+    status
+    flags {
+      totalCount
+    }
+  }
   organization {
     id
     name

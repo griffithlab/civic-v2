@@ -1,7 +1,7 @@
 <!-- @let endorsements = (endorsements$ | ngrxPush) || []; -->
 @let list = endorsements();
 @let vwr = viewer();
-@if (list.length > 0 && (vwr | canEndorse)) {
+@if (vwr | canPerformEndorsementActions) {
   <nz-alert
     nzType="info"
     [nzMessage]="endorsementMessage"
@@ -36,7 +36,7 @@
       <div class="organization-image-container">
         <img
           class="organization-image"
-          src="{{ endorsement.organization.profileImagePath }}" />
+          src="{{ endorsement.organization.profileImagePath }}"/>
       </div>
     </ng-template>
 
@@ -68,13 +68,13 @@
           @case ('ACTIVE') {
             <strong>AID{{ assertionId() }}</strong> has been endorsed by
             <strong>{{ endorsement.organization.name }}</strong> under the
-            authority of editor
+              authority of editor
             <strong> {{ endorsement.user.displayName }}.</strong>
           }
           @case ('REVOKED') {
             <strong>AID{{ assertionId() }}</strong> endorsement has been revoked
-            by <strong>{{ endorsement.organization.name }}</strong> under the
-            authority of editor
+              by <strong>{{ endorsement.organization.name }}</strong> under the
+              authority of editor
             <strong> {{ endorsement.user.displayName }}.</strong>
           }
           @case ('REQUIRES_REVIEW') {
@@ -150,13 +150,13 @@
         <span>Status: </span>
         @switch (endorsement.status) {
           @case ('ACTIVE') {
-            <nz-tag nzColor="success"> Active </nz-tag>
+            <nz-tag nzColor="success"> Active</nz-tag>
           }
           @case ('REQUIRES_REVIEW') {
             <nz-tag nzColor="processing"> Requires Review</nz-tag>
           }
           @case ('REVOKED') {
-            <nz-tag nzColor="error"> Revoked </nz-tag>
+            <nz-tag nzColor="error"> Revoked</nz-tag>
           }
         }
       </ng-template>
@@ -182,9 +182,7 @@
               {{ endorsement.lastReviewed | timeAgo }}
             </span>
           </nz-descriptions-item>
-          @if (
-            endorsement.status === 'REVOKED' && endorsement.revocationActivity
-          ) {
+          @if (endorsement.status === 'REVOKED' && endorsement.revocationActivity) {
             <nz-descriptions-item
               nzTitle="Reason for Revocation"
               nzSpan="2">

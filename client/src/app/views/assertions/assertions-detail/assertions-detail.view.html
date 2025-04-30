@@ -68,7 +68,7 @@
                 </cvc-revert-entity-button>
               }
               <!-- Create Endorsement Button -->
-              @if (vwr | canCreateEndorsement: endorsements()) {
+              @if (vwr | canCreateEndorsement: entity) {
                 @let hasFlags = flaggableCounts().flags > 0;
                 <cvc-endorse-assertion-button
                   *nzSpaceItem
@@ -80,16 +80,6 @@
                       ? 'Flagged Assertions cannot be endorsed.'
                       : 'Endorse this Assertion'
                   "
-                  (onEndorsed)="onEndorsement($event)">
-                </cvc-endorse-assertion-button>
-              }
-
-              <!-- Revoke Endorsement Button -->
-              @if (!(vwr | canCreateEndorsement: endorsements())) {
-                <cvc-endorse-assertion-button
-                  *nzSpaceItem
-                  mode="revoke"
-                  [assertionId]="entity.id"
                   (onEndorsed)="onEndorsement($event)">
                 </cvc-endorse-assertion-button>
               }

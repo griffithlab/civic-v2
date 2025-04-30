@@ -18,11 +18,12 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { CvcCanEndorse } from '../endorsement-pipes/can-endorse.pipe'
-import { CvcCanApproveEndorsement } from '../endorsement-pipes/can-approve-endorsement.pipe'
-import { CvcCanRevokeEndorsement } from '../endorsement-pipes/can-revoke-endorsement.pipe'
+import { CvcCanApproveEndorsement } from '../pipes/can-approve-endorsement.pipe'
+import { CvcCanRevokeEndorsement } from '../pipes/can-revoke-endorsement.pipe'
 import { CvcEndorseAssertionButtonComponent } from '../endorse-assertion-button/endorse-assertion-button.component'
-import { CvcHasAlternateApprovingOrg } from '../endorsement-pipes/has-alternate-approving-org.pipe'
+import { CvcHasAlternateApprovingOrg } from '../pipes/has-alternate-approving-org.pipe'
+import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/pipes/can-create-endorsement.pipe'
+import { CvcCanPerformEndorsementActionsPipe } from '@app/components/endorsements/pipes/can-perform-endorsement-actions.pipe'
 @NgModule({
   declarations: [CvcEndorsementListComponent],
   imports: [
@@ -46,7 +47,8 @@ import { CvcHasAlternateApprovingOrg } from '../endorsement-pipes/has-alternate-
     CvcOrganizationTagModule,
     CvcUserTagModule,
     CvcActivityFeed,
-    CvcCanEndorse,
+    CvcCanPerformEndorsementActionsPipe,
+    CvcCanCreateEndorsementPipe,
     CvcCanApproveEndorsement,
     CvcCanRevokeEndorsement,
     CvcHasAlternateApprovingOrg,

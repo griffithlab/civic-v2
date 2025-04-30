@@ -29,7 +29,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module'
 import { AssertionsDetailView } from './assertions-detail.view'
-import { CvcCanCreateEndorsement } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
+import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/pipes/can-create-endorsement.pipe'
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -52,7 +52,7 @@ import { CvcCanCreateEndorsement } from '@app/components/endorsements/endorsemen
     NzSpinModule,
     NzEmptyModule,
     CvcPipesModule,
-    CvcCanCreateEndorsement,
+    CvcCanCreateEndorsementPipe,
     CvcSectionNavigationModule,
     CvcFlaggableComponent,
     CvcEntitySubscriptionButtonModule,
