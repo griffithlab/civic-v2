@@ -8,6 +8,8 @@ module Types::Entities
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :last_reviewed, GraphQL::Types::ISO8601DateTime, null: false
+    field :endorsement_activity, Types::Activities::EndorseAssertionActivityType, null: false
+    field :revocation_activity, Types::Activities::RevokeEndorsementActivityType, null: true
 
     def organization
       Loaders::AssociationLoader.for(Endorsement, :organization).load(object)
@@ -19,6 +21,14 @@ module Types::Entities
 
     def user
       Loaders::AssociationLoader.for(Endorsement, :user).load(object)
+    end
+
+    def endorsement_activity
+      Loaders::AssociationLoader.for(Endorsement, :endorsement_activity).load(object)
+    end
+
+    def revocation_activity
+      Loaders::AssociationLoader.for(Endorsement, :revocation_activity).load(object)
     end
   end
 end
