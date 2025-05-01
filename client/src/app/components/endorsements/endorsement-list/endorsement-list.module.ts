@@ -24,6 +24,7 @@ import { CvcEndorseAssertionButtonComponent } from '../endorse-assertion-button/
 import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
 import { CvcCanPerformEndorsementActionsPipe } from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
 import { CvcEndorsementActionTooltipPipe } from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
 
 @NgModule({
   declarations: [CvcEndorsementListComponent],
@@ -42,6 +43,7 @@ import { CvcEndorsementActionTooltipPipe } from '@app/components/endorsements/en
     NzPopoverModule,
     NzCollapseModule,
     NzDescriptionsModule,
+    NzEmptyModule,
     CvcPipesModule,
     CvcEndorseAssertionButtonComponent,
     CvcEndorsementDisplayModule,
