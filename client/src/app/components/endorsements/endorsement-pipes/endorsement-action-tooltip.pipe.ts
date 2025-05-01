@@ -112,25 +112,25 @@ export class CvcEndorsementActionTooltipPipe implements PipeTransform {
     endorsement: EndorsementListNodeFragment
   ): Maybe<string> {
     if (canModerateEndorsement(viewer, endorsement)) {
-      return `Endorse changes to ${endorsement.assertion.name} under the authority of ${endorsement.organization.name}.`
+      return `Approve changes to ${endorsement.assertion.name} under the authority of ${endorsement.organization.name}.`
     } else {
       if (!canPerformEndorsementActions(viewer)) {
         // likely unused - endorsement buttons invisible to non-moderators
         return `You do not have permission to perform endorsement actions.`
       } else if (!isLiveEndorsement(endorsement)) {
-        // likely unused - endorse changes button hidden on active, revoked endorsements
-        return `Only endorsements under review have changes that may be endorsed.`
+        // likely unused - approve changes button hidden on active, revoked endorsements
+        return `Only endorsements under review have changes that may be approved.`
       } else if (!canBeEndorsed(endorsement.assertion)) {
-        let tooltip = `${endorsement.assertion.name} must be accepted and unflagged for its changes to be endorsed.`
+        let tooltip = `${endorsement.assertion.name} must be accepted and unflagged for its changes to be approved.`
         if (endorsement.assertion.flags.totalCount > 0) {
-          tooltip += ` Resolve active flag${endorsement.assertion.flags.totalCount > 1 ? 's' : ''} to endorse changes.`
+          tooltip += ` Resolve active flag${endorsement.assertion.flags.totalCount > 1 ? 's' : ''} to approve changes.`
         }
         return tooltip
       } else if (!currentOrgCanModerateEndorsement(viewer, endorsement)) {
-        let tooltip = `Changes to ${endorsement.assertion.name} may only be endorsed under the authority of ${endorsement.organization.name}.`
+        let tooltip = `Changes to ${endorsement.assertion.name} may only be approved under the authority of ${endorsement.organization.name}.`
         const altOrg = getAlternateModeratingOrg(viewer, endorsement)
         if (altOrg) {
-          tooltip += ` As you are a member, may switch your organization and endorse changes to this assertion.`
+          tooltip += ` As you are a member, may switch your organization and approve changes to this assertion.`
         }
         return tooltip
       }

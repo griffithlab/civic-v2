@@ -1,5 +1,4 @@
 <!-- @let endorsements = (endorsements$ | ngrxPush) || []; -->
-@let list = endorsements();
 @let vwr = viewer();
 @if (vwr | canPerformEndorsementActions) {
   <nz-alert
@@ -14,8 +13,7 @@
   </ng-template>
 }
 <nz-list
-  [nzDataSource]="list"
-  [nzLoading]="loading()"
+  [nzDataSource]="endorsements()"
   [nzRenderItem]="endorsement"
   nzSize="small"
   nzItemLayout="vertical">
@@ -217,34 +215,18 @@
               mode="approveChanges"
               [disabled]="!(vwr | canApproveEndorsement :endorsement)"
               display="block"
-              [tooltipText]="(vwr | endorsementActionTooltip : 'approveChanges' : entity : endorsement.id)"
-              (onEndorsed)="
-                onEndorsement($event)
-              "></cvc-endorse-assertion-button>
+              [tooltipText]="(vwr | endorsementActionTooltip : 'approveChanges' : entity : endorsement.id)">
+            </cvc-endorse-assertion-button>
           }
           <cvc-endorse-assertion-button
             [assertionId]="assertionId()"
             mode="revoke"
             [disabled]="!(vwr | canRevokeEndorsement :endorsement)"
             display="block"
-            [tooltipText]="(vwr | endorsementActionTooltip : 'revoke' : entity : endorsement.id)"
-            (onEndorsed)="onEndorsement($event)"></cvc-endorse-assertion-button>
+            [tooltipText]="(vwr | endorsementActionTooltip : 'revoke' : entity : endorsement.id)">
+          </cvc-endorse-assertion-button>
         </div>
       }
     </ng-template>
   </ng-template>
-  @if (pageInfo()?.hasNextPage) {
-    <nz-list-footer>
-      <div nz-list-load-more>
-        <button
-          nz-button
-          nzType="link"
-          nzSize="small"
-          nzBlock
-          (click)="onLoadMore(pageInfo()?.startCursor)">
-          Load more
-        </button>
-      </div>
-    </nz-list-footer>
-  }
 </nz-list>

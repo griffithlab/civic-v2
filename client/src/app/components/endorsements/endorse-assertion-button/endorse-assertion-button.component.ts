@@ -6,8 +6,8 @@ import {
   output,
   Signal,
   signal,
-  ViewChild,
   TemplateRef,
+  ViewChild,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -39,7 +39,6 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { config, map } from 'rxjs'
 
 export type EndorsementMode = 'endorse' | 'revoke' | 'approveChanges'
 export type EndorsementResult = {
@@ -254,7 +253,7 @@ export class CvcEndorseAssertionButtonComponent {
     })
 
     state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
-      if (errs) {
+      if (errs.length > 0) {
         this.isSubmitting.set(false)
         this.onEndorsed.emit({
           action: this.mode(),

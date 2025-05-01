@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   EnvironmentInjector,
   input,
   OnInit,
@@ -11,7 +10,6 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { ApolloQueryResult } from '@apollo/client/core'
 import {
   feedDefaultFilters,
   feedDefaultSettings,
@@ -34,8 +32,9 @@ import {
 
 import { QueryRef } from 'apollo-angular'
 
-import { map } from 'rxjs'
-import { EndorsementResult } from '../endorse-assertion-button/endorse-assertion-button.component'
+import { filter, map } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { ApolloQueryResult } from '@apollo/client/core'
 
 @Component({
   selector: 'cvc-endorsement-list',
@@ -48,7 +47,7 @@ export class CvcEndorsementListComponent implements OnInit {
   assertionId = input.required<number>()
 
   /* SOURCE SIGNALS */
-  private response!: Signal<Maybe<ApolloQueryResult<EndorsementListQuery>>>
+  response!: Signal<Maybe<ApolloQueryResult<EndorsementListQuery>>>
 
   /* PRESENTATION SIGNALS */
   viewer: Signal<Maybe<Viewer>>
@@ -67,7 +66,7 @@ export class CvcEndorsementListComponent implements OnInit {
   private pageSize = 5
 
   constructor(
-    private gql: EndorsementListGQL,
+    private endorsementsGQL: EndorsementListGQL,
     private assertionGQL: AssertionDetailGQL,
     private injector: EnvironmentInjector,
     private viewerService: ViewerService
@@ -78,15 +77,23 @@ export class CvcEndorsementListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({
-      assertionId: this.assertionId(),
-      first: this.pageSize,
-    })
-
     runInInjectionContext(this.injector, () => {
-      this.response = toSignal(this.queryRef.valueChanges, {
-        initialValue: undefined,
-      })
+      this.queryRef = this.endorsementsGQL.watch(
+        {
+          assertionId: this.assertionId(),
+        },
+        { fetchPolicy: 'network-only' }
+      )
+
+      this.endorsements = toSignal(
+        this.queryRef.valueChanges.pipe(
+          map((res) => res.data?.endorsements?.nodes),
+          filter(isNonNulled)
+        ),
+        {
+          initialValue: [],
+        }
+      )
       this.assertion = toSignal(
         this.assertionGQL
           .watch(
@@ -101,39 +108,6 @@ export class CvcEndorsementListComponent implements OnInit {
         }
       )
     })
-    this.endorsements = computed(() => {
-      let endorsements: Maybe<EndorsementListNodeFragment>[] = []
-      const nodes = this.response()?.data?.endorsements.edges.map((e) => e.node)
-      if (nodes) {
-        endorsements = [...nodes]
-      }
-      return endorsements
-    })
-
-    this.pageInfo = computed(() => {
-      return this.response()?.data?.endorsements.pageInfo || undefined
-    })
-
-    this.loading = computed(() => {
-      return this.response()?.loading ?? false
-    })
-  }
-
-  onLoadMore(cursor: Maybe<string>): void {
-    this.queryRef.fetchMore({
-      variables: {
-        last: this.pageSize,
-        before: cursor,
-      },
-    })
-  }
-
-  onEndorsement(endorsementResult: EndorsementResult) {
-    console.log('onEndorsement', endorsementResult)
-  }
-
-  refreshList() {
-    this.queryRef.refetch()
   }
 
   feedSettings(): ActivityFeedSettings {
@@ -149,16 +123,5 @@ export class CvcEndorsementListComponent implements OnInit {
       linkedEndorsementId: endorsement.id,
       occurredAfter: new Date(endorsement.lastReviewed),
     }
-  }
-
-  hasActiveEndorsement(
-    currentOrgId: number,
-    activeEndorsements: Maybe<EndorsementListNodeFragment>[]
-  ): boolean {
-    if (activeEndorsements.length === 0) return false
-    return (
-      activeEndorsements.filter((ae) => ae!.organization.id === currentOrgId)
-        .length > 0
-    )
   }
 }

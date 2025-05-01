@@ -21,11 +21,14 @@ query EndorsementList(
       hasPreviousPage
       hasNextPage
     }
-    edges {
-      cursor
-      node {
-        ...endorsementListNode
-      }
+#    edges {
+#      cursor
+#      node {
+#        ...endorsementListNode
+#      }
+#    }
+    nodes {
+      ...endorsementListNode
     }
   }
 }
