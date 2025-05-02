@@ -5,6 +5,7 @@ class ClinvarApiKey < ApplicationRecord
   validates :api_key, presence: true, uniqueness: true
   validate :only_one_active_key
   validate :organization_can_endorse
+  #  encrypts :api_key
 
   private
   def only_one_active_key

@@ -16,6 +16,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "endorsement_status", ["active", "revoked", "requires_review"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
@@ -98,11 +99,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.index ["token", "search_type"], name: "index_advanced_searches_on_token_and_search_type"
   end
 
-  create_table "affiliations", id: false, force: :cascade do |t|
+  create_table "affiliations", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "can_endorse", default: false, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
@@ -337,6 +339,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.bigint "organization_id", null: false
     t.datetime "submitted_at"
     t.string "status"
+    t.string "batch_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["clinvar_api_key_id"], name: "index_clinvar_batch_submissions_on_clinvar_api_key_id"
@@ -467,6 +470,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.index ["description"], name: "index_domain_expert_tags_on_description"
     t.index ["domain_of_expertise_id", "domain_of_expertise_type"], name: "idx_domain_of_expertise"
     t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
+  end
+
+  create_table "endorsements", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "assertion_id", null: false
+    t.enum "status", default: "active", null: false, enum_type: "endorsement_status"
+    t.datetime "last_reviewed", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_endorsements_on_assertion_id"
+    t.index ["organization_id"], name: "index_endorsements_on_organization_id"
+    t.index ["user_id"], name: "index_endorsements_on_user_id"
   end
 
   create_table "entity_mentions", force: :cascade do |t|
@@ -768,6 +784,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "most_recent_activity_timestamp", precision: nil
+    t.boolean "can_endorse", default: false, null: false
+    t.boolean "is_approved_vcep", default: false, null: false
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 

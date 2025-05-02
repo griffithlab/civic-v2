@@ -14,6 +14,7 @@ class AddClinvarSubmissionTracking < ActiveRecord::Migration[8.0]
       t.references :organization, null: false, foreign_key: true
       t.datetime :submitted_at
       t.string :status, index: true
+      t.string :batch_name
       t.timestamps
     end
 
