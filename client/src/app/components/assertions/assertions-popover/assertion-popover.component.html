@@ -46,6 +46,40 @@
       </nz-descriptions-item>
     </nz-descriptions>
 
+    <!-- endorsements -->
+    @if (assertion.endorsements.nodes.length > 0) {
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="1"
+        nzBordered="true"
+        nzLayout="vertical">
+        <nz-descriptions-item nzTitle="Endorsements">
+          @for (endorsement of assertion.endorsements.nodes; track endorsement.id) {
+            <nz-alert
+              nzType="warning"
+              [nzMessage]="endorsementMessageTemplate"
+              nzShowIcon
+              [nzIcon]="endorsementIconTemplate"></nz-alert>
+            <ng-template #endorsementMessageTemplate>
+              endorsed by
+              <cvc-organization-tag
+                [org]="endorsement.organization"></cvc-organization-tag>
+            </ng-template>
+
+            <ng-template #endorsementIconTemplate>
+              <span style="color: #efbf04; font-size: 24px">
+                <i
+                  nz-icon
+                  nzType="safety-certificate"
+                  nzTheme="fill">
+                </i>
+              </span>
+            </ng-template>
+          }
+        </nz-descriptions-item>
+
+      </nz-descriptions>
+    }
     <!-- assertion attributes -->
     <nz-descriptions
       nzSize="small"
@@ -144,8 +178,8 @@
         *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType)">
         <ng-template #acmgTitle>
           ACMG&nbsp;Codes&nbsp;<span
-            nz-typography
-            nzType="secondary">
+          nz-typography
+          nzType="secondary">
             <i
               nz-icon
               nzType="info-circle"
@@ -175,13 +209,13 @@
         ">
         <ng-template #clingenTitle>
           ClinGen/CGC/VICC&nbsp;Codes&nbsp;<span
-            nz-typography
-            nzType="secondary"
-            ><i
-              nz-icon
-              nzType="info-circle"
-              nz-tooltip
-              nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
+          nz-typography
+          nzType="secondary"
+        ><i
+          nz-icon
+          nzType="info-circle"
+          nz-tooltip
+          nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
             </i>
           </span>
         </ng-template>
@@ -200,7 +234,7 @@
       <nz-descriptions-item
         [nzTitle]="mpTitle"
         nzSpan="2">
-        <ng-template #mpTitle> Molecular&nbsp;Profile </ng-template>
+        <ng-template #mpTitle> Molecular&nbsp;Profile</ng-template>
         <cvc-molecular-profile-tag
           [molecularProfile]="assertion.molecularProfile"
           [enablePopover]="true"></cvc-molecular-profile-tag>

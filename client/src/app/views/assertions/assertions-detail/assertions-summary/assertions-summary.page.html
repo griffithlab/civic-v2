@@ -43,7 +43,9 @@
                 [cvcAttrValue]="assertion.assertionType"
                 nz-tooltip
                 iconPropertyType="type"
-                [nzTooltipTitle]="assertion.assertionType | enumTooltip:'assertionType'">
+                [nzTooltipTitle]="
+                  assertion.assertionType | enumTooltip: 'assertionType'
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -83,7 +85,7 @@
                 [cvcAttrValue]="assertion.variantOrigin"
                 nz-tooltip
                 [nzTooltipTitle]="
-                  assertion.variantOrigin | enumTooltip : 'variantOrigin'
+                  assertion.variantOrigin | enumTooltip: 'variantOrigin'
                 ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -91,7 +93,10 @@
             <!-- AMP/ASO/CAP -->
             <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
               <ng-container
-                *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType); else valueNotApplicable">
+                *ngIf="
+                  assertionRules.requiresAmpLevel(assertion.assertionType);
+                  else valueNotApplicable
+                ">
                 <nz-tag>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-tag>
               </ng-container>
             </nz-descriptions-item>
@@ -114,7 +119,10 @@
                 </span>
               </ng-template>
               <ng-container
-                *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else valueNotApplicable">
+                *ngIf="
+                  assertionRules.requiresAcmgCodes(assertion.assertionType);
+                  else valueNotApplicable
+                ">
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
@@ -153,7 +161,10 @@
                 </span>
               </ng-template>
               <ng-container
-                *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType); else valueNotApplicable">
+                *ngIf="
+                  assertionRules.requiresClingenCodes(assertion.assertionType);
+                  else valueNotApplicable
+                ">
                 <ng-container *ngIf="assertion.clingenCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
@@ -190,6 +201,57 @@
     <nz-col [nzSpan]="12">
       <!-- right col layout row -->
       <nz-row [nzGutter]="[8, 8]">
+        <!-- BLOCK: endorsements block -->
+        @for (
+          endorsement of assertion.activeEndorsements.nodes.concat(
+            assertion.requiresReviewEndorsements.nodes
+          );
+          track endorsement.id
+        ) {
+          <nz-col [nzSpan]="24">
+            <nz-alert
+              nzType="warning"
+              [nzMessage]="endorsementMessageTemplate"
+              nzShowIcon
+              [nzIcon]="endorsementIconTemplate"
+              [nzAction]="
+                endorsement.status === 'REQUIRES_REVIEW'
+                  ? underReviewNotice
+                  : null
+              "></nz-alert>
+            <ng-template #endorsementIconTemplate>
+              <span style="color: #efbf04; font-size: 24px">
+                <i
+                  nz-icon
+                  nzType="safety-certificate"
+                  nzTheme="fill">
+                </i>
+              </span>
+            </ng-template>
+            <ng-template #endorsementMessageTemplate>
+              endorsed by
+              <cvc-organization-tag
+                [org]="endorsement.organization"></cvc-organization-tag>
+            </ng-template>
+            <ng-template #endorsementActionTemplate>
+              <span
+                nz-typography
+                nzType="secondary">
+                ({{ endorsement.lastReviewed | timeAgo }})
+              </span>
+            </ng-template>
+          </nz-col>
+          <ng-template #underReviewNotice>
+            <nz-tag nzColor="blue">
+              <i
+                nz-icon
+                nzType="info-circle"
+                nzTheme="fill">
+              </i>
+              Under review
+            </nz-tag>
+          </ng-template>
+        }
         <!-- BLOCK: status, curation events block -->
         <nz-col [nzSpan]="24">
           <nz-descriptions
@@ -206,11 +268,13 @@
             <nz-descriptions-item [nzTitle]="submittedTitle">
               by
               <cvc-user-tag
-                [user]="assertion.submissionEvent.originatingUser"></cvc-user-tag>
+                [user]="
+                  assertion.submissionEvent.originatingUser
+                "></cvc-user-tag>
               <nz-tag
                 nz-popover
                 [nzPopoverContent]="submissionCommentTemplate"
-                [nzPopoverOverlayStyle]="{'width': '300px'}"
+                [nzPopoverOverlayStyle]="{ width: '300px' }"
                 *ngIf="assertion.submissionActivity!.parsedNote.length > 0">
                 <i
                   nz-icon
@@ -236,14 +300,22 @@
             <!-- TODO logic below is incorrect see AID1 - must identify the latest accept/reject event, and display that -->
             <!-- display accepted/rejected only if either exists -->
             <ng-container
-              *ngIf="assertion.rejectionEvent !== null || assertion.acceptanceEvent !== null">
+              *ngIf="
+                assertion.rejectionEvent !== null ||
+                assertion.acceptanceEvent !== null
+              ">
               <!-- show acceptance only if no rejection event exists and the AID is accepted -->
               <ng-container
-                *ngIf="assertion.status == statusValues.Accepted && assertion.acceptanceEvent">
+                *ngIf="
+                  assertion.status == statusValues.Accepted &&
+                  assertion.acceptanceEvent
+                ">
                 <nz-descriptions-item [nzTitle]="acceptedTitle">
                   by
                   <cvc-user-tag
-                    [user]="assertion.acceptanceEvent!.originatingUser"></cvc-user-tag>
+                    [user]="
+                      assertion.acceptanceEvent!.originatingUser
+                    "></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #acceptedTitle>
                   Accepted
@@ -256,11 +328,16 @@
               </ng-container>
 
               <ng-container
-                *ngIf="assertion.status == statusValues.Rejected && assertion.rejectionEvent">
+                *ngIf="
+                  assertion.status == statusValues.Rejected &&
+                  assertion.rejectionEvent
+                ">
                 <nz-descriptions-item [nzTitle]="rejectedTitle">
                   by {{ assertion.rejectionEvent!.createdAt | timeAgo }} by
                   <cvc-user-tag
-                    [user]="assertion.rejectionEvent!.originatingUser"></cvc-user-tag>
+                    [user]="
+                      assertion.rejectionEvent!.originatingUser
+                    "></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #rejectedTitle>
                   Rejected
@@ -292,7 +369,9 @@
             <!-- molecular profile expression -->
             <nz-descriptions-item nzTitle="MP Expression">
               <cvc-mp-tag-name
-                [nameSegments]="assertion.molecularProfile.parsedName"></cvc-mp-tag-name>
+                [nameSegments]="
+                  assertion.molecularProfile.parsedName
+                "></cvc-mp-tag-name>
             </nz-descriptions-item>
 
             <!-- disease -->
@@ -332,7 +411,9 @@
 
             <!-- therapies -->
             <nz-descriptions-item
-              [nzTitle]="assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'">
+              [nzTitle]="
+                assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'
+              ">
               <ng-container [ngPlural]="assertion.therapies.length">
                 <!-- no therapy -->
                 <ng-template ngPluralCase="=0">
@@ -357,7 +438,10 @@
               <nz-tag>
                 <i
                   nz-icon
-                  [nzType]="assertion.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
+                  [nzType]="
+                    assertion.therapyInteractionType
+                      | therapyInteractionEnumDisplay: 'icon-name'
+                  "
                   class="attribute-icon"></i>
                 {{ assertion.therapyInteractionType | titlecase }}
               </nz-tag>
@@ -380,8 +464,8 @@
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#d93026'"></i>
               <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
-                (last updated {{ assertion.regulatoryApprovalLastUpdated |
-                timeAgo }})
+                (last updated
+                {{ assertion.regulatoryApprovalLastUpdated | timeAgo }})
               </ng-container>
               <ng-container *ngIf="assertion.regulatoryApproval === undefined">
                 <span
@@ -412,8 +496,8 @@
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#d93026'"></i>
               <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
-                (last updated {{ assertion.fdaCompanionTestLastUpdated | timeAgo
-                }})
+                (last updated
+                {{ assertion.fdaCompanionTestLastUpdated | timeAgo }})
               </ng-container>
               <ng-container *ngIf="assertion.fdaCompanionTest === undefined">
                 <span
@@ -428,7 +512,8 @@
             <nz-descriptions-item nzTitle="NCCN Guideline">
               <ng-container *ngIf="assertion.nccnGuideline"
                 >{{ assertion.nccnGuideline.name }} ({{
-                assertion.nccnGuidelineVersion }})</ng-container
+                  assertion.nccnGuidelineVersion
+                }})</ng-container
               >
               <ng-container *ngIf="!assertion.nccnGuideline">
                 <span

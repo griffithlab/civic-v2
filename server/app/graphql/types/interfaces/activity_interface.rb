@@ -61,7 +61,9 @@ module Types::Interfaces
       Types::Activities::CreateFeatureActivityType,
       Types::Activities::DeprecateFeatureActivityType,
       Types::Activities::DeleteCommentActivityType,
-      Types::Activities::CreateSourceLinkActivityType
+      Types::Activities::CreateSourceLinkActivityType,
+      Types::Activities::EndorseAssertionActivityType,
+      Types::Activities::RevokeEndorsementActivityType
     )
 
     definition_methods do
@@ -107,6 +109,10 @@ module Types::Interfaces
           Types::Activities::DeleteCommentActivityType
         when CreateLinkedSourceActivity
           Types::Activities::CreateSourceLinkActivityType
+        when EndorseAssertionActivity
+          Types::Activities::EndorseAssertionActivityType
+        when RevokeEndorsementActivity
+          Types::Activities::RevokeEndorsementActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

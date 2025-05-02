@@ -9,6 +9,7 @@ query ActivityFeed(
   $userId: [Int!]
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
+  $linkedEndorsementId: Int
   $includeAutomatedEvents: Boolean
   $includeConnection: Boolean = true
   $includePageInfo: Boolean = true
@@ -26,6 +27,7 @@ query ActivityFeed(
     before: $before
     after: $after
     userId: $userId
+    linkedEndorsementId: $linkedEndorsementId
     includeAutomatedEvents: $includeAutomatedEvents
     organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
     activityType: $activityType
@@ -167,8 +169,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...CreateVariantActivityDetail @include(if: $requestDetails)
   ...DeleteCommentActivityDetail @include(if: $requestDetails)
-  ...DeprecateComplexMolecularProfileActivityDetail
-    @include(if: $requestDetails)
+  ...DeprecateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...DeprecateVariantActivityDetail @include(if: $requestDetails)
   ...DeprecateFeatureActivityDetail @include(if: $requestDetails)
   ...FlagEntityActivityDetail @include(if: $requestDetails)
@@ -182,4 +183,6 @@ fragment ActivityFeedItem on ActivityInterface {
   ...SuggestSourceActivityDetail @include(if: $requestDetails)
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
   ...CreateSourceLinkActivityDetail @include(if: $requestDetails)
+  ...EndorseAssertionActivityDetail @include(if: $requestDetails)
+  ...RevokeEndorsementActivityDetail @include(if: $requestDetails)
 }
