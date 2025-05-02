@@ -10,9 +10,9 @@
   </nz-statistic>
   <ng-template #activityTitle>
     {{ title }}
-      <ng-container *ngIf="activity">
-        ({{ activity.rank | ordinal }})
-      </ng-container>
+    <ng-container *ngIf="activity">
+      ({{ activity.rank | ordinal }})
+    </ng-container>
   </ng-template>
 </ng-template>
 <ng-content
@@ -21,7 +21,7 @@
     context: {
       $implicit: cvcRanks.commentsRank,
       title: 'Comments',
-      iconTpl: commentIcon
+      iconTpl: commentIcon,
     }
   "></ng-content>
 <ng-template #commentIcon>
@@ -38,7 +38,7 @@
     context: {
       $implicit: cvcRanks.revisionsRank,
       title: 'Revisions',
-      iconTpl: revisionIcon
+      iconTpl: revisionIcon,
     }
   "></ng-content>
 
@@ -56,7 +56,7 @@
     context: {
       $implicit: cvcRanks.submissionsRank,
       title: 'Submissions',
-      iconTpl: submissionsIcon
+      iconTpl: submissionsIcon,
     }
   "></ng-content>
 
@@ -74,7 +74,7 @@
     context: {
       $implicit: cvcRanks.moderationRank,
       title: 'Moderations',
-      iconTpl: moderationIcon
+      iconTpl: moderationIcon,
     }
   "></ng-content>
 
@@ -100,7 +100,7 @@
 <ng-template #activityDetails>
   <nz-card
     nzSize="small"
-    [nzBorderless]="true"
+    nzBorderless
     [nzExtra]="cvcSubGroupStats ? subGroupsSwitch : undefined"
     nzTitle="Activity Details">
     <ng-template #subGroupsSwitch>

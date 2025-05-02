@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -32,7 +33,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import {
   debounceTime,
@@ -44,6 +45,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
+import { ActivatedRoute } from '@angular/router'
 
 export interface EvidenceTableUserFilters {
   eidInput?: Maybe<string>
@@ -69,7 +71,7 @@ export interface EvidenceTableUserFilters {
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
-export class CvcEvidenceTableComponent implements OnInit {
+export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() cvcHeight: Maybe<string>
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
@@ -116,6 +118,8 @@ export class CvcEvidenceTableComponent implements OnInit {
   // virtual scroll rows degrades performance
   isScrolling = false
 
+  queryParamsSub$: Subscription
+
   // filters
   SignificanceInput: Maybe<EvidenceSignificance>
   descriptionInput: Maybe<string>
@@ -129,6 +133,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   molecularProfileNameInput: Maybe<string>
   variantOriginInput: Maybe<VariantOrigin>
   statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+  includeSubgroups: Maybe<boolean>
 
   availableStatusFilters = EvidenceStatusFilter
   statusFilterVisible = false
@@ -138,13 +143,19 @@ export class CvcEvidenceTableComponent implements OnInit {
 
   constructor(
     private gql: EvidenceBrowseGQL,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
     this.filterChange$ = new Subject<void>()
     this.scrollIndex$ = new Subject<number>()
+    this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
+      if (params.has('includeSubgroups')) {
+        this.includeSubgroups = params.get('includeSubgroups') === 'true' ? true : false
+      }
+    })
   }
 
   ngOnInit() {
@@ -165,7 +176,8 @@ export class CvcEvidenceTableComponent implements OnInit {
         : undefined,
       evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
       first: this.initialPageSize,
-      organizationId: this.organizationId,
+      organizationId: this.organizationId ? [this.organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       phenotypeId: this.phenotypeId,
       rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
       sourceId: this.sourceId,
@@ -288,6 +300,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         therapyName: this.therapyNameInput,
         description: this.descriptionInput,
         status: this.statusInput,
+        includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
         evidenceLevel: this.evidenceLevelInput
           ? this.evidenceLevelInput
           : undefined,
@@ -318,10 +331,19 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.statusFilterVisible = false
   }
 
+  includeSubgroupsChanged() {
+    this.filterChange$.next()
+    this.statusFilterVisible = false
+  }
+
   trackByIndex(
     _: number,
     data: Maybe<EvidenceGridFieldsFragment>
   ): Maybe<number> {
     return data?.id
+  }
+
+  ngOnDestroy() {
+    this.queryParamsSub$.unsubscribe()
   }
 }

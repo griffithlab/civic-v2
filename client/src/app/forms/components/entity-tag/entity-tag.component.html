@@ -3,6 +3,7 @@
   *ngIf="cvcContext === 'default'"
   class="default">
   <nz-tag
+    #defaultTag
     [nzMode]="cvcMode"
     [nzChecked]="cvcTagChecked"
     (nzCheckedChange)="(cvcTagCheckedChange)"
@@ -10,6 +11,8 @@
     <span
       nz-popover
       nzPopoverTrigger="hover"
+      [nzPopoverMouseEnterDelay]="0.5"
+      [nzPopoverPlacement]="cvcPopoverPlacement"
       [nzPopoverContent]="
         cvcShowPopover && popoverInput ? popoverContent : undefined
       ">
@@ -61,7 +64,8 @@ pseudo-tag styles & close btn -->
 <ng-template #popoverContent>
   <cvc-entity-tag-popover
     *ngIf="popoverInput"
-    [entity]="popoverInput"></cvc-entity-tag-popover>
+    [entity]="popoverInput"
+    (contentRendered)="updatePopoverPosition()"></cvc-entity-tag-popover>
 </ng-template>
 
 <!-- tag contents, just the tag icon and label, used by the context templates above-->
@@ -85,7 +89,7 @@ pseudo-tag styles & close btn -->
         [nzTwotoneColor]="typename | entityColor"></span>
       <span
         class="tag-label"
-        [innerHtml]="entity.name | highlightTypeahead : cvcEmphasize"></span>
+        [innerHtml]="entity.name | highlightTypeahead: cvcEmphasize"></span>
     </ng-template>
   </ng-container>
 

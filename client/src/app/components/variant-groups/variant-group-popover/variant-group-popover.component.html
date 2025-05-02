@@ -3,7 +3,9 @@
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
-      id="card-content">
+      id="card-content"
+      [nzExtra]="cardExtra">
+      <!-- popover title -->
       <ng-template #cardTitle>
         <i
           nz-icon
@@ -13,7 +15,26 @@
         {{ variantGroup.name }}
       </ng-template>
 
-      {{ variantGroup.description }}
+      <!-- revision, comment, flag counts -->
+      <ng-template #cardExtra>
+        <cvc-entity-child-counts
+          [cvcEntity]="variantGroup"
+          cvcRoute="variant-groups"></cvc-entity-child-counts>
+      </ng-template>
+
+      <nz-descriptions
+        nzLayout="vertical"
+        nzBordered
+        nzSize="small"
+        [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Description">
+          @if (variantGroup.description) {
+            {{ variantGroup.description }}
+          } @else {
+            <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+          }
+        </nz-descriptions-item>
+      </nz-descriptions>
 
       <nz-descriptions
         nzSize="small"

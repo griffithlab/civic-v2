@@ -8,6 +8,15 @@ fragment variantGroupPopoverFields on VariantGroup {
   id
   name
   description
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
   variants {
     edges {
       node {

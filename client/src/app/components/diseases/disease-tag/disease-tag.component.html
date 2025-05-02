@@ -10,12 +10,14 @@
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="enablePopover ? diseasePopover : undefined"
-    nzPopoverPlacement="right">
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #diseasePopover>
-    <cvc-disease-popover [diseaseId]="disease.id"></cvc-disease-popover>
+    <cvc-disease-popover
+      [diseaseId]="disease.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-disease-popover>
   </ng-template>
 </ng-template>
 

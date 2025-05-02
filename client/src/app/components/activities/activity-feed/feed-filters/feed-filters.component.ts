@@ -49,6 +49,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcUserFilterSelect } from './user-filter-select/user-filter-select.component'
 import { CvcOrgFilterSelect } from './org-filter-select/org-filter-select.component'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 export const defaultFilters = {}
 
@@ -65,6 +66,7 @@ export const defaultFilters = {}
     NzFormModule,
     NzSelectModule,
     NzDatePickerModule,
+    NzCheckboxModule,
     CvcPipesModule,
     CvcUserFilterSelect,
     CvcOrgFilterSelect,
@@ -95,6 +97,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
 
   eventType!: WritableSignal<ActivityTypeInput[]>
   organizationId!: WritableSignal<number[]>
+  includeSubgroups!: WritableSignal<boolean>
   subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
   occurredAfter!: WritableSignal<Date | null>
@@ -113,6 +116,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
       this.cvcFiltersChange.emit({
         activityType: this.eventType(),
         organizationId: this.organizationId(),
+        includeSubgroups: this.includeSubgroups(),
         subjectType: this.subjectType(),
         userId: this.userId(),
         occurredAfter: this.occurredAfter(),
@@ -169,6 +173,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     this.eventType = signal(this.cvcFilters().activityType)
     this.subjectType = signal(this.cvcFilters().subjectType)
     this.organizationId = signal(this.cvcFilters().organizationId)
+    this.includeSubgroups = signal(this.cvcFilters().includeSubgroups)
     this.userId = signal(this.cvcFilters().userId)
     this.occurredAfter = signal(this.cvcFilters().occurredAfter)
     this.occurredBefore = signal(this.cvcFilters().occurredBefore)

@@ -133,3 +133,9 @@ FindRetractedSources:
   description: Check whether sources have been retracted
   queue: default
   class: FindRetractedSources
+
+GenerateNightlyUniprotFile:
+  cron: '0 3 * * *'
+  description: Update the nightly Uniprot id to gene mapping file
+  queue: default
+  class: GenerateNightlyUniprotFile
