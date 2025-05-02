@@ -99,6 +99,7 @@ fragment GeneVariantSummaryFields on GeneVariant {
   myVariantInfo {
     ...MyVariantInfoFields
   }
+  openCravatAnnotations
 }
 
 fragment FusionVariantSummaryFields on FusionVariant {
