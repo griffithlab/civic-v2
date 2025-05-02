@@ -6,10 +6,10 @@
     <nz-tab nzTitle="Overview">
       <ng-container *ngTemplateOutlet="overviewTab"></ng-container>
     </nz-tab>
-    <nz-tab nzTitle="Benignity Details">
+    <nz-tab nzTitle="Benignity (BP4) Details">
       <ng-container *ngTemplateOutlet="benignityTab"></ng-container>
     </nz-tab>
-    <nz-tab nzTitle="Pathogenicity Details">
+    <nz-tab nzTitle="Pathogenicity (PP3) Details">
       <ng-container *ngTemplateOutlet="pathogenicityTab"></ng-container>
     </nz-tab>
   </nz-tabset>
@@ -158,6 +158,11 @@
   <!-- Benignity tab -->
   <ng-template #benignityTab>
     <div class="tab-content">
+      <p
+        nz-typography
+        nzType="secondary">
+        Predictors calibrated for ACMG/AMP evidence strength.
+      </p>
       <nz-table
         nzBordered
         [nzData]="['_']"
@@ -167,7 +172,7 @@
         <thead>
           <tr>
             <th>Predictor</th>
-            <th>Annotation</th>
+            <th>Benignity (BP4) Annotation</th>
           </tr>
         </thead>
         <tbody>
@@ -178,18 +183,25 @@
             <tr>
               <td>{{ keypar.key }}</td>
               <td>
-                {{ keypar.value | ifEmpty: '--' }}
+                {{ keypar.value | ifEmpty: '-- *' }}
               </td>
             </tr>
           }
         </tbody>
       </nz-table>
+      * Predictor does not meet calibration standards for evidence strength.
     </div>
   </ng-template>
   <!-- Pathogenicity tab -->
   <ng-template #pathogenicityTab>
     <div class="tab-content">
+      <p
+        nz-typography
+        nzType="secondary">
+        Predictors calibrated for ACMG/AMP evidence strength.
+      </p>
       <nz-table
+        nzBordered
         [nzData]="['.']"
         [nzFrontPagination]="false"
         [nzShowPagination]="false"
@@ -197,7 +209,7 @@
         <thead>
           <tr>
             <th>Predictor</th>
-            <th>Annotation</th>
+            <th>Pathogenicity (PP3) Annotation</th>
           </tr>
         </thead>
         <tbody>
@@ -208,12 +220,13 @@
             <tr>
               <td>{{ keypar.key }}</td>
               <td>
-                {{ keypar.value | ifEmpty: '--' }}
+                {{ keypar.value | ifEmpty: '-- *' }}
               </td>
             </tr>
           }
         </tbody>
       </nz-table>
+      * Predictor does not meet calibration standards for evidence strength.
     </div>
   </ng-template>
 </ng-container>
