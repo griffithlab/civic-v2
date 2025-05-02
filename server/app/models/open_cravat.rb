@@ -77,7 +77,7 @@ class OpenCravat
       "revel",
       "sift",
       "varity_r",
-      "vest"
+      "vest",
     ]
   end
 
