@@ -31,7 +31,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_144840) do
     t.integer "acmg_code_id", null: false
     t.integer "assertion_id", null: false
     t.index [ "acmg_code_id", "assertion_id" ], name: "index_acmg_codes_assertions_on_acmg_code_id_and_assertion_id"
-    t.index [ "assertion_id" ], name: "index_acmg_codes_assertions_on_assertion_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|

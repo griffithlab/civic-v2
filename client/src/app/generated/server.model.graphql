@@ -6013,6 +6013,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   ): MolecularProfileConnection!
   myVariantInfo: MyVariantInfo
   name: String!
+  openCravatAnnotations: JSON
   openCravatUrl: String
   openRevisionCount: Int!
   primaryCoordinates: VariantCoordinate @deprecated(reason: "The new Fusion variant type means Gene variants no longer have primary and secondary coordinates. Use 'coordinates' instead.")
