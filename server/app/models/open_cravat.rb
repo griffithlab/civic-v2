@@ -23,7 +23,7 @@ class OpenCravat
     benignity = {}
     pathogenicity = {}
     p.each do |predictor, results|
-      if [ "bp4_benign", "pp3_pathogenic" ].all? { |key| results.key?(key) }
+      if results && [ "bp4_benign", "pp3_pathogenic" ].all? { |key| results.key?(key) }
         benignity[predictor] = results.dig("bp4_benign")
         pathogenicity[predictor] = results.dig("pp3_pathogenic")
       end
@@ -52,16 +52,32 @@ class OpenCravat
 
   def annotators
     [
+      "alphamissense",
       "bayesdel",
       "cadd",
       "cadd_exome",
+      "dann",
+      "dann_coding",
+      "esm1b",
       "fathmm",
+      "fathmm_mkl",
+      "fathmm_xf_coding",
       "gerp",
+      "metalr",
+      "metarnn",
+      "metasvm",
+      "mistic",
+      "mutation_assessor",
+      "mutationtaster",
+      "mutpred1",
+      "phdsnpg",
       "phylop",
       "primateai",
+      "provean",
       "revel",
       "sift",
-      "vest",
+      "varity_r",
+      "vest"
     ]
   end
 
