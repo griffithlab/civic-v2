@@ -6,6 +6,6 @@ class RevokeEndorsementActivity < Activity
   end
 
   def generate_verbiage
-    "revoked endorsement of assertion"
+    "revoked endorsement of"
   end
 end

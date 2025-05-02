@@ -103,6 +103,7 @@ fragment AssertionSummaryFields on Assertion {
     totalCount
     nodes {
       id
+      status
       organization {
         id
         name
@@ -114,6 +115,7 @@ fragment AssertionSummaryFields on Assertion {
     totalCount
     nodes {
       id
+      status
       organization {
         id
         name

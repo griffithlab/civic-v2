@@ -19,8 +19,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
   create_enum "endorsement_status", ["active", "revoked", "requires_review"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
-  create_enum "fusion_partner_status", ["known", "unknown", "multiple", "regulatory"]
-  create_enum "regulatory_fusion_types", ["attenuator", "CAAT_signal", "DNase_I_hypersensitive_site", "enhancer", "enhancer_blocking_element", "GC_signal", "imprinting_control_region", "insulator", "locus_control_region", "matrix_attachment_region", "minus_35_signal", "minus_10_signal", "polyA_signal_sequence", "promoter", "recoding_stimulatory_region", "recombination_enhancer", "replication_regulatory_region", "response_element", "ribosome_binding_site", "riboswitch", "silencer", "TATA_box", "terminator", "transcriptional_cis_regulatory_region", "uORF", "other"]
+  create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -566,7 +565,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.enum "three_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["five_prime_gene_id"], name: "index_fusions_on_five_prime_gene_id"
     t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
   end
@@ -996,10 +994,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
-    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["display_name"], name: "index_variant_types_on_display_name"
     t.index ["name"], name: "index_variant_types_on_name"
-    t.index ["regulatory_fusion_type"], name: "index_variant_types_on_regulatory_fusion_type"
     t.index ["soid"], name: "index_variant_types_on_soid"
   end
 
@@ -1038,7 +1034,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url"
+    t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"

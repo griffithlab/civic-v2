@@ -21,17 +21,31 @@ query EndorsementList(
       hasPreviousPage
       hasNextPage
     }
-    edges {
-      cursor
-      node {
-        ...endorsementListNode
-      }
+#    edges {
+#      cursor
+#      node {
+#        ...endorsementListNode
+#      }
+#    }
+    nodes {
+      ...endorsementListNode
     }
   }
 }
 
 fragment endorsementListNode on Endorsement {
   id
+  status
+  lastReviewed
+  updatedAt
+  assertion {
+    id
+    name
+    status
+    flags(state: OPEN) {
+      totalCount
+    }
+  }
   organization {
     id
     name
@@ -43,6 +57,12 @@ fragment endorsementListNode on Endorsement {
     role
     profileImagePath(size: 32)
   }
-  lastReviewed
-  status
+  revocationActivity {
+    ...RevokeEndorsementActivityDetail
+    note
+  }
+  endorsementActivity {
+    ...EndorseAssertionActivityDetail
+    note
+  }
 }

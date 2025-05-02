@@ -213,7 +213,12 @@
               nzType="warning"
               [nzMessage]="endorsementMessageTemplate"
               nzShowIcon
-              [nzIcon]="endorsementIconTemplate"></nz-alert>
+              [nzIcon]="endorsementIconTemplate"
+              [nzAction]="
+                endorsement.status === 'REQUIRES_REVIEW'
+                  ? underReviewNotice
+                  : null
+              "></nz-alert>
             <ng-template #endorsementIconTemplate>
               <span style="color: #efbf04; font-size: 24px">
                 <i
@@ -236,31 +241,16 @@
               </span>
             </ng-template>
           </nz-col>
-          <!-- <nz-col [nzSpan]="24">
-            <nz-card nzSize="small" [nzBodyStyle]="{'padding': '0px'}">
-              <nz-row nzAlign="middle" style="flex-wrap: nowrap;">
-                <nz-col
-                  nzFlex="54px"
-                  style="text-align: center; color: #efbf04; font-size: 32px">
-                  <i
-                    nz-icon
-                    nzType="safety-certificate"
-                    nzTheme="fill">
-                  </i>
-                </nz-col>
-                <nz-col
-                  nzFlex="auto">
-                  endorsed by
-                  <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>
-                  <span
-                    nz-typography
-                    nzType="secondary">
-                    ({{ endorsement.lastReviewed | timeAgo }})
-                  </span>
-                </nz-col>
-              </nz-row>
-            </nz-card>
-          </nz-col> -->
+          <ng-template #underReviewNotice>
+            <nz-tag nzColor="blue">
+              <i
+                nz-icon
+                nzType="info-circle"
+                nzTheme="fill">
+              </i>
+              Under review
+            </nz-tag>
+          </ng-template>
         }
         <!-- BLOCK: status, curation events block -->
         <nz-col [nzSpan]="24">

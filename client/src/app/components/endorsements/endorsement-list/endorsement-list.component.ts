@@ -1,5 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core'
 import {
+  ChangeDetectionStrategy,
+  Component,
+  EnvironmentInjector,
+  input,
+  OnInit,
+  runInInjectionContext,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
+import {
+  feedDefaultFilters,
+  feedDefaultSettings,
+} from '@app/components/activities/activity-feed/activity-feed.config'
+import {
+  ActivityFeedFilters,
+  ActivityFeedSettings,
+} from '@app/components/activities/activity-feed/activity-feed.types'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import {
+  AssertionDetailFieldsFragment,
+  AssertionDetailGQL,
   EndorsementListGQL,
   EndorsementListNodeFragment,
   EndorsementListQuery,
@@ -10,65 +32,96 @@ import {
 
 import { QueryRef } from 'apollo-angular'
 
-import { Observable } from 'rxjs'
+import { filter, map } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, map, pluck } from 'rxjs/operators'
+import { ApolloQueryResult } from '@apollo/client/core'
 
 @Component({
   selector: 'cvc-endorsement-list',
   templateUrl: './endorsement-list.component.html',
   styleUrls: ['./endorsement-list.component.less'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEndorsementListComponent implements OnInit {
-  @Input() assertionId!: number
+  assertionId = input.required<number>()
 
-  loading$?: Observable<boolean>
-  pageInfo$?: Observable<PageInfo>
-  endorsements$?: Observable<Maybe<EndorsementListNodeFragment>[]>
+  /* SOURCE SIGNALS */
+  response!: Signal<Maybe<ApolloQueryResult<EndorsementListQuery>>>
 
-  private queryRef$!: QueryRef<
+  /* PRESENTATION SIGNALS */
+  viewer: Signal<Maybe<Viewer>>
+  assertion!: Signal<Maybe<AssertionDetailFieldsFragment>>
+  endorsements!: Signal<Maybe<EndorsementListNodeFragment>[]>
+  loading!: Signal<boolean>
+  pageInfo!: Signal<Maybe<PageInfo>>
+  errors: WritableSignal<string[]>
+  successMessage: WritableSignal<Maybe<string>>
+
+  /* ATTRIBUTES */
+  private queryRef!: QueryRef<
     EndorsementListQuery,
     EndorsementListQueryVariables
   >
-
   private pageSize = 5
 
-  constructor(private gql: EndorsementListGQL) {}
+  constructor(
+    private endorsementsGQL: EndorsementListGQL,
+    private assertionGQL: AssertionDetailGQL,
+    private injector: EnvironmentInjector,
+    private viewerService: ViewerService
+  ) {
+    this.viewer = toSignal(this.viewerService.viewer$)
+    this.errors = signal<string[]>([])
+    this.successMessage = signal<Maybe<string>>(undefined)
+  }
 
   ngOnInit() {
-    this.queryRef$ = this.gql.watch({
-      assertionId: this.assertionId,
-      last: this.pageSize,
+    runInInjectionContext(this.injector, () => {
+      this.queryRef = this.endorsementsGQL.watch(
+        {
+          assertionId: this.assertionId(),
+        },
+        { fetchPolicy: 'network-only' }
+      )
+
+      this.endorsements = toSignal(
+        this.queryRef.valueChanges.pipe(
+          map((res) => res.data?.endorsements?.nodes),
+          filter(isNonNulled)
+        ),
+        {
+          initialValue: [],
+        }
+      )
+      this.assertion = toSignal(
+        this.assertionGQL
+          .watch(
+            {
+              assertionId: this.assertionId(),
+            },
+            { fetchPolicy: 'cache-only' }
+          )
+          .valueChanges.pipe(map((res) => res.data?.assertion)),
+        {
+          initialValue: undefined,
+        }
+      )
     })
-
-    let results = this.queryRef$.valueChanges
-
-    this.pageInfo$ = results.pipe(
-      pluck('data'),
-      filter(isNonNulled),
-      map(({ endorsements }) => endorsements.pageInfo)
-    )
-
-    this.loading$ = results.pipe(map(({ loading }) => loading))
-
-    this.endorsements$ = results.pipe(
-      pluck('data'),
-      filter(isNonNulled),
-      map(({ endorsements }) => endorsements.edges.map((e) => e.node))
-    )
   }
 
-  onLoadMore(cursor: Maybe<string>): void {
-    this.queryRef$.fetchMore({
-      variables: {
-        last: this.pageSize,
-        before: cursor,
-      },
-    })
+  feedSettings(): ActivityFeedSettings {
+    return {
+      ...feedDefaultSettings,
+      showOrganization: false,
+    }
   }
 
-  refreshList() {
-    this.queryRef$.refetch()
+  feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
+    return {
+      ...feedDefaultFilters,
+      linkedEndorsementId: endorsement.id,
+      occurredAfter: new Date(endorsement.lastReviewed),
+    }
   }
 }
