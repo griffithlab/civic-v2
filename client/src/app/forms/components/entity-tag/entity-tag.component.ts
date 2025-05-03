@@ -2,23 +2,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   QueryList,
   SimpleChanges,
-  ViewChild,
   ViewChildren,
 } from '@angular/core'
-import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
-import {
-  EvidenceStatus,
-  FlagState,
-  Maybe,
-  RevisionStatus,
-} from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import {
   EntityTagPopoverInput,
@@ -26,54 +18,18 @@ import {
   ENTITY_TAG_TYPES_WITH_POPOVER,
 } from '../entity-tag-popover/entity-tag-popover.component'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
-
-export type LinkableEntity = {
-  __typename: string
-  id: number
-  name: string
-  link?: string
-  tooltip?: string
-}
-
-export type PopoverPlacement =
-  | 'top'
-  | 'left'
-  | 'right'
-  | 'bottom'
-  | 'topLeft'
-  | 'topRight'
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'leftTop'
-  | 'leftBottom'
-  | 'rightTop'
-  | 'rightBottom'
-  | Array<string>
-
-export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
-  entity: any
-): entity is LinkableEntity =>
-  entity !== undefined &&
-  entity.__typename &&
-  entity.id &&
-  entity.name !== undefined
-
-export type CvcTagLabelMax =
-  | '50px'
-  | '750px'
-  | '100px'
-  | '125px'
-  | '150px'
-  | '175px'
-  | '200px'
-  | '250px'
-  | '300px'
-  | '350px'
-  | '400px'
-  | '450px'
-  | '500px'
-
-export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
+import {
+  LinkableEntity,
+  CvcEntityTagStatus,
+  CvcTagLabelMax,
+  PopoverPlacement,
+} from './entity-tag.types'
+import {
+  getFragment,
+  getFragmentDoc,
+  isLinkableEntity,
+} from './entity-tag.functions'
+import result from '@app/generated/civic.possible-types'
 
 @Component({
   selector: 'cvc-entity-tag',
@@ -138,8 +94,10 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
 
   typename?: string
   id?: number
-  entity?: LinkableEntity
+  entity!: LinkableEntity | null
+  fragmentDoc?: ReturnType<typeof gql>
   popoverInput?: EntityTagPopoverInput
+  isLinked = false
 
   constructor(private apollo: Apollo) {
     this.cvcOnClose = new EventEmitter<MouseEvent>()
@@ -148,7 +106,8 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   private hasPopover(
     entityType: string
   ): entityType is EntityTagTypeWithPopover {
-    return ENTITY_TAG_TYPES_WITH_POPOVER.includes(entityType)
+    const typesWithPopover = ENTITY_TAG_TYPES_WITH_POPOVER
+    return typesWithPopover.includes(entityType)
   }
 
   private setLinkableEntity(entity: LinkableEntity): void {
@@ -164,7 +123,9 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   private setCachedLinkableEntity(cacheId: string): void {
     const [typename, id] = cacheId.split(':')
     this.typename = typename
-    this.id = +id
+    this.id = Number(id)
+    this.isLinked = !this.cvcDisableLink
+
     if (!this.typename || !this.id) {
       console.error(
         `entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`
@@ -173,46 +134,52 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     }
     // get linkable entity
     let fragment = undefined
-    if (!this.cvcDisableLink) {
-      fragment = {
-        id: `${typename}:${id}`,
-        fragment: gql`
-          fragment Linkable${typename}Entity on ${typename} {
-            id
-            name
-            link
-          }
-        `,
-      }
-    } else if (this.cvcHasTooltip) {
-      fragment = {
-        id: `${typename}:${id}`,
-        fragment: gql`
-          fragment Linkable${typename}Entity on ${typename} {
-            id
-            name
-            tooltip
-          }
-        `,
-      }
+    const fragmentDoc: Maybe<ReturnType<typeof gql>> = getFragmentDoc(
+      typename,
+      this.isLinked
+    )
+
+    if (fragmentDoc) {
+      fragment = getFragment(this.typename, this.id, fragmentDoc)
     } else {
-      fragment = {
-        id: `${typename}:${id}`,
-        fragment: gql`
-          fragment Linkable${typename}Entity on ${typename} {
-            id
-            name
+      console.error(
+        `Could not find fragment for ${typename}. Update entityTagFields Maps in entity-tag.functions.ts.`
+      )
+      return
+    }
+
+    // check if entity is in cache
+    let possibleEntity = this.apollo.client.readFragment(fragment)
+    if (possibleEntity !== null) {
+      this.entity = this.apollo.client.readFragment(fragment)
+    } else {
+      // cache misssed on a polymorphic type, check subtypes
+      if (typename === 'Variant') {
+        result.possibleTypes.VariantInterface.forEach((type) => {
+          if (type === 'Variant') return // already checked for Variant
+          const fragmentDoc = getFragmentDoc(type, this.isLinked)
+          if (fragmentDoc) {
+            fragment = getFragment(type, this.id!, fragmentDoc)
+            possibleEntity = this.apollo.client.readFragment(fragment)
+            if (possibleEntity !== null) {
+              this.entity = possibleEntity
+            }
           }
-        `,
+        })
       }
     }
-    const entity = this.apollo.client.readFragment(fragment)
-    if (!isLinkableEntity(entity)) {
+
+    // check if entity is a LinkableEntity
+    if (this.entity) {
+      if (!isLinkableEntity(this.entity)) {
+        console.error(`${cacheId} is not a LinkableEntity`)
+        return
+      }
+    } else {
       console.error(`entity-tag could not find cached entity ${cacheId}`)
       return
     }
-    this.setPopoverInput(entity)
-    this.entity = entity
+    this.setPopoverInput(this.entity)
   }
 
   private setPopoverInput(entity: LinkableEntity) {
