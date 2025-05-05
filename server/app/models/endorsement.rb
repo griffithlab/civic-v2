@@ -22,4 +22,21 @@ class Endorsement < ApplicationRecord
   has_one :endorsement_activity, through: :endorsement_activity_link, source: :activity
 
   enum :status, Constants::ENDORSEMENT_STATUSES
+
+  def ready_for_clinvar_submission?
+    return false unless self.status == "active"
+
+    api_key = ClinvarApiKey.where(organization_id: self.organization_id, active: true).first
+    return false unless api_key
+
+    existing_batch_entry = ClinvarBatchEntry.joins(:clinvar_batch_submission).where(
+      clinvar_batch_submissions: { clinvar_api_key_id: api_key.id },
+      asssertion_id: self.assertion_id
+    ).exists?
+    if existing_batch_entry
+      return  false
+    end
+
+    true
+  end
 end

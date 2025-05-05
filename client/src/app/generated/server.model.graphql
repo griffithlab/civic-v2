@@ -3079,6 +3079,7 @@ type Endorsement {
   id: Int!
   lastReviewed: ISO8601DateTime!
   organization: Organization!
+  readyForClinvarSubmission: Boolean!
   revocationActivity: RevokeEndorsementActivity
   status: EndorsementStatus!
   updatedAt: ISO8601DateTime!

@@ -1984,6 +1984,7 @@ export type Endorsement = {
   id: Scalars['Int']['output'];
   lastReviewed: Scalars['ISO8601DateTime']['output'];
   organization: Organization;
+  readyForClinvarSubmission: Scalars['Boolean']['output'];
   revocationActivity?: Maybe<RevokeEndorsementActivity>;
   status: EndorsementStatus;
   updatedAt: Scalars['ISO8601DateTime']['output'];

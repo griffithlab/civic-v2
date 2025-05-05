@@ -919,7 +919,7 @@ export type EndorseAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EndorsementKeySpecifier = ('assertion' | 'createdAt' | 'endorsementActivity' | 'id' | 'lastReviewed' | 'organization' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | EndorsementKeySpecifier)[];
+export type EndorsementKeySpecifier = ('assertion' | 'createdAt' | 'endorsementActivity' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | EndorsementKeySpecifier)[];
 export type EndorsementFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -927,6 +927,7 @@ export type EndorsementFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	readyForClinvarSubmission?: FieldPolicy<any> | FieldReadFunction<any>,
 	revocationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,

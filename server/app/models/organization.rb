@@ -1,6 +1,7 @@
 class Organization < ActiveRecord::Base
   has_many :events
   has_many :affiliations
+  has_many :clinvar_api_keys
   has_many :users, through: :affiliations
   has_many :users_with_endorsement_privileges,
     ->() { where("affiliations.can_endorse = 't'") },
