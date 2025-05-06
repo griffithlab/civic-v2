@@ -13,7 +13,7 @@ module Types::Entities
     field :member_count, Int, null: false
     field :event_count, Int, null: false
     field :ranks, Types::Entities::RanksType, null: false
-    field :endorsements, Types::Entities::EndorsementType, null: false
+    field :endorsements, [Types::Entities::EndorsementType], null: false
     field :can_endorse, Boolean, null: false
     field :has_endorsing_subgroups, Boolean, null: false
     field :is_approved_vcep, Boolean, null: false
