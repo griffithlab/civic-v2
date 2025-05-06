@@ -8228,6 +8228,51 @@ type Organization {
 }
 
 """
+The connection type for Organization.
+"""
+type OrganizationConnection {
+  """
+  A list of edges.
+  """
+  edges: [OrganizationEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Organization!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type OrganizationEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Organization
+}
+
+"""
 Filter on organization id and whether or not to include the organization's subgroups
 """
 input OrganizationFilter {
@@ -8757,6 +8802,46 @@ type Query {
     variantId: Int
     variantName: String
   ): BrowseMolecularProfileConnection!
+
+  """
+  List and filter organizations.
+  """
+  browseOrganizations(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Exact match filtering on the id of the organization.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Substring filtering on the name of the organization.
+    """
+    name: String
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: OrganizationSort
+  ): BrowseOrganizationConnection!
   browsePhenotypes(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -9683,12 +9768,7 @@ type Query {
     Substring filtering on the name of the organization.
     """
     name: String
-
-    """
-    Columm and direction to sort evidence on.
-    """
-    sortBy: OrganizationSort
-  ): BrowseOrganizationConnection!
+  ): OrganizationConnection!
 
   """
   Find a phenotype by CIViC ID
