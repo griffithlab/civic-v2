@@ -4693,6 +4693,30 @@ export type OrganizationProfileImagePathArgs = {
   size?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** The connection type for Organization. */
+export type OrganizationConnection = {
+  __typename: 'OrganizationConnection';
+  /** A list of edges. */
+  edges: Array<OrganizationEdge>;
+  /** A list of nodes. */
+  nodes: Array<Organization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type OrganizationEdge = {
+  __typename: 'OrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Organization>;
+};
+
 /** Filter on organization id and whether or not to include the organization's subgroups */
 export type OrganizationFilter = {
   /** An array of organization IDs. */
@@ -4857,6 +4881,8 @@ export type Query = {
   browseDiseases: BrowseDiseaseConnection;
   browseFeatures: BrowseFeatureConnection;
   browseMolecularProfiles: BrowseMolecularProfileConnection;
+  /** List and filter organizations. */
+  browseOrganizations: BrowseOrganizationConnection;
   browsePhenotypes: BrowsePhenotypeConnection;
   browseSources: BrowseSourceConnection;
   browseTherapies: BrowseTherapyConnection;
@@ -4927,7 +4953,7 @@ export type Query = {
   organization?: Maybe<Organization>;
   organizationLeaderboards: OrganizationLeaderboards;
   /** List and filter organizations. */
-  organizations: BrowseOrganizationConnection;
+  organizations: OrganizationConnection;
   /** Find a phenotype by CIViC ID */
   phenotype?: Maybe<Phenotype>;
   /** Retrieve popover fields for a specific phenotype. */
@@ -5105,6 +5131,17 @@ export type QueryBrowseMolecularProfilesArgs = {
   therapyName?: InputMaybe<Scalars['String']['input']>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
   variantName?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryBrowseOrganizationsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<OrganizationSort>;
 };
 
 
@@ -5450,7 +5487,6 @@ export type QueryOrganizationsArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  sortBy?: InputMaybe<OrganizationSort>;
 };
 
 
@@ -7926,7 +7962,7 @@ export type OrgFilterSearchQueryVariables = Exact<{
 }>;
 
 
-export type OrgFilterSearchQuery = { __typename: 'Query', organizations: { __typename: 'BrowseOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', node?: { __typename: 'BrowseOrganization', id: number, name: string } | undefined }> } };
+export type OrgFilterSearchQuery = { __typename: 'Query', browseOrganizations: { __typename: 'BrowseOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', node?: { __typename: 'BrowseOrganization', id: number, name: string } | undefined }> } };
 
 export type UserFilterSearchQueryVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -8431,7 +8467,7 @@ export type OrganizationsBrowseQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'BrowseOrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', cursor: string, node?: { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type OrganizationsBrowseQuery = { __typename: 'Query', browseOrganizations: { __typename: 'BrowseOrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', cursor: string, node?: { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
 export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
@@ -13843,7 +13879,7 @@ export const ActivityFeedUpdatesDocument = gql`
   }
 export const OrgFilterSearchDocument = gql`
     query OrgFilterSearch($name: String) {
-  organizations(name: $name) {
+  browseOrganizations(name: $name) {
     pageInfo {
       endCursor
       hasNextPage
@@ -14808,7 +14844,7 @@ export const OrgPopoverDocument = gql`
   }
 export const OrganizationsBrowseDocument = gql`
     query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $orgName: String, $sortBy: OrganizationSort) {
-  organizations(
+  browseOrganizations(
     first: $first
     last: $last
     before: $before
