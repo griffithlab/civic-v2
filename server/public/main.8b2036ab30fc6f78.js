@@ -3871,7 +3871,7 @@ ${Ze}`;let Xi=(()=>{class g extends e.XK{constructor(ye){super(ye),this.document
 }
     `;let ha=(()=>{class g extends e.XK{constructor(ye){super(ye),this.document=Cr}static{this.\u0275fac=function(ft){return new(ft||g)(r.KVO(e.Ic))}}static{this.\u0275prov=r.jDH({token:g,factory:g.\u0275fac,providedIn:"root"})}}return g})();const Da=e.J1`
     query OrgFilterSearch($name: String) {
-  organizations(name: $name) {
+  browseOrganizations(name: $name) {
     pageInfo {
       endCursor
       hasNextPage
@@ -4516,7 +4516,7 @@ ${Ze}`;let Xi=(()=>{class g extends e.XK{constructor(ye){super(ye),this.document
 }
     ${eo}`;let _s=(()=>{class g extends e.XK{constructor(ye){super(ye),this.document=Oa}static{this.\u0275fac=function(ft){return new(ft||g)(r.KVO(e.Ic))}}static{this.\u0275prov=r.jDH({token:g,factory:g.\u0275fac,providedIn:"root"})}}return g})();const Ra=e.J1`
     query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $orgName: String, $sortBy: OrganizationSort) {
-  organizations(
+  browseOrganizations(
     first: $first
     last: $last
     before: $before
