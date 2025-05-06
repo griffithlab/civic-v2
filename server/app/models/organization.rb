@@ -19,6 +19,7 @@ class Organization < ActiveRecord::Base
     ->() { order("created_at DESC").limit(1) },
     class_name: "Event", foreign_key: :organization_id
 
+  has_many :endorsements
   validate :no_endorsing_users
 
   # TODO: org membership helper methods

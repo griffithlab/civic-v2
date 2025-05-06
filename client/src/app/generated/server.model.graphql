@@ -6482,7 +6482,7 @@ type LeaderboardOrganization {
   actionCount: Int!
   canEndorse: Boolean!
   description: String!
-  endorsements: Endorsement!
+  endorsements: [Endorsement!]!
   eventCount: Int!
   events(
     """
@@ -8169,7 +8169,7 @@ type ObjectFieldDiff {
 type Organization {
   canEndorse: Boolean!
   description: String!
-  endorsements: Endorsement!
+  endorsements: [Endorsement!]!
   eventCount: Int!
   events(
     """
