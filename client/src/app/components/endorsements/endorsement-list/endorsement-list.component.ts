@@ -26,6 +26,7 @@ import {
   EndorsementListNodeFragment,
   EndorsementListQuery,
   EndorsementListQueryVariables,
+  EndorsementStatus,
   Maybe,
   PageInfo,
 } from '@app/generated/civic.apollo'
@@ -35,6 +36,13 @@ import { QueryRef } from 'apollo-angular'
 import { filter, map } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { pluck } from 'rxjs-etc/operators'
+
+const STATUS_ORDER: EndorsementStatus[] = [
+  EndorsementStatus.Active,
+  EndorsementStatus.RequiresReview,
+  EndorsementStatus.Revoked,
+]
 
 @Component({
   selector: 'cvc-endorsement-list',
@@ -77,18 +85,33 @@ export class CvcEndorsementListComponent implements OnInit {
   }
 
   ngOnInit() {
-    runInInjectionContext(this.injector, () => {
-      this.queryRef = this.endorsementsGQL.watch(
-        {
-          assertionId: this.assertionId(),
-        },
-        { fetchPolicy: 'network-only' }
-      )
+    this.queryRef = this.endorsementsGQL.watch(
+      {
+        assertionId: this.assertionId(),
+      },
+      { fetchPolicy: 'network-only' }
+    )
 
+    runInInjectionContext(this.injector, () => {
       this.endorsements = toSignal(
         this.queryRef.valueChanges.pipe(
-          map((res) => res.data?.endorsements?.nodes),
-          filter(isNonNulled)
+          pluck('data', 'endorsements', 'nodes'),
+          filter(isNonNulled),
+          map((nodes) =>
+            [...nodes].sort((a, b) => {
+              // sort into Active, Review, and Revoked groups
+              const sa = STATUS_ORDER.indexOf(a.status)
+              const sb = STATUS_ORDER.indexOf(b.status)
+              if (sa !== sb) {
+                return sa - sb
+              }
+              // tie-break by updatedAt (newest first):
+              return (
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime()
+              )
+            })
+          )
         ),
         {
           initialValue: [],
@@ -102,7 +125,7 @@ export class CvcEndorsementListComponent implements OnInit {
             },
             { fetchPolicy: 'cache-only' }
           )
-          .valueChanges.pipe(map((res) => res.data?.assertion)),
+          .valueChanges.pipe(pluck('data', 'assertion')),
         {
           initialValue: undefined,
         }

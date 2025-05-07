@@ -12,8 +12,9 @@
     <strong>{{ vwr?.mostRecentOrg?.name }}.</strong>
   </ng-template>
 }
+@let listData = endorsements();
 <nz-list
-  [nzDataSource]="endorsements()"
+  [nzDataSource]="listData"
   [nzRenderItem]="endorsement"
   [nzNoResult]="noResult"
   nzSize="small"
@@ -47,7 +48,22 @@
   <!-- ENDORSEMENT ITEM TEMPLATE -->
   <ng-template
     #endorsement
-    let-endorsement>
+    let-endorsement
+    let-index="index">
+    @if(endorsement.status !== listData[index -1]?.status) {
+      @switch (endorsement.status) {
+        @case ('ACTIVE') {
+          <nz-divider nzText="Active Endorsements" nzOrientation="left"></nz-divider>
+        }
+        @case ('REQUIRES_REVIEW') {
+          <nz-divider nzText="Endorsements Under Review" nzOrientation="left"></nz-divider>
+        }
+        @case ('REVOKED') {
+          <nz-divider nzText="Revoked Endorsements" nzOrientation="left"></nz-divider>
+        }
+      }
+    }
+
     <nz-list-item [nzExtra]="itemExtra">
       <nz-list-item-meta
         [nzAvatar]="itemAvatar"
