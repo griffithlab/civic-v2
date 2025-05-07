@@ -1,7 +1,7 @@
 class ReworkExonNullability < ActiveRecord::Migration[7.1]
   def up
-    create_enum :exon_coordinate_record_state, ["stub", "exons_provided", "fully_curated"]
-    create_enum :variant_coordinate_record_state, ["stub", "fully_curated"]
+    create_enum :exon_coordinate_record_state, [ "stub", "exons_provided", "fully_curated" ]
+    create_enum :variant_coordinate_record_state, [ "stub", "fully_curated" ]
 
     change_column_null :exon_coordinates, :chromosome, true
     change_column_null :exon_coordinates, :strand, true
@@ -22,7 +22,6 @@ class ReworkExonNullability < ActiveRecord::Migration[7.1]
     change_table :variant_coordinates do |t|
       t.enum :record_state, enum_type: "variant_coordinate_record_state", null: false, default: "stub"
     end
-
   end
 
   def down

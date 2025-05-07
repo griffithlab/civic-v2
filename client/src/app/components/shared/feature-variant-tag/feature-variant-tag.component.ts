@@ -24,19 +24,20 @@ export interface LinkableVariant {
 }
 
 @Component({
-  selector: 'cvc-feature-variant-tag',
-  templateUrl: './feature-variant-tag.component.html',
-  styleUrls: ['./feature-variant-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-feature-variant-tag',
+    templateUrl: './feature-variant-tag.component.html',
+    styleUrls: ['./feature-variant-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFeatureVariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant
   @Input() feature!: LinkableFeature
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     if (this.variant === undefined) {
@@ -51,7 +52,6 @@ export class CvcFeatureVariantTagComponent implements OnInit {
       throw new Error(
         'cvc-feature-variant-tag requires a Feature, either as an input or on the Variant'
       )
-
     }
   }
 }

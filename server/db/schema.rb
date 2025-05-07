@@ -10,28 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_144840) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
-  create_enum "exon_offset_direction", ["positive", "negative"]
-  create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
-  create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
+  create_enum "exon_coordinate_record_state", [ "stub", "exons_provided", "fully_curated" ]
+  create_enum "exon_offset_direction", [ "positive", "negative" ]
+  create_enum "fusion_partner_status", [ "known", "unknown", "multiple" ]
+  create_enum "variant_coordinate_record_state", [ "stub", "fully_curated" ]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
     t.text "code"
     t.text "description"
-    t.index ["code"], name: "index_acmg_codes_on_code"
+    t.index [ "code" ], name: "index_acmg_codes_on_code"
   end
 
   create_table "acmg_codes_assertions", id: false, force: :cascade do |t|
     t.integer "acmg_code_id", null: false
     t.integer "assertion_id", null: false
-    t.index ["acmg_code_id", "assertion_id"], name: "index_acmg_codes_assertions_on_acmg_code_id_and_assertion_id"
-    t.index ["assertion_id"], name: "index_acmg_codes_assertions_on_assertion_id"
+    t.index [ "acmg_code_id", "assertion_id" ], name: "index_acmg_codes_assertions_on_acmg_code_id_and_assertion_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -40,8 +39,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index [ "blob_id" ], name: "index_active_storage_attachments_on_blob_id"
+    t.index [ "record_type", "record_id", "name", "blob_id" ], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -53,13 +52,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.bigint "byte_size", null: false
     t.string "checksum"
     t.datetime "created_at", precision: nil, null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+    t.index [ "key" ], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index [ "blob_id", "variation_digest" ], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "activities", force: :cascade do |t|
@@ -72,10 +71,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", null: false
     t.text "verbiage"
     t.text "note"
-    t.index ["organization_id"], name: "index_activities_on_organization_id"
-    t.index ["subject_type", "subject_id"], name: "index_activities_on_subject"
-    t.index ["type"], name: "index_activities_on_type"
-    t.index ["user_id"], name: "index_activities_on_user_id"
+    t.index [ "organization_id" ], name: "index_activities_on_organization_id"
+    t.index [ "subject_type", "subject_id" ], name: "index_activities_on_subject"
+    t.index [ "type" ], name: "index_activities_on_type"
+    t.index [ "user_id" ], name: "index_activities_on_user_id"
   end
 
   create_table "activity_linked_entities", force: :cascade do |t|
@@ -84,8 +83,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.bigint "activity_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["activity_id"], name: "index_activity_linked_entities_on_activity_id"
-    t.index ["entity_type", "entity_id"], name: "index_activity_linked_entities_on_entity"
+    t.index [ "activity_id" ], name: "index_activity_linked_entities_on_activity_id"
+    t.index [ "entity_type", "entity_id" ], name: "index_activity_linked_entities_on_entity"
   end
 
   create_table "advanced_searches", id: :serial, force: :cascade do |t|
@@ -94,7 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "params"
     t.text "search_type"
     t.text "token"
-    t.index ["token", "search_type"], name: "index_advanced_searches_on_token_and_search_type"
+    t.index [ "token", "search_type" ], name: "index_advanced_searches_on_token_and_search_type"
   end
 
   create_table "affiliations", id: false, force: :cascade do |t|
@@ -102,8 +101,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.bigint "organization_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.index ["organization_id"], name: "index_affiliations_on_organization_id"
-    t.index ["user_id"], name: "index_affiliations_on_user_id"
+    t.index [ "organization_id" ], name: "index_affiliations_on_organization_id"
+    t.index [ "user_id" ], name: "index_affiliations_on_user_id"
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "bearer_type"
+    t.bigint "bearer_id"
+    t.text "token_prefix", null: false
+    t.text "token_suffix", null: false
+    t.text "token_digest", null: false
+    t.boolean "revoked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index [ "bearer_type", "bearer_id" ], name: "index_api_keys_on_bearer"
+    t.index [ "revoked" ], name: "index_api_keys_on_revoked"
+    t.index [ "token_digest" ], name: "index_api_keys_on_token_digest", unique: true
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
@@ -128,12 +141,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.boolean "flagged", default: false, null: false
     t.integer "evidence_items_count"
     t.bigint "molecular_profile_id"
-    t.index ["description"], name: "index_assertions_on_description"
-    t.index ["disease_id"], name: "index_assertions_on_disease_id"
-    t.index ["molecular_profile_id"], name: "index_assertions_on_molecular_profile_id"
-    t.index ["nccn_guideline_id"], name: "index_assertions_on_nccn_guideline_id"
-    t.index ["therapy_interaction_type"], name: "index_assertions_on_therapy_interaction_type"
-    t.index ["variant_origin"], name: "index_assertions_on_variant_origin"
+    t.index [ "description" ], name: "index_assertions_on_description"
+    t.index [ "disease_id" ], name: "index_assertions_on_disease_id"
+    t.index [ "molecular_profile_id" ], name: "index_assertions_on_molecular_profile_id"
+    t.index [ "nccn_guideline_id" ], name: "index_assertions_on_nccn_guideline_id"
+    t.index [ "therapy_interaction_type" ], name: "index_assertions_on_therapy_interaction_type"
+    t.index [ "variant_origin" ], name: "index_assertions_on_variant_origin"
   end
 
   create_table "assertions_clingen_codes", id: false, force: :cascade do |t|
@@ -141,35 +154,35 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.bigint "clingen_code_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assertion_id"], name: "index_assertions_clingen_codes_on_assertion_id"
-    t.index ["clingen_code_id", "assertion_id"], name: "idx_clingencodes_assertions"
+    t.index [ "assertion_id" ], name: "index_assertions_clingen_codes_on_assertion_id"
+    t.index [ "clingen_code_id", "assertion_id" ], name: "idx_clingencodes_assertions"
   end
 
   create_table "assertions_evidence_items", id: false, force: :cascade do |t|
     t.integer "assertion_id", null: false
     t.integer "evidence_item_id", null: false
-    t.index ["assertion_id", "evidence_item_id"], name: "index_assertion_id_evidence_item_id"
-    t.index ["evidence_item_id"], name: "index_assertions_evidence_items_on_evidence_item_id"
+    t.index [ "assertion_id", "evidence_item_id" ], name: "index_assertion_id_evidence_item_id"
+    t.index [ "evidence_item_id" ], name: "index_assertions_evidence_items_on_evidence_item_id"
   end
 
   create_table "assertions_molecular_profiles", id: false, force: :cascade do |t|
     t.bigint "molecular_profile_id", null: false
     t.bigint "assertion_id", null: false
-    t.index ["molecular_profile_id", "assertion_id"], name: "idx_molecular_profile_assertion_id"
+    t.index [ "molecular_profile_id", "assertion_id" ], name: "idx_molecular_profile_assertion_id"
   end
 
   create_table "assertions_phenotypes", id: false, force: :cascade do |t|
     t.integer "assertion_id", null: false
     t.integer "phenotype_id", null: false
-    t.index ["assertion_id", "phenotype_id"], name: "index_assertions_phenotypes_on_assertion_id_and_phenotype_id"
-    t.index ["phenotype_id"], name: "index_assertions_phenotypes_on_phenotype_id"
+    t.index [ "assertion_id", "phenotype_id" ], name: "index_assertions_phenotypes_on_assertion_id_and_phenotype_id"
+    t.index [ "phenotype_id" ], name: "index_assertions_phenotypes_on_phenotype_id"
   end
 
   create_table "assertions_therapies", id: false, force: :cascade do |t|
     t.integer "assertion_id", null: false
     t.integer "therapy_id", null: false
-    t.index ["assertion_id", "therapy_id"], name: "index_assertions_therapies_on_assertion_id_and_therapy_id"
-    t.index ["therapy_id"], name: "index_assertions_therapies_on_therapy_id"
+    t.index [ "assertion_id", "therapy_id" ], name: "index_assertions_therapies_on_assertion_id_and_therapy_id"
+    t.index [ "therapy_id" ], name: "index_assertions_therapies_on_therapy_id"
   end
 
   create_table "audits", id: :serial, force: :cascade do |t|
@@ -187,12 +200,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "remote_address"
     t.string "request_uuid"
     t.datetime "created_at", precision: nil
-    t.index ["action"], name: "index_audits_on_action"
-    t.index ["associated_id", "associated_type"], name: "associated_index"
-    t.index ["auditable_id", "auditable_type"], name: "auditable_index"
-    t.index ["created_at"], name: "index_audits_on_created_at"
-    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
-    t.index ["user_id", "user_type"], name: "user_index"
+    t.index [ "action" ], name: "index_audits_on_action"
+    t.index [ "associated_id", "associated_type" ], name: "associated_index"
+    t.index [ "auditable_id", "auditable_type" ], name: "auditable_index"
+    t.index [ "created_at" ], name: "index_audits_on_created_at"
+    t.index [ "request_uuid" ], name: "index_audits_on_request_uuid"
+    t.index [ "user_id", "user_type" ], name: "user_index"
   end
 
   create_table "authorizations", id: :serial, force: :cascade do |t|
@@ -201,7 +214,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "uid", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["user_id"], name: "index_authorizations_on_user_id"
+    t.index [ "user_id" ], name: "index_authorizations_on_user_id"
   end
 
   create_table "authors", id: :serial, force: :cascade do |t|
@@ -217,9 +230,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "author_position"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["author_id", "source_id"], name: "index_authors_sources_on_author_id_and_source_id"
-    t.index ["source_id", "author_id"], name: "idx_author_source_id"
-    t.index ["source_id"], name: "index_authors_sources_on_source_id"
+    t.index [ "author_id", "source_id" ], name: "index_authors_sources_on_author_id_and_source_id"
+    t.index [ "source_id", "author_id" ], name: "idx_author_source_id"
+    t.index [ "source_id" ], name: "index_authors_sources_on_source_id"
   end
 
   create_table "badge_awards", id: :serial, force: :cascade do |t|
@@ -229,8 +242,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "message"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["badge_id", "user_id"], name: "index_badge_awards_on_badge_id_and_user_id"
-    t.index ["user_id", "badge_id"], name: "index_badge_awards_on_user_id_and_badge_id"
+    t.index [ "badge_id", "user_id" ], name: "index_badge_awards_on_badge_id_and_user_id"
+    t.index [ "user_id", "badge_id" ], name: "index_badge_awards_on_user_id_and_badge_id"
   end
 
   create_table "badge_claims", id: :serial, force: :cascade do |t|
@@ -239,8 +252,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "redemption_code"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.index ["badge_id"], name: "index_badge_claims_on_badge_id"
-    t.index ["user_id"], name: "index_badge_claims_on_user_id"
+    t.index [ "badge_id" ], name: "index_badge_claims_on_badge_id"
+    t.index [ "user_id" ], name: "index_badge_claims_on_user_id"
   end
 
   create_table "badges", id: :serial, force: :cascade do |t|
@@ -250,14 +263,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.text "display_name"
-    t.index ["name"], name: "index_badges_on_name"
+    t.index [ "name" ], name: "index_badges_on_name"
   end
 
   create_table "clingen_codes", force: :cascade do |t|
     t.text "code"
     t.text "description"
-    t.index ["code"], name: "index_clingen_codes_on_code"
-    t.index ["description"], name: "index_clingen_codes_on_description"
+    t.index [ "code" ], name: "index_clingen_codes_on_code"
+    t.index [ "description" ], name: "index_clingen_codes_on_description"
   end
 
   create_table "clinical_trials", id: :serial, force: :cascade do |t|
@@ -266,7 +279,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "description"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["nct_id"], name: "index_clinical_trials_on_nct_id"
+    t.index [ "nct_id" ], name: "index_clinical_trials_on_nct_id"
   end
 
   create_table "clinical_trials_sources", id: false, force: :cascade do |t|
@@ -274,15 +287,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "source_id", null: false
     t.integer "sources_id"
     t.integer "clinical_trials_id"
-    t.index ["clinical_trial_id", "source_id"], name: "idx_clinical_trials_sources"
-    t.index ["source_id"], name: "index_clinical_trials_sources_on_source_id"
+    t.index [ "clinical_trial_id", "source_id" ], name: "idx_clinical_trials_sources"
+    t.index [ "source_id" ], name: "index_clinical_trials_sources_on_source_id"
   end
 
   create_table "clinvar_entries", id: :serial, force: :cascade do |t|
     t.string "clinvar_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["clinvar_id"], name: "index_clinvar_entries_on_clinvar_id"
+    t.index [ "clinvar_id" ], name: "index_clinvar_entries_on_clinvar_id"
   end
 
   create_table "clinvar_entries_variants", id: false, force: :cascade do |t|
@@ -290,8 +303,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "variant_id", null: false
     t.integer "clinvar_entries_id"
     t.integer "variants_id"
-    t.index ["clinvar_entry_id", "variant_id"], name: "idx_clinvar_variants"
-    t.index ["variant_id"], name: "index_clinvar_entries_variants_on_variant_id"
+    t.index [ "clinvar_entry_id", "variant_id" ], name: "idx_clinvar_variants"
+    t.index [ "variant_id" ], name: "index_clinvar_entries_variants_on_variant_id"
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
@@ -304,9 +317,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.datetime "deleted_at"
-    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
-    t.index ["user_id"], name: "index_comments_on_user_id"
+    t.index [ "commentable_id" ], name: "index_comments_on_commentable_id"
+    t.index [ "commentable_type" ], name: "index_comments_on_commentable_type"
+    t.index [ "user_id" ], name: "index_comments_on_user_id"
   end
 
   create_table "conflict_of_interest_statements", force: :cascade do |t|
@@ -331,19 +344,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "text", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["term"], name: "index_definitions_on_term"
+    t.index [ "term" ], name: "index_definitions_on_term"
   end
 
   create_table "disease_aliases", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.index ["name"], name: "index_disease_aliases_on_name"
+    t.index [ "name" ], name: "index_disease_aliases_on_name"
   end
 
   create_table "disease_aliases_diseases", id: false, force: :cascade do |t|
     t.integer "disease_alias_id", null: false
     t.integer "disease_id", null: false
-    t.index ["disease_alias_id", "disease_id"], name: "disease_alias_diseases_composite"
-    t.index ["disease_id"], name: "index_disease_aliases_diseases_on_disease_id"
+    t.index [ "disease_alias_id", "disease_id" ], name: "disease_alias_diseases_composite"
+    t.index [ "disease_id" ], name: "index_disease_aliases_diseases_on_disease_id"
   end
 
   create_table "diseases", id: :serial, force: :cascade do |t|
@@ -353,7 +366,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", precision: nil
     t.string "name"
     t.boolean "deprecated", default: false, null: false
-    t.index ["name"], name: "index_diseases_on_name"
+    t.index [ "name" ], name: "index_diseases_on_name"
   end
 
   create_table "domain_expert_tags", id: :serial, force: :cascade do |t|
@@ -363,9 +376,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "domain_of_expertise_type"
     t.integer "domain_of_expertise_id"
     t.integer "user_id"
-    t.index ["description"], name: "index_domain_expert_tags_on_description"
-    t.index ["domain_of_expertise_id", "domain_of_expertise_type"], name: "idx_domain_of_expertise"
-    t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
+    t.index [ "description" ], name: "index_domain_expert_tags_on_description"
+    t.index [ "domain_of_expertise_id", "domain_of_expertise_type" ], name: "idx_domain_of_expertise"
+    t.index [ "user_id" ], name: "index_domain_expert_tags_on_user_id"
   end
 
   create_table "entity_mentions", force: :cascade do |t|
@@ -374,8 +387,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "entity_type"
     t.bigint "entity_id"
     t.bigint "comment_id"
-    t.index ["comment_id"], name: "index_entity_mentions_on_comment_id"
-    t.index ["entity_type", "entity_id"], name: "index_entity_mentions_on_entity"
+    t.index [ "comment_id" ], name: "index_entity_mentions_on_comment_id"
+    t.index [ "entity_type", "entity_id" ], name: "index_entity_mentions_on_entity"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
@@ -393,14 +406,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "originating_object_type"
     t.bigint "originating_object_id"
     t.integer "activity_id"
-    t.index ["action"], name: "index_events_on_action"
-    t.index ["activity_id"], name: "index_events_on_activity_id"
-    t.index ["organization_id"], name: "index_events_on_organization_id"
-    t.index ["originating_object_id", "originating_object_type"], name: "idx_event_originating_obj"
-    t.index ["originating_object_type", "originating_object_id"], name: "index_events_on_originating_object"
-    t.index ["originating_user_id"], name: "index_events_on_originating_user_id"
-    t.index ["subject_id", "subject_type"], name: "index_events_on_subject_id_and_subject_type"
-    t.index ["user_role"], name: "index_events_on_user_role"
+    t.index [ "action" ], name: "index_events_on_action"
+    t.index [ "activity_id" ], name: "index_events_on_activity_id"
+    t.index [ "organization_id" ], name: "index_events_on_organization_id"
+    t.index [ "originating_object_id", "originating_object_type" ], name: "idx_event_originating_obj"
+    t.index [ "originating_object_type", "originating_object_id" ], name: "index_events_on_originating_object"
+    t.index [ "originating_user_id" ], name: "index_events_on_originating_user_id"
+    t.index [ "subject_id", "subject_type" ], name: "index_events_on_subject_id_and_subject_type"
+    t.index [ "user_role" ], name: "index_events_on_user_role"
   end
 
   create_table "evidence_items", id: :serial, force: :cascade do |t|
@@ -422,31 +435,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "therapy_interaction_type"
     t.boolean "flagged", default: false, null: false
     t.bigint "molecular_profile_id"
-    t.index ["deleted"], name: "index_evidence_items_on_deleted"
-    t.index ["disease_id"], name: "index_evidence_items_on_disease_id"
-    t.index ["evidence_direction"], name: "index_evidence_items_on_evidence_direction"
-    t.index ["evidence_level"], name: "index_evidence_items_on_evidence_level"
-    t.index ["evidence_type"], name: "index_evidence_items_on_evidence_type"
-    t.index ["molecular_profile_id"], name: "index_evidence_items_on_molecular_profile_id"
-    t.index ["significance"], name: "index_evidence_items_on_significance"
-    t.index ["source_id"], name: "index_evidence_items_on_source_id"
-    t.index ["status"], name: "index_evidence_items_on_status"
-    t.index ["therapy_interaction_type"], name: "index_evidence_items_on_therapy_interaction_type"
-    t.index ["variant_origin"], name: "index_evidence_items_on_variant_origin"
+    t.index [ "deleted" ], name: "index_evidence_items_on_deleted"
+    t.index [ "disease_id" ], name: "index_evidence_items_on_disease_id"
+    t.index [ "evidence_direction" ], name: "index_evidence_items_on_evidence_direction"
+    t.index [ "evidence_level" ], name: "index_evidence_items_on_evidence_level"
+    t.index [ "evidence_type" ], name: "index_evidence_items_on_evidence_type"
+    t.index [ "molecular_profile_id" ], name: "index_evidence_items_on_molecular_profile_id"
+    t.index [ "significance" ], name: "index_evidence_items_on_significance"
+    t.index [ "source_id" ], name: "index_evidence_items_on_source_id"
+    t.index [ "status" ], name: "index_evidence_items_on_status"
+    t.index [ "therapy_interaction_type" ], name: "index_evidence_items_on_therapy_interaction_type"
+    t.index [ "variant_origin" ], name: "index_evidence_items_on_variant_origin"
   end
 
   create_table "evidence_items_phenotypes", id: false, force: :cascade do |t|
     t.integer "evidence_item_id", null: false
     t.integer "phenotype_id", null: false
-    t.index ["evidence_item_id", "phenotype_id"], name: "index_evidence_item_id_phenotype_id"
-    t.index ["phenotype_id"], name: "index_evidence_items_phenotypes_on_phenotype_id"
+    t.index [ "evidence_item_id", "phenotype_id" ], name: "index_evidence_item_id_phenotype_id"
+    t.index [ "phenotype_id" ], name: "index_evidence_items_phenotypes_on_phenotype_id"
   end
 
   create_table "evidence_items_therapies", id: false, force: :cascade do |t|
     t.integer "therapy_id", null: false
     t.integer "evidence_item_id", null: false
-    t.index ["evidence_item_id"], name: "index_evidence_items_therapies_on_evidence_item_id"
-    t.index ["therapy_id", "evidence_item_id"], name: "idx_therapy_eid_bridge_table"
+    t.index [ "evidence_item_id" ], name: "index_evidence_items_therapies_on_evidence_item_id"
+    t.index [ "therapy_id", "evidence_item_id" ], name: "idx_therapy_eid_bridge_table"
   end
 
   create_table "exon_coordinates", force: :cascade do |t|
@@ -466,11 +479,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "record_state", default: "stub", null: false, enum_type: "exon_coordinate_record_state"
-    t.index ["chromosome"], name: "index_exon_coordinates_on_chromosome"
-    t.index ["representative_transcript"], name: "index_exon_coordinates_on_representative_transcript"
-    t.index ["start"], name: "index_exon_coordinates_on_start"
-    t.index ["stop"], name: "index_exon_coordinates_on_stop"
-    t.index ["variant_id"], name: "index_exon_coordinates_on_variant_id"
+    t.index [ "chromosome" ], name: "index_exon_coordinates_on_chromosome"
+    t.index [ "representative_transcript" ], name: "index_exon_coordinates_on_representative_transcript"
+    t.index [ "start" ], name: "index_exon_coordinates_on_start"
+    t.index [ "stop" ], name: "index_exon_coordinates_on_stop"
+    t.index [ "variant_id" ], name: "index_exon_coordinates_on_variant_id"
   end
 
   create_table "factors", force: :cascade do |t|
@@ -483,15 +496,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_feature_aliases_on_name"
+    t.index [ "name" ], name: "index_feature_aliases_on_name"
   end
 
   create_table "feature_aliases_features", force: :cascade do |t|
     t.bigint "feature_id", null: false
     t.bigint "feature_alias_id", null: false
-    t.index ["feature_alias_id"], name: "index_feature_aliases_features_on_feature_alias_id"
-    t.index ["feature_id", "feature_alias_id"], name: "idx_feature_alias"
-    t.index ["feature_id"], name: "index_feature_aliases_features_on_feature_id"
+    t.index [ "feature_alias_id" ], name: "index_feature_aliases_features_on_feature_alias_id"
+    t.index [ "feature_id", "feature_alias_id" ], name: "idx_feature_alias"
+    t.index [ "feature_id" ], name: "index_feature_aliases_features_on_feature_id"
   end
 
   create_table "features", force: :cascade do |t|
@@ -505,14 +518,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "full_name"
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
-    t.index ["feature_instance_type", "feature_instance_id"], name: "index_features_on_feature_instance"
+    t.index [ "feature_instance_type", "feature_instance_id" ], name: "index_features_on_feature_instance"
   end
 
   create_table "features_sources", force: :cascade do |t|
     t.bigint "source_id", null: false
     t.bigint "feature_id", null: false
-    t.index ["feature_id"], name: "index_features_sources_on_feature_id"
-    t.index ["source_id"], name: "index_features_sources_on_source_id"
+    t.index [ "feature_id" ], name: "index_features_sources_on_feature_id"
+    t.index [ "source_id" ], name: "index_features_sources_on_source_id"
   end
 
   create_table "flags", id: :serial, force: :cascade do |t|
@@ -523,10 +536,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "state"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["flaggable_type", "flaggable_id"], name: "index_flags_on_flaggable_type_and_flaggable_id"
-    t.index ["flagging_user_id"], name: "index_flags_on_flagging_user_id"
-    t.index ["resolving_user_id"], name: "index_flags_on_resolving_user_id"
-    t.index ["state"], name: "index_flags_on_state"
+    t.index [ "flaggable_type", "flaggable_id" ], name: "index_flags_on_flaggable_type_and_flaggable_id"
+    t.index [ "flagging_user_id" ], name: "index_flags_on_flagging_user_id"
+    t.index [ "resolving_user_id" ], name: "index_flags_on_resolving_user_id"
+    t.index [ "state" ], name: "index_flags_on_state"
   end
 
   create_table "fusions", force: :cascade do |t|
@@ -536,20 +549,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.enum "three_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["five_prime_gene_id"], name: "index_fusions_on_five_prime_gene_id"
-    t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
+    t.index [ "five_prime_gene_id" ], name: "index_fusions_on_five_prime_gene_id"
+    t.index [ "three_prime_gene_id" ], name: "index_fusions_on_three_prime_gene_id"
   end
 
   create_table "gene_aliases", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.index ["name"], name: "index_gene_aliases_on_name"
+    t.index [ "name" ], name: "index_gene_aliases_on_name"
   end
 
   create_table "gene_aliases_genes", id: false, force: :cascade do |t|
     t.integer "gene_alias_id", null: false
     t.integer "gene_id", null: false
-    t.index ["gene_alias_id", "gene_id"], name: "index_gene_aliases_genes_on_gene_alias_id_and_gene_id"
-    t.index ["gene_id"], name: "index_gene_aliases_genes_on_gene_id"
+    t.index [ "gene_alias_id", "gene_id" ], name: "index_gene_aliases_genes_on_gene_alias_id_and_gene_id"
+    t.index [ "gene_id" ], name: "index_gene_aliases_genes_on_gene_id"
   end
 
   create_table "genes", id: :serial, force: :cascade do |t|
@@ -563,9 +576,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.boolean "deleted", default: false
     t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
+    t.text "uniprot_ids", default: [], array: true
     t.index "char_length((name)::text)", name: "gene_name_size_idx"
-    t.index ["deleted"], name: "index_genes_on_deleted"
-    t.index ["name"], name: "index_genes_on_name"
+    t.index [ "deleted" ], name: "index_genes_on_deleted"
+    t.index [ "name" ], name: "index_genes_on_name"
   end
 
   create_table "genes_sources", id: false, force: :cascade do |t|
@@ -573,14 +587,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "source_id", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["gene_id", "source_id"], name: "index_genes_sources_on_gene_id_and_source_id"
+    t.index [ "gene_id", "source_id" ], name: "index_genes_sources_on_gene_id_and_source_id"
   end
 
   create_table "hgvs_descriptions", id: :serial, force: :cascade do |t|
     t.text "description"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["description"], name: "index_hgvs_descriptions_on_description"
+    t.index [ "description" ], name: "index_hgvs_descriptions_on_description"
   end
 
   create_table "hgvs_descriptions_variants", id: false, force: :cascade do |t|
@@ -588,20 +602,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "variant_id", null: false
     t.integer "variants_id"
     t.integer "hgvs_expressions_id"
-    t.index ["hgvs_description_id"], name: "index_hgvs_descriptions_variants_on_hgvs_description_id"
-    t.index ["variant_id", "hgvs_description_id"], name: "idx_variant_id_hgvs_id"
+    t.index [ "hgvs_description_id" ], name: "index_hgvs_descriptions_variants_on_hgvs_description_id"
+    t.index [ "variant_id", "hgvs_description_id" ], name: "idx_variant_id_hgvs_id"
   end
 
   create_table "molecular_profile_aliases", force: :cascade do |t|
     t.string "name"
-    t.index ["name"], name: "index_molecular_profile_aliases_on_name"
+    t.index [ "name" ], name: "index_molecular_profile_aliases_on_name"
   end
 
   create_table "molecular_profile_aliases_molecular_profiles", id: false, force: :cascade do |t|
     t.bigint "molecular_profile_alias_id", null: false
     t.bigint "molecular_profile_id", null: false
-    t.index ["molecular_profile_alias_id", "molecular_profile_id"], name: "idx_mp_alias_id_mp_id_on_mp_alias_join_table"
-    t.index ["molecular_profile_id"], name: "idx_mp_id_on_mp_alias_join_table"
+    t.index [ "molecular_profile_alias_id", "molecular_profile_id" ], name: "idx_mp_alias_id_mp_id_on_mp_alias_join_table"
+    t.index [ "molecular_profile_id" ], name: "idx_mp_id_on_mp_alias_join_table"
   end
 
   create_table "molecular_profiles", force: :cascade do |t|
@@ -613,8 +627,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.float "evidence_score", null: false
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
-    t.index ["description"], name: "index_molecular_profiles_on_description"
-    t.index ["name"], name: "index_molecular_profiles_on_name", unique: true
+    t.index [ "description" ], name: "index_molecular_profiles_on_description"
+    t.index [ "name" ], name: "index_molecular_profiles_on_name", unique: true
   end
 
   create_table "molecular_profiles_sources", id: false, force: :cascade do |t|
@@ -622,13 +636,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.bigint "source_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["molecular_profile_id", "source_id"], name: "idx_mp_source_id"
+    t.index [ "molecular_profile_id", "source_id" ], name: "idx_mp_source_id"
   end
 
   create_table "molecular_profiles_variants", id: false, force: :cascade do |t|
     t.bigint "molecular_profile_id", null: false
     t.bigint "variant_id", null: false
-    t.index ["molecular_profile_id", "variant_id"], name: "idx_molecular_profile_variant_id"
+    t.index [ "molecular_profile_id", "variant_id" ], name: "idx_molecular_profile_variant_id"
   end
 
   create_table "nccn_guidelines", force: :cascade do |t|
@@ -645,8 +659,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "description"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["created_at"], name: "index_notifications_on_created_at"
-    t.index ["notified_user_id"], name: "index_notifications_on_notified_user_id"
+    t.index [ "created_at" ], name: "index_notifications_on_created_at"
+    t.index [ "notified_user_id" ], name: "index_notifications_on_notified_user_id"
   end
 
   create_table "ontologies", id: :serial, force: :cascade do |t|
@@ -666,21 +680,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "most_recent_activity_timestamp", precision: nil
-    t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
+    t.index [ "most_recent_activity_timestamp" ], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 
   create_table "phenotypes", id: :serial, force: :cascade do |t|
     t.text "hpo_id"
     t.text "hpo_class"
     t.text "description"
-    t.index ["hpo_id"], name: "index_phenotypes_on_hpo_id"
+    t.index [ "hpo_id" ], name: "index_phenotypes_on_hpo_id"
   end
 
   create_table "pipeline_types", id: :serial, force: :cascade do |t|
     t.text "name", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["name"], name: "index_pipeline_types_on_name"
+    t.index [ "name" ], name: "index_pipeline_types_on_name"
   end
 
   create_table "pipeline_types_variant_types", id: false, force: :cascade do |t|
@@ -688,15 +702,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "variant_type_id", null: false
     t.integer "variant_types_id"
     t.integer "pipeline_types_id"
-    t.index ["pipeline_type_id"], name: "index_pipeline_types_variant_types_on_pipeline_type_id"
-    t.index ["variant_type_id", "pipeline_type_id"], name: "idx_variant_type_pipeline_type"
+    t.index [ "pipeline_type_id" ], name: "index_pipeline_types_variant_types_on_pipeline_type_id"
+    t.index [ "variant_type_id", "pipeline_type_id" ], name: "idx_variant_type_pipeline_type"
   end
 
   create_table "regulatory_agencies", id: :serial, force: :cascade do |t|
     t.text "abbreviation"
     t.text "name"
     t.integer "country_id"
-    t.index ["abbreviation"], name: "index_regulatory_agencies_on_abbreviation"
+    t.index [ "abbreviation" ], name: "index_regulatory_agencies_on_abbreviation"
   end
 
   create_table "revision_sets", force: :cascade do |t|
@@ -715,13 +729,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", null: false
     t.uuid "revisionset_id"
     t.integer "revision_set_id"
-    t.index ["created_at"], name: "index_revisions_on_created_at"
-    t.index ["field_name"], name: "index_revisions_on_field_name"
-    t.index ["revisionset_id"], name: "index_revisions_on_revisionset_id"
-    t.index ["status"], name: "index_revisions_on_status"
-    t.index ["subject_id", "subject_type"], name: "index_revisions_on_subject_id_and_subject_type"
-    t.index ["subject_type", "subject_id"], name: "index_v2_suggested_changes_on_subject"
-    t.index ["updated_at"], name: "index_revisions_on_updated_at"
+    t.index [ "created_at" ], name: "index_revisions_on_created_at"
+    t.index [ "field_name" ], name: "index_revisions_on_field_name"
+    t.index [ "revisionset_id" ], name: "index_revisions_on_revisionset_id"
+    t.index [ "status" ], name: "index_revisions_on_status"
+    t.index [ "subject_id", "subject_type" ], name: "index_revisions_on_subject_id_and_subject_type"
+    t.index [ "subject_type", "subject_id" ], name: "index_v2_suggested_changes_on_subject"
+    t.index [ "updated_at" ], name: "index_revisions_on_updated_at"
   end
 
   create_table "role_mentions", force: :cascade do |t|
@@ -729,7 +743,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "comment_id"
-    t.index ["comment_id"], name: "index_role_mentions_on_comment_id"
+    t.index [ "comment_id" ], name: "index_role_mentions_on_comment_id"
   end
 
   create_table "solid_errors", force: :cascade do |t|
@@ -741,8 +755,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fingerprint", limit: 64, null: false
-    t.index ["fingerprint"], name: "index_solid_errors_on_fingerprint", unique: true
-    t.index ["resolved_at"], name: "index_solid_errors_on_resolved_at"
+    t.index [ "fingerprint" ], name: "index_solid_errors_on_fingerprint", unique: true
+    t.index [ "resolved_at" ], name: "index_solid_errors_on_resolved_at"
   end
 
   create_table "solid_errors_occurrences", force: :cascade do |t|
@@ -751,7 +765,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.json "context"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
+    t.index [ "error_id" ], name: "index_solid_errors_occurrences_on_error_id"
   end
 
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
@@ -764,7 +778,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.text "reason"
     t.integer "disease_id"
     t.bigint "molecular_profile_id"
-    t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
+    t.index [ "molecular_profile_id" ], name: "index_source_suggestions_on_molecular_profile_id"
   end
 
   create_table "sources", id: :serial, force: :cascade do |t|
@@ -791,10 +805,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "retraction_nature"
     t.datetime "retraction_date"
     t.string "retraction_reasons"
-    t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
-    t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
-    t.index ["citation_id"], name: "index_sources_on_citation_id"
-    t.index ["retracted"], name: "index_sources_on_retracted"
+    t.index [ "asco_abstract_id" ], name: "index_sources_on_asco_abstract_id"
+    t.index [ "asco_presenter" ], name: "index_sources_on_asco_presenter"
+    t.index [ "citation_id" ], name: "index_sources_on_citation_id"
+    t.index [ "retracted" ], name: "index_sources_on_retracted"
   end
 
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
@@ -813,9 +827,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", precision: nil
     t.text "action_type"
     t.text "action_class"
-    t.index ["action_type", "action_class"], name: "index_subscriptions_on_action_type_and_action_class"
-    t.index ["subscribable_id", "subscribable_type"], name: "index_subscriptions_on_subscribable_id_and_subscribable_type"
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+    t.index [ "action_type", "action_class" ], name: "index_subscriptions_on_action_type_and_action_class"
+    t.index [ "subscribable_id", "subscribable_type" ], name: "index_subscriptions_on_subscribable_id_and_subscribable_type"
+    t.index [ "user_id" ], name: "index_subscriptions_on_user_id"
   end
 
   create_table "suggested_changes", id: :serial, force: :cascade do |t|
@@ -826,10 +840,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.string "status", default: "new", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["created_at"], name: "index_suggested_changes_on_created_at"
-    t.index ["moderated_id", "moderated_type"], name: "index_suggested_changes_on_moderated_id_and_moderated_type"
-    t.index ["status"], name: "index_suggested_changes_on_status"
-    t.index ["updated_at"], name: "index_suggested_changes_on_updated_at"
+    t.index [ "created_at" ], name: "index_suggested_changes_on_created_at"
+    t.index [ "moderated_id", "moderated_type" ], name: "index_suggested_changes_on_moderated_id_and_moderated_type"
+    t.index [ "status" ], name: "index_suggested_changes_on_status"
+    t.index [ "updated_at" ], name: "index_suggested_changes_on_updated_at"
   end
 
   create_table "therapies", id: :serial, force: :cascade do |t|
@@ -838,20 +852,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", precision: nil
     t.text "ncit_id"
     t.boolean "deprecated", default: false, null: false
-    t.index ["name"], name: "index_therapies_on_name"
-    t.index ["ncit_id"], name: "index_therapies_on_ncit_id", unique: true
+    t.index [ "name" ], name: "index_therapies_on_name"
+    t.index [ "ncit_id" ], name: "index_therapies_on_ncit_id", unique: true
   end
 
   create_table "therapies_therapy_aliases", id: :serial, force: :cascade do |t|
     t.integer "therapy_id"
     t.integer "therapy_alias_id"
-    t.index ["therapy_alias_id"], name: "index_therapies_therapy_aliases_on_therapy_alias_id"
-    t.index ["therapy_id"], name: "index_therapies_therapy_aliases_on_therapy_id"
+    t.index [ "therapy_alias_id" ], name: "index_therapies_therapy_aliases_on_therapy_alias_id"
+    t.index [ "therapy_id" ], name: "index_therapies_therapy_aliases_on_therapy_id"
   end
 
   create_table "therapy_aliases", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.index ["name"], name: "index_therapy_aliases_on_name"
+    t.index [ "name" ], name: "index_therapy_aliases_on_name"
   end
 
   create_table "tsv_releases", id: :serial, force: :cascade do |t|
@@ -865,8 +879,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "comment_id"
-    t.index ["comment_id"], name: "index_user_mentions_on_comment_id"
-    t.index ["user_id"], name: "index_user_mentions_on_user_id"
+    t.index [ "comment_id" ], name: "index_user_mentions_on_comment_id"
+    t.index [ "user_id" ], name: "index_user_mentions_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -892,23 +906,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "country_id"
     t.integer "most_recent_organization_id"
     t.datetime "most_recent_activity_timestamp", precision: nil
-    t.index ["country_id"], name: "index_users_on_country_id"
-    t.index ["deleted"], name: "index_users_on_deleted"
-    t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
-    t.index ["most_recent_activity_timestamp"], name: "index_users_on_most_recent_activity_timestamp"
-    t.index ["role"], name: "index_users_on_role"
+    t.index [ "country_id" ], name: "index_users_on_country_id"
+    t.index [ "deleted" ], name: "index_users_on_deleted"
+    t.index [ "last_seen_at" ], name: "index_users_on_last_seen_at"
+    t.index [ "most_recent_activity_timestamp" ], name: "index_users_on_most_recent_activity_timestamp"
+    t.index [ "role" ], name: "index_users_on_role"
   end
 
   create_table "variant_aliases", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.index ["name"], name: "index_variant_aliases_on_name"
+    t.index [ "name" ], name: "index_variant_aliases_on_name"
   end
 
   create_table "variant_aliases_variants", id: false, force: :cascade do |t|
     t.integer "variant_alias_id", null: false
     t.integer "variant_id", null: false
-    t.index ["variant_alias_id", "variant_id"], name: "idx_variant_alias_variant_id"
-    t.index ["variant_id"], name: "index_variant_aliases_variants_on_variant_id"
+    t.index [ "variant_alias_id", "variant_id" ], name: "idx_variant_alias_variant_id"
+    t.index [ "variant_id" ], name: "index_variant_aliases_variants_on_variant_id"
   end
 
   create_table "variant_coordinates", force: :cascade do |t|
@@ -926,12 +940,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", null: false
     t.enum "record_state", default: "stub", null: false, enum_type: "variant_coordinate_record_state"
     t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
-    t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
-    t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
-    t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
-    t.index ["start"], name: "index_variant_coordinates_on_start"
-    t.index ["stop"], name: "index_variant_coordinates_on_stop"
-    t.index ["variant_id"], name: "index_variant_coordinates_on_variant_id"
+    t.index [ "chromosome" ], name: "index_variant_coordinates_on_chromosome"
+    t.index [ "reference_build" ], name: "index_variant_coordinates_on_reference_build"
+    t.index [ "representative_transcript" ], name: "index_variant_coordinates_on_representative_transcript"
+    t.index [ "start" ], name: "index_variant_coordinates_on_start"
+    t.index [ "stop" ], name: "index_variant_coordinates_on_stop"
+    t.index [ "variant_id" ], name: "index_variant_coordinates_on_variant_id"
   end
 
   create_table "variant_group_variants", id: false, force: :cascade do |t|
@@ -939,7 +953,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "variant_group_id", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["variant_id", "variant_group_id"], name: "index_variant_group_variants_on_variant_id_and_variant_group_id"
+    t.index [ "variant_id", "variant_group_id" ], name: "index_variant_group_variants_on_variant_id_and_variant_group_id"
   end
 
   create_table "variant_groups", id: :serial, force: :cascade do |t|
@@ -950,7 +964,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.boolean "deleted", default: false
     t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
-    t.index ["deleted"], name: "index_variant_groups_on_deleted"
+    t.index [ "deleted" ], name: "index_variant_groups_on_deleted"
   end
 
   create_table "variant_types", id: :serial, force: :cascade do |t|
@@ -963,9 +977,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
-    t.index ["display_name"], name: "index_variant_types_on_display_name"
-    t.index ["name"], name: "index_variant_types_on_name"
-    t.index ["soid"], name: "index_variant_types_on_soid"
+    t.index [ "display_name" ], name: "index_variant_types_on_display_name"
+    t.index [ "name" ], name: "index_variant_types_on_name"
+    t.index [ "soid" ], name: "index_variant_types_on_soid"
   end
 
   create_table "variant_types_variants", id: false, force: :cascade do |t|
@@ -973,7 +987,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.integer "variant_type_id", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.index ["variant_id", "variant_type_id"], name: "index_variant_types_variants_on_variant_id_and_variant_type_id"
+    t.index [ "variant_id", "variant_type_id" ], name: "index_variant_types_variants_on_variant_id_and_variant_type_id"
   end
 
   create_table "variants", id: :serial, force: :cascade do |t|
@@ -1003,35 +1017,35 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url"
+    t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
-    t.index ["chromosome"], name: "index_variants_on_chromosome"
-    t.index ["chromosome2"], name: "index_variants_on_chromosome2"
-    t.index ["deleted"], name: "index_variants_on_deleted"
-    t.index ["feature_id"], name: "index_variants_on_feature_id"
-    t.index ["gene_id"], name: "index_variants_on_gene_id"
-    t.index ["name"], name: "index_variants_on_name"
-    t.index ["reference_bases"], name: "index_variants_on_reference_bases"
-    t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
-    t.index ["single_variant_molecular_profile_id"], name: "index_variants_on_single_variant_molecular_profile_id"
-    t.index ["start"], name: "index_variants_on_start"
-    t.index ["start2"], name: "index_variants_on_start2"
-    t.index ["stop"], name: "index_variants_on_stop"
-    t.index ["stop2"], name: "index_variants_on_stop2"
-    t.index ["variant_bases"], name: "index_variants_on_variant_bases"
-    t.index ["vicc_compliant_name"], name: "index_variants_on_vicc_compliant_name"
+    t.index [ "chromosome" ], name: "index_variants_on_chromosome"
+    t.index [ "chromosome2" ], name: "index_variants_on_chromosome2"
+    t.index [ "deleted" ], name: "index_variants_on_deleted"
+    t.index [ "feature_id" ], name: "index_variants_on_feature_id"
+    t.index [ "gene_id" ], name: "index_variants_on_gene_id"
+    t.index [ "name" ], name: "index_variants_on_name"
+    t.index [ "reference_bases" ], name: "index_variants_on_reference_bases"
+    t.index [ "secondary_gene_id" ], name: "index_variants_on_secondary_gene_id"
+    t.index [ "single_variant_molecular_profile_id" ], name: "index_variants_on_single_variant_molecular_profile_id"
+    t.index [ "start" ], name: "index_variants_on_start"
+    t.index [ "start2" ], name: "index_variants_on_start2"
+    t.index [ "stop" ], name: "index_variants_on_stop"
+    t.index [ "stop2" ], name: "index_variants_on_stop2"
+    t.index [ "variant_bases" ], name: "index_variants_on_variant_bases"
+    t.index [ "vicc_compliant_name" ], name: "index_variants_on_vicc_compliant_name"
   end
 
   create_table "view_last_updated_timestamps", force: :cascade do |t|
     t.text "view_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["view_name"], name: "index_view_last_updated_timestamps_on_view_name"
+    t.index [ "view_name" ], name: "index_view_last_updated_timestamps_on_view_name"
   end
 
   add_foreign_key "acmg_codes_assertions", "acmg_codes"
@@ -1182,7 +1196,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false))
     GROUP BY outer_genes.id, outer_genes.name, outer_genes.entrez_id;
   SQL
-  add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
+  add_index "gene_browse_table_rows", [ "id" ], name: "index_gene_browse_table_rows_on_id", unique: true
 
   create_view "evidence_items_by_types", sql_definition: <<-SQL
       SELECT mp.id AS molecular_profile_id,
@@ -1237,7 +1251,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY variant_groups.id, variant_groups.name;
   SQL
-  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
+  add_index "variant_group_browse_table_rows", [ "id" ], name: "index_variant_group_browse_table_rows_on_id", unique: true
 
   create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT sources.id,
@@ -1260,7 +1274,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
        LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
     GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
   SQL
-  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+  add_index "source_browse_table_rows", [ "id" ], name: "index_source_browse_table_rows_on_id", unique: true
 
   create_view "molecular_profile_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_mps.id,
@@ -1302,7 +1316,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     WHERE (outer_mps.deprecated = false)
     GROUP BY outer_mps.id, outer_mps.name, outer_mps.evidence_score;
   SQL
-  add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
+  add_index "molecular_profile_browse_table_rows", [ "id" ], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
 
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
@@ -1355,7 +1369,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     WHERE ((((evidence_items.status)::text <> 'rejected'::text) OR (evidence_items.status IS NULL)) AND (outer_variants.deprecated = false))
     GROUP BY outer_variants.id, outer_variants.name, features.id, features.name;
   SQL
-  add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
+  add_index "variant_browse_table_rows", [ "id" ], name: "index_variant_browse_table_rows_on_id", unique: true
 
   create_view "organization_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT organizations.id,
@@ -1375,7 +1389,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
        LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
     GROUP BY organizations.id;
   SQL
-  add_index "organization_browse_table_rows", ["id"], name: "index_organization_browse_table_rows_on_id", unique: true
+  add_index "organization_browse_table_rows", [ "id" ], name: "index_organization_browse_table_rows_on_id", unique: true
 
   create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT users.id,
@@ -1407,7 +1421,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
        LEFT JOIN events ON ((events.originating_user_id = users.id)))
     GROUP BY users.id;
   SQL
-  add_index "user_browse_table_rows", ["id"], name: "index_user_browse_table_rows_on_id", unique: true
+  add_index "user_browse_table_rows", [ "id" ], name: "index_user_browse_table_rows_on_id", unique: true
 
   create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_features.id,
@@ -1457,7 +1471,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((evidence_items.status IS NULL) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false)))
     GROUP BY outer_features.id, outer_features.name;
   SQL
-  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
+  add_index "feature_browse_table_rows", [ "id" ], name: "index_feature_browse_table_rows_on_id", unique: true
 
   create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT diseases.id,
@@ -1484,7 +1498,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (diseases.deprecated = false))
     GROUP BY diseases.id, diseases.name, diseases.doid;
   SQL
-  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
+  add_index "disease_browse_table_rows", [ "id" ], name: "index_disease_browse_table_rows_on_id", unique: true
 
   create_view "therapy_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT therapies.id,
@@ -1506,6 +1520,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
    HAVING ((count(evidence_items.id) > 0) OR (count(assertions.id) > 0))
     ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
   SQL
-  add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
-
+  add_index "therapy_browse_table_rows", [ "id" ], name: "index_therapy_browse_table_rows_on_id", unique: true
 end

@@ -25,7 +25,7 @@ class Actions::SuggestRevision
     possible_existing_revisions = Revision.where(
       subject: revision_subject,
       field_name: field_name,
-      status: 'new'
+      status: "new"
     )
 
     existing_revisions = possible_existing_revisions.select do |rev|
@@ -51,7 +51,7 @@ class Actions::SuggestRevision
         suggested_value: suggested_value,
         subject: revision_subject,
         field_name: field_name,
-        status: 'new',
+        status: "new",
         revisionset_id: revisionset_id,
         revision_set_id: revision_set_id
       )
@@ -59,7 +59,7 @@ class Actions::SuggestRevision
 
   def create_event
       events << Event.new(
-        action: 'revision suggested',
+        action: "revision suggested",
         originating_user: originating_user,
         subject: event_subject,
         organization: resolve_organization(originating_user, organization_id),

@@ -17,7 +17,8 @@ export interface ButtonMutation {
 }
 @UntilDestroy()
 @Directive({
-  selector: 'button[cvcOrgSelectorBtn]',
+    selector: 'button[cvcOrgSelectorBtn]',
+    standalone: false
 })
 export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
   @Output()

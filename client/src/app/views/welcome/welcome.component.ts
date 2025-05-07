@@ -4,6 +4,8 @@ import { EventFeedMode, Maybe } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { CvcNewsItem } from './news-item-list/news-item-list.component'
+import { feedDefaultSettings } from '@app/components/activities/activity-feed/activity-feed.config'
+import { ActivityFeedSettings } from '@app/components/activities/activity-feed/activity-feed.types'
 
 interface GithubRelease {
   html_url: string
@@ -12,9 +14,10 @@ interface GithubRelease {
 }
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.less'],
+    selector: 'app-welcome',
+    templateUrl: './welcome.component.html',
+    styleUrls: ['./welcome.component.less'],
+    standalone: false
 })
 export class WelcomeComponent implements OnInit {
   release$?: Observable<GithubRelease>
@@ -88,6 +91,10 @@ export class WelcomeComponent implements OnInit {
       },
     },
   ]
+  feedSettings: ActivityFeedSettings = {
+    ...feedDefaultSettings,
+    showOrganization: false,
+  }
   constructor(private http: HttpClient) {}
 
   ngOnInit() {

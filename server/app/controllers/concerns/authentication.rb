@@ -3,30 +3,13 @@ module Authentication
 
   included do
     helper_method :current_user, :signed_in?, :signed_out?
-#    before_action :ensure_signed_in
+    before_action :authorize_token
   end
 
-  def ensure_signed_in
-    unless signed_in?
-      respond_to do |format|
-        format.json { head :unauthorized }
-        format.html { redirect_request }
-      end
+  def authorize_token
+    if user = authenticate_with_http_token { |token| ApiKey.find_by_token(token)&.bearer }
+      @current_user = user
     end
-  end
-
-  def ensure_admin_user
-    unless signed_in? && Role.user_is_at_least_a?(current_user, :admin)
-      respond_to do |format|
-        format.json { head :unauthorized }
-        format.html { redirect_request('You must be an admin to access this resource!') }
-      end
-    end
-  end
-
-  def redirect_request(flash_message = 'You must be signed in to access this resource!')
-    flash[:notice] = flash_message
-    redirect_to root_url
   end
 
   def current_user

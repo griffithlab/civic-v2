@@ -155,6 +155,8 @@
           <td nzLeft>
             <cvc-variant-tag
               [variant]="variant"
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"
               [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td nzLeft>
@@ -171,8 +173,9 @@
                 name: variant.featureName,
                 link: variant.featureLink,
                 deprecated: variant.featureDeprecated,
-                flagged: variant.featureFlagged
+                flagged: variant.featureFlagged,
               }"
+              [enablePopover]="!isScrolling"
               [truncateLongName]="true"></cvc-feature-tag>
           </td>
           <td>
@@ -186,6 +189,7 @@
               tagType="variant-type"
               [tags]="variant.variantTypes"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [matchingText]="variantTypeNameInput">
             </cvc-tag-overflow>
           </td>
@@ -194,6 +198,7 @@
               tagType="disease"
               [tags]="variant.diseases"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [matchingText]="diseaseNameInput">
             </cvc-tag-overflow>
           </td>
@@ -202,6 +207,7 @@
               tagType="therapy"
               [tags]="variant.therapies"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [matchingText]="therapyNameInput">
             </cvc-tag-overflow>
           </td>
@@ -212,11 +218,11 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

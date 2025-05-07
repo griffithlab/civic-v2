@@ -23,31 +23,31 @@ module Importer
 
     private
     def valid_entry?(entry)
-      if entry['is_obsolete'].present?
+      if entry["is_obsolete"].present?
         obsolete_terms.append(entry)
         return false
       else
-        ['id', 'name'].all? { |term| entry[term].present? }
+        [ "id", "name" ].all? { |term| entry[term].present? }
       end
     end
 
     def store_parent(elem)
       @parents ||= {}
-      if elem['is_a'].present?
-        @parents[elem['id']] = Array(elem['is_a']).first
+      if elem["is_a"].present?
+        @parents[elem["id"]] = Array(elem["is_a"]).first
       end
     end
 
     def create_object_from_entry(entry)
-      variant_type = VariantType.where(soid: entry['id']).first_or_initialize
-      variant_type.display_name =  process_name(entry['name'])
-      variant_type.name =  entry['name']
-      variant_type.description =  process_description(entry['def'])
+      variant_type = VariantType.where(soid: entry["id"]).first_or_initialize
+      variant_type.display_name =  process_name(entry["name"])
+      variant_type.name =  entry["name"]
+      variant_type.description =  process_description(entry["def"])
       variant_type.save
     end
 
     def process_name(name)
-      capitalized = name.split('_').map { |word| word.capitalize }.join(' ')
+      capitalized = name.split("_").map { |word| word.capitalize }.join(" ")
       if match_data = capitalized.match(/\butr\b/i)
         match_data.pre_match + match_data.to_s.upcase + match_data.post_match
       else
@@ -59,7 +59,7 @@ module Importer
       if desc && match_data = desc.match(/^"(?<desc>.+)" \[/)
         match_data[:desc]
       else
-        ''
+        ""
       end
     end
 
@@ -76,7 +76,7 @@ module Importer
 
     def process_obsolete_terms
       obsolete_terms.each do |term|
-        obsolete_type = VariantType.find_by(soid: term['id'])
+        obsolete_type = VariantType.find_by(soid: term["id"])
         unless obsolete_type.nil?
           if obsolete_type.variants.count == 0
             obsolete_type.destroy
@@ -84,14 +84,14 @@ module Importer
             civicbot_user = User.find(385)
             title = "Obsolete SO Term"
             text = "This variant uses an obsolete Sequence Ontology term #{obsolete_type.display_name} (#{obsolete_type.soid})."
-            if term['consider'].present?
+            if term["consider"].present?
               text += " Consider #{term['consider']}."
             end
-            if term['replaced_by'].present?
+            if term["replaced_by"].present?
               text += " Replaced by #{term['replaced_by']}."
             end
             obsolete_type.variants.each do |variant|
-              if variant.flags.select{|f| f.state == 'open' && f.open_activity.note =~ /obsolete Sequence Ontology term/ && f.open_activity.user_id == 385}.count == 0
+              if variant.flags.select { |f| f.state == "open" && f.open_activity.note =~ /obsolete Sequence Ontology term/ && f.open_activity.user_id == 385 }.count == 0
                 Activities::FlagEntity.new(
                   flagging_user: civicbot_user,
                   flaggable: variant,

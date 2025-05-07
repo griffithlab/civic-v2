@@ -4,6 +4,6 @@ class DeprecateComplexMolecularProfileActivity < Activity
   end
 
   def generate_verbiage
-    'deprecated complex molecular profile'
+    "deprecated"
   end
 end

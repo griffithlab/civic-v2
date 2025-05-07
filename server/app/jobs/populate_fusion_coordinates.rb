@@ -4,11 +4,20 @@ class PopulateFusionCoordinates < ApplicationJob
       return
     end
 
-    if variant.fusion.five_prime_partner_status == 'known'
+    if variant.fusion.five_prime_partner_status == "known"
+      if variant.five_prime_end_exon_coordinates.representative_transcript.blank?
+        return
+      end
+
       populate_coords(variant.five_prime_end_exon_coordinates, variant.five_prime_start_exon_coordinates)
       populate_representative_coordinates(variant.five_prime_coordinates, variant.five_prime_start_exon_coordinates, variant.five_prime_end_exon_coordinates)
     end
-    if variant.fusion.three_prime_partner_status == 'known'
+
+    if variant.fusion.three_prime_partner_status == "known"
+      if variant.three_prime_start_exon_coordinates.representative_transcript.blank?
+        return
+      end
+
       populate_coords(variant.three_prime_start_exon_coordinates, variant.three_prime_end_exon_coordinates)
       populate_representative_coordinates(variant.three_prime_coordinates, variant.three_prime_start_exon_coordinates, variant.three_prime_end_exon_coordinates)
     end
@@ -18,16 +27,23 @@ class PopulateFusionCoordinates < ApplicationJob
   end
 
   def populate_coords(coords, secondary_coordinates)
+    # For representative fusions, these fields are empty when the representative exons coords are first curated/revisions accepted
+    # For all fusions, these require updating when a revision on the primary set of coords edits these fields
+    secondary_coordinates.representative_transcript = coords.representative_transcript
+    secondary_coordinates.reference_build = coords.reference_build
+    secondary_coordinates.ensembl_version = coords.ensembl_version
+    secondary_coordinates.save!
+
     if coords.present? && coords.representative_transcript.present?
       (exon, highest_exon) = get_exon_for_transcript(coords.representative_transcript, coords.exon)
-      populate_exon_coordinates(coords, exon)
+      populate_exon_coordinates(coords, exon, coords.exon)
 
       if coords.coordinate_type =~ /Five Prime/
         (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, 1)
-        populate_exon_coordinates(secondary_coordinates, secondary_exon)
+        populate_exon_coordinates(secondary_coordinates, secondary_exon, 1)
       else
         (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, highest_exon)
-        populate_exon_coordinates(secondary_coordinates, secondary_exon)
+        populate_exon_coordinates(secondary_coordinates, secondary_exon, highest_exon)
       end
     end
   end
@@ -42,8 +58,8 @@ class PopulateFusionCoordinates < ApplicationJob
     end
 
     exons = res.value
-    t = transcript.split('.').first
-    exon = exons.select { |e| e['rank'] == exon_number && e['Parent'] == t }
+    t = transcript.split(".").first
+    exon = exons.select { |e| e["rank"] == exon_number && e["Parent"] == t }
 
     if exon.size > 1
       raise StandardError.new("Ambiguous Exon")
@@ -51,29 +67,31 @@ class PopulateFusionCoordinates < ApplicationJob
       raise StandardError.new("No Exons Found")
     end
 
-    max_exon_on_transcript = exons.select { |e| e['Parent'] == t }
-      .max_by { |e| e['rank'] }
-      .fetch('rank')
+    max_exon_on_transcript = exons.select { |e| e["Parent"] == t }
+      .max_by { |e| e["rank"] }
+      .fetch("rank")
 
-    [exon.first, max_exon_on_transcript]
+    [ exon.first, max_exon_on_transcript ]
   end
 
-  def populate_exon_coordinates(coordinates, exon)
-    strand = if exon['strand'] == -1
-               'negative'
-             else
-               'positive'
-             end
+  def populate_exon_coordinates(coordinates, exon, exon_number)
+    coordinates.exon = exon_number
 
-    coordinates.chromosome = exon['seq_region_name']
-    coordinates.start = exon['start']
-    coordinates.stop = exon['end']
+    strand = if exon["strand"] == -1
+               "negative"
+    else
+               "positive"
+    end
+
+    coordinates.chromosome = exon["seq_region_name"]
+    coordinates.start = exon["start"]
+    coordinates.stop = exon["end"]
     coordinates.strand = strand
-    coordinates.ensembl_id = exon['id']
-    coordinates.record_state = 'fully_curated'
+    coordinates.ensembl_id = exon["id"]
+    coordinates.record_state = "fully_curated"
     coordinates.save!
 
-    #strand
+    # strand
   end
 
   def populate_representative_coordinates(coordinate, start_exon_coordinates, end_exon_coordinates)
@@ -82,21 +100,21 @@ class PopulateFusionCoordinates < ApplicationJob
     coordinate.ensembl_version = start_exon_coordinates.ensembl_version
     coordinate.reference_build = start_exon_coordinates.reference_build
 
-    if start_exon_coordinates.strand == 'positive'
+    if start_exon_coordinates.strand == "positive"
       coordinate.start = calculate_offset(start_exon_coordinates.start, start_exon_coordinates)
       coordinate.stop = calculate_offset(end_exon_coordinates.stop, end_exon_coordinates)
     else
       coordinate.start = calculate_offset(end_exon_coordinates.start, end_exon_coordinates)
       coordinate.stop = calculate_offset(start_exon_coordinates.stop, start_exon_coordinates)
     end
-    coordinate.record_state = 'fully_curated'
+    coordinate.record_state = "fully_curated"
     coordinate.save!
   end
 
   def calculate_offset(pos, coords)
     if coords.exon_offset.blank?
       pos
-    elsif coords.exon_offset_direction == 'positive'
+    elsif coords.exon_offset_direction == "positive"
       pos + coords.exon_offset
     else
       pos - coords.exon_offset
@@ -105,7 +123,7 @@ class PopulateFusionCoordinates < ApplicationJob
 
   def flag_variant(variant, error_message)
     existing_flag = variant.flags.includes(:open_activity)
-      .where(state: 'open')
+      .where(state: "open")
       .select { |f| f.open_activity.note == error_message && f.open_activity.user_id == Constants::CIVICBOT_USER_ID }
       .any?
 
@@ -121,4 +139,3 @@ class PopulateFusionCoordinates < ApplicationJob
     end
   end
 end
-

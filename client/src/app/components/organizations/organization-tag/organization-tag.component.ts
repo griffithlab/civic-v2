@@ -1,5 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  QueryList,
+  ViewChildren,
+} from '@angular/core'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface TagLinkableOrganization {
   id: number
@@ -10,19 +17,28 @@ export interface TagLinkableOrganization {
   selector: 'cvc-organization-tag',
   templateUrl: './organization-tag.component.html',
   styleUrls: ['./organization-tag.component.less'],
+  standalone: false,
 })
-export class CvcOrganizationTagComponent implements OnInit {
+export class CvcOrganizationTagComponent implements AfterViewInit {
   @Input() org!: TagLinkableOrganization
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
+
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
 
   constructor() {}
 
-  ngOnInit() {
-    if (this.org === undefined) {
-      throw new Error(
-        'cvc-org-tag requires valid TagLinkableOrganization input, none provided.'
-      )
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
     }
   }
 }

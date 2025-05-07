@@ -39,9 +39,7 @@ fragment assertionSubmissionActivity on Assertion {
       ...parsedCommentFragment
     }
     user {
-      id
-      displayName
-      profileImagePath(size: 32)
+      ...commenterFields
     }
   }
 }

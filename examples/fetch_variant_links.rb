@@ -1,4 +1,5 @@
 require 'httparty'
+require 'json'
 
 def call_graphql_api(url:, query:, vars:)
   headers = {

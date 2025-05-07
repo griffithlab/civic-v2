@@ -3,9 +3,10 @@ import { VariantMolecularProfileCardFieldsFragment } from '@app/generated/civic.
 import { LinkableMolecularProfile } from '../molecular-profile-tag/molecular-profile-tag.component'
 
 @Component({
-  selector: 'cvc-mp-gene-variant-card',
-  templateUrl: './molecular-profile-gene-variant-card.component.html',
-  styleUrls: ['./molecular-profile-gene-variant-card.component.less'],
+    selector: 'cvc-mp-gene-variant-card',
+    templateUrl: './molecular-profile-gene-variant-card.component.html',
+    styleUrls: ['./molecular-profile-gene-variant-card.component.less'],
+    standalone: false
 })
 export class CvcMolecularProfileGeneVariantCardComponent implements OnInit {
   @Input() variant!: VariantMolecularProfileCardFieldsFragment

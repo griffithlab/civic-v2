@@ -1,5 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import {
+  Component,
+  Input,
+  AfterViewInit,
+  QueryList,
+  ViewChildren,
+  ChangeDetectionStrategy,
+} from '@angular/core'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableClinicalTrial {
   id: number
@@ -11,24 +20,39 @@ export interface LinkableClinicalTrial {
   selector: 'cvc-clinical-trial-tag',
   templateUrl: './clinical-trial-tag.component.html',
   styleUrls: ['./clinical-trial-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcClinicalTrialTagComponent {
+export class CvcClinicalTrialTagComponent implements AfterViewInit {
   _clinicalTrial!: LinkableClinicalTrial
 
   @Input()
   set clinicalTrial(trial: LinkableClinicalTrial) {
-    if (!trial) {
-      throw new Error(
-        'clinical-trial-tag clinicalTrial Input requires LinkableClinicalTrial.'
-      )
-    }
     this._clinicalTrial = trial
   }
   get clinicalTrial(): LinkableClinicalTrial {
     return this._clinicalTrial
   }
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
 
-  constructor() {}
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
+  iconColor: string
+  constructor() {
+    this.iconColor = getEntityColor('Clinical Trial')
+  }
+
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    }
+  }
 }

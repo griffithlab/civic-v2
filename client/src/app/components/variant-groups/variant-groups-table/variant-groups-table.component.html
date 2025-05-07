@@ -117,7 +117,10 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-variant-group-tag [variantgroup]="vg"></cvc-variant-group-tag>
+            <cvc-variant-group-tag
+              [variantgroup]="vg"
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-variant-group-tag>
           </td>
           <td
             class="overflow-ellipsis"
@@ -153,11 +156,11 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

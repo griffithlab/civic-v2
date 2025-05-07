@@ -3,7 +3,7 @@ class Actions::UpdateSourceSuggestionStatus
 
   attr_reader :source_suggestion, :updating_user, :organization_id, :new_status, :old_status, :reason
 
-  def initialize(source_suggestion: , updating_user: , organization_id: nil, new_status:, reason: )
+  def initialize(source_suggestion:, updating_user:, organization_id: nil, new_status:, reason:)
     @source_suggestion = source_suggestion
     @updating_user = updating_user
     @organization_id = organization_id
@@ -37,12 +37,12 @@ class Actions::UpdateSourceSuggestionStatus
 
   def transition_valid?
     valid_new_statuses = case old_status
-    when 'new'
-      ['curated', 'rejected']
-    when 'curated'
-      ['new']
-    when 'rejected'
-      ['new']
+    when "new"
+      [ "curated", "rejected" ]
+    when "curated"
+      [ "new" ]
+    when "rejected"
+      [ "new" ]
     end
 
     return valid_new_statuses.include? new_status
@@ -50,12 +50,12 @@ class Actions::UpdateSourceSuggestionStatus
 
   def action
     return case new_status
-    when 'new'
-      'requeued source suggestion'
-    when 'curated'
-      'curated source suggestion'
-    when 'rejected'
-      'rejected source suggestion'
-    end
+           when "new"
+      "requeued source suggestion"
+           when "curated"
+      "curated source suggestion"
+           when "rejected"
+      "rejected source suggestion"
+           end
   end
 end

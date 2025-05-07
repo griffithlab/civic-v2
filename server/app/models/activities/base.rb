@@ -12,6 +12,7 @@ module Activities
     end
 
     def execute
+      setup
       create_activity
       call_actions
       after_actions
@@ -29,8 +30,12 @@ module Activities
       raise NotImplementedError.new("Activity must implement call_actions")
     end
 
+    def setup
+      # no op
+    end
+
     def after_actions
-      #no op
+      # no op
     end
 
     def linked_entities
@@ -49,7 +54,7 @@ module Activities
     end
 
     def after_completed
-      #no op
+      # no op
     end
 
     def update_timestamps

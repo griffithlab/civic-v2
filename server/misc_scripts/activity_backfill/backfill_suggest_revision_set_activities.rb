@@ -1,7 +1,7 @@
 RevisionSet.find_each do |revision_set|
   revisions = revision_set.revisions
 
-  event = revisions.map{|r| r.creation_event}.compact.first
+  event = revisions.map { |r| r.creation_event }.compact.first
 
   if event
     activity = SuggestRevisionSetActivity.where(
@@ -57,7 +57,7 @@ RevisionSet.find_each do |revision_set|
       end
     end
 
-    activity.link_entities!([revisions, revision_set].flatten)
+    activity.link_entities!([ revisions, revision_set ].flatten)
 
     activity.verbiage = activity.generate_verbiage
     activity.save!

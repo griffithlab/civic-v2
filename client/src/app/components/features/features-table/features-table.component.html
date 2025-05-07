@@ -192,7 +192,10 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-feature-tag [feature]="feature!"></cvc-feature-tag>
+            <cvc-feature-tag
+              [feature]="feature!"
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-feature-tag>
           </td>
           <td>
             <span
@@ -219,6 +222,7 @@
             <cvc-tag-overflow
               tagType="disease"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [tags]="feature.diseases"
               [matchingText]="diseaseInput">
             </cvc-tag-overflow>
@@ -227,6 +231,7 @@
             <cvc-tag-overflow
               tagType="therapy"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [tags]="feature.therapies"
               [matchingText]="therapyInput">
             </cvc-tag-overflow>
@@ -259,11 +264,11 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate!"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
   <span class="table-info">
     <cvc-table-counts

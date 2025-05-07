@@ -1,5 +1,5 @@
 module GoogleAnalyticsTracer
-  def analyze_query(query: )
+  def analyze_query(query:)
     query_type = query.selected_operation.selections&.first&.name
 
     SubmitApiAnalytics.perform_later(

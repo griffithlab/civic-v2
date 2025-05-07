@@ -7,8 +7,9 @@ export type EnumOutputStyle = 'display-string' | 'icon-name'
 export type InputEnum = EvidenceLevel
 
 @Pipe({
-  name: 'evidenceLevelDisplay',
-  pure: true,
+    name: 'evidenceLevelDisplay',
+    pure: true,
+    standalone: false
 })
 export class EvidenceLevelDisplayPipe implements PipeTransform {
   transform(

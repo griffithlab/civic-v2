@@ -1,29 +1,39 @@
-require 'search_object/plugin/graphql'
+require "search_object/plugin/graphql"
 
 class Resolvers::TopLevelFusions < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
   type Types::Entities::FusionType.connection_type, null: false
 
-  description 'List and filter fusions.'
+  description "List and filter fusions."
 
   @@cols = Features::Fusion.column_names.map { |col| "fusions.#{col}" }.join(",")
 
   scope do
-    Features::Fusion.joins(feature: { variants: [:molecular_profiles ]})
+    Features::Fusion.joins(feature: { variants: [ :molecular_profiles ] })
       .where("variants.deprecated = 'f'")
+      .order("features.name ASC")
+      .select("fusions.*, features.name")
       .distinct
   end
 
-  option(:gene_partner_id, type: Int, description: 'CIViC ID of one of the Gene partners') do |scope, value|
-    scope.where('fusions.five_prime_gene_id = ? OR fusions.three_prime_gene_id = ?', value, value)
+  option(:evidence_status_filter, default_value: "WITH_ACCEPTED_OR_SUBMITTED", type: Types::AssociatedEvidenceStatusFilterType, description: "Limit fusions by the status of attached evidence.") do |scope, value|
+    case value
+    when "WITH_ACCEPTED"
+      scope.joins(feature: { variants: { molecular_profiles: [ :evidence_items_by_status ] } })
+        .where("evidence_items_by_statuses.accepted_count >= 1")
+    when "WITH_ACCEPTED_OR_SUBMITTED"
+      scope.joins(feature: { variants: { molecular_profiles: [ :evidence_items_by_status ] } })
+        .where("evidence_items_by_statuses.accepted_count >= 1 OR evidence_items_by_statuses.submitted_count >= 1")
+    when "WITH_SUBMITTED"
+      scope.joins(feature: { variants: { molecular_profiles: [ :evidence_items_by_status ] } })
+        .where("evidence_items_by_statuses.submitted_count >= 1")
+    when "ALL"
+      scope
+    end
   end
 
-  option(:entrez_symbols, type: [GraphQL::Types::String], description: 'List of Entrez Gene symbols to return results for') do |scope, value|
-    scope.where('genes.name IN (?)', value.map(&:upcase))
-  end
-
-  option(:entrez_ids, type: [GraphQL::Types::Int], description: 'List of Entrez Gene IDs to return results for') do |scope, value|
-    scope.where('genes.entrez_id IN (?)', value)
+  option(:gene_partner_id, type: Int, description: "CIViC ID of one of the Gene partners") do |scope, value|
+    scope.where("fusions.five_prime_gene_id = ? OR fusions.three_prime_gene_id = ?", value, value)
   end
 end

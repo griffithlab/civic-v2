@@ -7,7 +7,7 @@ import {
   MolecularProfileConnection,
   MolecularProfileMenuQueryVariables,
   MolecularProfileMenuGQL,
-  MolecularProfileDisplayFilter,
+  AssociatedEvidenceStatusFilter,
 } from '@app/generated/civic.apollo'
 import { map, debounceTime, filter, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs'
@@ -18,9 +18,10 @@ import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-molecular-profile-menu',
-  templateUrl: './molecular-profiles-menu.component.html',
-  styleUrls: ['./molecular-profiles-menu.component.less'],
+    selector: 'cvc-molecular-profile-menu',
+    templateUrl: './molecular-profiles-menu.component.html',
+    styleUrls: ['./molecular-profiles-menu.component.less'],
+    standalone: false
 })
 export class CvcMolecularProfilesMenuComponent implements OnInit {
   @Input() featureId?: number
@@ -32,8 +33,8 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
   loading$?: Observable<boolean>;
 
   mpNameFilter: Maybe<string>
-  statusFilter: MolecularProfileDisplayFilter =
-    MolecularProfileDisplayFilter.All
+  statusFilter: AssociatedEvidenceStatusFilter =
+    AssociatedEvidenceStatusFilter.All
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<MolecularProfileMenuQuery>>
@@ -91,7 +92,7 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
     this.debouncedQuery.next()
   }
 
-  onMolecularProfileStatusFilterChanged(filter: MolecularProfileDisplayFilter) {
+  onMolecularProfileStatusFilterChanged(filter: AssociatedEvidenceStatusFilter) {
     this.queryRef$.refetch({
       first: this.pageSize,
       evidenceStatusFilter: filter

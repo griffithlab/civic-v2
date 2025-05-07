@@ -4,20 +4,24 @@ import {
   CommentableEntities,
   CommentableInput,
   AssertionSubmissionActivityFragmentDoc,
+  CommentListNodeFragment,
 } from '@app/generated/civic.apollo'
 import { Apollo } from 'apollo-angular'
-import { CommentInterface } from '../../../../components/comments/comment-display/comment-display.component'
 
 @Component({
-  selector: 'cvc-assertions-comments',
-  templateUrl: './assertions-comments.page.html',
-  styleUrls: ['./assertions-comments.page.less'],
+    selector: 'cvc-assertions-comments',
+    templateUrl: './assertions-comments.page.html',
+    styleUrls: ['./assertions-comments.page.less'],
+    standalone: false
 })
 export class AssertionsCommentsPage implements OnInit {
   commentable: CommentableInput
-  submissionComment?: CommentInterface
+  submissionComment?: CommentListNodeFragment
 
-  constructor(private route: ActivatedRoute, private apollo: Apollo) {
+  constructor(
+    private route: ActivatedRoute,
+    private apollo: Apollo
+  ) {
     const assertionId: number = +this.route.snapshot.params['assertionId']
     this.commentable = {
       id: assertionId,
@@ -29,16 +33,20 @@ export class AssertionsCommentsPage implements OnInit {
     const fragment = {
       id: `Assertion:${this.commentable.id}`,
       fragment: AssertionSubmissionActivityFragmentDoc,
-      fragmentName: 'assertionSubmissionActivity'
+      fragmentName: 'assertionSubmissionActivity',
     }
     try {
-      const entity = this.apollo.client.readFragment(fragment) as any;
+      const entity = this.apollo.client.readFragment(fragment) as any
       this.submissionComment = {
+        id: 99999,
+        __typename: 'Comment',
+        comment: '',
+        deleted: false,
         createdAt: entity.submissionActivity.createdAt,
         parsedComment: entity.submissionActivity.parsedNote,
-        commenter: entity.submissionActivity.user
+        commenter: entity.submissionActivity.user,
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }

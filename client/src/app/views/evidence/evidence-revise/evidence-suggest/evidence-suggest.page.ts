@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-evidence-suggest',
-  templateUrl: './evidence-suggest.page.html',
+    selector: 'cvc-evidence-suggest',
+    templateUrl: './evidence-suggest.page.html',
+    standalone: false
 })
 export class EvidenceSuggestPage implements OnDestroy {
   evidenceId?: number

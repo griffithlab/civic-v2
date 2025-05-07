@@ -8,6 +8,13 @@ module Activities
     end
 
     private
+    def setup
+      if !assertion.valid?
+        msg = assertion.errors.map(&:full_message).join(", ")
+        raise StandardError.new(msg)
+      end
+    end
+
     def create_activity
       @activity = SubmitAssertionActivity.create!(
         subject: assertion,
@@ -25,7 +32,7 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
     end

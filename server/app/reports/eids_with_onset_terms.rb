@@ -11,14 +11,14 @@ class EidsWithOnsetTerms < Report
 
   def setup
     @onset_terms = Phenotype.where(hpo_class: [
-      'Young adult onset',
-      'Intermediate young adult onset',
-      'Late young adult onset',
-      'Childhood onset',
-      'Juvenile onset',
-      'Pediatric onset',
-      'Congenital onset',
-      'Infantile onset'
+      "Young adult onset",
+      "Intermediate young adult onset",
+      "Late young adult onset",
+      "Childhood onset",
+      "Juvenile onset",
+      "Pediatric onset",
+      "Congenital onset",
+      "Infantile onset",
     ])
   end
 
@@ -26,15 +26,24 @@ class EidsWithOnsetTerms < Report
     [
       "EID",
       "Link",
+      "Molecular Profile",
+      "MP Link",
       "HPO Term",
-      "HPO ID"
+      "HPO ID",
     ]
   end
 
   def execute
     onset_terms.each do |term|
-      term.evidence_items.each do |eid|
-        data << ["EID#{eid.id}", "https://civicdb.org/#{eid.link}", term.hpo_class, term.hpo_id]
+      term.evidence_items.eager_load(:molecular_profile).each do |eid|
+        data << [
+          "EID#{eid.id}",
+          "https://civicdb.org#{eid.link}",
+          eid.molecular_profile.display_name,
+          "https://civicdb.org#{eid.molecular_profile.link}",
+          term.hpo_class,
+          term.hpo_id,
+        ]
       end
     end
   end

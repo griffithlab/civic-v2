@@ -17,9 +17,10 @@ import { Observable } from 'rxjs'
 import { AssertionState } from '@app/forms/states/assertion.state'
 
 @Component({
-  selector: 'cvc-assertion-summary',
-  templateUrl: './assertions-summary.page.html',
-  styleUrls: ['./assertions-summary.page.less'],
+    selector: 'cvc-assertion-summary',
+    templateUrl: './assertions-summary.page.html',
+    styleUrls: ['./assertions-summary.page.less'],
+    standalone: false
 })
 export class AssertionsSummaryPage {
   @Input() assertionId: Maybe<number>

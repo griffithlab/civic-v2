@@ -25,9 +25,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-complex-molecular-profile-deprecate-form',
-  templateUrl: './complex-molecular-profile-deprecate.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-complex-molecular-profile-deprecate-form',
+    templateUrl: './complex-molecular-profile-deprecate.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
   @Input() molecularProfileId!: number

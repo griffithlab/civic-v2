@@ -17,9 +17,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'variants-detail',
-  templateUrl: './variants-detail.view.html',
-  styleUrls: ['./variants-detail.view.less'],
+    selector: 'variants-detail',
+    templateUrl: './variants-detail.view.html',
+    styleUrls: ['./variants-detail.view.less'],
+    standalone: false
 })
 export class VariantsDetailView implements OnDestroy {
   queryRef?: QueryRef<VariantDetailQuery, VariantDetailQueryVariables>
@@ -58,7 +59,7 @@ export class VariantsDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 

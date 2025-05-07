@@ -40,10 +40,11 @@ function populateMatchText(input: Maybe<TagInfo[]>): Maybe<TagInfo[]> {
 }
 
 @Component({
-  selector: 'cvc-tag-overflow',
-  templateUrl: './tag-overflow.component.html',
-  styleUrls: ['./tag-overflow.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-tag-overflow',
+    templateUrl: './tag-overflow.component.html',
+    styleUrls: ['./tag-overflow.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcTagOverflowComponent implements OnChanges {
   @Input({ transform: populateMatchText }) tags: Maybe<TagInfo[]>
@@ -51,6 +52,7 @@ export class CvcTagOverflowComponent implements OnChanges {
   @Input() matchingText?: string
   @Input() tagType: Maybe<SupportedPileupTags>
   @Input() thisOne = false
+  @Input() enablePopover?: boolean = true
 
   displayedTags?: TagInfo[]
   hiddenTags?: TagInfo[]

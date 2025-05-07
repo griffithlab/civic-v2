@@ -6,6 +6,6 @@ class DeprecateVariantActivity < Activity
   end
 
   def generate_verbiage
-    'deprecated variant'
+    "deprecated"
   end
 end

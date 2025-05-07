@@ -1,4 +1,4 @@
-#run after backfill variant coords
+# run after backfill variant coords
 require 'net/http'
 require 'json'
 require 'uri'
@@ -10,15 +10,15 @@ def create_exon_coords(variant, relation_name, coordinate_type, exon)
 
   strand = if exon['strand'] == -1
              'negative'
-           else
+  else
              'positive'
-           end
+  end
 
   transcript_name = if coordinate_type =~ /Five Prime/
                       :representative_transcript
-                    else
+  else
                       :representative_transcript2
-                    end
+  end
 
   coord = ExonCoordinate.where(
     chromosome: exon['seq_region_name'],
@@ -32,7 +32,7 @@ def create_exon_coords(variant, relation_name, coordinate_type, exon)
     reference_build: variant.reference_build,
     coordinate_type: coordinate_type,
     variant_id: variant.id
-    #TODO set curation status
+    # TODO set curation status
   ).first_or_create!
 
   rel = "#{relation_name}="
@@ -42,26 +42,26 @@ rescue => e
 end
 
 fusion_variants = VariantType.where(name: 'transcript_fusion').first.variants.where(deprecated: false).all
-missense_variants = VariantType.where(name: ['missense_variant', 'deletion', 'insertion', 'transcript_regulatory_region_fusion']).flat_map do |vt|
+missense_variants = VariantType.where(name: [ 'missense_variant', 'deletion', 'insertion', 'transcript_regulatory_region_fusion' ]).flat_map do |vt|
   vt.variants.where(deprecated: false).all
 end
 
 fusions = fusion_variants - missense_variants
-#fusions = Array(Variant.find(503))
+# fusions = Array(Variant.find(503))
 suspected_mps = fusion_variants.to_a.intersection(missense_variants)
 
 suspected_mps_report = File.open("fusions_that_are_mps.tsv", 'w')
 suspected_mps_report.puts [
   "id",
   "current_name",
-  "link"
+  "link",
 ].join("\t")
 
 suspected_mps.each do |f|
   suspected_mps_report.puts [
     f.id,
     f.name,
-    "https://civicdb.org#{f.link}"
+    "https://civicdb.org#{f.link}",
   ].join("\t")
 end
 
@@ -71,7 +71,7 @@ matched_coordinates_report.puts [
   "current_name",
   "link",
   "five_prime_end_exon",
-  "three_prime_start_exon"
+  "three_prime_start_exon",
 ].join("\t")
 
 puts("Fusion count: #{fusions.size}")
@@ -84,7 +84,7 @@ header = [
   "current_name",
   "link",
   "error",
-  "warning"
+  "warning",
 ]
 
 unmatched_coordinates_report.puts header.join("\t")
@@ -110,35 +110,35 @@ def get_exons_for_ensembl_id(ensembl_id, variant, warning = nil)
       t = ensembl_id.split('.').first
       (data, err, warning) = get_exons_for_ensembl_id(t, variant, "Transcript ID Version not found in GRCh37: #{ensembl_id}")
       if err
-        return [nil, err, warning]
+        return [ nil, err, warning ]
       end
     elsif error_message == "ID '#{ensembl_id}' not found"
-      return [nil, "Transcript doesn't exist in GRCh37 at any version: #{ensembl_id}", warning]
+      return [ nil, "Transcript doesn't exist in GRCh37 at any version: #{ensembl_id}", warning ]
     else
       binding.irb
-      return [nil, nil, warning]
+      return [ nil, nil, warning ]
     end
   end
-  [data.sort_by { |exon| exon['start'] }, nil, warning]
+  [ data.sort_by { |exon| exon['start'] }, nil, warning ]
 end
 
-#returns [val, err, warning]
+# returns [val, err, warning]
 def get_fusion_exon(transcript, position, position_type, variant)
   (exons, err, warning) = get_exons_for_ensembl_id(transcript, variant)
 
   if exons.nil?
-    return [nil, err, warning]
+    return [ nil, err, warning ]
   end
   t = transcript.split('.').first
-  e = exons.select{ |e| e['Parent'] == t && e[position_type] == position }
+  e = exons.select { |e| e['Parent'] == t && e[position_type] == position }
 
   if e.size > 1
-    return [nil, "More than one exon match found", warning]
+    return [ nil, "More than one exon match found", warning ]
   elsif e.size == 0
-    return [nil, "No exon matches found.", warning]
+    return [ nil, "No exon matches found.", warning ]
   end
 
-  [e.first, nil, warning]
+  [ e.first, nil, warning ]
 end
 
 def port_variant_to_fusion(variant)
@@ -154,7 +154,7 @@ def port_variant_to_fusion(variant)
     five_prime_partner_status = 'known'
     five_prime_gene_id = Features::Gene.find_by(name: five_prime_gene_name)&.id
     if five_prime_gene_id.nil?
-      return [nil, nil]
+      return [ nil, nil ]
     end
   end
   if three_prime_gene_name == 'v'
@@ -167,7 +167,7 @@ def port_variant_to_fusion(variant)
     three_prime_partner_status = 'known'
     three_prime_gene_id = Features::Gene.find_by(name: three_prime_gene_name)&.id
     if three_prime_gene_id.nil?
-      return [nil, nil]
+      return [ nil, nil ]
     end
   end
 
@@ -190,7 +190,7 @@ def port_variant_to_fusion(variant)
     else
       originating_user = variant_creation_activity.user
       organization_id = variant_creation_activity.organization_id
-      #TODO - handle users with multiple orgs and variant_creation_activity org id being nil
+      # TODO - handle users with multiple orgs and variant_creation_activity org id being nil
     end
     cmd = Activities::CreateFusionFeature.new(
       five_prime_gene_id: five_prime_gene_id,
@@ -205,7 +205,7 @@ def port_variant_to_fusion(variant)
 
     if res.succeeded?
         feature = res.feature
-        #not sure if this is necessary - this would put the creation date at the time of the variant creation
+        # not sure if this is necessary - this would put the creation date at the time of the variant creation
         if variant_creation_activity.present?
           a = feature.creation_activity
           a.created_at = variant_creation_activity.created_at
@@ -228,15 +228,15 @@ def port_variant_to_fusion(variant)
     regex = Regexp.new(/^e(?<five_prime_exon>\d+)-e(?<three_prime_exon>\d+)$/)
     if match = possible_exons.match(regex)
       variant.name = "e.#{match[:five_prime_exon]}-e.#{match[:three_prime_exon]}"
-      #TODO - create matching exon and variant coordinate entries
+      # TODO - create matching exon and variant coordinate entries
     else
-      #TODO - create a file to investigate what these should be named
+      # TODO - create a file to investigate what these should be named
       variant.name = possible_exons
     end
   end
   variant.save(validate: false)
 
-  [five_prime_partner_status, three_prime_partner_status]
+  [ five_prime_partner_status, three_prime_partner_status ]
 end
 
 def update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
@@ -256,7 +256,7 @@ def update_variant_coordinates(variant, five_prime_partner_status, three_prime_p
         stop: variant.stop2,
         representative_transcript: variant.representative_transcript2,
         ensembl_version: variant.ensembl_version
-        #TODO: set curation status
+        # TODO: set curation status
       ).first_or_create!
     end
   elsif three_prime_partner_status == 'known'
@@ -277,7 +277,7 @@ begin
     row = [
       variant.id,
       variant.name,
-      "https://civicdb.org#{variant.link}"
+      "https://civicdb.org#{variant.link}",
     ]
     five_prime_stop_exon = nil
     five_prime_start_exon = nil
@@ -290,7 +290,7 @@ begin
       pending_revisions = variant.revisions
         .where(
           status: 'new',
-          field_name: ["chromosome", "start", "stop", "representative_transcript", "chromosome2" "start2", "stop2", "representative_transcript2"]
+          field_name: [ "chromosome", "start", "stop", "representative_transcript", "chromosome2" "start2", "stop2", "representative_transcript2" ]
         ).any?
       if pending_revisions
         row << "Has Pending Coordinate Revisions"
@@ -300,7 +300,7 @@ begin
       if variant.name.include?("::")
         (five_prime_partner_status, three_prime_partner_status) = port_variant_to_fusion(variant)
         if five_prime_partner_status.nil? && three_prime_partner_status.nil?
-          #TODO: capture these in a file
+          # TODO: capture these in a file
           next
         end
         variant = Variant.find(variant.id)
@@ -336,10 +336,10 @@ begin
 
 
       if five_prime_strand == -1
-        #<--transcript direction<----
-        #stop exon-e-e-e-start_exon
-        #stop_exon_start_position nnnnnnnn stop_exon_end_position-e-e-e-start_exon_start_position nnnn start_exon_end_position
-        #the civic stop position is for the start exon end position
+        # <--transcript direction<----
+        # stop exon-e-e-e-start_exon
+        # stop_exon_start_position nnnnnnnn stop_exon_end_position-e-e-e-start_exon_start_position nnnn start_exon_end_position
+        # the civic stop position is for the start exon end position
         (five_prime_start_exon, err, warn) = get_fusion_exon(variant.representative_transcript, variant.stop, 'end', variant)
         if err || warn
           row << err
@@ -347,7 +347,7 @@ begin
           unmatched_coordinates_report.puts row.join("\t")
           next
         end
-        #the civic start position is for the stop exon start position
+        # the civic start position is for the stop exon start position
         (five_prime_stop_exon, err2, warn2) = get_fusion_exon(variant.representative_transcript, variant.start, 'start', variant)
         if err2 || warn2
           row << err2
@@ -357,9 +357,9 @@ begin
         end
       else
         #-->transcript direction---->
-        #start_exon-e-e-e-stop_exon
-        #start_exon_start_position nnnnnnnn start_exon_end_position-e-e-e-stop_exon_start_position nnnn stop_exon_end_position
-        #the civic start2 position is for the start exon start position
+        # start_exon-e-e-e-stop_exon
+        # start_exon_start_position nnnnnnnn start_exon_end_position-e-e-e-stop_exon_start_position nnnn stop_exon_end_position
+        # the civic start2 position is for the start exon start position
         (five_prime_start_exon, err, warn) = get_fusion_exon(variant.representative_transcript, variant.start, 'start', variant)
         if err || warn
           row << err
@@ -367,7 +367,7 @@ begin
           unmatched_coordinates_report.puts row.join("\t")
           next
         end
-        #the civic stop2 position is for the stop exon end position
+        # the civic stop2 position is for the stop exon end position
         (five_prime_stop_exon, err2, warn2) = get_fusion_exon(variant.representative_transcript, variant.stop, 'end', variant)
         if err2 || warn2
           row << err2
@@ -394,10 +394,10 @@ begin
       end
 
       if three_prime_strand == -1
-        #<--transcript direction<----
-        #stop exon-e-e-e-start_exon
-        #stop_exon_start_position nnnnnnnn stop_exon_end_position-e-e-e-start_exon_start_position nnnn start_exon_end_position
-        #the civic stop2 position is for the start exon end position
+        # <--transcript direction<----
+        # stop exon-e-e-e-start_exon
+        # stop_exon_start_position nnnnnnnn stop_exon_end_position-e-e-e-start_exon_start_position nnnn start_exon_end_position
+        # the civic stop2 position is for the start exon end position
         (three_prime_start_exon, err, warn) = get_fusion_exon(variant.representative_transcript2, variant.stop2, 'end', variant)
         if err || warn
           row << err
@@ -405,7 +405,7 @@ begin
           unmatched_coordinates_report.puts row.join("\t")
           next
         end
-        #the civic start2 position is for the stop exon start position
+        # the civic start2 position is for the stop exon start position
         (three_prime_stop_exon, err2, warn2) = get_fusion_exon(variant.representative_transcript2, variant.start2, 'start', variant)
         if err2 || warn2
           row << err2
@@ -415,9 +415,9 @@ begin
         end
       else
         #-->transcript direction---->
-        #start_exon-e-e-e-stop_exon
-        #start_exon_start_position nnnnnnnn start_exon_end_position-e-e-e-stop_exon_start_position nnnn stop_exon_end_position
-        #the civic start2 position is for the start exon start position
+        # start_exon-e-e-e-stop_exon
+        # start_exon_start_position nnnnnnnn start_exon_end_position-e-e-e-stop_exon_start_position nnnn stop_exon_end_position
+        # the civic start2 position is for the start exon start position
         (three_prime_start_exon, err, warn) = get_fusion_exon(variant.representative_transcript2, variant.start2, 'start', variant)
         if err || warn
           row << err
@@ -425,7 +425,7 @@ begin
           unmatched_coordinates_report.puts row.join("\t")
           next
         end
-        #the civic stop2 position is for the stop exon end position
+        # the civic stop2 position is for the stop exon end position
         (three_prime_stop_exon, err2, warn2) = get_fusion_exon(variant.representative_transcript2, variant.stop2, 'end', variant)
         if err2 || warn2
           row << err2
@@ -439,12 +439,12 @@ begin
     if variant.type == "Variants::GeneVariant"
       (five_prime_partner_status, three_prime_partner_status) = port_variant_to_fusion(variant)
       if five_prime_partner_status.nil? && three_prime_partner_status.nil?
-        #TODO: capture these in a file
+        # TODO: capture these in a file
         next
       end
     end
 
-    #reload doesn't seem to work after changing variant type so this hard-refetches the variant
+    # reload doesn't seem to work after changing variant type so this hard-refetches the variant
     variant = Variant.find(variant.id)
 
     update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)

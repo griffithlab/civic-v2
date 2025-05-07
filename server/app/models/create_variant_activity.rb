@@ -6,6 +6,6 @@ class CreateVariantActivity < Activity
   end
 
   def generate_verbiage
-    'created variant'
+    "created"
   end
 end

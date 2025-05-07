@@ -7,17 +7,16 @@
 <ng-template #tag>
   <nz-tag
     nz-popover
-    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
-    [nzPopoverContent]="therapyPopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="enablePopover ? therapyPopover : undefined"
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #therapyPopover>
-    <cvc-therapy-popover [therapyId]="therapy.id"></cvc-therapy-popover>
+    <cvc-therapy-popover
+      [therapyId]="therapy.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-therapy-popover>
   </ng-template>
 </ng-template>
 
@@ -32,7 +31,7 @@
     nzTheme="twotone"
     nzTwotoneColor="#AC3996"></i>
   <ng-container *ngIf="truncateLongName; else fullName">
-    {{ therapy.name | truncate : 21 }}
+    {{ therapy.name | truncate: 21 }}
   </ng-container>
   <ng-template #fullName>
     {{ therapy.name }}

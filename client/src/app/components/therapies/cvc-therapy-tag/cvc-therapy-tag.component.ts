@@ -1,11 +1,15 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+
 import { Maybe } from '@app/generated/civic.apollo'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableTherapy {
   id: number
@@ -19,22 +23,30 @@ export interface LinkableTherapy {
   templateUrl: './cvc-therapy-tag.component.html',
   styleUrls: ['./cvc-therapy-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcTherapyTagComponent extends BaseCloseableTag implements OnInit {
-  _therapy!: LinkableTherapy
-  @Input()
-  set therapy(d: LinkableTherapy) {
-    if (!d) throw new Error('therapy-tag Input requires LinkableTherapy.')
-    this._therapy = d
-  }
-  get therapy(): LinkableTherapy {
-    return this._therapy
+export class CvcTherapyTagComponent implements AfterViewInit {
+  @Input() therapy!: LinkableTherapy
+
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
+
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
+
+  constructor() {}
+
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
   }
 
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
-
-  idFunction(): number {
-    return this.therapy.id
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    }
   }
 }

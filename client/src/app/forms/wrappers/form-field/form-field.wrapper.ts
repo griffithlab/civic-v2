@@ -23,15 +23,16 @@ export interface CvcFormFieldWrapperProps extends FormlyFieldProps {
 const defaultWrapperOptions: FormFieldOptions = {}
 
 @Component({
-  selector: 'cvc-form-field-wrapper',
-  templateUrl: './form-field.wrapper.html',
-  styleUrls: ['./form-field.wrapper.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.layout-horizontal]': 'formLayout === "horizontal"',
-    '[class.layout-vertical]': 'formLayout === "vertical"',
-    '[class.layout-inline]': 'formLayout === "inline"',
-  },
+    selector: 'cvc-form-field-wrapper',
+    templateUrl: './form-field.wrapper.html',
+    styleUrls: ['./form-field.wrapper.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[class.layout-horizontal]': 'formLayout === "horizontal"',
+        '[class.layout-vertical]': 'formLayout === "vertical"',
+        '[class.layout-inline]': 'formLayout === "inline"',
+    },
+    standalone: false
 })
 export class CvcFormFieldWrapper
   extends FieldWrapper<FormlyFieldConfig>

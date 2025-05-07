@@ -45,9 +45,10 @@ export interface DiseasesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-diseases-table',
-  templateUrl: './diseases-table.component.html',
-  styleUrls: ['./diseases-table.component.less'],
+    selector: 'cvc-diseases-table',
+    templateUrl: './diseases-table.component.html',
+    styleUrls: ['./diseases-table.component.less'],
+    standalone: false
 })
 export class CvcDiseasesTableComponent implements OnInit {
   @Input() cvcHeight?: number

@@ -14,9 +14,10 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'features-detail',
-  templateUrl: './features-detail.view.html',
-  styleUrls: ['./features-detail.view.less'],
+    selector: 'features-detail',
+    templateUrl: './features-detail.view.html',
+    styleUrls: ['./features-detail.view.less'],
+    standalone: false
 })
 export class FeaturesDetailView implements OnDestroy {
   loading$?: Observable<boolean>
@@ -52,7 +53,7 @@ export class FeaturesDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 
@@ -65,7 +66,9 @@ export class FeaturesDetailView implements OnDestroy {
     this.viewer$ = this.viewerService.viewer$
 
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ featureId: +params.featureId }).valueChanges
+      let observable = this.gql.watch({
+        featureId: +params.featureId,
+      }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
@@ -73,35 +76,33 @@ export class FeaturesDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.feature$.pipe(pluck('flags', 'totalCount'))
 
-      this.feature$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (featureResp) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: featureResp?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Flags') {
-                  return {
-                    badgeCount: featureResp?.flags.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: featureResp?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.feature$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (featureResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: featureResp?.revisions.totalCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Flags') {
+                return {
+                  badgeCount: featureResp?.flags.totalCount,
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: featureResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.featureId,

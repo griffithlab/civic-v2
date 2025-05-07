@@ -97,7 +97,10 @@
         <tr class="data-row"></tr>
         <tr>
           <td nzLeft>
-            <cvc-organization-tag [org]="organization"></cvc-organization-tag>
+            <cvc-organization-tag
+              [org]="organization"
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-organization-tag>
           </td>
           <td>
             {{ organization.memberCount | number }}
@@ -105,6 +108,7 @@
           <td>
             <cvc-tag-overflow
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               tagType="organization"
               [tags]="organization.childOrganizations">
             </cvc-tag-overflow>
@@ -127,11 +131,11 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

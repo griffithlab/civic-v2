@@ -1,7 +1,7 @@
 class Mutations::SuggestFusionVariantRevision < Mutations::MutationWithOrg
-  description 'Suggest a Revision to a Fusion entity.'
+  description "Suggest a Revision to a Fusion entity."
   argument :id, Int, required: true,
-    description: 'The ID of the Variant to suggest a Revision to.'
+    description: "The ID of the Variant to suggest a Revision to."
 
   argument :fields, Types::Revisions::FusionVariantFields, required: true,
     description: <<~DOC.strip
@@ -11,12 +11,12 @@ class Mutations::SuggestFusionVariantRevision < Mutations::MutationWithOrg
 
   argument :comment, String, required: false,
     validates: { length: { minimum: 10 } },
-    description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
+    description: "Text describing the reason for the change. Will be attached to the Revision as a comment."
 
   field :variant, Types::Variants::FusionVariantType, null: false,
-    description: 'The Variant the user has proposed a Revision to.'
+    description: "The Variant the user has proposed a Revision to."
 
-  field :results, [Types::Revisions::RevisionResult], null: false,
+  field :results, [ Types::Revisions::RevisionResult ], null: false,
     description: <<~DOC.strip
       A list of Revisions generated as a result of this suggestion.
       If an existing Revision exactly matches the proposed one, it will be returned instead.
@@ -86,13 +86,17 @@ class Mutations::SuggestFusionVariantRevision < Mutations::MutationWithOrg
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
     updated_variant.feature = variant.feature
     updated_variant.fusion = variant.feature.feature_instance
-    updated_variant.name = updated_variant.generate_name
+    if variant.name == "Fusion"
+      updated_variant.name = "Fusion"
+    else
+      updated_variant.name = updated_variant.generate_name
+    end
     updated_variant.vicc_compliant_name = updated_variant.generate_vicc_name
 
     variant_revisions_obj = Activities::RevisedObjectPair.new(existing_obj: variant, updated_obj: updated_variant)
     revision_objs << variant_revisions_obj
 
-    #set variant id?
+    # set variant id?
     cmd = Activities::SuggestRevisionSet.new(
       revised_objects: revision_objs,
       subject: variant,
@@ -105,15 +109,10 @@ class Mutations::SuggestFusionVariantRevision < Mutations::MutationWithOrg
     if res.succeeded?
       {
         variant: variant,
-        results: res.revision_results
+        results: res.revision_results,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end
-
-
-
-
-

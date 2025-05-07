@@ -6,9 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'cvc-diseases-summary',
-  templateUrl: './diseases-summary.component.html',
-  styleUrls: ['./diseases-summary.component.less'],
+    selector: 'cvc-diseases-summary',
+    templateUrl: './diseases-summary.component.html',
+    styleUrls: ['./diseases-summary.component.less'],
+    standalone: false
 })
 export class DiseasesSummaryComponent implements OnDestroy {
   routeSub: Subscription

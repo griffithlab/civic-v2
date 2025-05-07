@@ -1,23 +1,23 @@
 class AcceptRevisionsActivity < Activity
   has_many :revision_links,
-    ->() { where(entity_type: 'Revision') },
+    ->() { where(entity_type: "Revision") },
     foreign_key: :activity_id,
-    class_name: 'ActivityLinkedEntity'
+    class_name: "ActivityLinkedEntity"
 
   has_many :linked_revisions,
-    ->() { where(status: 'accepted') },
+    ->() { where(status: "accepted") },
     through: :revision_links,
     source: :entity,
-    source_type: 'Revision'
+    source_type: "Revision"
 
   has_many :linked_superseded_revisions,
-    ->() { where(status: 'superseded') },
+    ->() { where(status: "superseded") },
     through: :revision_links,
     source: :entity,
-    source_type: 'Revision'
+    source_type: "Revision"
 
   def generate_verbiage
     rev_count = linked_revisions.size
-    "accepted #{rev_count} #{'revision'.pluralize(rev_count)} on"
+    "accepted #{rev_count} #{'revision'.pluralize(rev_count)} to"
   end
 end

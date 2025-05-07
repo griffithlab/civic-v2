@@ -1,9 +1,7 @@
-import { TypePolicies } from '@apollo/client/cache'
 import { relayStylePagination } from '@apollo/client/utilities'
-import { CvcSourcePolicy } from './policies/source.policy'
-import { CvcUserPolicy } from './policies/user.policy'
+import { StrictTypedTypePolicies } from '@app/generated/civic.apollo-helpers'
 
-export const CvcTypePolicies: TypePolicies = {
+export const CvcTypePolicies: StrictTypedTypePolicies = {
   Gene: {
     fields: {
       comments: relayStylePagination(),
@@ -14,6 +12,13 @@ export const CvcTypePolicies: TypePolicies = {
   },
   Query: {
     fields: {
+      activities: relayStylePagination([
+        'subject',
+        'organizationId',
+        'userId',
+        'activityType',
+        'subjectType',
+      ]),
       browseFeatures: relayStylePagination([
         'name',
         'featureType',
@@ -68,7 +73,12 @@ export const CvcTypePolicies: TypePolicies = {
         'status',
         'submitterId',
       ]),
-      browseDiseases: relayStylePagination(['name', 'doid', 'geneNames', 'id']),
+      browseTherapies: relayStylePagination([
+        'name',
+        'ncitId',
+        'therapyAlias',
+        'sortBy',
+      ]),
       events: relayStylePagination([
         'subject',
         'organizationId',
@@ -136,8 +146,15 @@ export const CvcTypePolicies: TypePolicies = {
         'resolvingUserId',
         'state',
       ]),
-      phenotypes: relayStylePagination(['hpoId', 'name', 'id']),
+      browsePhenotypes: relayStylePagination(['hpoId', 'name', 'sortBy']),
       variantTypes: relayStylePagination(['soid', 'name', 'id']),
+      browseDiseases: relayStylePagination([
+        'name',
+        'doid',
+        'diseaseAlias',
+        'featureName',
+        'sortBy',
+      ]),
       therapies: relayStylePagination(['ncitId', 'name', 'id']),
       clinicalTrials: relayStylePagination(['nctId', 'name', 'id']),
       notifications: relayStylePagination([
@@ -159,6 +176,4 @@ export const CvcTypePolicies: TypePolicies = {
       users: relayStylePagination(['userName', 'orgName', 'userRole']),
     },
   },
-  User: CvcUserPolicy,
-  // Source: CvcSourcePolicy,
 }

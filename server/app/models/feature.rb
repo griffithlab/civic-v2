@@ -11,19 +11,19 @@ class Feature < ApplicationRecord
 
   has_one :deprecation_activity,
     as: :subject,
-    class_name: 'DeprecateFeatureActivity'
+    class_name: "DeprecateFeatureActivity"
   has_one :deprecating_user, through: :deprecation_activity, source: :user
 
   has_one :creation_activity,
     as: :subject,
-    class_name: 'CreateFeatureActivity'
+    class_name: "CreateFeatureActivity"
   has_one :creating_user, through: :creation_activity, source: :user
 
-  enum deprecation_reason: ['duplicate', 'invalid_feature', 'other']
+  enum :deprecation_reason, [ "duplicate", "invalid_feature", "other" ]
 
   has_many :variants
 
-  searchkick highlight: [:name, :aliases, :feature_type], callbacks: :async
+  searchkick highlight: [ :name, :aliases, :feature_type ], callbacks: :async
   scope :search_import, -> { includes(:feature_aliases) }
 
   validate :unique_name_in_context
@@ -65,11 +65,11 @@ class Feature < ApplicationRecord
     {
       name: name,
       aliases: aliases,
-      feature_type: feature_instance_type.demodulize
+      feature_type: feature_instance_type.demodulize,
     }
   end
 
-  #Name to be used when displayed as part of a Molecular Profile
+  # Name to be used when displayed as part of a Molecular Profile
   def mp_name
     feature_instance.mp_name
   end
@@ -84,11 +84,11 @@ class Feature < ApplicationRecord
 
   def self.timepoint_query
     ->(x) {
-      self.joins(variants: { molecular_profiles: [:evidence_items] })
-        .group('features.id')
-        .select('features.id')
+      self.joins(variants: { molecular_profiles: [ :evidence_items ] })
+        .group("features.id")
+        .select("features.id")
         .where("evidence_items.status != 'rejected'")
-        .having('MIN(evidence_items.created_at) >= ?', x)
+        .having("MIN(evidence_items.created_at) >= ?", x)
         .distinct
         .count
     }

@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-variants-suggest',
-  templateUrl: './variants-suggest.page.html',
+    selector: 'cvc-variants-suggest',
+    templateUrl: './variants-suggest.page.html',
+    standalone: false
 })
 export class VariantsSuggestPage implements OnDestroy {
   variantId?: number

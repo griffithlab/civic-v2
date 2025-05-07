@@ -3,21 +3,25 @@ import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
   CommentableInput,
+  CommentListNodeFragment,
   EvidenceSubmissionActivityFragmentDoc,
 } from '@app/generated/civic.apollo'
 import { Apollo } from 'apollo-angular'
-import { CommentInterface } from '../../../../components/comments/comment-display/comment-display.component'
 
 @Component({
-  selector: 'cvc-evidence-comments',
-  templateUrl: './evidence-comments.page.html',
-  styleUrls: ['./evidence-comments.page.less'],
+    selector: 'cvc-evidence-comments',
+    templateUrl: './evidence-comments.page.html',
+    styleUrls: ['./evidence-comments.page.less'],
+    standalone: false
 })
 export class EvidenceCommentsPage implements OnInit {
   commentable: CommentableInput
-  submissionComment?: CommentInterface
+  submissionComment?: CommentListNodeFragment
 
-  constructor(private route: ActivatedRoute, private apollo: Apollo) {
+  constructor(
+    private route: ActivatedRoute,
+    private apollo: Apollo
+  ) {
     const evidenceId: number = +this.route.snapshot.params['evidenceId']
 
     this.commentable = {
@@ -30,16 +34,20 @@ export class EvidenceCommentsPage implements OnInit {
     const fragment = {
       id: `EvidenceItem:${this.commentable.id}`,
       fragment: EvidenceSubmissionActivityFragmentDoc,
-      fragmentName: 'evidenceSubmissionActivity'
+      fragmentName: 'evidenceSubmissionActivity',
     }
     try {
-      const entity = this.apollo.client.readFragment(fragment) as any;
+      const entity = this.apollo.client.readFragment(fragment) as any
       this.submissionComment = {
+        id: 99999,
+        __typename: 'Comment',
+        comment: '',
+        deleted: false,
         createdAt: entity.submissionActivity.createdAt,
         parsedComment: entity.submissionActivity.parsedNote,
-        commenter: entity.submissionActivity.user
+        commenter: entity.submissionActivity.user,
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }

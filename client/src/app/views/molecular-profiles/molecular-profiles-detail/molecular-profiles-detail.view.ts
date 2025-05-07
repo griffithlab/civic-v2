@@ -17,9 +17,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'molecular-profiles-detail',
-  templateUrl: './molecular-profiles-detail.view.html',
-  styleUrls: ['./molecular-profiles-detail.view.less'],
+    selector: 'molecular-profiles-detail',
+    templateUrl: './molecular-profiles-detail.view.html',
+    styleUrls: ['./molecular-profiles-detail.view.less'],
+    standalone: false
 })
 export class MolecularProfilesDetailView implements OnDestroy {
   queryRef?: QueryRef<
@@ -61,7 +62,7 @@ export class MolecularProfilesDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 
@@ -88,35 +89,33 @@ export class MolecularProfilesDetailView implements OnDestroy {
         pluck('flags', 'totalCount')
       )
 
-      this.molecularProfile$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (mpResp) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: mpResp?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Flags') {
-                  return {
-                    badgeCount: mpResp?.flags.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: mpResp?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.molecularProfile$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (mpResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: mpResp?.revisions.totalCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Flags') {
+                return {
+                  badgeCount: mpResp?.flags.totalCount,
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: mpResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.molecularProfileId,

@@ -5,7 +5,7 @@ module Types::Activities
     field :comment, Types::Entities::CommentType, null: false
 
     def comment
-      Loaders::AssociationLoader.for(CommentActivity, :linked_comment).load(object)
+      Loaders::AssociationLoader.for(DeleteCommentActivity, :linked_comment).load(object)
     end
   end
 end

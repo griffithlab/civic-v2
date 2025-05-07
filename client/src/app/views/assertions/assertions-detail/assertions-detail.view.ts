@@ -18,9 +18,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'assertions-detail',
-  templateUrl: './assertions-detail.view.html',
-  styleUrls: ['./assertions-detail.view.less'],
+    selector: 'assertions-detail',
+    templateUrl: './assertions-detail.view.html',
+    styleUrls: ['./assertions-detail.view.less'],
+    standalone: false
 })
 export class AssertionsDetailView implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
@@ -59,7 +60,7 @@ export class AssertionsDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 
@@ -86,35 +87,33 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
-      this.assertion$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (assertionResp) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: assertionResp?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Flags') {
-                  return {
-                    badgeCount: assertionResp?.flags.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: assertionResp?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (assertionResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: assertionResp?.revisions.totalCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Flags') {
+                return {
+                  badgeCount: assertionResp?.flags.totalCount,
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: assertionResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.assertionId,

@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'enumToTitle',
-  pure: true,
+    name: 'enumToTitle',
+    pure: true,
+    standalone: false
 })
 export class EnumToTitlePipe implements PipeTransform {
   transform(enum_text?: string): string {
@@ -14,6 +15,12 @@ export class EnumToTitlePipe implements PipeTransform {
         return '-'
       }
 
+      if (enum_text === 'DESC') {
+        return 'Descending'
+      }
+      if (enum_text === 'ASC') {
+        return 'Ascending'
+      }
       let str = enum_text.toLowerCase().replace(/_/g, ' ').split(' ')
       for (var i = 0; i < str.length; i++) {
         str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)

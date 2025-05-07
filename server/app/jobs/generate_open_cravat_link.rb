@@ -1,15 +1,15 @@
 class GenerateOpenCravatLink < ApplicationJob
   def perform(variant)
-    return if variant.allele_registry_id.nil? || variant.allele_registry_id == 'unregistered'
+    return if variant.allele_registry_id.nil? || variant.allele_registry_id == "unregistered"
 
     coords = get_build_38_coords(variant)
 
     return unless coords
 
-    open_cravat_url = make_open_cravat_url(coords)
+    open_cravat_url_parameters = make_open_cravat_url_parameters(coords)
 
-    variant.open_cravat_url = open_cravat_url
-    variant.save!
+    variant.open_cravat_url_parameters = open_cravat_url_parameters
+    variant.save(validate: false)
   end
 
 
@@ -36,9 +36,7 @@ class GenerateOpenCravatLink < ApplicationJob
     "https://reg.genome.network/allele/#{variant.allele_registry_id}"
   end
 
-  def make_open_cravat_url(coords)
-    base_url = "https://run.opencravat.org/webapps/variantreport/index.html?"
-
+  def make_open_cravat_url_parameters(coords)
     start = coords["coordinates"].first["start"]
     ref = coords["coordinates"].first["referenceAllele"]
     alt = coords["coordinates"].first["allele"]
@@ -46,11 +44,11 @@ class GenerateOpenCravatLink < ApplicationJob
     new_start = convert_zero_to_one_based(start, ref, alt)
 
     if ref.blank?
-      ref = '-'
+      ref = "-"
     end
 
     if alt.blank?
-      alt = '-'
+      alt = "-"
     end
 
     query_params = {
@@ -60,18 +58,17 @@ class GenerateOpenCravatLink < ApplicationJob
       alt_base: alt,
     }.to_query
 
-    base_url + query_params
+    query_params
   end
 
-  #https://www.biostars.org/p/84686/
+  # https://www.biostars.org/p/84686/
   def convert_zero_to_one_based(start, ref, alt)
-    if ref.size == alt.size #SNV
+    if ref.size == alt.size # SNV
       start.to_i + 1
-    elsif ref.size > alt.size #DEL
+    elsif ref.size > alt.size # DEL
       start.to_i + 1
-    else #INS
+    else # INS
       start
     end
   end
-
 end

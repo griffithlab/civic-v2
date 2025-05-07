@@ -4,8 +4,9 @@ import { Maybe } from 'graphql/jsutils/Maybe'
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum'
 
 @Pipe({
-  name: 'referenceBuildDisplay',
-  pure: true,
+    name: 'referenceBuildDisplay',
+    pure: true,
+    standalone: false
 })
 export class ReferenceBuildDisplayPipe implements PipeTransform {
   transform(value: Maybe<ReferenceBuild>): string {

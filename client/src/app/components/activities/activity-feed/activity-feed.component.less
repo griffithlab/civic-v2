@@ -2,24 +2,51 @@
   display: block;
 }
 
-.timeline {
-  // timeline's base styles pull it up and left of its container,
-  // this padding adds them back b/c in the event feed card it looks to cramped
-  padding-top: 6px;
-  padding-left: 6px;
+.results-message {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
 }
 
-#event-filters {
-  // all form items get a right margin which creates an unsightly gap on the right :(
-  // so we remove that here
-  nz-form-item:last-child {
-    margin-right: 0;
+.feed-container {
+  // pull container flush to nz-card body edges
+  margin-top: -11px;
+  margin-bottom: -12px;
+  margin-left: -12px;
+  margin-right: -12px;
+  border-bottom-left-radius: 2px;
+  overflow: hidden;
+  &.feed-border {
+    border-right: 1px solid #f0f0f0;
+    margin-right: inherit;
   }
-  // need to specify selector widths or else item names clipped
-  #participant-filter {
-    width: 200px;
+}
+
+.feed-layers {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // messages layer
+  .messages {
+    z-index: 10;
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    // Pass pointer events through to lower layers
+    pointer-events: none;
+    // Accept pointer events in child elements
+    * {
+      pointer-events: auto;
+    }
   }
-  #organization-filter {
-    width: 250px;
+
+  // scroller layer
+  .scroller {
+    z-index: 0;
+    position: relative;
+    display: block;
+    padding: 0 12px;
   }
 }

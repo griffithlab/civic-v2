@@ -57,10 +57,11 @@ export interface SourceSuggestionTableFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-source-suggestions-table',
-  templateUrl: './source-suggestions-table.component.html',
-  styleUrls: ['./source-suggestions-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-source-suggestions-table',
+    templateUrl: './source-suggestions-table.component.html',
+    styleUrls: ['./source-suggestions-table.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcSourceSuggestionsTableComponent implements OnInit {
   @Input() cvcHeight?: string

@@ -14,7 +14,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
-import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
+import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'

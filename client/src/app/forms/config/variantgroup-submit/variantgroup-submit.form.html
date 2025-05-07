@@ -1,11 +1,11 @@
 <cvc-form-submission-status-display
-  [mutationState]="this.mutationState"
+  [mutationState]="mutationState"
   entityType="Variant Group"
-  [redirectUrl]="this.newVariantGroupUrl"
+  [redirectUrl]="newVariantGroupUrl"
   [successMessage]="success">
   <ng-template #success>
     View your Variant Group
-    <a [routerLink]="['/variant-groups', this.newVariantGroupId,]">here</a>. You will be redirected shortly.
+    <a [routerLink]="['/variant-groups', newVariantGroupId,]">here</a>. You will be redirected shortly.
   </ng-template>
 <form
   [formGroup]="form"

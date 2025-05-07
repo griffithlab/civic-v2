@@ -8,14 +8,15 @@
   <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="userPopover"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    nzPopoverPlacement="topCenter">
+    [nzPopoverContent]="enablePopover ? userPopover : undefined"
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #userPopover>
-    <cvc-user-popover [userId]="user.id"></cvc-user-popover>
+    <cvc-user-popover
+      [userId]="user.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-user-popover>
   </ng-template>
 </ng-template>
 

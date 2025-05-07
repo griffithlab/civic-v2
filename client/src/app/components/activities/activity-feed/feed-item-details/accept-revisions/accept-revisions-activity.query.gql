@@ -1,0 +1,34 @@
+fragment AcceptRevisionsActivityDetail on AcceptRevisionsActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  revisions {
+    id
+    name
+    status
+    currentValue
+    suggestedValue
+    fieldName
+    link
+    linkoutData {
+      ...revisionLinkoutData
+    }
+  }
+  supersededRevisions {
+    id
+    link
+    name
+    creationActivity {
+      user {
+        displayName
+        profileImagePath(size: 32)
+        id
+        role
+      }
+    }
+    fieldName
+    createdAt
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

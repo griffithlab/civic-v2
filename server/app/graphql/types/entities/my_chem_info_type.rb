@@ -5,10 +5,10 @@ module Types::Entities
   end
 
   class MyChemInfoType < Types::BaseObject
-    field :chebi_id, String, null: true 
+    field :chebi_id, String, null: true
     field :chebi_definition, String, null: true
-    field :fda_epc_codes, [FdaCode], null: false
-    field :fda_moa_codes, [FdaCode], null: false
+    field :fda_epc_codes, [ FdaCode ], null: false
+    field :fda_moa_codes, [ FdaCode ], null: false
     field :first_approval, String, null: true
     field :chembl_molecule_type, String, null: true
     field :chembl_id, String, null: true
@@ -17,7 +17,6 @@ module Types::Entities
     field :rxnorm, String, null: true
     field :inchikey, String, null: true
     field :drugbank_id, String, null: true
-    field :indications, [String], null: false
+    field :indications, [ String ], null: false
   end
 end
-

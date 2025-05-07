@@ -1,0 +1,21 @@
+fragment RejectRevisionsActivityDetail on RejectRevisionsActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  revisions {
+    id
+    name
+    status
+    currentValue
+    suggestedValue
+    fieldName
+    link
+    createdAt
+    linkoutData {
+      ...revisionLinkoutData
+    }
+  }
+
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

@@ -29,9 +29,10 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-gene-variant-revise-form',
-  templateUrl: './gene-variant-revise.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-gene-variant-revise-form',
+    templateUrl: './gene-variant-revise.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcGeneVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number

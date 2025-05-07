@@ -1,0 +1,12 @@
+fragment FlagEntityActivityDetail on FlagEntityActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  flag {
+    id
+    link
+    name
+  }
+}

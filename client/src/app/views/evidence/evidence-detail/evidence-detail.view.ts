@@ -18,9 +18,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'evidence-detail',
-  templateUrl: './evidence-detail.view.html',
-  styleUrls: ['./evidence-detail.view.less'],
+    selector: 'evidence-detail',
+    templateUrl: './evidence-detail.view.html',
+    styleUrls: ['./evidence-detail.view.less'],
+    standalone: false
 })
 export class EvidenceDetailView implements OnDestroy {
   queryRef?: QueryRef<EvidenceDetailQuery, EvidenceDetailQueryVariables>
@@ -63,7 +64,7 @@ export class EvidenceDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 
@@ -86,35 +87,33 @@ export class EvidenceDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.evidence$.pipe(pluck('flags', 'totalCount'))
 
-      this.evidence$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (evidenceResponse) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: evidenceResponse?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Flags') {
-                  return {
-                    badgeCount: evidenceResponse?.flags.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: evidenceResponse?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.evidence$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (evidenceResponse) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: evidenceResponse?.revisions.totalCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Flags') {
+                return {
+                  badgeCount: evidenceResponse?.flags.totalCount,
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: evidenceResponse?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.evidenceId,

@@ -65,7 +65,7 @@
       <nz-row *nzSpaceItem>
         <p nz-typography>
           The CIViC server produces nightly and monthly releases that include a
-          subset of all primary entity records (Genes, Variants, Molecular
+          subset of all primary entity records (Features, Variants, Molecular
           Profiles, Evidence, Variant Groups, and Assertions). Both TSV and VCF
           versions are provided below - just locate the specific entity type and
           data format you wish to obtain, then click on the relevant button to
@@ -128,7 +128,7 @@
                 <thead>
                   <tr>
                     <th>Date</th>
-                    <th>Genes</th>
+                    <th>Features</th>
                     <th>Variants</th>
                     <th>Molecular Profiles</th>
                     <th>Evidence</th>
@@ -141,11 +141,11 @@
                 <tbody>
                   <tr *ngFor="let release of releasesTable.data">
                     <td>{{ release.name }}</td>
-                    <td *ngIf="release.geneTsv; else noData">
+                    <td *ngIf="release.featureTsv; else noData">
                       <cvc-link-tag
-                        [href]="release.geneTsv.path"
+                        [href]="release.featureTsv.path"
                         iconName="download">
-                        Genes TSV
+                        Features TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.variantTsv; else noData">

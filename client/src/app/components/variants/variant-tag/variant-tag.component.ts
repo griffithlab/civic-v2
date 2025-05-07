@@ -1,12 +1,17 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
+  QueryList,
+  signal,
+  WritableSignal,
+  ViewChildren,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
-import { Maybe } from '@app/generated/civic.apollo'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableVariant {
   id: number
@@ -15,21 +20,26 @@ export interface LinkableVariant {
   flagged: boolean
   deprecated: boolean
 }
-
 @Component({
   selector: 'cvc-variant-tag',
   templateUrl: './variant-tag.component.html',
   styleUrls: ['./variant-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
+export class CvcVariantTagComponent implements AfterViewInit {
   @Input() variant!: LinkableVariant
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
 
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
   iconColor: string
+  loading: WritableSignal<boolean> = signal(true)
+
   constructor() {
-    super()
     this.iconColor = getEntityColor('Variant')
   }
 
@@ -37,12 +47,18 @@ export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
     return this.variant.id
   }
 
-  ngOnInit() {
-    super.ngOnInit()
-    if (this.variant === undefined) {
-      throw new Error(
-        'cvc-variant-tag requires LinkableVariant input, none supplied.'
-      )
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+      this.loading.set(false)
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    } else {
+      console.warn('cvc-variant-tag: no NzPopoverDirective found in view')
     }
   }
 }

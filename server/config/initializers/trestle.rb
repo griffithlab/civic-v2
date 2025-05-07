@@ -1,5 +1,4 @@
 Trestle.configure do |config|
-
   # == Customization Options
   #
   # Set the page title shown in the main header within the admin.
@@ -77,7 +76,7 @@ Trestle.configure do |config|
   config.before_action do |controller|
     current_user = User.find_by(id: session[:user_id])
     unless current_user && Role.user_is_at_least_a?(current_user, :admin)
-      redirect_to '/'
+      redirect_to "/"
     end
   end
   #
@@ -98,9 +97,9 @@ Trestle.configure do |config|
   # end
   #
 
-  #config.hook(:javascripts) do
+  # config.hook(:javascripts) do
   #  javascript_include_tag("trestle/custom.js")
-  #end
+  # end
 
   # Toggle whether Turbolinks is enabled within the admin.
   # Defaults to true if Turbolinks is available.

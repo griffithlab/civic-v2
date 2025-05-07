@@ -1,0 +1,207 @@
+@if (activity(); as activity) {
+  <nz-card
+    nzSize="small"
+    [nzTitle]="itemDescription"
+    [nzExtra]="itemDate"
+    [ngClass]="{
+      show: $showDetails(),
+      hide: !$showDetails(),
+    }">
+    <div
+      class="details"
+      [@details]="$showDetails() ? 'visible' : 'hidden'"
+      (@details.done)="onToggleDone$.next($showDetails())">
+      @if ($showDetails()) {
+        <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
+        </cvc-activity-feed-item-details>
+      }
+    </div>
+  </nz-card>
+  <ng-template #itemDescription>
+    <!-- detail toggle -->
+    @if (!simpleActivityTypes.has(activity.__typename)) {
+      <div
+        class="toggle"
+        (click)="$showDetails.set(!$showDetails())">
+        <span
+          nz-icon
+          nzType="caret-right"
+          nzTheme="outline"></span>
+      </div>
+    } @else {
+      <div class="no-toggle">
+        <span
+          nz-icon
+          nzType="caret-right"
+          nzTheme="outline"></span>
+      </div>
+    }
+    <!-- User Tag -->
+    <div class="description">
+      @if (scope().mode !== 'USER') {
+        <cvc-user-tag
+          [user]="activity.user"
+          [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
+      }
+      <!-- For CommentActivity, replace verbiage with 'added [comment]' -->
+      @if (activity.__typename === 'CommentActivity') {
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          added
+        </span>
+        <cvc-comment-tag
+          [comment]="activity.comment"
+          [enablePopover]="!$scroller().isScrolling"></cvc-comment-tag>
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          to
+        </span>
+      } @else {
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          {{ activity.verbiage }}
+        </span>
+      }
+      @if (scope().mode !== 'SUBJECT') {
+        <ng-container
+          *ngTemplateOutlet="
+            subject;
+            context: {
+              $implicit: activity.subject,
+              isScrolling: $scroller().isScrolling,
+            }
+          ">
+        </ng-container>
+      } @else {
+        <span
+          class="subject-type"
+          nz-typography
+          nzType="secondary">
+          this {{ activity.subject.__typename | entityTypeToTypeLabel }}
+        </span>
+      }
+      <!-- For DeleteCommentActivity, include commentable tag -->
+      @if (
+        activity.__typename === 'DeleteCommentActivity' &&
+        activity.subject.__typename === 'Comment'
+      ) {
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          from
+        </span>
+        <ng-container
+          *ngTemplateOutlet="
+            subject;
+            context: {
+              $implicit: activity.subject.commentable,
+              isScrolling: $scroller().isScrolling,
+            }
+          ">
+        </ng-container>
+      }
+      @if (showOrganization() && activity.organization) {
+        <div class="organization">
+          <span
+            class="verbiage"
+            nz-typography
+            nzType="secondary">
+            for
+          </span>
+          <cvc-organization-tag
+            [org]="activity.organization"
+            [enablePopover]="!$scroller().isScrolling"></cvc-organization-tag>
+        </div>
+      }
+    </div>
+  </ng-template>
+  <ng-template #itemDate>
+    <span
+      nz-typography
+      nzType="secondary">
+      {{ activity.createdAt | timeAgo }}
+    </span>
+  </ng-template>
+  <ng-template
+    #subject
+    let-subject
+    let-isScrolling="isScrolling">
+    @switch (subject.__typename) {
+      @case ('Feature') {
+        <cvc-feature-tag
+          [feature]="subject"
+          [enablePopover]="!isScrolling"></cvc-feature-tag>
+      }
+      @case ('Assertion') {
+        <cvc-assertion-tag
+          [assertion]="subject"
+          [enablePopover]="!isScrolling"></cvc-assertion-tag>
+      }
+      @case ('Comment') {
+        <cvc-comment-tag
+          [comment]="subject"
+          [enablePopover]="!isScrolling"></cvc-comment-tag>
+      }
+      @case ('EvidenceItem') {
+        <cvc-evidence-tag
+          [evidence]="subject"
+          [enablePopover]="!isScrolling"></cvc-evidence-tag>
+      }
+      @case ('GeneVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('FactorVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('FusionVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('Revision') {
+        <cvc-revision-tag
+          [revision]="$any(subject)"
+          [enablePopover]="!isScrolling"></cvc-revision-tag>
+      }
+      @case ('VariantGroup') {
+        <cvc-variant-group-tag
+          [variantgroup]="subject"
+          [enablePopover]="!isScrolling"></cvc-variant-group-tag>
+      }
+      @case ('Source') {
+        <cvc-source-tag
+          mode="concise"
+          [source]="$any(subject)"
+          [enablePopover]="!isScrolling"></cvc-source-tag>
+      }
+      @case ('MolecularProfile') {
+        <cvc-molecular-profile-tag
+          [molecularProfile]="subject"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
+      }
+      @default {
+        <span>
+          <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
+        </span>
+      }
+    }
+  </ng-template>
+}

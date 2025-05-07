@@ -4,20 +4,19 @@ class UploadNetworkToNdex < ApplicationJob
   end
 
   def script_path
-    File.join(Rails.root, 'misc_scripts', 'ndex_process_civic.py')
+    File.join(Rails.root, "misc_scripts", "ndex_process_civic.py")
   end
 
   def tsv_path
-    File.join(Rails.root, 'public', 'downloads', 'nightly', 'nightly-ClinicalEvidenceSummaries.tsv')
+    File.join(Rails.root, "public", "downloads", "nightly", "nightly-ClinicalEvidenceSummaries.tsv")
   end
 
   private
   def ndex_username
-    ENV['NDEX_USERNAME'] || Rails.application.credentials.ndex_username
+    ENV["NDEX_USERNAME"] || Rails.application.credentials.ndex_username
   end
 
   def ndex_password
-    ENV['NDEX_PASSWORD'] || Rails.application.credentials.ndex_password
+    ENV["NDEX_PASSWORD"] || Rails.application.credentials.ndex_password
   end
 end
-

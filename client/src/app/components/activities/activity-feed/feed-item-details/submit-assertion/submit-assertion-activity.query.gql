@@ -1,0 +1,7 @@
+fragment SubmitAssertionActivityDetail on SubmitAssertionActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+}

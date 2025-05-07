@@ -4,6 +4,6 @@ class SubmitAssertionActivity < Activity
   end
 
   def generate_verbiage
-    'submitted assertion'
+    "submitted"
   end
 end

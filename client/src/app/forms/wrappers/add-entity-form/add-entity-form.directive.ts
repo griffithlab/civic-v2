@@ -1,7 +1,8 @@
 import { Directive, ViewContainerRef } from '@angular/core'
 
 @Directive({
-  selector: '[addEntityFormHost]',
+    selector: '[addEntityFormHost]',
+    standalone: false
 })
 export class AddEntityFormHostDirective {
   constructor(public viewContainerRef: ViewContainerRef) {

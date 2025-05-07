@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { SubscribableEntities } from '@app/generated/civic.apollo'
 
 @Pipe({
-  name: 'iconNameForSubscribableEntity',
-  pure: true,
+    name: 'iconNameForSubscribableEntity',
+    pure: true,
+    standalone: false
 })
 export class IconNameForSubscribableEntity implements PipeTransform {
   transform(e: SubscribableEntities | string): string {
@@ -42,6 +43,12 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case 'DISEASE':
       case 'Disease':
         return 'civic-disease'
+      case 'SOURCE':
+      case 'Source':
+        return 'civic-source'
+      case 'COMMENT':
+      case 'Comment':
+        return 'civic-comment'
       default:
         console.log('String No icon name found for ' + e)
         return 'border-outer'

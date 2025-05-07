@@ -46,9 +46,10 @@ export interface PhenotypesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-phenotypes-table',
-  templateUrl: './phenotypes-table.component.html',
-  styleUrls: ['./phenotypes-table.component.less'],
+    selector: 'cvc-phenotypes-table',
+    templateUrl: './phenotypes-table.component.html',
+    styleUrls: ['./phenotypes-table.component.less'],
+    standalone: false
 })
 export class CvcPhenotypesTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -121,7 +122,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
 
     // entity relay connection
     this.connection$ = this.result$.pipe(
-      pluck('data', 'phenotypes'),
+      pluck('data', 'browsePhenotypes'),
       filter(isNonNulled)
     ) as Observable<BrowsePhenotypeConnection>
 
@@ -195,7 +196,10 @@ export class CvcPhenotypesTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<PhenotypeBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<PhenotypeBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

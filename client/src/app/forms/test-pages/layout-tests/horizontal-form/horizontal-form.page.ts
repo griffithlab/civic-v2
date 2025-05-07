@@ -10,9 +10,10 @@ import {
 } from '../layout-forms.config'
 
 @Component({
-  selector: 'cvc-horizontal-form',
-  templateUrl: './horizontal-form.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-horizontal-form',
+    templateUrl: './horizontal-form.page.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HorizontalFormPage implements OnInit {
   model: any

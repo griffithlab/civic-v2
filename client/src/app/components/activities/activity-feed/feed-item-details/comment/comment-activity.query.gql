@@ -1,0 +1,14 @@
+fragment CommentActivityDetail on CommentActivity {
+  comment {
+    deleted
+    deletedAt
+    ...commentListNode
+    commentable {
+      id
+      name
+      link
+    }
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}
