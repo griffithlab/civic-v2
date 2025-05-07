@@ -39,7 +39,7 @@
             mode="endorse"
             [assertionId]="entity.id"
             [disabled]="!(vwr | canCreateEndorsement: entity)"
-            [tooltipText]="(vwr | endorsementActionTooltip : 'create' : entity)">
+            [tooltipText]="vwr | endorsementActionTooltip: 'create' : entity">
           </cvc-endorse-assertion-button>
         }
       }
@@ -50,16 +50,21 @@
     #endorsement
     let-endorsement
     let-index="index">
-    @if(endorsement.status !== listData[index -1]?.status) {
+    @if (endorsement.status !== listData[index - 1]?.status) {
       @switch (endorsement.status) {
         @case ('ACTIVE') {
-          <nz-divider nzText="Active Endorsements" nzOrientation="left"></nz-divider>
+          <!-- no divider for active endorsements -->
+          <!-- <nz-divider nzText="Active Endorsements" nzOrientation="left"></nz-divider>-->
         }
         @case ('REQUIRES_REVIEW') {
-          <nz-divider nzText="Endorsements Under Review" nzOrientation="left"></nz-divider>
+          <nz-divider
+            nzText="Endorsements Under Review"
+            nzOrientation="left"></nz-divider>
         }
         @case ('REVOKED') {
-          <nz-divider nzText="Revoked Endorsements" nzOrientation="left"></nz-divider>
+          <nz-divider
+            nzText="Revoked Endorsements"
+            nzOrientation="left"></nz-divider>
         }
       }
     }
@@ -77,7 +82,7 @@
       <div class="organization-image-container">
         <img
           class="organization-image"
-          src="{{ endorsement.organization.profileImagePath }}"/>
+          src="{{ endorsement.organization.profileImagePath }}" />
       </div>
     </ng-template>
 
@@ -105,23 +110,27 @@
         nz-typography
         nzType="secondary"
         class="endorsement-summary">
+        @let assertionName = endorsement.assertion.name;
+        @let organizationName = endorsement.organization.name;
+        @let editorName = endorsement.user.displayName;
         @switch (endorsement.status) {
           @case ('ACTIVE') {
-            <strong>AID{{ assertionId() }}</strong> has been endorsed by
-            <strong>{{ endorsement.organization.name }}</strong> under the
-              authority of editor
-            <strong> {{ endorsement.user.displayName }}.</strong>
+            <strong>{{ assertionName }}</strong> has been endorsed by
+            <strong>{{ organizationName }}</strong> under the authority of
+            editor
+            <strong> {{ editorName }}.</strong>
           }
           @case ('REVOKED') {
-            <strong>AID{{ assertionId() }}</strong> endorsement has been revoked
-              by <strong>{{ endorsement.organization.name }}</strong> under the
-              authority of editor
-            <strong> {{ endorsement.user.displayName }}.</strong>
+            <strong>{{ assertionName }}</strong> endorsement has been revoked by
+            <strong>{{ organizationName }}</strong> under the authority of
+            editor
+            <strong> {{ editorName }}.</strong>
           }
           @case ('REQUIRES_REVIEW') {
             Post-endorsement changes to
-            <strong>AID{{ assertionId() }}</strong> require
-            <strong>review by an endorsing editor.</strong>
+            <strong>{{ assertionName }}</strong> require review by a
+            <strong>{{ organizationName }}</strong> editor with endorsing
+            privileges.
           }
         }
       </span>
@@ -223,7 +232,9 @@
               {{ endorsement.lastReviewed | timeAgo }}
             </span>
           </nz-descriptions-item>
-          @if (endorsement.status === 'REVOKED' && endorsement.revocationActivity) {
+          @if (
+            endorsement.status === 'REVOKED' && endorsement.revocationActivity
+          ) {
             <nz-descriptions-item
               nzTitle="Reason for Revocation"
               nzSpan="2">
@@ -256,17 +267,25 @@
             <cvc-endorse-assertion-button
               [assertionId]="assertionId()"
               mode="approveChanges"
-              [disabled]="!(vwr | canApproveEndorsement :endorsement)"
+              [disabled]="!(vwr | canApproveEndorsement: endorsement)"
               display="block"
-              [tooltipText]="(vwr | endorsementActionTooltip : 'approveChanges' : entity : endorsement.id)">
+              [tooltipText]="
+                vwr
+                  | endorsementActionTooltip
+                    : 'approveChanges'
+                    : entity
+                    : endorsement.id
+              ">
             </cvc-endorse-assertion-button>
           }
           <cvc-endorse-assertion-button
             [assertionId]="assertionId()"
             mode="revoke"
-            [disabled]="!(vwr | canRevokeEndorsement :endorsement)"
+            [disabled]="!(vwr | canRevokeEndorsement: endorsement)"
             display="block"
-            [tooltipText]="(vwr | endorsementActionTooltip : 'revoke' : entity : endorsement.id)">
+            [tooltipText]="
+              vwr | endorsementActionTooltip: 'revoke' : entity : endorsement.id
+            ">
           </cvc-endorse-assertion-button>
         </div>
       }
