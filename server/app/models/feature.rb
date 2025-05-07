@@ -37,6 +37,7 @@ class Feature < ApplicationRecord
 
     duplicate_name = if in_revision_validation_context
                        base_query
+# In the `in_revision_validation_context`, the revision target is the feature instance, not the feature
                          .where.not(feature_instance_id: revision_target_id)
                          .exists?
                      else
