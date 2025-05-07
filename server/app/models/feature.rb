@@ -37,10 +37,10 @@ class Feature < ApplicationRecord
 
     duplicate_name = if in_revision_validation_context
                        base_query
-# In the `in_revision_validation_context`, the revision target is the feature instance, not the feature
+                         # In the `in_revision_validation_context`, the revision target is the feature instance, not the feature
                          .where.not(feature_instance_id: revision_target_id)
                          .exists?
-                     else
+    else
                        if persisted?
                          base_query
                            .where.not(id: id)
@@ -49,10 +49,10 @@ class Feature < ApplicationRecord
                          base_query
                            .exists?
                        end
-                     end
+    end
 
     if duplicate_name
-      errors.add(:name, 'must be unique within a Feature Instance Type')
+      errors.add(:name, "must be unique within a Feature Instance Type")
     end
   end
 
