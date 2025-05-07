@@ -56,6 +56,17 @@ export function canModerateEndorsement(
   )
 }
 
+export function canRevokeEndorsement(
+  viewer: Viewer,
+  endorsement: EndorsementListNodeFragment
+): boolean {
+  return (
+    canPerformEndorsementActions(viewer) &&
+    isLiveEndorsement(endorsement) &&
+    currentOrgCanModerateEndorsement(viewer, endorsement)
+  )
+}
+
 export function canCreateEndorsement(
   viewer: Viewer,
   entity: AssertionDetailFieldsFragment

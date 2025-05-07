@@ -10,6 +10,7 @@ import {
   canCreateEndorsement,
   canModerateEndorsement,
   canPerformEndorsementActions,
+  canRevokeEndorsement,
   currentOrgCanModerateEndorsement,
   getAlternateCreatingOrgs,
   getAlternateModeratingOrg,
@@ -86,7 +87,7 @@ export class CvcEndorsementActionTooltipPipe implements PipeTransform {
     viewer: Viewer,
     endorsement: EndorsementListNodeFragment
   ): Maybe<string> {
-    if (canModerateEndorsement(viewer, endorsement)) {
+    if (canRevokeEndorsement(viewer, endorsement)) {
       return `Revoke endorsement of ${endorsement.assertion.name} under the authority of ${endorsement.organization.name}.`
     } else {
       if (!canPerformEndorsementActions(viewer)) {
