@@ -10,7 +10,10 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { feedDefaultFilters, feedDefaultSettings } from '@app/components/activities/activity-feed/activity-feed.config'
+import {
+  feedDefaultFilters,
+  feedDefaultSettings,
+} from '@app/components/activities/activity-feed/activity-feed.config'
 import {
   ActivityFeedFilters,
   ActivityFeedSettings,
@@ -44,17 +47,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import {
-  CvcEndorseAssertionButtonComponent,
-} from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
-import {
-  CvcCanPerformEndorsementActionsPipe,
-} from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
-import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
-import {
-  CvcEndorsementActionTooltipPipe,
-} from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
+import { CvcEndorseAssertionButtonComponent } from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
+import { CvcCanPerformEndorsementActionsPipe } from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
+import { CvcEndorsementActionTooltipPipe } from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
 import { CvcEndorsementItemComponent } from '@app/components/endorsements/endorsement-item/endorsement-item.component'
+import { CvcCurrentOrgCanEndorsePipe } from '@app/components/endorsements/endorsement-pipes/current-org-can-endorse.pipe'
+import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
 
 const STATUS_ORDER: EndorsementStatus[] = [
   EndorsementStatus.Active,
@@ -80,9 +78,10 @@ const STATUS_ORDER: EndorsementStatus[] = [
     CvcPipesModule,
     CvcEndorseAssertionButtonComponent,
     CvcCanPerformEndorsementActionsPipe,
-    CvcCanCreateEndorsementPipe,
     CvcEndorsementActionTooltipPipe,
     CvcEndorsementItemComponent,
+    CvcCurrentOrgCanEndorsePipe,
+    CvcCanCreateEndorsementPipe,
   ],
 })
 export class CvcEndorsementListComponent implements OnInit {

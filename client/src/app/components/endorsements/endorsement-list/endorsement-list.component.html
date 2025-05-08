@@ -1,7 +1,7 @@
 <!-- @let endorsements = (endorsements$ | ngrxPush) || []; -->
 @let vwr = viewer();
 @let entity = assertion();
-@if (vwr | canPerformEndorsementActions) {
+@if ((vwr | canPerformEndorsementActions) && (vwr | currentOrgCanEndorse)) {
   <nz-alert
     nzType="info"
     [nzMessage]="endorsementMessage"
