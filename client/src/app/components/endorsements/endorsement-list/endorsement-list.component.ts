@@ -10,10 +10,7 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import {
-  feedDefaultFilters,
-  feedDefaultSettings,
-} from '@app/components/activities/activity-feed/activity-feed.config'
+import { feedDefaultFilters, feedDefaultSettings } from '@app/components/activities/activity-feed/activity-feed.config'
 import {
   ActivityFeedFilters,
   ActivityFeedSettings,
@@ -37,6 +34,27 @@ import { filter, map } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { pluck } from 'rxjs-etc/operators'
+import { CommonModule } from '@angular/common'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzListModule } from 'ng-zorro-antd/list'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import {
+  CvcEndorseAssertionButtonComponent,
+} from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
+import {
+  CvcCanPerformEndorsementActionsPipe,
+} from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
+import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
+import {
+  CvcEndorsementActionTooltipPipe,
+} from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
+import { CvcEndorsementItemComponent } from '@app/components/endorsements/endorsement-item/endorsement-item.component'
 
 const STATUS_ORDER: EndorsementStatus[] = [
   EndorsementStatus.Active,
@@ -48,8 +66,24 @@ const STATUS_ORDER: EndorsementStatus[] = [
   selector: 'cvc-endorsement-list',
   templateUrl: './endorsement-list.component.html',
   styleUrls: ['./endorsement-list.component.less'],
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    NzAlertModule,
+    NzButtonModule,
+    NzListModule,
+    NzIconModule,
+    NzAvatarModule,
+    NzTypographyModule,
+    NzEmptyModule,
+    NzDividerModule,
+    CvcPipesModule,
+    CvcEndorseAssertionButtonComponent,
+    CvcCanPerformEndorsementActionsPipe,
+    CvcCanCreateEndorsementPipe,
+    CvcEndorsementActionTooltipPipe,
+    CvcEndorsementItemComponent,
+  ],
 })
 export class CvcEndorsementListComponent implements OnInit {
   assertionId = input.required<number>()
