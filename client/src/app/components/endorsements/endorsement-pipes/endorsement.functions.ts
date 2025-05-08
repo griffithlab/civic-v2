@@ -37,6 +37,11 @@ export function canBeEndorsed(entity: EndorsableEntity): boolean {
   return entity.status === 'ACCEPTED' && entity.flags.totalCount === 0
 }
 
+export function currentOrgCanEndorse(viewer: Viewer): boolean {
+  if (viewer.mostRecentOrg === undefined) return false
+  return viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id)
+}
+
 export function currentOrgCanModerateEndorsement(
   viewer: Viewer,
   endorsement: EndorsementListNodeFragment
@@ -71,7 +76,11 @@ export function canCreateEndorsement(
   viewer: Viewer,
   entity: AssertionDetailFieldsFragment
 ): boolean {
-  if (canPerformEndorsementActions(viewer) && canBeEndorsed(entity)) {
+  if (
+    canPerformEndorsementActions(viewer) &&
+    currentOrgCanEndorse(viewer) &&
+    canBeEndorsed(entity)
+  ) {
     // viewer can't create a new endorsement if they can moderate
     // any currently live (active or requires review) endorsements
     return !entity.endorsements.nodes.some((endorsement) => {

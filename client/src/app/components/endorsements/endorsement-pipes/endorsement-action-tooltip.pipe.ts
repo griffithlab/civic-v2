@@ -11,6 +11,7 @@ import {
   canModerateEndorsement,
   canPerformEndorsementActions,
   canRevokeEndorsement,
+  currentOrgCanEndorse,
   currentOrgCanModerateEndorsement,
   getAlternateCreatingOrgs,
   getAlternateModeratingOrg,
@@ -71,6 +72,13 @@ export class CvcEndorsementActionTooltipPipe implements PipeTransform {
     } else {
       if (!canBeEndorsed(entity)) {
         return `${entity.name} must be accepted and unflagged to be endorsed.`
+      } else if (!currentOrgCanEndorse(viewer)) {
+        let tooltip = `Your organization, ${viewer.mostRecentOrg.name}, does not have endorsement authority.`
+        const altOrgs = getAlternateCreatingOrgs(viewer, entity)
+        if (altOrgs && altOrgs.length > 0) {
+          tooltip += ` You may switch to ${altOrgs[0].name}, which does have endorsement authority, to endorse this assertion.`
+        }
+        return tooltip
       } else if (hasLiveEndorsement(viewer, entity)) {
         let tooltip = `${entity.name} has already been endorsed by ${viewer.mostRecentOrg.name}.`
         const altOrgs = getAlternateCreatingOrgs(viewer, entity)
