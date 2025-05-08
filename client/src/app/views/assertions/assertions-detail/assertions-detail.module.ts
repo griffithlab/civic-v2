@@ -28,10 +28,10 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module'
 import { AssertionsDetailView } from './assertions-detail.view'
-import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
 import { CvcCanPerformEndorsementActionsPipe } from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
 import { CvcEndorsementActionTooltipPipe } from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
 import { CvcEndorsableDirective } from '@app/components/endorsements/endorsable/endorsable.component'
+import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
 
 @NgModule({
   declarations: [AssertionsDetailView],
