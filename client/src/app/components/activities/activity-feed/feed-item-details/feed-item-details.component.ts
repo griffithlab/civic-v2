@@ -46,6 +46,7 @@ import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-f
 import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { CvcDeprecateFeatureActivity } from './deprecate-feature/deprecate-feature-activity.component'
 import { CvcDeleteCommentActivity } from './delete-comment/delete-comment-activity.component'
+import { CvcCreateSourceLinkActivity } from './create-source-link/create-source-link-activity.component'
 import { CvcEndorseAssertionActivity } from './endorse-assertion/endorse-assertion-activity.component'
 import { CvcRevokeEndorsementActivity } from './revoke-endorsement/revoke-endorsement-activity.component'
 
@@ -74,6 +75,7 @@ import { CvcRevokeEndorsementActivity } from './revoke-endorsement/revoke-endors
     CvcDeprecateFeatureActivity,
     NzSkeletonModule,
     CvcDeleteCommentActivity,
+    CvcCreateSourceLinkActivity,
     CvcEndorseAssertionActivity,
     CvcRevokeEndorsementActivity,
   ],

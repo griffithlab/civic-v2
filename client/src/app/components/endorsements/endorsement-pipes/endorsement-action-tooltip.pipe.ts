@@ -10,6 +10,8 @@ import {
   canCreateEndorsement,
   canModerateEndorsement,
   canPerformEndorsementActions,
+  canRevokeEndorsement,
+  currentOrgCanEndorse,
   currentOrgCanModerateEndorsement,
   getAlternateCreatingOrgs,
   getAlternateModeratingOrg,
@@ -70,6 +72,13 @@ export class CvcEndorsementActionTooltipPipe implements PipeTransform {
     } else {
       if (!canBeEndorsed(entity)) {
         return `${entity.name} must be accepted and unflagged to be endorsed.`
+      } else if (!currentOrgCanEndorse(viewer)) {
+        let tooltip = `Your organization, ${viewer.mostRecentOrg.name}, does not have endorsement authority.`
+        const altOrgs = getAlternateCreatingOrgs(viewer, entity)
+        if (altOrgs && altOrgs.length > 0) {
+          tooltip += ` You may switch to ${altOrgs[0].name}, which does have endorsement authority, to endorse this assertion.`
+        }
+        return tooltip
       } else if (hasLiveEndorsement(viewer, entity)) {
         let tooltip = `${entity.name} has already been endorsed by ${viewer.mostRecentOrg.name}.`
         const altOrgs = getAlternateCreatingOrgs(viewer, entity)
@@ -86,17 +95,17 @@ export class CvcEndorsementActionTooltipPipe implements PipeTransform {
     viewer: Viewer,
     endorsement: EndorsementListNodeFragment
   ): Maybe<string> {
-    if (canModerateEndorsement(viewer, endorsement)) {
+    if (canRevokeEndorsement(viewer, endorsement)) {
       return `Revoke endorsement of ${endorsement.assertion.name} under the authority of ${endorsement.organization.name}.`
     } else {
       if (!canPerformEndorsementActions(viewer)) {
         // likely unused - endorsement buttons invisible to non-moderators
-        return `You do not have permission to perform endorsement actions.`
+        return `You do not have privileges to perform endorsement actions.`
       } else if (!isLiveEndorsement(endorsement)) {
         // likely unused - revoke button hidden on revoked endorsements
         return `Only live endorsements may be revoked.` // likely unused
       } else if (!currentOrgCanModerateEndorsement(viewer, endorsement)) {
-        let tooltip = `${endorsement.assertion.name} may only be revoked under the authority of ${endorsement.organization.name}.`
+        let tooltip = `${endorsement.assertion.name} may only be revoked by a ${endorsement.organization.name} editor with endorsing privileges.`
         const altOrg = getAlternateModeratingOrg(viewer, endorsement)
         if (altOrg) {
           tooltip += ` As you are a member, you may switch your organization and revoke this endorsement.`

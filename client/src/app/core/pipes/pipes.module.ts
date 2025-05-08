@@ -33,17 +33,11 @@ import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
 import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
 import { SortEnumPipe } from './sort-enum.pipe'
 import { EntityTypeToTypelabelPipe } from './entity-type-to-type-label.pipe'
-import { CanEndorseAssertionPipe } from './can-endorse-assertion.pipe'
-import { CanRevokeAssertionPipe } from './can-revoke-assertion.pipe'
-import { CanCreateEndorsementPipe } from './can-create-endorsement.pipe'
 
 @NgModule({
   declarations: [
     AmpFormatPipe,
     CamelCaseToWordPipe,
-    CanCreateEndorsementPipe,
-    CanEndorseAssertionPipe,
-    CanRevokeAssertionPipe,
     ColorNameForStatusPipe,
     GuardTypePipe,
     TherapyInteractionEnumDisplayPipe,
@@ -81,9 +75,6 @@ import { CanCreateEndorsementPipe } from './can-create-endorsement.pipe'
     AmpFormatPipe,
     IsArrayPipe,
     CamelCaseToWordPipe,
-    CanEndorseAssertionPipe,
-    CanRevokeAssertionPipe,
-    CanCreateEndorsementPipe,
     ColorNameForStatusPipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,

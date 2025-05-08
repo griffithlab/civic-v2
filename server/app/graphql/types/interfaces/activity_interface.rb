@@ -61,6 +61,7 @@ module Types::Interfaces
       Types::Activities::CreateFeatureActivityType,
       Types::Activities::DeprecateFeatureActivityType,
       Types::Activities::DeleteCommentActivityType,
+      Types::Activities::CreateSourceLinkActivityType,
       Types::Activities::EndorseAssertionActivityType,
       Types::Activities::RevokeEndorsementActivityType
     )
@@ -106,6 +107,8 @@ module Types::Interfaces
           Types::Activities::DeprecateFeatureActivityType
         when DeleteCommentActivity
           Types::Activities::DeleteCommentActivityType
+        when CreateLinkedSourceActivity
+          Types::Activities::CreateSourceLinkActivityType
         when EndorseAssertionActivity
           Types::Activities::EndorseAssertionActivityType
         when RevokeEndorsementActivity

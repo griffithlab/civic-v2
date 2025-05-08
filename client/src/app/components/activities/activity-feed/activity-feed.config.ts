@@ -45,8 +45,6 @@ export const simpleActivityTypes = new Set([
   'CreateComplexMolecularProfileActivity',
   'CreateVariantActivity',
   'CreateFeatureActivity',
-  'ModerateAssertionActivity',
-  'ModerateEvidenceItemActivity',
   'DeleteCommentActivity',
   'EndorseAssertionActivity',
 ])
@@ -59,6 +57,9 @@ export const commentOnlyActivityTypes = new Set([
   'SubmitAssertionActivity',
   'SubmitEvidenceItemActivity',
   'DeprecateComplexMolecularProfileActivity',
+  'ModerateAssertionActivity',
+  'ModerateEvidenceItemActivity',
+  'CreateSourceLinkActivity',
   'RevokeEndorsementActivity',
 ])
 

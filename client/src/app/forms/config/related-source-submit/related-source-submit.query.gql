@@ -1,0 +1,17 @@
+mutation CreateLinkedSource($input: CreateLinkedSourceInput!) {
+  createLinkedSource(input: $input) {
+    sourceLink {
+      id
+      reason
+      note
+      source {
+        id
+        name
+      }
+      linkedSource {
+        id
+        name
+      }
+    }
+  }
+}

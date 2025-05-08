@@ -23,8 +23,9 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzFlexModule } from 'ng-zorro-antd/flex'
-import { NzAlertComponent, NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
+import { CvcEndorsementNotificationComponent } from '@app/components/endorsements/endorsement-notification/endorsement-notification.component'
 
 @NgModule({
   declarations: [CvcAssertionPopoverComponent],
@@ -43,6 +44,7 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
     NzToolTipModule,
     NzTypographyModule,
     NzAlertModule,
+    NzFlexModule,
     CvcDiseaseTagModule,
     CvcMolecularProfileTagNameModule,
     CvcMolecularProfileTagModule,
@@ -55,8 +57,8 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
     CvcEmptyValueModule,
     CvcAttributeTagModule,
     CvcOrganizationTagModule,
-    NzAlertComponent,
     CvcOrganizationTagModule,
+    CvcEndorsementNotificationComponent,
   ],
   exports: [CvcAssertionPopoverComponent],
 })

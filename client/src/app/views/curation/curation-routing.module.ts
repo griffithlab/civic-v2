@@ -32,9 +32,9 @@ const routes: Routes = [
           breadcrumb: 'Queues',
         },
       },
-    ],
-  },
-]
+    ]
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

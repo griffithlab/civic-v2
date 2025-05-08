@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { SourcesDetailView } from './sources-detail.view'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 @NgModule({
   declarations: [SourcesDetailView],
@@ -24,6 +25,7 @@ import { SourcesDetailView } from './sources-detail.view'
     NzButtonModule,
     NzIconModule,
     NzTagModule,
+    NzSpaceModule,
 
     CvcSectionNavigationModule,
     CvcLinkTagModule,

@@ -104,7 +104,11 @@
             [molecularProfile]="subject"></cvc-molecular-profile-tag>
         }
         @default {
-          {{ subject.name }}
+          <nz-tag>
+            <a [href]="subject.link">
+              {{ subject.name }}
+            </a>
+          </nz-tag>
         }
       }
     </ng-container>

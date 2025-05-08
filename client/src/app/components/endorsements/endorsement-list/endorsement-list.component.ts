@@ -10,14 +10,6 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import {
-  feedDefaultFilters,
-  feedDefaultSettings,
-} from '@app/components/activities/activity-feed/activity-feed.config'
-import {
-  ActivityFeedFilters,
-  ActivityFeedSettings,
-} from '@app/components/activities/activity-feed/activity-feed.types'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   AssertionDetailFieldsFragment,
@@ -26,6 +18,7 @@ import {
   EndorsementListNodeFragment,
   EndorsementListQuery,
   EndorsementListQueryVariables,
+  EndorsementStatus,
   Maybe,
   PageInfo,
 } from '@app/generated/civic.apollo'
@@ -35,13 +28,53 @@ import { QueryRef } from 'apollo-angular'
 import { filter, map } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { pluck } from 'rxjs-etc/operators'
+import { CommonModule } from '@angular/common'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzListModule } from 'ng-zorro-antd/list'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcEndorseAssertionButtonComponent } from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
+import { CvcCanPerformEndorsementActionsPipe } from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
+import { CvcEndorsementActionTooltipPipe } from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
+import { CvcEndorsementItemComponent } from '@app/components/endorsements/endorsement-item/endorsement-item.component'
+import { CvcCurrentOrgCanEndorsePipe } from '@app/components/endorsements/endorsement-pipes/current-org-can-endorse.pipe'
+import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
+
+const STATUS_ORDER: EndorsementStatus[] = [
+  EndorsementStatus.Active,
+  EndorsementStatus.RequiresReview,
+  EndorsementStatus.Revoked,
+]
 
 @Component({
   selector: 'cvc-endorsement-list',
   templateUrl: './endorsement-list.component.html',
   styleUrls: ['./endorsement-list.component.less'],
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    NzAlertModule,
+    NzButtonModule,
+    NzListModule,
+    NzIconModule,
+    NzAvatarModule,
+    NzTypographyModule,
+    NzEmptyModule,
+    NzDividerModule,
+    CvcPipesModule,
+    CvcEndorseAssertionButtonComponent,
+    CvcCanPerformEndorsementActionsPipe,
+    CvcEndorsementActionTooltipPipe,
+    CvcEndorsementItemComponent,
+    CvcCurrentOrgCanEndorsePipe,
+    CvcCanCreateEndorsementPipe,
+  ],
 })
 export class CvcEndorsementListComponent implements OnInit {
   assertionId = input.required<number>()
@@ -77,18 +110,33 @@ export class CvcEndorsementListComponent implements OnInit {
   }
 
   ngOnInit() {
-    runInInjectionContext(this.injector, () => {
-      this.queryRef = this.endorsementsGQL.watch(
-        {
-          assertionId: this.assertionId(),
-        },
-        { fetchPolicy: 'network-only' }
-      )
+    this.queryRef = this.endorsementsGQL.watch(
+      {
+        assertionId: this.assertionId(),
+      },
+      { fetchPolicy: 'network-only' }
+    )
 
+    runInInjectionContext(this.injector, () => {
       this.endorsements = toSignal(
         this.queryRef.valueChanges.pipe(
-          map((res) => res.data?.endorsements?.nodes),
-          filter(isNonNulled)
+          pluck('data', 'endorsements', 'nodes'),
+          filter(isNonNulled),
+          map((nodes) =>
+            [...nodes].sort((a, b) => {
+              // sort into Active, Review, and Revoked groups
+              const sa = STATUS_ORDER.indexOf(a.status)
+              const sb = STATUS_ORDER.indexOf(b.status)
+              if (sa !== sb) {
+                return sa - sb
+              }
+              // tie-break by updatedAt (newest first):
+              return (
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime()
+              )
+            })
+          )
         ),
         {
           initialValue: [],
@@ -102,26 +150,11 @@ export class CvcEndorsementListComponent implements OnInit {
             },
             { fetchPolicy: 'cache-only' }
           )
-          .valueChanges.pipe(map((res) => res.data?.assertion)),
+          .valueChanges.pipe(pluck('data', 'assertion')),
         {
           initialValue: undefined,
         }
       )
     })
-  }
-
-  feedSettings(): ActivityFeedSettings {
-    return {
-      ...feedDefaultSettings,
-      showOrganization: false,
-    }
-  }
-
-  feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
-    return {
-      ...feedDefaultFilters,
-      linkedEndorsementId: endorsement.id,
-      occurredAfter: new Date(endorsement.lastReviewed),
-    }
   }
 }

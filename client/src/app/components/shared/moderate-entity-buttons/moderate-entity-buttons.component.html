@@ -9,7 +9,7 @@
       nz-tooltip
       [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
       [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
-      Accept {{ entityType }}
+      Accept {{ entityTypeDisplay }}
     </button>
     &nbsp;
     <button
@@ -21,7 +21,31 @@
       nz-tooltip
       [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
       [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
-      Reject {{ entityType }}
+      Reject {{ entityTypeDisplay }}
     </button>
   </nz-spin>
 </ng-container>
+
+<ng-template
+  #confirmModal
+  let-data>
+  <nz-space nzDirection="vertical">
+    @if (data.organization) {
+      <span
+        *nzSpaceItem
+        nz-typography>
+        You will be {{ data.action.toLowerCase() }}ing this
+        {{ entityTypeDisplay }} on behalf of
+        <strong> {{ data.organization }}</strong> .</span
+      >
+    }
+    @if (data.action == 'Reject') {
+      <textarea
+        *nzSpaceItem
+        [(ngModel)]="confirmationComment"
+        nz-input
+        rows="4"
+        placeholder="Please provide a reason for rejection."></textarea>
+    }
+  </nz-space>
+</ng-template>

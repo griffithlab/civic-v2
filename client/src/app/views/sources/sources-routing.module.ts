@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { SourceAddPage } from './source-add/source-add.page'
+import { SourceAddRelatedPage } from './source-add-related/source-add-related.page'
 import { SourcesDetailView } from './sources-detail/sources-detail.view'
 import { SourcesHomePage } from './sources-home/sources-home.page'
 import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page'
@@ -50,6 +51,13 @@ const routes: Routes = [
             data: {
               breadcrumb: 'Comments',
             },
+          },
+          {
+            path: 'add-related',
+            component: SourceAddRelatedPage,
+            data: {
+              breadcrumb: 'Add Related Source',
+            }
           },
         ],
       },

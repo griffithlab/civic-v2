@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { EndorsementListNodeFragment, Maybe } from '@app/generated/civic.apollo'
-import { canModerateEndorsement } from '@app/components/endorsements/endorsement-pipes/endorsement.functions'
+import { canRevokeEndorsement } from '@app/components/endorsements/endorsement-pipes/endorsement.functions'
 
 /**
  * Returns true if a viewer can approve changes to an existing endorsement.
@@ -21,6 +21,6 @@ export class CvcCanRevokeEndorsement implements PipeTransform {
     endorsement: EndorsementListNodeFragment
   ): boolean {
     if (viewer === undefined) return false
-    return canModerateEndorsement(viewer, endorsement)
+    return canRevokeEndorsement(viewer, endorsement)
   }
 }

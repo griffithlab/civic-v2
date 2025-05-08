@@ -27,15 +27,35 @@
       {{ source.citation }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <nz-tag *ngIf="source.fullyCurated" nzColor='success'>
-        Fully Curated
-      </nz-tag>
-      <cvc-link-tag
-        *ngIf="source.sourceUrl"
-        [href]="source.sourceUrl"
-        [tooltip]="'View on ' + source.displayType">
-        {{ source.displayType + ":" + source.citationId }}
-      </cvc-link-tag>
+      <nz-space>
+        <ng-container *nzSpaceItem>
+          <nz-tag *ngIf="source.fullyCurated" nzColor='success'>
+            Fully Curated
+          </nz-tag>
+        </ng-container>
+        <ng-container *nzSpaceItem>
+          <ng-container *ngrxLet="viewer$ as viewer">
+            <button
+              [routerLink]="['/sources', sourceId, 'add-related']"
+              *ngIf="viewer.signedIn"
+              nz-button
+              nzSize="small">
+              <i
+                nz-icon
+                nzType="plus-circle"></i>
+              Add a Related Source
+            </button>
+          </ng-container>
+        </ng-container>
+        <ng-container *nzSpaceItem>
+          <cvc-link-tag
+            *ngIf="source.sourceUrl"
+            [href]="source.sourceUrl"
+            [tooltip]="'View on ' + source.displayType">
+            {{ source.displayType + ":" + source.citationId }}
+          </cvc-link-tag>
+        </ng-container>
+      </nz-space>
     </nz-page-header-extra>
     <nz-page-header-content>
       <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"></cvc-tab-navigation>

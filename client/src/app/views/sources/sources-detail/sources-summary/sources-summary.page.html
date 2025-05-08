@@ -117,6 +117,26 @@
             </nz-descriptions-item>
           </ng-template>
         </ng-container>
+        <nz-descriptions-item nzTitle="Related Sources">
+          <ng-container *ngIf="linkedSources?.length; else notAvailable">
+            <ng-container *ngFor="let s of linkedSources">
+              <ng-template #linkedSourceTooltip>
+                Reason: {{ s.reason | enumToTitle }}
+                @if (s.note) {
+                  <br />
+                  Note: {{ s.note }}
+                }
+              </ng-template>
+              <span
+                nz-tooltip
+                [nzTooltipTitle]="linkedSourceTooltip">
+                <cvc-source-tag
+                  [enablePopover]="false"
+                  [source]="s.linkedSource"></cvc-source-tag>
+              </span>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
       </nz-descriptions>
       <ng-template #notAvailable>
         <span

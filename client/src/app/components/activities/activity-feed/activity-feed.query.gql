@@ -169,8 +169,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...CreateVariantActivityDetail @include(if: $requestDetails)
   ...DeleteCommentActivityDetail @include(if: $requestDetails)
-  ...DeprecateComplexMolecularProfileActivityDetail
-    @include(if: $requestDetails)
+  ...DeprecateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...DeprecateVariantActivityDetail @include(if: $requestDetails)
   ...DeprecateFeatureActivityDetail @include(if: $requestDetails)
   ...FlagEntityActivityDetail @include(if: $requestDetails)
@@ -183,6 +182,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...SuggestRevisionSetActivityDetail @include(if: $requestDetails)
   ...SuggestSourceActivityDetail @include(if: $requestDetails)
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
+  ...CreateSourceLinkActivityDetail @include(if: $requestDetails)
   ...EndorseAssertionActivityDetail @include(if: $requestDetails)
   ...RevokeEndorsementActivityDetail @include(if: $requestDetails)
 }

@@ -1,9 +1,14 @@
-import { Maybe, SuggestSourceInput } from "@app/generated/civic.apollo";
+import { Maybe, SuggestSourceInput, CreateLinkedSourceInput } from "@app/generated/civic.apollo";
 import { SourceFields } from "../models/source-fields.model";
+import { LinkedSourceFields } from "../models/linked-source-fields.model";
 import { FormReviseBaseModel } from "../models/form-revise-base.model";
 
 export interface SourceModel extends FormReviseBaseModel {
   fields: SourceFields
+}
+
+export interface LinkedSourceModel extends FormReviseBaseModel {
+  fields: LinkedSourceFields
 }
 
 export function sourceFormModelToInput(model: SourceModel): Maybe<SuggestSourceInput> {
@@ -23,4 +28,17 @@ export function sourceFormModelToInput(model: SourceModel): Maybe<SuggestSourceI
     organizationId: model.organizationId,
     comment: model.comment!
   }
+}
+
+export function sourceFormModelToCreateLinkedSourceInput(model: LinkedSourceModel): Maybe<CreateLinkedSourceInput> {
+  const fields = model.fields
+  return fields.sourceId && fields.linkedSourceId && fields.reason
+    ? {
+        sourceId: fields.sourceId,
+        linkedSourceId: fields.linkedSourceId,
+        organizationId: model.organizationId,
+        reason: fields.reason,
+        note: model.comment,
+      }
+    : undefined
 }

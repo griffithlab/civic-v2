@@ -7,6 +7,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 
 @NgModule({
   declarations: [CvcMyVariantInfoComponent],
@@ -15,6 +16,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     NzTabsModule,
     NzTableModule,
     NzCardModule,
+    NzDescriptionsModule,
     CvcLinkTagModule,
     NzGridModule,
     CvcPipesModule,

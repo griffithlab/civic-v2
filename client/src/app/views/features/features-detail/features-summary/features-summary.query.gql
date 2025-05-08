@@ -93,6 +93,7 @@ fragment GeneBaseFields on Gene {
   name
   link
   sources {
+    deprecated
     id
     citation
     link

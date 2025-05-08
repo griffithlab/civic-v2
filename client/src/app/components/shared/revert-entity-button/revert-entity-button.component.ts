@@ -47,6 +47,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
 
   isSubmitting = false
   showConfirm = false
+  revertComment?: string
 
   mostRecentOrg: Maybe<ViewerOrganizationFragment>
 
@@ -73,6 +74,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
           evidenceItemId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
           newStatus: EvidenceStatus.Submitted,
+          comment: this.revertComment,
         },
       })
     } else {
@@ -81,6 +83,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
           assertionId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
           newStatus: EvidenceStatus.Submitted,
+          comment: this.revertComment,
         },
       })
     }

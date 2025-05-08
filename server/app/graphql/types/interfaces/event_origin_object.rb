@@ -46,6 +46,8 @@ module Types::Interfaces
           Types::Entities::MolecularProfileType
         when Feature
           Types::Entities::FeatureType
+        when SourceLink
+          Types::SourceLinkType
         else
           raise "Unexpected EventOriginObject type: #{object.class}"
         end

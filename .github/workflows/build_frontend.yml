@@ -40,6 +40,9 @@ jobs:
       - run: yarn build
         working-directory: ./client
 
+      - run: bundle install
+        working-directory: ./server
+
       - run: bundle exec rails assets:precompile
         working-directory: ./server
 

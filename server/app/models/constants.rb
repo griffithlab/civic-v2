@@ -20,7 +20,7 @@ module Constants
 
   EVIDENCE_STATUS = [ "accepted", "submitted", "rejected" ]
 
-  VARIANT_ORIGINS = [ "Somatic", "Rare Germline", "Common Germline", "Unknown", "N/A", "Combined" ]
+  VARIANT_ORIGINS = [ "Somatic", "Rare Germline", "Common Germline", "Unknown", "N/A", "Combined", "Mixed" ]
 
   SIGNIFICANCES = [
     "Sensitivity/Response",
@@ -114,6 +114,7 @@ module Constants
     "Feature" => "features",
     "Gene" => "features",
     "Fusion" => "features",
+    "Factor" => "features",
     "Variant" => "variants",
     "Variants::GeneVariant" => "variants",
     "Variants::FactorVariant" => "variants",

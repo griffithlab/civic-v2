@@ -720,10 +720,28 @@ export type CreateFusionVariantPayloadFieldPolicy = {
 	new?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CreateLinkedSourcePayloadKeySpecifier = ('clientMutationId' | 'sourceLink' | CreateLinkedSourcePayloadKeySpecifier)[];
+export type CreateLinkedSourcePayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceLink?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CreateMolecularProfilePayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | CreateMolecularProfilePayloadKeySpecifier)[];
 export type CreateMolecularProfilePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CreateSourceLinkActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'sourceLink' | 'subject' | 'user' | 'verbiage' | CreateSourceLinkActivityKeySpecifier)[];
+export type CreateSourceLinkActivityFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceLink?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CreateVariantActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'molecularProfile' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | CreateVariantActivityKeySpecifier)[];
 export type CreateVariantActivityFieldPolicy = {
@@ -1357,7 +1375,7 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'coordinates' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'openRevisionCount' | 'primaryCoordinates' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | GeneVariantKeySpecifier)[];
+export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'coordinates' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatAnnotations' | 'openCravatUrl' | 'openRevisionCount' | 'primaryCoordinates' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | GeneVariantKeySpecifier)[];
 export type GeneVariantFieldPolicy = {
 	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1381,6 +1399,7 @@ export type GeneVariantFieldPolicy = {
 	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	myVariantInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	openCravatAnnotations?: FieldPolicy<any> | FieldReadFunction<any>,
 	openCravatUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	openRevisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	primaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1652,7 +1671,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'endorseAssertion' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'revokeEndorsement' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createLinkedSource' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'endorseAssertion' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'revokeEndorsement' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1662,6 +1681,7 @@ export type MutationFieldPolicy = {
 	createFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFusionFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFusionVariant?: FieldPolicy<any> | FieldReadFunction<any>,
+	createLinkedSource?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	createVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2157,7 +2177,7 @@ export type SearchResultFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'deprecated' | 'displayType' | 'events' | 'fullJournalTitle' | 'fullyCurated' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'retracted' | 'retractionDate' | 'retractionNature' | 'retractionReasons' | 'sourceType' | 'sourceUrl' | 'title' | SourceKeySpecifier)[];
+export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'deprecated' | 'displayType' | 'events' | 'fullJournalTitle' | 'fullyCurated' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'linkedSources' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'retracted' | 'retractionDate' | 'retractionNature' | 'retractionReasons' | 'sourceLinks' | 'sourceType' | 'sourceUrl' | 'title' | SourceKeySpecifier)[];
 export type SourceFieldPolicy = {
 	abstract?: FieldPolicy<any> | FieldReadFunction<any>,
 	ascoAbstractId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2175,6 +2195,7 @@ export type SourceFieldPolicy = {
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	linkedSources?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	openAccess?: FieldPolicy<any> | FieldReadFunction<any>,
 	pmcId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2186,6 +2207,7 @@ export type SourceFieldPolicy = {
 	retractionDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	retractionNature?: FieldPolicy<any> | FieldReadFunction<any>,
 	retractionReasons?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceLinks?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
@@ -2203,7 +2225,19 @@ export type SourceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourcePopoverKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'deprecated' | 'displayType' | 'events' | 'evidenceItemCount' | 'fullJournalTitle' | 'fullyCurated' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'retracted' | 'retractionDate' | 'retractionNature' | 'retractionReasons' | 'sourceType' | 'sourceUrl' | 'title' | SourcePopoverKeySpecifier)[];
+export type SourceLinkKeySpecifier = ('createdAt' | 'id' | 'link' | 'linkedSource' | 'name' | 'note' | 'reason' | 'source' | 'updatedAt' | SourceLinkKeySpecifier)[];
+export type SourceLinkFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	linkedSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	reason?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SourcePopoverKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'deprecated' | 'displayType' | 'events' | 'evidenceItemCount' | 'fullJournalTitle' | 'fullyCurated' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'linkedSources' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'retracted' | 'retractionDate' | 'retractionNature' | 'retractionReasons' | 'sourceLinks' | 'sourceType' | 'sourceUrl' | 'title' | SourcePopoverKeySpecifier)[];
 export type SourcePopoverFieldPolicy = {
 	abstract?: FieldPolicy<any> | FieldReadFunction<any>,
 	ascoAbstractId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2222,6 +2256,7 @@ export type SourcePopoverFieldPolicy = {
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	linkedSources?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	openAccess?: FieldPolicy<any> | FieldReadFunction<any>,
 	pmcId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2233,6 +2268,7 @@ export type SourcePopoverFieldPolicy = {
 	retractionDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	retractionNature?: FieldPolicy<any> | FieldReadFunction<any>,
 	retractionReasons?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceLinks?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
@@ -3012,9 +3048,17 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | CreateFusionVariantPayloadKeySpecifier | (() => undefined | CreateFusionVariantPayloadKeySpecifier),
 		fields?: CreateFusionVariantPayloadFieldPolicy,
 	},
+	CreateLinkedSourcePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateLinkedSourcePayloadKeySpecifier | (() => undefined | CreateLinkedSourcePayloadKeySpecifier),
+		fields?: CreateLinkedSourcePayloadFieldPolicy,
+	},
 	CreateMolecularProfilePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateMolecularProfilePayloadKeySpecifier | (() => undefined | CreateMolecularProfilePayloadKeySpecifier),
 		fields?: CreateMolecularProfilePayloadFieldPolicy,
+	},
+	CreateSourceLinkActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateSourceLinkActivityKeySpecifier | (() => undefined | CreateSourceLinkActivityKeySpecifier),
+		fields?: CreateSourceLinkActivityFieldPolicy,
 	},
 	CreateVariantActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateVariantActivityKeySpecifier | (() => undefined | CreateVariantActivityKeySpecifier),
@@ -3519,6 +3563,10 @@ export type StrictTypedTypePolicies = {
 	SourceEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceEdgeKeySpecifier | (() => undefined | SourceEdgeKeySpecifier),
 		fields?: SourceEdgeFieldPolicy,
+	},
+	SourceLink?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SourceLinkKeySpecifier | (() => undefined | SourceLinkKeySpecifier),
+		fields?: SourceLinkFieldPolicy,
 	},
 	SourcePopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourcePopoverKeySpecifier | (() => undefined | SourcePopoverKeySpecifier),

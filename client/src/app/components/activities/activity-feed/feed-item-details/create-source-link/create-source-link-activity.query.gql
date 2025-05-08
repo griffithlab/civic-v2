@@ -1,0 +1,7 @@
+fragment CreateSourceLinkActivityDetail on CreateSourceLinkActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+}

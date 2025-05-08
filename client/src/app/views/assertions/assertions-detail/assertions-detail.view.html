@@ -3,13 +3,13 @@
 @if (entity) {
   <cvc-section-navigation [displayName]="entity.name"></cvc-section-navigation>
   <div
-    cvcFlaggable
-    [cvcFlaggableCounts]="flaggableCounts()">
+    cvcEndorsable
+    [cvcEndorsableCounts]="endorsableCounts()">
     <nz-page-header class="site-page-header">
       <nz-page-header-title
         [ngClass]="{
           flagged:
-            flaggableCounts().endorsements > 0 || flaggableCounts().flags > 0,
+            endorsableCounts().endorsements > 0 || endorsableCounts().flags > 0,
         }">
         <i
           nz-icon
@@ -74,7 +74,9 @@
                   mode="endorse"
                   [assertionId]="entity.id"
                   [disabled]="!(vwr | canCreateEndorsement: entity)"
-                  [tooltipText]="(vwr | endorsementActionTooltip : 'create' : entity)"
+                  [tooltipText]="
+                    vwr | endorsementActionTooltip: 'create' : entity
+                  "
                   (onEndorsed)="onEndorsement($event)">
                 </cvc-endorse-assertion-button>
               }
@@ -125,8 +127,10 @@
             </ng-template>
           </cvc-tab-navigation>
           @if (vwr && vwr.signedIn && entity.status === 'SUBMITTED') {
-            @if (vwr.canModerate ||
-            vwr.user?.id === entity.submissionEvent.originatingUser.id) {
+            @if (
+              vwr.canModerate ||
+              vwr.user?.id === entity.submissionEvent.originatingUser.id
+            ) {
               <cvc-moderate-entity-buttons
                 entityType="Assertion"
                 [entityId]="entity.id"

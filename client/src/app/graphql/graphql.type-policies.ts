@@ -26,6 +26,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'therapyName',
         'featureAlias',
         'diseaseName',
+        'searchScope'
       ]),
       browseVariants: relayStylePagination([
         'variantName',

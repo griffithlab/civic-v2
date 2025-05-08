@@ -29,6 +29,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { RouterModule } from '@angular/router'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { CvcEndorsementNotificationComponent } from '@app/components/endorsements/endorsement-notification/endorsement-notification.component'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -64,6 +65,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     CvcMolecularProfileTagNameModule,
     CvcCommentBodyModule,
     CvcOrganizationTagModule,
+    CvcEndorsementNotificationComponent,
   ],
   exports: [AssertionsSummaryPage],
 })
