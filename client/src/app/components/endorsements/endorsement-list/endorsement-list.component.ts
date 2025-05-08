@@ -10,14 +10,6 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import {
-  feedDefaultFilters,
-  feedDefaultSettings,
-} from '@app/components/activities/activity-feed/activity-feed.config'
-import {
-  ActivityFeedFilters,
-  ActivityFeedSettings,
-} from '@app/components/activities/activity-feed/activity-feed.types'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   AssertionDetailFieldsFragment,
@@ -164,20 +156,5 @@ export class CvcEndorsementListComponent implements OnInit {
         }
       )
     })
-  }
-
-  feedSettings(): ActivityFeedSettings {
-    return {
-      ...feedDefaultSettings,
-      showOrganization: false,
-    }
-  }
-
-  feedFilters(endorsement: EndorsementListNodeFragment): ActivityFeedFilters {
-    return {
-      ...feedDefaultFilters,
-      linkedEndorsementId: endorsement.id,
-      occurredAfter: new Date(endorsement.lastReviewed),
-    }
   }
 }
