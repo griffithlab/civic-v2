@@ -19,7 +19,7 @@ class Endorsement < ApplicationRecord
 
     existing_batch_entry = ClinvarBatchEntry.joins(:clinvar_batch_submission).where(
       clinvar_batch_submissions: { clinvar_api_key_id: api_key.id },
-      asssertion_id: self.assertion_id
+      assertion_id: self.assertion_id
     ).exists?
     if existing_batch_entry
       return  false
