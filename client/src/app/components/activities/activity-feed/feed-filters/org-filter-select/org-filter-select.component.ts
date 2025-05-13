@@ -55,7 +55,7 @@ export class CvcOrgFilterSelect {
       }),
       map(
         (result) =>
-          result.data?.organizations.edges.map(
+          result.data?.browseOrganizations.edges.map(
             (e) => e.node! as BrowseOrganization
           ) ?? []
       ),
