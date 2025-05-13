@@ -1,8 +1,8 @@
 class Leaderboard
   def self.organization_base_query(*actions)
-    Organization.joins(users: [ :events ])
+    Organization.joins(:events)
         .where("events.action" => actions)
-        .where.not("users.id" => Constants::CIVICBOT_USER_ID)
+        .where.not("events.originating_user_id" => Constants::CIVICBOT_USER_ID)
         .group("organizations.id")
         .select('
                 organizations.*,
