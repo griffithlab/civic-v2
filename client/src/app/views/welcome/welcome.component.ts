@@ -40,7 +40,7 @@ export class WelcomeComponent implements OnInit {
         <ul>
           <li><a href="https://www.opencravat.org/" target="_blank">OpenCRAVAT</a> calibrated variant effect predictor scores are now integrated directly into <a href="https://civicdb.org/variants/12/summary" target="_blank">CIViC Variant Pages</a>.</li>
             <br/>
-          <li>CIViC users can now generate and manage API Keys, allowing for programatic submission of Evidence from their own internal repositories.</li>
+          <li>CIViC users can now generate and manage API Keys, allowing for programmatic submission of Evidence from their own internal repositories.</li>
             <br/>
           <li>We have launched an entirely redesigned <a href="https://civicdb.org/curation/activity/curation-timeline" target="_blank">Activity Feed</a> backed by an even more robust data provenance system under the hood. This strengthens CIViC's commitment to transparency and makes the full history of each piece of Evidence more discoverable.</li>
             <br/>
