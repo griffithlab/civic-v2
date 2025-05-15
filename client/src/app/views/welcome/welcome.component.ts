@@ -14,10 +14,10 @@ interface GithubRelease {
 }
 
 @Component({
-    selector: 'app-welcome',
-    templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.less'],
-    standalone: false
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.less'],
+  standalone: false,
 })
 export class WelcomeComponent implements OnInit {
   release$?: Observable<GithubRelease>
@@ -25,6 +25,31 @@ export class WelcomeComponent implements OnInit {
   feedMode = EventFeedMode.Unscoped
 
   newsItems: CvcNewsItem[] = [
+    {
+      title: 'Join us in Houston on August 2nd!',
+      date: '2025-05-01',
+      htmlText: `Please join the CIViC team for the annual <a href="https://www.cancergenomics.org/meetings/2025_variant_interpretation_un.php" target="_blank">Variant Interpretation Unconference</a> attached as a pre-meeting to the Cancer Genomics Consortium's <a href="https://cancergenomics.org/meetings/cgc_2025_annual_meeting.php" target="_blank">Annual Meeting</a> in Houston! <br/><br/>
+
+          This event, hosted by The Variant Interpretation for Cancer Consortium (VICC), The CGC, ClinGen, and CIViC is a chance to engage with the CIViC team directly and collaborate with clinical experts, laboratory directors, variant scientists, software developers, and bioinformaticians from industry, government, and academia on projects related to variant interpretation, curation, and tool building.`,
+    },
+    {
+      title: 'Spring Development Updates',
+      date: '2025-04-22',
+      htmlText: `Its been a busy year already for CIViC development, and we wanted to highlight some recent improvements and upcoming features! <br/><br/>
+
+        <ul>
+          <li><a href="https://www.opencravat.org/" target="_blank">OpenCRAVAT</a> calibrated variant effect predictor scores are now integrated directly into <a href="https://civicdb.org/variants/12/summary" target="_blank">CIViC Variant Pages</a>.</li>
+            <br/>
+          <li>CIViC users can now generate and manage API Keys, allowing for programmatic submission of Evidence from their own internal repositories.</li>
+            <br/>
+          <li>We have launched an entirely redesigned <a href="https://civicdb.org/curation/activity/curation-timeline" target="_blank">Activity Feed</a> backed by an even more robust data provenance system under the hood. This strengthens CIViC's commitment to transparency and makes the full history of each piece of Evidence more discoverable.</li>
+            <br/>
+          <li>Coming Soon: We are actively testing a new feature that allows approved Organizations (e.g., ClinGen SC-VCEPs) to Endorse Assertions. These Endorsed Assertions will be automatically submitted to ClinVar under the corresponding organization.</li>
+        </ul>
+        <br/>
+        If you have any questions about these new features, our development roadmap, or require assistance using CIViC feel free to reach out to us at <a href="mailto:help@civicdb.org">help@civicdb.org</a>!
+      `,
+    },
     {
       title: 'Moving Beyond the Gene-Variant Data Model',
       date: '2024-09-16',
