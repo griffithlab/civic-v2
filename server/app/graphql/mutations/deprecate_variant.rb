@@ -44,6 +44,16 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Variant is linked to Molecular Profiles with accepted or submitted Evidence Items: #{mps_with_eids.join(', ')}. Move their Evidence Items to a different Molecular Profile and try again."
     end
 
+    mps_with_open_revisions = []
+    variant.molecular_profiles.each do |mp|
+      if Revision.where(field_name: "molecular_profile_id", suggested_value: mp.id, status: "new").count > 0
+        mps_with_open_revisions.append(mp.id)
+      end
+    end
+    if mps_with_open_revisions.size > 0
+      raise GraphQL::ExecutionError, "Variant is linked to Molecular Profiles that are part of an open revision to move an Evidence Item or Assertion to the Molecular Profile: #{mps_with_open_revisions.join(', ')}. Resolve the revision(s) and try again."
+    end
+
     return true
   end
 
