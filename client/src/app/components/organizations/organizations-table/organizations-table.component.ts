@@ -125,7 +125,7 @@ export class CvcOrganizationsTableComponent implements OnInit {
 
     // entity relay connection
     this.connection$ = this.result$.pipe(
-      pluck('data', 'organizations'),
+      pluck('data', 'browseOrganizations'),
       filter(isNonNulled)
     ) as Observable<BrowseOrganizationConnection>
 
