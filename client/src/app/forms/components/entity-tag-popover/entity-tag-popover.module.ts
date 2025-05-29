@@ -10,6 +10,7 @@ import { CvcSourcePopoverModule } from '@app/components/sources/source-popover/s
 import { CvcTherapyPopoverModule } from '@app/components/therapies/cvc-therapy-popover/cvc-therapy-popover.module'
 import { CvcVariantPopoverModule } from '@app/components/variants/variant-popover/variant-popover.module'
 import { CvcEntityTagPopoverComponent } from './entity-tag-popover.component'
+import { CvcVariantGroupPopoverModule } from '@app/components/variant-groups/variant-group-popover/variant-group-popover.module'
 
 @NgModule({
   declarations: [CvcEntityTagPopoverComponent],
@@ -24,6 +25,7 @@ import { CvcEntityTagPopoverComponent } from './entity-tag-popover.component'
     CvcFeaturePopoverModule,
     CvcVariantPopoverModule,
     CvcAssertionsPopoverModule,
+    CvcVariantGroupPopoverModule,
   ],
   exports: [CvcEntityTagPopoverComponent],
 })

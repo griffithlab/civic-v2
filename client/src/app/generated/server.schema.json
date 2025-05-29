@@ -44924,8 +44924,8 @@
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
-                      "kind": "OBJECT",
-                      "name": "Variant",
+                      "kind": "INTERFACE",
+                      "name": "VariantInterface",
                       "ofType": null
                     }
                   }

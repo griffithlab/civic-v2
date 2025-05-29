@@ -8,7 +8,7 @@ import {
   ViewChildren,
 } from '@angular/core'
 import { SourceTypeDisplayPipe } from '@app/core/pipes/source-type-display.pipe'
-import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.types'
 
 import { Maybe, SourceSource } from '@app/generated/civic.apollo'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'

@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 import { ApolloQueryResult, gql } from '@apollo/client/core'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
-import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
+import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.types'
 import {
   VariantManagerGQL,
   VariantManagerQuery,
@@ -74,11 +74,11 @@ export type VariantManagerSettings = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variant-manager',
-    templateUrl: './variant-manager.component.html',
-    styleUrls: ['./variant-manager.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variant-manager',
+  templateUrl: './variant-manager.component.html',
+  styleUrls: ['./variant-manager.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableSettings?: VariantManagerSettings

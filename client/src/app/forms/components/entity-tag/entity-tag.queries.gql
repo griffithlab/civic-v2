@@ -1,32 +1,174 @@
-query LinkableGene($geneId: Int!) {
-  gene(id: $geneId) {
-    id
-    name
-    link
-  }
+fragment variantTagFields on Variant {
+  id
+  name
 }
 
-query LinkableVariant($variantId: Int!) {
-  variant(id: $variantId) {
-    id
-    name
-    link
-  }
+fragment variantLinkableTagFields on Variant {
+  id
+  name
+  link
 }
 
-query LinkableTherapy($therapyId: Int!) {
-  therapy(id: $therapyId) {
-    id
-    name
-    link
-  }
+fragment geneVariantTagFields on GeneVariant {
+  id
+  name
 }
 
-query LinkableFeature($featureId: Int!) {
-  feature(id: $featureId) {
-    id
-    name
-    link
-    featureType
-  }
+fragment geneVariantLinkableTagFields on GeneVariant {
+  id
+  name
+  link
+}
+
+fragment featureTagFields on Feature {
+  id
+  name
+}
+
+fragment featureLinkableTagFields on Feature {
+  id
+  name
+  link
+}
+
+fragment factorVariantTagFields on FactorVariant {
+  id
+  name
+}
+
+fragment factorVariantLinkableTagFields on FactorVariant {
+  id
+  name
+  link
+}
+
+fragment fusionVariantTagFields on FusionVariant {
+  id
+  name
+}
+
+fragment fusionVariantLinkableTagFields on FusionVariant {
+  id
+  name
+  link
+}
+
+fragment clinicalTrialTagFields on ClinicalTrial {
+  id
+  name
+}
+
+fragment clinicalTrialLinkableTagFields on ClinicalTrial {
+  id
+  name
+  link
+}
+
+fragment evidenceTagFields on EvidenceItem {
+  id
+  name
+}
+
+fragment evidenceLinkableTagFields on EvidenceItem {
+  id
+  name
+  link
+}
+
+fragment assertionTagFields on Assertion {
+  id
+  name
+}
+
+fragment assertionLinkableTagFields on Assertion {
+  id
+  name
+  link
+}
+
+fragment therapyTagFields on Therapy {
+  id
+  name
+}
+
+fragment therapyLinkableTagFields on Therapy {
+  id
+  name
+  link
+}
+
+fragment diseaseTagFields on Disease {
+  id
+  name
+}
+
+fragment diseaseLinkableTagFields on Disease {
+  id
+  name
+  link
+}
+
+fragment molecularProfileTagFields on MolecularProfile {
+  id
+  name
+}
+
+fragment molecularProfileLinkableTagFields on MolecularProfile {
+  id
+  name
+  link
+}
+
+fragment phenotypeTagFields on Phenotype {
+  id
+  name
+}
+
+fragment phenotypeLinkableTagFields on Phenotype {
+  id
+  name
+  link
+}
+
+fragment sourceTagFields on Source {
+  id
+  name
+}
+
+fragment sourceLinkableTagFields on Source {
+  id
+  name
+  link
+}
+
+fragment variantTypeTagFields on VariantType {
+  id
+  name
+}
+
+fragment variantTypeLinkableTagFields on VariantType {
+  id
+  name
+  link
+}
+
+fragment variantGroupTagFields on VariantGroup {
+  id
+  name
+}
+
+fragment variantGroupLinkableTagFields on VariantGroup {
+  id
+  name
+  link
+}
+
+fragment clingenCodeTagFields on ClingenCode {
+  id
+  name
+}
+
+fragment acmgCodeTagFields on AcmgCode {
+  id
+  name
 }

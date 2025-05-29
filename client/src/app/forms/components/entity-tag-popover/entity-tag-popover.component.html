@@ -34,4 +34,29 @@
       [variantId]="entity.entityId"
       (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
   }
+  @case ('FactorVariant') {
+    <cvc-variant-popover
+      [variantId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
+  }
+  @case ('FeatureVariant') {
+    <cvc-variant-popover
+      [variantId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
+  }
+  @case ('FusionVariant') {
+    <cvc-variant-popover
+      [variantId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
+  }
+  @case ('GeneVariant') {
+    <cvc-variant-popover
+      [variantId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
+  }
+  @case ('VariantGroup') {
+    <cvc-variant-group-popover
+      [variantGroupId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-variant-group-popover>
+  }
 }
