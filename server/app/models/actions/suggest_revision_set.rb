@@ -75,5 +75,9 @@ class Actions::SuggestRevisionSet
     unless any_changes
       raise StandardError.new("You must change at least one field in order to suggest a revision.")
     end
+
+    if revision_results.none? { |r| r[:newly_created] }
+      raise StandardError.new("All proposed revisions already exist. Please review them or suggest unique changes.")
+    end
   end
 end
