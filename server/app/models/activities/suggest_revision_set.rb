@@ -37,7 +37,13 @@ module Activities
     end
 
     def linked_entities
-      [ revision_set, revisions ].flatten
+      new_revision_ids = revision_results
+        .select { |r| r[:newly_created] }
+        .map { |r| r[:id] }
+
+      new_revisions = revisions.select { |r| new_revision_ids.include?(r.id) }
+
+      [ revision_set, new_revisions ].flatten
     end
   end
 end

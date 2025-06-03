@@ -2,10 +2,11 @@ module Activities
   class ModerateAssertion < Base
     attr_reader :assertion, :new_status, :endorsements
 
-    def initialize(originating_user:, assertion:, organization_id: nil, new_status:)
-      super(organization_id: organization_id, user: originating_user)
+    def initialize(originating_user:, assertion:, organization_id: nil, new_status:, note: nil)
+      super(organization_id: organization_id, user: originating_user, note: note)
       @assertion = assertion
       @new_status = new_status
+      @note = note
     end
 
     private
@@ -14,6 +15,7 @@ module Activities
         subject: assertion,
         user: user,
         organization: organization,
+        note: note
       )
     end
 

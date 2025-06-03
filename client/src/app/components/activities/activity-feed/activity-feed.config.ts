@@ -45,8 +45,6 @@ export const simpleActivityTypes = new Set([
   'CreateComplexMolecularProfileActivity',
   'CreateVariantActivity',
   'CreateFeatureActivity',
-  'ModerateAssertionActivity',
-  'ModerateEvidenceItemActivity',
   'DeleteCommentActivity',
   'EndorseAssertionActivity',
 ])
@@ -60,6 +58,8 @@ export const commentOnlyActivityTypes = new Set([
   'SubmitEvidenceItemActivity',
   'DeprecateComplexMolecularProfileActivity',
   'RevokeEndorsementActivity',
+  'ModerateAssertionActivity',
+  'ModerateEvidenceItemActivity',
 ])
 
 //TODO: Remove me, not needed

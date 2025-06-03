@@ -3611,6 +3611,11 @@ enum EvidenceSignificance {
   DOMINANT_NEGATIVE
   GAIN_OF_FUNCTION
   LIKELY_BENIGN
+
+  """
+  Likely Oncogenic
+  """
+  LIKELY_ONCOGENIC
   LIKELY_PATHOGENIC
   LOSS_OF_FUNCTION
   NA
@@ -6179,6 +6184,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   ): MolecularProfileConnection!
   myVariantInfo: MyVariantInfo
   name: String!
+  openCravatAnnotations: JSON
   openCravatUrl: String
   openRevisionCount: Int!
   primaryCoordinates: VariantCoordinate @deprecated(reason: "The new Fusion variant type means Gene variants no longer have primary and secondary coordinates. Use 'coordinates' instead.")
@@ -6727,6 +6733,11 @@ input ModerateAssertionInput {
   clientMutationId: String
 
   """
+  Comment explaining the moderation action. Required when rejecting.
+  """
+  comment: String
+
+  """
   The desired status of the Assertion
   """
   newStatus: EvidenceStatus!
@@ -6775,6 +6786,11 @@ input ModerateEvidenceItemInput {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+
+  """
+  Optional comment explaining the moderation action. Required if the new status is 'rejected'.
+  """
+  comment: String
 
   """
   ID of the Evidence Item to moderate
@@ -8131,6 +8147,51 @@ type Organization {
 }
 
 """
+The connection type for Organization.
+"""
+type OrganizationConnection {
+  """
+  A list of edges.
+  """
+  edges: [OrganizationEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Organization!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type OrganizationEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Organization
+}
+
+"""
 Filter on organization id and whether or not to include the organization's subgroups
 """
 input OrganizationFilter {
@@ -8659,6 +8720,46 @@ type Query {
     variantId: Int
     variantName: String
   ): BrowseMolecularProfileConnection!
+
+  """
+  List and filter organizations.
+  """
+  browseOrganizations(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Exact match filtering on the id of the organization.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Substring filtering on the name of the organization.
+    """
+    name: String
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: OrganizationSort
+  ): BrowseOrganizationConnection!
   browsePhenotypes(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -9580,12 +9681,7 @@ type Query {
     Substring filtering on the name of the organization.
     """
     name: String
-
-    """
-    Columm and direction to sort evidence on.
-    """
-    sortBy: OrganizationSort
-  ): BrowseOrganizationConnection!
+  ): OrganizationConnection!
 
   """
   Find a phenotype by CIViC ID
@@ -13548,6 +13644,7 @@ enum VariantMenuSortColumns {
 enum VariantOrigin {
   COMBINED
   COMMON_GERMLINE
+  MIXED
   NA
   RARE_GERMLINE
   SOMATIC

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
+  create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -294,6 +295,58 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.index ["source_id"], name: "index_clinical_trials_sources_on_source_id"
   end
 
+  create_table "clinvar_accessions", force: :cascade do |t|
+    t.string "clinvar_accession"
+    t.bigint "assertion_id", null: false
+    t.bigint "organization_id", null: false
+    t.integer "clinvar_star_rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_clinvar_accessions_on_assertion_id"
+    t.index ["clinvar_accession"], name: "index_clinvar_accessions_on_clinvar_accession", unique: true
+    t.index ["organization_id"], name: "index_clinvar_accessions_on_organization_id"
+  end
+
+  create_table "clinvar_api_keys", force: :cascade do |t|
+    t.text "api_key", null: false
+    t.integer "star_rating"
+    t.text "note"
+    t.bigint "organization_id", null: false
+    t.boolean "active", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["api_key"], name: "index_clinvar_api_keys_on_api_key", unique: true
+    t.index ["organization_id"], name: "index_clinvar_api_keys_on_organization_id"
+  end
+
+  create_table "clinvar_batch_entries", force: :cascade do |t|
+    t.bigint "clinvar_batch_submission_id", null: false
+    t.bigint "assertion_id", null: false
+    t.string "clinvar_accession"
+    t.string "status", null: false
+    t.datetime "date_last_evaluated", null: false
+    t.jsonb "errors"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_clinvar_batch_entries_on_assertion_id"
+    t.index ["clinvar_accession"], name: "index_clinvar_batch_entries_on_clinvar_accession"
+    t.index ["clinvar_batch_submission_id"], name: "index_clinvar_entries_on_batch_submission_id"
+    t.index ["status"], name: "index_clinvar_batch_entries_on_status"
+  end
+
+  create_table "clinvar_batch_submissions", force: :cascade do |t|
+    t.bigint "clinvar_api_key_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "submitted_at"
+    t.string "status"
+    t.string "batch_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clinvar_api_key_id"], name: "index_clinvar_batch_submissions_on_clinvar_api_key_id"
+    t.index ["organization_id"], name: "index_clinvar_batch_submissions_on_organization_id"
+    t.index ["status"], name: "index_clinvar_batch_submissions_on_status"
+  end
+
   create_table "clinvar_entries", id: :serial, force: :cascade do |t|
     t.string "clinvar_id"
     t.datetime "created_at", precision: nil
@@ -308,6 +361,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.integer "variants_id"
     t.index ["clinvar_entry_id", "variant_id"], name: "idx_clinvar_variants"
     t.index ["variant_id"], name: "index_clinvar_entries_variants_on_variant_id"
+  end
+
+  create_table "clinvar_submission_responses", force: :cascade do |t|
+    t.bigint "clinvar_batch_submission_id", null: false
+    t.jsonb "api_response"
+    t.datetime "queried_at"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clinvar_batch_submission_id"], name: "index_clinvar_responses_on_batch_submission_id"
+    t.index ["status"], name: "index_clinvar_submission_responses_on_status"
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
@@ -336,6 +400,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
   create_table "countries", id: :serial, force: :cascade do |t|
     t.text "iso", null: false
     t.text "name", null: false
+  end
+
+  create_table "cytogenetic_coordinates", force: :cascade do |t|
+    t.bigint "cytogenetic_region_id", null: false
+    t.integer "reference_build", null: false
+    t.text "chromosome", null: false
+    t.integer "start", null: false
+    t.integer "stop", null: false
+    t.index ["chromosome"], name: "index_cytogenetic_coordinates_on_chromosome"
+    t.index ["cytogenetic_region_id"], name: "index_cytogenetic_coordinates_on_cytogenetic_region_id"
+    t.index ["reference_build"], name: "index_cytogenetic_coordinates_on_reference_build"
+    t.index ["start"], name: "index_cytogenetic_coordinates_on_start"
+    t.index ["stop"], name: "index_cytogenetic_coordinates_on_stop"
+  end
+
+  create_table "cytogenetic_regions", force: :cascade do |t|
+    t.text "name", null: false
+    t.text "chromosome", null: false
+    t.text "band"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band"], name: "index_cytogenetic_regions_on_band"
+    t.index ["chromosome"], name: "index_cytogenetic_regions_on_chromosome"
+    t.index ["name"], name: "index_cytogenetic_regions_on_name"
   end
 
   create_table "data_versions", id: :serial, force: :cascade do |t|
@@ -592,6 +680,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.boolean "deleted", default: false
     t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
+    t.text "uniprot_ids", default: [], array: true
     t.index "char_length((name)::text)", name: "gene_name_size_idx"
     t.index ["deleted"], name: "index_genes_on_deleted"
     t.index ["name"], name: "index_genes_on_name"
@@ -723,6 +812,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.index ["variant_type_id", "pipeline_type_id"], name: "idx_variant_type_pipeline_type"
   end
 
+  create_table "region_members", force: :cascade do |t|
+    t.bigint "region_id", null: false
+    t.bigint "cytogenetic_region_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cytogenetic_region_id"], name: "index_region_members_on_cytogenetic_region_id"
+    t.index ["position"], name: "index_region_members_on_position"
+    t.index ["region_id"], name: "index_region_members_on_region_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "regulatory_agencies", id: :serial, force: :cascade do |t|
     t.text "abbreviation"
     t.text "name"
@@ -783,6 +888,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
+  end
+
+  create_table "source_links", force: :cascade do |t|
+    t.enum "reason", null: false, enum_type: "source_link_reason"
+    t.bigint "source_id", null: false
+    t.bigint "linked_source_id", null: false
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["linked_source_id"], name: "index_source_links_on_linked_source_id"
+    t.index ["source_id"], name: "index_source_links_on_source_id"
   end
 
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
@@ -1039,6 +1155,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
+    t.text "open_cravat_url"
+    t.string "iscn_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -1046,6 +1164,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
     t.index ["gene_id"], name: "index_variants_on_gene_id"
+    t.index ["iscn_name"], name: "index_variants_on_iscn_name"
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
     t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
@@ -1088,8 +1207,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
   add_foreign_key "authors_sources", "sources"
   add_foreign_key "badge_claims", "badges"
   add_foreign_key "badge_claims", "users"
+  add_foreign_key "clinvar_accessions", "assertions"
+  add_foreign_key "clinvar_accessions", "organizations"
+  add_foreign_key "clinvar_api_keys", "organizations"
+  add_foreign_key "clinvar_batch_entries", "assertions"
+  add_foreign_key "clinvar_batch_entries", "clinvar_batch_submissions"
+  add_foreign_key "clinvar_batch_submissions", "clinvar_api_keys"
+  add_foreign_key "clinvar_batch_submissions", "organizations"
+  add_foreign_key "clinvar_submission_responses", "clinvar_batch_submissions"
   add_foreign_key "comments", "users"
   add_foreign_key "conflict_of_interest_statements", "users"
+  add_foreign_key "cytogenetic_coordinates", "cytogenetic_regions"
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
@@ -1125,10 +1253,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
   add_foreign_key "notifications", "users", column: "notified_user_id"
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
+  add_foreign_key "region_members", "cytogenetic_regions"
+  add_foreign_key "region_members", "regions"
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
+  add_foreign_key "source_links", "sources"
+  add_foreign_key "source_links", "sources", column: "linked_source_id"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "subscriptions", "users"

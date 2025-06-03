@@ -1,5 +1,5 @@
 query OrgFilterSearch($name: String) {
-  organizations(name: $name) {
+  browseOrganizations(name: $name) {
     pageInfo {
       endCursor
       hasNextPage
