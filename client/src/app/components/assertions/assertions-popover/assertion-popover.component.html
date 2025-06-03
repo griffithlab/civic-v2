@@ -46,6 +46,29 @@
       </nz-descriptions-item>
     </nz-descriptions>
 
+    <!-- endorsements -->
+    @if (assertion.endorsements.nodes.length > 0) {
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="1"
+        nzBordered="true"
+        nzLayout="vertical">
+        <nz-descriptions-item nzTitle="Endorsements">
+          @for (
+            endorsement of assertion.endorsements.nodes;
+            track endorsement.id
+          ) {
+            <!-- nz-flex and nz-space weren't working here for some reason,
+            hence the margin-bottom spacing kludge -->
+            <cvc-endorsement-notification
+              [style.margin-bottom]="
+                $index < assertion.endorsements.nodes.length - 1 ? '4px' : '0px'
+              "
+              [cvcEndorsement]="endorsement"></cvc-endorsement-notification>
+          }
+        </nz-descriptions-item>
+      </nz-descriptions>
+    }
     <!-- assertion attributes -->
     <nz-descriptions
       nzSize="small"
@@ -200,7 +223,7 @@
       <nz-descriptions-item
         [nzTitle]="mpTitle"
         nzSpan="2">
-        <ng-template #mpTitle> Molecular&nbsp;Profile </ng-template>
+        <ng-template #mpTitle> Molecular&nbsp;Profile</ng-template>
         <cvc-molecular-profile-tag
           [molecularProfile]="assertion.molecularProfile"
           [enablePopover]="true"></cvc-molecular-profile-tag>

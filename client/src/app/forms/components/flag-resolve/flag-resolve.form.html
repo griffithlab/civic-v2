@@ -8,7 +8,7 @@
 <ng-container *ngrxLet="viewer$ as viewer">
   <ng-container *ngIf="viewer.signedIn; else notSignedIn">
     <ng-container
-      *ngIf="viewer.isEditor || viewer.isAdmin || flag.openActivity.user.id === viewer.id; else noPermissions">
+      *ngIf="viewer.isEditor || viewer.isAdmin || flag.openActivity.user.id === viewer.user?.id; else noPermissions">
       <ng-template *ngTemplateOutlet="submitButton"></ng-template>
     </ng-container>
   </ng-container>
@@ -38,7 +38,7 @@
       [nzPopoverContent]="flagResolvePopoverContentTemplate"
       [nzPopoverTrigger]="undefined "
       nzPopoverPlacement="bottom"
-      [disabled]="!viewer.signedIn || (viewer.isCurator && flag.openActivity.user.id != viewer.id)">
+      [disabled]="!viewer.signedIn || (viewer.isCurator && flag.openActivity.user.id != viewer.user?.id)">
       Resolve Flag
       <i
         nz-icon
