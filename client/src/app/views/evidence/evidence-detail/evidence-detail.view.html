@@ -154,7 +154,7 @@
         </cvc-tab-navigation>
         <nz-space
           nzDirection="vertical"
-          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
+          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.user?.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons
               entityType="EvidenceItem"

@@ -25,6 +25,7 @@ export interface FlaggableSubject {
 })
 export class CvcFlaggableComponent implements AfterViewInit, OnChanges {
   @Input() flags?: Maybe<number>
+  @Input() endorsements?: Maybe<number>
   @Input() entity?: Maybe<FlaggableSubject>
   @ContentChild(CvcFlaggableOptionsDirective, {
     static: false,
@@ -35,11 +36,11 @@ export class CvcFlaggableComponent implements AfterViewInit, OnChanges {
   constructor(private renderer: Renderer2) {}
 
   ngOnChanges(): void {
-    this.flags && this.flags === 0 ? this.removeFlagged() : this.addFlagged()
+    (this.flags && this.flags > 0) || (this.endorsements && this.endorsements > 0) ? this.addFlagged() : this.removeFlagged()
   }
 
   ngAfterViewInit(): void {
-    this.flags && this.flags === 0 ? this.removeFlagged() : this.addFlagged()
+    (this.flags && this.flags > 0) || (this.endorsements && this.endorsements > 0) ? this.addFlagged() : this.removeFlagged()
   }
 
   addFlagged(): void {

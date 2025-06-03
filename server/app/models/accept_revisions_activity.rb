@@ -16,6 +16,8 @@ class AcceptRevisionsActivity < Activity
     source: :entity,
     source_type: "Revision"
 
+  has_many_linked :endorsements
+
   def generate_verbiage
     rev_count = linked_revisions.size
     "accepted #{rev_count} #{'revision'.pluralize(rev_count)} to"

@@ -1,6 +1,6 @@
 module Activities
   class ResolveFlag < Base
-    attr_reader :resolving_user, :flag
+    attr_reader :resolving_user, :flag, :endorsements
 
     def initialize(resolving_user:, flag:, organization_id: nil, note:)
       super(organization_id: organization_id, user: resolving_user, note: note)
@@ -30,8 +30,12 @@ module Activities
       events << cmd.events
     end
 
+    def after_actions
+      @endorsements = flag.open_activity.endorsements
+    end
+
     def linked_entities
-      [ flag ]
+      [ flag, endorsements ]
     end
   end
 end

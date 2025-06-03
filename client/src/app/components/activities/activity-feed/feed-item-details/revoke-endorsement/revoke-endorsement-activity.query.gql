@@ -1,0 +1,7 @@
+fragment RevokeEndorsementActivityDetail on RevokeEndorsementActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+}

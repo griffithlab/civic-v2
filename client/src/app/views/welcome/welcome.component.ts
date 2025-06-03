@@ -26,6 +26,13 @@ export class WelcomeComponent implements OnInit {
 
   newsItems: CvcNewsItem[] = [
     {
+      title: 'Introducing Organizational Endorsements',
+      date: '2025-06-03',
+      htmlText: `We have just rolled out support for a feature we call Endorsements. Endorsements allow CIViC Organizations to add their organizational “stamp of approval” to Assertions which are then displayed prominently on the site. This feature will allow Organizations, including ClinGen Variant Curation Expert Panels, to highlight gold-standard Assertions that have been vetted through their organizational review process. Any significant changes to an Endorsed Assertion are automatically tracked and flagged for re-review. Additionally, in a future release, Endorsed Assertions will be automatically submitted to ClinVar on behalf of the endorsing organization if desired.
+          <br/><br/>
+          If you are interested in becoming an Endorsing Organization in CIViC, please reach out to us!`,
+    },
+    {
       title: 'Join us in Houston on August 2nd!',
       date: '2025-05-01',
       htmlText: `Please join the CIViC team for the annual <a href="https://www.cancergenomics.org/meetings/2025_variant_interpretation_un.php" target="_blank">Variant Interpretation Unconference</a> attached as a pre-meeting to the Cancer Genomics Consortium's <a href="https://cancergenomics.org/meetings/cgc_2025_annual_meeting.php" target="_blank">Annual Meeting</a> in Houston! <br/><br/>

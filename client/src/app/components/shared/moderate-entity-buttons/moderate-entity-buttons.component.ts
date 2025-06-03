@@ -24,6 +24,7 @@ import {
   ModerateEvidenceItemGQL,
   ModerateEvidenceItemMutation,
   ModerateEvidenceItemMutationVariables,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzModalService } from 'ng-zorro-antd/modal'
@@ -65,7 +66,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
   isSubmitting = false
   showConfirm = false
 
-  mostRecentOrg: Maybe<Organization>
+  mostRecentOrg: Maybe<ViewerOrganizationFragment>
   viewer$: Observable<Viewer>
   constructor(
     private revertEvidenceGQL: ModerateEvidenceItemGQL,
