@@ -231,7 +231,7 @@ export class AssertionsDetailView {
       return tabConfig
     })
 
-    // provide interation feedback signals
+    // provide interaction feedback signals
     this.errors = signal<string[]>([])
     this.successMessage = signal<Maybe<string>>(undefined)
   } // end constructor
