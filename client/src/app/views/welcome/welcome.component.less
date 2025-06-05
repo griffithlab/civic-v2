@@ -9,26 +9,65 @@
   display: block;
 }
 
-.ant-carousel {
+.hero-banner {
   border: 1px solid #3e5166;
   border-radius: @border-radius-md;
-  height: 200px;
+  height: 75px;
   background-color: @layout-header-background;
-  [nz-carousel-content] {
-    padding-top: 3em;
-    padding-left: 3em;
-    height: 200px;
-    background-color: #2e143e;
-    overflow: hidden;
-    color: #fff;
-    h1 {
-      color: #fff;
-    }
-    h2 {
-      color: #fff;
-    }
+  padding: 8px 10px;
+ 
+  h3 {
+    color: white;
   }
 }
+
+.feature-block {
+  border: 1px solid #999;
+  border-radius: @border-radius-md;
+  height: 75px;
+  padding: 8px 10px;
+
+  h3 {
+    color: white;
+  }
+
+  .open-license {
+    background-color: lightseagreen;
+  }
+
+  .become-an-editor {
+    background-color: lightcoral;
+  }
+
+  .discover {
+    background-color: lightblue;
+  }
+
+  .contribute {
+    background-color: lightgreen;
+  }
+}
+
+//.ant-carousel {
+//  border: 1px solid #3e5166;
+//  border-radius: @border-radius-md;
+//  height: 200px;
+//  background-color: @layout-header-background;
+//  [nz-carousel-content] {
+//    padding-top: 3em;
+//    padding-left: 3em;
+//    height: 200px;
+//    background-color: #2e143e;
+//    overflow: hidden;
+//    color: #fff;
+//    h1 {
+//      color: #fff;
+//    }
+//    h2 {
+//      color: #fff;
+//    }
+//  }
+//}
 
 .home-card {
   border-radius: @border-radius-md;
@@ -40,6 +79,7 @@
 
 #release-info {
   color: white;
+
   a {
     color: white;
     text-decoration: underline;
