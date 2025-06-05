@@ -10,6 +10,7 @@ module Types::Entities
     field :last_reviewed, GraphQL::Types::ISO8601DateTime, null: false
     field :endorsement_activity, Types::Activities::EndorseAssertionActivityType, null: false
     field :revocation_activity, Types::Activities::RevokeEndorsementActivityType, null: true
+    field :ready_for_clinvar_submission, Boolean, null: false
 
     def organization
       Loaders::AssociationLoader.for(Endorsement, :organization).load(object)
@@ -29,6 +30,10 @@ module Types::Entities
 
     def revocation_activity
       Loaders::AssociationLoader.for(Endorsement, :revocation_activity).load(object)
+    end
+
+    def ready_for_clinvar_submission
+      false
     end
   end
 end
