@@ -13,48 +13,49 @@ class EvidenceItem < ActiveRecord::Base
   has_and_belongs_to_many :therapies
   has_and_belongs_to_many :phenotypes
   has_and_belongs_to_many :assertions
-  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+  has_many :endorsements, through: :assertions
+  has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
 
-  enum evidence_type: Constants::EVIDENCE_TYPES, _suffix: true
-  enum evidence_level: Constants::EVIDENCE_LEVELS
-  enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
-  #TODO make this an enum:
-  #enum evidence_status: Constants::EVIDENCE_STATUS
-  enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
-  enum significance: Constants::SIGNIFICANCES
-  enum therapy_interaction_type: Constants::THERAPY_INTERACTION_TYPES
+  enum :evidence_type, Constants::EVIDENCE_TYPES, suffix: true
+  enum :evidence_level, Constants::EVIDENCE_LEVELS
+  enum :evidence_direction, Constants::EVIDENCE_DIRECTIONS, suffix: true
+  # TODO make this an enum:
+  # enum evidence_status: Constants::EVIDENCE_STATUS
+  enum :variant_origin, Constants::VARIANT_ORIGINS, suffix: true
+  enum :significance, Constants::SIGNIFICANCES
+  enum :therapy_interaction_type, Constants::THERAPY_INTERACTION_TYPES
 
   has_one :submission_event,
-    ->() { where(action: 'submitted').includes(:originating_user) },
+    ->() { where(action: "submitted").includes(:originating_user) },
     as: :subject,
-    class_name: 'Event'
+    class_name: "Event"
   has_one :submitter, through: :submission_event, source: :originating_user
   has_one :acceptance_event,
-    ->() { where(action: 'accepted').includes(:originating_user).order('events.created_at desc') },
+    ->() { where(action: "accepted").includes(:originating_user).order("events.created_at desc") },
     as: :subject,
-    class_name: 'Event'
+    class_name: "Event"
   has_one :acceptor, through: :acceptance_event, source: :originating_user
   has_one :rejection_event,
-    ->() { where(action: 'rejected').includes(:originating_user).order('events.created_at desc') },
+    ->() { where(action: "rejected").includes(:originating_user).order("events.created_at desc") },
     as: :subject,
-    class_name: 'Event'
+    class_name: "Event"
   has_one :rejector, through: :rejection_event, source: :originating_user
 
-  has_many :activities, as: :subject, class_name: 'Activity'
+  has_many :activities, as: :subject, class_name: "Activity"
 
   has_one :submission_activity,
-    ->() { where(type: 'SubmitEvidenceItemActivity') },
+    ->() { where(type: "SubmitEvidenceItemActivity") },
     as: :subject,
-    class_name: 'Activity'
+    class_name: "Activity"
 
-  validates :rating, inclusion: [1, 2, 3, 4, 5]
+  validates :rating, inclusion: [ 1, 2, 3, 4, 5 ]
 
 
-  searchkick highlight: [:id], callbacks: :async
+  searchkick highlight: [ :id ], callbacks: :async
 
   def search_data
     {
-      id: name
+      id: name,
     }
   end
 
@@ -73,7 +74,7 @@ class EvidenceItem < ActiveRecord::Base
   def self.timepoint_query
     ->(x) {
       self.where("evidence_items.status != 'rejected'")
-        .where('evidence_items.created_at >= ?', x)
+        .where("evidence_items.created_at >= ?", x)
         .distinct
     }
   end
@@ -92,7 +93,7 @@ class EvidenceItem < ActiveRecord::Base
       :phenotype_ids,
       :rating,
       :therapy_interaction_type,
-      :therapy_ids
+      :therapy_ids,
     ]
   end
 end

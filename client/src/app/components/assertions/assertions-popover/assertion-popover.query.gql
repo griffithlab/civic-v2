@@ -9,6 +9,7 @@ fragment assertionPopover on Assertion {
   name
   status
   summary
+  description
   assertionType
   assertionDirection
   significance
@@ -26,10 +27,9 @@ fragment assertionPopover on Assertion {
     id
     name
   }
+  nccnGuidelineVersion
   regulatoryApproval
-  regulatoryApprovalLastUpdated
   fdaCompanionTest
-  fdaCompanionTestLastUpdated
   therapies {
     id
     name
@@ -66,5 +66,11 @@ fragment assertionPopover on Assertion {
   }
   comments {
     totalCount
+  }
+  endorsements(status: ACTIVE) {
+    totalCount
+    nodes {
+      ...endorsementListNode
+    }
   }
 }

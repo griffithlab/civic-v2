@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ElementRef,
+} from '@angular/core'
 import {
   Maybe,
   VariantGroupPopoverFieldsFragment,
@@ -12,26 +19,38 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-variant-group-popover',
   templateUrl: './variant-group-popover.component.html',
   styleUrls: ['./variant-group-popover.component.less'],
+  standalone: false,
 })
 export class CvcVariantGroupPopoverComponent implements OnInit {
   @Input() variantGroupId!: number
+  @Output() contentRendered = new EventEmitter<void>()
 
   variantGroup$?: Observable<Maybe<VariantGroupPopoverFieldsFragment>>
 
-  constructor(private gql: VariantGroupPopoverGQL) {}
+  private resizeObserver: ResizeObserver
+  constructor(
+    private gql: VariantGroupPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit(): void {
-    if (this.variantGroupId === undefined) {
-      throw new Error(
-        'Must pass a variant group ID into the variant group popover component.'
-      )
-    }
-
     this.variantGroup$ = this.gql
       .watch({ variantGroupId: this.variantGroupId })
       .valueChanges.pipe(
         map(({ data }) => data?.variantGroup),
         filter(isNonNulled)
       )
+  }
+
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

@@ -6,9 +6,10 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-sources-comments',
-  templateUrl: './sources-comments.page.html',
-  styleUrls: ['./sources-comments.page.less'],
+    selector: 'cvc-sources-comments',
+    templateUrl: './sources-comments.page.html',
+    styleUrls: ['./sources-comments.page.less'],
+    standalone: false
 })
 export class SourcesCommentsPage {
   commentable: CommentableInput

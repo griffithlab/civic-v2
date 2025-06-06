@@ -36,7 +36,11 @@ const optionMap = new Map<VariantOrigin, string>([
   ],
   [
     VariantOrigin.Combined,
-    ' Variants in the corresponding Complex Molecular Profile have heterogeneous origins.',
+    'Variants in the corresponding Complex Molecular Profile have heterogeneous origins.',
+  ],
+  [
+    VariantOrigin.Mixed,
+    'The population of patient variants described in the Evidence is a mixture of Somatic and Germline.',
   ],
   [
     VariantOrigin.Unknown,
@@ -77,6 +81,7 @@ const OriginSelectMixin = mixin(
   selector: 'cvc-origin-select',
   templateUrl: './origin-select.type.html',
   styleUrls: ['./origin-select.type.less'],
+  standalone: false,
 })
 export class CvcOriginSelectField
   extends OriginSelectMixin

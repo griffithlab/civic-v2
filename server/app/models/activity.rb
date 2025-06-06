@@ -9,7 +9,7 @@ class Activity < ApplicationRecord
 
 
   def generate_verbiage
-    raise NotImplementedError.new('Subclass must implement generate_verbiage for type')
+    raise NotImplementedError.new("Subclass must implement generate_verbiage for type")
   end
 
   def linked_entities
@@ -17,7 +17,7 @@ class Activity < ApplicationRecord
   end
 
   def link_entities!(entities)
-    Array(entities).flatten.each do |e|
+    Array(entities).flatten.compact.each do |e|
       ActivityLinkedEntity.where(activity: self, entity: e).first_or_create!
     end
   end
@@ -31,7 +31,7 @@ class Activity < ApplicationRecord
     has_one link_name,
       ->() { where(entity_type: class_name) },
       foreign_key: :activity_id,
-      class_name: 'ActivityLinkedEntity'
+      class_name: "ActivityLinkedEntity"
 
     has_one entity_relation_name,
       through: link_name,
@@ -57,7 +57,7 @@ class Activity < ApplicationRecord
     has_many link_name,
       ->() { where(entity_type: class_name) },
       foreign_key: :activity_id,
-      class_name: 'ActivityLinkedEntity'
+      class_name: "ActivityLinkedEntity"
 
     has_many entity_relation_name,
       through: link_name,

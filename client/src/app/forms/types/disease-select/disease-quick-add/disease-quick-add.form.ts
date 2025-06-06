@@ -31,9 +31,10 @@ type DiseaseQuickAddModel = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-disease-quick-add-form',
-  templateUrl: './disease-quick-add.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-disease-quick-add-form',
+    templateUrl: './disease-quick-add.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcDiseaseQuickAddForm {
   @Input()

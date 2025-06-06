@@ -19,6 +19,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'organizations-detail',
   templateUrl: './organizations-detail.component.html',
   styleUrls: ['./organizations-detail.component.less'],
+  standalone: false,
 })
 export class OrganizationsDetailComponent implements OnDestroy {
   queryRef?: QueryRef<OrganizationDetailQuery, OrganizationDetailQueryVariables>
@@ -76,18 +77,31 @@ export class OrganizationsDetailComponent implements OnDestroy {
 
       this.organization$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (org: Maybe<OrganizationDetailFieldsFragment>) => {
+          let tabs: RouteableTab[] = this.defaultTabs
+
           if (org && org.subGroups.length > 0) {
-            this.tabs$.next([
-              ...this.defaultTabs,
+            tabs = [
+              ...tabs,
               {
                 routeName: 'groups',
                 tabLabel: 'Child Organizations',
                 iconName: 'civic-organization',
               },
-            ])
-          } else {
-            this.tabs$.next(this.defaultTabs)
+            ]
           }
+
+          if (org && (org.canEndorse || org.hasEndorsingSubgroups)) {
+            tabs = [
+              ...tabs,
+              {
+                routeName: 'endorsed-assertions',
+                tabLabel: 'Endorsed Assertions',
+                iconName: 'safety-certificate',
+              },
+            ]
+          }
+
+          this.tabs$.next(tabs)
         },
       })
     })

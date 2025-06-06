@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-link-tag',
-  templateUrl: './link-tag.component.html',
+    selector: 'cvc-link-tag',
+    templateUrl: './link-tag.component.html',
+    standalone: false
 })
 export class CvcLinkTagComponent {
   _href: Maybe<string>

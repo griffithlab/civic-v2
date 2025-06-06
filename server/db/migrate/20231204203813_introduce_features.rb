@@ -17,10 +17,10 @@ class IntroduceFeatures < ActiveRecord::Migration[6.1]
       t.references :feature_alias, null: false, index: true, foreign_key: true
     end
 
-    #add_foreign_key :features_feature_aliases, :features
-    #add_foreign_key :features_feature_aliases, :feature_aliases
-    add_index :feature_aliases_features, [:feature_id, :feature_alias_id], name: 'idx_feature_alias'
-    #add_index :features_feature_aliases, :feature_alias_id, name: 'idx_feature_alias_id'
+    # add_foreign_key :features_feature_aliases, :features
+    # add_foreign_key :features_feature_aliases, :feature_aliases
+    add_index :feature_aliases_features, [ :feature_id, :feature_alias_id ], name: 'idx_feature_alias'
+    # add_index :features_feature_aliases, :feature_alias_id, name: 'idx_feature_alias_id'
 
     create_table :features_sources do |t|
       t.references :source, null: false, index: true, foreign_key: true

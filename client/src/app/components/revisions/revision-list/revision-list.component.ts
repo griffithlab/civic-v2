@@ -22,6 +22,7 @@ import {
   ValidateRevisionsForAcceptanceQuery,
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { filter, Observable, Subject, combineLatest } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -42,12 +43,13 @@ type SuccessType = false | 'accepted' | 'rejected'
   selector: 'cvc-revision-list',
   templateUrl: './revision-list.component.html',
   styleUrls: ['./revision-list.component.less'],
+  standalone: false,
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() revisions?: Revision[]
   @Input() refetchQueries: InternalRefetchQueryDescriptor[] = []
 
-  mostRecentOrg!: Maybe<Organization>
+  mostRecentOrg!: Maybe<ViewerOrganizationFragment>
 
   selectedRevisionIds: number[] = []
 

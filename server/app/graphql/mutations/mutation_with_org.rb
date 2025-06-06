@@ -18,7 +18,13 @@ module Mutations
 
     def validate_user_acting_as_org(user:, organization_id:)
       if !user.can_act_for_org?(organization_id: organization_id)
-        raise GraphQL::ExecutionError, "User cannot perform actions on behalf of organization ##{organization_id}" 
+        raise GraphQL::ExecutionError, "User cannot perform actions on behalf of organization ##{organization_id}"
+      end
+    end
+
+    def validate_user_endorsing_as_org(user:, organization_id:)
+      if !user.can_endorse_for_org?(organization_id: organization_id)
+        raise GraphQL::ExecutionError, "User cannot manage endorsements on behalf of organization ##{organization_id}"
       end
     end
   end

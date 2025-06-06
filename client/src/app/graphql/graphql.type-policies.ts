@@ -18,6 +18,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'userId',
         'activityType',
         'subjectType',
+        'linkedEndorsementId',
       ]),
       browseFeatures: relayStylePagination([
         'name',

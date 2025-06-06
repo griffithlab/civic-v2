@@ -16,9 +16,10 @@ import { assertionSubmitFields } from './assertion-submit.form.config'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-assertion-submit-form',
-  templateUrl: './assertion-submit.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-assertion-submit-form',
+    templateUrl: './assertion-submit.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
   model: AssertionSubmitModel

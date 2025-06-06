@@ -1,20 +1,7 @@
 # Fetch only fields required for authorization, perms & tag display
 query ViewerBase {
   viewer {
-    id
-    username
-    role
-    displayName
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
-    mostRecentConflictOfInterestStatement {
-      coiStatus
-    }
-    mostRecentOrganizationId
+    ...viewerFields
   }
 }
 
@@ -22,4 +9,28 @@ query ViewerNotificationCount {
   notifications {
     unreadCount
   }
+}
+
+fragment viewerFields on User {
+    id
+    username
+    role
+    displayName
+    profileImagePath(size: 32)
+    organizationsWithEndorsementPrivileges {
+      id
+    }
+    organizations {
+      ...viewerOrganization
+    }
+    mostRecentConflictOfInterestStatement {
+      coiStatus
+    }
+    mostRecentOrganizationId
+}
+
+fragment viewerOrganization on Organization {
+    id
+    name
+    profileImagePath(size: 32)
 }

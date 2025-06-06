@@ -5,8 +5,8 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :name, String, null: false
     field :link, String, null: false
-    field :variant_names, [String], null: false
-    field :feature_names, [String], null: false
+    field :variant_names, [ String ], null: false
+    field :feature_names, [ String ], null: false
     field :variant_count, Int, null: false
     field :evidence_item_count, Int, null: false
 

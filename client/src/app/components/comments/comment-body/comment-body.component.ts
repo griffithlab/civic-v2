@@ -23,8 +23,9 @@ export type CommentSegment =
   | CommentTextSegment
 
 @Component({
-  selector: 'cvc-comment-body',
-  templateUrl: './comment-body.component.html',
+    selector: 'cvc-comment-body',
+    templateUrl: './comment-body.component.html',
+    standalone: false
 })
 export class CvcCommentBodyComponent implements OnInit {
   @Input() commentBodySegments!: CommentSegment[]

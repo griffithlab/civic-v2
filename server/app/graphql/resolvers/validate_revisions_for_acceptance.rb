@@ -1,8 +1,8 @@
 class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
   type Types::ValidationErrorsType, null: false
 
-  argument :revision_ids, [Int], required: true,
-    description: 'A list of CIViC Revisions IDs to validate'
+  argument :revision_ids, [ Int ], required: true,
+    description: "A list of CIViC Revisions IDs to validate"
 
   def resolve(revision_ids:)
     if revision_ids.empty?
@@ -17,7 +17,7 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
       revision = Revision.find_by(id: id)
       if revision.nil?
         generic_errors << "Revision with id #{id} doesn't exist."
-      elsif revision.status != 'new'
+      elsif revision.status != "new"
         generic_errors << "Revision with id #{id} is already #{revision.status}."
       end
       revision
@@ -36,7 +36,7 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
         user_editing_their_own_submission = [
           revisors.size == 1,
           subjects.first.submitter.id == context[:current_user]&.id,
-          subjects.first.status == 'submitted'
+          subjects.first.status == "submitted",
         ].all?
 
         if !user_editing_their_own_submission
@@ -54,7 +54,7 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
         end
       end
 
-      revisions.compact.group_by{|r| r.field_name}.each do |field_name, rs|
+      revisions.compact.group_by { |r| r.field_name }.each do |field_name, rs|
         if rs.size > 1
           if field_name.ends_with?("_ids")
             formatted_field_name = field_name.singularize.humanize.pluralize
@@ -65,9 +65,9 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
         end
       end
 
-      #validate applying revisions generates valid entity
-      #wrap in a transaction and rollback at the end so that it doesn't
-      #actually commit the tested changes
+      # validate applying revisions generates valid entity
+      # wrap in a transaction and rollback at the end so that it doesn't
+      # actually commit the tested changes
       ActiveRecord::Base.transaction do
         subject = subjects.first
         revisions.each do |revision|

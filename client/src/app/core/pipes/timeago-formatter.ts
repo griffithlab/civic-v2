@@ -23,8 +23,9 @@ const withYearOptions: Intl.DateTimeFormatOptions = {
 const withYearFormatter = new Intl.DateTimeFormat('en-US', withYearOptions)
 
 @Pipe({
-  name: 'timeAgo',
-  pure: true,
+    name: 'timeAgo',
+    pure: true,
+    standalone: false
 })
 export class CivicTimeagoFormatter {
   transform(input: number | string): string {

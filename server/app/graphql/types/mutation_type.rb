@@ -1,10 +1,10 @@
 module Types
   class MutationType < Types::BaseObject
-    #comments
+    # comments
     field :add_comment, mutation: Mutations::AddComment
     field :delete_comment, mutation: Mutations::DeleteComment
 
-    #revisions
+    # revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
     field :suggest_factor_revision, mutation: Mutations::SuggestFactorRevision
     field :suggest_fusion_revision, mutation: Mutations::SuggestFusionRevision
@@ -18,49 +18,57 @@ module Types
     field :reject_revisions, mutation: Mutations::RejectRevisions
     field :accept_revisions, mutation: Mutations::AcceptRevisions
 
-    #subscriptions
+    # subscriptions
     field :subscribe, mutation: Mutations::Subscribe
     field :unsubscribe, mutation: Mutations::Unsubscribe
     field :update_notification_status, mutation: Mutations::UpdateNotificationStatus
 
-    #flags
+    # flags
     field :flag_entity, mutation: Mutations::FlagEntity
     field :resolve_flag, mutation: Mutations::ResolveFlag
 
-    #deprecation
+    # deprecation
     field :deprecate_feature, mutation: Mutations::DeprecateFeature
     field :deprecate_variant, mutation: Mutations::DeprecateVariant
     field :deprecate_complex_molecular_profile, mutation: Mutations::DeprecateComplexMolecularProfile
 
-    #molecular profiles
+    # molecular profiles
     field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile
 
-    #sources
+    # sources
     field :add_remote_citation, mutation: Mutations::AddRemoteCitation
 
-    #source suggestions
+    # source suggestions
     field :update_source_suggestion_status, mutation: Mutations::UpdateSourceSuggestionStatus
 
-    #users
+    # users
     field :edit_user, mutation: Mutations::EditUser
     field :update_coi, mutation: Mutations::UpdateCoi
 
-    #submission
+    # submission
     field :submit_evidence, mutation: Mutations::SubmitEvidenceItem
     field :submit_assertion, mutation: Mutations::SubmitAssertion
     field :suggest_source, mutation: Mutations::SuggestSource
     field :submit_variant_group, mutation: Mutations::SubmitVariantGroup
 
-    #moderation
+    # moderation
     field :moderate_evidence_item, mutation: Mutations::ModerateEvidenceItem
     field :moderate_assertion, mutation: Mutations::ModerateAssertion
 
-    #non-moderated entity creation
+    # non-moderated entity creation
     field :add_disease, mutation: Mutations::AddDisease
     field :add_therapy, mutation: Mutations::AddTherapy
     field :create_variant, mutation: Mutations::CreateVariant
     field :create_feature, mutation: Mutations::CreateFeature
     field :create_fusion_feature, mutation: Mutations::CreateFusionFeature
     field :create_fusion_variant, mutation: Mutations::CreateFusionVariant
+
+    # api keys
+    field :generate_api_key, mutation: Mutations::GenerateApiKey
+    field :revoke_api_key, mutation: Mutations::RevokeApiKey
+
+    # endorsements
+    field :endorse_assertion, mutation: Mutations::EndorseAssertion
+    field :revoke_endorsement, mutation: Mutations::RevokeEndorsement
   end
 end

@@ -7,6 +7,10 @@ Trestle.resource(:organizations) do
     item :organizations, icon: "fa fa-users"
   end
 
+  search do |q|
+    q ? collection.where("name ILIKE ?", "%#{q}%") : collection
+  end
+
   # Customize the table columns shown on the index view.
   table do
     column :id
@@ -21,13 +25,20 @@ Trestle.resource(:organizations) do
       col(sm: 2) do
         if organization.profile_image.attached?
           form_group :profile_image, label: false do
-            link_to image_tag(organization.profile_image.variant(resize_to_limit: [128, 128]).processed.url), organization.profile_image.variant(resize_to_limit: [128, 128]).processed.url
+            link_to image_tag(organization.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url), organization.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url
           end
         end
       end
     end
 
-    select :parent_id, [nil] + Organization.all
+    row do
+      col { check_box :can_endorse, label: "Organization Allowed to Endorse Assertions" }
+    end
+    row do
+      col { check_box :is_approved_vcep, label: "This Organization is a ClinGen Approved VCEP" }
+    end
+
+    select :parent_id, [ nil ] + Organization.all
 
     url_field :url
 

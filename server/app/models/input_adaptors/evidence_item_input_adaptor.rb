@@ -1,8 +1,8 @@
-#Conversion from a GraphQL EvidenceItemFields input object to EvidenceItem model type
+# Conversion from a GraphQL EvidenceItemFields input object to EvidenceItem model type
 class InputAdaptors::EvidenceItemInputAdaptor
   attr_reader :input
 
-  def initialize(evidence_input_object: )
+  def initialize(evidence_input_object:)
     @input = evidence_input_object
   end
 
@@ -10,13 +10,13 @@ class InputAdaptors::EvidenceItemInputAdaptor
     EvidenceItem.new(self.class.evidence_fields(input))
   end
 
-  def self.check_input_for_errors(evidence_input_object: , revised_eid: nil)
+  def self.check_input_for_errors(evidence_input_object:, revised_eid: nil)
     errors = []
     fields = evidence_input_object
 
     query_fields = evidence_fields(fields)
     # if there is a matching rejected EID, still allow the revisions
-    query_fields[:status] = ['accepted', 'submitted']
+    query_fields[:status] = [ "accepted", "submitted" ]
     query_fields.delete(:description)
     query_fields.delete(:therapy_ids)
     query_fields.delete(:phenotype_ids)
@@ -26,8 +26,8 @@ class InputAdaptors::EvidenceItemInputAdaptor
       eid_query = eid_query.where.not(id: revised_eid)
     end
 
-    #rejected EIDs dont count towards duplicate status
-    if eid = eid_query.where(status: ['submitted', 'accepted']).first
+    # rejected EIDs dont count towards duplicate status
+    if eid = eid_query.where(status: [ "submitted", "accepted" ]).first
       if eid.therapy_ids.sort == fields.therapy_ids.sort && eid.phenotype_ids.sort == fields.phenotype_ids.sort
         errors << "Existing identical Evidence Item found: EID#{eid.id}"
       end
@@ -75,7 +75,7 @@ class InputAdaptors::EvidenceItemInputAdaptor
         phenotype_ids: input.phenotype_ids,
         rating: input.rating,
         therapy_ids: input.therapy_ids,
-        therapy_interaction_type: input.therapy_interaction_type
+        therapy_interaction_type: input.therapy_interaction_type,
     }
   end
 end

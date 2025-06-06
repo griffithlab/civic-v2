@@ -15,9 +15,10 @@ import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'cvc-sources-detail',
-  templateUrl: './sources-detail.view.html',
-  styleUrls: ['./sources-detail.view.less'],
+    selector: 'cvc-sources-detail',
+    templateUrl: './sources-detail.view.html',
+    styleUrls: ['./sources-detail.view.less'],
+    standalone: false
 })
 export class SourcesDetailView implements OnDestroy {
   viewer$: Observable<Viewer>

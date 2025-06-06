@@ -11,9 +11,10 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'features-revise',
-  templateUrl: './features-revise.view.html',
-  styleUrls: ['./features-revise.view.less'],
+    selector: 'features-revise',
+    templateUrl: './features-revise.view.html',
+    styleUrls: ['./features-revise.view.less'],
+    standalone: false
 })
 export class FeaturesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>

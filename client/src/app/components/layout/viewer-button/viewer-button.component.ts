@@ -19,6 +19,7 @@ import { isNonNulled } from 'rxjs-etc'
   templateUrl: './viewer-button.component.html',
   styleUrls: ['./viewer-button.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcViewerButtonComponent implements OnInit {
   @Input() cvcCollapsed: boolean = false
@@ -61,18 +62,20 @@ export class CvcViewerButtonComponent implements OnInit {
     this.menuSelection$
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {
-        const fragment = {
-          id: `User:${viewer.id}`,
-          fragment: gql`
-            fragment UserMostRecentOrgId on User {
-              mostRecentOrganizationId
-            }
-          `,
-          data: {
-            mostRecentOrganizationId: mroId,
-          },
+        if (viewer.signedIn) {
+          const fragment = {
+            id: `User:${viewer.user?.id}`,
+            fragment: gql`
+              fragment UserMostRecentOrgId on User {
+                mostRecentOrganizationId
+              }
+            `,
+            data: {
+              mostRecentOrganizationId: mroId,
+            },
+          }
+          this.apollo.client.writeFragment(fragment)
         }
-        this.apollo.client.writeFragment(fragment)
       })
   }
   signOut(): void {

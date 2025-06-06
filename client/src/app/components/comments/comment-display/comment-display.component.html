@@ -16,7 +16,7 @@
   @if (
     viewer &&
     viewer.signedIn &&
-    viewer.id == comment.commenter.id &&
+    viewer.user?.id == comment.commenter.id &&
     comment.id &&
     !comment.deleted
   ) {

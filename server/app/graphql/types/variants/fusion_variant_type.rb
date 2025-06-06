@@ -1,6 +1,5 @@
 module Types::Variants
   class FusionVariantType < Types::Entities::VariantType
-
     field :five_prime_coordinates, Types::Entities::VariantCoordinateType, null: true
     field :three_prime_coordinates, Types::Entities::VariantCoordinateType, null: true
     field :five_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: true

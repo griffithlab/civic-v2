@@ -74,7 +74,7 @@
     [nzGutter]="16"
     *nzSpaceItem>
     <nz-col [nzSpan]="24">
-      <ng-container *ngrxLet="this.variantGroup$ as variantGroup">
+      <ng-container *ngrxLet="variantGroup$ as variantGroup">
         <cvc-variants-table
           [variantGroupId]="variantGroup?.id"
           cvcTitle="Variants in Variant Group {{variantGroup?.name}}"></cvc-variants-table>

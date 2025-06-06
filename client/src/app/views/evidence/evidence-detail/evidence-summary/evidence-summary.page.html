@@ -21,10 +21,11 @@
           </nz-descriptions>
         </nz-col>
 
-        <!-- BLOCK: evidence attributes -->
+        <!-- BLOCK: primary attributes -->
         <nz-col [nzSpan]="24">
           <nz-descriptions
             nzSize="small"
+            nzLayout="horizontal"
             [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
             nzBordered="true">
             <!-- evidence type -->
@@ -95,9 +96,13 @@
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
+
+        <!-- BLOCK: secondary attributes-->
         <nz-col [nzSpan]="24">
           <nz-descriptions
             nzSize="small"
+            nz-popover=""
+            nzLayout="horizontal"
             nzBordered="true"
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- source -->
@@ -181,9 +186,9 @@
                 evidence.acceptanceEvent !== null
               ">
               <!-- show acceptance only if no rejection event exists and the EID is Accepted-->
-              <ng-container *ngIf="evidence.status == statusValues.Accepted && evidence.acceptanceEvent">
-                <nz-descriptions-item
-                  [nzTitle]="acceptedTitle">
+              <ng-container
+                *ngIf="evidence.status == statusValues.Accepted && evidence.acceptanceEvent">
+                <nz-descriptions-item [nzTitle]="acceptedTitle">
                   by
                   <cvc-user-tag
                     [user]="
@@ -199,9 +204,9 @@
                   </span>
                 </ng-template>
               </ng-container>
-              <ng-container *ngIf="evidence.status == statusValues.Rejected && evidence.rejectionEvent">
-                <nz-descriptions-item
-                  nzTitle="Rejected">
+              <ng-container
+                *ngIf="evidence.status == statusValues.Rejected && evidence.rejectionEvent">
+                <nz-descriptions-item nzTitle="Rejected">
                   by
                   <cvc-user-tag
                     [user]="
@@ -225,6 +230,7 @@
         <nz-col [nzSpan]="24">
           <nz-descriptions
             nzSize="small"
+            nzLayout="horizontal"
             nzBordered="true"
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- molecular profile -->
@@ -275,7 +281,8 @@
               <ng-container [ngPlural]="evidence.therapies.length">
                 <!-- no drug -->
                 <ng-template ngPluralCase="=0">
-                  <ng-container [ngTemplateOutlet]="valueNotApplicable"></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="valueNotApplicable"></ng-container>
                 </ng-template>
 
                 <!-- one or more drugs -->
@@ -307,7 +314,6 @@
     </nz-col>
   </nz-row>
 </ng-container>
-
 
 <ng-template #valueNotApplicable>
   <cvc-empty-value cvcEmptyCategory="not-applicable"></cvc-empty-value>

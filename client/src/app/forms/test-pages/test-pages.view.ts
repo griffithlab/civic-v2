@@ -4,10 +4,11 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-test-pages',
-  templateUrl: './test-pages.view.html',
-  styleUrls: ['./test-pages.view.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-test-pages',
+    templateUrl: './test-pages.view.html',
+    styleUrls: ['./test-pages.view.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TestPagesView {
   tabs: RouteableTab[]

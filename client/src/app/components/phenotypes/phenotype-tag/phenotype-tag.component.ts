@@ -3,9 +3,11 @@ import {
   Component,
   Input,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core'
-
-import { Maybe } from '@app/generated/civic.apollo'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkablePhenotype {
   id: number
@@ -18,25 +20,25 @@ export interface LinkablePhenotype {
   templateUrl: './phenotype-tag.component.html',
   styleUrls: ['./phenotype-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcPhenotypeTagComponent {
-  _phenotype!: LinkablePhenotype
-  @Input()
-  set phenotype(ph: LinkablePhenotype) {
-    if (!ph)
-      throw new Error(
-        'phenotype-tag phentype input requires LinkablePhenotype.'
-      )
-    this._phenotype = ph
-  }
-  get phenotype(): LinkablePhenotype {
-    return this._phenotype
-  }
-
+  @Input() phenotype!: LinkablePhenotype
   @Input() enablePopover?: boolean = true
   @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
 
-  idFunction(): number {
-    return this.phenotype.id
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    }
   }
 }

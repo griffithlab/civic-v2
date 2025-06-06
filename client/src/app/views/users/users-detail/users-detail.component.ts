@@ -22,6 +22,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   selector: 'users-detail',
   templateUrl: './users-detail.component.html',
   styleUrls: ['./users-detail.component.less'],
+  standalone: false,
 })
 export class UsersDetailComponent implements OnDestroy {
   queryRef?: QueryRef<UserDetailQuery, UserDetailQueryVariables>
@@ -35,7 +36,7 @@ export class UsersDetailComponent implements OnDestroy {
 
   updateCoiModalVisible = false
   updateProfileModalVisible = false
-
+  manageApiKeysModalVisible = false
   routeSub: Subscription
   viewerSub?: Subscription
 
@@ -101,7 +102,7 @@ export class UsersDetailComponent implements OnDestroy {
         })
 
       this.viewerSub = this.viewerService.viewer$.subscribe((v) => {
-        if (v.id === +params.userId) {
+        if (v.user?.id === +params.userId) {
           let notificationTab: RouteableTab = {
             routeName: 'notifications',
             tabLabel: 'Notifications',

@@ -1,4 +1,4 @@
-#TODO remove
+# TODO remove
 class SuggestedChange < ActiveRecord::Base; end
 
 class RenameAppliedToAccepted < ActiveRecord::Migration[6.1]

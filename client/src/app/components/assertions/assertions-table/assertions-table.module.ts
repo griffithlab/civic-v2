@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
+import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module'
@@ -29,6 +29,7 @@ import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module'
 import { CvcAssertionsTableComponent } from './assertions-table.component'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 @NgModule({
   declarations: [CvcAssertionsTableComponent],
@@ -50,6 +51,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
     NzTypographyModule,
     NzDropDownModule,
     NzRadioModule,
+    NzCheckboxModule,
 
     CvcAssertionsTagModule,
     CvcAutoHeightCardModule,

@@ -7,11 +7,16 @@
 <ng-template #tag>
   <nz-tag
     nz-popover
+    [nzPopoverPlacement]="popoverPlacement"
+    [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="enablePopover ? orgPopover : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #orgPopover>
-    <cvc-organization-popover [orgId]="org.id"></cvc-organization-popover>
+    <cvc-organization-popover
+      [orgId]="org.id"
+      (contentRendered)="updatePopoverPosition()">
+    </cvc-organization-popover>
   </ng-template>
 </ng-template>
 

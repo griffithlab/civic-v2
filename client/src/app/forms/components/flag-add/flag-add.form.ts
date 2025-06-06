@@ -14,6 +14,7 @@ import {
   FlaggableInput,
   Maybe,
   Organization,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable, Subject } from 'rxjs'
@@ -23,6 +24,7 @@ import { Observable, Subject } from 'rxjs'
   selector: 'cvc-flag-add-form',
   templateUrl: './flag-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFlagAddForm implements OnInit {
   @Input() flaggable!: FlaggableInput
@@ -35,7 +37,7 @@ export class CvcFlagAddForm implements OnInit {
   viewer$: Observable<Viewer>
 
   comment: string = ''
-  selectedOrg: Maybe<Organization>
+  selectedOrg: Maybe<ViewerOrganizationFragment>
 
   addFlagMutator: MutatorWithState<
     FlagEntityGQL,

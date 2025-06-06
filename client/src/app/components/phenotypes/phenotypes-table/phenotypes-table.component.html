@@ -116,7 +116,8 @@
           <td nzLeft>
             <cvc-phenotype-tag
               [phenotype]="phenotype"
-              [enablePopover]="!isScrolling"></cvc-phenotype-tag>
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-phenotype-tag>
           </td>
           <td>
             <cvc-link-tag
@@ -144,11 +145,11 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

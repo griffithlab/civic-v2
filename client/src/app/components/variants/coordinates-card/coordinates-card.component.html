@@ -1,4 +1,4 @@
-<ng-container *ngIf="this.cvcVariantId && (variant$ | ngrxPush) as variant">
+<ng-container *ngIf="cvcVariantId && (variant$ | ngrxPush) as variant">
   @switch (variant.__typename) {
     @case ('GeneVariant') {
       <ng-container
@@ -102,8 +102,8 @@
     }
   }
 </ng-container>
-<ng-container *ngIf="this.cvcCoordinates">
-  @switch (this.cvcCoordinates.__typename) {
+<ng-container *ngIf="cvcCoordinates">
+  @switch (cvcCoordinates.__typename) {
     @case ('GeneVariant') {
       <nz-card
         [nzTitle]="
@@ -113,8 +113,8 @@
           *ngTemplateOutlet="
             coordinateCard;
             context: {
-              $implicit: this.cvcCoordinates.coordinates,
-              variant: this.cvcCoordinates
+              $implicit: cvcCoordinates.coordinates,
+              variant: cvcCoordinates
             }
           ">
         </ng-container>
@@ -124,7 +124,7 @@
       <nz-row
         nzSpan="24"
         nzGutter="12">
-        @if (this.cvcCoordinates.fivePrimeCoordinates) {
+        @if (cvcCoordinates.fivePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabset [nzAnimated]="false">
@@ -133,8 +133,8 @@
                     *ngTemplateOutlet="
                       coordinateCard;
                       context: {
-                        $implicit: this.cvcCoordinates.fivePrimeCoordinates,
-                        variant: this.cvcCoordinates
+                        $implicit: cvcCoordinates.fivePrimeCoordinates,
+                        variant: cvcCoordinates
                       }
                     ">
                   </ng-container>
@@ -146,8 +146,8 @@
                         exonCoordinateCard;
                         context: {
                           $implicit:
-                            this.cvcCoordinates.fivePrimeStartExonCoordinates,
-                          variant: this.cvcCoordinates
+                            cvcCoordinates.fivePrimeStartExonCoordinates,
+                          variant: cvcCoordinates
                         }
                       ">
                     </ng-container>
@@ -158,8 +158,8 @@
                         exonCoordinateCard;
                         context: {
                           $implicit:
-                            this.cvcCoordinates.fivePrimeEndExonCoordinates,
-                          variant: this.cvcCoordinates
+                            cvcCoordinates.fivePrimeEndExonCoordinates,
+                          variant: cvcCoordinates
                         }
                       ">
                     </ng-container>
@@ -169,7 +169,7 @@
             </nz-card>
           </nz-col>
         }
-        @if (this.cvcCoordinates.threePrimeCoordinates) {
+        @if (cvcCoordinates.threePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabset [nzAnimated]="false">
@@ -178,8 +178,8 @@
                     *ngTemplateOutlet="
                       coordinateCard;
                       context: {
-                        $implicit: this.cvcCoordinates.threePrimeCoordinates,
-                        variant: this.cvcCoordinates
+                        $implicit: cvcCoordinates.threePrimeCoordinates,
+                        variant: cvcCoordinates
                       }
                     ">
                   </ng-container>
@@ -191,8 +191,8 @@
                         exonCoordinateCard;
                         context: {
                           $implicit:
-                            this.cvcCoordinates.threePrimeStartExonCoordinates,
-                          variant: this.cvcCoordinates
+                            cvcCoordinates.threePrimeStartExonCoordinates,
+                          variant: cvcCoordinates
                         }
                       ">
                     </ng-container>
@@ -203,8 +203,8 @@
                         exonCoordinateCard;
                         context: {
                           $implicit:
-                            this.cvcCoordinates.threePrimeEndExonCoordinates,
-                          variant: this.cvcCoordinates
+                            cvcCoordinates.threePrimeEndExonCoordinates,
+                          variant: cvcCoordinates
                         }
                       ">
                     </ng-container>

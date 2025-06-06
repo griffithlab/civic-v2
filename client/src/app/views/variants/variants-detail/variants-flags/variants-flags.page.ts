@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-variants-flags',
-  templateUrl: './variants-flags.page.html',
-  styleUrls: ['./variants-flags.page.less'],
+    selector: 'cvc-variants-flags',
+    templateUrl: './variants-flags.page.html',
+    styleUrls: ['./variants-flags.page.less'],
+    standalone: false
 })
 export class VariantsFlagsPage {
   flaggable: FlaggableInput

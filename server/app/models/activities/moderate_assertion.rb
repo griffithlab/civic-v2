@@ -1,11 +1,12 @@
 module Activities
   class ModerateAssertion < Base
-    attr_reader :assertion, :new_status
+    attr_reader :assertion, :new_status, :endorsements
 
-    def initialize(originating_user:, assertion:, organization_id: nil, new_status:)
-      super(organization_id: organization_id, user: originating_user)
+    def initialize(originating_user:, assertion:, organization_id: nil, new_status:, note: nil)
+      super(organization_id: organization_id, user: originating_user, note: note)
       @assertion = assertion
       @new_status = new_status
+      @note = note
     end
 
     private
@@ -14,6 +15,7 @@ module Activities
         subject: assertion,
         user: user,
         organization: organization,
+        note: note
       )
     end
 
@@ -26,13 +28,25 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
     end
 
+    def after_actions
+      @endorsements = if new_status == "rejected"
+        assertion.endorsements.select { |e| e.active? || e.requires_review? }
+      else
+        []
+      end
+      endorsements.select { |e| e.active? }.each do |e|
+        e.status = "requires_review"
+        e.save!
+      end
+    end
+
     def linked_entities
-      []
+      [ endorsements ]
     end
   end
 end

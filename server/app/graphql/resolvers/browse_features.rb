@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
@@ -11,12 +11,12 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
 
   option(:feature_name, type: String) { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
   option(:feature_full_name, type: String) { |scope, value| scope.where("full_name ILIKE ?", "%#{value}%") }
-  option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
+  option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column("alias_names"), "#{value}%") }
   option(:disease_name, type: String)  do |scope, value|
-    scope.where(json_name_query_for_column(scope.table_name, 'diseases'), "%#{value}%")
+    scope.where(json_name_query_for_column(scope.table_name, "diseases"), "%#{value}%")
   end
   option(:therapy_name, type: String) do |scope, value|
-    scope.where(json_name_query_for_column(scope.table_name, 'therapies'), "%#{value}%")
+    scope.where(json_name_query_for_column(scope.table_name, "therapies"), "%#{value}%")
   end
   option(:feature_type, type: Types::FeatureInstanceTypes) do |scope, value|
     if value

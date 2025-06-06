@@ -51,10 +51,11 @@ export interface SourcesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-sources-table',
-  templateUrl: './sources-table.component.html',
-  styleUrls: ['./sources-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-sources-table',
+    templateUrl: './sources-table.component.html',
+    styleUrls: ['./sources-table.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcSourcesTableComponent implements OnInit {
   @Input() cvcHeight?: number

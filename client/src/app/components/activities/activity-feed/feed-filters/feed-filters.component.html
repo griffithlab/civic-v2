@@ -142,6 +142,19 @@
     </nz-col>
   }
   <nz-col
+    nzSpan="2"
+    class="option-input">
+    <label
+      nz-checkbox
+      [ngModel]="includeSubgroups()"
+      (ngModelChange)="includeSubgroups.set($event)"></label>
+  </nz-col>
+  <nz-col
+    nzSpan="22"
+    class="option-key">
+    <span>Include child org activities</span>
+  </nz-col>
+  <nz-col
     nzMd="24"
     nzLg="12">
     <h4>Occurred After</h4>

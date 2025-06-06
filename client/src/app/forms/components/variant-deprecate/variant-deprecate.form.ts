@@ -14,6 +14,7 @@ import {
   MolecularProfilesForVariantGQL,
   Organization,
   VariantDetailGQL,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -31,6 +32,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   selector: 'cvc-variant-deprecate-form',
   templateUrl: './variant-deprecate.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VariantDeprecateForm implements OnDestroy, OnInit {
   @Input() variantId!: number
@@ -54,7 +56,7 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
 
   comment: string = ''
   reason: Maybe<VariantDeprecationReason>
-  selectedOrg: Maybe<Organization>
+  selectedOrg: Maybe<ViewerOrganizationFragment>
 
   mpsToDeprecate$?: Observable<LinkableMolecularProfile[]>
   mpsWithEvidence$?: Observable<LinkableMolecularProfile[]>

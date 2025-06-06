@@ -31,9 +31,10 @@ export interface QuicksearchOption {
 }
 
 @Component({
-  selector: 'cvc-quicksearch',
-  styleUrls: ['./quicksearch-component.less'],
-  templateUrl: './quicksearch-component.html',
+    selector: 'cvc-quicksearch',
+    styleUrls: ['./quicksearch-component.less'],
+    templateUrl: './quicksearch-component.html',
+    standalone: false
 })
 export class CvcQuicksearchComponent {
   private _selectedOpt: Maybe<SearchResult>

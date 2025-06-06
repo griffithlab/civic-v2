@@ -129,7 +129,7 @@
                 </nz-descriptions-item>
               </nz-descriptions>
             </div>
-            <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+            <ng-container *ngIf="ownProfile$ | ngrxPush">
               <button
                 *nzSpaceItem
                 nz-button
@@ -143,6 +143,15 @@
                 *nzSpaceItem
                 (uploadComplete)="profileUploadComplete($event)">
               </cvc-avatar-uploader>
+              <button
+                *nzSpaceItem
+                nz-button
+                nzSize="small"
+                nzType="primary"
+                nzBlock
+                (click)="manageApiKeysModalVisible = true">
+                Manage API Keys
+              </button>
             </ng-container>
           </nz-space>
         </nz-col>
@@ -243,12 +252,12 @@
                   Editor Conflict of Interest Statement
                 </ng-template>
                 <ng-template #updateCoi>
-                  <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+                  <ng-container *ngIf="ownProfile$ | ngrxPush">
                     <button
                       nz-button
                       nzType="primary"
                       nzSize="small"
-                      (click)="this.updateCoiModalVisible = true">
+                      (click)="updateCoiModalVisible = true">
                       Update COI
                     </button>
                   </ng-container>
@@ -274,7 +283,7 @@
                       nzTitle="Updated">
                       {{
                         user.mostRecentConflictOfInterestStatement.createdAt
-                          | date : 'shortDate'
+                          | date: 'shortDate'
                       }}
                     </nz-descriptions-item>
                     <nz-descriptions-item
@@ -282,7 +291,7 @@
                       nzTitle="Expires">
                       {{
                         user.mostRecentConflictOfInterestStatement.expiresAt
-                          | date : 'shortDate'
+                          | date: 'shortDate'
                       }}
                     </nz-descriptions-item>
                     <nz-descriptions-item
@@ -381,33 +390,44 @@
       </nz-row>
     </nz-page-header-content>
   </nz-page-header>
-
   <nz-modal
-    [(nzVisible)]="this.updateProfileModalVisible"
+    [(nzVisible)]="updateProfileModalVisible"
     [nzContent]="profileModalContent"
     [nzTitle]="profileModalTitle"
     [nzFooter]="null"
-    (nzOnCancel)="this.handleProfileModalCancel()">
+    (nzOnCancel)="handleProfileModalCancel()">
     <ng-template #profileModalTitle><span>Edit Profile</span></ng-template>
     <ng-template #profileModalContent>
       <cvc-user-profile-form
         [user]="user"
-        (profileUpdatedEvent)="this.profileUpdated()"></cvc-user-profile-form>
+        (profileUpdatedEvent)="profileUpdated()"></cvc-user-profile-form>
     </ng-template>
   </nz-modal>
 </ng-container>
 
 <nz-modal
-  [(nzVisible)]="this.updateCoiModalVisible"
+  [(nzVisible)]="manageApiKeysModalVisible"
+  [nzContent]="apiKeysModalContent"
+  [nzTitle]="apiKeysModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="manageApiKeysModalVisible = false">
+  <ng-template #apiKeysModalTitle><span>Manage API Keys</span></ng-template>
+  <ng-template #apiKeysModalContent>
+    <cvc-user-api-keys-form></cvc-user-api-keys-form>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="updateCoiModalVisible"
   [nzContent]="coiModalContent"
   [nzTitle]="coiModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.handleCoiModalCancel()">
+  (nzOnCancel)="handleCoiModalCancel()">
   <ng-template #coiModalTitle
     ><span>Update your Conflict of Interest Statement</span></ng-template
   >
   <ng-template #coiModalContent>
     <cvc-user-coi-form
-      (coiUpdatedEvent)="this.coiUpdated()"></cvc-user-coi-form>
+      (coiUpdatedEvent)="coiUpdated()"></cvc-user-coi-form>
   </ng-template>
 </nz-modal>

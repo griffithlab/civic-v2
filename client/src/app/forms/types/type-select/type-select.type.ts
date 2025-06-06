@@ -64,10 +64,11 @@ const EntityTypeSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-type-select',
-  templateUrl: './type-select.type.html',
-  styleUrls: ['./type-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-type-select',
+    templateUrl: './type-select.type.html',
+    styleUrls: ['./type-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcEntityTypeSelectField
   extends EntityTypeSelectMixin

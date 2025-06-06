@@ -6,9 +6,10 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-variants-comments',
-  templateUrl: './variants-comments.page.html',
-  styleUrls: ['./variants-comments.page.less'],
+    selector: 'cvc-variants-comments',
+    templateUrl: './variants-comments.page.html',
+    styleUrls: ['./variants-comments.page.less'],
+    standalone: false
 })
 export class VariantsCommentsPage {
   commentable: CommentableInput

@@ -1,36 +1,36 @@
 <nz-card>
   <nz-alert
-    *ngIf="this.success"
+    *ngIf="success"
     nzBanner
     nzMessage="Profile Updated"
     nzType="success"
     nzCloseable></nz-alert>
-  <nz-form-item *ngIf="this.errorMessages.length > 0">
-    <cvc-form-errors-alert [errors]="this.errorMessages">
+  <nz-form-item *ngIf="errorMessages.length > 0">
+    <cvc-form-errors-alert [errors]="errorMessages">
     </cvc-form-errors-alert>
   </nz-form-item>
   <nz-spin
     nzTip="Submitting"
-    [nzSpinning]="this.loading">
+    [nzSpinning]="loading">
     <nz-form-item>
       <nz-form-label nzRequired>Username</nz-form-label>
       <input
         nz-input
-        [(ngModel)]="this.username"
+        [(ngModel)]="username"
         style="width: 100%" />
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>Name</nz-form-label>
       <input
         nz-input
-        [(ngModel)]="this.name"
+        [(ngModel)]="name"
         style="width: 100%" />
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequired>Email</nz-form-label>
       <input
         nz-input
-        [(ngModel)]="this.email"
+        [(ngModel)]="email"
         style="width: 100%" />
     </nz-form-item>
     <nz-form-item>
@@ -38,13 +38,13 @@
       <textarea
         nz-input
         rows="5"
-        [(ngModel)]="this.bio"
+        [(ngModel)]="bio"
         style="width: 100%"></textarea>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>Country</nz-form-label>
       <nz-select
-        [(ngModel)]="this.countryId"
+        [(ngModel)]="countryId"
         nzAllowClear
         [nzDropdownMatchSelectWidth]="false"
         nzPlaceHolder="Select a Country"
@@ -58,7 +58,7 @@
     <nz-form-item>
       <nz-form-label>Area of Expertise</nz-form-label>
       <nz-select
-        [(ngModel)]="this.areaOfExpertise"
+        [(ngModel)]="areaOfExpertise"
         nzAllowClear>
         <nz-option
           nzLabel="Patient Advocate"
@@ -77,7 +77,7 @@
         <input
           nz-input
           placeholder="0000-0000-0000-0000"
-          [(ngModel)]="this.orcid"
+          [(ngModel)]="orcid"
           style="width: 100%" />
       </nz-input-group>
     </nz-form-item>
@@ -85,7 +85,7 @@
       <nz-form-label>Personal Website</nz-form-label>
       <input
         nz-input
-        [(ngModel)]="this.url"
+        [(ngModel)]="url"
         style="width: 100%" />
     </nz-form-item>
     <nz-form-item>
@@ -94,7 +94,7 @@
         <input
           nz-input
           placeholder="username"
-          [(ngModel)]="this.twitterHandle"
+          [(ngModel)]="twitterHandle"
           style="width: 100%" />
       </nz-input-group>
     </nz-form-item>
@@ -104,7 +104,7 @@
         <input
           nz-input
           placeholder="username"
-          [(ngModel)]="this.facebookProfile"
+          [(ngModel)]="facebookProfile"
           style="width: 100%" />
         </nz-input-group>
     </nz-form-item>
@@ -114,7 +114,7 @@
         <input
           nz-input
           placeholder="username"
-          [(ngModel)]="this.linkedinProfile"
+          [(ngModel)]="linkedinProfile"
           style="width: 100%" />
       </nz-input-group>
     </nz-form-item>
@@ -125,7 +125,7 @@
         nzType="primary"
         nzSize="small"
         style="width: 100%"
-        [disabled]="this.loading || !this.username || !this.email"
+        [disabled]="loading || !username || !email"
         (click)="updateProfile()">
         Update Profile
       </button>

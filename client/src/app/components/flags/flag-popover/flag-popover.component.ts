@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core'
 import {
   FlagPopoverFragment,
   FlagPopoverGQL,
@@ -12,13 +21,25 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-flag-popover',
   templateUrl: './flag-popover.component.html',
   styleUrls: ['./flag-popover.component.less'],
+  standalone: false,
 })
-export class CvcFlagPopoverComponent implements OnInit {
+export class CvcFlagPopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() flagId!: number
+  @Output() contentRendered = new EventEmitter<void>()
 
   flag$?: Observable<Maybe<FlagPopoverFragment>>
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: FlagPopoverGQL) {}
+  constructor(
+    private gql: FlagPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
     if (this.flagId == undefined) {
@@ -28,5 +49,12 @@ export class CvcFlagPopoverComponent implements OnInit {
       map(({ data }) => data?.flag),
       filter(isNonNulled)
     )
+  }
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

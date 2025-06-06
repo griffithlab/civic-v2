@@ -9,6 +9,7 @@ import {
   ResolveFlagMutation,
   ResolveFlagMutationVariables,
   FlagFragment,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable } from 'rxjs'
@@ -17,12 +18,13 @@ import { Observable } from 'rxjs'
 @Component({
   selector: 'cvc-flag-resolve-form',
   templateUrl: './flag-resolve.form.html',
+  standalone: false,
 })
 export class CvcFlagResolveForm implements OnInit {
   @Input() flag!: FlagFragment
   @Input() flagResolvedCallback?: () => void
 
-  selectedOrg: Maybe<Organization>
+  selectedOrg: Maybe<ViewerOrganizationFragment>
   comment?: string
 
   errorMessages: string[] = []

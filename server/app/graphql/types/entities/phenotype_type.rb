@@ -8,7 +8,7 @@ module Types::Entities
     field :link, String, null: false
 
     def name
-      object.hpo_class || ''
+      object.hpo_class || ""
     end
   end
 end

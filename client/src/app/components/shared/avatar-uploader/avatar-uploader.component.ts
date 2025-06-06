@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-avatar-uploader',
-  templateUrl: './avatar-uploader.component.html',
+    selector: 'cvc-avatar-uploader',
+    templateUrl: './avatar-uploader.component.html',
+    standalone: false
 })
 export class CvcAvatarUploaderComponent implements OnDestroy {
   @Output() uploadComplete = new EventEmitter<boolean>()

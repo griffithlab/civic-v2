@@ -10,8 +10,12 @@ module Activities
 
     private
     def create_activity
+      # Set the subject of this activity to the subject of the revision's creation activity
+      # In the case of gene/exon coordinates, the revision's subject will be the coordinate Object
+      # which we do not want. The creation activity's subject will be the Variant.
+      activity_subject = revisions.first&.creation_activity&.subject
       @activity = RejectRevisionsActivity.create(
-        subject: revisions.first.subject,
+        subject: activity_subject,
         user: rejecting_user,
         organization_id: organization&.id,
         note: note
@@ -26,13 +30,13 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
     end
 
     def linked_entities
-      [revisions]
+      [ revisions ]
     end
   end
 end

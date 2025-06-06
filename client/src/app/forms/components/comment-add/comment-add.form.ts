@@ -18,6 +18,7 @@ import {
   AddCommentGQL,
   AddCommentMutation,
   AddCommentMutationVariables,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service'
@@ -31,12 +32,13 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   templateUrl: './comment-add.form.html',
   styleUrls: ['./comment-add.form.less'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CvcCommentAddForm {
   @Input() subject!: CommentableInput
   @Output() commentAddedEvent = new EventEmitter<void>()
 
-  mostRecentOrg!: Maybe<Organization>
+  mostRecentOrg!: Maybe<ViewerOrganizationFragment>
 
   success: boolean = false
   errorMessages: string[] = []

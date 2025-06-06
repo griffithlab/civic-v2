@@ -1,1 +1,10 @@
-@import "themes/overrides/entity-popover.overrides.less";
+@import 'themes/overrides/entity-popover.overrides.less';
+@import 'themes/overrides/descriptions-overrides.less';
+
+// NOTE: review the comments in entity-popover.overrides.less for
+// the reasoning behind these dimensions, and how to update
+// them if popover content or display logic changes.
+#popover-content {
+  min-width: 300px;
+  min-height: 120px;
+}

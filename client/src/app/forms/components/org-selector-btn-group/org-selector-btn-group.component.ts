@@ -8,7 +8,11 @@ import {
   Output,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { Maybe, Organization } from '@app/generated/civic.apollo'
+import {
+  Maybe,
+  Organization,
+  ViewerOrganizationFragment,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
@@ -23,16 +27,17 @@ import {
   selector: 'cvc-org-selector-btn-group2',
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less'],
+  standalone: false,
 })
 export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
-  @Input() selectedOrg!: Maybe<Organization>
-  @Output() selectedOrgChange = new EventEmitter<Organization>()
+  @Input() selectedOrg!: Maybe<ViewerOrganizationFragment>
+  @Output() selectedOrgChange = new EventEmitter<ViewerOrganizationFragment>()
 
   @ContentChild(CvcOrgSelectorBtnDirective, { static: false })
   button?: CvcOrgSelectorBtnDirective
 
-  organizations$!: Observable<Organization[]>
-  mostRecentOrg$!: Observable<Maybe<Organization>>
+  organizations$!: Observable<ViewerOrganizationFragment[]>
+  mostRecentOrg$!: Observable<Maybe<ViewerOrganizationFragment>>
 
   isDisabled$: Subject<boolean>
   isHidden$: Subject<boolean>
@@ -57,12 +62,12 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.organizations$ = this.viewerService.viewer$.pipe(
-      map((v: Viewer) => v.organizations)
+      map((v: Viewer) => v.user?.organizations || [])
     )
 
     this.mostRecentOrg$ = this.viewerService.viewer$.pipe(
       pluck('mostRecentOrg'),
-      tap((org: Maybe<Organization>) => {
+      tap((org: Maybe<ViewerOrganizationFragment>) => {
         if (org) {
           this.selectedOrg = org
           this.selectedOrgChange.emit(org)

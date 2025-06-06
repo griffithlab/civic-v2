@@ -14,6 +14,7 @@ import {
   FeatureDeprecationReason,
   FeatureDetailGQL,
   VariantsForFeatureGQL,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -45,7 +46,6 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   selector: 'cvc-feature-deprecate-form',
   templateUrl: './feature-deprecate.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,7 +56,6 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
     ReactiveFormsModule,
     LetDirective,
     PushPipe,
-
     NzFormModule,
     NzAlertModule,
     NzGridModule,
@@ -67,7 +66,6 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
     NzTypographyModule,
     NzToolTipModule,
     NzSelectModule,
-
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcSubmitButtonTypeModule,
@@ -94,7 +92,7 @@ export class CvcFeatureDeprecateForm implements OnDestroy, OnInit {
 
   comment: string = ''
   reason: Maybe<FeatureDeprecationReason>
-  selectedOrg: Maybe<Organization>
+  selectedOrg: Maybe<ViewerOrganizationFragment>
 
   undeprecatedVariants$?: Observable<LinkableVariant[]>
   variantListLoading$?: Observable<boolean>

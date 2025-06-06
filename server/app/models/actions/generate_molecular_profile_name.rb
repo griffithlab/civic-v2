@@ -1,10 +1,10 @@
 module Actions
   class GenerateMolecularProfileName
-    def self.generate_name(structure: )
+    def self.generate_name(structure:)
       parse_name_from_complex_component(structure)
     end
 
-    def self.generate_single_variant_mp_name(variant: )
+    def self.generate_single_variant_mp_name(variant:)
         "#VID#{variant.id}"
     end
 
@@ -21,7 +21,7 @@ module Actions
           complex_component_names = parse_name_from_complex_component(c)
         end
         if complex_component.complex_components.size > 1
-          complex_component_name_string = complex_component_names.join(" #{complex_component.boolean_operator} " )
+          complex_component_name_string = complex_component_names.join(" #{complex_component.boolean_operator} ")
         else
           complex_component_name_string = complex_component_names.first
         end

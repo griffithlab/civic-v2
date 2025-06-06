@@ -8,7 +8,11 @@ import {
   ViewChild,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { Maybe, Organization } from '@app/generated/civic.apollo'
+import {
+  Maybe,
+  Organization,
+  ViewerOrganizationFragment,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
   FieldType,
@@ -48,6 +52,7 @@ export interface CvcOrgSubmitButtonFieldConfig
   templateUrl: './org-submit-button.type.html',
   styleUrls: ['./org-submit-button.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrgSubmitButtonComponent
   extends FieldType<FieldTypeConfig<CvcOrgSubmitButtonProps>>
@@ -62,11 +67,11 @@ export class CvcOrgSubmitButtonComponent
   menuSelection$: Subject<number> = new Subject()
 
   organizationId$!: BehaviorSubject<Maybe<number>>
-  selectedOrg$!: Observable<Maybe<Organization>>
+  selectedOrg$!: Observable<Maybe<ViewerOrganizationFragment>>
 
   // INTERMEDIATE STREAMS
-  organizations$: Observable<Organization[]>
-  mostRecentOrg$: Observable<Maybe<Organization>>
+  organizations$: Observable<ViewerOrganizationFragment[]>
+  mostRecentOrg$: Observable<Maybe<ViewerOrganizationFragment>>
 
   // these synchronize submit button & org dropdown button states, styles
   isDisabled$: Subject<boolean>
@@ -103,18 +108,20 @@ export class CvcOrgSubmitButtonComponent
     this.menuSelection$
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {
-        const fragment = {
-          id: `User:${viewer.id}`,
-          fragment: gql`
-            fragment UserMostRecentOrgId on User {
-              mostRecentOrganizationId
-            }
-          `,
-          data: {
-            mostRecentOrganizationId: mroId,
-          },
+        if (viewer.signedIn) {
+          const fragment = {
+            id: `User:${viewer.user?.id}`,
+            fragment: gql`
+              fragment UserMostRecentOrgId on User {
+                mostRecentOrganizationId
+              }
+            `,
+            data: {
+              mostRecentOrganizationId: mroId,
+            },
+          }
+          this.apollo.client.writeFragment(fragment)
         }
-        this.apollo.client.writeFragment(fragment)
       })
 
     // create subject for detecting changes on form update events,

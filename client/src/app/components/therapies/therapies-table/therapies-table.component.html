@@ -122,7 +122,8 @@
           <td nzLeft>
             <cvc-therapy-tag
               [therapy]="therapy"
-              [enablePopover]="!isScrolling"></cvc-therapy-tag>
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-therapy-tag>
           </td>
           <td>
             <cvc-link-tag
@@ -156,11 +157,11 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

@@ -32,8 +32,10 @@ export type ActivityFeedSettings = {
 export type ActivityFeedFilters = {
   activityType: ActivityTypeInput[]
   organizationId: number[]
+  includeSubgroups: boolean
   subjectType: ActivitySubjectInput[]
   userId: number[]
+  linkedEndorsementId: number | null
   occurredAfter: Date | null
   occurredBefore: Date | null
   sortByColumn: DateSortColumns
@@ -44,6 +46,7 @@ export type ActivityFeedFilters = {
 export type ActivityFeedFilterVariables = {
   activityType: Maybe<ActivityTypeInput[]>
   organizationId: Maybe<number[]>
+  includeSubgroups: boolean
   subjectType: Maybe<ActivitySubjectInput[]>
   userId: Maybe<number[]>
   occurredAfter: Maybe<string>
@@ -103,6 +106,7 @@ export type FeedQueryEvent = FeedQueryFetchMoreEvent | FeedQueryRefetchEvent
 type ScopeOrganization = {
   mode: EventFeedMode.Organization
   organizationId: number
+  includeSubgroups?: never
   subject?: never
   userId?: never
 }
@@ -112,6 +116,7 @@ type ScopeSubject = {
   mode: EventFeedMode.Subject
   subject: SubscribableQueryInput
   organizationId?: never
+  includeSubgroups?: never
   userId?: never
 }
 
@@ -120,6 +125,7 @@ type ScopeUser = {
   mode: EventFeedMode.User
   userId: number
   organizationId?: never
+  includeSubgroups?: never
   subject?: never
 }
 
@@ -127,6 +133,7 @@ type ScopeUser = {
 type ScopeUnscoped = {
   mode: EventFeedMode.Unscoped
   organizationId?: number[]
+  includeSubgroups?: never
   userId?: number[]
   subject?: never
 }
@@ -146,6 +153,7 @@ export type ActivityFeedSettingsVariables = {
   mode: EventFeedMode
   subject?: SubscribableQueryInput
   organizationId?: number[]
+  includeSubgroups?: boolean
   userId?: number[]
 }
 // helps with type narrowing, mainly for Object.keys()

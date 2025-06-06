@@ -7,7 +7,7 @@ module Types::AdvancedSearch
     argument :alias, Types::AdvancedSearch::StringSearchInput, required: false
     argument :open_revision_count, Types::AdvancedSearch::IntSearchInput, required: false
     argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
-    argument :sub_filters, [Types::AdvancedSearch::GeneSearchFilterType], required: false
+    argument :sub_filters, [ Types::AdvancedSearch::GeneSearchFilterType ], required: false
     argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
   end
 end

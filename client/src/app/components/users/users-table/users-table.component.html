@@ -146,7 +146,8 @@
           <td nzLeft>
             <cvc-user-tag
               [user]="user"
-              [enablePopover]="!isScrolling"></cvc-user-tag>
+              [enablePopover]="!isScrolling"
+              popoverPlacement="right"></cvc-user-tag>
           </td>
           <td class="overflow-ellipsis">
             <ng-container *ngIf="user.name; else nameElse">
@@ -155,9 +156,9 @@
             <ng-template #nameElse>
               <i
                 nz-typography
-                nzType="secondary"
-                >Not specified</i
-              >
+                nzType="secondary">
+                Not specified
+              </i>
             </ng-template>
           </td>
           <td>
@@ -206,11 +207,11 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

@@ -1,5 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core'
+import {
+  ErrorHandler,
+  inject,
+  NgModule,
+  provideAppInitializer,
+} from '@angular/core'
 import { registerLocaleData } from '@angular/common'
 import en from '@angular/common/locales/en'
 import {
@@ -18,18 +23,34 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n'
 import { en_US } from 'ng-zorro-antd/i18n'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { GraphQLModule } from '@app/graphql/graphql.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
-import { Observable } from 'rxjs'
+import { firstValueFrom, Observable, tap } from 'rxjs'
 import { AppErrorHandler } from './core/utilities/app-error-handler'
 import { CvcForms2Module } from '@app/forms/forms.module'
+import { graphqlProvider } from './graphql/graphql.module'
+import { CvcEnvironmentBannerComponent } from './components/app/environment-banner/environment-banner.component'
+import { environment } from 'environments/environment'
 
 registerLocaleData(en)
 
-function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
-  return () => httpClient.get('/api/status')
+interface ServerConfig {
+  displayEnvBanner: boolean
+  env: string
+  status: string
 }
+
+const initlializerProvider = provideAppInitializer(() => {
+  const http = inject(HttpClient)
+  return firstValueFrom(
+    http.get<ServerConfig>('/api/status').pipe(
+      tap((config) => {
+        environment.displayEnvBanner = config.displayEnvBanner
+        environment.backendEnv = config.env
+      })
+    )
+  )
+})
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,26 +59,22 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    GraphQLModule,
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
     CvcForms2Module,
     LetDirective,
     PushPipe,
     CvcNetworkErrorAlertModule,
+    CvcEnvironmentBannerComponent,
   ],
   providers: [
+    initlializerProvider,
+    graphqlProvider,
     {
       provide: ErrorHandler,
       useClass: AppErrorHandler,
     },
     { provide: NZ_I18N, useValue: en_US },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApiFactory,
-      deps: [HttpClient],
-      multi: true,
-    },
     provideHttpClient(
       withInterceptorsFromDi(),
       withJsonpSupport(),

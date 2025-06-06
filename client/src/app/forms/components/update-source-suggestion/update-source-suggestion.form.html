@@ -1,15 +1,15 @@
 <nz-card>
   <nz-space nzDirection="vertical">
     <nz-alert
-      *ngIf="this.success"
+      *ngIf="success"
       nzBanner
       nzMessage="Status Updated"
       nzType="success"
       nzCloseable
       (nzOnClose)="onSuccessBannerClose()"></nz-alert>
     <cvc-form-errors-alert
-      *ngIf="this.errorMessages.length"
-      [errors]="this.errorMessages">
+      *ngIf="errorMessages.length"
+      [errors]="errorMessages">
     </cvc-form-errors-alert>
     <textarea
       *nzSpaceItem
@@ -19,25 +19,25 @@
     <nz-select
       *nzSpaceItem
       nzPlaceHolder="New Status"
-      [(ngModel)]="this.newStatus"
+      [(ngModel)]="newStatus"
       required="true">
       <nz-option
-        *ngIf="this.currentStatus == 'NEW'"
+        *ngIf="currentStatus == 'NEW'"
         nzValue="CURATED"
         nzLabel="Curated"></nz-option>
       <nz-option
-        *ngIf="this.currentStatus != 'NEW'"
+        *ngIf="currentStatus != 'NEW'"
         nzValue="NEW"
         nzLabel="New"></nz-option>
       <nz-option
-        *ngIf="this.currentStatus == 'NEW'"
+        *ngIf="currentStatus == 'NEW'"
         nzValue="REJECTED"
         nzLabel="Rejected"></nz-option>
     </nz-select>
     <nz-spin
       *nzSpaceItem
       nzTip="Submitting"
-      [nzSpinning]="this.loading">
+      [nzSpinning]="loading">
       <cvc-form-buttons>
         <button
           type="submit"
@@ -45,7 +45,7 @@
           (click)="updateSourceSuggestionStatus()"
           nzType="primary"
           nzSize="small"
-          [disabled]="this.loading">
+          [disabled]="loading">
           Update Source Suggestion status
         </button>
       </cvc-form-buttons>

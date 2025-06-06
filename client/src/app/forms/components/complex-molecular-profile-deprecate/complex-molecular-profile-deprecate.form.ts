@@ -14,12 +14,13 @@ import {
   MolecularProfileDetailGQL,
   EvidenceCountsForMolecularProfileGQL,
   Organization,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { ActivatedRoute } from '@angular/router'
-import { map, takeUntil} from 'rxjs/operators'
+import { map, takeUntil } from 'rxjs/operators'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
@@ -28,6 +29,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   selector: 'cvc-complex-molecular-profile-deprecate-form',
   templateUrl: './complex-molecular-profile-deprecate.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
   @Input() molecularProfileId!: number
@@ -48,7 +50,7 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
 
   comment: string = ''
   reason: Maybe<MolecularProfileDeprecationReasonMutationInput>
-  selectedOrg: Maybe<Organization>
+  selectedOrg: Maybe<ViewerOrganizationFragment>
 
   hasEvidence$?: Observable<boolean>
   isLoading$?: Observable<boolean>
@@ -61,7 +63,9 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
     private route: ActivatedRoute,
     private viewerService: ViewerService
   ) {
-    this.deprecateComplexMolecularProfileMutator = new MutatorWithState(networkErrorService)
+    this.deprecateComplexMolecularProfileMutator = new MutatorWithState(
+      networkErrorService
+    )
     this.viewer$ = this.viewerService.viewer$
   }
 
@@ -73,15 +77,22 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
       })
 
     if (this.molecularProfileId === undefined) {
-      throw new Error('Must pass a molecular profile id into deprecate complex molecular profile component')
+      throw new Error(
+        'Must pass a molecular profile id into deprecate complex molecular profile component'
+      )
     }
 
-    let queryRef = this.evidenceCountsForMolecularProfileGQL.fetch({ molecularProfileId: this.molecularProfileId })
+    let queryRef = this.evidenceCountsForMolecularProfileGQL.fetch({
+      molecularProfileId: this.molecularProfileId,
+    })
 
     this.hasEvidence$ = queryRef.pipe(
-      map(({ data }) => 
-        data.molecularProfile!.evidenceCountsByStatus.submittedCount + data.molecularProfile!.evidenceCountsByStatus.acceptedCount > 0
-      ),
+      map(
+        ({ data }) =>
+          data.molecularProfile!.evidenceCountsByStatus.submittedCount +
+            data.molecularProfile!.evidenceCountsByStatus.acceptedCount >
+          0
+      )
     )
 
     this.isLoading$ = queryRef.pipe(map(({ loading }) => loading))

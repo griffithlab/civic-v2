@@ -11,4 +11,3 @@ Activity.where(subject_type: 'Gene').find_each do |activity|
   activity.subject = feature
   activity.save!
 end
-

@@ -1,14 +1,14 @@
 <nz-alert
-  *ngFor="let error of this.errors"
+  *ngFor="let error of errors"
   nzBanner
   [nzMessage]="error"
   nzType="error"
   nzCloseable
   (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
 <nz-alert
-  *ngIf="this.success"
+  *ngIf="success"
   nzBanner
-  nzMessage="Revision(s) successfully {{ this.success }}."
+  nzMessage="Revision(s) successfully {{ success }}."
   nzType="success"
   nzCloseable
   (nzOnClose)="onSuccessBannerClose()"></nz-alert>
@@ -461,7 +461,7 @@
                   <label
                     *ngIf="
                       viewer.isCurator &&
-                        viewer.id != revision.creationActivity?.user.id;
+                        viewer.user?.id != revision.creationActivity?.user.id;
                       else canRevise
                     "
                     nz-checkbox
@@ -525,15 +525,13 @@
                       [nzPopoverTitle]="validationPopoverTitleTemplate"
                       [(nzPopoverVisible)]="validationPopoverVisible"
                       (click)="
-                        this.validationPopoverVisible =
-                          !this.validationPopoverVisible
+                        validationPopoverVisible = !validationPopoverVisible
                       "
                       [nzPopoverContent]="validationPopoverContentTemplate"
                       [nzPopoverTrigger]="undefined"
                       nzPopoverPlacement="bottom"
                       [disabled]="
-                        this.selectedRevisionIds.length === 0 ||
-                        !viewer.signedIn
+                        selectedRevisionIds.length === 0 || !viewer.signedIn
                       ">
                       Review Selected Revisions
                       <i
@@ -562,7 +560,7 @@
                     nz-icon
                     nzType="close"
                     nzTheme="outline"
-                    (click)="this.validationPopoverVisible = false"></i>
+                    (click)="validationPopoverVisible = false"></i>
                 </span>
               </ng-template>
               <ng-template #validationPopoverContentTemplate>
@@ -581,8 +579,8 @@
                           nzSize="small"
                           nzDanger
                           [disabled]="
-                            this.revisionComment === undefined ||
-                            this.revisionComment.length < 10
+                            revisionComment === undefined ||
+                            revisionComment.length < 10
                           "
                           (click)="onRejectRevisionsClicked()"
                           nz-tooltip
@@ -601,9 +599,9 @@
                           [disabled]="
                             !(
                               totalErrorCount == 0 &&
-                              (this.revisionComment === undefined ||
-                                this.revisionComment === '' ||
-                                this.revisionComment.length >= 10)
+                              (revisionComment === undefined ||
+                                revisionComment === '' ||
+                                revisionComment.length >= 10)
                             )
                           "
                           (click)="onAcceptRevisionClicked()"

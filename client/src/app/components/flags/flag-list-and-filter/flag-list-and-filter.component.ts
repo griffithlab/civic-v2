@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, output } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   FlaggableInput,
@@ -32,9 +32,11 @@ export interface SelectableFlagState {
   selector: 'cvc-flag-list-and-filter',
   templateUrl: './flag-list-and-filter.component.html',
   styleUrls: ['./flag-list-and-filter.component.less'],
+  standalone: false,
 })
 export class CvcFlagListAndFilterComponent implements OnInit {
   @Input() flaggable!: FlaggableInput
+  onFlagsUpdated = output<void>()
 
   private queryRef!: QueryRef<FlagListQuery, FlagListQueryVariables>
   private results$!: Observable<ApolloQueryResult<FlagListQuery>>
@@ -67,6 +69,7 @@ export class CvcFlagListAndFilterComponent implements OnInit {
 
     this.refresh = () => {
       this.queryRef.refetch()
+      this.onFlagsUpdated.emit()
     }
 
     this.results$ = this.queryRef.valueChanges
