@@ -12,3 +12,8 @@ admin:
   username: admin
   name: admin
   role: admin
+
+civicbot:
+  id: 385
+  name: civicbot
+  role: editor

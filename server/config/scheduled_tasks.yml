@@ -134,6 +134,12 @@ FindRetractedSources:
   queue: default
   class: FindRetractedSources
 
+FindInvalidClinvarRecords:
+  cron: '0 22 1 * *'
+  description: Find and flag Variants that link to invalid ClinVar Records
+  queue: default
+  class: FindInvalidClinvarRecords
+  
 GenerateNightlyUniprotFile:
   cron: '0 3 * * *'
   description: Update the nightly Uniprot id to gene mapping file
