@@ -16,7 +16,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabset [nzAnimated]="false">
-                <nz-tab nzTitle="5' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '5\' Partner Representative Genomic Coordinates' : '5\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -27,7 +27,7 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="5' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '5\' Partner Representative Exon Coordinates' : '5\' Partner Exon Coordinates'">
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
@@ -59,7 +59,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabset [nzAnimated]="false">
-                <nz-tab nzTitle="3' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '3\' Partner Representative Genomic Coordinates' : '3\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -70,7 +70,7 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="3' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '3\' Partner Representative Exon Coordinates' : '3\' Partner Exon Coordinates'">
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
@@ -128,7 +128,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabset [nzAnimated]="false">
-                <nz-tab nzTitle="5' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '5\' Partner Representative Genomic Coordinates' : '5\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -139,7 +139,7 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="5' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '5\' Partner Representative Exon Coordinates' : '5\' Partner Exon Coordinates'">
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
@@ -173,7 +173,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabset [nzAnimated]="false">
-                <nz-tab nzTitle="3' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '3\' Partner Representative Genomic Coordinates' : '3\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -184,7 +184,7 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="3' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '3\' Partner Representative Exon Coordinates' : '3\' Partner Exon Coordinates'">
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
