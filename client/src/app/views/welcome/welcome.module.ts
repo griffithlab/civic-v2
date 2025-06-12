@@ -27,6 +27,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
+import { CvcWelcomeBannerComponent } from '@app/views/welcome/banners/welcome-banner/welcome-banner.component'
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-h
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
     CvcActivityFeed,
+    CvcWelcomeBannerComponent,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],
