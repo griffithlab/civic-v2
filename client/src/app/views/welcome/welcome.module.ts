@@ -28,6 +28,10 @@ import { CvcActivityFeed } from '@app/components/activities/activity-feed/activi
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 import { CvcWelcomeBannerComponent } from '@app/views/welcome/banners/welcome-banner/welcome-banner.component'
+import { CvcDiscoverBannerComponent } from '@app/views/welcome/banners/discover-banner/discover-banner.component'
+import { CvcLicenseBannerComponent } from '@app/views/welcome/banners/license-banner/license-banner.component'
+import { CvcContributeBannerComponent } from '@app/views/welcome/banners/contribute-banner/contribute-banner.component'
+import { CvcEditorBannerComponent } from '@app/views/welcome/banners/editor-banner/editor-banner.component'
 
 @NgModule({
   imports: [
@@ -57,6 +61,10 @@ import { CvcWelcomeBannerComponent } from '@app/views/welcome/banners/welcome-ba
     CvcHomepageEventFeedModule,
     CvcActivityFeed,
     CvcWelcomeBannerComponent,
+    CvcDiscoverBannerComponent,
+    CvcLicenseBannerComponent,
+    CvcContributeBannerComponent,
+    CvcEditorBannerComponent,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],

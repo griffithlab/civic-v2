@@ -1,0 +1,24 @@
+@import 'themes/global-variables.less';
+@import 'ng-zorro-antd/style/color/colors.less';
+
+@banner-bg-color: #13091a;
+.banner {
+  width: 100%;
+  overflow: hidden;
+  border-radius: @border-radius-md;
+  height: 75px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(@banner-bg-color, @banner-bg-color) padding-box,
+    linear-gradient(178deg, #444, #111) border-box;
+
+  svg {
+    height: 75px;
+    width: auto;
+    top: -1px;
+
+    #text {
+      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+    }
+  }
+}
