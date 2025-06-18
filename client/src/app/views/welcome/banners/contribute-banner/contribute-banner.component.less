@@ -1,15 +1,16 @@
 @import 'themes/global-variables.less';
 @import 'ng-zorro-antd/style/color/colors.less';
 
-@banner-bg-color: #13091a;
-@icon-bg-color: #001529;
+@bg-gradient-1: #ec6e00;
+@bg-gradient-2: #843200;
+@border-gradient-1: #fbc07f;
+@border-gradient-2: #4d1d00;
+@text-color: #fff;
+@arrow-color: #f59a45;
+@arrow-hover-color: #fff;
+@icon-fill-color: #843200;
 @icon-stroke-color: #fff;
-
-@text1-color: #ccc;
-@text2-color: #fff;
-
-@arrow-color: #fff;
-@arrow-hover-color: #001529;
+@drop-shadow-fill: rgba(132, 50, 0, 0.6);
 
 .banner {
   width: 100%;
@@ -18,8 +19,17 @@
   height: 75px;
   border: 1px solid transparent;
   background:
-    linear-gradient(@banner-bg-color, @banner-bg-color) padding-box,
-    linear-gradient(178deg, #444, #111) border-box;
+    radial-gradient(circle 300px at 50px 25px, @bg-gradient-1, @bg-gradient-2)
+      padding-box,
+    linear-gradient(176deg, @border-gradient-1, @border-gradient-2) border-box;
+
+  &:hover {
+    svg {
+      #arrow {
+        fill: @arrow-hover-color;
+      }
+    }
+  }
 
   svg {
     height: 75px;
@@ -28,15 +38,8 @@
 
     #text1,
     #text2 {
-      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
-    }
-
-    #text1 {
-      fill: @text2-color;
-    }
-
-    #text2 {
-      fill: @text2-color;
+      fill: @text-color;
+      filter: drop-shadow(1px 1px 2px @drop-shadow-fill);
     }
 
     #arrow {
@@ -45,11 +48,12 @@
     }
 
     #icon {
-      fill: @icon-bg-color;
+      fill: @icon-fill-color;
       stroke: @icon-stroke-color;
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-width: 1.5px;
+      filter: drop-shadow(1px 1px 2px @drop-shadow-fill);
     }
   }
 }

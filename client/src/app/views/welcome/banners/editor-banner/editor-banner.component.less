@@ -1,7 +1,16 @@
 @import 'themes/global-variables.less';
 @import 'ng-zorro-antd/style/color/colors.less';
 
-@banner-bg-color: #13091a;
+@bg-gradient-1: #2cb352;
+@bg-gradient-2: #1d5225;
+@border-gradient-1: #8fc795;
+@border-gradient-2: #0f2912;
+@text-color: #fff;
+@arrow-color: #4dc95f;
+@arrow-hover-color: #fff;
+@icon-fill-color: #1d5225;
+@icon-stroke-color: #fff;
+@drop-shadow-fill: rgba(29, 82, 37, 0.6);
 .banner {
   width: 100%;
   overflow: hidden;
@@ -9,42 +18,46 @@
   height: 75px;
   border: 1px solid transparent;
   background:
-    linear-gradient(@banner-bg-color, @banner-bg-color) padding-box,
-    linear-gradient(178deg, #444, #111) border-box;
+    radial-gradient(circle 300px at 50px 25px, @bg-gradient-1, @bg-gradient-2)
+      padding-box,
+    linear-gradient(176deg, @border-gradient-1, @border-gradient-2) border-box;
+
+  &:hover {
+    svg {
+      #arrow {
+        fill: @arrow-hover-color;
+      }
+    }
+  }
 
   svg {
     height: 75px;
     width: auto;
     top: -1px;
 
-    #text {
+    #text1,
+    #text2 {
+      fill: @text-color;
       filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
     }
 
-    #text2 {
-      fill: #ccc;
-    }
-
-    #text1 {
-      fill: #fff;
-    }
-
     #arrow {
-      fill: #ccc;
+      fill: @arrow-color;
       fill-rule: evenodd;
     }
 
     #icon {
       #bg {
-        fill: #001529;
-        stroke: #fff;
+        fill: @icon-fill-color;
+        stroke: @icon-stroke-color;
         stroke-linecap: round;
         stroke-linejoin: round;
         stroke-width: 1.5px;
+        filter: drop-shadow(1px 1px 2px @drop-shadow-fill);
       }
 
       #outline {
-        fill: #fff;
+        fill: @icon-stroke-color;
       }
     }
   }
