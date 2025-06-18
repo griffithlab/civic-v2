@@ -61,6 +61,9 @@ export const commentOnlyActivityTypes = new Set([
   'ModerateEvidenceItemActivity',
   'CreateSourceLinkActivity',
   'RevokeEndorsementActivity',
+  'RevokeEndorsementActivity',
+  'ModerateAssertionActivity',
+  'ModerateEvidenceItemActivity',
 ])
 
 //TODO: Remove me, not needed
@@ -69,7 +72,6 @@ const complexActivityTypes = [
   'DeprecateVariantActivity',
   'DeprecateFeatureActivity',
   'RejectRevisionsActivity',
-  'SuggestRevisionSetActivity',
   'SuggestSourceActivity',
   'UpdateSourceSuggestionStatusActivity',
 ]

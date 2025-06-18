@@ -10099,78 +10099,6 @@
               "deprecationReason": null
             },
             {
-              "name": "mentionedEntities",
-              "description": "List of entities mentioned in this comment thread.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "CommentTagSegment",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "mentionedRoles",
-              "description": "List of roles mentioned in this comment thread",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "CommentTagSegment",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "mentionedUsers",
-              "description": "List of users mentioned in this comment thread.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "User",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [],
@@ -10237,42 +10165,6 @@
                   "kind": "SCALAR",
                   "name": "Int",
                   "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "unfilteredCountForSubject",
-              "description": "When filtered on a subject, the total number of comments for that subject, irregardless of other filters. Returns null when there is no subject.",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uniqueCommenters",
-              "description": "List of all users that have commented on this entity.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "User",
-                      "ofType": null
-                    }
-                  }
                 }
               },
               "isDeprecated": false,
@@ -11043,11 +10935,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FactorVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -11068,17 +10955,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FusionVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Gene",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "GeneVariant",
               "ofType": null
             },
             {
@@ -11104,11 +10981,6 @@
             {
               "kind": "OBJECT",
               "name": "SourcePopover",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Variant",
               "ofType": null
             },
             {
@@ -16574,11 +16446,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FactorVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -16599,17 +16466,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FusionVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Gene",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "GeneVariant",
               "ofType": null
             },
             {
@@ -16635,11 +16492,6 @@
             {
               "kind": "OBJECT",
               "name": "SourceSuggestion",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Variant",
               "ofType": null
             },
             {
@@ -16852,11 +16704,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FactorVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -16877,17 +16724,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FusionVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Gene",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "GeneVariant",
               "ofType": null
             },
             {
@@ -16923,11 +16760,6 @@
             {
               "kind": "OBJECT",
               "name": "SourceSuggestion",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Variant",
               "ofType": null
             },
             {
@@ -24345,22 +24177,12 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FactorVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
             {
               "kind": "OBJECT",
               "name": "Fusion",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "FusionVariant",
               "ofType": null
             },
             {
@@ -24380,17 +24202,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "GeneVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "MolecularProfile",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Variant",
               "ofType": null
             },
             {
@@ -33788,11 +33600,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FactorVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -33808,27 +33615,12 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FusionVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Gene",
               "ofType": null
             },
             {
               "kind": "OBJECT",
               "name": "GeneVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "GeneVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Variant",
               "ofType": null
             },
             {
@@ -61863,22 +61655,12 @@
             },
             {
               "kind": "OBJECT",
-              "name": "FactorVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
             {
               "kind": "OBJECT",
               "name": "Fusion",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "FusionVariant",
               "ofType": null
             },
             {
@@ -61898,17 +61680,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "GeneVariant",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "MolecularProfile",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Variant",
               "ofType": null
             },
             {

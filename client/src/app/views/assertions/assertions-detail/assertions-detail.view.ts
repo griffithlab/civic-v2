@@ -10,7 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { EndorsementResult } from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
-import { CvcFlaggableCounts } from '@app/components/shared/flaggable/flaggable.component'
+import { CvcEndorsableCounts } from '@app/components/endorsements/endorsable/endorsable.component'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
@@ -51,7 +51,7 @@ export class AssertionsDetailView {
   assertion: Signal<Maybe<AssertionDetailFieldsFragment>>
   endorsements: Signal<EndorsementListNodeFragment[]>
   endorsementCounts: Signal<EndorsementCounts>
-  flaggableCounts: Signal<CvcFlaggableCounts>
+  endorsableCounts: Signal<CvcEndorsableCounts>
   tabConfig: Signal<RouteableTab[]>
   subscribableInput: Signal<Maybe<SubscribableInput>>
   errors: WritableSignal<string[]>
@@ -106,8 +106,8 @@ export class AssertionsDetailView {
     private route: ActivatedRoute
   ) {
     /**************************
-    CONFIGURE QUERY & RESPONSE
-    **************************/
+     CONFIGURE QUERY & RESPONSE
+     **************************/
     // get assertionId from route params
     this.assertionId = +this.route.snapshot.params['assertionId']
 
@@ -172,7 +172,7 @@ export class AssertionsDetailView {
     })
 
     // provide flaggable counts as signal derived from flag & endorsement counts
-    this.flaggableCounts = computed(() => {
+    this.endorsableCounts = computed(() => {
       const assertion = this.assertion()
       let counts = {
         flags: 0,
@@ -231,7 +231,7 @@ export class AssertionsDetailView {
       return tabConfig
     })
 
-    // provide interation feedback signals
+    // provide interaction feedback signals
     this.errors = signal<string[]>([])
     this.successMessage = signal<Maybe<string>>(undefined)
   } // end constructor

@@ -39,6 +39,10 @@ class Mutations::DeprecateComplexMolecularProfile < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Molecular Profile has accepted or submitted Evidence Items. Move its Evidence Items to a different Molecular Profile and try again."
     end
 
+    if Revision.where(field_name: "molecular_profile_id", suggested_value: molecular_profile.id, status: "new").count > 0
+      raise GraphQL::ExecutionError, "Molecular Profiles has open revision(s) to move an Evidence Item or Assertion to it. Resolve the revision(s) and try again."
+    end
+
     return true
   end
 

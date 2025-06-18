@@ -14346,7 +14346,7 @@ ${ActivitiesPageInfoFieldsFragmentDoc}`;
   })
   export class ActivityFeedGQL extends Apollo.Query<ActivityFeedQuery, ActivityFeedQueryVariables> {
     document = ActivityFeedDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14381,7 +14381,7 @@ export const ActivityFeedUpdatesDocument = gql`
   })
   export class ActivityFeedUpdatesGQL extends Apollo.Query<ActivityFeedUpdatesQuery, ActivityFeedUpdatesQueryVariables> {
     document = ActivityFeedUpdatesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14410,7 +14410,7 @@ export const OrgFilterSearchDocument = gql`
   })
   export class OrgFilterSearchGQL extends Apollo.Query<OrgFilterSearchQuery, OrgFilterSearchQueryVariables> {
     document = OrgFilterSearchDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14442,7 +14442,7 @@ export const UserFilterSearchDocument = gql`
   })
   export class UserFilterSearchGQL extends Apollo.Query<UserFilterSearchQuery, UserFilterSearchQueryVariables> {
     document = UserFilterSearchDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14461,7 +14461,7 @@ export const ActivityFeedItemDocument = gql`
   })
   export class ActivityFeedItemGQL extends Apollo.Query<ActivityFeedItemQuery, ActivityFeedItemQueryVariables> {
     document = ActivityFeedItemDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14479,7 +14479,7 @@ export const AssertionPopoverDocument = gql`
   })
   export class AssertionPopoverGQL extends Apollo.Query<AssertionPopoverQuery, AssertionPopoverQueryVariables> {
     document = AssertionPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14534,7 +14534,7 @@ export const AssertionsBrowseDocument = gql`
   })
   export class AssertionsBrowseGQL extends Apollo.Query<AssertionsBrowseQuery, AssertionsBrowseQueryVariables> {
     document = AssertionsBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14556,7 +14556,7 @@ export const ClinicalTrialPopoverDocument = gql`
   })
   export class ClinicalTrialPopoverGQL extends Apollo.Query<ClinicalTrialPopoverQuery, ClinicalTrialPopoverQueryVariables> {
     document = ClinicalTrialPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14595,7 +14595,7 @@ export const ClinicalTrialsBrowseDocument = gql`
   })
   export class ClinicalTrialsBrowseGQL extends Apollo.Query<ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables> {
     document = ClinicalTrialsBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14615,7 +14615,7 @@ export const DeleteCommentDocument = gql`
   })
   export class DeleteCommentGQL extends Apollo.Mutation<DeleteCommentMutation, DeleteCommentMutationVariables> {
     document = DeleteCommentDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14681,7 +14681,7 @@ export const CommentListDocument = gql`
   })
   export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
     document = CommentListDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14699,7 +14699,7 @@ export const CommentPopoverDocument = gql`
   })
   export class CommentPopoverGQL extends Apollo.Query<CommentPopoverQuery, CommentPopoverQueryVariables> {
     document = CommentPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14727,7 +14727,7 @@ export const DiseasePopoverDocument = gql`
   })
   export class DiseasePopoverGQL extends Apollo.Query<DiseasePopoverQuery, DiseasePopoverQueryVariables> {
     document = DiseasePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14770,7 +14770,7 @@ export const BrowseDiseasesDocument = gql`
   })
   export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
     document = BrowseDiseasesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14790,7 +14790,7 @@ export const EndorseAssertionDocument = gql`
   })
   export class EndorseAssertionGQL extends Apollo.Mutation<EndorseAssertionMutation, EndorseAssertionMutationVariables> {
     document = EndorseAssertionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14810,7 +14810,7 @@ export const RevokeEndorsementDocument = gql`
   })
   export class RevokeEndorsementGQL extends Apollo.Mutation<RevokeEndorsementMutation, RevokeEndorsementMutationVariables> {
     document = RevokeEndorsementDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14844,7 +14844,7 @@ export const EndorsementListDocument = gql`
   })
   export class EndorsementListGQL extends Apollo.Query<EndorsementListQuery, EndorsementListQueryVariables> {
     document = EndorsementListDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14873,7 +14873,7 @@ export const EventFeedCountDocument = gql`
   })
   export class EventFeedCountGQL extends Apollo.Query<EventFeedCountQuery, EventFeedCountQueryVariables> {
     document = EventFeedCountDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14902,7 +14902,7 @@ export const EventFeedDocument = gql`
   })
   export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
     document = EventFeedDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14920,7 +14920,7 @@ export const EvidencePopoverDocument = gql`
   })
   export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
     document = EvidencePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14979,7 +14979,7 @@ export const EvidenceBrowseDocument = gql`
   })
   export class EvidenceBrowseGQL extends Apollo.Query<EvidenceBrowseQuery, EvidenceBrowseQueryVariables> {
     document = EvidenceBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -14997,7 +14997,7 @@ export const FeaturePopoverDocument = gql`
   })
   export class FeaturePopoverGQL extends Apollo.Query<FeaturePopoverQuery, FeaturePopoverQueryVariables> {
     document = FeaturePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15042,7 +15042,7 @@ export const BrowseFeaturesDocument = gql`
   })
   export class BrowseFeaturesGQL extends Apollo.Query<BrowseFeaturesQuery, BrowseFeaturesQueryVariables> {
     document = BrowseFeaturesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15070,7 +15070,7 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15088,7 +15088,7 @@ export const FlagPopoverDocument = gql`
   })
   export class FlagPopoverGQL extends Apollo.Query<FlagPopoverQuery, FlagPopoverQueryVariables> {
     document = FlagPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15124,7 +15124,7 @@ export const FusionMenuDocument = gql`
   })
   export class FusionMenuGQL extends Apollo.Query<FusionMenuQuery, FusionMenuQueryVariables> {
     document = FusionMenuDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15142,7 +15142,7 @@ export const QuicksearchDocument = gql`
   })
   export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
     document = QuicksearchDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15160,7 +15160,7 @@ export const MolecularProfilePopoverDocument = gql`
   })
   export class MolecularProfilePopoverGQL extends Apollo.Query<MolecularProfilePopoverQuery, MolecularProfilePopoverQueryVariables> {
     document = MolecularProfilePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15205,7 +15205,7 @@ export const BrowseMolecularProfilesDocument = gql`
   })
   export class BrowseMolecularProfilesGQL extends Apollo.Query<BrowseMolecularProfilesQuery, BrowseMolecularProfilesQueryVariables> {
     document = BrowseMolecularProfilesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15244,7 +15244,7 @@ export const MolecularProfileMenuDocument = gql`
   })
   export class MolecularProfileMenuGQL extends Apollo.Query<MolecularProfileMenuQuery, MolecularProfileMenuQueryVariables> {
     document = MolecularProfileMenuDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15284,7 +15284,7 @@ export const OrganizationCommentsLeaderboardDocument = gql`
   })
   export class OrganizationCommentsLeaderboardGQL extends Apollo.Query<OrganizationCommentsLeaderboardQuery, OrganizationCommentsLeaderboardQueryVariables> {
     document = OrganizationCommentsLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15324,7 +15324,7 @@ export const OrganizationRevisionsLeaderboardDocument = gql`
   })
   export class OrganizationRevisionsLeaderboardGQL extends Apollo.Query<OrganizationRevisionsLeaderboardQuery, OrganizationRevisionsLeaderboardQueryVariables> {
     document = OrganizationRevisionsLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15364,7 +15364,7 @@ export const OrganizationModerationLeaderboardDocument = gql`
   })
   export class OrganizationModerationLeaderboardGQL extends Apollo.Query<OrganizationModerationLeaderboardQuery, OrganizationModerationLeaderboardQueryVariables> {
     document = OrganizationModerationLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15404,7 +15404,7 @@ export const OrganizationSubmissionsLeaderboardDocument = gql`
   })
   export class OrganizationSubmissionsLeaderboardGQL extends Apollo.Query<OrganizationSubmissionsLeaderboardQuery, OrganizationSubmissionsLeaderboardQueryVariables> {
     document = OrganizationSubmissionsLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15422,7 +15422,7 @@ export const OrgPopoverDocument = gql`
   })
   export class OrgPopoverGQL extends Apollo.Query<OrgPopoverQuery, OrgPopoverQueryVariables> {
     document = OrgPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15460,7 +15460,7 @@ export const OrganizationsBrowseDocument = gql`
   })
   export class OrganizationsBrowseGQL extends Apollo.Query<OrganizationsBrowseQuery, OrganizationsBrowseQueryVariables> {
     document = OrganizationsBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15485,7 +15485,7 @@ export const PhenotypePopoverDocument = gql`
   })
   export class PhenotypePopoverGQL extends Apollo.Query<PhenotypePopoverQuery, PhenotypePopoverQueryVariables> {
     document = PhenotypePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15524,7 +15524,7 @@ export const PhenotypesBrowseDocument = gql`
   })
   export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
     document = PhenotypesBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15545,7 +15545,7 @@ export const AcceptRevisionDocument = gql`
   })
   export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
     document = AcceptRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15566,7 +15566,7 @@ export const RejectRevisionDocument = gql`
   })
   export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
     document = RejectRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15587,7 +15587,7 @@ export const ValidateRevisionsForAcceptanceDocument = gql`
   })
   export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
     document = ValidateRevisionsForAcceptanceDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15605,7 +15605,7 @@ export const RevisionPopoverDocument = gql`
   })
   export class RevisionPopoverGQL extends Apollo.Query<RevisionPopoverQuery, RevisionPopoverQueryVariables> {
     document = RevisionPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15660,7 +15660,7 @@ export const RevisionsDocument = gql`
   })
   export class RevisionsGQL extends Apollo.Query<RevisionsQuery, RevisionsQueryVariables> {
     document = RevisionsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15683,7 +15683,7 @@ export const ContributorAvatarsDocument = gql`
   })
   export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
     document = ContributorAvatarsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15701,7 +15701,7 @@ export const SubscriptionForEntityDocument = gql`
   })
   export class SubscriptionForEntityGQL extends Apollo.Query<SubscriptionForEntityQuery, SubscriptionForEntityQueryVariables> {
     document = SubscriptionForEntityDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15721,7 +15721,7 @@ export const ModerateEvidenceItemDocument = gql`
   })
   export class ModerateEvidenceItemGQL extends Apollo.Mutation<ModerateEvidenceItemMutation, ModerateEvidenceItemMutationVariables> {
     document = ModerateEvidenceItemDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15741,7 +15741,7 @@ export const ModerateAssertionDocument = gql`
   })
   export class ModerateAssertionGQL extends Apollo.Mutation<ModerateAssertionMutation, ModerateAssertionMutationVariables> {
     document = ModerateAssertionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15791,7 +15791,7 @@ export const CivicStatsDocument = gql`
   })
   export class CivicStatsGQL extends Apollo.Query<CivicStatsQuery, CivicStatsQueryVariables> {
     document = CivicStatsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15839,7 +15839,7 @@ export const BrowseSourceSuggestionsDocument = gql`
   })
   export class BrowseSourceSuggestionsGQL extends Apollo.Query<BrowseSourceSuggestionsQuery, BrowseSourceSuggestionsQueryVariables> {
     document = BrowseSourceSuggestionsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15860,7 +15860,7 @@ export const UpdateSourceSuggestionStatusDocument = gql`
   })
   export class UpdateSourceSuggestionStatusGQL extends Apollo.Mutation<UpdateSourceSuggestionStatusMutation, UpdateSourceSuggestionStatusMutationVariables> {
     document = UpdateSourceSuggestionStatusDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15878,7 +15878,7 @@ export const SourcePopoverDocument = gql`
   })
   export class SourcePopoverGQL extends Apollo.Query<SourcePopoverQuery, SourcePopoverQueryVariables> {
     document = SourcePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15925,7 +15925,7 @@ export const BrowseSourcesDocument = gql`
   })
   export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
     document = BrowseSourcesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15952,7 +15952,7 @@ export const TherapyPopoverDocument = gql`
   })
   export class TherapyPopoverGQL extends Apollo.Query<TherapyPopoverQuery, TherapyPopoverQueryVariables> {
     document = TherapyPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -15992,7 +15992,7 @@ export const TherapiesBrowseDocument = gql`
   })
   export class TherapiesBrowseGQL extends Apollo.Query<TherapiesBrowseQuery, TherapiesBrowseQueryVariables> {
     document = TherapiesBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16032,7 +16032,7 @@ export const UserCommentsLeaderboardDocument = gql`
   })
   export class UserCommentsLeaderboardGQL extends Apollo.Query<UserCommentsLeaderboardQuery, UserCommentsLeaderboardQueryVariables> {
     document = UserCommentsLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16072,7 +16072,7 @@ export const UserRevisionsLeaderboardDocument = gql`
   })
   export class UserRevisionsLeaderboardGQL extends Apollo.Query<UserRevisionsLeaderboardQuery, UserRevisionsLeaderboardQueryVariables> {
     document = UserRevisionsLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16112,7 +16112,7 @@ export const UserModerationLeaderboardDocument = gql`
   })
   export class UserModerationLeaderboardGQL extends Apollo.Query<UserModerationLeaderboardQuery, UserModerationLeaderboardQueryVariables> {
     document = UserModerationLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16152,7 +16152,7 @@ export const UserSubmissionsLeaderboardDocument = gql`
   })
   export class UserSubmissionsLeaderboardGQL extends Apollo.Query<UserSubmissionsLeaderboardQuery, UserSubmissionsLeaderboardQueryVariables> {
     document = UserSubmissionsLeaderboardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16170,7 +16170,7 @@ export const UserPopoverDocument = gql`
   })
   export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
     document = UserPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16209,7 +16209,7 @@ export const UsersBrowseDocument = gql`
   })
   export class UsersBrowseGQL extends Apollo.Query<UsersBrowseQuery, UsersBrowseQueryVariables> {
     document = UsersBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16227,7 +16227,7 @@ export const VariantGroupPopoverDocument = gql`
   })
   export class VariantGroupPopoverGQL extends Apollo.Query<VariantGroupPopoverQuery, VariantGroupPopoverQueryVariables> {
     document = VariantGroupPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16269,7 +16269,7 @@ export const BrowseVariantGroupsDocument = gql`
   })
   export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
     document = BrowseVariantGroupsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16287,7 +16287,7 @@ export const VariantTypePopoverDocument = gql`
   })
   export class VariantTypePopoverGQL extends Apollo.Query<VariantTypePopoverQuery, VariantTypePopoverQueryVariables> {
     document = VariantTypePopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16326,7 +16326,7 @@ export const VariantTypesBrowseDocument = gql`
   })
   export class VariantTypesBrowseGQL extends Apollo.Query<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables> {
     document = VariantTypesBrowseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16344,7 +16344,7 @@ export const CoordinatesCardDocument = gql`
   })
   export class CoordinatesCardGQL extends Apollo.Query<CoordinatesCardQuery, CoordinatesCardQueryVariables> {
     document = CoordinatesCardDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16362,7 +16362,7 @@ export const VariantPopoverDocument = gql`
   })
   export class VariantPopoverGQL extends Apollo.Query<VariantPopoverQuery, VariantPopoverQueryVariables> {
     document = VariantPopoverDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16402,7 +16402,7 @@ export const VariantsMenuDocument = gql`
   })
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16424,7 +16424,7 @@ export const VariantTypesForFeatureDocument = gql`
   })
   export class VariantTypesForFeatureGQL extends Apollo.Query<VariantTypesForFeatureQuery, VariantTypesForFeatureQueryVariables> {
     document = VariantTypesForFeatureDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16473,7 +16473,7 @@ export const BrowseVariantsDocument = gql`
   })
   export class BrowseVariantsGQL extends Apollo.Query<BrowseVariantsQuery, BrowseVariantsQueryVariables> {
     document = BrowseVariantsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16491,7 +16491,7 @@ export const ViewerBaseDocument = gql`
   })
   export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
     document = ViewerBaseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16509,7 +16509,7 @@ export const ViewerNotificationCountDocument = gql`
   })
   export class ViewerNotificationCountGQL extends Apollo.Query<ViewerNotificationCountQuery, ViewerNotificationCountQueryVariables> {
     document = ViewerNotificationCountDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16530,7 +16530,7 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16548,7 +16548,7 @@ export const PreviewCommentDocument = gql`
   })
   export class PreviewCommentGQL extends Apollo.Query<PreviewCommentQuery, PreviewCommentQueryVariables> {
     document = PreviewCommentDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16566,7 +16566,7 @@ export const UserTypeaheadDocument = gql`
   })
   export class UserTypeaheadGQL extends Apollo.Query<UserTypeaheadQuery, UserTypeaheadQueryVariables> {
     document = UserTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16586,7 +16586,7 @@ export const EntityTypeaheadDocument = gql`
   })
   export class EntityTypeaheadGQL extends Apollo.Query<EntityTypeaheadQuery, EntityTypeaheadQueryVariables> {
     document = EntityTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16609,7 +16609,7 @@ export const DeprecateComplexMolecularProfileDocument = gql`
   })
   export class DeprecateComplexMolecularProfileGQL extends Apollo.Mutation<DeprecateComplexMolecularProfileMutation, DeprecateComplexMolecularProfileMutationVariables> {
     document = DeprecateComplexMolecularProfileDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16633,7 +16633,7 @@ export const EvidenceCountsForMolecularProfileDocument = gql`
   })
   export class EvidenceCountsForMolecularProfileGQL extends Apollo.Query<EvidenceCountsForMolecularProfileQuery, EvidenceCountsForMolecularProfileQueryVariables> {
     document = EvidenceCountsForMolecularProfileDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16653,7 +16653,7 @@ export const LinkableGeneDocument = gql`
   })
   export class LinkableGeneGQL extends Apollo.Query<LinkableGeneQuery, LinkableGeneQueryVariables> {
     document = LinkableGeneDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16673,7 +16673,7 @@ export const LinkableVariantDocument = gql`
   })
   export class LinkableVariantGQL extends Apollo.Query<LinkableVariantQuery, LinkableVariantQueryVariables> {
     document = LinkableVariantDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16693,7 +16693,7 @@ export const LinkableTherapyDocument = gql`
   })
   export class LinkableTherapyGQL extends Apollo.Query<LinkableTherapyQuery, LinkableTherapyQueryVariables> {
     document = LinkableTherapyDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16714,7 +16714,7 @@ export const LinkableFeatureDocument = gql`
   })
   export class LinkableFeatureGQL extends Apollo.Query<LinkableFeatureQuery, LinkableFeatureQueryVariables> {
     document = LinkableFeatureDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16737,7 +16737,7 @@ export const DeprecateFeatureDocument = gql`
   })
   export class DeprecateFeatureGQL extends Apollo.Mutation<DeprecateFeatureMutation, DeprecateFeatureMutationVariables> {
     document = DeprecateFeatureDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16761,7 +16761,7 @@ export const VariantsForFeatureDocument = gql`
   })
   export class VariantsForFeatureGQL extends Apollo.Query<VariantsForFeatureQuery, VariantsForFeatureQueryVariables> {
     document = VariantsForFeatureDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16781,7 +16781,7 @@ export const FlagEntityDocument = gql`
   })
   export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
     document = FlagEntityDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16801,7 +16801,7 @@ export const ResolveFlagDocument = gql`
   })
   export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
     document = ResolveFlagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16822,7 +16822,7 @@ export const UpdateSourceSuggestionDocument = gql`
   })
   export class UpdateSourceSuggestionGQL extends Apollo.Mutation<UpdateSourceSuggestionMutation, UpdateSourceSuggestionMutationVariables> {
     document = UpdateSourceSuggestionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16845,7 +16845,7 @@ export const GenerateApiKeyDocument = gql`
   })
   export class GenerateApiKeyGQL extends Apollo.Mutation<GenerateApiKeyMutation, GenerateApiKeyMutationVariables> {
     document = GenerateApiKeyDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16863,7 +16863,7 @@ export const RevokeApiKeyDocument = gql`
   })
   export class RevokeApiKeyGQL extends Apollo.Mutation<RevokeApiKeyMutation, RevokeApiKeyMutationVariables> {
     document = RevokeApiKeyDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16886,7 +16886,7 @@ export const ApiKeysDocument = gql`
   })
   export class ApiKeysGQL extends Apollo.Query<ApiKeysQuery, ApiKeysQueryVariables> {
     document = ApiKeysDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16909,7 +16909,7 @@ export const UpdateCoiDocument = gql`
   })
   export class UpdateCoiGQL extends Apollo.Mutation<UpdateCoiMutation, UpdateCoiMutationVariables> {
     document = UpdateCoiDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16929,7 +16929,7 @@ export const UpdateUserProfileDocument = gql`
   })
   export class UpdateUserProfileGQL extends Apollo.Mutation<UpdateUserProfileMutation, UpdateUserProfileMutationVariables> {
     document = UpdateUserProfileDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16948,7 +16948,7 @@ export const CountriesDocument = gql`
   })
   export class CountriesGQL extends Apollo.Query<CountriesQuery, CountriesQueryVariables> {
     document = CountriesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -16974,7 +16974,7 @@ export const DeprecateVariantDocument = gql`
   })
   export class DeprecateVariantGQL extends Apollo.Mutation<DeprecateVariantMutation, DeprecateVariantMutationVariables> {
     document = DeprecateVariantDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17002,7 +17002,7 @@ export const MolecularProfilesForVariantDocument = gql`
   })
   export class MolecularProfilesForVariantGQL extends Apollo.Query<MolecularProfilesForVariantQuery, MolecularProfilesForVariantQueryVariables> {
     document = MolecularProfilesForVariantDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17020,7 +17020,7 @@ export const AssertionRevisableFieldsDocument = gql`
   })
   export class AssertionRevisableFieldsGQL extends Apollo.Query<AssertionRevisableFieldsQuery, AssertionRevisableFieldsQueryVariables> {
     document = AssertionRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17044,7 +17044,7 @@ export const SuggestAssertionRevisionDocument = gql`
   })
   export class SuggestAssertionRevisionGQL extends Apollo.Mutation<SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables> {
     document = SuggestAssertionRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17065,7 +17065,7 @@ export const SubmitAssertionDocument = gql`
   })
   export class SubmitAssertionGQL extends Apollo.Mutation<SubmitAssertionMutation, SubmitAssertionMutationVariables> {
     document = SubmitAssertionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17083,7 +17083,7 @@ export const EvidenceItemRevisableFieldsDocument = gql`
   })
   export class EvidenceItemRevisableFieldsGQL extends Apollo.Query<EvidenceItemRevisableFieldsQuery, EvidenceItemRevisableFieldsQueryVariables> {
     document = EvidenceItemRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17107,7 +17107,7 @@ export const SuggestEvidenceItemRevisionDocument = gql`
   })
   export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
     document = SuggestEvidenceItemRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17146,7 +17146,7 @@ export const EvidenceFieldsFromSourceSuggestionDocument = gql`
   })
   export class EvidenceFieldsFromSourceSuggestionGQL extends Apollo.Query<EvidenceFieldsFromSourceSuggestionQuery, EvidenceFieldsFromSourceSuggestionQueryVariables> {
     document = EvidenceFieldsFromSourceSuggestionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17164,7 +17164,7 @@ export const EvidenceSubmittableFieldsDocument = gql`
   })
   export class EvidenceSubmittableFieldsGQL extends Apollo.Query<EvidenceSubmittableFieldsQuery, EvidenceSubmittableFieldsQueryVariables> {
     document = EvidenceSubmittableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17185,7 +17185,7 @@ export const SubmitEvidenceItemDocument = gql`
   })
   export class SubmitEvidenceItemGQL extends Apollo.Mutation<SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables> {
     document = SubmitEvidenceItemDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17203,7 +17203,7 @@ export const ExistingEvidenceCountDocument = gql`
   })
   export class ExistingEvidenceCountGQL extends Apollo.Query<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables> {
     document = ExistingEvidenceCountDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17221,7 +17221,7 @@ export const FullyCuratedSourceDocument = gql`
   })
   export class FullyCuratedSourceGQL extends Apollo.Query<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables> {
     document = FullyCuratedSourceDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17242,7 +17242,7 @@ export const RelatedEvidenceCountDocument = gql`
   })
   export class RelatedEvidenceCountGQL extends Apollo.Query<RelatedEvidenceCountQuery, RelatedEvidenceCountQueryVariables> {
     document = RelatedEvidenceCountDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17260,7 +17260,7 @@ export const FactorRevisableFieldsDocument = gql`
   })
   export class FactorRevisableFieldsGQL extends Apollo.Query<FactorRevisableFieldsQuery, FactorRevisableFieldsQueryVariables> {
     document = FactorRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17283,7 +17283,7 @@ export const SuggestFactorRevisionDocument = gql`
   })
   export class SuggestFactorRevisionGQL extends Apollo.Mutation<SuggestFactorRevisionMutation, SuggestFactorRevisionMutationVariables> {
     document = SuggestFactorRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17304,7 +17304,7 @@ export const FactorVariantRevisableFieldsDocument = gql`
   })
   export class FactorVariantRevisableFieldsGQL extends Apollo.Query<FactorVariantRevisableFieldsQuery, FactorVariantRevisableFieldsQueryVariables> {
     document = FactorVariantRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17330,7 +17330,7 @@ export const SuggestFactorVariantRevisionDocument = gql`
   })
   export class SuggestFactorVariantRevisionGQL extends Apollo.Mutation<SuggestFactorVariantRevisionMutation, SuggestFactorVariantRevisionMutationVariables> {
     document = SuggestFactorVariantRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17348,7 +17348,7 @@ export const FusionRevisableFieldsDocument = gql`
   })
   export class FusionRevisableFieldsGQL extends Apollo.Query<FusionRevisableFieldsQuery, FusionRevisableFieldsQueryVariables> {
     document = FusionRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17371,7 +17371,7 @@ export const SuggestFusionRevisionDocument = gql`
   })
   export class SuggestFusionRevisionGQL extends Apollo.Mutation<SuggestFusionRevisionMutation, SuggestFusionRevisionMutationVariables> {
     document = SuggestFusionRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17392,7 +17392,7 @@ export const FusionVariantRevisableFieldsDocument = gql`
   })
   export class FusionVariantRevisableFieldsGQL extends Apollo.Query<FusionVariantRevisableFieldsQuery, FusionVariantRevisableFieldsQueryVariables> {
     document = FusionVariantRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17418,7 +17418,7 @@ export const SuggestFusionVariantRevisionDocument = gql`
   })
   export class SuggestFusionVariantRevisionGQL extends Apollo.Mutation<SuggestFusionVariantRevisionMutation, SuggestFusionVariantRevisionMutationVariables> {
     document = SuggestFusionVariantRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17436,7 +17436,7 @@ export const GeneRevisableFieldsDocument = gql`
   })
   export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
     document = GeneRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17459,7 +17459,7 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17480,7 +17480,7 @@ export const GeneVariantRevisableFieldsDocument = gql`
   })
   export class GeneVariantRevisableFieldsGQL extends Apollo.Query<GeneVariantRevisableFieldsQuery, GeneVariantRevisableFieldsQueryVariables> {
     document = GeneVariantRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17506,7 +17506,7 @@ export const SuggestGeneVariantRevisionDocument = gql`
   })
   export class SuggestGeneVariantRevisionGQL extends Apollo.Mutation<SuggestGeneVariantRevisionMutation, SuggestGeneVariantRevisionMutationVariables> {
     document = SuggestGeneVariantRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17524,7 +17524,7 @@ export const MolecularProfileRevisableFieldsDocument = gql`
   })
   export class MolecularProfileRevisableFieldsGQL extends Apollo.Query<MolecularProfileRevisableFieldsQuery, MolecularProfileRevisableFieldsQueryVariables> {
     document = MolecularProfileRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17550,7 +17550,7 @@ export const SuggestMolecularProfileRevisionDocument = gql`
   })
   export class SuggestMolecularProfileRevisionGQL extends Apollo.Mutation<SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables> {
     document = SuggestMolecularProfileRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17580,7 +17580,7 @@ export const CreateLinkedSourceDocument = gql`
   })
   export class CreateLinkedSourceGQL extends Apollo.Mutation<CreateLinkedSourceMutation, CreateLinkedSourceMutationVariables> {
     document = CreateLinkedSourceDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17601,7 +17601,7 @@ export const SubmitSourceDocument = gql`
   })
   export class SubmitSourceGQL extends Apollo.Mutation<SubmitSourceMutation, SubmitSourceMutationVariables> {
     document = SubmitSourceDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17622,7 +17622,7 @@ export const SourceSuggestionChecksDocument = gql`
   })
   export class SourceSuggestionChecksGQL extends Apollo.Query<SourceSuggestionChecksQuery, SourceSuggestionChecksQueryVariables> {
     document = SourceSuggestionChecksDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17640,7 +17640,7 @@ export const VariantGroupRevisableFieldsDocument = gql`
   })
   export class VariantGroupRevisableFieldsGQL extends Apollo.Query<VariantGroupRevisableFieldsQuery, VariantGroupRevisableFieldsQueryVariables> {
     document = VariantGroupRevisableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17666,7 +17666,7 @@ export const SuggestVariantGroupRevisionDocument = gql`
   })
   export class SuggestVariantGroupRevisionGQL extends Apollo.Mutation<SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables> {
     document = SuggestVariantGroupRevisionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17684,7 +17684,7 @@ export const VariantGroupSubmittableFieldsDocument = gql`
   })
   export class VariantGroupSubmittableFieldsGQL extends Apollo.Query<VariantGroupSubmittableFieldsQuery, VariantGroupSubmittableFieldsQueryVariables> {
     document = VariantGroupSubmittableFieldsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17705,7 +17705,7 @@ export const SubmitVariantGroupDocument = gql`
   })
   export class SubmitVariantGroupGQL extends Apollo.Mutation<SubmitVariantGroupMutation, SubmitVariantGroupMutationVariables> {
     document = SubmitVariantGroupDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17723,7 +17723,7 @@ export const GeneAdvancedSearchDocument = gql`
   })
   export class GeneAdvancedSearchGQL extends Apollo.Query<GeneAdvancedSearchQuery, GeneAdvancedSearchQueryVariables> {
     document = GeneAdvancedSearchDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17768,7 +17768,7 @@ export const EntityTagsTestDocument = gql`
   })
   export class EntityTagsTestGQL extends Apollo.Query<EntityTagsTestQuery, EntityTagsTestQueryVariables> {
     document = EntityTagsTestDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17786,7 +17786,7 @@ export const AcmgCodeSelectTypeaheadDocument = gql`
   })
   export class AcmgCodeSelectTypeaheadGQL extends Apollo.Query<AcmgCodeSelectTypeaheadQuery, AcmgCodeSelectTypeaheadQueryVariables> {
     document = AcmgCodeSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17804,7 +17804,7 @@ export const AcmgCodeSelectTagDocument = gql`
   })
   export class AcmgCodeSelectTagGQL extends Apollo.Query<AcmgCodeSelectTagQuery, AcmgCodeSelectTagQueryVariables> {
     document = AcmgCodeSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17822,7 +17822,7 @@ export const ClingenCodeSelectTypeaheadDocument = gql`
   })
   export class ClingenCodeSelectTypeaheadGQL extends Apollo.Query<ClingenCodeSelectTypeaheadQuery, ClingenCodeSelectTypeaheadQueryVariables> {
     document = ClingenCodeSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17840,7 +17840,7 @@ export const ClingenCodeSelectTagDocument = gql`
   })
   export class ClingenCodeSelectTagGQL extends Apollo.Query<ClingenCodeSelectTagQuery, ClingenCodeSelectTagQueryVariables> {
     document = ClingenCodeSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17858,7 +17858,7 @@ export const QuickAddDiseaseDocument = gql`
   })
   export class QuickAddDiseaseGQL extends Apollo.Mutation<QuickAddDiseaseMutation, QuickAddDiseaseMutationVariables> {
     document = QuickAddDiseaseDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17876,7 +17876,7 @@ export const DiseaseSelectTypeaheadDocument = gql`
   })
   export class DiseaseSelectTypeaheadGQL extends Apollo.Query<DiseaseSelectTypeaheadQuery, DiseaseSelectTypeaheadQueryVariables> {
     document = DiseaseSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17894,7 +17894,7 @@ export const DiseaseSelectTagDocument = gql`
   })
   export class DiseaseSelectTagGQL extends Apollo.Query<DiseaseSelectTagQuery, DiseaseSelectTagQueryVariables> {
     document = DiseaseSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17956,7 +17956,7 @@ export const EvidenceManagerDocument = gql`
   })
   export class EvidenceManagerGQL extends Apollo.Query<EvidenceManagerQuery, EvidenceManagerQueryVariables> {
     document = EvidenceManagerDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17976,7 +17976,7 @@ export const EvidenceSelectTypeaheadDocument = gql`
   })
   export class EvidenceSelectTypeaheadGQL extends Apollo.Query<EvidenceSelectTypeaheadQuery, EvidenceSelectTypeaheadQueryVariables> {
     document = EvidenceSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -17994,7 +17994,7 @@ export const EvidenceSelectTagDocument = gql`
   })
   export class EvidenceSelectTagGQL extends Apollo.Query<EvidenceSelectTagQuery, EvidenceSelectTagQueryVariables> {
     document = EvidenceSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18014,7 +18014,7 @@ export const QuickAddFeatureDocument = gql`
   })
   export class QuickAddFeatureGQL extends Apollo.Mutation<QuickAddFeatureMutation, QuickAddFeatureMutationVariables> {
     document = QuickAddFeatureDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18032,7 +18032,7 @@ export const FeatureSelectTypeaheadDocument = gql`
   })
   export class FeatureSelectTypeaheadGQL extends Apollo.Query<FeatureSelectTypeaheadQuery, FeatureSelectTypeaheadQueryVariables> {
     document = FeatureSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18050,7 +18050,7 @@ export const FeatureSelectTagDocument = gql`
   })
   export class FeatureSelectTagGQL extends Apollo.Query<FeatureSelectTagQuery, FeatureSelectTagQueryVariables> {
     document = FeatureSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18073,7 +18073,7 @@ export const SelectOrCreateFusionDocument = gql`
   })
   export class SelectOrCreateFusionGQL extends Apollo.Mutation<SelectOrCreateFusionMutation, SelectOrCreateFusionMutationVariables> {
     document = SelectOrCreateFusionDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18093,7 +18093,7 @@ export const MolecularProfileSelectTypeaheadDocument = gql`
   })
   export class MolecularProfileSelectTypeaheadGQL extends Apollo.Query<MolecularProfileSelectTypeaheadQuery, MolecularProfileSelectTypeaheadQueryVariables> {
     document = MolecularProfileSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18111,7 +18111,7 @@ export const MolecularProfileSelectTagDocument = gql`
   })
   export class MolecularProfileSelectTagGQL extends Apollo.Query<MolecularProfileSelectTagQuery, MolecularProfileSelectTagQueryVariables> {
     document = MolecularProfileSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18145,7 +18145,7 @@ export const PreviewMolecularProfileName2Document = gql`
   })
   export class PreviewMolecularProfileName2GQL extends Apollo.Query<PreviewMolecularProfileName2Query, PreviewMolecularProfileName2QueryVariables> {
     document = PreviewMolecularProfileName2Document;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18169,7 +18169,7 @@ export const MpExpressionEditorPrepopulateDocument = gql`
   })
   export class MpExpressionEditorPrepopulateGQL extends Apollo.Query<MpExpressionEditorPrepopulateQuery, MpExpressionEditorPrepopulateQueryVariables> {
     document = MpExpressionEditorPrepopulateDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18195,7 +18195,7 @@ export const CreateMolecularProfile2Document = gql`
   })
   export class CreateMolecularProfile2GQL extends Apollo.Mutation<CreateMolecularProfile2Mutation, CreateMolecularProfile2MutationVariables> {
     document = CreateMolecularProfile2Document;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18213,7 +18213,7 @@ export const NccnGuidelineSelectTypeaheadDocument = gql`
   })
   export class NccnGuidelineSelectTypeaheadGQL extends Apollo.Query<NccnGuidelineSelectTypeaheadQuery, NccnGuidelineSelectTypeaheadQueryVariables> {
     document = NccnGuidelineSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18231,7 +18231,7 @@ export const NccnGuidelineSelectTagDocument = gql`
   })
   export class NccnGuidelineSelectTagGQL extends Apollo.Query<NccnGuidelineSelectTagQuery, NccnGuidelineSelectTagQueryVariables> {
     document = NccnGuidelineSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18249,7 +18249,7 @@ export const PhenotypeSelectTypeaheadDocument = gql`
   })
   export class PhenotypeSelectTypeaheadGQL extends Apollo.Query<PhenotypeSelectTypeaheadQuery, PhenotypeSelectTypeaheadQueryVariables> {
     document = PhenotypeSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18267,7 +18267,7 @@ export const PhenotypeSelectTagDocument = gql`
   })
   export class PhenotypeSelectTagGQL extends Apollo.Query<PhenotypeSelectTagQuery, PhenotypeSelectTagQueryVariables> {
     document = PhenotypeSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18283,7 +18283,7 @@ export const QuickAddSourceCheckCitationDocument = gql`
   })
   export class QuickAddSourceCheckCitationGQL extends Apollo.Query<QuickAddSourceCheckCitationQuery, QuickAddSourceCheckCitationQueryVariables> {
     document = QuickAddSourceCheckCitationDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18305,7 +18305,7 @@ export const QuickAddSourceRemoteCitationDocument = gql`
   })
   export class QuickAddSourceRemoteCitationGQL extends Apollo.Mutation<QuickAddSourceRemoteCitationMutation, QuickAddSourceRemoteCitationMutationVariables> {
     document = QuickAddSourceRemoteCitationDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18323,7 +18323,7 @@ export const SourceSelectTypeaheadDocument = gql`
   })
   export class SourceSelectTypeaheadGQL extends Apollo.Query<SourceSelectTypeaheadQuery, SourceSelectTypeaheadQueryVariables> {
     document = SourceSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18341,7 +18341,7 @@ export const SourceSelectTagDocument = gql`
   })
   export class SourceSelectTagGQL extends Apollo.Query<SourceSelectTagQuery, SourceSelectTagQueryVariables> {
     document = SourceSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18359,7 +18359,7 @@ export const QuickAddTherapyDocument = gql`
   })
   export class QuickAddTherapyGQL extends Apollo.Mutation<QuickAddTherapyMutation, QuickAddTherapyMutationVariables> {
     document = QuickAddTherapyDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18377,7 +18377,7 @@ export const TherapySelectTypeaheadDocument = gql`
   })
   export class TherapySelectTypeaheadGQL extends Apollo.Query<TherapySelectTypeaheadQuery, TherapySelectTypeaheadQueryVariables> {
     document = TherapySelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18395,7 +18395,7 @@ export const TherapySelectTagDocument = gql`
   })
   export class TherapySelectTagGQL extends Apollo.Query<TherapySelectTagQuery, TherapySelectTagQueryVariables> {
     document = TherapySelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18415,7 +18415,7 @@ export const SelectOrCreateFusionVariantDocument = gql`
   })
   export class SelectOrCreateFusionVariantGQL extends Apollo.Mutation<SelectOrCreateFusionVariantMutation, SelectOrCreateFusionVariantMutationVariables> {
     document = SelectOrCreateFusionVariantDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18460,7 +18460,7 @@ export const VariantManagerDocument = gql`
   })
   export class VariantManagerGQL extends Apollo.Query<VariantManagerQuery, VariantManagerQueryVariables> {
     document = VariantManagerDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18480,7 +18480,7 @@ export const QuickAddVariantDocument = gql`
   })
   export class QuickAddVariantGQL extends Apollo.Mutation<QuickAddVariantMutation, QuickAddVariantMutationVariables> {
     document = QuickAddVariantDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18498,7 +18498,7 @@ export const VariantSelectTypeaheadDocument = gql`
   })
   export class VariantSelectTypeaheadGQL extends Apollo.Query<VariantSelectTypeaheadQuery, VariantSelectTypeaheadQueryVariables> {
     document = VariantSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18527,7 +18527,7 @@ export const VariantSelectTagDocument = gql`
   })
   export class VariantSelectTagGQL extends Apollo.Query<VariantSelectTagQuery, VariantSelectTagQueryVariables> {
     document = VariantSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18545,7 +18545,7 @@ export const VariantTypeSelectTypeaheadDocument = gql`
   })
   export class VariantTypeSelectTypeaheadGQL extends Apollo.Query<VariantTypeSelectTypeaheadQuery, VariantTypeSelectTypeaheadQueryVariables> {
     document = VariantTypeSelectTypeaheadDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18563,7 +18563,7 @@ export const VariantTypeSelectTagDocument = gql`
   })
   export class VariantTypeSelectTagGQL extends Apollo.Query<VariantTypeSelectTagQuery, VariantTypeSelectTagQueryVariables> {
     document = VariantTypeSelectTagDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18581,7 +18581,7 @@ export const AssertionDetailDocument = gql`
   })
   export class AssertionDetailGQL extends Apollo.Query<AssertionDetailQuery, AssertionDetailQueryVariables> {
     document = AssertionDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18599,7 +18599,7 @@ export const AssertionSummaryDocument = gql`
   })
   export class AssertionSummaryGQL extends Apollo.Query<AssertionSummaryQuery, AssertionSummaryQueryVariables> {
     document = AssertionSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18622,7 +18622,7 @@ export const ClinicalTrialDetailDocument = gql`
   })
   export class ClinicalTrialDetailGQL extends Apollo.Query<ClinicalTrialDetailQuery, ClinicalTrialDetailQueryVariables> {
     document = ClinicalTrialDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18645,7 +18645,7 @@ export const ClinicalTrialSummaryDocument = gql`
   })
   export class ClinicalTrialSummaryGQL extends Apollo.Query<ClinicalTrialSummaryQuery, ClinicalTrialSummaryQueryVariables> {
     document = ClinicalTrialSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18670,7 +18670,7 @@ export const DiseaseDetailDocument = gql`
   })
   export class DiseaseDetailGQL extends Apollo.Query<DiseaseDetailQuery, DiseaseDetailQueryVariables> {
     document = DiseaseDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18688,7 +18688,7 @@ export const DiseasesSummaryDocument = gql`
   })
   export class DiseasesSummaryGQL extends Apollo.Query<DiseasesSummaryQuery, DiseasesSummaryQueryVariables> {
     document = DiseasesSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18706,7 +18706,7 @@ export const EvidenceDetailDocument = gql`
   })
   export class EvidenceDetailGQL extends Apollo.Query<EvidenceDetailQuery, EvidenceDetailQueryVariables> {
     document = EvidenceDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18724,7 +18724,7 @@ export const EvidenceSummaryDocument = gql`
   })
   export class EvidenceSummaryGQL extends Apollo.Query<EvidenceSummaryQuery, EvidenceSummaryQueryVariables> {
     document = EvidenceSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18742,7 +18742,7 @@ export const FeatureDetailDocument = gql`
   })
   export class FeatureDetailGQL extends Apollo.Query<FeatureDetailQuery, FeatureDetailQueryVariables> {
     document = FeatureDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18760,7 +18760,7 @@ export const FeaturesSummaryDocument = gql`
   })
   export class FeaturesSummaryGQL extends Apollo.Query<FeaturesSummaryQuery, FeaturesSummaryQueryVariables> {
     document = FeaturesSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18778,7 +18778,7 @@ export const MolecularProfileDetailDocument = gql`
   })
   export class MolecularProfileDetailGQL extends Apollo.Query<MolecularProfileDetailQuery, MolecularProfileDetailQueryVariables> {
     document = MolecularProfileDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18796,7 +18796,7 @@ export const MolecularProfileSummaryDocument = gql`
   })
   export class MolecularProfileSummaryGQL extends Apollo.Query<MolecularProfileSummaryQuery, MolecularProfileSummaryQueryVariables> {
     document = MolecularProfileSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18814,7 +18814,7 @@ export const OrganizationDetailDocument = gql`
   })
   export class OrganizationDetailGQL extends Apollo.Query<OrganizationDetailQuery, OrganizationDetailQueryVariables> {
     document = OrganizationDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18834,7 +18834,7 @@ export const OrganizationGroupsDocument = gql`
   })
   export class OrganizationGroupsGQL extends Apollo.Query<OrganizationGroupsQuery, OrganizationGroupsQueryVariables> {
     document = OrganizationGroupsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18869,7 +18869,7 @@ export const OrganizationMembersDocument = gql`
   })
   export class OrganizationMembersGQL extends Apollo.Query<OrganizationMembersQuery, OrganizationMembersQueryVariables> {
     document = OrganizationMembersDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18892,7 +18892,7 @@ export const PhenotypeDetailDocument = gql`
   })
   export class PhenotypeDetailGQL extends Apollo.Query<PhenotypeDetailQuery, PhenotypeDetailQueryVariables> {
     document = PhenotypeDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18910,7 +18910,7 @@ export const DataReleasesDocument = gql`
   })
   export class DataReleasesGQL extends Apollo.Query<DataReleasesQuery, DataReleasesQueryVariables> {
     document = DataReleasesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18928,7 +18928,7 @@ export const SourceDetailDocument = gql`
   })
   export class SourceDetailGQL extends Apollo.Query<SourceDetailQuery, SourceDetailQueryVariables> {
     document = SourceDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18946,7 +18946,7 @@ export const SourceSummaryDocument = gql`
   })
   export class SourceSummaryGQL extends Apollo.Query<SourceSummaryQuery, SourceSummaryQueryVariables> {
     document = SourceSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18970,7 +18970,7 @@ export const TherapyDetailDocument = gql`
   })
   export class TherapyDetailGQL extends Apollo.Query<TherapyDetailQuery, TherapyDetailQueryVariables> {
     document = TherapyDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -18988,7 +18988,7 @@ export const TherapiesSummaryDocument = gql`
   })
   export class TherapiesSummaryGQL extends Apollo.Query<TherapiesSummaryQuery, TherapiesSummaryQueryVariables> {
     document = TherapiesSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19006,7 +19006,7 @@ export const UserDetailDocument = gql`
   })
   export class UserDetailGQL extends Apollo.Query<UserDetailQuery, UserDetailQueryVariables> {
     document = UserDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19059,7 +19059,7 @@ ${NotificationNodeFragmentDoc}`;
   })
   export class UserNotificationsGQL extends Apollo.Query<UserNotificationsQuery, UserNotificationsQueryVariables> {
     document = UserNotificationsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19079,7 +19079,7 @@ export const UpdateNotificationStatusDocument = gql`
   })
   export class UpdateNotificationStatusGQL extends Apollo.Mutation<UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables> {
     document = UpdateNotificationStatusDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19099,7 +19099,7 @@ export const UnsubscribeDocument = gql`
   })
   export class UnsubscribeGQL extends Apollo.Mutation<UnsubscribeMutation, UnsubscribeMutationVariables> {
     document = UnsubscribeDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19119,7 +19119,7 @@ export const SubscribeDocument = gql`
   })
   export class SubscribeGQL extends Apollo.Mutation<SubscribeMutation, SubscribeMutationVariables> {
     document = SubscribeDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19137,7 +19137,7 @@ export const VariantGroupDetailDocument = gql`
   })
   export class VariantGroupDetailGQL extends Apollo.Query<VariantGroupDetailQuery, VariantGroupDetailQueryVariables> {
     document = VariantGroupDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19155,7 +19155,7 @@ export const VariantGroupsSummaryDocument = gql`
   })
   export class VariantGroupsSummaryGQL extends Apollo.Query<VariantGroupsSummaryQuery, VariantGroupsSummaryQueryVariables> {
     document = VariantGroupsSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19178,7 +19178,7 @@ export const VariantTypeDetailDocument = gql`
   })
   export class VariantTypeDetailGQL extends Apollo.Query<VariantTypeDetailQuery, VariantTypeDetailQueryVariables> {
     document = VariantTypeDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19196,7 +19196,7 @@ export const VariantDetailDocument = gql`
   })
   export class VariantDetailGQL extends Apollo.Query<VariantDetailQuery, VariantDetailQueryVariables> {
     document = VariantDetailDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19214,7 +19214,7 @@ export const CoordinateIdsForVariantDocument = gql`
   })
   export class CoordinateIdsForVariantGQL extends Apollo.Query<CoordinateIdsForVariantQuery, CoordinateIdsForVariantQueryVariables> {
     document = CoordinateIdsForVariantDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -19232,7 +19232,7 @@ export const VariantSummaryDocument = gql`
   })
   export class VariantSummaryGQL extends Apollo.Query<VariantSummaryQuery, VariantSummaryQueryVariables> {
     document = VariantSummaryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

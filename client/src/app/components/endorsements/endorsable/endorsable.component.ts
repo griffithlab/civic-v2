@@ -11,13 +11,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
-export type CvcFlaggableCounts = {
+export type CvcEndorsableCounts = {
   flags: number
   endorsements: number
 }
 
 @Component({
-  selector: '[cvcFlaggable]',
+  selector: '[cvcEndorsable]',
   imports: [
     CommonModule,
     NzBadgeModule,
@@ -25,14 +25,14 @@ export type CvcFlaggableCounts = {
     NzToolTipModule,
     NzSpaceModule,
   ],
-  templateUrl: './flaggable.component.html',
-  styleUrl: './flaggable.component.less',
+  templateUrl: './endorsable.component.html',
+  styleUrl: './endorsable.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcFlaggableComponent {
-  counts = input<CvcFlaggableCounts>(
+export class CvcEndorsableDirective {
+  counts = input<CvcEndorsableCounts>(
     { flags: 0, endorsements: 0 },
-    { alias: 'cvcFlaggableCounts' }
+    { alias: 'cvcEndorsableCounts' }
   )
 
   flags = computed(() => this.counts().flags)

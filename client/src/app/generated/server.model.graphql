@@ -1997,21 +1997,6 @@ type CommentConnection {
   edges: [CommentEdge!]!
 
   """
-  List of entities mentioned in this comment thread.
-  """
-  mentionedEntities: [CommentTagSegment!]!
-
-  """
-  List of roles mentioned in this comment thread
-  """
-  mentionedRoles: [CommentTagSegment!]!
-
-  """
-  List of users mentioned in this comment thread.
-  """
-  mentionedUsers: [User!]!
-
-  """
   A list of nodes.
   """
   nodes: [Comment!]!
@@ -2030,17 +2015,6 @@ type CommentConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
-
-  """
-  When filtered on a subject, the total number of comments for that subject,
-  irregardless of other filters. Returns null when there is no subject.
-  """
-  unfilteredCountForSubject: Int
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 """

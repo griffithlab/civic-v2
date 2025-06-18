@@ -20,33 +20,21 @@ class OpenCravat
 
   def parse_response(response)
     p = JSON.parse(response)
-    benignity = {
-      'cadd_exome': p.dig("cadd_exome", "bp4_benign"),
-      'cadd': p.dig("cadd", "bp4_benign"),
-      'revel': p.dig("revel", "bp4_benign"),
-      'sift': p.dig("sift", "bp4_benign"),
-      'gerp': p.dig("gerp", "bp4_benign"),
-      'phylop': p.dig("phylop", "bp4_benign"),
-      'vest': p.dig("vest", "bp4_benign"),
-      'bayesdel': p.dig("bayesdel", "bp4_benign"),
-    }
-    pathogenicity = {
-      'cadd_exome': p.dig("cadd_exome", "pp3_pathogenic"),
-      'cadd': p.dig("cadd", "pp3_pathogenic"),
-      'revel': p.dig("revel", "pp3_pathogenic"),
-      'sift': p.dig("sift", "pp3_pathogenic"),
-      'fathmm': p.dig("fathmm", "pp3_pathogenic"),
-      'phylop': p.dig("phylop", "pp3_pathogenic"),
-      'vest': p.dig("vest", "pp3_pathogenic"),
-      'bayesdel': p.dig("bayesdel", "pp3_pathogenic"),
-    }
+    benignity = {}
+    pathogenicity = {}
+    p.each do |predictor, results|
+      if results && [ "bp4_benign", "pp3_pathogenic" ].all? { |key| results.key?(key) }
+        benignity[predictor] = results.dig("bp4_benign")
+        pathogenicity[predictor] = results.dig("pp3_pathogenic")
+      end
+    end
     {
       'benignity': benignity,
       'benignity_counts': benignity.values.compact.tally,
-      'benignity_counts_details': benignity.group_by{|k,v| v}.map { |k, v| [k, v.map(&:first)] }.to_h,
+      'benignity_counts_details': benignity.group_by { |k, v| v }.map { |k, v| [ k, v.map(&:first) ] }.to_h,
       'pathogenicity': pathogenicity,
       'pathogenicity_counts': pathogenicity.values.compact.tally,
-      'pathogenicity_counts_details': pathogenicity.group_by{|k,v| v}.map { |k, v| [k, v.map(&:first)] }.to_h,
+      'pathogenicity_counts_details': pathogenicity.group_by { |k, v| v }.map { |k, v| [ k, v.map(&:first) ] }.to_h,
     }
   rescue StandardError => e
   end
@@ -56,24 +44,40 @@ class OpenCravat
     if raw_value.nil?
       []
     elsif raw_value.is_a?(Hash)
-      [raw_value[final_key]]
+      [ raw_value[final_key] ]
     else
-      raw_value.map{|v| v[final_key]}.uniq
+      raw_value.map { |v| v[final_key] }.uniq
     end
   end
 
   def annotators
     [
-      'bayesdel',
-      'cadd',
-      'cadd_exome',
-      'fathmm',
-      'gerp',
-      'phylop',
-      'primateai',
-      'revel',
-      'sift',
-      'vest',
+      "alphamissense",
+      "bayesdel",
+      "cadd",
+      "cadd_exome",
+      "dann",
+      "dann_coding",
+      "esm1b",
+      "fathmm",
+      "fathmm_mkl",
+      "fathmm_xf_coding",
+      "gerp",
+      "metalr",
+      "metarnn",
+      "metasvm",
+      "mistic",
+      "mutation_assessor",
+      "mutationtaster",
+      "mutpred1",
+      "phdsnpg",
+      "phylop",
+      "primateai",
+      "provean",
+      "revel",
+      "sift",
+      "varity_r",
+      "vest",
     ]
   end
 
@@ -83,7 +87,7 @@ class OpenCravat
   end
 
   def open_cravat_url(open_cravat_url_parameters)
-    annotator_list = annotators.join(',')
+    annotator_list = annotators.join(",")
     "https://run.opencravat.org/submit/annotate?#{open_cravat_url_parameters}&annotators=#{annotator_list}"
   end
 
