@@ -2,6 +2,15 @@
 @import 'ng-zorro-antd/style/color/colors.less';
 
 @banner-bg-color: #13091a;
+@icon-bg-color: #001529;
+@icon-stroke-color: #fff;
+
+@text1-color: #ccc;
+@text2-color: #fff;
+
+@arrow-color: #fff;
+@arrow-hover-color: #001529;
+
 .banner {
   width: 100%;
   overflow: hidden;
@@ -17,8 +26,30 @@
     width: auto;
     top: -1px;
 
-    #text {
+    #text1,
+    #text2 {
       filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+    }
+
+    #text1 {
+      fill: @text2-color;
+    }
+
+    #text2 {
+      fill: @text2-color;
+    }
+
+    #arrow {
+      fill: @arrow-color;
+      fill-rule: evenodd;
+    }
+
+    #icon {
+      fill: @icon-bg-color;
+      stroke: @icon-stroke-color;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.5px;
     }
   }
 }
