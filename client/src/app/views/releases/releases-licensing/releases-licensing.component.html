@@ -1,0 +1,250 @@
+<cvc-section-navigation></cvc-section-navigation>
+<nz-page-header class="site-page-header">
+  <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col
+        nzFlex="64px"
+        class="header-icon">
+        <i
+          nz-icon
+          nzType="copyright-circle"></i>
+      </nz-col>
+      <nz-col
+        nzFlex="auto"
+        class="header-description">
+        <h2 nz-typography>Data Licensing</h2>
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
+          CIViC data is dedicated the the public domain under a CC0 1.0
+          Universal license.
+        </p>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="[8, 8]">
+      <nz-col
+        nzSpan="24"
+        style="margin-top: 0">
+        <nz-alert
+          nzType="info"
+          [nzMessage]="licenseMessage">
+        </nz-alert>
+        <ng-template #licenseMessage>
+          <p
+            nz-typography
+            style="margin-bottom: 0">
+            The content of CIViC, hosted by Washington University School of
+            Medicine, is released under the
+            <strong
+              ><a
+                href="https://creativecommons.org/publicdomain/zero/1.0/"
+                target="_blank"
+                >Creative Commons Public Domain Dedication (CC0 1.0
+                Universal)</a
+              ></strong
+            >. This means that all CIViC data is completely free for anyone to
+            use for any purpose without restriction.
+          </p>
+        </ng-template>
+        <h2
+          nz-typography
+          style="margin-top: 12px; margin-bottom: 0">
+          What This Means for You
+        </h2>
+      </nz-col>
+      <nz-col nzSpan="12">
+        <h3 nz-typography>Complete Freedom to Use</h3>
+
+        <p nz-typography>
+          All content created in CIViC is, and will continue to be,
+          <strong>freely available, without restriction</strong> under CC0. This
+          includes:
+        </p>
+
+        <ul>
+          <li>All released datasets available for bulk download</li>
+          <li>All data accessible through our API</li>
+          <li>
+            All curated evidence statements, variant interpretations, and
+            clinical assertions
+          </li>
+          <li>All gene and molecular profile summaries</li>
+        </ul>
+      </nz-col>
+      <nz-col nzSpan="12">
+        <h3 nz-typography>No Attribution Required</h3>
+
+        <p nz-typography>
+          While we appreciate acknowledgment,
+          <strong
+            >you are not legally required to cite or attribute CIViC</strong
+          >
+          when using our data. The CC0 dedication means:
+        </p>
+
+        <ul>
+          <li>No permission needed to use the data</li>
+          <li>No attribution legally required</li>
+          <li>No restrictions on commercial use</li>
+          <li>No restrictions on modification or transformation</li>
+          <li>No restrictions on redistribution</li>
+        </ul>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <h3 nz-typography>Build on CIViC Data</h3>
+
+        <p nz-typography>CC0 empowers you to:</p>
+        <ul>
+          <li>
+            Freely build upon, enhance and reuse the data for any purposes
+          </li>
+          <li>
+            Integrate CIViC interpretations into your own tools and platforms
+          </li>
+          <li>Create derivative works without restriction</li>
+          <li>Use the data in commercial applications</li>
+          <li>Redistribute the data in any format</li>
+        </ul>
+
+        <h2 nz-typography>Why CC0?</h2>
+
+        <p nz-typography>
+          CC0 enables scientists, educators, clinicians, and other creators to
+          place their contributions as completely as possible in the public
+          domain. Unlike licenses that allow copyright holders to retain certain
+          rights, CC0 represents the "no rights reserved" alternative.
+        </p>
+
+        <p nz-typography>This approach:</p>
+        <ul>
+          <li>
+            Removes any legal doubt about whether researchers can use the data
+          </li>
+          <li>Clarifies the status of the work unambiguously worldwide</li>
+          <li>Facilitates maximum reuse and innovation</li>
+          <li>Accelerates scientific discovery by removing barriers</li>
+        </ul>
+
+        <h2 nz-typography>How CIViC Data Is Being Used</h2>
+
+        <p nz-typography>
+          The open nature of CIViC data under CC0 has enabled diverse
+          applications across academic and commercial sectors. Please review the
+          <a
+            href="https://civic.readthedocs.io/en/latest/about/data-clients.html"
+            target="_blank"
+            >list of data clients</a
+          >
+          for an overview of the ways that others are using and integrating
+          CIViC data.
+        </p>
+
+        <h2 nz-typography>Accessing CIViC Data</h2>
+
+        <p nz-typography>
+          CIViC data may be accessed through multiple channels:
+        </p>
+      </nz-col>
+      <nz-col nzSpan="8">
+        <h3 nz-typography>Bulk Downloads</h3>
+        <p nz-typography>
+          Data can be
+          <a
+            href="https://civicdb.org/releases"
+            target="_blank"
+            >downloaded in bulk</a
+          >
+          as:
+        </p>
+        <ul>
+          <li>Tab-separated files (TSV)</li>
+          <li>VCF files</li>
+        </ul>
+      </nz-col>
+      <nz-col nzSpan="8">
+        <h3 nz-typography>API Access</h3>
+        <p nz-typography>
+          Access data programmatically through our fully open and
+          <a
+            href="https://civic.readthedocs.io/en/latest/api.html"
+            target="_blank"
+            >documented API</a
+          >.
+        </p>
+      </nz-col>
+      <nz-col nzSpan="8">
+        <h3 nz-typography>Direct Platform Use</h3>
+        <p nz-typography>
+          Browse and search data directly through the
+          <a
+            href="https://civicdb.org"
+            target="_blank"
+            >CIViC web interface</a
+          >.
+        </p>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <h2 nz-typography>Important Considerations</h2>
+
+        <h3 nz-typography>Medical Disclaimer</h3>
+        <p nz-typography>
+          While CIViC data is free to use, please note that CIViC is an
+          educational resource. With appropriate validation (e.g., in a CLIA
+          certified, CAP accredited environment) it may be used to develop
+          panels or software for variant interpretation in a clinical diagnostic
+          setting. However, direct use of the CIViC application and website is
+          intended for purely research and educational purposes. It should not
+          be used for emergencies or taken as medical or professional advice.
+        </p>
+
+        <h3 nz-typography>Ethical Norms</h3>
+        <p nz-typography>
+          Although CC0 doesn't legally require users to cite the source, it does
+          not affect the ethical norms for attribution in scientific and
+          research communities. We encourage users to cite CIViC when using our
+          data in publications or presentations.
+        </p>
+
+        <h2 nz-typography>Citation</h2>
+
+        <p nz-typography>
+          While not required under CC0, we appreciate citation of CIViC in
+          scientific publications:
+        </p>
+
+        <p nz-typography>
+          Griffith M, Spies NC, Krysiak K, et al. CIViC is a community
+          knowledgebase for expert crowdsourcing the clinical interpretation of
+          variants in cancer. Nat Genet. 2017;49(2):170-174. doi:10.1038/ng.3774
+        </p>
+
+        <h2 nz-typography>Questions?</h2>
+
+        <p nz-typography>
+          For more information about CIViC data licensing or usage, please visit
+          our
+          <a
+            href="https://civic.readthedocs.io/en/latest/about/faq.html"
+            target="_blank"
+            >FAQ</a
+          >
+          or email the CIViC team at
+          <a href="mailto:help@civicdb.org">help&#64;civicdb.org</a>.
+        </p>
+
+        <hr />
+
+        <p nz-typography>
+          <em
+            >The CIViC project is committed to maximizing the accessibility and
+            utility of cancer variant interpretations for the global community
+            through open data sharing.</em
+          >
+        </p>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>
