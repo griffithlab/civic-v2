@@ -23,6 +23,7 @@ module Types
     field :browsePhenotypes, resolver: Resolvers::BrowsePhenotypes
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :browseOrganizations, resolver: Resolvers::BrowseOrganizations
+    field :browseUsers, resolver: Resolvers::BrowseUsers
     field :events, resolver: Resolvers::TopLevelEvents
     field :comments, resolver: Resolvers::TopLevelComments
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions

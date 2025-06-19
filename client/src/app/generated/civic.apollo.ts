@@ -5010,6 +5010,8 @@ export type Query = {
   browsePhenotypes: BrowsePhenotypeConnection;
   browseSources: BrowseSourceConnection;
   browseTherapies: BrowseTherapyConnection;
+  /** List and filter users. */
+  browseUsers: BrowseUserConnection;
   browseVariantGroups: BrowseVariantGroupConnection;
   browseVariants: BrowseVariantConnection;
   /** Find a ClinGen code by CIViC ID */
@@ -5126,7 +5128,7 @@ export type Query = {
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
   /** List and filter users. */
-  users: BrowseUserConnection;
+  users: UserConnection;
   validateRevisionsForAcceptance: ValidationErrors;
   /** Find a variant by CIViC ID */
   variant?: Maybe<VariantInterface>;
@@ -5313,6 +5315,19 @@ export type QueryBrowseTherapiesArgs = {
   ncitId?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<TherapySort>;
   therapyAlias?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryBrowseUsersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  organization?: InputMaybe<OrganizationFilter>;
+  role?: InputMaybe<UserRole>;
+  sortBy?: InputMaybe<UsersSort>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -5814,7 +5829,6 @@ export type QueryUsersArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   organization?: InputMaybe<OrganizationFilter>;
   role?: InputMaybe<UserRole>;
-  sortBy?: InputMaybe<UsersSort>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -8162,7 +8176,7 @@ export type UserFilterSearchQueryVariables = Exact<{
 }>;
 
 
-export type UserFilterSearchQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', node?: { __typename: 'BrowseUser', id: number, displayName: string, name?: string | undefined, username: string, role: UserRole } | undefined }> } };
+export type UserFilterSearchQuery = { __typename: 'Query', browseUsers: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', node?: { __typename: 'BrowseUser', id: number, displayName: string, name?: string | undefined, username: string, role: UserRole } | undefined }> } };
 
 export type AcceptRevisionsActivityDetailFragment = { __typename: 'AcceptRevisionsActivity', id: number, verbiage: string, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, revisions: Array<{ __typename: 'Revision', id: number, name: string, status: RevisionStatus, currentValue?: any | undefined, suggestedValue?: any | undefined, fieldName: string, link: string, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', currentObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, suggestedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } } }>, supersededRevisions: Array<{ __typename: 'Revision', id: number, link: string, name: string, fieldName: string, createdAt: any, creationActivity?: { __typename: 'SuggestRevisionSetActivity', user: { __typename: 'User', displayName: string, profileImagePath?: string | undefined, id: number, role: UserRole } } | undefined }>, organization?: { __typename: 'Organization', id: number, name: string } | undefined, user: { __typename: 'User', id: number, displayName: string, role: UserRole }, subject: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', deleted: boolean, deletedAt?: any | undefined, id: number, name: string, link: string, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'ExonCoordinate', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'RevisionSet', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantCoordinate', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, events: Array<{ __typename: 'Event', id: number, createdAt: any, action: EventAction, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined, originatingUser: { __typename: 'User', id: number, displayName: string } }> };
 
@@ -8964,7 +8978,7 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', browseUsers: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
 export type UserBrowseTableRowFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
@@ -10072,7 +10086,7 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', browseUsers: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
 export type OrganizationMembersFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
@@ -14267,7 +14281,7 @@ export const OrgFilterSearchDocument = gql`
   }
 export const UserFilterSearchDocument = gql`
     query UserFilterSearch($name: String) {
-  users(name: $name) {
+  browseUsers(name: $name) {
     pageInfo {
       endCursor
       hasNextPage
@@ -16026,7 +16040,7 @@ export const UserPopoverDocument = gql`
   }
 export const UsersBrowseDocument = gql`
     query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort) {
-  users(
+  browseUsers(
     first: $first
     last: $last
     before: $before
@@ -18621,7 +18635,7 @@ export const OrganizationGroupsDocument = gql`
   }
 export const OrganizationMembersDocument = gql`
     query OrganizationMembers($organizationId: [Int!], $first: Int, $last: Int, $before: String, $after: String) {
-  users(
+  browseUsers(
     organization: {ids: $organizationId}
     first: $first
     last: $last

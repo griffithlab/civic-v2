@@ -42,14 +42,14 @@ export class OrganizationsMembersComponent implements OnDestroy {
 
 
       this.members$ = observable.pipe(
-        pluck('data', 'users', 'edges'),
+        pluck('data', 'browseUsers', 'edges'),
         filter(isNotNullish),
         map((edges) => {
           return edges.map((e) => e.node)
         })
       )
 
-      this.pageInfo$ = observable.pipe(pluck('data', 'users', 'pageInfo'))
+      this.pageInfo$ = observable.pipe(pluck('data', 'browseUsers', 'pageInfo'))
 
       this.viewer$ = this.viewerService.viewer$
     })
