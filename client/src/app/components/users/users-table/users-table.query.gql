@@ -8,7 +8,7 @@ query UsersBrowse(
   $userRole: UserRole
   $sortBy: UsersSort
 ) {
-  users(
+  browseUsers(
     first: $first
     last: $last
     before: $before

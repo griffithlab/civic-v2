@@ -67,7 +67,7 @@ export class CvcUserFilterSelect {
       }),
       map(
         (result) =>
-          result.data?.users.edges.map((e) => e.node! as BrowseUser) ?? []
+          result.data?.browseUsers.edges.map((e) => e.node! as BrowseUser) ?? []
       ),
       tag(`${this.constructor.name} filteredUser$ after`)
     )
