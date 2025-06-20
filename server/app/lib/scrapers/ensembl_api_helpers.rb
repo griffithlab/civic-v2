@@ -13,16 +13,16 @@ module Scrapers
 
     def self.get_exons_for_build_and_ensembl_id(build, ensembl_id, warning = nil)
       t = ensembl_id.split(".").first
-      if build == 'GRCh37'
+      if build == "GRCh37"
         url = "#{GRCH37_ENSEMBL_DOMAIN}/overlap/id/#{ensembl_id}?content-type=application/json;feature=exon"
-      elsif build == 'GRCh38'
+      elsif build == "GRCh38"
         url = "#{GRCH38_ENSEMBL_DOMAIN}/overlap/id/#{t}?content-type=application/json;feature=exon"
       end
         begin
           data = call_api(url)
         rescue StandardError => e
           error_message = JSON.parse(e.message)["error"]
-          if (build == 'GRCh37' && error_message == "No object found for ID #{ensembl_id}")
+          if build == "GRCh37" && error_message == "No object found for ID #{ensembl_id}"
             t = ensembl_id.split(".").first
             res = get_exons_for_build_and_ensembl_id(build, t, "Transcript ID Version not found in #{build}: #{ensembl_id}")
               if res.error

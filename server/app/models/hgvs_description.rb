@@ -27,7 +27,7 @@ class HgvsDescription < ActiveRecord::Base
       alt = coordinates.variant_bases
       stop = coordinates.stop
       if type == "my_gene_info"
-        if coordinates.reference_build == 'GRCh38'
+        if coordinates.reference_build == "GRCh38"
           coords = get_build_37_coords(variant)
           return unless coords
           start = coords["coordinates"].first["start"]
@@ -36,7 +36,7 @@ class HgvsDescription < ActiveRecord::Base
           stop = coords["coordinates"].first["end"]
           start = convert_zero_to_one_based(start, ref, alt)
           chromosome = "chr#{coordinates.chromosome}"
-        elsif coordinates.reference_build == 'GRCh37'
+        elsif coordinates.reference_build == "GRCh37"
           chromosome = "chr#{coordinates.chromosome}"
         end
       elsif type == "allele_registry"
