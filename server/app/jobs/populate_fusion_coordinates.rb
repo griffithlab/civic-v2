@@ -35,21 +35,21 @@ class PopulateFusionCoordinates < ApplicationJob
     secondary_coordinates.save!
 
     if coords.present? && coords.representative_transcript.present?
-      (exon, highest_exon) = get_exon_for_transcript(coords.representative_transcript, coords.exon)
+      (exon, highest_exon) = get_exon_for_transcript(coords.reference_build, coords.representative_transcript, coords.exon)
       populate_exon_coordinates(coords, exon, coords.exon)
 
       if coords.coordinate_type =~ /Five Prime/
-        (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, 1)
+        (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.reference_build, secondary_coordinates.representative_transcript, 1)
         populate_exon_coordinates(secondary_coordinates, secondary_exon, 1)
       else
-        (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, highest_exon)
+        (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.reference_build, secondary_coordinates.representative_transcript, highest_exon)
         populate_exon_coordinates(secondary_coordinates, secondary_exon, highest_exon)
       end
     end
   end
 
-  def get_exon_for_transcript(transcript, exon_number)
-    res = Scrapers::EnsemblApiHelpers.get_exons_for_ensembl_id(transcript)
+  def get_exon_for_transcript(build, transcript, exon_number)
+    res = Scrapers::EnsemblApiHelpers.get_exons_for_build_and_ensembl_id(build, transcript)
     if res.error
       raise StandardError.new(res.error)
     end
