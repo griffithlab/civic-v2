@@ -5,8 +5,8 @@
         nzSize="small"
         (nzSelectChange)="tabChange($event)"
         [nzAnimated]="true">
-        <nz-tab [nzTitle]="'Overview'"> </nz-tab>
-        <nz-tab [nzTitle]="'Summary'"> </nz-tab>
+        <nz-tab [nzTitle]="'Overview'"></nz-tab>
+        <nz-tab [nzTitle]="'Summary'"></nz-tab>
         <nz-tab
           [nzTitle]="
             'Protein Domains (' + info.interproList.length + ')'
@@ -65,7 +65,18 @@
             nzSize="small"
             [nzColumn]="1">
             <nz-descriptions-item nzTitle="Aliases">
-              {{ info.alias.join(', ') }}
+              @if (info.alias?.length > 0) {
+                {{ info.alias }}
+                @if (info.alias.length > 1) {
+                  {{ info.alias.join(', ') }}
+                }
+              } @else {
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  None specified
+                </span>
+              }
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Protein Domains">
               <p
