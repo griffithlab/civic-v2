@@ -357,10 +357,10 @@
     "@ant-design/colors" "^7.0.0"
     tslib "^2.0.0"
 
-"@apollo/client@^3.13.1":
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.13.1.tgz#c0633c69c5446967b0e517a590595eeea61dd176"
-  integrity sha512-HaAt62h3jNUXpJ1v5HNgUiCzPP1c5zc2Q/FeTb2cTk/v09YlhoqKKHQFJI7St50VCJ5q8JVIc03I5bRcBrQxsg==
+"@apollo/client@^3.13.8":
+  version "3.13.8"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.13.8.tgz#ef1d49a5b134c69a55e3f137164a8e323aef4e2a"
+  integrity sha512-YM9lQpm0VfVco4DSyKooHS/fDTiKQcCHfxr7i3iL6a0kP/jNO5+4NFK6vtRDxaYisd5BrwOZHLJpPBnvRVpKPg==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/caches" "^1.0.0"
@@ -4092,10 +4092,10 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apollo-angular@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.yarnpkg.com/apollo-angular/-/apollo-angular-10.0.3.tgz#9ab61b54e34c7aaf8e5d35ec1534d2b293412f27"
-  integrity sha512-gBNxKVraflbEG5tcFHEklCYjmer6vlOQ8sOw3EfD8SvIlYqTQ0DqES7oOau9lnHDgINnCtFYDZ3/c2SjLsXxVg==
+apollo-angular@11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/apollo-angular/-/apollo-angular-11.0.0.tgz#32aef9f60a178e1d44fd6fabac09be187e65a7df"
+  integrity sha512-8esMQ7Y/avjodz5G0vMlPy58KHrMetzx/I6Xp1Zn1AnYhBbbv7cEc25fZrdMWKwi0c061Fux3HWfu8iCk1OpDg==
   dependencies:
     tslib "^2.6.2"
 
@@ -5976,10 +5976,10 @@ graphql-ws@^6.0.3:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-6.0.4.tgz#f0376170965f9535576b2d3e897db38b463a31f0"
   integrity sha512-8b4OZtNOvv8+NZva8HXamrc0y1jluYC0+13gdh7198FKjVzXyTvVc95DCwGzaKEfn3YuWZxUqjJlHe3qKM/F2g==
 
-graphql@^16.8.1:
-  version "16.10.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.10.0.tgz#24c01ae0af6b11ea87bf55694429198aaa8e220c"
-  integrity sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ==
+graphql@^16.11.0:
+  version "16.11.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.11.0.tgz#96d17f66370678027fdf59b2d4c20b4efaa8a633"
+  integrity sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==
 
 gzip-size@^6.0.0:
   version "6.0.0"

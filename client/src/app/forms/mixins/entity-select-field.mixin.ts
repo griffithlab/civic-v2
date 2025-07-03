@@ -9,7 +9,6 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Query, QueryRef } from 'apollo-angular'
-import { EmptyObject } from 'apollo-angular/types'
 import {
   NzSelectComponent,
   NzSelectOptionInterface,
@@ -34,6 +33,10 @@ import {
 import { combineLatestArray, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
+
+export type EmptyObject = {
+  [key: string]: any
+}
 
 export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
   str: string,
