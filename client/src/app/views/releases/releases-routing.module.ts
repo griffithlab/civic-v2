@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'licensing',
         component: ReleasesLicensingComponent,
-        data: { breadcrumb: 'Downloads' },
+        data: { breadcrumb: 'Licensing' },
       },
     ],
   },
