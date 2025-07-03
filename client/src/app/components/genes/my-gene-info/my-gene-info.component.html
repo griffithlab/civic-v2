@@ -1,7 +1,7 @@
 <ng-container *ngIf="info">
   <nz-card nzTitle="MyGeneInfo">
     <nz-card-tab>
-      <nz-tabset
+      <nz-tabs
         nzSize="small"
         (nzSelectChange)="tabChange($event)"
         [nzAnimated]="true">
@@ -12,7 +12,7 @@
             'Protein Domains (' + info.interproList.length + ')'
           "></nz-tab>
         <nz-tab [nzTitle]="'Pathways (' + info.pathway.length + ')'"></nz-tab>
-      </nz-tabset>
+      </nz-tabs>
     </nz-card-tab>
     <ng-container [ngSwitch]="tabIndex">
       <!-- overview tab -->

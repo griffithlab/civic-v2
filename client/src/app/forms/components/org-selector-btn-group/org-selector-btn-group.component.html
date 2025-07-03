@@ -1,5 +1,7 @@
 <!-- create template with just the projected submit button -->
-<ng-template #submitButton><ng-content></ng-content></ng-template>
+<ng-template #submitButton>
+  <ng-content></ng-content>
+</ng-template>
 
 <ng-container *ngIf="organizations$ | async as organizations">
   <!-- if 0 or 1 organization, display button template w/o btn-group wrapper -->
@@ -7,9 +9,9 @@
     <ng-container *ngTemplateOutlet="submitButton"></ng-container>
   </ng-container>
 
-  <!-- if multiple organizations, wrap in btn-group w/ selector btn -->
-  <ng-container *ngIf="organizations.length > 1">
-    <nz-button-group>
+  <!-- if multiple organizations, group submit w/ selector btn -->
+  @if (organizations.length > 1) {
+    <nz-space-compact>
       <ng-container *ngTemplateOutlet="submitButton"></ng-container>
 
       <button
@@ -29,8 +31,8 @@
           nz-icon
           nzType="down"></i>
       </button>
-    </nz-button-group>
-  </ng-container>
+    </nz-space-compact>
+  }
 
   <!-- organization dropdown menu template -->
   <nz-dropdown-menu #orgMenu="nzDropdownMenu">

@@ -1,5 +1,5 @@
 <ng-container *ngIf="openCravatAnnotations && openCravatUrl">
-  <nz-tabset
+  <nz-tabs
     nzSize="small"
     [nzAnimated]="true"
     nzTabPosition="left">
@@ -12,7 +12,7 @@
     <nz-tab nzTitle="Pathogenicity (PP3) Details">
       <ng-container *ngTemplateOutlet="pathogenicityTab"></ng-container>
     </nz-tab>
-  </nz-tabset>
+  </nz-tabs>
   <!-- Overview tab -->
   <ng-template #overviewTab>
     <div class="tab-content">

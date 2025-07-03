@@ -2,7 +2,7 @@
   style="width: 100%"
   nzSize="default">
   <nz-card-tab>
-    <nz-tabset
+    <nz-tabs
       nzSize="default"
       [(nzSelectedIndex)]="selectedTab">
       <nz-tab [nzTitle]="myVariantInfoTab"> </nz-tab>
@@ -49,7 +49,7 @@
         </i>
         OpenCRAVAT ACMG/AMP Classifications
       </ng-template>
-    </nz-tabset>
+    </nz-tabs>
   </nz-card-tab>
   @if (selectedTab() === 0) {
     @if (variantInfo().myVariantInfo) {
