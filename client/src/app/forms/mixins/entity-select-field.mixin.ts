@@ -16,11 +16,9 @@ import {
 } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
-  combineLatest,
   defer,
   distinctUntilChanged,
   filter,
-  finalize,
   from,
   iif,
   map,
@@ -28,7 +26,6 @@ import {
   of,
   ReplaySubject,
   skip,
-  startWith,
   Subject,
   switchMap,
   tap,
@@ -36,7 +33,6 @@ import {
 } from 'rxjs'
 import { combineLatestArray, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
 
 export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
@@ -64,7 +60,7 @@ export interface EntitySelectFieldOptions<
   TAP,
   TAF,
   TQ,
-  TV extends EmptyObject
+  TV extends EmptyObject,
 > {
   typeaheadQuery: Query<TAQ, TAV>
   typeaheadParam$?: Observable<any>
@@ -100,10 +96,10 @@ export function EntitySelectField<
   TQ extends EmptyObject,
   TV extends EmptyObject,
   // optional additional typeahead query param
-  TAP = void
+  TAP = void,
 >() {
   return function EntitySelectFieldConstructor<
-    TBase extends MixinConstructor<FieldType>
+    TBase extends MixinConstructor<FieldType>,
   >(Base: TBase) {
     @Injectable()
     abstract class EntitySelectFieldMixin extends Base {
