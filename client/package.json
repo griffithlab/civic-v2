@@ -35,16 +35,17 @@
     "@angular/router": "^20.0.6",
     "@apollo/client": "^3.13.8",
     "@ngneat/until-destroy": "^10.0.0",
-    "@ngrx/component": "^19.0.1",
+    "@ngrx/component": "^19.2.1",
     "@ngx-formly/core": "^7.0.0",
     "@ngx-formly/ng-zorro-antd": "^7.0.0",
+    "@typescript-eslint/types": "^8.36.0",
+    "@typescript-eslint/utils": "^8.36.0",
     "apollo-angular": "11.0.0",
     "ng-zorro-antd": "20.0.0",
-    "ngx-cookie-service": "19.1.2",
+    "ngx-cookie-service": "20.0.1",
     "ngx-ui-scroll": "3.2.0",
     "rxjs": "^7.8.1",
     "rxjs-etc": "^10.6.2",
-    "rxjs-spy": "^8.0.2",
     "ts-enum-util": "^4.0.2",
     "ts-mixin-extended": "^1.1.1",
     "vscroll": "1.6.1",
@@ -54,10 +55,10 @@
     "@angular-devkit/build-angular": "^20.0.5",
     "@angular-devkit/core": "^20.0.5",
     "@angular-eslint/builder": "19.2.0",
-    "@angular-eslint/eslint-plugin": "19.2.0",
-    "@angular-eslint/eslint-plugin-template": "19.2.0",
+    "@angular-eslint/eslint-plugin": "20.1.1",
+    "@angular-eslint/eslint-plugin-template": "20.1.1",
     "@angular-eslint/schematics": "19.2.0",
-    "@angular-eslint/template-parser": "19.2.0",
+    "@angular-eslint/template-parser": "20.1.1",
     "@angular/cli": "^20.0.5",
     "@angular/compiler-cli": "20.0.6",
     "@ctrl/tinycolor": "^4.1.0",
@@ -89,8 +90,9 @@
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "overrides": {
-    "rxjs-spy": {
-      "error-stack-parser": "2.0.6"
+    "@ngrx/component": {
+      "@angular/common": "@angular/common@^20.0.0",
+      "@angular/core": "@angular/core@^20.0.0"
     }
   }
 }
