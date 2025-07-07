@@ -110,9 +110,12 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "capybara", ">= 3.26"
-  gem "simplecov"
-  gem "simplecov-lcov"
+
+  gem 'capybara', '>= 3.26'
+  gem 'simplecov'
+  gem 'simplecov-lcov'
+  gem 'mocha', require: false
+
 end
 
 gem "csv", "~> 3.3"
