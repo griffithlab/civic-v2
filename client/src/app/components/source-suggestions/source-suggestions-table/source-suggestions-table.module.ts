@@ -27,6 +27,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcSourceSuggestionsTableComponent } from './source-suggestions-table.component'
+import { NzSpaceCompactComponent } from 'ng-zorro-antd/space'
 
 @NgModule({
   declarations: [CvcSourceSuggestionsTableComponent],
@@ -59,6 +60,7 @@ import { CvcSourceSuggestionsTableComponent } from './source-suggestions-table.c
     CvcUserTagModule,
     CvcMolecularProfileTagModule,
     CvcCommentBodyModule,
+    NzSpaceCompactComponent,
   ],
   exports: [CvcSourceSuggestionsTableComponent],
 })

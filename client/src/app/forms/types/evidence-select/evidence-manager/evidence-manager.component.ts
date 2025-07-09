@@ -41,7 +41,6 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import {
   columnKeyToQueryVariableMap,
   columnKeyToSortColumnMap,
@@ -74,11 +73,11 @@ export type EvidenceManagerSettings = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-manager',
-    templateUrl: './evidence-manager.component.html',
-    styleUrls: ['./evidence-manager.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-manager',
+  templateUrl: './evidence-manager.component.html',
+  styleUrls: ['./evidence-manager.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableSettings?: EvidenceManagerSettings
@@ -565,11 +564,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     const fragment = {
       id: `${typename}:${id}`,
       fragment: gql`
-                fragment Linkable${typename}Entity on ${typename} {
-                  id
-                  name
-                  link
-                }`,
+        fragment Linkable${typename}Entity on ${typename} {
+        id
+        name
+        link
+        }`,
     }
     const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
     if (!entity) {

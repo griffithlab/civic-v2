@@ -1,7 +1,7 @@
 @if (ncitDetails) {
   <nz-card nzTitle="NCI Thesaurus">
     <nz-col [nzSpan]="24">
-      <nz-tabset [nzAnimated]="false">
+      <nz-tabs [nzAnimated]="false">
         <nz-tab nzTitle="Definitions">
           @if (ncitDetails.definitions.length > 0) {
             <nz-descriptions
@@ -54,7 +54,7 @@
             </span>
           }
         </nz-tab>
-      </nz-tabset>
+      </nz-tabs>
     </nz-col>
   </nz-card>
 }

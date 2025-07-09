@@ -13,14 +13,14 @@ import { ApolloQueryResult, gql } from '@apollo/client/core'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
-  VariantManagerGQL,
-  VariantManagerQuery,
-  VariantManagerQueryVariables,
+  BrowseVariant,
+  BrowseVariantConnection,
   Maybe,
   PageInfo,
   SortDirection,
-  BrowseVariant,
-  BrowseVariantConnection,
+  VariantManagerGQL,
+  VariantManagerQuery,
+  VariantManagerQueryVariables,
   VariantsSortColumns,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -44,8 +44,8 @@ import { pluck } from 'rxjs-etc/operators'
 import {
   columnKeyToQueryVariableMap,
   columnKeyToSortColumnMap,
-  VariantManagerConfig,
   omittedFromPrefs,
+  VariantManagerConfig,
 } from './variant-manager.config'
 import {
   colTypeGuards,
@@ -54,18 +54,17 @@ import {
   ConvertedQueryVar,
   CvcFilterChange,
   CvcTableQueryParams,
-  VariantManagerColKey,
-  VariantManagerRowData,
-  VariantManagerTableConfig,
   hasFilterOptions,
   hasInputFilterOptions,
   hasSortOptions,
   QuerySortParams,
   RequestError,
   RowSelection,
+  VariantManagerColKey,
+  VariantManagerRowData,
+  VariantManagerTableConfig,
 } from './variant-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
-import { tag } from 'rxjs-spy/operators'
 
 export type VariantManagerSettings = {
   filters: CvcFilterChange[]
@@ -74,11 +73,11 @@ export type VariantManagerSettings = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variant-manager',
-    templateUrl: './variant-manager.component.html',
-    styleUrls: ['./variant-manager.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variant-manager',
+  templateUrl: './variant-manager.component.html',
+  styleUrls: ['./variant-manager.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableSettings?: VariantManagerSettings
@@ -574,11 +573,11 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
     const fragment = {
       id: `${typename}:${id}`,
       fragment: gql`
-                fragment Linkable${typename}Entity on ${typename} {
-                  id
-                  name
-                  link
-                }`,
+        fragment Linkable${typename}Entity on ${typename} {
+        id
+        name
+        link
+        }`,
     }
     const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
     if (!entity) {
