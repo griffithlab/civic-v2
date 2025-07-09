@@ -360,6 +360,7 @@ type AddTherapyPayload {
 type AdvancedSearchResult {
   permalinkId: String
   resultIds: [Int!]!
+  results: [Feature!]!
   searchEndpoint: String!
 }
 

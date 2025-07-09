@@ -257,6 +257,7 @@ export type AdvancedSearchResult = {
   __typename: 'AdvancedSearchResult';
   permalinkId?: Maybe<Scalars['String']['output']>;
   resultIds: Array<Scalars['Int']['output']>;
+  results: Array<Feature>;
   searchEndpoint: Scalars['String']['output'];
 };
 
