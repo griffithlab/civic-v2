@@ -16,7 +16,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabs [nzAnimated]="false">
-                <nz-tab nzTitle="5' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '5\' Partner Representative Genomic Coordinates' : '5\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -27,7 +27,25 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="5' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '5\' Partner Representative Exon Coordinates' : '5\' Partner Exon Coordinates'">
+                  <nz-descriptions
+                    nzLayout="horizontal"
+                    nzBordered="true"
+                    nzSize="small"
+                    [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
+                    <!-- ref build, ensembl version -->
+                    <nz-descriptions-item nzTitle="Ref. Build">
+                      <ng-container *ngIf="variant.fivePrimeCoordinates.referenceBuild; else noneSpecified">
+                        {{ variant.fivePrimeCoordinates.referenceBuild }}
+                      </ng-container>
+                    </nz-descriptions-item>
+
+                    <nz-descriptions-item nzTitle="Ensembl Version">
+                      <ng-container *ngIf="variant.fivePrimeCoordinates.ensemblVersion; else noneSpecified">
+                        {{ variant.fivePrimeCoordinates.ensemblVersion }}
+                      </ng-container>
+                    </nz-descriptions-item>
+                  </nz-descriptions>
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
@@ -59,7 +77,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabs [nzAnimated]="false">
-                <nz-tab nzTitle="3' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '3\' Partner Representative Genomic Coordinates' : '3\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -70,7 +88,25 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="3' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="variant.name == 'Fusion' ? '3\' Partner Representative Exon Coordinates' : '3\' Partner Exon Coordinates'">
+                  <nz-descriptions
+                    nzLayout="horizontal"
+                    nzBordered="true"
+                    nzSize="small"
+                    [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
+                    <!-- ref build, ensembl version -->
+                    <nz-descriptions-item nzTitle="Ref. Build">
+                      <ng-container *ngIf="variant.threePrimeCoordinates.referenceBuild; else noneSpecified">
+                        {{ variant.threePrimeCoordinates.referenceBuild }}
+                      </ng-container>
+                    </nz-descriptions-item>
+
+                    <nz-descriptions-item nzTitle="Ensembl Version">
+                      <ng-container *ngIf="variant.threePrimeCoordinates.ensemblVersion; else noneSpecified">
+                        {{ variant.threePrimeCoordinates.ensemblVersion }}
+                      </ng-container>
+                    </nz-descriptions-item>
+                  </nz-descriptions>
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
@@ -128,7 +164,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabs [nzAnimated]="false">
-                <nz-tab nzTitle="5' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '5\' Partner Representative Genomic Coordinates' : '5\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -139,7 +175,25 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="5' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '5\' Partner Representative Exon Coordinates' : '5\' Partner Exon Coordinates'">
+                  <nz-descriptions
+                    nzLayout="horizontal"
+                    nzBordered="true"
+                    nzSize="small"
+                    [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
+                    <!-- ref build, ensembl version -->
+                    <nz-descriptions-item nzTitle="Ref. Build">
+                      <ng-container *ngIf="cvcCoordinates.fivePrimeCoordinates.referenceBuild; else noneSpecified">
+                        {{ cvcCoordinates.fivePrimeCoordinates.referenceBuild }}
+                      </ng-container>
+                    </nz-descriptions-item>
+
+                    <nz-descriptions-item nzTitle="Ensembl Version">
+                      <ng-container *ngIf="cvcCoordinates.fivePrimeCoordinates.ensemblVersion; else noneSpecified">
+                        {{ cvcCoordinates.fivePrimeCoordinates.ensemblVersion }}
+                      </ng-container>
+                    </nz-descriptions-item>
+                  </nz-descriptions>
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
@@ -173,7 +227,7 @@
           <nz-col nzSpan="12">
             <nz-card>
               <nz-tabs [nzAnimated]="false">
-                <nz-tab nzTitle="3' Partner Genomic Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '3\' Partner Representative Genomic Coordinates' : '3\' Partner Genomic Coordinates'">
                   <ng-container
                     *ngTemplateOutlet="
                       coordinateCard;
@@ -184,7 +238,25 @@
                     ">
                   </ng-container>
                 </nz-tab>
-                <nz-tab nzTitle="3' Partner Exon Coordinates">
+                <nz-tab [nzTitle]="cvcCoordinates.name == 'Fusion' ? '3\' Partner Representative Exon Coordinates' : '3\' Partner Exon Coordinates'">
+                  <nz-descriptions
+                    nzLayout="horizontal"
+                    nzBordered="true"
+                    nzSize="small"
+                    [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
+                    <!-- ref build, ensembl version -->
+                    <nz-descriptions-item nzTitle="Ref. Build">
+                      <ng-container *ngIf="cvcCoordinates.threePrimeCoordinates.referenceBuild; else noneSpecified">
+                        {{ cvcCoordinates.threePrimeCoordinates.referenceBuild }}
+                      </ng-container>
+                    </nz-descriptions-item>
+
+                    <nz-descriptions-item nzTitle="Ensembl Version">
+                      <ng-container *ngIf="cvcCoordinates.threePrimeCoordinates.ensemblVersion; else noneSpecified">
+                        {{ cvcCoordinates.threePrimeCoordinates.ensemblVersion }}
+                      </ng-container>
+                    </nz-descriptions-item>
+                  </nz-descriptions>
                   <nz-card nzTitle="Start Exon Coordinates">
                     <ng-container
                       *ngTemplateOutlet="
