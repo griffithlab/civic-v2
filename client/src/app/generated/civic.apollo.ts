@@ -1939,6 +1939,7 @@ export type Endorsement = {
   id: Scalars['Int']['output'];
   lastReviewed: Scalars['ISO8601DateTime']['output'];
   organization: Organization;
+  readyForClinvarSubmission: Scalars['Boolean']['output'];
   revocationActivity?: Maybe<RevokeEndorsementActivity>;
   status: EndorsementStatus;
   updatedAt: Scalars['ISO8601DateTime']['output'];
@@ -1973,6 +1974,11 @@ export enum EndorsementStatus {
   Active = 'ACTIVE',
   RequiresReview = 'REQUIRES_REVIEW',
   Revoked = 'REVOKED'
+}
+
+export enum EnumSearchOperator {
+  Eq = 'EQ',
+  Ne = 'NE'
 }
 
 export type Event = {
@@ -2812,6 +2818,30 @@ export enum FeatureInstanceTypes {
   Gene = 'GENE'
 }
 
+export type FeatureInstanceTypesSearchInput = {
+  comparisonOperator: EnumSearchOperator;
+  value: FeatureInstanceTypes;
+};
+
+export type FeatureSearchFilter = {
+  alias?: InputMaybe<StringSearchInput>;
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  description?: InputMaybe<StringSearchInput>;
+  entrezId?: InputMaybe<IntSearchInput>;
+  entrezSymbol?: InputMaybe<StringSearchInput>;
+  featureInstanceType?: InputMaybe<FeatureInstanceTypesSearchInput>;
+  fivePrimePartnerEntrezId?: InputMaybe<IntSearchInput>;
+  fivePrimePartnerEntrezSymbol?: InputMaybe<StringSearchInput>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  isFlagged?: InputMaybe<BooleanSearchInput>;
+  ncitId?: InputMaybe<StringSearchInput>;
+  openRevisionCount?: InputMaybe<IntSearchInput>;
+  subFilters?: InputMaybe<Array<FeatureSearchFilter>>;
+  threePrimePartnerEntrezId?: InputMaybe<IntSearchInput>;
+  threePrimePartnerEntrezSymbol?: InputMaybe<StringSearchInput>;
+};
+
 export type FeaturesSort = {
   /** Available columns for sorting */
   column: FeaturesSortColumns;
@@ -3423,18 +3453,6 @@ export type GeneFields = {
   description: NullableStringInput;
   /** Source IDs cited by the Gene's summary. */
   sourceIds: Array<Scalars['Int']['input']>;
-};
-
-export type GeneSearchFilter = {
-  alias?: InputMaybe<StringSearchInput>;
-  booleanOperator?: InputMaybe<BooleanOperator>;
-  description?: InputMaybe<StringSearchInput>;
-  entrezId?: InputMaybe<IntSearchInput>;
-  entrezSymbol?: InputMaybe<StringSearchInput>;
-  hasAssertion?: InputMaybe<BooleanSearchInput>;
-  id?: InputMaybe<IntSearchInput>;
-  openRevisionCount?: InputMaybe<IntSearchInput>;
-  subFilters?: InputMaybe<Array<GeneSearchFilter>>;
 };
 
 export type GeneVariant = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions & {
@@ -5098,7 +5116,7 @@ export type Query = {
   revisions: RevisionConnection;
   search: Array<SearchResult>;
   searchByPermalink: AdvancedSearchResult;
-  searchGenes: AdvancedSearchResult;
+  searchFeatures: AdvancedSearchResult;
   /** Find a source by CIViC ID */
   source?: Maybe<Source>;
   /** Retrieve popover fields for a specific source. */
@@ -5706,9 +5724,9 @@ export type QuerySearchByPermalinkArgs = {
 };
 
 
-export type QuerySearchGenesArgs = {
+export type QuerySearchFeaturesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
-  query: GeneSearchFilter;
+  query: FeatureSearchFilter;
 };
 
 

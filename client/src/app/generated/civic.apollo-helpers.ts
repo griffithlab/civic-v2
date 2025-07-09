@@ -901,7 +901,7 @@ export type EndorseAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EndorsementKeySpecifier = ('assertion' | 'createdAt' | 'endorsementActivity' | 'id' | 'lastReviewed' | 'organization' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | EndorsementKeySpecifier)[];
+export type EndorsementKeySpecifier = ('assertion' | 'createdAt' | 'endorsementActivity' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | EndorsementKeySpecifier)[];
 export type EndorsementFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -909,6 +909,7 @@ export type EndorsementFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	readyForClinvarSubmission?: FieldPolicy<any> | FieldReadFunction<any>,
 	revocationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1938,7 +1939,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'endorsements' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'endorsements' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchFeatures' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2002,7 +2003,7 @@ export type QueryFieldPolicy = {
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	search?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
-	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchFeatures?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourcePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestionValues?: FieldPolicy<any> | FieldReadFunction<any>,

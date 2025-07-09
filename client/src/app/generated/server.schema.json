@@ -14946,29 +14946,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "ENUM",
-          "name": "EnumSearchOperator",
-          "description": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "EQ",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "NE",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "EndorseAssertionActivity",
           "description": null,
@@ -15610,6 +15587,29 @@
             },
             {
               "name": "REQUIRES_REVIEW",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "EnumSearchOperator",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "EQ",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
