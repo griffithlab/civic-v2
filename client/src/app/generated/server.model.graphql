@@ -360,7 +360,7 @@ type AddTherapyPayload {
 type AdvancedSearchResult {
   permalinkId: String
   resultIds: [Int!]!
-  results: [Feature!]!
+  results: [SearchableEntityInterface!]!
   searchEndpoint: String!
 }
 
@@ -387,7 +387,7 @@ enum AreaOfExpertise {
   RESEARCH_SCIENTIST
 }
 
-type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & SearchableEntityInterface & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
@@ -801,6 +801,11 @@ input AssertionFields {
   The Variant Origin for this Assertion.
   """
   variantOrigin: VariantOrigin!
+}
+
+input AssertionSearchFilter {
+  description: StringSearchInput
+  id: IntSearchInput
 }
 
 enum AssertionSignificance {
@@ -3804,7 +3809,7 @@ enum ExonCoordinateType {
 """
 The Feature that a Variant can belong to
 """
-type Factor implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Factor implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions {
   """
   List and filter comments.
   """
@@ -4449,7 +4454,7 @@ type FdaCode {
 """
 The Feature that a Variant can belong to
 """
-type Feature implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Feature implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions {
   """
   List and filter comments.
   """
@@ -5094,7 +5099,7 @@ input FlaggableInput {
 """
 The Feature that a Variant can belong to
 """
-type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions {
   """
   List and filter comments.
   """
@@ -5713,7 +5718,7 @@ input FusionVariantInput {
 """
 The Feature that a Variant can belong to
 """
-type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions {
   """
   List and filter comments.
   """
@@ -9844,6 +9849,7 @@ type Query {
     """
     types: [SearchableEntities!]
   ): [SearchResult!]!
+  searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
 
@@ -10715,6 +10721,10 @@ enum SearchableEntities {
   THERAPY
   VARIANT
   VARIANT_GROUP
+}
+
+interface SearchableEntityInterface {
+  id: Int!
 }
 
 enum SortDirection {

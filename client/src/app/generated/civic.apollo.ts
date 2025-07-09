@@ -257,7 +257,7 @@ export type AdvancedSearchResult = {
   __typename: 'AdvancedSearchResult';
   permalinkId?: Maybe<Scalars['String']['output']>;
   resultIds: Array<Scalars['Int']['output']>;
-  results: Array<Feature>;
+  results: Array<SearchableEntityInterface>;
   searchEndpoint: Scalars['String']['output'];
 };
 
@@ -285,7 +285,7 @@ export enum AreaOfExpertise {
   ResearchScientist = 'RESEARCH_SCIENTIST'
 }
 
-export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
+export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggable & SearchableEntityInterface & WithRevisions & {
   __typename: 'Assertion';
   acceptanceEvent?: Maybe<Event>;
   acmgCodes: Array<AcmgCode>;
@@ -466,6 +466,11 @@ export type AssertionFields = {
   therapyInteractionType: NullableTherapyInteractionTypeInput;
   /** The Variant Origin for this Assertion. */
   variantOrigin: VariantOrigin;
+};
+
+export type AssertionSearchFilter = {
+  description?: InputMaybe<StringSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
 };
 
 export enum AssertionSignificance {
@@ -2419,7 +2424,7 @@ export enum ExonCoordinateType {
 }
 
 /** The Feature that a Variant can belong to */
-export type Factor = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions & {
+export type Factor = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions & {
   __typename: 'Factor';
   /** List and filter comments. */
   comments: CommentConnection;
@@ -2700,7 +2705,7 @@ export type FdaCode = {
 };
 
 /** The Feature that a Variant can belong to */
-export type Feature = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions & {
+export type Feature = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions & {
   __typename: 'Feature';
   /** List and filter comments. */
   comments: CommentConnection;
@@ -3040,7 +3045,7 @@ export type FlaggableInput = {
 };
 
 /** The Feature that a Variant can belong to */
-export type Fusion = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions & {
+export type Fusion = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions & {
   __typename: 'Fusion';
   /** List and filter comments. */
   comments: CommentConnection;
@@ -3318,7 +3323,7 @@ export type FusionVariantInput = {
 };
 
 /** The Feature that a Variant can belong to */
-export type Gene = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions & {
+export type Gene = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & SearchableEntityInterface & WithRevisions & {
   __typename: 'Gene';
   /** List and filter comments. */
   comments: CommentConnection;
@@ -5116,6 +5121,7 @@ export type Query = {
   /** List and filter revisions. */
   revisions: RevisionConnection;
   search: Array<SearchResult>;
+  searchAssertions: AdvancedSearchResult;
   searchByPermalink: AdvancedSearchResult;
   searchFeatures: AdvancedSearchResult;
   /** Find a source by CIViC ID */
@@ -5720,6 +5726,12 @@ export type QuerySearchArgs = {
 };
 
 
+export type QuerySearchAssertionsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: AssertionSearchFilter;
+};
+
+
 export type QuerySearchByPermalinkArgs = {
   permalinkId: Scalars['String']['input'];
 };
@@ -6230,6 +6242,10 @@ export enum SearchableEntities {
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
+
+export type SearchableEntityInterface = {
+  id: Scalars['Int']['output'];
+};
 
 export enum SortDirection {
   Asc = 'ASC',

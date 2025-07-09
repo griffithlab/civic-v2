@@ -138,6 +138,13 @@
       "MolecularProfileTextSegment",
       "Variant"
     ],
+    "SearchableEntityInterface": [
+      "Assertion",
+      "Factor",
+      "Feature",
+      "Fusion",
+      "Gene"
+    ],
     "VariantInterface": [
       "FactorVariant",
       "FusionVariant",

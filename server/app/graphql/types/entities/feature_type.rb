@@ -6,6 +6,7 @@ module Types::Entities
     implements Types::Interfaces::MolecularProfileComponent
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::WithRevisions
+    implements Types::Interfaces::SearchableEntityInterface
 
     description "The Feature that a Variant can belong to"
 

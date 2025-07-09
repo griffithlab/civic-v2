@@ -1689,8 +1689,8 @@
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
-                      "kind": "OBJECT",
-                      "name": "Feature",
+                      "kind": "INTERFACE",
+                      "name": "SearchableEntityInterface",
                       "ofType": null
                     }
                   }
@@ -3045,6 +3045,11 @@
             },
             {
               "kind": "INTERFACE",
+              "name": "SearchableEntityInterface",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
               "name": "WithRevisions",
               "ofType": null
             }
@@ -3566,6 +3571,41 @@
                   "name": "NullableBooleanInput",
                   "ofType": null
                 }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "AssertionSearchFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -20199,6 +20239,11 @@
             },
             {
               "kind": "INTERFACE",
+              "name": "SearchableEntityInterface",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
               "name": "WithRevisions",
               "ofType": null
             }
@@ -22607,6 +22652,11 @@
             {
               "kind": "INTERFACE",
               "name": "MolecularProfileComponent",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "SearchableEntityInterface",
               "ofType": null
             },
             {
@@ -25485,6 +25535,11 @@
             },
             {
               "kind": "INTERFACE",
+              "name": "SearchableEntityInterface",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
               "name": "WithRevisions",
               "ofType": null
             }
@@ -27935,6 +27990,11 @@
             {
               "kind": "INTERFACE",
               "name": "MolecularProfileComponent",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "SearchableEntityInterface",
               "ofType": null
             },
             {
@@ -44638,6 +44698,51 @@
               "deprecationReason": null
             },
             {
+              "name": "searchAssertions",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "AssertionSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "searchByPermalink",
               "description": null,
               "args": [
@@ -48719,6 +48824,59 @@
             }
           ],
           "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "SearchableEntityInterface",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "Assertion",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Factor",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Feature",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Fusion",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Gene",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "ENUM",

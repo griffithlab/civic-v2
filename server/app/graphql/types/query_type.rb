@@ -165,6 +165,11 @@ module Types
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
+    field :search_assertions, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::AssertionSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
     field :search_features, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::FeatureSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -314,6 +319,27 @@ module Types
       else
         nil
       end
+    end
+
+    def search_assertions(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchAssertions"
+                    ).first_or_create
+                                    .token
+                  else
+                    nil
+                  end
+
+      result_ids = ::AdvancedSearches::Assertion.new(query: query).results
+
+      {
+        result_ids: result_ids,
+        results: ::Assertion.where(id: result_ids),
+        permalink_id: permalink,
+        search_endpoint: "searchAssertions",
+      }
     end
 
     def search_features(query:, create_permalink:)
