@@ -1,5 +1,5 @@
 query UserFilterSearch($name: String) {
-  users(name: $name) {
+  browseUsers(name: $name) {
     pageInfo {
       endCursor
       hasNextPage
