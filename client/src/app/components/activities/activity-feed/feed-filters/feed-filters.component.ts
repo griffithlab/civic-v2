@@ -1,19 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   EventEmitter,
+  input,
   OnInit,
   Output,
   Signal,
-  WritableSignal,
-  effect,
-  input,
   signal,
+  WritableSignal,
 } from '@angular/core'
-import { trigger, transition, style, animate } from '@angular/animations'
+import { animate, style, transition, trigger } from '@angular/animations'
 import {
-  ActivityFeedFilters,
   ActivityFeedFilterOptions,
+  ActivityFeedFilters,
   ActivityFeedScope,
   FeedQueryRefetchEvent,
 } from '../activity-feed.types'
@@ -34,16 +34,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { disableDates } from '../activity-feed.functions'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { tag } from 'rxjs-spy/operators'
-import {
-  distinctUntilChanged,
-  map,
-  skip,
-  startWith,
-  switchMap,
-} from 'rxjs/operators'
-import { timer, filter, of, Subject, from } from 'rxjs'
+import { UntilDestroy } from '@ngneat/until-destroy'
+import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators'
+import { filter, of, timer } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'

@@ -37,7 +37,6 @@ import {
   distinctUntilChanged,
   Subject,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcClingenCodeSelectFieldOptions = Partial<
@@ -86,11 +85,11 @@ const ClingenCodeSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-clingen-code-select',
-    templateUrl: './clingen-code-select.type.html',
-    styleUrls: ['./clingen-code-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-clingen-code-select',
+  templateUrl: './clingen-code-select.type.html',
+  styleUrls: ['./clingen-code-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcClingenCodeSelectField
   extends ClingenCodeSelectMixin
@@ -240,7 +239,8 @@ export class CvcClingenCodeSelectField
             )
             this.props.extraType = 'prompt'
           }
-          // state indicates ClinGen Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresClinGenCode$ if entityType provided)
+          // state indicates ClinGen Code is required, set required, unset disabled, and show the placeholder
+          // (state will only return true from requiresClinGenCode$ if entityType provided)
           else if (requiresClingenCode) {
             this.props.required = true
             this.props.disabled = false
@@ -248,7 +248,8 @@ export class CvcClingenCodeSelectField
               'Please provide the evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity) in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Horak et. al. 2022.</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.'
             this.props.extraType = 'description'
           }
-          // field currently has a value, but state indicates no ClinGen Code is required, or no type is provided && type is required, so reset field
+          // field currently has a value, but state indicates no ClinGen Code is required, or no type is
+          // provided && type is required, so reset field
           else if (
             (!requiresClingenCode && this.formControl.value) ||
             (this.props.requireType && !entityType && this.formControl.value)

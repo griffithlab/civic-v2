@@ -12,7 +12,6 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { waitUntil } from '@app/forms/utilities/operators/waitUntil'
 import {
   AssertionFields,
   EvidenceSelectTagGQL,
@@ -38,16 +37,12 @@ import {
   debounceTime,
   map,
   Observable,
-  of,
   ReplaySubject,
   scan,
   shareReplay,
-  startWith,
   Subject,
-  switchMap,
   withLatestFrom,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 import { EvidenceManagerSettings } from './evidence-manager/evidence-manager.component'
 import {
@@ -101,12 +96,13 @@ const EvidenceSelectMixin = mixin(
     Maybe<number>
   >()
 )
+
 @Component({
-    selector: 'cvc-evidence-select',
-    templateUrl: './evidence-select.type.html',
-    styleUrls: ['./evidence-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-select',
+  templateUrl: './evidence-select.type.html',
+  styleUrls: ['./evidence-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceSelectField
   extends EvidenceSelectMixin

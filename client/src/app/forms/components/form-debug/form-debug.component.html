@@ -3,14 +3,14 @@
   nzSize="small"
   nzBordered="true">
   <nz-card-tab>
-    <nz-tabset
+    <nz-tabs
       [(nzSelectedIndex)]="selectedIndex"
       nzSize="small">
       <nz-tab nzTitle="Model"> </nz-tab>
       <nz-tab nzTitle="Controls"></nz-tab>
       <nz-tab nzTitle="State"></nz-tab>
       <nz-tab nzTitle="Form Status"></nz-tab>
-    </nz-tabset>
+    </nz-tabs>
   </nz-card-tab>
   <ng-container [ngSwitch]="selectedIndex">
     <ng-container *ngSwitchCase="0">

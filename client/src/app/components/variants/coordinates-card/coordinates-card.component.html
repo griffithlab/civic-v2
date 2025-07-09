@@ -15,7 +15,7 @@
         @if (variant.fivePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset [nzAnimated]="false">
+              <nz-tabs [nzAnimated]="false">
                 <nz-tab nzTitle="5' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -51,14 +51,14 @@
                     </ng-container>
                   </nz-card>
                 </nz-tab>
-              </nz-tabset>
+              </nz-tabs>
             </nz-card>
           </nz-col>
         }
         @if (variant.threePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset [nzAnimated]="false">
+              <nz-tabs [nzAnimated]="false">
                 <nz-tab nzTitle="3' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -94,7 +94,7 @@
                     </ng-container>
                   </nz-card>
                 </nz-tab>
-              </nz-tabset>
+              </nz-tabs>
             </nz-card>
           </nz-col>
         }
@@ -127,7 +127,7 @@
         @if (cvcCoordinates.fivePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset [nzAnimated]="false">
+              <nz-tabs [nzAnimated]="false">
                 <nz-tab nzTitle="5' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -165,14 +165,14 @@
                     </ng-container>
                   </nz-card>
                 </nz-tab>
-              </nz-tabset>
+              </nz-tabs>
             </nz-card>
           </nz-col>
         }
         @if (cvcCoordinates.threePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset [nzAnimated]="false">
+              <nz-tabs [nzAnimated]="false">
                 <nz-tab nzTitle="3' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -210,7 +210,7 @@
                     </ng-container>
                   </nz-card>
                 </nz-tab>
-              </nz-tabset>
+              </nz-tabs>
             </nz-card>
           </nz-col>
         }

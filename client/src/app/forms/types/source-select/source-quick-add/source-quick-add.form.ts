@@ -27,16 +27,13 @@ import {
   QuickAddSourceRemoteCitationMutation,
   QuickAddSourceRemoteCitationMutationVariables,
   Source,
-  SourceSelectTypeaheadFieldsFragmentDoc,
   SourceSource,
-  SourceStub,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { Apollo, gql, QueryRef } from 'apollo-angular'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject, map, Observable, startWith, Subject, tap } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 
 type SourceQuickAddModel = {
   citationId?: string
@@ -70,11 +67,11 @@ type CitationCheckResult = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-source-quick-add',
-    templateUrl: './source-quick-add.form.html',
-    styleUrls: ['./source-quick-add.form.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-source-quick-add',
+  templateUrl: './source-quick-add.form.html',
+  styleUrls: ['./source-quick-add.form.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SourceQuickAddForm implements OnInit, OnChanges {
   @Input() cvcSourceType?: SourceSource
@@ -126,6 +123,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   sourceCitation$!: Observable<string | boolean>
   checkResult$!: Observable<CitationCheckResult>
   citationString?: string
+
   constructor(
     private checkCitation: QuickAddSourceCheckCitationGQL,
     private addRemoteCitation: QuickAddSourceRemoteCitationGQL,
@@ -256,6 +254,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
       })
     )
   }
+
   submitSourceStub() {
     if (
       this.model.citationId !== undefined &&
@@ -337,6 +336,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
       )
     }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcSourceType) {
       const st = changes.cvcSourceType.currentValue

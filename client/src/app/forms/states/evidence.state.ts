@@ -1,19 +1,18 @@
 import {
-  TherapyInteraction,
-  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
+  EvidenceSignificance,
   EvidenceType,
   Maybe,
-  VariantOrigin,
   MolecularProfile,
+  TherapyInteraction,
+  VariantOrigin,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { BehaviorSubject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { CvcInputEnum } from '../forms.types'
 import { evidenceItemSubmitFieldsDefaults } from '../models/evidence-submit.model'
-import { EntityName, BaseState } from './base.state'
+import { BaseState, EntityName } from './base.state'
 
 export type EvidenceFields = {
   molecularProfileId$: BehaviorSubject<Maybe<number>>
