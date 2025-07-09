@@ -1,11 +1,10 @@
-import { Component, Injectable, OnInit } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { BaseState } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
-import { BehaviorSubject, filter, first, map, Observable } from 'rxjs'
+import { BehaviorSubject, filter, map, Observable } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 
 export type BaseFieldValue = Maybe<
   number | string | boolean | string[] | number[]
@@ -13,7 +12,7 @@ export type BaseFieldValue = Maybe<
 
 export function BaseFieldType<
   FC extends FieldTypeConfig,
-  V extends BaseFieldValue
+  V extends BaseFieldValue,
 >() {
   @UntilDestroy()
   @Injectable()
@@ -120,5 +119,6 @@ export function BaseFieldType<
         })
     }
   }
+
   return BaseFieldType
 }
