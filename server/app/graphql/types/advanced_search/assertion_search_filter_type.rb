@@ -20,12 +20,12 @@ module Types::AdvancedSearch
 
     # Classification codes
     argument :amp_level, Types::AdvancedSearch::EnumSearchInput.for(Types::AmpLevelType), required: false
-    argument :has_acmg_codes, Types::AdvancedSearch::BooleanSearchInput, required: false
-    argument :has_clingen_codes, Types::AdvancedSearch::BooleanSearchInput, required: false
+    argument :acmg_codes, Types::AdvancedSearch::StringSearchInput, required: false
+    argument :clingen_codes, Types::AdvancedSearch::StringSearchInput, required: false
 
     # Therapies
-    argument :therapy_interaction_type, Types::AdvancedSearch::EnumSearchInput.for(Types::TherapyInteractionType), required: false
     argument :therapy_name, Types::AdvancedSearch::StringSearchInput, required: false
+    argument :therapy_interaction_type, Types::AdvancedSearch::EnumSearchInput.for(Types::TherapyInteractionType), required: false
 
     # Counts and flags
     argument :evidence_items_count, Types::AdvancedSearch::IntSearchInput, required: false
@@ -46,7 +46,7 @@ module Types::AdvancedSearch
     argument :has_endorsements, Types::AdvancedSearch::BooleanSearchInput, required: false
 
     # Complex search support
-    argument :sub_filters, [ Types::AdvancedSearch::AssertionSearchFilterType ], required: false
+    argument :sub_filters, [Types::AdvancedSearch::AssertionSearchFilterType], required: false
     argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
   end
 end

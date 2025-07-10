@@ -26,8 +26,8 @@ module AdvancedSearches
 
         # Classification code filters
         resolve_amp_level_filter(node),
-        resolve_has_acmg_codes_filter(node),
-        resolve_has_clingen_codes_filter(node),
+        resolve_acmg_codes_filter(node),
+        resolve_clingen_codes_filter(node),
 
         # Therapy related filters
         resolve_therapy_interaction_type_filter(node),
@@ -369,32 +369,36 @@ module AdvancedSearches
       base_query.where(clause, value)
     end
 
-    def resolve_has_acmg_codes_filter(node)
-      if node.has_acmg_codes.nil?
+    def resolve_acmg_codes_filter(node)
+      if node.acmg_codes.nil?
         return nil
       end
 
-      matching_ids = ::Assertion.joins(:acmg_codes).distinct.pluck("assertions.id")
+      (clause, value) = node.acmg_codes.resolve_query_for_type("acmg_codes.code")
 
-      if node.has_acmg_codes.value
-        base_query.where(id: matching_ids)
-      else
-        base_query.where.not(id: matching_ids)
-      end
+      matching_ids = ::Assertion
+        .joins(:acmg_codes)
+        .where(clause, value)
+        .distinct
+        .pluck("assertions.id")
+
+      base_query.where(id: matching_ids)
     end
 
-    def resolve_has_clingen_codes_filter(node)
-      if node.has_clingen_codes.nil?
+    def resolve_clingen_codes_filter(node)
+      if node.clingen_codes.nil?
         return nil
       end
 
-      matching_ids = ::Assertion.joins(:clingen_codes).distinct.pluck("assertions.id")
+      (clause, value) = node.clingen_codes.resolve_query_for_type("clingen_codes.code")
 
-      if node.has_clingen_codes.value
-        base_query.where(id: matching_ids)
-      else
-        base_query.where.not(id: matching_ids)
-      end
+      matching_ids = ::Assertion
+        .joins(:clingen_codes)
+        .where(clause, value)
+        .distinct
+        .pluck("assertions.id")
+
+      base_query.where(id: matching_ids)
     end
 
     # Therapy related filters
