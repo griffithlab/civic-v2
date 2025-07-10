@@ -4,6 +4,16 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CIViC GraphiQL</title>
+
+  <link rel="stylesheet" href="https://esm.sh/graphiql/dist/style.css"/>
+  <link
+    rel="stylesheet"
+    href="https://esm.sh/@graphiql/plugin-explorer/dist/style.css"
+    />
+  <link
+    rel="stylesheet"
+    href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css"
+    />
   <style>
       body {
           height: 100%;
@@ -23,16 +33,54 @@
           justify-content: center;
           font-size: 4rem;
       }
+
+      .navbar-burger {
+          display: flex !important;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          /* keep the same footprint Bulma uses by default */
+          width: 3.25rem;
+          height: 3.25rem;
+      }
+
+      .navbar-burger i {
+          width: 1.5rem;
+          height: 2px;
+          margin: 0.25rem 0 !important;
+          background-color: currentColor;
+      }
+
+      /* default navbar toggle icon */
+      .navbar-burger {
+          #bars {
+              display: none !important;
+          }
+
+          #plus {
+              display: block !important;
+          }
+      }
+
+      /* active navbar toggle icon */
+      .navbar-burger.is-active {
+          #bars {
+              display: block !important;
+          }
+
+          #plus {
+              display: none !important;
+          }
+      }
+
+      #sidebarMenu {
+          display: none !important;
+      }
+
+      #sidebarMenu.is-active {
+          display: block !important;
+      }
   </style>
-  <link rel="stylesheet" href="https://esm.sh/graphiql/dist/style.css"/>
-  <link
-    rel="stylesheet"
-    href="https://esm.sh/@graphiql/plugin-explorer/dist/style.css"
-    />
-  <link
-    rel="stylesheet"
-    href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css"
-    />
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   <!-- Note: the ?standalone flag bundles the module along with all of its `dependencies`, excluding `peerDependencies`, into a single JavaScript file. -->
   <script type="importmap">
@@ -52,7 +100,6 @@
           "graphql": "https://esm.sh/graphql@16.11.0"
         }
       }
-
 
 
 
@@ -113,6 +160,29 @@
 
       window.updateQuery = updateQuery
   </script>
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+          // Get all "navbar-burger" elements
+          const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach(el => {
+              el.addEventListener('click', () => {
+
+                  // Get the target from the "data-target" attribute
+                  const target = el.dataset.target;
+                  const $target = document.getElementById(target);
+                  console.log('target', target)
+                  console.log('$target', $target)
+                  // toggle active on button and target
+                  el.classList.toggle('is-active');
+                  $target.classList.toggle('is-active');
+              });
+          });
+
+      });
+  </script>
 </head>
 <body>
 <nav class="navbar is-dark is-spaced ">
@@ -122,6 +192,14 @@
     </a>
     <a class="navbar-item" href="https://civicdb.org/api/graphiql">
       <h1 class="title has-text-light">GraphQL Sandbox</h1>
+    </a>
+    <a role="button"
+       class="navbar-burger is-active"
+       data-target="sidebarMenu"
+       aria-label="menu"
+       aria-expanded="false">
+      <i id="bars" class="fas fa-bars fa-lg"></i>
+      <i id="plus" class="fas fa-plus-square fa-lg"></i>
     </a>
   </div>
   <div class="navbar-menu">
@@ -143,23 +221,21 @@
   </div>
 </nav>
 <div class="columns theme">
-  <div class="column is-2 is-dark" style="padding-top: 24px; padding-left: 24px;">
+  <div class="column is-2 is-dark is-active" id="sidebarMenu" style="padding-top: 24px; padding-left: 24px;">
     <div class="block">
-      <p class="is-size-7 has-text-right">
+      <p class="is-size-7 has-text-right" style="white-space: nowrap">
         Click
         <svg height="1em" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title>docs icon</title>
           <path d="M0.75 3C0.75 4.24264 1.75736 5.25 3 5.25H17.25M0.75 3C0.75 1.75736 1.75736 0.75 3 0.75H16.25C16.8023 0.75 17.25 1.19772 17.25 1.75V5.25M0.75 3V21C0.75 22.2426 1.75736 23.25 3 23.25H18.25C18.8023 23.25 19.25 22.8023 19.25 22.25V6.25C19.25 5.69771 18.8023 5.25 18.25 5.25H17.25" stroke="currentColor" stroke-width="1.5"></path>
           <line x1="13" y1="11.75" x2="6" y2="11.75" stroke="currentColor" stroke-width="1.5"></line>
         </svg>
-        for API documentation
-        <span class="icon"><i class="fas fa-arrow-right"></i> </span><span class="icon"><i class="fas fa-arrow-right"></i> </span>
+        for API documentation&nbsp;<span class="icon"><i class="fas fa-arrow-right"></i></span>
       </p>
     </div>
     <div class="block" style="margin-bottom: 8px">
-      <p class="is-size-7 has-text-centered" style="margin-top: 24px;">
-        <span class="icon"><i class="fas fa-arrow-down"></i></span>
-        Click to insert example queries
-        <span class="icon"><i class="fas fa-arrow-down"></i></span>
+      <p class="is-size-7 has-text-centered" style="margin-top: 24px;white-space: nowrap">
+        <span class="icon"><i class="fas fa-arrow-down"></i></span>&nbsp;Click to insert example
+        queries&nbsp;<span class="icon"><i class="fas fa-arrow-down"></i></span>
       </p>
     </div>
     <% @examples.each do |ex| %>
