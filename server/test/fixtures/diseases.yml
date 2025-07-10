@@ -1,0 +1,10 @@
+disease1:
+  name: Melanoma
+  display_name: Melanoma
+  doid: 1909
+  deprecated: false
+disease2:
+  name: Renal Cell Carcinoma
+  display_name: Renal Cell Carcinoma
+  doid: 4450
+  deprecated: false

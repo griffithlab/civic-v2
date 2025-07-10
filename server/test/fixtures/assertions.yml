@@ -1,0 +1,30 @@
+assertion1:
+  molecular_profile: mp1
+  disease: disease1
+  summary: "BRAF V600E is pathogenic in melanoma"
+  description: "This assertion describes the pathogenic nature of BRAF V600E in melanoma"
+  significance: pathogenic
+  assertion_type: predictive
+  assertion_direction: supports
+  variant_origin: somatic
+  therapy_interaction_type: combination
+  fda_regulatory_approval: true
+  fda_companion_test: true
+  nccn_guideline_version: "2.2023"
+  amp_level: tier_i_level_a
+  status: accepted
+
+assertion2:
+  molecular_profile: mp2
+  disease: disease2
+  summary: "VHL W88* is pathogenic in renal cell carcinoma"
+  description: "This assertion describes the pathogenic nature of VHL W88* in renal cell carcinoma"
+  significance: pathogenic
+  assertion_type: diagnostic
+  assertion_direction: does_not_support
+  variant_origin: germline
+  therapy_interaction_type: substitutes
+  fda_regulatory_approval: false
+  fda_companion_test: false
+  amp_level: tier_ii_level_c
+  status: accepted
