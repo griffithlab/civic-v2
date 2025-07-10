@@ -9,18 +9,15 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Query, QueryRef } from 'apollo-angular'
-import { EmptyObject } from 'apollo-angular/types'
 import {
   NzSelectComponent,
   NzSelectOptionInterface,
 } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
-  combineLatest,
   defer,
   distinctUntilChanged,
   filter,
-  finalize,
   from,
   iif,
   map,
@@ -28,7 +25,6 @@ import {
   of,
   ReplaySubject,
   skip,
-  startWith,
   Subject,
   switchMap,
   tap,
@@ -36,8 +32,11 @@ import {
 } from 'rxjs'
 import { combineLatestArray, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
+
+export type EmptyObject = {
+  [key: string]: any
+}
 
 export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
   str: string,
@@ -64,7 +63,7 @@ export interface EntitySelectFieldOptions<
   TAP,
   TAF,
   TQ,
-  TV extends EmptyObject
+  TV extends EmptyObject,
 > {
   typeaheadQuery: Query<TAQ, TAV>
   typeaheadParam$?: Observable<any>
@@ -100,10 +99,10 @@ export function EntitySelectField<
   TQ extends EmptyObject,
   TV extends EmptyObject,
   // optional additional typeahead query param
-  TAP = void
+  TAP = void,
 >() {
   return function EntitySelectFieldConstructor<
-    TBase extends MixinConstructor<FieldType>
+    TBase extends MixinConstructor<FieldType>,
   >(Base: TBase) {
     @Injectable()
     abstract class EntitySelectFieldMixin extends Base {

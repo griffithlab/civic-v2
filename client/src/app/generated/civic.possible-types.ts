@@ -16,11 +16,13 @@
       "DeprecateComplexMolecularProfileActivity",
       "DeprecateFeatureActivity",
       "DeprecateVariantActivity",
+      "EndorseAssertionActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",
       "ModerateEvidenceItemActivity",
       "RejectRevisionsActivity",
       "ResolveFlagActivity",
+      "RevokeEndorsementActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity",
       "SuggestRevisionSetActivity",
@@ -135,6 +137,13 @@
       "Feature",
       "MolecularProfileTextSegment",
       "Variant"
+    ],
+    "SearchableEntityInterface": [
+      "Assertion",
+      "Factor",
+      "Feature",
+      "Fusion",
+      "Gene"
     ],
     "VariantInterface": [
       "FactorVariant",

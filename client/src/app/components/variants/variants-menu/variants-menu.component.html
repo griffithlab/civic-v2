@@ -39,7 +39,6 @@
               <nz-input-group
                 [nzSuffix]="nameInputClearTpl"
                 id="name-filter-group"
-                [nzCompact]="true"
                 nzSize="small">
                 <input
                   type="text"
@@ -49,15 +48,16 @@
                   (ngModelChange)="onModelUpdated()"
                   [(ngModel)]="variantNameFilter" />
                 <ng-template #nameInputClearTpl>
-                  <i
-                    nz-icon
-                    class="ant-input-clear-icon"
-                    nzTheme="fill"
-                    nzType="close-circle"
-                    *ngIf="variantNameFilter"
-                    (click)="
-                      variantNameFilter = undefined; onModelUpdated()
-                    "></i>
+                  @if (variantNameFilter) {
+                    <i
+                      nz-icon
+                      class="ant-input-clear-icon"
+                      nzTheme="fill"
+                      nzType="close-circle"
+                      (click)="
+                        variantNameFilter = undefined; onModelUpdated()
+                      "></i>
+                  }
                 </ng-template>
               </nz-input-group>
             </nz-form-control>
@@ -101,7 +101,7 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label> No Variant Type </nz-form-label>
+            <nz-form-label> No Variant Type</nz-form-label>
             <nz-form-control>
               <label
                 nz-checkbox

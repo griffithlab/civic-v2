@@ -1,10 +1,10 @@
 <ng-container *ngIf="diseaseInfo">
   <nz-card nzTitle="MyDiseaseInfo">
     <nz-card-tab>
-      <nz-tabset nzSize="small" [nzAnimated]="true">
+      <nz-tabs nzSize="small" [nzAnimated]="true">
         <nz-tab (nzClick)="tabIndex.next(0)" nzTitle="Disease Ontology"> </nz-tab>
         <nz-tab (nzClick)="tabIndex.next(1)" nzTitle="Mondo"> </nz-tab>
-      </nz-tabset>
+      </nz-tabs>
     </nz-card-tab>
     <ng-container [ngSwitch]="tabIndex | async">
       <!-- DO tab -->

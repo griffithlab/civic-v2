@@ -19,23 +19,24 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { ActivityFeedScope, ActivityFeedSettings } from '../activity-feed.types'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { feedDefaultSettings } from '../activity-feed.config'
 
 @Component({
-    selector: 'cvc-activity-feed-settings',
-    imports: [
-        CommonModule,
-        FormsModule,
-        NzFormModule,
-        NzButtonModule,
-        NzCheckboxModule,
-        NzIconModule,
-        NzGridModule,
-        NzPopoverModule,
-        NzSelectModule,
-    ],
-    templateUrl: './feed-settings.component.html',
-    styleUrl: './feed-settings.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-activity-feed-settings',
+  imports: [
+    CommonModule,
+    FormsModule,
+    NzFormModule,
+    NzButtonModule,
+    NzCheckboxModule,
+    NzIconModule,
+    NzGridModule,
+    NzPopoverModule,
+    NzSelectModule,
+  ],
+  templateUrl: './feed-settings.component.html',
+  styleUrl: './feed-settings.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeedSettingsButton implements OnInit {
   @Output() cvcSettingsChange: EventEmitter<ActivityFeedSettings>
@@ -50,7 +51,7 @@ export class CvcActivityFeedSettingsButton implements OnInit {
 
     effect(() => {
       this.cvcSettingsChange.emit({
-        ...this.cvcSettings(),
+        ...feedDefaultSettings,
         scope: this.cvcScope(),
         includeAutomatedEvents: this.includeAutomatedEvents(),
         showOrganization: this.showOrganization(),

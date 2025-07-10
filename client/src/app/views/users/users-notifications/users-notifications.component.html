@@ -3,7 +3,7 @@
     <nz-row [nzGutter]="25">
       <nz-col nzSpan="4">
         <nz-row>
-          <nz-button-group nzSize="small">
+          <nz-space-compact>
             <button
               nz-button
               [nzType]="includeReadInput ? 'default' : 'primary'"
@@ -18,7 +18,7 @@
               (click)="setIncludeRead(true)">
               All
             </button>
-          </nz-button-group>
+          </nz-space-compact>
         </nz-row>
         <nz-row>
           <nz-col nzSpan="24">
@@ -44,7 +44,7 @@
               <ng-template
                 #itemTemplate
                 let-action>
-                {{ action.id | eventVerbiage : 'action-filter' }}
+                {{ action.id | eventVerbiage: 'action-filter' }}
               </ng-template>
             </cvc-participant-list>
             <cvc-participant-list

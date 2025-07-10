@@ -8,15 +8,20 @@ import {
 } from '@angular/core'
 import { UntypedFormControl } from '@angular/forms'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { FormlyAttributeEvent } from '@ngx-formly/core/lib/models'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 
+// mirror internal formly type
+export type FormlyAttributeEvent = (
+  field: FormlyFieldConfig,
+  event?: any
+) => void
+
 @Component({
-    selector: 'cvc-enum-select',
-    templateUrl: './enum-select.component.html',
-    styleUrls: ['./enum-select.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-enum-select',
+  templateUrl: './enum-select.component.html',
+  styleUrls: ['./enum-select.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEnumSelectComponent {
   @Input() cvcFormControl!: UntypedFormControl

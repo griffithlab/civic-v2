@@ -5,6 +5,7 @@ module Types
     value "COMMON_GERMLINE", value: "Common Germline"
     value "UNKNOWN", value: "Unknown"
     value "COMBINED", value: "Combined"
+    value "MIXED", value: "Mixed"
     value "NA", value: "N/A"
   end
 end

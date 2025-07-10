@@ -5,6 +5,7 @@ module Types::Entities
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::SearchableEntityInterface
 
     field :id, Int, null: false
     field :name, String, null: false
@@ -35,6 +36,7 @@ module Types::Entities
     field :rejection_event, Types::Entities::EventType, null: true
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
+    field :endorsements, resolver: Resolvers::Endorsements
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -104,6 +106,10 @@ module Types::Entities
 
     def rejection_event
       Loaders::AssociationLoader.for(Assertion, :rejection_event).load(object)
+    end
+
+    def endorsements
+      Loaders::AssociationLoader.for(Assertion, :endorsements).load(object)
     end
   end
 end

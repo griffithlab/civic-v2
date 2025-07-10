@@ -14,6 +14,7 @@ import { CvcEventTimelineItemModule } from '@app/components/events/event-timelin
 import { FormsModule } from '@angular/forms'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 @NgModule({
   declarations: [UsersNotificationsComponent],
@@ -30,6 +31,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
     NzIconModule,
     NzCheckboxModule,
     NzTimelineModule,
+    NzSpaceModule,
 
     CvcEventTimelineItemModule,
     CvcPipesModule,

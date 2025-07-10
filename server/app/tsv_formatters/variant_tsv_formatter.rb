@@ -1,8 +1,8 @@
 class VariantTsvFormatter
   def self.objects
-    Variant.joins(molecular_profiles: [ :evidence_items ])
+    Variant.left_outer_joins(molecular_profiles: [ :evidence_items, :assertions ])
       .includes(:variant_groups, :variant_types, :hgvs_descriptions, :variant_aliases, :feature)
-      .where("evidence_items.status = 'accepted'")
+      .where("(evidence_items.id IS NOT NULL AND evidence_items.status = 'accepted') OR (assertions.id IS NOT NULL AND assertions.status = 'accepted')")
       .distinct
   end
 

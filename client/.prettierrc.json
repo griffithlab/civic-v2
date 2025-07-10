@@ -3,9 +3,16 @@
   "tabWidth": 2,
   "printWidth": 80,
   "semi": false,
-  "singleQuote": true,
   "trailingComma": "es5",
   "singleAttributePerLine": true,
   "bracketSameLine": true,
-  "htmlWhitespaceSensitivity": "css"
+  "htmlWhitespaceSensitivity": "css",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
 }

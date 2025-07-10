@@ -22,6 +22,7 @@ module Types
     field :browseTherapies, resolver: Resolvers::BrowseTherapies
     field :browsePhenotypes, resolver: Resolvers::BrowsePhenotypes
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
+    field :browseOrganizations, resolver: Resolvers::BrowseOrganizations
     field :events, resolver: Resolvers::TopLevelEvents
     field :comments, resolver: Resolvers::TopLevelComments
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
@@ -164,6 +165,11 @@ module Types
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
+    field :search_assertions, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::AssertionSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
     field :search_features, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::FeatureSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -211,6 +217,8 @@ module Types
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
     field :activities, resolver: Resolvers::Activities
+
+    field :endorsements, resolver: Resolvers::TopLevelEndorsements
 
     def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)
@@ -313,6 +321,27 @@ module Types
       end
     end
 
+    def search_assertions(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchAssertions"
+                    ).first_or_create
+                                    .token
+                  else
+                    nil
+                  end
+
+      result_ids = ::AdvancedSearches::Assertion.new(query: query).results
+
+      {
+        result_ids: result_ids,
+        results: ::Assertion.where(id: result_ids),
+        permalink_id: permalink,
+        search_endpoint: "searchAssertions",
+      }
+    end
+
     def search_features(query:, create_permalink:)
       permalink = if create_permalink
                     ::AdvancedSearch.where(
@@ -323,9 +352,10 @@ module Types
       else
                     nil
       end
-
+      result_ids = ::AdvancedSearches::Feature.new(query: query).results
       {
-        result_ids: ::AdvancedSearches::Feature.new(query: query).results,
+        result_ids: result_ids,
+        results: ::Feature.where(id: result_ids),
         permalink_id: permalink,
         search_endpoint: "searchFeatures",
       }
@@ -340,9 +370,35 @@ module Types
 
       result = Civic2Schema.execute(saved_search.params, context: context)
       formatted_hash = result.to_h.dig("data", saved_search.search_type)
+
+      # Extract the entity type from the search endpoint
+      # e.g., "searchFeatures" -> "Feature", "searchVariants" -> "Variant"
+      entity_type = saved_search.search_type.sub(/^search/, '')
+
+      # Convert to singular if needed (e.g., "Features" -> "Feature")
+      entity_type = entity_type.singularize
+
+      # Find the corresponding model class
+      begin
+        entity_class = entity_type.constantize
+      rescue NameError
+        # If the class doesn't exist directly, try with :: prefix
+        begin
+          entity_class = "::#{entity_type}".constantize
+        rescue NameError
+          # If we still can't find the class, default to Feature for backward compatibility
+          entity_class = ::Feature
+        end
+      end
+
+      # Get the result IDs from the formatted hash
+      result_ids = formatted_hash["resultIds"]
+
+      # Return the response with both result_ids and the actual entity objects
       {
         permalink_id: formatted_hash["permalinkId"],
-        result_ids: formatted_hash["resultIds"],
+        result_ids: result_ids,
+        results: entity_class.where(id: result_ids),
         search_endpoint: saved_search.search_type,
       }
     end

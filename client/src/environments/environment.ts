@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  backendEnv: 'development',
+  displayEnvBanner: false,
 }
 
 /*

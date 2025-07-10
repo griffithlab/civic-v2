@@ -1,6 +1,12 @@
 import { ActivatedRoute } from '@angular/router'
-import { ExtensionOption } from '@ngx-formly/core/lib/models'
 import { ObserveQueryParamExtension } from './observe-query-param.extension'
+
+// mirror the internal shape of ExtensionOption
+// export interface ExtensionOption {
+//   name: string
+//   extension: FormlyExtension
+//   priority?: number
+// }
 
 export function registerCvcExtensions(route: ActivatedRoute) {
   return {
@@ -9,6 +15,6 @@ export function registerCvcExtensions(route: ActivatedRoute) {
         name: 'observeQueryParam',
         extension: new ObserveQueryParamExtension(route),
       },
-    ] as ExtensionOption[],
+    ], //as ExtensionOption[],
   }
 }

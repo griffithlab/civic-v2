@@ -1,19 +1,18 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcInputEnum } from '@app/forms/forms.types'
-import {
-    VariantsSortColumns
-} from '@app/generated/civic.apollo'
+import { VariantsSortColumns } from '@app/generated/civic.apollo'
 import { NzTableFilterList } from 'ng-zorro-antd/table'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { EnumWrapper } from 'ts-enum-util'
 import {
-    CvcFilterChange,
-    CvcSortChange, hasFilterOptions,
-    hasSortOptions, VariantManagerColKey,
-    VariantManagerColQueryMap,
-    VariantManagerColSortMap,
-    VariantManagerTableConfig
+  CvcFilterChange,
+  CvcSortChange,
+  hasFilterOptions,
+  hasSortOptions,
+  VariantManagerColKey,
+  VariantManagerColQueryMap,
+  VariantManagerColSortMap,
+  VariantManagerTableConfig,
 } from './variant-manager.types'
 
 // export enum VariantsSortColumns {
@@ -38,7 +37,7 @@ export const columnKeyToQueryVariableMap: VariantManagerColQueryMap = {
   therapies: 'therapyName',
   variant: 'variantName',
   feature: 'featureName',
-  aliases: 'variantAlias'
+  aliases: 'variantAlias',
 }
 
 // column keys included here will be hidden in preference panel, preventing

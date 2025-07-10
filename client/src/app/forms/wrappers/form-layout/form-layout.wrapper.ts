@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
@@ -13,7 +8,6 @@ import {
 } from '@ngx-formly/core'
 import { environment } from 'environments/environment'
 import { Observable, Subscription } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 
 export interface CvcFormLayoutWrapperProps extends FormlyFieldProps {
   showDevPanel: boolean
@@ -25,11 +19,11 @@ const defaultProps: CvcFormLayoutWrapperProps = {
 
 @UntilDestroy({ arrayName: 'subscriptions' })
 @Component({
-    selector: 'cvc-form-layout-wrapper',
-    templateUrl: './form-layout.wrapper.html',
-    styleUrls: ['./form-layout.wrapper.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-form-layout-wrapper',
+  templateUrl: './form-layout.wrapper.html',
+  styleUrls: ['./form-layout.wrapper.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFormLayoutWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormLayoutWrapperProps>>
@@ -42,6 +36,7 @@ export class CvcFormLayoutWrapper
   constructor() {
     super()
   }
+
   get errorState() {
     return this.showError ? 'error' : ''
   }

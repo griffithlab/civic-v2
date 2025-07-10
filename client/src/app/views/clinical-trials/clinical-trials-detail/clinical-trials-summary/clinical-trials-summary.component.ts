@@ -7,18 +7,18 @@ import {
   ClinicalTrialSummaryQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular/query-ref'
+import { QueryRef } from 'apollo-angular'
 import { Observable, Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, startWith } from 'rxjs/operators'
+import { filter } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-clinical-trials-summary',
-    templateUrl: './clinical-trials-summary.component.html',
-    styleUrls: ['./clinical-trials-summary.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-clinical-trials-summary',
+  templateUrl: './clinical-trials-summary.component.html',
+  styleUrls: ['./clinical-trials-summary.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ClinicalTrialsSummaryComponent implements OnDestroy {
   routeSub: Subscription

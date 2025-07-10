@@ -17,20 +17,18 @@ import {
   distinctUntilChanged,
   filter,
   from,
-  finalize,
   iif,
   map,
   Observable,
   of,
   ReplaySubject,
+  skip,
   Subject,
   switchMap,
   withLatestFrom,
-  skip,
 } from 'rxjs'
-import { combineLatestArray, isNonNulled } from 'rxjs-etc'
+import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
 
 export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
@@ -77,10 +75,10 @@ export function StringSelectField<
   TAV extends EmptyObject,
   TAF extends EmptyObject,
   // optional additional typeahead query param
-  TAP = void
+  TAP = void,
 >() {
   return function StringSelectFieldConstructor<
-    TBase extends MixinConstructor<FieldType>
+    TBase extends MixinConstructor<FieldType>,
   >(Base: TBase) {
     @Injectable()
     abstract class StringSelectFieldMixin extends Base {

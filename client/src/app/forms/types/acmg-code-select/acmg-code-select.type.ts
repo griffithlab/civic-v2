@@ -37,7 +37,6 @@ import {
   distinctUntilChanged,
   Subject,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcAcmgCodeSelectFieldOptions = Partial<
@@ -86,11 +85,11 @@ const AcmgCodeSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-acmg-code-select',
-    templateUrl: './acmg-code-select.type.html',
-    styleUrls: ['./acmg-code-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-acmg-code-select',
+  templateUrl: './acmg-code-select.type.html',
+  styleUrls: ['./acmg-code-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAcmgCodeSelectField
   extends AcmgCodeSelectMixin
@@ -209,7 +208,8 @@ export class CvcAcmgCodeSelectField
             )
             this.props.extraType = 'prompt'
           }
-          // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresAcmgCode$ if entityType provided)
+          // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder
+          // (state will only return true from requiresAcmgCode$ if entityType provided)
           else if (requiresAcmgCode) {
             this.props.required = true
             this.props.disabled = false
@@ -217,7 +217,8 @@ export class CvcAcmgCodeSelectField
               'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.'),
               (this.props.extraType = 'description')
           }
-          // field currently has a value, but state indicates no ACMG Code is required, or no type is provided && type is required, so reset field
+          // field currently has a value, but state indicates no ACMG Code is required, or no type is
+          // provided && type is required, so reset field
           else if (
             (!requiresAcmgCode && this.formControl.value) ||
             (this.props.requireType && !entityType && this.formControl.value)

@@ -1,859 +1,637 @@
 <ng-container *ngIf="variantInfo">
-  <nz-card nzTitle="MyVariantInfo">
-    <nz-card-tab>
-      <nz-tabset
-        nzSize="small"
-        [nzAnimated]="true">
-        <nz-tab
-          (nzClick)="tabIndex.next(0)"
-          nzTitle="Overview">
-        </nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(1)"
-          nzTitle="ClinVar">
-        </nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(2)"
-          nzTitle="gnomAD (2.1.1)"></nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(3)"
-          nzTitle="EXAC (0.3.1)"></nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(4)"
-          nzTitle="Conservation Analysis Tools"></nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(5)"
-          nzTitle="EGL"></nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(6)"
-          nzTitle="Effect Scores"></nz-tab>
-      </nz-tabset>
-    </nz-card-tab>
-    <ng-container [ngSwitch]="tabIndex | async">
-      <!-- Overview tab -->
-      <ng-container *ngSwitchCase="0">
-        <div class="tab-padding">
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              MyVariant.info ID:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.myVariantInfoId }}
-              <strong style="margin-left: 8px">ClinVar ID:</strong>&nbsp;
-              <ng-container *ngIf="variantInfo.clinvarId; else noValue">
-                <cvc-link-tag
-                  href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{
-                    variantInfo.clinvarId
-                  }}/"
-                  tooltip="View on ClinVar">
-                  {{ variantInfo.clinvarId }}
-                </cvc-link-tag>
-              </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              dbSNP RSID:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              <ng-container *ngIf="variantInfo.dbsnpRsid; else noValue">
-                <cvc-link-tag
-                  href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={{
-                    variantInfo.dbsnpRsid
-                  }}"
-                  tooltip="View on dbSNP">
-                  {{ variantInfo.dbsnpRsid }}
-                </cvc-link-tag>
-              </ng-container>
-              <strong style="margin-left: 8px">COSMIC ID (v68):</strong>&nbsp;
-              <ng-container *ngIf="variantInfo.cosmicId; else noValue">
-                <cvc-link-tag
-                  href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{
-                    variantInfo.cosmicId.replace('COSM', '')
-                  }}"
-                  tooltip="View on COSMIC">
-                  {{ variantInfo.cosmicId }}
-                </cvc-link-tag>
-              </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              SNPEff Effect:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+  <nz-tabs
+    nzSize="small"
+    [nzAnimated]="true"
+    nzTabPosition="left">
+    <nz-tab nzTitle="Overview">
+      <ng-container *ngTemplateOutlet="overviewTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="ClinVar">
+      <ng-container *ngTemplateOutlet="clinvarTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="gnomAD (2.1.1)">
+      <ng-container *ngTemplateOutlet="gnomadTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="EXAC (0.3.1)">
+      <ng-container *ngTemplateOutlet="exacTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Conservation">
+      <ng-container *ngTemplateOutlet="conservationTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="EGL">
+      <ng-container *ngTemplateOutlet="eglTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Effect Scores">
+      <ng-container *ngTemplateOutlet="effectsTab"></ng-container>
+    </nz-tab>
+  </nz-tabs>
+  <!-- Overview tab -->
+  <ng-template #overviewTab>
+    <div class="tab-content">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
+        [nzSize]="'small'">
+        <nz-descriptions-item [nzTitle]="myVariantInfoId">
+          <ng-template #myVariantInfoId>
+            My&nbsp;Variant&nbsp;Info&nbsp;ID
+          </ng-template>
+          {{ variantInfo.myVariantInfoId }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="clinvarId">
+          <ng-template #clinvarId> ClinVar ID </ng-template>
+          <ng-container *ngIf="variantInfo.clinvarId; else noValue">
+            <cvc-link-tag
+              href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{
+                variantInfo.clinvarId
+              }}/"
+              tooltip="View on ClinVar">
+              {{ variantInfo.clinvarId }}
+            </cvc-link-tag>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="dbsnpRsid">
+          <ng-template #dbsnpRsid> dbSNP&nbsp;RSID </ng-template>
+          <ng-container *ngIf="variantInfo.dbsnpRsid; else noValue">
+            <cvc-link-tag
+              href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={{
+                variantInfo.dbsnpRsid
+              }}"
+              tooltip="View on dbSNP">
+              {{ variantInfo.dbsnpRsid }}
+            </cvc-link-tag>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="cosmicId">
+          <ng-template #cosmicId>COSMIC&nbsp;ID</ng-template>
+          <ng-container *ngIf="variantInfo.cosmicId; else noValue">
+            <cvc-link-tag
+              href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{
+                variantInfo.cosmicId.replace('COSM', '')
+              }}"
+              tooltip="View on COSMIC">
+              {{ variantInfo.cosmicId }}
+            </cvc-link-tag>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="snpeffSnpEffect">
+          <ng-template #snpeffSnpEffect>SNPEff&nbsp;Effect</ng-template>
+          <ng-container
+            *ngIf="variantInfo.snpeffSnpEffect.length > 0; else noValue">
+            <ng-container
+              *ngFor="let e of variantInfo.snpeffSnpEffect; last as isLast">
+              {{ e }}<ng-container *ngIf="!isLast">, </ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="snpeffSnpImpact">
+          <ng-template #snpeffSnpImpact>SNPEff&nbsp;Impact</ng-template>
+          <ng-container
+            *ngIf="variantInfo.snpeffSnpImpact.length > 0; else noValue">
+            <ng-container
+              *ngFor="let i of variantInfo.snpeffSnpImpact; last as isLast">
+              {{ i }}<ng-container *ngIf="!isLast">, </ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </ng-template>
+  <!-- ClinVar tab -->
+  <ng-template #clinvarTab>
+    <div class="tab-content">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
+        [nzSize]="'small'">
+        <nz-descriptions-item [nzTitle]="clinvarId">
+          <ng-template #clinvarId>ClinVar&nbsp;ID</ng-template>
+          <ng-container *ngIf="variantInfo.clinvarId; else noValue">
+            <cvc-link-tag
+              href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{
+                variantInfo.clinvarId
+              }}/"
+              tooltip="View on ClinVar">
+              {{ variantInfo.clinvarId }}
+            </cvc-link-tag>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="clinvarOmim">
+          <ng-template #clinvarOmim>OMIM&nbsp;ID</ng-template>
+          <ng-container *ngIf="variantInfo.clinvarOmim; else noValue">
+            <cvc-link-tag
+              href="https://omim.org/entry/{{
+                variantInfo.clinvarOmim.split('.')[0]
+              }}"
+              tooltip="View on OMIM">
+              {{ variantInfo.clinvarOmim }}
+            </cvc-link-tag>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="clinicalSignificance">
+          <ng-template #clinicalSignificance>
+            Clinical&nbsp;Significance
+          </ng-template>
+          <ng-container
+            *ngIf="
+              variantInfo.clinvarClinicalSignificance.length > 0;
+              else noValue
+            ">
+            <ng-container
+              *ngFor="
+                let cs of variantInfo.clinvarClinicalSignificance;
+                last as isLast
+              ">
+              {{ cs }}<ng-container *ngIf="!isLast">, </ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
+      <nz-descriptions
+        [nzTitle]="hgvsTitle"
+        nzLayout="vertical"
+        [nzBordered]="true"
+        [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
+        [nzSize]="'small'">
+        <ng-template #hgvsTitle>
+          Human&nbsp;Genome&nbsp;Variation&nbsp;Society
+        </ng-template>
+        <nz-descriptions-item [nzTitle]="clinvarHgvsCoding">
+          <ng-template #clinvarHgvsCoding>HGVS&nbsp;Coding</ng-template>
+          <ng-container
+            *ngIf="variantInfo.clinvarHgvsCoding.length > 0; else noValue">
+            <ng-container
+              *ngFor="
+                let hgvs of variantInfo.clinvarHgvsCoding;
+                last as isLast
+              ">
+              {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="clinvarHgvsGenomic">
+          <ng-template #clinvarHgvsGenomic>HGVS&nbsp;Genomic</ng-template>
+          <ng-container
+            *ngIf="variantInfo.clinvarHgvsGenomic.length > 0; else noValue">
+            <ng-container
+              *ngFor="
+                let hgvs of variantInfo.clinvarHgvsGenomic;
+                last as isLast
+              ">
+              {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="hgvsNonCoding">
+          <ng-template #hgvsNonCoding>HGVS&nbsp;Non-Coding</ng-template>
+          <ng-container
+            *ngIf="variantInfo.clinvarHgvsNonCoding.length > 0; else noValue">
+            <ng-container
+              *ngFor="
+                let hgvs of variantInfo.clinvarHgvsNonCoding;
+                last as isLast
+              ">
+              {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="hgvsProtein">
+          <ng-template #hgvsProtein>HGVS&nbsp;Protein</ng-template>
+          <ng-container
+            *ngIf="variantInfo.clinvarHgvsProtein.length > 0; else noValue">
+            <ng-container
+              *ngFor="
+                let hgvs of variantInfo.clinvarHgvsProtein;
+                last as isLast
+              ">
+              {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </ng-template>
+  <!-- gnomAD tab -->
+  <ng-template #gnomadTab>
+    <div class="tab-content">
+      <nz-table
+        [nzData]="['_']"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        [nzBordered]="true"
+        nzSize="small">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Allele Frequency</th>
+            <th>Allele Count</th>
+            <th>Allele Number</th>
+            <th>Filter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Exome</td>
+            <td>
+              {{ variantInfo.gnomadExomeAlleleFrequency | ifEmpty: '--' }}
+            </td>
+            <td>{{ variantInfo.gnomadExomeAlleleCount | ifEmpty: '--' }}</td>
+            <td>
+              {{ variantInfo.gnomadExomeAlleleNumber | ifEmpty: '--' }}
+            </td>
+            <td>{{ variantInfo.gnomadExomeFilter | ifEmpty: '--' }}</td>
+          </tr>
+          <tr>
+            <td>Total Genome</td>
+            <td>
+              {{ variantInfo.gnomadGenomeAlleleFrequency | ifEmpty: '--' }}
+            </td>
+            <td>
+              {{ variantInfo.gnomadGenomeAlleleCount | ifEmpty: '--' }}
+            </td>
+            <td>
+              {{ variantInfo.gnomadGenomeAlleleNumber | ifEmpty: '--' }}
+            </td>
+            <td>{{ variantInfo.gnomadGenomeFilter | ifEmpty: '--' }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <br />
+      <cvc-link-tag
+        *ngIf="variantInfo.dbsnpRsid"
+        href="https://gnomad.broadinstitute.org/variant/{{
+          variantInfo.dbsnpRsid
+        }}?dataset=gnomad_r2_1">
+        Find {{ variantInfo.dbsnpRsid }} in gnomAD
+      </cvc-link-tag>
+    </div>
+  </ng-template>
+  <!-- EXAC tab -->
+  <ng-template #exacTab>
+    <div class="tab-content">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+        [nzSize]="'small'">
+        <nz-descriptions-item [nzTitle]="exacAlleleCount">
+          <ng-template #exacAlleleCount>Allele&nbsp;Count</ng-template>
+          {{ variantInfo.exacAlleleCount | ifEmpty: '--' }}
+        </nz-descriptions-item>
+
+        <nz-descriptions-item [nzTitle]="exacAlleleNumber">
+          <ng-template #exacAlleleNumber>Allele&nbsp;Number</ng-template>
+          {{ variantInfo.exacAlleleNumber | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="exacAlleleFrequency">
+          <ng-template #exacAlleleFrequency
+            >Adjusted&nbsp;Allele&nbsp;Frequency</ng-template
+          >
+          {{ variantInfo.exacAlleleFrequency | ifEmpty: '--' }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </ng-template>
+  <!-- Conservation Analysis Tools tab -->
+  <ng-template #conservationTab>
+    <div class="tab-content">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+        [nzSize]="'small'">
+        <nz-descriptions-item [nzTitle]="phyloP100way">
+          <ng-template #phyloP100way>phyloP100way</ng-template>
+          {{ variantInfo.phyloP100way | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="phyloP30way">
+          <ng-template #phyloP30way>phyloP30way</ng-template>
+          {{ variantInfo.phyloP30way | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="phastCons100way">
+          <ng-template #phastCons100way>phastCons100way</ng-template>
+          {{ variantInfo.phastcons100way | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="phastCons30way">
+          <ng-template #phastCons30way>phastCons30way</ng-template>
+          {{ variantInfo.phastcons30way | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="gerp">
+          <ng-template #gerp>GERP++</ng-template>
+          {{ variantInfo.gerp | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="siPhy">
+          <ng-template #siPhy>SiPhy</ng-template>
+          {{ variantInfo.siphy | ifEmpty: '--' }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </ng-template>
+  <!-- EGL tab -->
+  <ng-template #eglTab>
+    <div class="tab-content">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzColumn]="1"
+        [nzSize]="'small'">
+        <nz-descriptions-item [nzTitle]="eglClass">
+          <ng-template #eglClass>EGL&nbsp;Class</ng-template>
+          {{ variantInfo.eglClass | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="eglProtein">
+          <ng-template #eglProtein>Protein&nbsp;Variant&nbsp;Name</ng-template>
+          {{ variantInfo.eglProtein | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="eglTranscript">
+          <ng-template #eglTranscript
+            >Transcript&nbsp;Variant&nbsp;Name</ng-template
+          >
+          {{ variantInfo.eglTranscript | ifEmpty: '--' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="eglHgvs">
+          <ng-template #eglHgvs>HGVS</ng-template>
+          <ng-container *ngIf="variantInfo.eglHgvs.length > 0; else noValue">
+            <ng-container
+              *ngFor="let hgvs of variantInfo.eglHgvs; last as isLast">
+              {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+            </ng-container>
+          </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </ng-template>
+  <!-- Effects tab -->
+  <ng-template #effectsTab>
+    <div class="tab-content">
+      <nz-table
+        nzBordered
+        [nzData]="['_']"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        nzSize="small">
+        <thead>
+          <tr>
+            <th>Predictor</th>
+            <th>Prediction</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>REVEL</td>
+            <td>N/A</td>
+            <td *ngIf="variantInfo.revelScore">
+              {{ variantInfo.revelScore.join(', ') | ifEmpty: '--' }}
+            </td>
+          </tr>
+          <tr>
+            <td>SIFT</td>
+            <td>
               <ng-container
-                *ngIf="variantInfo.snpeffSnpEffect.length > 0; else noValue">
+                *ngIf="variantInfo.siftPrediction.length > 0; else noValue">
                 <ng-container
-                  *ngFor="let e of variantInfo.snpeffSnpEffect; last as isLast">
-                  {{ e }}<ng-container *ngIf="!isLast">, </ng-container>
+                  *ngFor="let p of variantInfo.siftPrediction; last as isLast">
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              SNPEff Impact:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+            </td>
+            <td>
               <ng-container
-                *ngIf="variantInfo.snpeffSnpImpact.length > 0; else noValue">
+                *ngIf="variantInfo.siftScore.length > 0; else noValue">
                 <ng-container
-                  *ngFor="let i of variantInfo.snpeffSnpImpact; last as isLast">
-                  {{ i }}<ng-container *ngIf="!isLast">, </ng-container>
+                  *ngFor="let s of variantInfo.siftScore; last as isLast">
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- ClinVar tab -->
-      <ng-container *ngSwitchCase="1">
-        <div class="tab-padding">
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              ClinVar ID:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              <ng-container *ngIf="variantInfo.clinvarId; else noValue">
-                <cvc-link-tag
-                  href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{
-                    variantInfo.clinvarId
-                  }}/"
-                  tooltip="View on ClinVar">
-                  {{ variantInfo.clinvarId }}
-                </cvc-link-tag>
-              </ng-container>
-              <strong style="margin-left: 8px">OMIM:</strong>&nbsp;
-              <ng-container *ngIf="variantInfo.clinvarOmim; else noValue">
-                <cvc-link-tag
-                  href="https://omim.org/entry/{{
-                    variantInfo.clinvarOmim.split('.')[0]
-                  }}"
-                  tooltip="View on OMIM">
-                  {{ variantInfo.clinvarOmim }}
-                </cvc-link-tag>
-              </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              ClinVar Clinical Significance:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+            </td>
+          </tr>
+          <tr>
+            <td>Polyphen2 HDIV</td>
+            <td>
               <ng-container
                 *ngIf="
-                  variantInfo.clinvarClinicalSignificance.length > 0;
+                  variantInfo.polyphen2HdivPrediction.length > 0;
                   else noValue
                 ">
                 <ng-container
                   *ngFor="
-                    let cs of variantInfo.clinvarClinicalSignificance;
+                    let p of variantInfo.polyphen2HdivPrediction;
                     last as isLast
                   ">
-                  {{ cs }}<ng-container *ngIf="!isLast">, </ng-container>
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              HGVS Coding:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+            </td>
+            <td>
               <ng-container
-                *ngIf="variantInfo.clinvarHgvsCoding.length > 0; else noValue">
+                *ngIf="variantInfo.polyphen2HdivScore.length > 0; else noValue">
                 <ng-container
                   *ngFor="
-                    let hgvs of variantInfo.clinvarHgvsCoding;
+                    let s of variantInfo.polyphen2HdivScore;
                     last as isLast
                   ">
-                  {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              HGVS Genomic:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              <ng-container
-                *ngIf="variantInfo.clinvarHgvsGenomic.length > 0; else noValue">
-                <ng-container
-                  *ngFor="
-                    let hgvs of variantInfo.clinvarHgvsGenomic;
-                    last as isLast
-                  ">
-                  {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
-                </ng-container>
-              </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              HGVS Non-Coding:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+            </td>
+          </tr>
+          <tr>
+            <td>Polyphen2 HVAR</td>
+            <td>
               <ng-container
                 *ngIf="
-                  variantInfo.clinvarHgvsNonCoding.length > 0;
+                  variantInfo.polyphen2HvarPrediction.length > 0;
                   else noValue
                 ">
                 <ng-container
                   *ngFor="
-                    let hgvs of variantInfo.clinvarHgvsNonCoding;
+                    let p of variantInfo.polyphen2HvarPrediction;
                     last as isLast
                   ">
-                  {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              HGVS Protein:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+            </td>
+            <td>
               <ng-container
-                *ngIf="variantInfo.clinvarHgvsProtein.length > 0; else noValue">
+                *ngIf="variantInfo.polyphen2HvarScore.length > 0; else noValue">
                 <ng-container
                   *ngFor="
-                    let hgvs of variantInfo.clinvarHgvsProtein;
+                    let s of variantInfo.polyphen2HvarScore;
                     last as isLast
                   ">
-                  {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- gnomAD tab -->
-      <ng-container *ngSwitchCase="2">
-        <cvc-link-tag
-          *ngIf="variantInfo.dbsnpRsid"
-          href="https://gnomad.broadinstitute.org/variant/{{
-            variantInfo.dbsnpRsid
-          }}?dataset=gnomad_r2_1">
-          View this variant in the gnomAD browser
-        </cvc-link-tag>
-        <nz-table
-          #gnomadTable
-          [nzData]="['.']"
-          [nzFrontPagination]="false"
-          [nzShowPagination]="false"
-          nzSize="small">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Allele Frequency</th>
-              <th>Allele Count</th>
-              <th>Allele Number</th>
-              <th>Filter</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Total Exome</td>
-              <td>
-                {{ variantInfo.gnomadExomeAlleleFrequency | ifEmpty : '--' }}
-              </td>
-              <td>{{ variantInfo.gnomadExomeAlleleCount | ifEmpty : '--' }}</td>
-              <td>
-                {{ variantInfo.gnomadExomeAlleleNumber | ifEmpty : '--' }}
-              </td>
-              <td>{{ variantInfo.gnomadExomeFilter | ifEmpty : '--' }}</td>
-            </tr>
-            <tr>
-              <td>Total Genome</td>
-              <td>
-                {{ variantInfo.gnomadGenomeAlleleFrequency | ifEmpty : '--' }}
-              </td>
-              <td>
-                {{ variantInfo.gnomadGenomeAlleleCount | ifEmpty : '--' }}
-              </td>
-              <td>
-                {{ variantInfo.gnomadGenomeAlleleNumber | ifEmpty : '--' }}
-              </td>
-              <td>{{ variantInfo.gnomadGenomeFilter | ifEmpty : '--' }}</td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </ng-container>
-      <!-- EXAC tab -->
-      <ng-container *ngSwitchCase="3">
-        <div class="tab-padding">
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              Allele Count:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.exacAlleleCount | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              Allele Number:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.exacAlleleNumber | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              Adjusted Allele Frequency:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.exacAlleleFrequency | ifEmpty : '--' }}
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- Conservation Analysis Tools tab -->
-      <ng-container *ngSwitchCase="4">
-        <div class="tab-padding">
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              phyloP100way:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.phyloP100way | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              phyloP30way:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.phyloP30way | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              phastCons100way:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.phastcons100way | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              phastCons30way:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.phastcons30way | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              GERP++:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.gerp | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              SiPhy:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.siphy | ifEmpty : '--' }}
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- EGL tab -->
-      <ng-container *ngSwitchCase="5">
-        <div class="tab-padding">
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              EGL Class:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.eglClass | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              Protein Variant Name:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.eglProtein | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              Transcript Variant Name:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
-              {{ variantInfo.eglTranscript | ifEmpty : '--' }}
-            </div>
-          </div>
-          <div
-            nz-row
-            [nzGutter]="8">
-            <div
-              nz-col
-              [nzSpan]="6"
-              class="key-col">
-              HGVS:
-            </div>
-            <div
-              nz-col
-              [nzSpan]="18">
+            </td>
+          </tr>
+          <tr>
+            <td>LRT</td>
+            <td>{{ variantInfo.lrtPrediction | ifEmpty: '--' }}</td>
+            <td>{{ variantInfo.lrtScore | ifEmpty: '--' }}</td>
+          </tr>
+          <tr>
+            <td>MutationTaster</td>
+            <td>
               <ng-container
-                *ngIf="variantInfo.eglHgvs.length > 0; else noValue">
+                *ngIf="
+                  variantInfo.mutationtasterPrediction.length > 0;
+                  else noValue
+                ">
                 <ng-container
-                  *ngFor="let hgvs of variantInfo.eglHgvs; last as isLast">
-                  {{ hgvs }}<ng-container *ngIf="!isLast"><br /></ng-container>
+                  *ngFor="
+                    let p of variantInfo.mutationtasterPrediction;
+                    last as isLast
+                  ">
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
               </ng-container>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- Effects tab -->
-      <ng-container *ngSwitchCase="6">
-        <nz-table
-          #gnomadTable
-          [nzData]="['.']"
-          [nzFrontPagination]="false"
-          [nzShowPagination]="false"
-          nzSize="small">
-          <thead>
-            <tr>
-              <th>Predictor</th>
-              <th>Prediction</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>REVEL</td>
-              <td>N/A</td>
-              <td *ngIf="variantInfo.revelScore">{{ variantInfo.revelScore.join(', ') | ifEmpty : '--' }}</td>
-            </tr>
-            <tr>
-              <td>SIFT</td>
-              <td>
+            </td>
+            <td>
+              <ng-container
+                *ngIf="
+                  variantInfo.mutationtasterScore.length > 0;
+                  else noValue
+                ">
                 <ng-container
-                  *ngIf="variantInfo.siftPrediction.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.siftPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-              <td>
-                <ng-container
-                  *ngIf="variantInfo.siftScore.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="let s of variantInfo.siftScore; last as isLast">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>Polyphen2 HDIV</td>
-              <td>
-                <ng-container
-                  *ngIf="
-                    variantInfo.polyphen2HdivPrediction.length > 0;
-                    else noValue
+                  *ngFor="
+                    let s of variantInfo.mutationtasterScore;
+                    last as isLast
                   ">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.polyphen2HdivPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-              <td>
+              </ng-container>
+            </td>
+          </tr>
+          <tr>
+            <td>MutationAssessor</td>
+            <td>
+              <ng-container
+                *ngIf="
+                  variantInfo.mutationassessorPrediction.length > 0;
+                  else noValue
+                ">
                 <ng-container
-                  *ngIf="
-                    variantInfo.polyphen2HdivScore.length > 0;
-                    else noValue
+                  *ngFor="
+                    let p of variantInfo.mutationassessorPrediction;
+                    last as isLast
                   ">
-                  <ng-container
-                    *ngFor="
-                      let s of variantInfo.polyphen2HdivScore;
-                      last as isLast
-                    ">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>Polyphen2 HVAR</td>
-              <td>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container
+                *ngIf="
+                  variantInfo.mutationassessorScore.length > 0;
+                  else noValue
+                ">
                 <ng-container
-                  *ngIf="
-                    variantInfo.polyphen2HvarPrediction.length > 0;
-                    else noValue
+                  *ngFor="
+                    let s of variantInfo.mutationassessorScore;
+                    last as isLast
                   ">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.polyphen2HvarPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-              <td>
+              </ng-container>
+            </td>
+          </tr>
+          <tr>
+            <td>FATHMM</td>
+            <td>
+              <ng-container
+                *ngIf="variantInfo.fathmmPrediction.length > 0; else noValue">
                 <ng-container
-                  *ngIf="
-                    variantInfo.polyphen2HvarScore.length > 0;
-                    else noValue
+                  *ngFor="
+                    let p of variantInfo.fathmmPrediction;
+                    last as isLast
                   ">
-                  <ng-container
-                    *ngFor="
-                      let s of variantInfo.polyphen2HvarScore;
-                      last as isLast
-                    ">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>LRT</td>
-              <td>{{ variantInfo.lrtPrediction | ifEmpty : '--' }}</td>
-              <td>{{ variantInfo.lrtScore | ifEmpty : '--' }}</td>
-            </tr>
-            <tr>
-              <td>MutationTaster</td>
-              <td>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container
+                *ngIf="variantInfo.fathmmScore.length > 0; else noValue">
                 <ng-container
-                  *ngIf="
-                    variantInfo.mutationtasterPrediction.length > 0;
-                    else noValue
+                  *ngFor="let s of variantInfo.fathmmScore; last as isLast">
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
+                </ng-container>
+              </ng-container>
+            </td>
+          </tr>
+          <tr>
+            <td>PROVEAN</td>
+            <td>
+              <ng-container
+                *ngIf="variantInfo.proveanPrediction.length > 0; else noValue">
+                <ng-container
+                  *ngFor="
+                    let p of variantInfo.proveanPrediction;
+                    last as isLast
                   ">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.mutationtasterPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-              <td>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container
+                *ngIf="variantInfo.proveanScore.length > 0; else noValue">
                 <ng-container
-                  *ngIf="
-                    variantInfo.mutationtasterScore.length > 0;
-                    else noValue
-                  ">
-                  <ng-container
-                    *ngFor="
-                      let s of variantInfo.mutationtasterScore;
-                      last as isLast
-                    ">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  *ngFor="let s of variantInfo.proveanScore; last as isLast">
+                  {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>MutationAssessor</td>
-              <td>
+              </ng-container>
+            </td>
+          </tr>
+          <tr>
+            <td>MetaSVM</td>
+            <td>{{ variantInfo.metasvmPrediction | ifEmpty: '--' }}</td>
+            <td>{{ variantInfo.metasvmScore | ifEmpty: '--' }}</td>
+          </tr>
+          <tr>
+            <td>MetaLR</td>
+            <td>{{ variantInfo.metalrPrediction | ifEmpty: '--' }}</td>
+            <td>{{ variantInfo.metalrScore | ifEmpty: '--' }}</td>
+          </tr>
+          <tr>
+            <td>CADD</td>
+            <td>
+              Consequence:
+              <ng-container
+                *ngIf="variantInfo.caddConsequence.length > 0; else noValue">
                 <ng-container
-                  *ngIf="
-                    variantInfo.mutationassessorPrediction.length > 0;
-                    else noValue
-                  ">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.mutationassessorPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  *ngFor="let c of variantInfo.caddConsequence; last as isLast">
+                  {{ c }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-              <td>
+              </ng-container>
+              <br />
+              Consequence Detail:
+              <ng-container
+                *ngIf="variantInfo.caddDetail.length > 0; else noValue">
                 <ng-container
-                  *ngIf="
-                    variantInfo.mutationassessorScore.length > 0;
-                    else noValue
-                  ">
-                  <ng-container
-                    *ngFor="
-                      let s of variantInfo.mutationassessorScore;
-                      last as isLast
-                    ">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
+                  *ngFor="let d of variantInfo.caddDetail; last as isLast">
+                  {{ d }}<ng-container *ngIf="!isLast">, </ng-container>
                 </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>FATHMM</td>
-              <td>
-                <ng-container
-                  *ngIf="variantInfo.fathmmPrediction.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.fathmmPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-              <td>
-                <ng-container
-                  *ngIf="variantInfo.fathmmScore.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="let s of variantInfo.fathmmScore; last as isLast">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>PROVEAN</td>
-              <td>
-                <ng-container
-                  *ngIf="
-                    variantInfo.proveanPrediction.length > 0;
-                    else noValue
-                  ">
-                  <ng-container
-                    *ngFor="
-                      let p of variantInfo.proveanPrediction;
-                      last as isLast
-                    ">
-                    {{ p }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-              <td>
-                <ng-container
-                  *ngIf="variantInfo.proveanScore.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="let s of variantInfo.proveanScore; last as isLast">
-                    {{ s }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-            </tr>
-            <tr>
-              <td>MetaSVM</td>
-              <td>{{ variantInfo.metasvmPrediction | ifEmpty : '--' }}</td>
-              <td>{{ variantInfo.metasvmScore | ifEmpty : '--' }}</td>
-            </tr>
-            <tr>
-              <td>MetaLR</td>
-              <td>{{ variantInfo.metalrPrediction | ifEmpty : '--' }}</td>
-              <td>{{ variantInfo.metalrScore | ifEmpty : '--' }}</td>
-            </tr>
-            <tr>
-              <td>CADD</td>
-              <td>
-                Consequence:
-                <ng-container
-                  *ngIf="variantInfo.caddConsequence.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="
-                      let c of variantInfo.caddConsequence;
-                      last as isLast
-                    ">
-                    {{ c }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-                <br />
-                Consequence Detail:
-                <ng-container
-                  *ngIf="variantInfo.caddDetail.length > 0; else noValue">
-                  <ng-container
-                    *ngFor="let d of variantInfo.caddDetail; last as isLast">
-                    {{ d }}<ng-container *ngIf="!isLast">, </ng-container>
-                  </ng-container>
-                </ng-container>
-              </td>
-              <td>
-                {{ variantInfo.caddScore | ifEmpty : '--' }} (raw)
-                <br />
-                {{ variantInfo.caddPhred | ifEmpty : '--' }} (PHRED)
-              </td>
-            </tr>
-            <tr>
-              <td>FATHMM-MKL</td>
-              <td>{{ variantInfo.fathmmMklPrediction | ifEmpty : '--' }}</td>
-              <td>{{ variantInfo.fathmmMklScore | ifEmpty : '--' }}</td>
-            </tr>
-            <tr>
-              <td>fitCons</td>
-              <td>N/A</td>
-              <td>{{ variantInfo.fitconsScore | ifEmpty : '--' }}</td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </ng-container>
-    </ng-container>
-  </nz-card>
+              </ng-container>
+            </td>
+            <td>
+              {{ variantInfo.caddScore | ifEmpty: '--' }} (raw)
+              <br />
+              {{ variantInfo.caddPhred | ifEmpty: '--' }} (PHRED)
+            </td>
+          </tr>
+          <tr>
+            <td>FATHMM-MKL</td>
+            <td>{{ variantInfo.fathmmMklPrediction | ifEmpty: '--' }}</td>
+            <td>{{ variantInfo.fathmmMklScore | ifEmpty: '--' }}</td>
+          </tr>
+          <tr>
+            <td>fitCons</td>
+            <td>N/A</td>
+            <td>{{ variantInfo.fitconsScore | ifEmpty: '--' }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-template>
 </ng-container>
 <ng-template #noValue>--</ng-template>

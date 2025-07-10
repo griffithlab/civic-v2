@@ -28,7 +28,6 @@ import {
   tap,
   throttleTime,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 
 export type CvcSelectEntityName = { singular: string; plural: string }
 
@@ -84,11 +83,11 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
 
 @UntilDestroy({ arrayName: 'stateSubscriptions' })
 @Component({
-    selector: 'cvc-entity-select',
-    templateUrl: './entity-select.component.html',
-    styleUrls: ['./entity-select.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-entity-select',
+  templateUrl: './entity-select.component.html',
+  styleUrls: ['./entity-select.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Input() cvcFormControl!: UntypedFormControl
@@ -221,7 +220,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             string,
             Maybe<string>,
             NzSelectOptionInterface[],
-            boolean
+            boolean,
           ]) => {
             const entityName = this.cvcEntityName.plural
             const minLength = this.cvcMinSearchStrLength

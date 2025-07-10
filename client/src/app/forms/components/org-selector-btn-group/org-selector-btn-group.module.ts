@@ -6,6 +6,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzSpaceCompactComponent } from 'ng-zorro-antd/space'
 
 @NgModule({
   declarations: [CvcOrgSelectorBtnDirective, CvcOrgSelectorBtnGroupComponent],
@@ -16,6 +17,7 @@ import { LetDirective, PushPipe } from '@ngrx/component'
     NzButtonModule,
     NzAvatarModule,
     NzDropDownModule,
+    NzSpaceCompactComponent,
   ],
   exports: [CvcOrgSelectorBtnDirective, CvcOrgSelectorBtnGroupComponent],
 })

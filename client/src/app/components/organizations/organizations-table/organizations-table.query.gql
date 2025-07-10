@@ -7,7 +7,7 @@ query OrganizationsBrowse(
   $orgName: String
   $sortBy: OrganizationSort
 ) {
-  organizations(
+  browseOrganizations(
     first: $first
     last: $last
     before: $before

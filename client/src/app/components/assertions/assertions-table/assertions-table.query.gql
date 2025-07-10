@@ -23,6 +23,7 @@ query AssertionsBrowse(
   $diseaseId: Int
   $therapyId: Int
   $status: EvidenceStatusFilter
+  $endorsingOrganizationIds: [Int!]
 ) {
   assertions(
     first: $first
@@ -48,6 +49,10 @@ query AssertionsBrowse(
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
+    endorsingOrganizations:  {
+       ids: $endorsingOrganizationIds
+       includeSubgroups: $includeSubgroups
+    }
   ) {
     totalCount
     pageInfo {

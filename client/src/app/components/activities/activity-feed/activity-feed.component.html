@@ -58,8 +58,8 @@
               nzSize="large"
               [nzDelay]="0">
               <div
-                cvcAutoHeightDiv="40"
-                cvcAutoHeightTarget="viewport">
+                [cvcAutoHeightDiv]="cvcAutoHeightOffset()"
+                [cvcAutoHeightTarget]="cvcAutoHeightTarget()">
                 @if (scrollDatasource) {
                   <cvc-activity-feed-item
                     *uiScroll="

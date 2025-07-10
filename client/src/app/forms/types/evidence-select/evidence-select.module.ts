@@ -28,12 +28,13 @@ import { TableScrollerDirective } from './evidence-manager/table-scroller.direct
 import {
   CvcEvidenceSelectField,
   CvcEvidenceSelectFieldProps,
-} from './evidence-select.type';
-import { TableFilterInputComponent } from './evidence-manager/table-filter-input/table-filter-input.component';
+} from './evidence-select.type'
+import { TableFilterInputComponent } from './evidence-manager/table-filter-input/table-filter-input.component'
 import { EnumFilterMenuComponent } from './evidence-manager/enum-filter-menu/enum-filter-menu.component'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { CvcEntityTagListModule } from '@app/forms/components/entity-tag-list/entity-tag-list.module'
 import { CvcEntityCollectionTagModule } from '@app/forms/components/entity-collection-tag/entity-collection-tag.module'
+import { NzSpaceCompactComponent } from 'ng-zorro-antd/space'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -93,6 +94,7 @@ const typeConfig: ConfigOption = {
     NzToolTipModule,
     NzTypographyModule,
     PushPipe,
+    NzSpaceCompactComponent,
   ],
   exports: [CvcEvidenceSelectField],
 })

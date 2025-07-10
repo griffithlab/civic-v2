@@ -2,18 +2,15 @@ import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
-  WritableSignal,
-  signal,
-  input,
-  effect,
   ElementRef,
   EnvironmentInjector,
-  Signal,
   Inject,
+  input,
   OnInit,
-  output,
+  signal,
+  Signal,
+  WritableSignal,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
@@ -37,16 +34,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { Subject } from 'rxjs'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
-import {
-  ActivityFeedScope,
-  ActivityFeedSettings,
-} from '@app/components/activities/activity-feed/activity-feed.types'
+import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
 import {
   ScrollerState,
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
-import { tag } from 'rxjs-spy/operators'
 import { map, skip } from 'rxjs/operators'
 import { simpleActivityTypes } from '../activity-feed.config'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
@@ -114,6 +107,7 @@ export class CvcActivityFeedItem implements OnInit {
   simpleActivityTypes = simpleActivityTypes
 
   $scroller: Signal<ScrollerState>
+
   constructor(
     private gql: ActivityFeedItemGQL,
     private element: ElementRef,

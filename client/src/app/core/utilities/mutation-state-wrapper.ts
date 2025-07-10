@@ -1,21 +1,21 @@
 import { BehaviorSubject, Subject } from 'rxjs'
-import { Mutation } from 'apollo-angular'
-import { EmptyObject, MutationOptionsAlone } from 'apollo-angular/types'
+import { Mutation, MutationOptionsAlone } from 'apollo-angular'
 import { NetworkErrorsService } from '../services/network-errors.service'
 import { finalize, takeUntil } from 'rxjs/operators'
-import { ApolloError, FetchResult } from '@apollo/client/core'
+import { ApolloError } from '@apollo/client/core'
 
 export interface MutationState {
   submitError$: BehaviorSubject<string[]>
   isSubmitting$: BehaviorSubject<boolean>
   submitSuccess$: BehaviorSubject<boolean>
+
   cleanup(): void
 }
 
 export class MutatorWithState<
   M extends Mutation<T, V>,
   T extends {},
-  V extends EmptyObject
+  V extends { [key: string]: any },
 > {
   constructor(private networkErrorService: NetworkErrorsService) {}
 

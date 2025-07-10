@@ -10,15 +10,14 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { BehaviorSubject, Observable, Subscription } from 'rxjs'
 import { combineLatestArray } from 'rxjs-etc'
-import { tag } from 'rxjs-spy/operators'
 
 @UntilDestroy({ arrayName: 'subscriptions' })
 @Component({
-    selector: 'cvc-form-debug',
-    templateUrl: './form-debug.component.html',
-    styleUrls: ['./form-debug.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-form-debug',
+  templateUrl: './form-debug.component.html',
+  styleUrls: ['./form-debug.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFormDebugComponent implements OnInit {
   @Input() cvcForm: Maybe<AbstractControl>
@@ -31,7 +30,9 @@ export class CvcFormDebugComponent implements OnInit {
   formChange$!: Observable<any>
 
   selectedIndex = 0
+
   constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
     // console.log('form-debug-panel onInit() called.')
     if (!this.cvcForm)

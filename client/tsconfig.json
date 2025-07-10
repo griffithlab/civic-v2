@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@app/*": ["app/*"]
+      "@app/*": [
+        "app/*"
+      ]
     },
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
@@ -15,11 +17,15 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["es2019", "dom", "esnext.asynciterable"],
+    "lib": [
+      "es2019",
+      "dom",
+      "esnext.asynciterable"
+    ],
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": false
   },

@@ -1,99 +1,124 @@
 <nz-spin [nzSpinning]="loading$ | ngrxPush">
   <ng-container *ngIf="menuMolecularProfiles$ | ngrxPush as mps">
-    <nz-card [nzTitle]="cardTitle"
+    <nz-card
+      [nzTitle]="cardTitle"
       [nzExtra]="cardExtra">
-
       <ng-template #cardTitle>
         <ng-container *ngIf="totalMolecularProfiles$ | ngrxPush as total">
-          <span nz-typography
-            nzType="secondary">{{ total }} Total</span>
-          <span nz-typography
-            *ngIf="total  > mps.length"
-            nzType="secondary">({{ mps.length }} displayed)</span>
+          <span
+            nz-typography
+            nzType="secondary"
+            >{{ total }} Total</span
+          >
+          <span
+            nz-typography
+            *ngIf="total > mps.length"
+            nzType="secondary"
+            >({{ mps.length }} displayed)</span
+          >
         </ng-container>
-
       </ng-template>
 
       <ng-template #cardExtra>
-        <form nz-form
+        <form
+          nz-form
           nzLayout="inline"
           id="variant-filters">
           <nz-form-item>
             <nz-form-label>Filter</nz-form-label>
             <nz-form-control>
-              <nz-input-group [nzSuffix]="nameInputClearTpl"
+              <nz-input-group
+                [nzSuffix]="nameInputClearTpl"
                 id="name-filter-group"
-                [nzCompact]="true"
                 nzSize="small">
-                <input type="text"
+                <input
+                  type="text"
                   nz-input
                   placeholder="Molecular Profile Names"
                   name="name-filter"
                   (ngModelChange)="onModelUpdated()"
                   [(ngModel)]="mpNameFilter" />
                 <ng-template #nameInputClearTpl>
-                  <i nz-icon
-                    class="ant-input-clear-icon"
-                    nzTheme="fill"
-                    nzType="close-circle"
-                    *ngIf="mpNameFilter"
-                    (click)="mpNameFilter = undefined; onModelUpdated()"></i>
+                  @if (mpNameFilter) {
+                    <i
+                      nz-icon
+                      class="ant-input-clear-icon"
+                      nzTheme="fill"
+                      nzType="close-circle"
+                      (click)="mpNameFilter = undefined; onModelUpdated()"></i>
+                  }
                 </ng-template>
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-              <nz-form-label>Show</nz-form-label>
-              <nz-form-control>
-                <nz-select (ngModelChange)="onMolecularProfileStatusFilterChanged($event)"
-                  nzSize="small"
-                  id="status-filter"
-                  name="statusFilter"
-                  style="width: 320px;"
-                  [(ngModel)]="statusFilter">
-                  <nz-option nzValue="WITH_ACCEPTED"
-                    style="width: 100%"
-                    nzLabel="Molecular Profiles with accepted evidence"></nz-option>
-                  <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED"
-                    style="width: 100%"
-                    nzLabel="Molecular Profiles with accepted and/or submitted evidence"
-                    selected></nz-option>
-                  <nz-option nzValue="WITH_SUBMITTED"
-                    style="width: 100%"
-                    nzLabel="Molecular Profiles with submitted evidence"></nz-option>
-                  <nz-option nzValue="ALL"
-                    style="width: 100%"
-                    nzLabel="All Molecular Profiles"></nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
+            <nz-form-label>Show</nz-form-label>
+            <nz-form-control>
+              <nz-select
+                (ngModelChange)="onMolecularProfileStatusFilterChanged($event)"
+                nzSize="small"
+                id="status-filter"
+                name="statusFilter"
+                style="width: 320px"
+                [(ngModel)]="statusFilter">
+                <nz-option
+                  nzValue="WITH_ACCEPTED"
+                  style="width: 100%"
+                  nzLabel="Molecular Profiles with accepted evidence"></nz-option>
+                <nz-option
+                  nzValue="WITH_ACCEPTED_OR_SUBMITTED"
+                  style="width: 100%"
+                  nzLabel="Molecular Profiles with accepted and/or submitted evidence"
+                  selected></nz-option>
+                <nz-option
+                  nzValue="WITH_SUBMITTED"
+                  style="width: 100%"
+                  nzLabel="Molecular Profiles with submitted evidence"></nz-option>
+                <nz-option
+                  nzValue="ALL"
+                  style="width: 100%"
+                  nzLabel="All Molecular Profiles"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
         </form>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
           <cvc-tag-list size="sm">
             <ng-container *ngFor="let mp of mps">
-              <cvc-molecular-profile-tag *ngIf="mp" [molecularProfile]="mp"></cvc-molecular-profile-tag>
+              <cvc-molecular-profile-tag
+                *ngIf="mp"
+                [molecularProfile]="mp"></cvc-molecular-profile-tag>
             </ng-container>
           </cvc-tag-list>
         </nz-col>
       </nz-row>
       <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-        <nz-row id="load-more-btn"
+        <nz-row
+          id="load-more-btn"
           *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
-          <button nz-button
+          <button
+            nz-button
             nzType="default"
             nzSize="small"
-            style="width: 95%;"
-            (click)="fetchMore(pageInfo.endCursor)">Load More
+            style="width: 95%"
+            (click)="fetchMore(pageInfo.endCursor)">
+            Load More
           </button>
-          <nz-select 
+          <nz-select
             [(ngModel)]="pageSize"
-            style="width: 5%;"
+            style="width: 5%"
             nzSize="small">
-            <nz-option nzLabel="50" [nzValue]="50"></nz-option>
-            <nz-option nzLabel="100" [nzValue]="100"></nz-option>
-            <nz-option nzLabel="300" [nzValue]="300"></nz-option>
+            <nz-option
+              nzLabel="50"
+              [nzValue]="50"></nz-option>
+            <nz-option
+              nzLabel="100"
+              [nzValue]="100"></nz-option>
+            <nz-option
+              nzLabel="300"
+              [nzValue]="300"></nz-option>
           </nz-select>
         </nz-row>
       </ng-container>
