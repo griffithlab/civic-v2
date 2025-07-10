@@ -14,8 +14,8 @@ module Types::AdvancedSearch
     argument :variant_origin, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantOriginType), required: false
 
     # Regulatory fields
-    argument :regulatory_approval, Types::AdvancedSearch::BooleanSearchInput, required: false
-    argument :fda_companion_test, Types::AdvancedSearch::BooleanSearchInput, required: false
+    argument :has_fda_regulatory_approval, Types::AdvancedSearch::BooleanSearchInput, required: false
+    argument :has_fda_companion_test, Types::AdvancedSearch::BooleanSearchInput, required: false
     argument :nccn_guideline_version, Types::AdvancedSearch::StringSearchInput, required: false
 
     # Classification codes
@@ -23,7 +23,7 @@ module Types::AdvancedSearch
     argument :has_acmg_codes, Types::AdvancedSearch::BooleanSearchInput, required: false
     argument :has_clingen_codes, Types::AdvancedSearch::BooleanSearchInput, required: false
 
-    # Therapy related
+    # Therapies
     argument :therapy_interaction_type, Types::AdvancedSearch::EnumSearchInput.for(Types::TherapyInteractionType), required: false
     argument :therapy_name, Types::AdvancedSearch::StringSearchInput, required: false
 

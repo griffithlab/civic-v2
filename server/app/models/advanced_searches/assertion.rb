@@ -20,7 +20,7 @@ module AdvancedSearches
         resolve_variant_origin_filter(node),
 
         # Regulatory field filters
-        resolve_regulatory_approval_filter(node),
+        resolve_has_regulatory_approval_filter(node),
         resolve_fda_companion_test_filter(node),
         resolve_nccn_guideline_version_filter(node),
 
@@ -82,7 +82,12 @@ module AdvancedSearches
         base_query.where("assertions.id #{operator} ?", id_value.to_i)
       when "CONTAINS", "DOES_NOT_CONTAIN", "STARTS_WITH"
         # For partial matches, search in the constructed name
-        sql = "CONCAT('AID', assertions.id) #{clause.split(' ').last}"
+        operator = case node.name.comparison_operator
+                   when "CONTAINS" then "LIKE"
+                   when "DOES_NOT_CONTAIN" then "NOT LIKE"
+                   when "STARTS_WITH" then "LIKE"
+                   end
+        sql = "CONCAT('AID', assertions.id) #{operator} ?"
         base_query.where(sql, value)
       end
     end
@@ -283,22 +288,38 @@ module AdvancedSearches
     end
 
     # Regulatory field filters
-    def resolve_regulatory_approval_filter(node)
-      if node.regulatory_approval.nil?
+    def resolve_has_regulatory_approval_filter(node)
+      if node.has_fda_regulatory_approval.nil?
         return nil
       end
 
-      (clause, value) = node.regulatory_approval.resolve_query_for_type("assertions.fda_regulatory_approval")
-      base_query.where(clause, value)
+      (clause, value) = node.has_fda_regulatory_approval.resolve_query_for_type("assertions.fda_regulatory_approval")
+      if value.nil? && !clause.include?("NULL")
+        return nil
+      end
+
+      if value.nil?
+        base_query.where(clause)
+      else
+        base_query.where(clause, value)
+      end
     end
 
     def resolve_fda_companion_test_filter(node)
-      if node.fda_companion_test.nil?
+      if node.has_fda_companion_test.nil?
         return nil
       end
 
-      (clause, value) = node.fda_companion_test.resolve_query_for_type("assertions.fda_companion_test")
-      base_query.where(clause, value)
+      (clause, value) = node.has_fda_companion_test.resolve_query_for_type("assertions.fda_companion_test")
+      if value.nil? && !clause.include?("NULL")
+        return nil
+      end
+
+      if value.nil?
+        base_query.where(clause)
+      else
+        base_query.where(clause, value)
+      end
     end
 
     def resolve_nccn_guideline_version_filter(node)
