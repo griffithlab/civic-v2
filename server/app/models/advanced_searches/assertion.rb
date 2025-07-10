@@ -404,7 +404,15 @@ module AdvancedSearches
       end
 
       (clause, value) = node.therapy_interaction_type.resolve_query_for_type("assertions.therapy_interaction_type")
-      base_query.where(clause, value)
+      if value.nil? && !clause.include?("NULL")
+        return nil
+      end
+
+      if value.nil?
+        base_query.where(clause)
+      else
+        base_query.where(clause, value)
+      end
     end
 
     def resolve_therapy_name_filter(node)

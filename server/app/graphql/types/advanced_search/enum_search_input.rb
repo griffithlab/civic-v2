@@ -2,6 +2,8 @@ module Types::AdvancedSearch
   class EnumSearchOperator < Types::BaseEnum
     value "EQ"
     value "NE"
+    value "IS_NULL", description: "Is NULL"
+    value "IS_NOT_NULL", description: "Is Not NULL"
   end
 
   class EnumSearchInput
@@ -27,7 +29,7 @@ module Types::AdvancedSearch
       class_name = "#{input_type.name.demodulize}SearchInputType"
 
       klass = Class.new(Types::BaseInputObject) do
-        argument :value, input_type, required: true
+        argument :value, input_type, required: false
         argument :comparison_operator, Types::AdvancedSearch::EnumSearchOperator, required: true
 
         def resolve_query_for_type(column_name)
@@ -36,6 +38,10 @@ module Types::AdvancedSearch
             [ "#{column_name} = ?", value ]
           when "NE"
             [ "#{column_name} != ?", value ]
+          when "IS_NULL"
+            [ "#{column_name} IS NULL" ]
+          when "IS_NOT_NULL"
+            [ "#{column_name} IS NOT NULL" ]
           end
         end
       end
