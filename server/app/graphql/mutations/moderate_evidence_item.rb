@@ -10,10 +10,12 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
   field :evidence_item, Types::Entities::EvidenceItemType, null: false,
     description: "The moderated Evidence Item"
 
+  argument :comment, String, required: false,
+    description: "Optional comment explaining the moderation action. Required if the new status is 'rejected'."
 
   attr_reader :evidence_item
 
-  def ready?(organization_id: nil, evidence_item_id:, new_status:)
+  def ready?(organization_id: nil, evidence_item_id:, new_status:, comment: nil)
     validate_user_logged_in
     validate_user_org(organization_id)
 
@@ -24,6 +26,14 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
 
     if @evidence_item.status == new_status
       raise GraphQL::ExecutionError, "EvidenceItem already has status #{new_stats}."
+    end
+
+    if (new_status == "rejected" || new_status == "submitted") && comment.blank?
+      raise GraphQL::ExecutionError, "A comment is required when rejecting or reverting an Evidence Item."
+    end
+
+    if new_status == "accepted" && comment.present?
+      raise GraphQL::ExecutionError, "Do not supply a comment when accepting an Evidence Item"
     end
 
     return true
@@ -50,12 +60,13 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(organization_id: nil, new_status:, **_)
+  def resolve(organization_id: nil, new_status:, comment: nil, **_)
     cmd = Activities::ModerateEvidenceItem.new(
       evidence_item: evidence_item,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      new_status: new_status
+      new_status: new_status,
+      note: comment
     )
 
     res = cmd.perform

@@ -13,6 +13,7 @@ import {
   FlagFragment,
   Maybe,
   Organization,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -22,16 +23,16 @@ import { takeUntil } from 'rxjs/operators'
 type SuccessType = false | 'accepted' | 'rejected'
 
 @Component({
-    selector: 'cvc-flag-list',
-    templateUrl: './flag-list.component.html',
-    styleUrls: ['./flag-list.component.less'],
-    standalone: false
+  selector: 'cvc-flag-list',
+  templateUrl: './flag-list.component.html',
+  styleUrls: ['./flag-list.component.less'],
+  standalone: false,
 })
 export class FlagListComponent implements OnInit, OnDestroy {
   @Input() flags!: FlagFragment[]
   @Input() flagResolvedCallback?: () => void
 
-  mostRecentOrg!: Maybe<Organization>
+  mostRecentOrg!: Maybe<ViewerOrganizationFragment>
 
   selectedFlagId: Maybe<number>
 

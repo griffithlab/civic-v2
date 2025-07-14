@@ -28,6 +28,8 @@ module Actions
       variant.molecular_profiles.each do |mp|
         if mp.evidence_items.where("evidence_items.status != 'rejected'").count > 0
           raise "Molecular Profile #{mp.id} can't be deprecated because it has evidence items that are in accepted or submitted state."
+        elsif Revision.where(field_name: "molecular_profile_id", suggested_value: mp.id, status: "new").count > 0
+          raise "Molecular Profile #{mp.id} can't be deprecated because it is part of an open revision."
         elsif !mp.deprecated
           mp.deprecated = true
           mp.deprecation_reason = "variant_deprecated"

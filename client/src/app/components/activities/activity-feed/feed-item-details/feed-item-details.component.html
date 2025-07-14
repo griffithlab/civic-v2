@@ -85,6 +85,16 @@
         [cvcUpdateSourceSuggestionStatusActivity]="activity">
       </cvc-update-source-suggestion-activity-details>
     }
+    @case ('EndorseAssertionActivity') {
+      <cvc-endorse-assertion-activity-details
+        [cvcEndorseAssertionActivity]="activity">
+      </cvc-endorse-assertion-activity-details>
+    }
+    @case ('RevokeEndorsementActivity') {
+      <cvc-revoke-endorsement-activity-details
+        [cvcRevokeEndorsementActivity]="activity">
+      </cvc-revoke-endorsement-activity-details>
+    }
     @default {
       <h4 style="margin: 8px">Unhandled activity type</h4>
       <pre

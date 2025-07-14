@@ -26,6 +26,8 @@ class EidsWithOnsetTerms < Report
     [
       "EID",
       "Link",
+      "Molecular Profile",
+      "MP Link",
       "HPO Term",
       "HPO ID",
     ]
@@ -33,8 +35,15 @@ class EidsWithOnsetTerms < Report
 
   def execute
     onset_terms.each do |term|
-      term.evidence_items.each do |eid|
-        data << [ "EID#{eid.id}", "https://civicdb.org/#{eid.link}", term.hpo_class, term.hpo_id ]
+      term.evidence_items.eager_load(:molecular_profile).each do |eid|
+        data << [
+          "EID#{eid.id}",
+          "https://civicdb.org#{eid.link}",
+          eid.molecular_profile.display_name,
+          "https://civicdb.org#{eid.molecular_profile.link}",
+          term.hpo_class,
+          term.hpo_id,
+        ]
       end
     end
   end

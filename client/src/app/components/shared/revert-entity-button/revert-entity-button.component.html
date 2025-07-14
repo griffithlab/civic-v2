@@ -18,30 +18,53 @@
   <ng-template #confirmModalTitle
     ><span>Revert this {{ entityType }} to Submitted?</span></ng-template
   >
-  <ng-template #confirmModalContent>
-    <nz-spin [nzSpinning]="isSubmitting">
-      <nz-space nzDirection="horizontal">
-        <span *nzSpaceItem>
-          <button
-            nzType="primary"
-            nzSize="small"
-            nz-button
-            (click)="revert()"
-            nz-tooltip
-            [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
-            [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
-            Revert
-          </button>
-        </span>
-        <span *nzSpaceItem>
-          <button
-            nz-button
-            (click)="showConfirm = false"
-            nzSize="small">
-            Cancel
-          </button>
-        </span>
-      </nz-space>
-    </nz-spin>
-  </ng-template>
 </nz-modal>
+
+<ng-template #confirmModalContent>
+  <nz-spin [nzSpinning]="isSubmitting">
+    <nz-space nzDirection="vertical">
+      @if (mostRecentOrg) {
+        <span
+          nz-typography
+          *nzSpaceItem>
+          You will be reverting this {{ entityType }} on behalf of
+          <strong> {{ mostRecentOrg.name }}</strong
+          >. Please supply a reason below.
+        </span>
+      } @else {
+        <span
+          nz-typography
+          *nzSpaceItem>
+          Please supply a reason for reverting this {{ entityType }} below.
+        </span>
+      }
+      <textarea
+        *nzSpaceItem
+        nz-input
+        rows="4"
+        [(ngModel)]="revertComment"
+        placeholder="Please provide a reason for reverting.">
+      </textarea>
+      <span
+        *nzSpaceItem
+        class="modal-footer-buttons">
+        <button
+          [disabled]="!revertComment || revertComment.length < 10"
+          nzType="primary"
+          nz-button
+          (click)="revert()"
+          nz-tooltip
+          [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+          Revert
+        </button>
+        &nbsp;
+        <button
+          nz-button
+          (click)="showConfirm = false">
+          Cancel
+        </button>
+      </span>
+    </nz-space>
+  </nz-spin>
+</ng-template>

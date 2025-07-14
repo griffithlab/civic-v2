@@ -22,6 +22,8 @@ module Types
     field :browseTherapies, resolver: Resolvers::BrowseTherapies
     field :browsePhenotypes, resolver: Resolvers::BrowsePhenotypes
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
+    field :browseOrganizations, resolver: Resolvers::BrowseOrganizations
+    field :browseUsers, resolver: Resolvers::BrowseUsers
     field :events, resolver: Resolvers::TopLevelEvents
     field :comments, resolver: Resolvers::TopLevelComments
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
@@ -211,6 +213,8 @@ module Types
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
     field :activities, resolver: Resolvers::Activities
+
+    field :endorsements, resolver: Resolvers::TopLevelEndorsements
 
     def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)

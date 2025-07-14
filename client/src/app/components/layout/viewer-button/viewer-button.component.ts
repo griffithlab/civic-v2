@@ -9,17 +9,16 @@ import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
-import { map, startWith, withLatestFrom } from 'rxjs/operators'
+import { startWith, withLatestFrom } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
 
 @Component({
-    selector: 'cvc-viewer-button',
-    templateUrl: './viewer-button.component.html',
-    styleUrls: ['./viewer-button.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-viewer-button',
+  templateUrl: './viewer-button.component.html',
+  styleUrls: ['./viewer-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcViewerButtonComponent implements OnInit {
   @Input() cvcCollapsed: boolean = false
@@ -62,20 +61,23 @@ export class CvcViewerButtonComponent implements OnInit {
     this.menuSelection$
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {
-        const fragment = {
-          id: `User:${viewer.id}`,
-          fragment: gql`
-            fragment UserMostRecentOrgId on User {
-              mostRecentOrganizationId
-            }
-          `,
-          data: {
-            mostRecentOrganizationId: mroId,
-          },
+        if (viewer.signedIn) {
+          const fragment = {
+            id: `User:${viewer.user?.id}`,
+            fragment: gql`
+              fragment UserMostRecentOrgId on User {
+                mostRecentOrganizationId
+              }
+            `,
+            data: {
+              mostRecentOrganizationId: mroId,
+            },
+          }
+          this.apollo.client.writeFragment(fragment)
         }
-        this.apollo.client.writeFragment(fragment)
       })
   }
+
   signOut(): void {
     this.queryService.signOut()
   }

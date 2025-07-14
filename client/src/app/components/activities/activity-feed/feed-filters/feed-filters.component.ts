@@ -1,19 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   EventEmitter,
+  input,
   OnInit,
   Output,
   Signal,
-  WritableSignal,
-  effect,
-  input,
   signal,
+  WritableSignal,
 } from '@angular/core'
-import { trigger, transition, style, animate } from '@angular/animations'
+import { animate, style, transition, trigger } from '@angular/animations'
 import {
-  ActivityFeedFilters,
   ActivityFeedFilterOptions,
+  ActivityFeedFilters,
   ActivityFeedScope,
   FeedQueryRefetchEvent,
 } from '../activity-feed.types'
@@ -34,16 +34,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { disableDates } from '../activity-feed.functions'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { tag } from 'rxjs-spy/operators'
-import {
-  distinctUntilChanged,
-  map,
-  skip,
-  startWith,
-  switchMap,
-} from 'rxjs/operators'
-import { timer, filter, of, Subject, from } from 'rxjs'
+import { UntilDestroy } from '@ngneat/until-destroy'
+import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators'
+import { filter, of, timer } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
@@ -100,6 +93,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   includeSubgroups!: WritableSignal<boolean>
   subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
+  linkedEndorsementId!: WritableSignal<number | null>
   occurredAfter!: WritableSignal<Date | null>
   occurredBefore!: WritableSignal<Date | null>
   disableDates: { [key: string]: (current: Date) => boolean }
@@ -119,6 +113,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         includeSubgroups: this.includeSubgroups(),
         subjectType: this.subjectType(),
         userId: this.userId(),
+        linkedEndorsementId: this.linkedEndorsementId(),
         occurredAfter: this.occurredAfter(),
         occurredBefore: this.occurredBefore(),
         sortByColumn: this.sortByColumn(),
@@ -175,6 +170,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     this.organizationId = signal(this.cvcFilters().organizationId)
     this.includeSubgroups = signal(this.cvcFilters().includeSubgroups)
     this.userId = signal(this.cvcFilters().userId)
+    this.linkedEndorsementId = signal(this.cvcFilters().linkedEndorsementId)
     this.occurredAfter = signal(this.cvcFilters().occurredAfter)
     this.occurredBefore = signal(this.cvcFilters().occurredBefore)
     this.sortByColumn = signal(this.cvcFilters().sortByColumn)

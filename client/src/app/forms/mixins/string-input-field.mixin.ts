@@ -3,7 +3,6 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Subject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
 
 export function StringTagField<TBase extends MixinConstructor<FieldType>>(

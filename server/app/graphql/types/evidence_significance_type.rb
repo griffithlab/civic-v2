@@ -23,5 +23,6 @@ module Types
     value "PREDISPOSITION", value: "Predisposition"
     value "PROTECTIVENESS", value: "Protectiveness"
     value "ONCOGENICITY", value: "Oncogenicity"
+    value "LIKELY_ONCOGENIC", "Likely Oncogenic"
   end
 end

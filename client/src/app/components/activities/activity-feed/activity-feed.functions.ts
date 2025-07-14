@@ -78,6 +78,7 @@ function filtersToQueryVariables(
     subjectType:
       filters['subjectType'].length > 0 ? filters['subjectType'] : undefined,
     userId: filters['userId'].length > 0 ? filters['userId'] : undefined,
+    linkedEndorsementId: filters['linkedEndorsementId'] ? filters['linkedEndorsementId'] : undefined,
     occurredAfter: filters['occurredAfter']
       ? filters['occurredAfter'].toISOString()
       : undefined,

@@ -1,278 +1,290 @@
 @if (variant.__typename == 'GeneVariant') {
-  <!-- variant description, details, myvariantinfo row -->
-  <nz-row [nzGutter]="[8, 16]">
-    <!-- LEFT COL -->
-    <nz-col [nzSpan]="12">
-      <!-- left col layout row -->
-      <nz-row [nzGutter]="[8, 8]">
-        <!-- variant attributes block -->
-        <nz-col nzSpan="24">
-          <nz-descriptions
-            nzLayout="horizontal"
-            nzSize="small"
-            [nzColumn]="1"
-            nzBordered="true">
-            <!-- aliases -->
-            <nz-descriptions-item nzTitle="Aliases">
-              <ng-container
-                *ngIf="variant.variantAliases.length > 0; else noAliases">
-                <cvc-tag-list>
-                  <nz-tag *ngFor="let alias of variant.variantAliases">{{
-                    alias
-                  }}</nz-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noAliases>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
+<!-- variant description, details, myvariantinfo row -->
+<nz-row [nzGutter]="[8, 16]">
+  <!-- LEFT COL -->
+  <nz-col [nzSpan]="12">
+    <!-- left col layout row -->
+    <nz-row [nzGutter]="[8, 8]">
+      <!-- variant attributes block -->
+      <nz-col nzSpan="24">
+        <nz-descriptions
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }"
+          nzBordered="true">
+          <!-- aliases -->
+          <nz-descriptions-item
+            nzTitle="Aliases"
+            nzSpan="2">
+            <ng-container
+              *ngIf="variant.variantAliases.length > 0; else noAliases">
+              <cvc-tag-list>
+                <nz-tag
+                  *ngFor="let alias of variant.variantAliases"
+                  [nzBordered]="false">
+                  {{ alias }}
+                </nz-tag>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noAliases>
+              <span
+                nz-typography
+                nzType="secondary">
+                None specified
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+          <!-- feature -->
+          <nz-descriptions-item
+            nzTitle="Gene"
+            nzSpan="1">
+            <cvc-feature-tag [feature]="variant.feature"></cvc-feature-tag>
+          </nz-descriptions-item>
 
-            <!-- variant type(s) -->
-            <nz-descriptions-item
-              [nzTitle]="
+          <!-- variant type(s) -->
+          <nz-descriptions-item
+            [nzTitle]="
                 variant.variantTypes.length > 1
                   ? 'Variant Types'
                   : 'Variant Type'
-              ">
-              <ng-container
-                *ngIf="variant.variantTypes.length > 0; else noTypes">
-                <cvc-tag-list>
-                  <cvc-variant-type-tag
-                    [variantType]="type"
-                    *ngFor="
+              "
+            nzSpan="1">
+            <ng-container *ngIf="variant.variantTypes.length > 0; else noTypes">
+              <cvc-tag-list>
+                <cvc-variant-type-tag
+                  [variantType]="type"
+                  *ngFor="
                       let type of variant.variantTypes
                     "></cvc-variant-type-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noTypes>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noTypes>
+              <span
+                nz-typography
+                nzType="secondary">
+                None specified
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
 
-            <!-- HGVS descriptions -->
-            <nz-descriptions-item
-              [nzTitle]="
+          <!-- HGVS descriptions -->
+          <nz-descriptions-item
+            [nzTitle]="
                 variant.hgvsDescriptions.length > 1
                   ? 'HGVS Descriptions'
                   : 'HGVS Description'
-              ">
-              <ng-container
-                *ngIf="
+              "
+            nzSpan="2">
+            <ng-container
+              *ngIf="
                   variant.hgvsDescriptions.length > 0;
                   else noDescriptions
                 ">
-                <cvc-tag-list>
-                  <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{
-                    desc
-                  }}</nz-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noDescriptions>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
-
-            <!-- MANE Select Transcript -->
-            <nz-descriptions-item nzTitle="MANE Select Transcript">
-              <ng-container *ngIf="variant.maneSelectTranscript; else noMane">
-                <cvc-tag-list>
-                  <nz-tag>{{ variant.maneSelectTranscript }}</nz-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noMane>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None found</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
-          </nz-descriptions>
-        </nz-col>
-        <!-- coordinates -->
-        <nz-col [nzSpan]="24">
-          <cvc-coordinates-card
-            [cvcCoordinates]="variant"></cvc-coordinates-card>
-        </nz-col>
-      </nz-row>
-    </nz-col>
-
-    <!-- RIGHT COLUMN -->
-    <nz-col nzSpan="12">
-      <!-- right col layout row -->
-      <nz-row [nzGutter]="[8, 8]">
-        <!-- BLOCK: creation and deprecation events -->
-        <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzLayout="vertical"
-            nzSize="small"
-            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true"
-            *ngIf="variant.creationActivity || variant.deprecationActivity">
-            <!-- creation/deprecation curation events -->
-            <ng-container *ngIf="variant.creationActivity">
-              <nz-descriptions-item [nzTitle]="createdTitle">
-                by
-                <cvc-user-tag
-                  [user]="variant.creationActivity.user"></cvc-user-tag>
-              </nz-descriptions-item>
-              <ng-template #createdTitle>
-                Created
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  ({{ variant.creationActivity.createdAt | timeAgo }})
-                </span>
-              </ng-template>
+              <cvc-tag-list>
+                <nz-tag
+                  *ngFor="let desc of variant.hgvsDescriptions"
+                  [nzBordered]="false">
+                  {{ desc }}
+                </nz-tag>
+              </cvc-tag-list>
             </ng-container>
-            <ng-container *ngIf="variant.deprecationActivity">
-              <nz-descriptions-item [nzTitle]="deprecatedTitle">
-                by
-                <cvc-user-tag
-                  [user]="variant.deprecationActivity.user"></cvc-user-tag>
-              </nz-descriptions-item>
-              <ng-template #deprecatedTitle>
-                Deprecated
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  ({{ variant.deprecationActivity.createdAt | timeAgo }})
-                </span>
-              </ng-template>
+
+            <ng-template #noDescriptions>
+              <span
+                nz-typography
+                nzType="secondary">
+                None specified
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+
+          <!-- MANE Select Transcript -->
+          <nz-descriptions-item
+            nzTitle="MANE Select Transcript"
+            nzSpan="2">
+            <ng-container *ngIf="variant.maneSelectTranscript; else noMane">
+              <cvc-tag-list>
+                <nz-tag [nzBordered]="false">
+                  {{ variant.maneSelectTranscript }}
+                </nz-tag>
+              </cvc-tag-list>
             </ng-container>
-          </nz-descriptions>
-        </nz-col>
-
-        <!-- variant related entities, attributes -->
-        <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzLayout="horizontal"
-            nzSize="small"
-            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true">
-            <!-- feature -->
-            <nz-descriptions-item nzTitle="Gene">
-              <cvc-feature-tag [feature]="variant.feature"></cvc-feature-tag>
-            </nz-descriptions-item>
-
-            <!-- allele reg. id -->
-            <nz-descriptions-item nzTitle="Allele Registry ID">
-              <cvc-link-tag
-                *ngIf="
-                  variant.alleleRegistryId &&
-                    variant.alleleRegistryId != 'unregistered';
-                  else noAlleleRegistry
-                "
-                [href]="
-                  'https://reg.genome.network/allele/' +
-                  variant.alleleRegistryId +
-                  '.html'
-                "
-                tooltip="View on ClinGen Allele Registry">
-                {{ variant.alleleRegistryId }}
-              </cvc-link-tag>
-              <ng-template #noAlleleRegistry>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >Unregistered</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
-
-            <!-- clinvar ids-->
-            <nz-descriptions-item
-              [nzTitle]="
+            <ng-template #noMane>
+              <span
+                nz-typography
+                nzType="secondary">
+                None found
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+          <!-- clinvar ids-->
+          <nz-descriptions-item
+            [nzTitle]="
                 variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'
               ">
-              <ng-container
-                *ngIf="variant.clinvarIds.length > 0; else noClinvarIds">
-                <cvc-tag-list
-                  *ngIf="
+            <ng-container
+              *ngIf="variant.clinvarIds.length > 0; else noClinvarIds">
+              <cvc-tag-list
+                *ngIf="
                     variant.clinvarIds[0] !== 'N/A' &&
                       variant.clinvarIds[0] !== 'NONE FOUND';
                     else clinvarNotApplicable
                   ">
-                  <ng-container *ngFor="let id of variant.clinvarIds">
-                    <cvc-link-tag
-                      [href]="
+                <ng-container *ngFor="let id of variant.clinvarIds">
+                  <cvc-link-tag
+                    [href]="
                         'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id
                       "
-                      tooltip="View on ClinVar">
-                      {{ id }}
-                    </cvc-link-tag>
-                  </ng-container>
-                </cvc-tag-list>
-              </ng-container>
+                    tooltip="View on ClinVar">
+                    {{ id }}
+                  </cvc-link-tag>
+                </ng-container>
+              </cvc-tag-list>
+            </ng-container>
 
-              <ng-template #clinvarNotApplicable>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >{{ variant.clinvarIds[0] }}</span
-                >
-              </ng-template>
+            <ng-template #clinvarNotApplicable>
+              <span
+                nz-typography
+                nzType="secondary">
+                {{ variant.clinvarIds[0] }}
+              </span>
+            </ng-template>
 
-              <ng-template #noClinvarIds>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None provided</span
-                >
-              </ng-template>
+            <ng-template #noClinvarIds>
+              <span
+                nz-typography
+                nzType="secondary">
+                None provided
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+
+      <!-- coordinate derived attributes: allele registry id, clinvar ids, open cravat report -->
+      <nz-col [nzSpan]="24">
+        <nz-descriptions
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+          nzBordered="true">
+          <!-- allele reg. id -->
+          <nz-descriptions-item nzTitle="Allele Registry ID">
+            <cvc-link-tag
+              *ngIf="
+                  variant.alleleRegistryId &&
+                    variant.alleleRegistryId != 'unregistered';
+                  else noAlleleRegistry
+                "
+              [href]="
+                  'https://reg.genome.network/allele/' +
+                  variant.alleleRegistryId +
+                  '.html'
+                "
+              tooltip="View on ClinGen Allele Registry">
+              {{ variant.alleleRegistryId }}
+            </cvc-link-tag>
+            <ng-template #noAlleleRegistry>
+              <span
+                nz-typography
+                nzType="secondary">
+                Unregistered
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+
+          <!-- open cravat report -->
+          <nz-descriptions-item nzTitle="OpenCravat Report">
+            @if (variant.openCravatUrl) {
+            <cvc-link-tag
+              [href]="variant.openCravatUrl"
+              tooltip="View on OpenCravat">
+              Variant Report
+            </cvc-link-tag>
+            } @else {
+            <span
+              nz-typography
+              nzType="secondary">
+              Not available
+            </span>
+            }
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+      <!-- coordinates -->
+      <nz-col [nzSpan]="24">
+        <cvc-coordinates-card [cvcCoordinates]="variant"></cvc-coordinates-card>
+      </nz-col>
+    </nz-row>
+  </nz-col>
+
+  <!-- RIGHT COLUMN -->
+  <nz-col nzSpan="12">
+    <!-- right col layout row -->
+    <nz-row [nzGutter]="[8, 8]">
+      <!-- BLOCK: creation and deprecation events -->
+      <nz-col
+        [nzSpan]="24"
+        *ngIf="variant.creationActivity || variant.deprecationActivity">
+        <nz-descriptions
+          nzLayout="vertical"
+          nzSize="small"
+          [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+          nzBordered="true">
+          <!-- creation/deprecation curation events -->
+          <ng-container *ngIf="variant.creationActivity">
+            <nz-descriptions-item [nzTitle]="createdTitle">
+              by
+              <cvc-user-tag
+                [user]="variant.creationActivity.user"></cvc-user-tag>
             </nz-descriptions-item>
-
-            <nz-descriptions-item
-              *ngIf="variant.openCravatUrl"
-              nzTitle="OpenCRAVAT">
-              <cvc-link-tag
-                [href]="variant.openCravatUrl"
-                tooltip="View on OpenCRAVAT">
-                Variant Report
-              </cvc-link-tag>
+            <ng-template #createdTitle>
+              Created
+              <span
+                nz-typography
+                nzType="secondary">
+                ({{ variant.creationActivity.createdAt | timeAgo }})
+              </span>
+            </ng-template>
+          </ng-container>
+          <ng-container *ngIf="variant.deprecationActivity">
+            <nz-descriptions-item [nzTitle]="deprecatedTitle">
+              by
+              <cvc-user-tag
+                [user]="variant.deprecationActivity.user"></cvc-user-tag>
             </nz-descriptions-item>
-          </nz-descriptions>
-        </nz-col>
+            <ng-template #deprecatedTitle>
+              Deprecated
+              <span
+                nz-typography
+                nzType="secondary">
+                ({{ variant.deprecationActivity.createdAt | timeAgo }})
+              </span>
+            </ng-template>
+          </ng-container>
+        </nz-descriptions>
+      </nz-col>
 
-        <!-- myvariant info -->
-        <ng-container *ngIf="variant.myVariantInfo; else noVariantInfo">
-          <nz-col [nzSpan]="24">
-            <cvc-my-variant-info
-              [variantInfo]="variant.myVariantInfo"></cvc-my-variant-info>
-          </nz-col>
-        </ng-container>
-        <ng-template #noVariantInfo>
-          <nz-col [nzSpan]="24">
-            <nz-card nzTitle="MyVariantInfo">
-              <cvc-empty-revisable
-                notification="Not available, provide Representative Variant Coordinates">
-              </cvc-empty-revisable>
-            </nz-card>
-          </nz-col>
-        </ng-template>
-      </nz-row>
-    </nz-col>
-    <!-- END RIGHT COL -->
+      <!-- variant info -->
+      <nz-col [nzSpan]="24">
+        <cvc-variant-info
+          [variantInfo]="{
+            myVariantInfo: variant.myVariantInfo,
+            openCravatAnnotations: variant.openCravatAnnotations,
+            openCravatUrl: variant.openCravatUrl
+          }"></cvc-variant-info>
+      </nz-col>
+    </nz-row>
+  </nz-col>
+  <!-- END RIGHT COL -->
 
-    <!-- evidence table -->
-    <nz-col nzSpan="24">
-      <cvc-molecular-profiles-table
-        [variantId]="variant.id"
-        cvcHeight="300px"
-        cvcTitle="{{ variant.name }} Molecular Profiles">
-      </cvc-molecular-profiles-table>
-    </nz-col>
-  </nz-row>
+  <!-- evidence table -->
+  <nz-col nzSpan="24">
+    <cvc-molecular-profiles-table
+      [variantId]="variant.id"
+      cvcHeight="300px"
+      cvcTitle="{{ variant.name }} Molecular Profiles">
+    </cvc-molecular-profiles-table>
+  </nz-col>
+</nz-row>
 }
