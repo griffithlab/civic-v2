@@ -171,6 +171,16 @@ module Types
       argument :create_permalink, Boolean, required: false, default_value: false
     end
 
+    field :search_molecular_profile, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
+    field :search_source, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::SourceSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
     field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :permalink_id, String, required: true
     end
@@ -332,6 +342,42 @@ module Types
         result_ids: ::AdvancedSearches::Feature.new(query: query).results,
         permalink_id: permalink,
         search_endpoint: "searchFeatures",
+      }
+    end
+    
+    def search_molecular_profile(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchMolecularProfile"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::MolecularProfile.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchMolecularProfile",
+      }
+    end
+    
+    def search_source(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchSource"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::Source.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchSource",
       }
     end
 
