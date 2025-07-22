@@ -11,6 +11,7 @@ module Types
             argument :publication_date, Types::AdvancedSearch::DateSearchInput, required: false
             argument :sub_filters, [ Types::AdvancedSearch::SourceSearchFilterType ], required: false
             argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
+            argument :title, Types::AdvancedSearch::StringSearchInput, required: false
         end
     end
 end

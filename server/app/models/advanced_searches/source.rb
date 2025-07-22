@@ -16,7 +16,16 @@ module AdvancedSearches
         resolve_abstract_filter(node),
         resolve_publication_date_filter(node),
         # resolve_query_for_type(node),
+        resolve_title_filter(node),
       ]
+    end
+
+    def resolve_title_filter(node)
+      if node.title.nil?
+        return nil
+      end
+      (clause, value) = node.title.resolve_query_for_type("sources.title")
+      base_query.where(clause, value)
     end
 
     def resolve_id_filter(node)
@@ -43,7 +52,6 @@ module AdvancedSearches
       if node.publication_date.nil?
         return nil
       end
-      puts "\n\n\n\n\n\n\n\n\n------------------------------------------\nDateStuff\n-------------------------------\n\n\n\n\n\n\n"
       (clause, value) = node.publication_date.resolve_query_for_type("sources.publication_year", "sources.publication_month", "sources.publication_day")
       base_query.where(clause, value)
     end
