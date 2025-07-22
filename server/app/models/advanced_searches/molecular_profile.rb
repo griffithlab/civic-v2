@@ -14,7 +14,7 @@ module AdvancedSearches
         resolve_is_flagged_filter(node),
         resolve_score_filter(node),
         resolve_evidence_items_count_filter(node),
-        # resolve_source_filter(node), # See comment in function, doesn't current work
+        resolve_source_filter(node), # See comment in function, doesn't current work
       ]
     end
 
@@ -23,8 +23,17 @@ module AdvancedSearches
         return nil
       end
       # This doesn't work unfortunately because I can't access the search_fields from a SearchFilterType in any way I know how
-      (clause, value) = node.source.resolve_search_fields(node)
-      base_query.where(clause, value)
+      # puts "\n\n\n\n\nnode.source:"
+      # puts node.source.to_h["id".to_sym]
+      # puts "\n\n\n\n\nnode.source:"
+      # node.source.define_singleton_method(:boolean_operator) do
+      #   node.boolean_operator
+      # end
+      source = Source.new(query: node.source)
+      # source = (Source)node.source
+      # source.initialize(node.source.to_s)
+      result_ids = source.results;
+      base_query.where(ids: result_ids)
     end
 
     def resolve_id_filter(node)
