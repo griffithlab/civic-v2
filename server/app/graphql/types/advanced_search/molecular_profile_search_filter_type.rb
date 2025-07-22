@@ -11,8 +11,7 @@ module Types
             argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
             argument :score, Types::AdvancedSearch::FloatSearchInput, required: false
             argument :evidence_items_count, Types::AdvancedSearch::IntSearchInput, required: false
-            # argument :source, Types::AdvancedSearch::SourceSearchFilterType, required: false
-            # Unfortunately I can't figure out how to make this work. For more info see the function in 
+            argument :source, Types::AdvancedSearch::SourceSearchFilterType, required: false
         
         end
     end

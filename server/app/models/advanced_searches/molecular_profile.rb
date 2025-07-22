@@ -14,7 +14,7 @@ module AdvancedSearches
         resolve_is_flagged_filter(node),
         resolve_score_filter(node),
         resolve_evidence_items_count_filter(node),
-        # resolve_source_filter(node), # See comment in function, doesn't current work
+        resolve_source_filter(node),
       ]
     end
 
@@ -22,9 +22,11 @@ module AdvancedSearches
       if node.source.nil?
         return nil
       end
-      # This doesn't work unfortunately because I can't access the search_fields from a SearchFilterType in any way I know how
-      (clause, value) = node.source.resolve_search_fields(node)
-      base_query.where(clause, value)
+      source_ids = ::AdvancedSearches::Source.new(query: node.source).results
+      mp_ids = ::MolecularProfile.joins(:sources)
+                            .where(sources: {id: source_ids})
+                            .select(:id)
+      base_query.where(id: mp_ids)
     end
 
     def resolve_id_filter(node)
