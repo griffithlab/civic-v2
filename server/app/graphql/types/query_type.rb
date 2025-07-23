@@ -181,6 +181,26 @@ module Types
       argument :create_permalink, Boolean, required: false, default_value: false
     end
 
+    field :search_disease, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::DiseaseSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
+    field :search_evidence_item, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::EvidenceItemSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
+    field :search_phenotype, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::PhenotypeSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
+    field :search_therapy, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::TherapySearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
     field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :permalink_id, String, required: true
     end
@@ -362,7 +382,23 @@ module Types
         search_endpoint: "searchMolecularProfile",
       }
     end
-    
+    def search_evidence_item(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchEvidenceItem"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::EvidenceItem.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchEvidenceItem",
+      }
+    end
     def search_source(query:, create_permalink:)
       permalink = if create_permalink
                     ::AdvancedSearch.where(
@@ -378,6 +414,78 @@ module Types
         result_ids: ::AdvancedSearches::Source.new(query: query).results,
         permalink_id: permalink,
         search_endpoint: "searchSource",
+      }
+    end
+
+    def search_disease(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchDisease"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::Disease.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchDisease",
+      }
+    end
+
+    def search_evidence_item(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchEvidenceItem"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::EvidenceItem.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchEvidenceItem",
+      }
+    end
+
+    def search_phenotype(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchPhenotype"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::Phenotype.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchPhenotype",
+      }
+    end
+
+    def search_therapy(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchTherapy"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::Therapy.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchTherapy",
       }
     end
 
