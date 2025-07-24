@@ -201,6 +201,16 @@ module Types
       argument :create_permalink, Boolean, required: false, default_value: false
     end
 
+    field :search_variant, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::VariantSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
+    field :search_variant_type, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::VariantTypeSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
     field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :permalink_id, String, required: true
     end
@@ -486,6 +496,42 @@ module Types
         result_ids: ::AdvancedSearches::Therapy.new(query: query).results,
         permalink_id: permalink,
         search_endpoint: "searchTherapy",
+      }
+    end
+
+    def search_variant(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchVariant"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::Variant.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchVariant",
+      }
+    end
+
+    def search_variant_type(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: "searchVariantType"
+                    ).first_or_create
+                      .token
+      else
+                    nil
+      end
+
+      {
+        result_ids: ::AdvancedSearches::VariantType.new(query: query).results,
+        permalink_id: permalink,
+        search_endpoint: "searchVariantType",
       }
     end
 
