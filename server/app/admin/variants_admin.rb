@@ -4,7 +4,18 @@ Trestle.resource(:variants) do
   end
 
   search do |q|
-    q ? collection.where("variants.name ILIKE ?", "#{q}%").or(collection.where("variant_aliases.name ILIKE ?", "#{q}%")) : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("variants.name ILIKE ? OR variants.id = ?", "#{q}%", query_id)
+          .or(collection.where("variant_aliases.name ILIKE ?", "#{q}%"))
+      else
+        collection.where("variants.name ILIKE ?", "#{q}%")
+          .or(collection.where("variant_aliases.name ILIKE ?", "#{q}%"))
+      end
+    else
+      collection
+    end
   end
 
   remove_action :destroy

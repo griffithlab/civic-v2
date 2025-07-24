@@ -15,7 +15,16 @@ Trestle.resource(:users) do
   end
 
   search do |q|
-    q ? collection.where("username ILIKE ? OR name ILIKE ?", "%#{q}%", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("username ILIKE ? OR name ILIKE ? OR id = ?", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("username ILIKE ? OR name ILIKE ?", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   # Customize the table columns shown on the index view.

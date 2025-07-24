@@ -4,7 +4,16 @@ Trestle.resource(:features) do
   end
 
   search do |q|
-    q ? collection.where("features.name ILIKE ?", "#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("features.name ILIKE ? OR features.id = ?", "#{q}%", query_id)
+      else
+        collection.where("features.name ILIKE ?", "#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   remove_action :destroy

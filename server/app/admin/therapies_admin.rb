@@ -11,7 +11,16 @@ Trestle.resource(:therapies) do
   scope :not_deprecated, -> { Therapy.where(deprecated: false) }
 
   search do |q|
-    q ? collection.where("name ILIKE ? OR ncit_id ILIKE ?", "%#{q}%", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("name ILIKE ? OR ncit_id ILIKE ? OR id = ?", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("name ILIKE ? OR ncit_id ILIKE ?", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   # Customize the table columns shown on the index view.
