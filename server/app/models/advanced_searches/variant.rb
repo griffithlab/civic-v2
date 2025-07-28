@@ -13,7 +13,7 @@ module AdvancedSearches
         # resolve_deprecation_reason_filter(node), #Error invalid input syntax for type integer, is there a way to convert the enum back into an int?
         resolve_variant_alias_filter(node),
         # resolve_open_revision_count_filter(node), # Needs some fixing to work properly
-        # resolve_comments_filter(node), # Something is wrong here currently, sql error Invalid column reference
+        # resolve_comment_filter(node), # Something is wrong here currently, sql error Invalid column reference
         # resolve_deprecation_activity_filter(node),
         resolve_feature_filter(node),
         resolve_molecular_profile_filter(node),
@@ -77,9 +77,9 @@ module AdvancedSearches
       base_query.where(id: matching_ids)
     end
 
-    def resolve_comments_filter(node)
-      return nil if node.comments.nil?
-      comment_ids = ::AdvancedSearches::Comment.new(query: node.comments).results
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = ::AdvancedSearches::Comment.new(query: node.comment).results
       variant_ids = ::Variant.joins(:comments).where(comments: { id: comment_ids }).select(:id)
       base_query.where(id: variant_ids)
     end

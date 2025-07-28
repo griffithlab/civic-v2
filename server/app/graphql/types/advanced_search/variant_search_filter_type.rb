@@ -3,7 +3,10 @@ module Types
         class VariantSearchFilterType < Types::BaseInputObject
             argument :sub_filters, [ Types::AdvancedSearch::VariantSearchFilterType ], required: false
             argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
-            argument :comments, Types::AdvancedSearch::CommentSearchFilterType, required: false
+            # argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
+            # Something is wrong with comment and I have no idea what. It follows the same structure as others:
+            # Error message: SELECT DISTINCT "comments"."id" FROM "comments" WHERE (comments.comment ILIKE $1) ORDER BY created_at ASC  [[nil, "%A%"]]
+            
             argument :deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
             # argument :deprecation_activity, Types::AdvancedSearch::DeprecateVariantActivitySearchFilterType, required: false
             argument :deprecation_reason, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantDeprecationReasonType), required: false
