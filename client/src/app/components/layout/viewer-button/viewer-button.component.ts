@@ -9,8 +9,7 @@ import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
-import { map, startWith, withLatestFrom } from 'rxjs/operators'
+import { startWith, withLatestFrom } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
 
@@ -78,6 +77,7 @@ export class CvcViewerButtonComponent implements OnInit {
         }
       })
   }
+
   signOut(): void {
     this.queryService.signOut()
   }

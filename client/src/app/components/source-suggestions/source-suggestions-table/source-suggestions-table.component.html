@@ -7,7 +7,7 @@
     nzSize="small"
     cvcAutoHeightCard
     cvcAutoHeightTarget="viewport">
-    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    <ng-template [ngTemplateOutlet]="table"></ng-template>
   </nz-card>
 </ng-container>
 
@@ -21,7 +21,7 @@
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
       nzSize="small">
-      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+      <ng-template [ngTemplateOutlet]="table"></ng-template>
     </nz-card>
   </div>
 </ng-template>
@@ -303,47 +303,51 @@
             nzRight
             nzAlign="center"
             class="button-cell">
-            <nz-button-group *ngIf="isSignedIn">
-              <button
-                routerLink="/evidence/add/submit"
-                [queryParams]="{
-                  molecularProfileId: suggestion.molecularProfile?.id,
-                  sourceId: suggestion.source?.id,
-                  diseaseId: suggestion.disease?.id,
-                }"
-                [disabled]="suggestion.status != status.New"
-                nz-button
-                nzSize="small"
-                nz-tooltip
-                [nzTooltipTitle]="
-                  !isScrolling ? 'Create Evidence with this Source' : ''
-                "
-                [nzTooltipMouseEnterDelay]="1">
-                <i
-                  nz-icon
-                  nzType="civic-evidence"></i>
-              </button>
-              <button
-                nz-button
-                nzSize="small"
-                nz-popover
-                nzPopoverTitle="Manage Source Suggestion"
-                nzPopoverPlacement="left"
-                nzPopoverTrigger="click"
-                nz-tooltip
-                [nzTooltipTitle]="
-                  !isScrolling ? 'Manage Source Suggestion' : ''
-                "
-                nzTooltipPlacement="top"
-                [nzTooltipMouseEnterDelay]="1"
-                [nzPopoverContent]="manageSuggestionTemplate"
-                (click)="setFormInputs(suggestion.id, suggestion.status)">
-                <i
-                  nz-icon
-                  nzType="civic-source"></i>
-              </button>
-            </nz-button-group>
-            <ng-container *ngIf="!isSignedIn"> -- </ng-container>
+            @if (isSignedIn) {
+              <nz-space-compact>
+                <button
+                  routerLink="/evidence/add/submit"
+                  [queryParams]="{
+                    molecularProfileId: suggestion.molecularProfile?.id,
+                    sourceId: suggestion.source?.id,
+                    diseaseId: suggestion.disease?.id,
+                  }"
+                  [disabled]="suggestion.status != status.New"
+                  nz-button
+                  nzSize="small"
+                  nz-tooltip
+                  [nzTooltipTitle]="
+                    !isScrolling ? 'Create Evidence with this Source' : ''
+                  "
+                  [nzTooltipMouseEnterDelay]="1">
+                  <i
+                    nz-icon
+                    nzType="civic-evidence"></i>
+                </button>
+                <button
+                  nz-button
+                  nzSize="small"
+                  nz-popover
+                  nzPopoverTitle="Manage Source Suggestion"
+                  nzPopoverPlacement="left"
+                  nzPopoverTrigger="click"
+                  nz-tooltip
+                  [nzTooltipTitle]="
+                    !isScrolling ? 'Manage Source Suggestion' : ''
+                  "
+                  nzTooltipPlacement="top"
+                  [nzTooltipMouseEnterDelay]="1"
+                  [nzPopoverContent]="manageSuggestionTemplate"
+                  (click)="setFormInputs(suggestion.id, suggestion.status)">
+                  <i
+                    nz-icon
+                    nzType="civic-source"></i>
+                </button>
+              </nz-space-compact>
+            }
+            @if (!isScrolling) {
+              <ng-container *ngIf="!isSignedIn"> --</ng-container>
+            }
           </td>
         </tr>
       </ng-template>

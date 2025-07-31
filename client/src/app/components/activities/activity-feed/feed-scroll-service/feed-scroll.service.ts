@@ -12,7 +12,6 @@ import { shareReplay, startWith, throttleTime } from 'rxjs/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { Routines } from 'ngx-ui-scroll'
-import { tag } from 'rxjs-spy/operators'
 import { FeedItemToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 
 export interface ScrollerState {

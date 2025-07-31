@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
 import {
   EntityTagsTestGQL,
   EntityTagsTestQuery,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { UntilDestroy } from '@ngneat/until-destroy'
 import { BehaviorSubject, filter, map, Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 
 type LinkableEntityData = {
   __typename: string
@@ -19,11 +17,11 @@ type LinkableEntityData = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-nonstate-form',
-    templateUrl: './tags-test.page.html',
-    styleUrls: ['./tags-test.page.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-nonstate-form',
+  templateUrl: './tags-test.page.html',
+  styleUrls: ['./tags-test.page.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TagsTestPage implements OnInit {
   emphasizeStr$ = new BehaviorSubject<string>('')
@@ -42,7 +40,6 @@ export class TagsTestPage implements OnInit {
     this.entityTagsData$ = this.entityTagsTestGQL.fetch(this.queryParams).pipe(
       pluck('data'),
       filter(isNonNulled),
-      tag('entityTagsData$'),
       map((response: EntityTagsTestQuery) => {
         console.log(response)
         const data = Object.values(response).filter(

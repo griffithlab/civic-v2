@@ -133,7 +133,7 @@ export class CvcUsersTableComponent implements OnInit {
 
     // entity relay connection
     this.connection$ = this.result$.pipe(
-      pluck('data', 'users'),
+      pluck('data', 'browseUsers'),
       filter(isNonNulled)
     ) as Observable<BrowseUserConnection>
 

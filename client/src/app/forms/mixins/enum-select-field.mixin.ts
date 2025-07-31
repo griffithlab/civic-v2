@@ -8,7 +8,6 @@ import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, Observable, Subject, withLatestFrom } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
 
 export type GetSelectOptionsFn<E> = (
@@ -24,7 +23,7 @@ export interface CvcEnumSelectFieldOptions<E> {
 
 export function EnumSelectField<V, E>() {
   return function EnumSelectFieldConstructor<
-    TBase extends MixinConstructor<FieldType>
+    TBase extends MixinConstructor<FieldType>,
   >(Base: TBase) {
     @Injectable()
     abstract class EnumSelectFieldMixin extends Base {
@@ -54,7 +53,8 @@ export function EnumSelectField<V, E>() {
 
         // set up select options creation
         if (!options.optionTemplate$) {
-          // if not provided, create empty array subject - select options will then use the enum value for label
+          // if not provided, create empty array subject - select options will then use the enum value for
+          // label
           this.optionTemplate$ = new BehaviorSubject<TemplateRef<any>[]>([])
         } else {
           this.optionTemplate$ = options.optionTemplate$
@@ -75,10 +75,11 @@ export function EnumSelectField<V, E>() {
 
       emitSelectOptions([optionTemplates, optionEnums]: [
         TemplateRef<any>[],
-        E[]
+        E[],
       ]): void {
         this.selectOption$.next(
-          // for each enum, return a NzSelectOption with a label that is either the enum's template reference, or if not found, just the enum string
+          // for each enum, return a NzSelectOption with a label that is either the enum's template
+          // reference, or if not found, just the enum string
           optionEnums.map((optionEnum: E, index: number) => {
             return <NzSelectOptionInterface>{
               label: optionTemplates[index] || optionEnum,

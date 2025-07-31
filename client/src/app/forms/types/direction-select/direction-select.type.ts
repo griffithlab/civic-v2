@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
   QueryList,
   TemplateRef,
   Type,
@@ -23,7 +22,6 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { BehaviorSubject, map, skip, withLatestFrom } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 const optionText: any = {
@@ -132,18 +130,18 @@ const DirectionSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-direction-select',
-    templateUrl: './direction-select.type.html',
-    styleUrls: ['./direction-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-direction-select',
+  templateUrl: './direction-select.type.html',
+  styleUrls: ['./direction-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcDirectionSelectField
   extends DirectionSelectMixin
   implements AfterViewInit
 {
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EntityDirection instead of CvcInputEnum
-  // STATE SOURCE STREAMS
+  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g.
+  // EntityDirection instead of CvcInputEnum STATE SOURCE STREAMS
   directionEnum$: BehaviorSubject<CvcInputEnum[]>
   onEntityType$?: BehaviorSubject<Maybe<CvcInputEnum>>
 
@@ -243,7 +241,8 @@ export class CvcDirectionSelectField
     }
 
     this.onEntityType$ = this.state.fields[etName]
-    // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
+    // if new entityType received, reset field, then based on entityType value, toggle disabled state, update
+    // placeholder
     this.onEntityType$
       .pipe(
         skip(this.options.formState.formMode === 'add' ? 0 : 1),

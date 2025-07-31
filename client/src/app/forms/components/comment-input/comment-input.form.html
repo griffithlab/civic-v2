@@ -1,5 +1,5 @@
 <ng-container *ngrxLet="viewer$ as viewer">
-  <nz-tabset [nzAnimated]="false">
+  <nz-tabs [nzAnimated]="false">
     <nz-tab nzTitle="Write">
       <nz-mention
         [nzSuggestions]="suggestions"
@@ -33,5 +33,5 @@
           [commentBodySegments]="previewComment"></cvc-comment-body>
       </ng-container>
     </nz-tab>
-  </nz-tabset>
+  </nz-tabs>
 </ng-container>
