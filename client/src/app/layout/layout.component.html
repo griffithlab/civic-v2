@@ -263,9 +263,23 @@
               nz-icon
               nzType="download"></i>
             <a
-              routerLink="/releases"
+              routerLink="/releases/main"
               id="releases">
               <span>Data Releases</span>
+            </a>
+          </li>
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'Data Licensing' : ''"
+            nzMatchRouter>
+            <i
+              nz-icon
+              nzType="copyright-circle"
+              nzTheme="fill"></i>
+            <a routerLink="releases/licensing">
+              <span>Data Licensing</span>
             </a>
           </li>
         </ul>
