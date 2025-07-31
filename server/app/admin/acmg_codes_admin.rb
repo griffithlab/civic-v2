@@ -4,7 +4,16 @@ Trestle.resource(:acmg_codes) do
   end
 
   search do |q|
-    q ? collection.where("acmg_codes.code ILIKE ? OR acmg_codes.description ILIKE ?", "%#{q}%", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("acmg_codes.code ILIKE ? OR acmg_codes.description ILIKE ? OR acmg_codes.id = ?", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("acmg_codes.code ILIKE ? OR acmg_codes.description ILIKE ?", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   remove_action :destroy, :new

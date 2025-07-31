@@ -10,7 +10,16 @@ Trestle.resource(:diseases) do
   end
 
   search do |q|
-    q ? collection.where("diseases.doid ILIKE ? OR diseases.name ILIKE ? OR disease_aliases.name ILIKE ?", "%#{q}%", "%#{q}%", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("diseases.doid ILIKE ? OR diseases.name ILIKE ? OR disease_aliases.name ILIKE ? OR diseases.id = ?", "%#{q}%", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("diseases.doid ILIKE ? OR diseases.name ILIKE ? OR disease_aliases.name ILIKE ?", "%#{q}%", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   scope :all, default: true
