@@ -35,14 +35,14 @@
                     [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
                     <!-- ref build, ensembl version -->
                     <nz-descriptions-item nzTitle="Ref. Build">
-                      <ng-container *ngIf="variant.fivePrimeCoordinates.referenceBuild; else noneSpecified">
-                        {{ variant.fivePrimeCoordinates.referenceBuild }}
+                      <ng-container *ngIf="variant.fivePrimeEndExonCoordinates && variant.fivePrimeEndExonCoordinates.referenceBuild; else noneSpecified">
+                        {{ variant.fivePrimeEndExonCoordinates.referenceBuild }}
                       </ng-container>
                     </nz-descriptions-item>
 
                     <nz-descriptions-item nzTitle="Ensembl Version">
-                      <ng-container *ngIf="variant.fivePrimeCoordinates.ensemblVersion; else noneSpecified">
-                        {{ variant.fivePrimeCoordinates.ensemblVersion }}
+                      <ng-container *ngIf="variant.fivePrimeEndExonCoordinates && variant.fivePrimeEndExonCoordinates.ensemblVersion; else noneSpecified">
+                        {{ variant.fivePrimeEndExonCoordinates.ensemblVersion }}
                       </ng-container>
                     </nz-descriptions-item>
                   </nz-descriptions>
@@ -96,14 +96,14 @@
                     [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
                     <!-- ref build, ensembl version -->
                     <nz-descriptions-item nzTitle="Ref. Build">
-                      <ng-container *ngIf="variant.threePrimeCoordinates.referenceBuild; else noneSpecified">
-                        {{ variant.threePrimeCoordinates.referenceBuild }}
+                      <ng-container *ngIf="variant.threePrimeStartExonCoordinates && variant.threePrimeStartExonCoordinates.referenceBuild; else noneSpecified">
+                        {{ variant.threePrimeStartExonCoordinates.referenceBuild }}
                       </ng-container>
                     </nz-descriptions-item>
 
                     <nz-descriptions-item nzTitle="Ensembl Version">
-                      <ng-container *ngIf="variant.threePrimeCoordinates.ensemblVersion; else noneSpecified">
-                        {{ variant.threePrimeCoordinates.ensemblVersion }}
+                      <ng-container *ngIf="variant.threePrimeStartExonCoordinates && variant.threePrimeStartExonCoordinates.ensemblVersion; else noneSpecified">
+                        {{ variant.threePrimeStartExonCoordinates.ensemblVersion }}
                       </ng-container>
                     </nz-descriptions-item>
                   </nz-descriptions>
@@ -183,14 +183,14 @@
                     [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
                     <!-- ref build, ensembl version -->
                     <nz-descriptions-item nzTitle="Ref. Build">
-                      <ng-container *ngIf="cvcCoordinates.fivePrimeCoordinates.referenceBuild; else noneSpecified">
-                        {{ cvcCoordinates.fivePrimeCoordinates.referenceBuild }}
+                      <ng-container *ngIf="cvcCoordinates.fivePrimeEndExonCoordinates && cvcCoordinates.fivePrimeEndExonCoordinates.referenceBuild; else noneSpecified">
+                        {{ cvcCoordinates.fivePrimeEndExonCoordinates.referenceBuild }}
                       </ng-container>
                     </nz-descriptions-item>
 
                     <nz-descriptions-item nzTitle="Ensembl Version">
-                      <ng-container *ngIf="cvcCoordinates.fivePrimeCoordinates.ensemblVersion; else noneSpecified">
-                        {{ cvcCoordinates.fivePrimeCoordinates.ensemblVersion }}
+                      <ng-container *ngIf="cvcCoordinates.fivePrimeEndExonCoordinates && cvcCoordinates.fivePrimeEndExonCoordinates.ensemblVersion; else noneSpecified">
+                        {{ cvcCoordinates.fivePrimeEndExonCoordinates.ensemblVersion }}
                       </ng-container>
                     </nz-descriptions-item>
                   </nz-descriptions>
@@ -246,14 +246,14 @@
                     [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
                     <!-- ref build, ensembl version -->
                     <nz-descriptions-item nzTitle="Ref. Build">
-                      <ng-container *ngIf="cvcCoordinates.threePrimeCoordinates.referenceBuild; else noneSpecified">
-                        {{ cvcCoordinates.threePrimeCoordinates.referenceBuild }}
+                      <ng-container *ngIf="cvcCoordinates.threePrimeStartExonCoordinates && cvcCoordinates.threePrimeStartExonCoordinates.referenceBuild; else noneSpecified">
+                        {{ cvcCoordinates.threePrimeStartExonCoordinates.referenceBuild }}
                       </ng-container>
                     </nz-descriptions-item>
 
                     <nz-descriptions-item nzTitle="Ensembl Version">
-                      <ng-container *ngIf="cvcCoordinates.threePrimeCoordinates.ensemblVersion; else noneSpecified">
-                        {{ cvcCoordinates.threePrimeCoordinates.ensemblVersion }}
+                      <ng-container *ngIf="cvcCoordinates.threePrimeStartExonCoordinates && cvcCoordinates.threePrimeStartExonCoordinates.ensemblVersion; else noneSpecified">
+                        {{ cvcCoordinates.threePrimeStartExonCoordinates.ensemblVersion }}
                       </ng-container>
                     </nz-descriptions-item>
                   </nz-descriptions>
