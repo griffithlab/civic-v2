@@ -32,6 +32,7 @@ import { CvcDiscoverBannerComponent } from '@app/views/welcome/banners/discover-
 import { CvcLicenseBannerComponent } from '@app/views/welcome/banners/license-banner/license-banner.component'
 import { CvcContributeBannerComponent } from '@app/views/welcome/banners/contribute-banner/contribute-banner.component'
 import { CvcEditorBannerComponent } from '@app/views/welcome/banners/editor-banner/editor-banner.component'
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { CvcEditorBannerComponent } from '@app/views/welcome/banners/editor-bann
     NzDividerModule,
     NzIconModule,
     NzSelectModule,
+    NzSkeletonModule,
     WelcomeRoutingModule,
     CvcAutoHeightDivModule,
     CvcAutoHeightCardModule,
