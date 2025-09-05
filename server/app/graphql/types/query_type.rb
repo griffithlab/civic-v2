@@ -47,6 +47,8 @@ module Types
       field :search, resolver: Resolvers::Quicksearch
     end
 
+    field :news_items, [ Types::NewsItemType ], null: false
+
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
       argument :id, Int, required: true
@@ -410,6 +412,10 @@ module Types
       Rails.cache.fetch("homepage_timepoint_stats", expires_in: 10.minutes) do
         CivicStats.homepage_stats
       end
+    end
+
+    def news_items
+      NewsItem.where(published: true).order("published_at desc")
     end
   end
 end

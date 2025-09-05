@@ -13,6 +13,7 @@ class GraphqlController < ApplicationController
       current_user: current_user,
       trace_mode: Analytics.should_submit?(request) ? :analytics : nil,
       request_ip: request.remote_ip,
+      request: request,
     }
 
     result = Civic2Schema.execute(query, variables: variables, context: context, operation_name: operation_name)

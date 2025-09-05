@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core'
 import { EventFeedMode, Maybe } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { CvcNewsItem } from './news-item-list/news-item-list.component'
 import { feedDefaultSettings } from '@app/components/activities/activity-feed/activity-feed.config'
 import { ActivityFeedSettings } from '@app/components/activities/activity-feed/activity-feed.types'
 
@@ -24,7 +23,7 @@ export class WelcomeComponent implements OnInit {
 
   feedMode = EventFeedMode.Unscoped
 
-  newsItems: CvcNewsItem[] = [
+  newsItems = [
     {
       title: 'Introducing Organizational Endorsements',
       date: '2025-06-03',

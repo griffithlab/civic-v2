@@ -1,0 +1,11 @@
+<figure>
+  <% if blob.representable? %>
+    <%= image_tag blob, style: "max-width: 100%; height: auto; display: block;" %>
+  <% end %>
+
+  <figcaption>
+    <% if caption = blob.try(:caption) %>
+      <%= caption %>
+    <% end %>
+  </figcaption>
+</figure>

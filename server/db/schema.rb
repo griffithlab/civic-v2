@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_04_210314) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.integer "assertion_id", null: false
     t.index ["acmg_code_id", "assertion_id"], name: "index_acmg_codes_assertions_on_acmg_code_id_and_assertion_id"
     t.index ["assertion_id"], name: "index_acmg_codes_assertions_on_assertion_id"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -751,6 +761,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
 
   create_table "nccn_guidelines", force: :cascade do |t|
     t.text "name", null: false
+  end
+
+  create_table "news_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "published_at"
+    t.text "title", null: false
+    t.boolean "published", default: false, null: false
   end
 
   create_table "notifications", id: :serial, force: :cascade do |t|
