@@ -12,6 +12,10 @@
       line-height: 20px;
     }
   }
+  ::ng-deep .news-post img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 nz-divider {
@@ -21,20 +25,3 @@ nz-divider {
   text-align: right;
   font-weight: normal;
 }
-.news-cover-image {
-  max-height: 200px;
-  min-height: 200px;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  border-bottom: 1px solid @border-color-split;
-  margin: -12px;
-  margin-bottom: 8px;
-}
-::ng-deep .news-post img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
