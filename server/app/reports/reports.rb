@@ -6,5 +6,6 @@ module Reports
     DuplicateDoids,
     DuplicateDiseaseNames,
     DiseasesWithoutEids,
+    VariantsWithUnregisteredAlleleRegistryIds,
   ]
 end
