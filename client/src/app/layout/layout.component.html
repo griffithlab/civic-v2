@@ -282,6 +282,20 @@
               <span>Data Licensing</span>
             </a>
           </li>
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'AI Integrations' : ''"
+            nzMatchRouter>
+            <i
+              nz-icon
+              nzType="robot"
+              nzTheme="outline"></i>
+            <a routerLink="pages/ai-integrations-policies">
+              <span>AI Integrations</span>
+            </a>
+          </li>
         </ul>
       </li>
     </ul>
