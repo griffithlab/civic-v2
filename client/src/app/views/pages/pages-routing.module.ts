@@ -19,7 +19,7 @@ const routes: Routes = [
         component: PagesHelpPage,
       },
       {
-        path: 'ai-integrations-policies',
+        path: 'ai-integrations',
         component: PagesAiPage,
       },
     ],

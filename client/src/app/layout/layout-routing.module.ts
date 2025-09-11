@@ -73,18 +73,20 @@ const routes: Routes = [
           breadcrumb: 'Evidence',
         },
       },
-       {
+      {
         path: 'genes',
         redirectTo: 'features',
         data: {
           breadcrumb: 'Features',
         },
-      } ,
+      },
 
       {
         path: 'features',
         loadChildren: () =>
-          import('@app/views/features/features.module').then((m) => m.FeaturesModule),
+          import('@app/views/features/features.module').then(
+            (m) => m.FeaturesModule
+          ),
         data: {
           breadcrumb: 'Features',
         },
@@ -197,16 +199,16 @@ const routes: Routes = [
           breadcrumb: 'Pages',
         },
       },
-      {
-        path: 'forms',
-        loadChildren: () =>
-          import('@app/forms/test-pages/test-pages.module').then(
-            (m) => m.TestPagesModule
-          ),
-        data: {
-          breadcrumb: 'Forms Dev',
-        },
-      },
+      // {
+      //   path: 'forms',
+      //   loadChildren: () =>
+      //     import('@app/forms/test-pages/test-pages.module').then(
+      //       (m) => m.TestPagesModule
+      //     ),
+      //   data: {
+      //     breadcrumb: 'Forms Dev',
+      //   },
+      // },
     ],
   },
 ]
