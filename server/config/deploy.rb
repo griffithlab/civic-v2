@@ -16,4 +16,4 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log", "tmp/pids", "tmp/cache", "
 set :repo_tree, "server"
 
 set :migration_role, :web
-set :assets_roles, [:web]
+set :assets_roles, []
