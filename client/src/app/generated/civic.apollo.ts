@@ -9462,9 +9462,9 @@ export type GeneRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type GeneRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, description?: string | undefined, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+export type GeneRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene', description?: string | undefined } } | undefined };
 
-export type RevisableGeneFieldsFragment = { __typename: 'Feature', id: number, description?: string | undefined, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+export type RevisableGeneFieldsFragment = { __typename: 'Feature', id: number, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene', description?: string | undefined } };
 
 export type SuggestGeneRevisionMutationVariables = Exact<{
   input: SuggestGeneRevisionInput;
@@ -12571,12 +12571,16 @@ export const RevisableFusionVariantFieldsFragmentDoc = gql`
 export const RevisableGeneFieldsFragmentDoc = gql`
     fragment RevisableGeneFields on Feature {
   id
-  description
   sources {
     id
     sourceType
     citation
     citationId
+  }
+  featureInstance {
+    ... on Gene {
+      description
+    }
   }
 }
     `;
