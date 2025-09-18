@@ -3,7 +3,7 @@
 
 @bg-gradient-1: #faad14;
 @bg-gradient-2: #874d00;
-@border-gradient-1: #ffd666;
+@border-gradient-1: #e6c15c;
 @border-gradient-2: #874d00;
 @text-color: #fff;
 @arrow-color: #ffc53d;
@@ -16,10 +16,10 @@
   width: 100%;
   overflow: hidden;
   border-radius: @border-radius-md;
-  height: 75px;
+  height: 35px;
   border: 1px solid transparent;
   background:
-    radial-gradient(circle 300px at 50px 25px, @bg-gradient-1, @bg-gradient-2)
+    radial-gradient(circle 600px at 50% 25px, @bg-gradient-1, @bg-gradient-2)
       padding-box,
     linear-gradient(176deg, @border-gradient-1, @border-gradient-2) border-box;
 
@@ -32,9 +32,12 @@
   }
 
   svg {
-    height: 75px;
+    height: 35px;
     width: auto;
     top: -1px;
+    position: relative;
+    display: block;
+    margin: 0 auto;
 
     #text1,
     #text2 {
