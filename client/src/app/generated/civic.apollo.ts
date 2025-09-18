@@ -1939,6 +1939,7 @@ export type Endorsement = {
   id: Scalars['Int']['output'];
   lastReviewed: Scalars['ISO8601DateTime']['output'];
   organization: Organization;
+  readyForClinvarSubmission: Scalars['Boolean']['output'];
   revocationActivity?: Maybe<RevokeEndorsementActivity>;
   status: EndorsementStatus;
   updatedAt: Scalars['ISO8601DateTime']['output'];
@@ -4616,6 +4617,14 @@ export type NcitSynonym = {
   source: Scalars['String']['output'];
 };
 
+export type NewsItem = {
+  __typename: 'NewsItem';
+  contentHtml?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  publishedAt?: Maybe<Scalars['ISO8601DateTime']['output']>;
+  title: Scalars['String']['output'];
+};
+
 export type Notification = {
   __typename: 'Notification';
   createdAt: Scalars['ISO8601DateTime']['output'];
@@ -5075,6 +5084,7 @@ export type Query = {
   nccnGuideline?: Maybe<NccnGuideline>;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
+  newsItems: Array<NewsItem>;
   /** List and filter notifications for the logged in user. */
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
@@ -9452,9 +9462,9 @@ export type GeneRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type GeneRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, description?: string | undefined, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+export type GeneRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene', description?: string | undefined } } | undefined };
 
-export type RevisableGeneFieldsFragment = { __typename: 'Feature', id: number, description?: string | undefined, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+export type RevisableGeneFieldsFragment = { __typename: 'Feature', id: number, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene', description?: string | undefined } };
 
 export type SuggestGeneRevisionMutationVariables = Exact<{
   input: SuggestGeneRevisionInput;
@@ -10280,6 +10290,13 @@ export type GeneVariantSummaryFieldsFragment = { __typename: 'GeneVariant', alle
 export type FusionVariantSummaryFieldsFragment = { __typename: 'FusionVariant', viccCompliantName: string, fusion: { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus, fivePrimeGene?: { __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined, threePrimeGene?: { __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined }, fivePrimeCoordinates?: { __typename: 'VariantCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, coordinateType: VariantCoordinateType } | undefined, threePrimeCoordinates?: { __typename: 'VariantCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, coordinateType: VariantCoordinateType } | undefined, fivePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType } | undefined, fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType } | undefined, threePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType } | undefined };
 
 export type MyVariantInfoFieldsFragment = { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, caddPhred?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: Array<number> | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> };
+
+export type HomepageNewsItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomepageNewsItemsQuery = { __typename: 'Query', newsItems: Array<{ __typename: 'NewsItem', publishedAt?: any | undefined, contentHtml?: string | undefined, title: string }> };
+
+export type NewsItemFragment = { __typename: 'NewsItem', publishedAt?: any | undefined, contentHtml?: string | undefined, title: string };
 
 export const ActivitiesPageInfoFieldsFragmentDoc = gql`
     fragment ActivitiesPageInfoFields on ActivityInterfaceConnection {
@@ -12554,12 +12571,16 @@ export const RevisableFusionVariantFieldsFragmentDoc = gql`
 export const RevisableGeneFieldsFragmentDoc = gql`
     fragment RevisableGeneFields on Feature {
   id
-  description
   sources {
     id
     sourceType
     citation
     citationId
+  }
+  featureInstance {
+    ... on Gene {
+      description
+    }
   }
 }
     `;
@@ -14179,6 +14200,13 @@ export const VariantSummaryFieldsFragmentDoc = gql`
 ${GeneVariantSummaryFieldsFragmentDoc}
 ${FactorVariantSummaryFieldsFragmentDoc}
 ${FusionVariantSummaryFieldsFragmentDoc}`;
+export const NewsItemFragmentDoc = gql`
+    fragment newsItem on NewsItem {
+  publishedAt
+  contentHtml
+  title
+}
+    `;
 export const ActivityFeedDocument = gql`
     query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $includeSubgroups: Boolean!, $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $linkedEndorsementId: Int, $includeAutomatedEvents: Boolean, $includeConnection: Boolean = true, $includePageInfo: Boolean = true, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime, $sortBy: DateSort) {
   activities(
@@ -19026,6 +19054,24 @@ export const VariantSummaryDocument = gql`
   })
   export class VariantSummaryGQL extends Apollo.Query<VariantSummaryQuery, VariantSummaryQueryVariables> {
     document = VariantSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const HomepageNewsItemsDocument = gql`
+    query HomepageNewsItems {
+  newsItems {
+    ...newsItem
+  }
+}
+    ${NewsItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class HomepageNewsItemsGQL extends Apollo.Query<HomepageNewsItemsQuery, HomepageNewsItemsQueryVariables> {
+    document = HomepageNewsItemsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

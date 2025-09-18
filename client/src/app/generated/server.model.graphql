@@ -7857,6 +7857,13 @@ type NcitSynonym {
   source: String!
 }
 
+type NewsItem {
+  contentHtml: String
+  id: Int!
+  publishedAt: ISO8601DateTime
+  title: String!
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -9660,6 +9667,7 @@ type Query {
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
+  newsItems: [NewsItem!]!
 
   """
   List and filter notifications for the logged in user.

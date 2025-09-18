@@ -10,7 +10,7 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   scope do
     MaterializedViews::MolecularProfileBrowseTableRow
       .all
-      .order("evidence_score DESC")
+      .order("evidence_score DESC, id ASC")
   end
 
   option(:molecular_profile_name, type: String) do |scope, value|
