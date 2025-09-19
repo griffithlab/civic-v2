@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: production
+      SECRET_KEY_BASE_DUMMY: 1
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
