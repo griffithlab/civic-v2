@@ -10,6 +10,8 @@ on:
 jobs:
   build_frontend:
     runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: production
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
