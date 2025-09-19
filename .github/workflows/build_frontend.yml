@@ -10,9 +10,6 @@ on:
 jobs:
   build_frontend:
     runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: production
-      SECRET_KEY_BASE_DUMMY: 1
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -48,6 +45,9 @@ jobs:
 
       - run: bundle exec rails webpacker:compile
         working-directory: ./server
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: 1
 
       - if: ${{ inputs.branch == 'staging' }}
         run: mv -f lib/assets/favicon.staging.ico public/favicon.ico
