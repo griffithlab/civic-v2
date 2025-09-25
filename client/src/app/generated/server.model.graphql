@@ -1516,6 +1516,7 @@ type BrowseUser {
   evidenceCount: Int!
   facebookProfile: String
   id: Int!
+  joinDate: ISO8601DateTime
   linkedinProfile: String
   mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
@@ -6553,6 +6554,7 @@ type LeaderboardUser {
   ): EventConnection!
   facebookProfile: String
   id: Int!
+  joinDate: ISO8601DateTime
   linkedinProfile: String
   mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
@@ -12473,6 +12475,7 @@ type User {
   ): EventConnection!
   facebookProfile: String
   id: Int!
+  joinDate: ISO8601DateTime
   linkedinProfile: String
   mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
