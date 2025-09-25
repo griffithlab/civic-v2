@@ -1,0 +1,27 @@
+{
+  "application.js": "/packs/js/application-16134c7dce3994b67c99.js",
+  "entrypoints": {
+    "application": {
+      "assets": {
+        "js": [
+          "/packs/js/runtime-6bae1d3a91a905177124.js",
+          "/packs/js/93-001d4a799f56975d0763.js",
+          "/packs/js/application-16134c7dce3994b67c99.js"
+        ]
+      }
+    }
+  },
+  "js/93-001d4a799f56975d0763.js": "/packs/js/93-001d4a799f56975d0763.js",
+  "js/93-001d4a799f56975d0763.js.LICENSE.txt": "/packs/js/93-001d4a799f56975d0763.js.LICENSE.txt",
+  "js/93-001d4a799f56975d0763.js.br": "/packs/js/93-001d4a799f56975d0763.js.br",
+  "js/93-001d4a799f56975d0763.js.gz": "/packs/js/93-001d4a799f56975d0763.js.gz",
+  "js/93-001d4a799f56975d0763.js.map": "/packs/js/93-001d4a799f56975d0763.js.map",
+  "js/93-001d4a799f56975d0763.js.map.br": "/packs/js/93-001d4a799f56975d0763.js.map.br",
+  "js/93-001d4a799f56975d0763.js.map.gz": "/packs/js/93-001d4a799f56975d0763.js.map.gz",
+  "js/runtime-6bae1d3a91a905177124.js.br": "/packs/js/runtime-6bae1d3a91a905177124.js.br",
+  "js/runtime-6bae1d3a91a905177124.js.gz": "/packs/js/runtime-6bae1d3a91a905177124.js.gz",
+  "js/runtime-6bae1d3a91a905177124.js.map": "/packs/js/runtime-6bae1d3a91a905177124.js.map",
+  "js/runtime-6bae1d3a91a905177124.js.map.br": "/packs/js/runtime-6bae1d3a91a905177124.js.map.br",
+  "js/runtime-6bae1d3a91a905177124.js.map.gz": "/packs/js/runtime-6bae1d3a91a905177124.js.map.gz",
+  "runtime.js": "/packs/js/runtime-6bae1d3a91a905177124.js"
+}
