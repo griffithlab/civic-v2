@@ -907,6 +907,7 @@ export type BrowseUser = {
   evidenceCount: Scalars['Int']['output'];
   facebookProfile?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  joinDate?: Maybe<Scalars['ISO8601DateTime']['output']>;
   linkedinProfile?: Maybe<Scalars['String']['output']>;
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
@@ -3710,6 +3711,7 @@ export type LeaderboardUser = {
   events: EventConnection;
   facebookProfile?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  joinDate?: Maybe<Scalars['ISO8601DateTime']['output']>;
   linkedinProfile?: Maybe<Scalars['String']['output']>;
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
@@ -7370,6 +7372,7 @@ export type User = {
   events: EventConnection;
   facebookProfile?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  joinDate?: Maybe<Scalars['ISO8601DateTime']['output']>;
   linkedinProfile?: Maybe<Scalars['String']['output']>;
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
