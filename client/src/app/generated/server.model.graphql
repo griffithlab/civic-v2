@@ -373,6 +373,11 @@ enum AmpLevel {
   TIER_I_LEVEL_B
 }
 
+input AmpLevelTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: AmpLevel!
+}
+
 type ApiKey {
   createdAt: ISO8601DateTime
   id: Int!
@@ -687,6 +692,11 @@ enum AssertionDirection {
   SUPPORTS
 }
 
+input AssertionDirectionTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: AssertionDirection!
+}
+
 """
 An edge in a connection.
 """
@@ -802,6 +812,29 @@ input AssertionFields {
   variantOrigin: VariantOrigin!
 }
 
+input AssertionSearchFilter {
+  ampLevel: AmpLevelTypeSearchInput
+  assertionDirection: AssertionDirectionTypeSearchInput
+  assertionType: AssertionTypeTypeSearchInput
+  booleanOperator: BooleanOperator
+  description: StringSearchInput
+  disease: DiseaseSearchFilter
+  evidenceItemCount: IntSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  fdaCompanionTest: BooleanSearchInput
+  id: IntSearchInput
+  isFlagged: BooleanSearchInput
+  molecularProfile: MolecularProfileSearchFilter
+  name: StringSearchInput
+  phenotypes: PhenotypeSearchFilter
+  regulatoryApproval: BooleanSearchInput
+  significance: AssertionSignificanceTypeSearchInput
+  status: EvidenceStatusTypeSearchInput
+  subFilters: [AssertionSearchFilter!]
+  therapies: TherapySearchFilter
+  variantOrigin: VariantOriginTypeSearchInput
+}
+
 enum AssertionSignificance {
   ADVERSE_RESPONSE
   BENIGN
@@ -819,6 +852,11 @@ enum AssertionSignificance {
   RESISTANCE
   SENSITIVITYRESPONSE
   UNCERTAIN_SIGNIFICANCE
+}
+
+input AssertionSignificanceTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: AssertionSignificance!
 }
 
 input AssertionSort {
@@ -851,6 +889,11 @@ enum AssertionType {
   PREDICTIVE
   PREDISPOSING
   PROGNOSTIC
+}
+
+input AssertionTypeTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: AssertionType!
 }
 
 enum AssociatedEvidenceStatusFilter {
@@ -2058,6 +2101,14 @@ type CommentEdge {
   node: Comment
 }
 
+input CommentSearchFilter {
+  booleanOperator: BooleanOperator
+  comment: StringSearchInput
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  subFilters: [CommentSearchFilter!]
+}
+
 type CommentTagSegment {
   displayName: String!
   entityId: Int!
@@ -2505,6 +2556,16 @@ type DataRelease {
   variantTsv: DownloadableFile
 }
 
+input DateSearchInput {
+  comparisonOperator: DateSearchOperator!
+  date: ISO8601DateTime!
+}
+
+enum DateSearchOperator {
+  AFTER
+  BEFORE
+}
+
 input DateSort {
   """
   Value to sort by.
@@ -2848,6 +2909,16 @@ type DiseasePopover {
   molecularProfileCount: Int!
   myDiseaseInfo: MyDiseaseInfo
   name: String!
+}
+
+input DiseaseSearchFilter {
+  booleanOperator: BooleanOperator
+  deprecated: BooleanSearchInput
+  diseaseAliases: StringSearchInput
+  doid: StringSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  subFilters: [DiseaseSearchFilter!]
 }
 
 input DiseasesSort {
@@ -3262,6 +3333,11 @@ enum EvidenceDirection {
   SUPPORTS
 }
 
+input EvidenceDirectionTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: EvidenceDirection!
+}
+
 type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
@@ -3586,6 +3662,29 @@ input EvidenceItemFields {
   variantOrigin: VariantOrigin!
 }
 
+input EvidenceItemSearchFilter {
+  assertion: AssertionSearchFilter
+  booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
+  description: StringSearchInput
+  disease: DiseaseSearchFilter
+  evidenceDirection: EvidenceDirectionTypeSearchInput
+  evidenceLevel: EvidenceLevelTypeSearchInput
+  evidenceRating: IntSearchInput
+  evidenceType: EvidenceTypeTypeSearchInput
+  id: IntSearchInput
+  isFlagged: BooleanSearchInput
+  molecularProfile: MolecularProfileSearchFilter
+  openRevisionCount: IntSearchInput
+  phenotypes: PhenotypeSearchFilter
+  significance: EvidenceSignificanceTypeSearchInput
+  source: SourceSearchFilter
+  status: EvidenceStatusTypeSearchInput
+  subFilters: [EvidenceItemSearchFilter!]
+  therapies: TherapySearchFilter
+  therapyInteractionType: TherapyInteractionTypeSearchInput
+}
+
 type EvidenceItemsByStatus {
   acceptedCount: Int!
   molecularProfileId: Int!
@@ -3609,6 +3708,11 @@ enum EvidenceLevel {
   C
   D
   E
+}
+
+input EvidenceLevelTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: EvidenceLevel!
 }
 
 enum EvidenceSignificance {
@@ -3640,6 +3744,11 @@ enum EvidenceSignificance {
   UNALTERED_FUNCTION
   UNCERTAIN_SIGNIFICANCE
   UNKNOWN
+}
+
+input EvidenceSignificanceTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: EvidenceSignificance!
 }
 
 input EvidenceSort {
@@ -3681,6 +3790,11 @@ enum EvidenceStatusFilter {
   SUBMITTED
 }
 
+input EvidenceStatusTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: EvidenceStatus!
+}
+
 enum EvidenceType {
   DIAGNOSTIC
   FUNCTIONAL
@@ -3688,6 +3802,11 @@ enum EvidenceType {
   PREDICTIVE
   PREDISPOSING
   PROGNOSTIC
+}
+
+input EvidenceTypeTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: EvidenceType!
 }
 
 type ExonCoordinate implements EventSubject & WithRevisions {
@@ -4715,6 +4834,11 @@ enum FeatureDeprecationReason {
   OTHER
 }
 
+input FeatureDeprecationReasonTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: FeatureDeprecationReason!
+}
+
 """
 The specific type of a feature instance
 """
@@ -4734,6 +4858,7 @@ input FeatureInstanceTypesSearchInput {
 input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  deprecationReason: FeatureDeprecationReasonTypeSearchInput
   description: StringSearchInput
   entrezId: IntSearchInput
   entrezSymbol: StringSearchInput
@@ -4742,6 +4867,7 @@ input FeatureSearchFilter {
   fivePrimePartnerEntrezSymbol: StringSearchInput
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
+  isDeprecated: BooleanSearchInput
   isFlagged: BooleanSearchInput
   ncitId: StringSearchInput
   openRevisionCount: IntSearchInput
@@ -5089,6 +5215,23 @@ input FlaggableInput {
   The ID of the entity.
   """
   id: Int!
+}
+
+input FloatSearchInput {
+  comparisonOperator: FloatSearchOperator!
+  value: Float!
+}
+
+enum FloatSearchOperator {
+  """
+  Equal To
+  """
+  EQ
+  GE
+  GT
+  LE
+  LT
+  NE
 }
 
 """
@@ -7289,6 +7432,20 @@ type MolecularProfileNamePreview {
   segments: [MolecularProfileSegment!]!
 }
 
+input MolecularProfileSearchFilter {
+  alias: StringSearchInput
+  booleanOperator: BooleanOperator
+  description: StringSearchInput
+  evidenceItemsCount: IntSearchInput
+  hasAssertion: BooleanSearchInput
+  id: IntSearchInput
+  isFlagged: BooleanSearchInput
+  openRevisionCount: IntSearchInput
+  score: FloatSearchInput
+  source: SourceSearchFilter
+  subFilters: [MolecularProfileSearchFilter!]
+}
+
 """
 A segment of a molecular profile. Either a string representing a boolean
 operator or a tag component representing a gene or variant
@@ -8442,6 +8599,15 @@ type PhenotypePopover {
   molecularProfileCount: Int!
   name: String!
   url: String!
+}
+
+input PhenotypeSearchFilter {
+  booleanOperator: BooleanOperator
+  description: StringSearchInput
+  hpoId: StringSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  subFilters: [PhenotypeSearchFilter!]
 }
 
 input PhenotypeSort {
@@ -9903,8 +10069,17 @@ type Query {
     """
     types: [SearchableEntities!]
   ): [SearchResult!]!
+  searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
+  searchDiseases(createPermalink: Boolean = false, query: DiseaseSearchFilter!): AdvancedSearchResult!
+  searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
+  searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
+  searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
+  searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
+  searchTherapies(createPermalink: Boolean = false, query: TherapySearchFilter!): AdvancedSearchResult!
+  searchVariantTypes(createPermalink: Boolean = false, query: VariantTypeSearchFilter!): AdvancedSearchResult!
+  searchVariants(createPermalink: Boolean = false, query: VariantSearchFilter!): AdvancedSearchResult!
 
   """
   Find a source by CIViC ID
@@ -11050,10 +11225,28 @@ type SourcePopover implements Commentable & EventSubject {
   title: String
 }
 
+input SourceSearchFilter {
+  abstract: StringSearchInput
+  booleanOperator: BooleanOperator
+  citation: StringSearchInput
+  citationId: StringSearchInput
+  id: IntSearchInput
+  isRetracted: BooleanSearchInput
+  journal: StringSearchInput
+  sourceType: SourceSourceTypeSearchInput
+  subFilters: [SourceSearchFilter!]
+  title: StringSearchInput
+}
+
 enum SourceSource {
   ASCO
   ASH
   PUBMED
+}
+
+input SourceSourceTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: SourceSource!
 }
 
 type SourceStub {
@@ -12252,6 +12445,11 @@ enum TherapyInteraction {
   SUBSTITUTES
 }
 
+input TherapyInteractionTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: TherapyInteraction!
+}
+
 type TherapyPopover {
   assertionCount: Int!
   deprecated: Boolean!
@@ -12264,6 +12462,16 @@ type TherapyPopover {
   ncitId: String
   therapyAliases: [String!]!
   therapyUrl: String
+}
+
+input TherapySearchFilter {
+  booleanOperator: BooleanOperator
+  deprecated: BooleanSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  ncitId: StringSearchInput
+  subFilters: [TherapySearchFilter!]
+  therapyAliases: StringSearchInput
 }
 
 input TherapySort {
@@ -13089,6 +13297,11 @@ enum VariantDeprecationReason {
   OTHER
 }
 
+input VariantDeprecationReasonTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: VariantDeprecationReason!
+}
+
 type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisions {
   """
   List and filter comments.
@@ -13725,6 +13938,28 @@ enum VariantOrigin {
   UNKNOWN
 }
 
+input VariantOriginTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: VariantOrigin!
+}
+
+input VariantSearchFilter {
+  booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
+  deprecationReason: VariantDeprecationReasonTypeSearchInput
+  feature: FeatureSearchFilter
+  flagged: BooleanSearchInput
+  id: IntSearchInput
+  isDeprecated: BooleanSearchInput
+  molecularProfile: MolecularProfileSearchFilter
+  name: StringSearchInput
+  openRevisionCount: IntSearchInput
+  singleVariantMolecularProfile: MolecularProfileSearchFilter
+  subFilters: [VariantSearchFilter!]
+  variantAlias: StringSearchInput
+  variantType: VariantTypeSearchFilter
+}
+
 type VariantType {
   description: String!
   id: Int!
@@ -13742,6 +13977,15 @@ type VariantTypePopover {
   soid: String!
   url: String
   variantCount: Int!
+}
+
+input VariantTypeSearchFilter {
+  booleanOperator: BooleanOperator
+  description: StringSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  soid: StringSearchInput
+  subFilters: [VariantSearchFilter!]
 }
 
 input VariantTypeSort {
