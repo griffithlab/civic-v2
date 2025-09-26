@@ -9,7 +9,7 @@ module Types::AdvancedSearch
 
     # usage: Types::AdvancedSearch::EnumSearchInput.for(SomeType)
     # SomeType must itself be a valid input type (ie, or Enum)
-    def self.for(input_type)
+    def self.for(input_type, is_activerecord_enum: false)
       unless input_type < GraphQL::Schema::Enum
         raise StandardError.new("Input type must be a GraphQL Enum")
       end
@@ -17,25 +17,36 @@ module Types::AdvancedSearch
       if @existing_types.has_key?(input_type)
         return @existing_types[input_type]
       else
-        klass = generate_class(input_type: input_type)
+        klass = generate_class(input_type: input_type, is_activerecord_enum: is_activerecord_enum)
         @existing_types[input_type] = klass
         return klass
       end
     end
 
-    private_class_method def self.generate_class(input_type:)
+    private_class_method def self.generate_class(input_type:, is_activerecord_enum:)
       class_name = "#{input_type.name.demodulize}SearchInputType"
 
       klass = Class.new(Types::BaseInputObject) do
         argument :value, input_type, required: true
         argument :comparison_operator, Types::AdvancedSearch::EnumSearchOperator, required: true
 
-        def resolve_query_for_type(column_name)
-          case comparison_operator
-          when "EQ"
-            [ "#{column_name} = ?", value ]
-          when "NE"
-            [ "#{column_name} != ?", value ]
+        if is_activerecord_enum
+          def resolve_query_for_activerecord_enum(base_query, column_name)
+            case comparison_operator
+            when "EQ"
+              base_query.where(column_name => value)
+            when "NE"
+              base_query.where.not(column_name => value)
+            end
+          end
+        else
+          def resolve_query_for_type(column_name)
+            case comparison_operator
+            when "EQ"
+              [ "#{column_name} = ?", value ]
+            when "NE"
+              [ "#{column_name} != ?", value ]
+            end
           end
         end
       end

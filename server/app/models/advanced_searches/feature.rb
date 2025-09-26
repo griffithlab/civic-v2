@@ -1,7 +1,16 @@
 module AdvancedSearches
   class Feature < AdvancedSearches::Base
+    include AdvancedSearches::Shared::Id
+    include AdvancedSearches::Shared::Flagged
+    include AdvancedSearches::Shared::Deprecated
+    include AdvancedSearches::Shared::Description
+
     def base_query
       ::Feature.left_outer_joins(:feature_aliases)
+    end
+
+    def table_name
+      "features"
     end
 
     def resolve_search_fields(node)
@@ -20,16 +29,9 @@ module AdvancedSearches
         resolve_three_prime_partner_entrez_id(node),
         resolve_five_prime_partner_entrez_symbol(node),
         resolve_three_prime_partner_entrez_symbol(node),
+        resolve_is_deprecated_filter(node),
+        resolve_deprecation_reason_filter(node),
       ]
-    end
-
-    def resolve_id_filter(node)
-      if node.id.nil?
-        return nil
-      end
-
-      (clause, value) = node.id.resolve_query_for_type("features.id")
-      base_query.where(clause, value)
     end
 
     def resolve_entrez_id_filter(node)
@@ -53,15 +55,6 @@ module AdvancedSearches
       end
 
       (clause, value) = node.entrez_symbol.resolve_query_for_type("features.name")
-      base_query.where(clause, value)
-    end
-
-    def resolve_description_filter(node)
-      if node.description.nil?
-        return nil
-      end
-
-      (clause, value) = node.description.resolve_query_for_type("features.description")
       base_query.where(clause, value)
     end
 
@@ -89,15 +82,6 @@ module AdvancedSearches
         .pluck("features.id")
 
       base_query.where(id: matching_ids)
-    end
-
-    def resolve_is_flagged_filter(node)
-      if node.is_flagged.nil?
-        return nil
-      end
-
-      (clause, value) = node.is_flagged.resolve_query_for_type("features.flagged")
-      base_query.where(clause, value)
     end
 
     def resolve_has_assertion_filter(node)

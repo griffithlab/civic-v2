@@ -1,7 +1,15 @@
 module AdvancedSearches
   class MolecularProfile < AdvancedSearches::Base
+    include AdvancedSearches::Shared::Id
+    include AdvancedSearches::Shared::Flagged
+    include AdvancedSearches::Shared::Description
+
     def base_query
       ::MolecularProfile.left_outer_joins(:molecular_profile_aliases)
+    end
+
+    def table_name
+      "molecular_profiles"
     end
 
     def resolve_search_fields(node)
@@ -24,32 +32,11 @@ module AdvancedSearches
       end
       source_ids = ::AdvancedSearches::Source.new(query: node.source).results
       mp_ids = ::MolecularProfile.joins(:sources)
-                            .where(sources: {id: source_ids})
+                            .where(sources: { id: source_ids })
                             .select(:id)
       base_query.where(id: mp_ids)
     end
 
-    def resolve_id_filter(node)
-      if node.id.nil?
-        return nil
-      end
-
-      (clause, value) = node.id.resolve_query_for_type("molecular_profiles.id")
-      base_query.where(clause, value)
-    end
-
-    def resolve_source_name_filter(node)
-      if node.source_name.nil?
-        return nil
-      end
-      as 
-        # .where("status != 'rejected'")
-        .group("molecular_profiles.id")
-        .having(clause, value)
-        .distinct
-        .pluck("molecular_profiles.id")
-      base_query.where(ids:matching_ids)
-    end
 
     def resolve_evidence_items_count_filter(node)
       if node.evidence_items_count.nil?
@@ -65,15 +52,6 @@ module AdvancedSearches
         .pluck("molecular_profiles.id")
 
       base_query.where(id: matching_ids)
-    end
-
-    def resolve_description_filter(node)
-      if node.description.nil?
-        return nil
-      end
-
-      (clause, value) = node.description.resolve_query_for_type("molecular_profiles.description")
-      base_query.where(clause, value)
     end
 
     def resolve_alias_filter(node)
@@ -100,15 +78,6 @@ module AdvancedSearches
         .pluck("molecular_profiles.id")
 
       base_query.where(id: matching_ids)
-    end
-
-    def resolve_is_flagged_filter(node)
-      if node.is_flagged.nil?
-        return nil
-      end
-
-      (clause, value) = node.is_flagged.resolve_query_for_type("molecular_profiles.flagged")
-      base_query.where(clause, value)
     end
 
     def resolve_has_assertion_filter(node)

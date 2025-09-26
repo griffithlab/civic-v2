@@ -1,19 +1,24 @@
 module AdvancedSearches
   class Disease < AdvancedSearches::Base
+    include AdvancedSearches::Shared::Id
+    include AdvancedSearches::Shared::Name
+    include AdvancedSearches::Shared::Deprecated
+
     def base_query
       ::Disease.left_outer_joins(:disease_aliases)
+    end
+
+    def table_name
+      "diseases"
     end
 
     def resolve_search_fields(node)
       [
         resolve_id_filter(node),
         resolve_name_filter(node),
-        resolve_display_name_filter(node),
         resolve_doid_filter(node),
-        # resolve_link_filter(node),
         resolve_deprecated_filter(node),
         resolve_disease_aliases_filter(node),
-        # resolve_my_disease_info_filter(node), # Something has gone wrong with my_disease_info, not sure what but it just says undefined method where for class MyDiseaseInfo
       ]
     end
 
@@ -49,14 +54,6 @@ module AdvancedSearches
       base_query.where(clause, value)
     end
 
-    # def resolve_link_filter(node)
-    #   if node.link.nil?
-    #     return nil
-    #   end
-    #   clause, value = node.link.resolve_query_for_type("diseases.link")
-    #   base_query.where(clause, value)
-    # end 
-
     def resolve_deprecated_filter(node)
       if node.deprecated.nil?
         return nil
@@ -71,15 +68,6 @@ module AdvancedSearches
       end
       clause, value = node.disease_aliases.resolve_query_for_type("disease_aliases.name")
       base_query.where(clause, value)
-    end
-
-    def resolve_my_disease_info_filter(node)
-      if node.my_disease_info.nil?
-        return nil
-      end
-      my_disease_ids = ::AdvancedSearches::MyDiseaseInfo.new(query: node.my_disease_info).results
-      disease_ids = ::Disease.joins(:my_disease_info).where(my_disease_info: {id: my_disease_ids}).select(:id)
-      base_query.where(id: disease_ids)
     end
   end
 end
