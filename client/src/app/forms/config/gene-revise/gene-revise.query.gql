@@ -6,12 +6,16 @@ query GeneRevisableFields($featureId: Int!) {
 
 fragment RevisableGeneFields on Feature {
   id
-  description
   sources {
     id
     sourceType
     citation
     citationId
+  }
+  featureInstance {
+    ... on Gene {
+      description
+    }
   }
 }
 

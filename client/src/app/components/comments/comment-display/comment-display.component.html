@@ -18,7 +18,8 @@
     viewer.signedIn &&
     viewer.user?.id == comment.commenter.id &&
     comment.id &&
-    !comment.deleted
+    !comment.deleted &&
+    canDelete()
   ) {
     <nz-comment-action>
       <span

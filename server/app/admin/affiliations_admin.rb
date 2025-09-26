@@ -10,7 +10,16 @@ Trestle.resource(:affiliations) do
   end
 
   search do |q|
-    q ? collection.where("users.name ILIKE ? OR organizations.name ILIKE ?", "%#{q}%", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("users.name ILIKE ? OR organizations.name ILIKE ? OR affiliations.id = ?", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("users.name ILIKE ? OR organizations.name ILIKE ?", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   scope :all, default: true

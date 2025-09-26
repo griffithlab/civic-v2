@@ -24,6 +24,7 @@ module Types::Entities
     field :ranks, Types::Entities::RanksType, null: false
     field :email, String, null: true
     field :api_keys, [ Types::ApiKeyType ], null: false
+    field :join_date, GraphQL::Types::ISO8601DateTime, null: true
 
     profile_image_sizes = [ 256, 128, 64, 32, 18, 12 ]
     field :profile_image_path, String, null: true do
@@ -139,6 +140,15 @@ module Types::Entities
       else
         []
       end
+    end
+
+    def join_date
+      # In the case of merged accounts, the created_at field on the user record
+      # may be misleading. Instead use the first known authorization record.
+      object.authorizations
+        .order("created_at ASC")
+        .pluck(:created_at)
+        .first
     end
   end
 end

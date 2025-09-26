@@ -1516,6 +1516,7 @@ type BrowseUser {
   evidenceCount: Int!
   facebookProfile: String
   id: Int!
+  joinDate: ISO8601DateTime
   linkedinProfile: String
   mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
@@ -6570,6 +6571,7 @@ type LeaderboardUser {
   ): EventConnection!
   facebookProfile: String
   id: Int!
+  joinDate: ISO8601DateTime
   linkedinProfile: String
   mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
@@ -7872,6 +7874,13 @@ type NcitDetails {
 type NcitSynonym {
   name: String!
   source: String!
+}
+
+type NewsItem {
+  contentHtml: String
+  id: Int!
+  publishedAt: ISO8601DateTime
+  title: String!
 }
 
 type Notification {
@@ -9677,6 +9686,7 @@ type Query {
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
+  newsItems: [NewsItem!]!
 
   """
   List and filter notifications for the logged in user.
@@ -12482,6 +12492,7 @@ type User {
   ): EventConnection!
   facebookProfile: String
   id: Int!
+  joinDate: ISO8601DateTime
   linkedinProfile: String
   mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
