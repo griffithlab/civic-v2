@@ -80,7 +80,7 @@ module AdvancedSearches
     def resolve_evidence_items_filter(node)
       return nil if node.evidence_items.nil?
       matching_ids = ::AdvancedSearches::EvidenceItem.new(query: node.evidence_items).results
-      assertion_ids = ::Assertion.join(:evidence_items).where(evidence_items: { id: matching_ids }).select(:id)
+      assertion_ids = ::Assertion.joins(:evidence_items).where(evidence_items: { id: matching_ids }).select(:id)
       base_query.where(id: assertion_ids)
     end
 
@@ -93,14 +93,14 @@ module AdvancedSearches
     def resolve_molecular_profile_filter(node)
       return nil if node.molecular_profile.nil?
       mp_ids = ::AdvancedSearches::MolecularProfile.new(query: node.molecular_profile).results
-      assertion_ids = ::Assertion.join(:molecular_profiles).where(molecular_profiles: { id: mp_ids }).select(:id)
+      assertion_ids = ::Assertion.joins(:molecular_profile).where(molecular_profiles: { id: mp_ids }).select(:id)
       base_query.where(id: assertion_ids)
     end
 
     def resolve_phenotypes_filter(node)
       return nil if node.phenotypes.nil?
       phenotype_ids = ::AdvancedSearches::Phenotype.new(query: node.phenotypes).results
-      assertion_ids = ::Assertion.join(:phenotypes).where(phenotypes: { id: phenotype_ids }).select(:id)
+      assertion_ids = ::Assertion.joins(:phenotypes).where(phenotypes: { id: phenotype_ids }).select(:id)
       base_query.where(id: assertion_ids)
     end
 
@@ -112,7 +112,7 @@ module AdvancedSearches
     def resolve_therapies_filter(node)
       return nil if node.therapies.nil?
       therapy_ids = ::AdvancedSearches::Therapy.new(query: node.therapies).results
-      assertion_ids = ::Assertion.join(:therapies).where(therapies: { id: therapy_ids }).select(:id)
+      assertion_ids = ::Assertion.joins(:therapies).where(therapies: { id: therapy_ids }).select(:id)
       base_query.where(id: assertion_ids)
     end
 
