@@ -9289,6 +9289,204 @@
           "possibleTypes": null
         },
         {
+          "kind": "ENUM",
+          "name": "Chromosome",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "CHR_1",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_2",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_3",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_4",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_5",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_6",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_7",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_8",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_9",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_10",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_11",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_12",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_13",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_14",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_15",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_16",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_17",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_18",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_19",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_20",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_21",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_22",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_X",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CHR_Y",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "ChromosomeTypeSearchInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "value",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "Chromosome",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comparisonOperator",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "EnumSearchOperator",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "OBJECT",
           "name": "CivicTimepointStats",
           "description": "Counts of CIViC activity over time, used for the homepage",
@@ -11912,6 +12110,77 @@
           ],
           "inputFields": null,
           "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "CoordinateSearchInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "chromosome",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "ChromosomeTypeSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "start",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "stop",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "referenceBases",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DnaBaseStringInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "variantBases",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DnaBaseStringInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -15353,6 +15622,49 @@
               "deprecationReason": null
             }
           ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "DnaBaseStringInput",
+          "description": "String search input that only accepts DNA bases (A, C, T, G, /)",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "comparisonOperator",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "StringSearchOperator",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "value",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
           "possibleTypes": null
         },
         {
@@ -25732,31 +26044,31 @@
             },
             {
               "name": "NE",
-              "description": null,
+              "description": "Not Equal To",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "LT",
-              "description": null,
+              "description": "Less Than",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "GT",
-              "description": null,
+              "description": "Greater Than",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "LE",
-              "description": null,
+              "description": "Less Than or Equal To",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "GE",
-              "description": null,
+              "description": "Greater Than or Equal To",
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -30992,31 +31304,31 @@
             },
             {
               "name": "NE",
-              "description": null,
+              "description": "Not Equal To",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "LT",
-              "description": null,
+              "description": "Less Than",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "GT",
-              "description": null,
+              "description": "Greater Than",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "LE",
-              "description": null,
+              "description": "Less Than or Equal To",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "GE",
-              "description": null,
+              "description": "Greater Than or Equal To",
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -63423,7 +63735,7 @@
               "deprecationReason": null
             },
             {
-              "name": "flagged",
+              "name": "isFlagged",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -63512,6 +63824,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "VariantTypeSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "coordinates",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CoordinateSearchInput",
                 "ofType": null
               },
               "defaultValue": null,

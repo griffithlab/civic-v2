@@ -1881,6 +1881,38 @@ type BrowseVariantTypeEdge {
   node: BrowseVariantType
 }
 
+enum Chromosome {
+  CHR_1
+  CHR_10
+  CHR_11
+  CHR_12
+  CHR_13
+  CHR_14
+  CHR_15
+  CHR_16
+  CHR_17
+  CHR_18
+  CHR_19
+  CHR_2
+  CHR_20
+  CHR_21
+  CHR_22
+  CHR_3
+  CHR_4
+  CHR_5
+  CHR_6
+  CHR_7
+  CHR_8
+  CHR_9
+  CHR_X
+  CHR_Y
+}
+
+input ChromosomeTypeSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: Chromosome!
+}
+
 """
 Counts of CIViC activity over time, used for the homepage
 """
@@ -2256,6 +2288,14 @@ type ContributingUsersSummary {
 type Contribution {
   action: EventAction!
   count: Int!
+}
+
+input CoordinateSearchInput {
+  chromosome: ChromosomeTypeSearchInput
+  referenceBases: DnaBaseStringInput
+  start: IntSearchInput
+  stop: IntSearchInput
+  variantBases: DnaBaseStringInput
 }
 
 type Country {
@@ -2940,6 +2980,14 @@ enum DiseasesSortColumns {
   FEATURE_COUNT
   NAME
   VARIANT_COUNT
+}
+
+"""
+String search input that only accepts DNA bases (A, C, T, G, /)
+"""
+input DnaBaseStringInput {
+  comparisonOperator: StringSearchOperator!
+  value: String!
 }
 
 type DownloadableFile {
@@ -5227,10 +5275,30 @@ enum FloatSearchOperator {
   Equal To
   """
   EQ
+
+  """
+  Greater Than or Equal To
+  """
   GE
+
+  """
+  Greater Than
+  """
   GT
+
+  """
+  Less Than or Equal To
+  """
   LE
+
+  """
+  Less Than
+  """
   LT
+
+  """
+  Not Equal To
+  """
   NE
 }
 
@@ -6559,10 +6627,30 @@ enum IntSearchOperator {
   Equal To
   """
   EQ
+
+  """
+  Greater Than or Equal To
+  """
   GE
+
+  """
+  Greater Than
+  """
   GT
+
+  """
+  Less Than or Equal To
+  """
   LE
+
+  """
+  Less Than
+  """
   LT
+
+  """
+  Not Equal To
+  """
   NE
 }
 
@@ -13946,11 +14034,12 @@ input VariantOriginTypeSearchInput {
 input VariantSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
+  coordinates: CoordinateSearchInput
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
-  flagged: BooleanSearchInput
   id: IntSearchInput
   isDeprecated: BooleanSearchInput
+  isFlagged: BooleanSearchInput
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   openRevisionCount: IntSearchInput
