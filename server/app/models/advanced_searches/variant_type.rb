@@ -8,7 +8,7 @@ module AdvancedSearches
       ::VariantType.all
     end
 
-    def self.table_name
+    def table_name
       "variant_types"
     end
 

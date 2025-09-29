@@ -18,12 +18,6 @@ module AdvancedSearches
       ]
     end
 
-    def resolve_id_filter(node)
-      return nil if node.id.nil?
-      clause, value = node.id.resolve_query_for_type("comments.id")
-      base_query.where(clause, value)
-    end
-
     def resolve_comment_filter(node)
       return nil if node.comment.nil?
       clause, value = node.comment.resolve_query_for_type("comments.comment")

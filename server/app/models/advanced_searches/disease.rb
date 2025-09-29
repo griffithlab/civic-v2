@@ -22,21 +22,6 @@ module AdvancedSearches
       ]
     end
 
-    def resolve_id_filter(node)
-      if node.id.nil?
-        return nil
-      end
-      clause, value = node.id.resolve_query_for_type("diseases.id")
-      base_query.where(clause, value)
-    end
-
-    def resolve_name_filter(node)
-      if node.name.nil?
-        return nil
-      end
-      clause, value = node.name.resolve_query_for_type("diseases.name")
-      base_query.where(clause, value)
-    end
 
     def resolve_display_name_filter(node)
       if node.display_name.nil?
