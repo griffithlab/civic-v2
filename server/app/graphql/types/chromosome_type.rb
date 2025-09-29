@@ -1,0 +1,28 @@
+module Types
+  class ChromosomeType < Types::BaseEnum
+    value "CHR_1", value: "1"
+    value "CHR_2", value: "2"
+    value "CHR_3", value: "3"
+    value "CHR_4", value: "4"
+    value "CHR_5", value: "5"
+    value "CHR_6", value: "6"
+    value "CHR_7", value: "7"
+    value "CHR_8", value: "8"
+    value "CHR_9", value: "9"
+    value "CHR_10", value: "10"
+    value "CHR_11", value: "11"
+    value "CHR_12", value: "12"
+    value "CHR_13", value: "13"
+    value "CHR_14", value: "14"
+    value "CHR_15", value: "15"
+    value "CHR_16", value: "16"
+    value "CHR_17", value: "17"
+    value "CHR_18", value: "18"
+    value "CHR_19", value: "19"
+    value "CHR_20", value: "20"
+    value "CHR_21", value: "21"
+    value "CHR_22", value: "22"
+    value "CHR_X", value: "X"
+    value "CHR_Y", value: "Y"
+  end
+end

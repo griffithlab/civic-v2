@@ -7,7 +7,7 @@ module Types
       argument :is_deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :deprecation_reason, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantDeprecationReasonType, is_activerecord_enum: true), required: false
       argument :feature, Types::AdvancedSearch::FeatureSearchFilterType, required: false
-      argument :flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
+      argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :molecular_profile, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: false
       argument :name, Types::AdvancedSearch::StringSearchInput, required: false
@@ -15,6 +15,7 @@ module Types
       argument :single_variant_molecular_profile, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: false
       argument :variant_alias, Types::AdvancedSearch::StringSearchInput, required: false
       argument :variant_type, Types::AdvancedSearch::VariantTypeSearchFilterType, required: false
+      argument :coordinates, Types::AdvancedSearch::CoordinateSearchInput, required: false
     end
   end
 end

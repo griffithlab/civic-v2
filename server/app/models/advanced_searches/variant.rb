@@ -17,7 +17,7 @@ module AdvancedSearches
       [
         resolve_id_filter(node),
         resolve_name_filter(node),
-        resolve_flagged_filter(node),
+        resolve_is_flagged_filter(node),
         resolve_is_deprecated_filter(node),
         resolve_deprecation_reason_filter(node),
         resolve_variant_alias_filter(node),
@@ -27,6 +27,7 @@ module AdvancedSearches
         resolve_molecular_profile_filter(node),
         resolve_single_variant_molecular_profile_filter(node),
         resolve_variant_type_filter(node),
+        resolve_coordinates_filter(node),
       ]
     end
 
@@ -83,6 +84,73 @@ module AdvancedSearches
       type_ids = ::AdvancedSearches::VariantType.new(query: node.variant_type).results
       variant_ids = ::Variant.joins(:variant_types).where(variant_types: { id: type_ids }).select(:id)
       base_query.where(id: variant_ids)
+    end
+
+    def resolve_coordinates_filter(node)
+      return nil if node.coordinates.nil?
+
+      coord_input = node.coordinates
+
+      # Build conditions for variant_coordinates table
+      variant_coord_conditions = build_coordinate_conditions(coord_input, "variant_coordinates")
+
+      # Build conditions for exon_coordinates table
+      exon_coord_conditions = build_coordinate_conditions(coord_input, "exon_coordinates")
+
+      # Get variant IDs that match either coordinate type
+      variant_ids = []
+
+      if variant_coord_conditions.any?
+        variant_coord_query = ::Variant.joins(:variant_coordinates)
+        variant_coord_conditions.each do |condition|
+          variant_coord_query = variant_coord_query.where(*condition)
+        end
+        variant_ids += variant_coord_query.pluck(:id)
+      end
+
+      if exon_coord_conditions.any?
+        exon_coord_query = ::Variant.joins(:exon_coordinates)
+        exon_coord_conditions.each do |condition|
+          exon_coord_query = exon_coord_query.where(*condition)
+        end
+        variant_ids += exon_coord_query.pluck(:id)
+      end
+
+      # Return variants that match in either table
+      base_query.where(id: variant_ids.uniq)
+    end
+
+    private
+
+    def build_coordinate_conditions(coord_input, table_name)
+      conditions = []
+
+      if coord_input.chromosome
+        clause, value = coord_input.chromosome.resolve_query_for_type("#{table_name}.chromosome")
+        conditions << [ clause, value ]
+      end
+
+      if coord_input.start
+        clause, value = coord_input.start.resolve_query_for_type("#{table_name}.start")
+        conditions << [ clause, value ]
+      end
+
+      if coord_input.stop
+        clause, value = coord_input.stop.resolve_query_for_type("#{table_name}.stop")
+        conditions << [ clause, value ]
+      end
+
+      if coord_input.reference_bases && table_name == "variant_coordinates"
+        clause, value = coord_input.reference_bases.resolve_query_for_type("#{table_name}.reference_bases")
+        conditions << [ clause, value ]
+      end
+
+      if coord_input.variant_bases && table_name == "variant_coordinates"
+        clause, value = coord_input.variant_bases.resolve_query_for_type("#{table_name}.variant_bases")
+        conditions << [ clause, value ]
+      end
+
+      conditions
     end
   end
 end
