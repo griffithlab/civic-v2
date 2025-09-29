@@ -1,11 +1,11 @@
 module Types::AdvancedSearch
   class FloatSearchOperator < Types::BaseEnum
     value "EQ", description: "Equal To"
-    value "NE"
-    value "LT"
-    value "GT"
-    value "LE"
-    value "GE"
+    value "NE", description: "Not Equal To"
+    value "LT", description: "Less Than"
+    value "GT", description: "Greater Than"
+    value "LE", description: "Less Than or Equal To"
+    value "GE", description: "Greater Than or Equal To"
   end
 
 
