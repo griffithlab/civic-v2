@@ -2,8 +2,9 @@ module AdvancedSearches
   module Shared
     module Deprecated
       def resolve_is_deprecated_filter(node)
-        if node.is_flagged.nil?
-          return nil
+        if node.is_deprecated.nil?
+          # default to only returning non-deprecated unless specifically requested
+          return base_query.where(deprecated: false)
         end
 
         (clause, value) = node.is_deprecated.resolve_query_for_type("#{table_name}.deprecated")

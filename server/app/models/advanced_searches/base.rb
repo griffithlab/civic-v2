@@ -16,7 +16,9 @@ module AdvancedSearches
 
       validate_node(node, supplied_search_fields)
 
-      operator = node.boolean_operator&.downcase&.to_sym
+      # default to AND when multiple conditions are provided
+      # this matches the behavior of other filters in GQL
+      operator = node.boolean_operator&.downcase&.to_sym || :and
 
       if supplied_search_fields.any?
         base_query = supplied_search_fields.first
@@ -55,10 +57,6 @@ module AdvancedSearches
 
       if fields.size == 1 && node.sub_filters.nil?
         return true
-      end
-
-      if node.boolean_operator.nil?
-        raise StandardError.new("Must supply a boolean operator.")
       end
     end
 
