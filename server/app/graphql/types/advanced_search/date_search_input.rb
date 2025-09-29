@@ -11,9 +11,9 @@ module Types::AdvancedSearch
     def resolve_query_for_type(column_name)
       case comparison_operator
       when "BEFORE"
-        [ "#{column_name} <= ?", value ]
+        [ "#{column_name} <= ?", date ]
       when "AFTER"
-        [ "#{column_name} >= ?", value ]
+        [ "#{column_name} >= ?", date ]
       end
     end
   end

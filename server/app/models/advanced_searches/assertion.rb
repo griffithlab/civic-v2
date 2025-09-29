@@ -68,7 +68,7 @@ module AdvancedSearches
     def resolve_disease_filter(node)
       return nil if node.disease.nil?
       disease_ids = ::AdvancedSearches::Disease.new(query: node.disease).results
-      assertion_ids = ::Assertion.join(:diseases).where(diseases: { id: disease_ids }).select(:id)
+      assertion_ids = ::Assertion.joins(:disease).where(diseases: { id: disease_ids }).select(:id)
       base_query.where(id: assertion_ids)
     end
 

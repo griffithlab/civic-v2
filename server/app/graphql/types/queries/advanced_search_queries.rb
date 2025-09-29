@@ -79,9 +79,6 @@ module Types::Queries
         handle_search("searchDiseases", AdvancedSearches::Disease, create_permalink, query)
       end
 
-      def search_evidence_items(query:, create_permalink:)
-        handle_search("searchEvidenceItems", AdvancedSearches::EvidenceItem, create_permalink, query)
-      end
 
       def search_phenotypes(query:, create_permalink:)
         handle_search("searchPhenotypes", AdvancedSearches::Phenotype, create_permalink, query)
@@ -92,7 +89,7 @@ module Types::Queries
       end
 
       def search_variants(query:, create_permalink:)
-        handle_search("searchVariantTypes", AdvancedSearches::Variant, create_permalink, query)
+        handle_search("searchVariants", AdvancedSearches::Variant, create_permalink, query)
       end
 
       def search_variant_types(query:, create_permalink:)
