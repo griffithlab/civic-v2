@@ -64086,7 +64086,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "VariantSearchFilter",
+                    "name": "VariantTypeSearchFilter",
                     "ofType": null
                   }
                 }
