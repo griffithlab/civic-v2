@@ -119,7 +119,7 @@ module AdvancedSearches
     def resolve_assertion_filter(node)
       return nil if node.assertion.nil?
       assertion_ids = ::AdvancedSearches::Assertion.new(query: node.assertion).results
-      evidence_item_ids = ::EvidenceItem.joins(:assertions).where(assertions: { id: assertion_ids }).select(:id) # Not sure why this one wants assertions plural but oh well
+      evidence_item_ids = ::EvidenceItem.joins(:assertions).where(assertions: { id: assertion_ids }).select(:id)
       base_query.where(id: evidence_item_ids)
     end
 
