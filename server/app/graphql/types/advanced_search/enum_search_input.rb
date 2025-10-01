@@ -28,11 +28,11 @@ module Types::AdvancedSearch
 
       klass = Class.new(Types::BaseInputObject) do
         argument :value, input_type, required: true
-        argument :comparison_operator, Types::AdvancedSearch::EnumSearchOperator, required: true
+        argument :operator, Types::AdvancedSearch::EnumSearchOperator, required: true
 
         if is_activerecord_enum
           def resolve_query_for_activerecord_enum(base_query, column_name)
-            case comparison_operator
+            case operator
             when "EQ"
               base_query.where(column_name => value)
             when "NE"
@@ -41,7 +41,7 @@ module Types::AdvancedSearch
           end
         else
           def resolve_query_for_type(column_name)
-            case comparison_operator
+            case operator
             when "EQ"
               [ "#{column_name} = ?", value ]
             when "NE"

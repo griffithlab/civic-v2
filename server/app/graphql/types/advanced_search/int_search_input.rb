@@ -10,11 +10,11 @@ module Types::AdvancedSearch
 
 
   class IntSearchInput < Types::BaseInputObject
-    argument :comparison_operator, Types::AdvancedSearch::IntSearchOperator, required: true
+    argument :operator, Types::AdvancedSearch::IntSearchOperator, required: true
     argument :value, Int, required: true
 
     def resolve_query_for_type(column_name)
-      case comparison_operator
+      case operator
       when "EQ"
         [ "#{column_name} = ?", value ]
       when "NE"

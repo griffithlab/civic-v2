@@ -10,11 +10,11 @@ module Types::AdvancedSearch
 
 
   class FloatSearchInput < Types::BaseInputObject
-    argument :comparison_operator, Types::AdvancedSearch::FloatSearchOperator, required: true
+    argument :operator, Types::AdvancedSearch::FloatSearchOperator, required: true
     argument :value, Float, required: true
 
     def resolve_query_for_type(column_name)
-      case comparison_operator
+      case operator
       when "EQ"
         [ "#{column_name} = ?", value ]
       when "NE"

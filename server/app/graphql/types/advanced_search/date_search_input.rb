@@ -5,11 +5,11 @@ module Types::AdvancedSearch
   end
 
   class DateSearchInput < Types::BaseInputObject
-    argument :comparison_operator, Types::AdvancedSearch::DateSearchOperator, required: true
+    argument :operator, Types::AdvancedSearch::DateSearchOperator, required: true
     argument :date, GraphQL::Types::ISO8601DateTime, required: true
 
     def resolve_query_for_type(column_name)
-      case comparison_operator
+      case operator
       when "BEFORE"
         [ "#{column_name} <= ?", date ]
       when "AFTER"
