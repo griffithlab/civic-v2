@@ -8395,7 +8395,7 @@ enum OntologyTermSearchOperator {
   NE
 
   """
-  Include the matched term any any child terms
+  Include the matched term and any child terms
   """
   WITH_CHILDREN
 
