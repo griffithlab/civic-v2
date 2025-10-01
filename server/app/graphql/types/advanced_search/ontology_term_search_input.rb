@@ -3,7 +3,7 @@ module Types
     class OntologyTermSearchOperator < Types::BaseEnum
       value "EQ", description: "Equals"
       value "NE", description: "Does not equal"
-      value "WITH_CHILDREN", description: "Include the matched term any any child terms"
+      value "WITH_CHILDREN", description: "Include the matched term and any child terms"
       value "WITH_PARENT", description: "Include the matched term and its parent term"
     end
 
