@@ -12,6 +12,10 @@ class Resolvers::TopLevelFlags < GraphQL::Schema::Resolver
     Flag.order("flags.created_at DESC")
   }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:flaggable, type: Types::Flaggable::FlaggableInput) do |scope, value|
     scope.where(flaggable: value)
   end

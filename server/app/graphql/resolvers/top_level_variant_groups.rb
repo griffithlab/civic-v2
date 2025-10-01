@@ -8,4 +8,8 @@ class Resolvers::TopLevelVariantGroups < GraphQL::Schema::Resolver
   description "List and filter variant groups."
 
   scope { VariantGroup.order("variant_groups.name ASC").distinct }
+
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
 end

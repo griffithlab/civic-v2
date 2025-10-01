@@ -14,6 +14,10 @@ class Resolvers::BrowseOrganizations < GraphQL::Schema::Resolver
     scope.where(id: value)
   end
 
+  option(:ids, type: [ GraphQL::Types::Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: GraphQL::Types::String, description: "Substring filtering on the name of the organization.") do |scope, value|
     scope.where("name ILIKE ?", "%#{value}%")
   end

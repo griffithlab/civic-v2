@@ -51,6 +51,10 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     scope.where(id: value)
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:open_access, type: Boolean) do |scope, value|
     if value
       scope.where(open_access: true)

@@ -13,6 +13,10 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
     scope.where(id: value)
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: String) do |scope, value|
     scope.where("name ILIKE ?", "%#{value}%")
   end

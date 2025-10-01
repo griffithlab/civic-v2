@@ -10,6 +10,10 @@ class Resolvers::TopLevelRevisions < GraphQL::Schema::Resolver
 
   scope { Revision.all.order("revisions.created_at DESC") }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:originating_user_id, type: Int, description: "Limit to revisions by a certain user") do |scope, value|
     scope.joins(:activities).where("activities.user_id = ?", value).where("activities.type = ?", "SuggestRevisionSetActivity")
   end

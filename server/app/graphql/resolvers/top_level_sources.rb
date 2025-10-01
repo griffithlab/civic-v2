@@ -15,6 +15,10 @@ class Resolvers::TopLevelSources < GraphQL::Schema::Resolver
       .distinct
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:citation_id, type: [ GraphQL::Types::String ], description: "List of citation IDs to return results for") do |scope, value|
     scope.where("sources.citation_id IN (?)", value)
   end
