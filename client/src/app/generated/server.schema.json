@@ -1773,7 +1773,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -3224,7 +3224,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -4027,7 +4027,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -4219,7 +4219,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -9466,7 +9466,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -13523,7 +13523,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -15631,7 +15631,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -17723,7 +17723,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -19598,7 +19598,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -19796,7 +19796,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -20023,7 +20023,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -20113,7 +20113,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -21445,6 +21445,26 @@
               "name": "variants",
               "description": "List and filter Gene variants.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
@@ -23858,6 +23878,26 @@
               "description": "List and filter variants.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
                   "type": {
@@ -24123,7 +24163,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -24221,7 +24261,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -25992,7 +26032,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -26888,6 +26928,26 @@
               "name": "variants",
               "description": "List and filter variants.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
@@ -29343,6 +29403,26 @@
               "description": "List and filter Gene variants.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
                   "type": {
@@ -31252,7 +31332,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -39812,6 +39892,84 @@
           "possibleTypes": null
         },
         {
+          "kind": "INPUT_OBJECT",
+          "name": "OntologyTermSearchInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "operator",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OntologyTermSearchOperator",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "value",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "OntologyTermSearchOperator",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "EQ",
+              "description": "Equals",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NE",
+              "description": "Does not equal",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WITH_CHILDREN",
+              "description": "Include the matched term any any child terms",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WITH_PARENT",
+              "description": "Include the matched term and its parent term",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
           "kind": "OBJECT",
           "name": "Organization",
           "description": null,
@@ -41872,6 +42030,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "variantId",
                   "description": "Exact match filtering on the ID of the variant.",
                   "type": {
@@ -42189,6 +42367,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": null,
                   "type": {
@@ -42313,6 +42511,26 @@
               "name": "browseFeatures",
               "description": null,
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "featureName",
                   "description": null,
@@ -42462,6 +42680,26 @@
               "name": "browseMolecularProfiles",
               "description": null,
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "molecularProfileName",
                   "description": null,
@@ -42636,6 +42874,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": "Substring filtering on the name of the organization.",
                   "type": {
@@ -42743,6 +43001,26 @@
                     "kind": "SCALAR",
                     "name": "Int",
                     "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
@@ -42934,6 +43212,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "openAccess",
                   "description": null,
                   "type": {
@@ -43059,6 +43357,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": "Wildcard match on therapy name",
                   "type": {
@@ -43147,6 +43465,26 @@
               "name": "browseUsers",
               "description": "List and filter users.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "organization",
                   "description": "Limit to users that belong to a certain organizations",
@@ -43273,6 +43611,26 @@
               "description": null,
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": null,
                   "type": {
@@ -43385,6 +43743,26 @@
               "name": "browseVariants",
               "description": null,
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "variantName",
                   "description": null,
@@ -43706,6 +44084,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": "Wildcard match on clinical trial title",
                   "type": {
@@ -43823,6 +44221,26 @@
               "name": "comments",
               "description": "List and filter comments.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "originatingUserId",
                   "description": "Limit to comments by a certain user",
@@ -44153,6 +44571,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": null,
                   "type": {
@@ -44241,6 +44679,26 @@
               "name": "endorsements",
               "description": "List and filter endorsements.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "endorsingUserId",
                   "description": "CIViC User ID of the user endorsing the assertion.",
@@ -44419,6 +44877,26 @@
               "name": "events",
               "description": "List and filter events for an object",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "eventType",
                   "description": null,
@@ -44996,6 +45474,26 @@
               "description": "List and filter factors.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "evidenceStatusFilter",
                   "description": "Limit factors by the status of attached evidence.",
                   "type": {
@@ -45220,6 +45718,26 @@
               "description": "List and filter flags.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "flaggable",
                   "description": null,
                   "type": {
@@ -45370,6 +45888,26 @@
               "description": "List and filter fusions.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "evidenceStatusFilter",
                   "description": "Limit fusions by the status of attached evidence.",
                   "type": {
@@ -45495,6 +46033,26 @@
               "name": "genes",
               "description": "List and filter genes.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "evidenceStatusFilter",
                   "description": "Limit genes by the status of attached evidence.",
@@ -45641,6 +46199,26 @@
               "name": "molecularProfiles",
               "description": "List and filter molecular profiles.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "evidenceStatusFilter",
                   "description": "Limit molecular profiles by the status of attached evidence.",
@@ -46079,6 +46657,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "name",
                   "description": "Substring filtering on the name of the organization.",
                   "type": {
@@ -46273,6 +46871,26 @@
                     "kind": "SCALAR",
                     "name": "Int",
                     "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
@@ -46499,6 +47117,26 @@
               "name": "revisions",
               "description": "List and filter revisions.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "originatingUserId",
                   "description": "Limit to revisions by a certain user",
@@ -47316,6 +47954,26 @@
               "description": null,
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sourceType",
                   "description": null,
                   "type": {
@@ -47570,6 +48228,26 @@
               "description": "List and filter sources.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "citationId",
                   "description": "List of citation IDs to return results for",
                   "type": {
@@ -47683,6 +48361,26 @@
               "name": "therapies",
               "description": "List and filter Therapies from the NCI Thesaurus.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "ncitId",
                   "description": "Limit to therapies with a specific NCIT ID",
@@ -48010,6 +48708,26 @@
               "description": "List and filter users.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "organization",
                   "description": "Limit to users that belong to a certain organizations",
                   "type": {
@@ -48222,6 +48940,26 @@
               "description": "List and filter variant groups.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
                   "type": {
@@ -48386,6 +49124,26 @@
               "description": "List and filter Variant Types from the Sequence Ontology.",
               "args": [
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "soid",
                   "description": "Limit to variant types  with a specific Sequence Ontology ID",
                   "type": {
@@ -48522,6 +49280,26 @@
               "name": "variants",
               "description": "List and filter variants.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
@@ -52857,7 +53635,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -53857,7 +54635,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -57382,7 +58160,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -61280,7 +62058,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -61941,6 +62719,26 @@
               "name": "variants",
               "description": "List and filter variants.",
               "args": [
+                {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
@@ -63628,7 +64426,7 @@
               "deprecationReason": null
             },
             {
-              "name": "comparisonOperator",
+              "name": "operator",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -64148,7 +64946,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
+                "name": "OntologyTermSearchInput",
                 "ofType": null
               },
               "defaultValue": null,

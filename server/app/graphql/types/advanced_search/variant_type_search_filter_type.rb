@@ -6,7 +6,7 @@ module Types
       argument :description, Types::AdvancedSearch::StringSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :name, Types::AdvancedSearch::StringSearchInput, required: false
-      argument :soid, Types::AdvancedSearch::StringSearchInput, required: false
+      argument :soid, Types::AdvancedSearch::OntologyTermSearchInput, required: false
     end
   end
 end

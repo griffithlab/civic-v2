@@ -374,7 +374,7 @@ enum AmpLevel {
 }
 
 input AmpLevelTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: AmpLevel!
 }
 
@@ -693,7 +693,7 @@ enum AssertionDirection {
 }
 
 input AssertionDirectionTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: AssertionDirection!
 }
 
@@ -855,7 +855,7 @@ enum AssertionSignificance {
 }
 
 input AssertionSignificanceTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: AssertionSignificance!
 }
 
@@ -892,7 +892,7 @@ enum AssertionType {
 }
 
 input AssertionTypeTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: AssertionType!
 }
 
@@ -1909,7 +1909,7 @@ enum Chromosome {
 }
 
 input ChromosomeTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: Chromosome!
 }
 
@@ -2597,8 +2597,8 @@ type DataRelease {
 }
 
 input DateSearchInput {
-  comparisonOperator: DateSearchOperator!
   date: ISO8601DateTime!
+  operator: DateSearchOperator!
 }
 
 enum DateSearchOperator {
@@ -2986,7 +2986,7 @@ enum DiseasesSortColumns {
 String search input that only accepts DNA bases (A, C, T, G, /)
 """
 input DnaBaseStringInput {
-  comparisonOperator: StringSearchOperator!
+  operator: StringSearchOperator!
   value: String!
 }
 
@@ -3382,7 +3382,7 @@ enum EvidenceDirection {
 }
 
 input EvidenceDirectionTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: EvidenceDirection!
 }
 
@@ -3759,7 +3759,7 @@ enum EvidenceLevel {
 }
 
 input EvidenceLevelTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: EvidenceLevel!
 }
 
@@ -3795,7 +3795,7 @@ enum EvidenceSignificance {
 }
 
 input EvidenceSignificanceTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: EvidenceSignificance!
 }
 
@@ -3839,7 +3839,7 @@ enum EvidenceStatusFilter {
 }
 
 input EvidenceStatusTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: EvidenceStatus!
 }
 
@@ -3853,7 +3853,7 @@ enum EvidenceType {
 }
 
 input EvidenceTypeTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: EvidenceType!
 }
 
@@ -4214,6 +4214,11 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Return Variants lacking an assigned VariantType
     """
     hasNoVariantType: Boolean
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -4859,6 +4864,11 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     hasNoVariantType: Boolean
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -4883,7 +4893,7 @@ enum FeatureDeprecationReason {
 }
 
 input FeatureDeprecationReasonTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: FeatureDeprecationReason!
 }
 
@@ -4899,7 +4909,7 @@ enum FeatureInstanceTypes {
 }
 
 input FeatureInstanceTypesSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: FeatureInstanceTypes!
 }
 
@@ -5266,7 +5276,7 @@ input FlaggableInput {
 }
 
 input FloatSearchInput {
-  comparisonOperator: FloatSearchOperator!
+  operator: FloatSearchOperator!
   value: Float!
 }
 
@@ -5550,6 +5560,11 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Return Variants lacking an assigned VariantType
     """
     hasNoVariantType: Boolean
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -6169,6 +6184,11 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     hasNoVariantType: Boolean
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -6618,7 +6638,7 @@ An ISO 8601-encoded datetime
 scalar ISO8601DateTime @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
 
 input IntSearchInput {
-  comparisonOperator: IntSearchOperator!
+  operator: IntSearchOperator!
   value: Int!
 }
 
@@ -8358,6 +8378,33 @@ type ObjectFieldDiff {
   suggestedObjects: [ModeratedObjectField!]!
 }
 
+input OntologyTermSearchInput {
+  operator: OntologyTermSearchOperator!
+  value: String!
+}
+
+enum OntologyTermSearchOperator {
+  """
+  Equals
+  """
+  EQ
+
+  """
+  Does not equal
+  """
+  NE
+
+  """
+  Include the matched term any any child terms
+  """
+  WITH_CHILDREN
+
+  """
+  Include the matched term and its parent term
+  """
+  WITH_PARENT
+}
+
 type Organization {
   canEndorse: Boolean!
   description: String!
@@ -8848,6 +8895,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -8938,6 +8990,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -8966,6 +9023,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -8989,6 +9051,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9025,6 +9092,11 @@ type Query {
     Exact match filtering on the id of the organization.
     """
     id: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9068,6 +9140,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9101,6 +9178,11 @@ type Query {
     """
     first: Int
     id: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
     journal: String
 
     """
@@ -9133,6 +9215,11 @@ type Query {
     Filter on a therapy's internal CIViC id
     """
     id: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9174,6 +9261,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9223,6 +9315,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9249,6 +9346,11 @@ type Query {
     """
     first: Int
     hasNoVariantType: Boolean
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9303,6 +9405,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9346,6 +9453,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9428,6 +9540,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9474,6 +9591,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9513,6 +9635,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
     includeAutomatedEvents: Boolean
 
     """
@@ -9710,6 +9837,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9764,6 +9896,11 @@ type Query {
     Limit to flags added by a certain user
     """
     flaggingUserId: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9821,6 +9958,11 @@ type Query {
     genePartnerId: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -9864,6 +10006,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -9914,6 +10061,11 @@ type Query {
     Filter molecular profiles to the CIViC id of the gene(s) involved.
     """
     geneId: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -10005,6 +10157,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10060,6 +10217,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10105,6 +10267,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -10204,6 +10371,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10246,6 +10418,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10284,6 +10461,11 @@ type Query {
     Filter on a therapy's internal CIViC id
     """
     id: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -10343,6 +10525,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -10406,6 +10593,11 @@ type Query {
     first: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10459,6 +10651,11 @@ type Query {
     Filter variant types by internal CIViC id
     """
     id: Int
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -10525,6 +10722,11 @@ type Query {
     Return Variants lacking an assigned VariantType
     """
     hasNoVariantType: Boolean
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -11333,7 +11535,7 @@ enum SourceSource {
 }
 
 input SourceSourceTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: SourceSource!
 }
 
@@ -11515,7 +11717,7 @@ type Stats {
 }
 
 input StringSearchInput {
-  comparisonOperator: StringSearchOperator!
+  operator: StringSearchOperator!
   value: String!
 }
 
@@ -12534,7 +12736,7 @@ enum TherapyInteraction {
 }
 
 input TherapyInteractionTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: TherapyInteraction!
 }
 
@@ -13386,7 +13588,7 @@ enum VariantDeprecationReason {
 }
 
 input VariantDeprecationReasonTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: VariantDeprecationReason!
 }
 
@@ -13623,6 +13825,11 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Return Variants lacking an assigned VariantType
     """
     hasNoVariantType: Boolean
+
+    """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
 
     """
     Returns the last _n_ elements from the list.
@@ -14027,7 +14234,7 @@ enum VariantOrigin {
 }
 
 input VariantOriginTypeSearchInput {
-  comparisonOperator: EnumSearchOperator!
+  operator: EnumSearchOperator!
   value: VariantOrigin!
 }
 
@@ -14073,7 +14280,7 @@ input VariantTypeSearchFilter {
   description: StringSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  soid: StringSearchInput
+  soid: OntologyTermSearchInput
   subFilters: [VariantTypeSearchFilter!]
 }
 

@@ -23,8 +23,7 @@ module AdvancedSearches
 
     def resolve_soid_filter(node)
       return nil if node.soid.nil?
-      clause, value = node.soid.resolve_query_for_type("variant_types.soid")
-      base_query.where(clause, value)
+      node.soid.resolve_ontology_query(base_query, "variant_types.soid")
     end
   end
 end
