@@ -2604,6 +2604,8 @@ input DateSearchInput {
 enum DateSearchOperator {
   AFTER
   BEFORE
+  ON_OR_AFTER
+  ON_OR_BEFORE
 }
 
 input DateSort {
@@ -8390,19 +8392,19 @@ enum OntologyTermSearchOperator {
   EQ
 
   """
-  Does not equal
-  """
-  NE
-
-  """
   Include the matched term and any child terms
   """
-  WITH_CHILDREN
+  EQ_SELF_OR_CHILDREN
 
   """
   Include the matched term and its parent term
   """
-  WITH_PARENT
+  EQ_SELF_OR_PARENT
+
+  """
+  Does not equal
+  """
+  NE
 }
 
 type Organization {

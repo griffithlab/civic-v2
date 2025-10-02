@@ -13578,6 +13578,18 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "ON_OR_BEFORE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ON_OR_AFTER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -39955,13 +39967,13 @@
               "deprecationReason": null
             },
             {
-              "name": "WITH_CHILDREN",
+              "name": "EQ_SELF_OR_CHILDREN",
               "description": "Include the matched term and any child terms",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "WITH_PARENT",
+              "name": "EQ_SELF_OR_PARENT",
               "description": "Include the matched term and its parent term",
               "isDeprecated": false,
               "deprecationReason": null
