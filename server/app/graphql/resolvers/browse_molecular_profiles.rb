@@ -13,6 +13,10 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
       .order("evidence_score DESC, id ASC")
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:molecular_profile_name, type: String) do |scope, value|
     results = Searchkick.search(
                   value,
