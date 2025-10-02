@@ -11,6 +11,10 @@ module Resolvers
 
     scope { Comment.order("comments.created_at DESC") }
 
+    option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+      scope.where(id: value)
+    end
+
     option(:originating_user_id, type: Int, description: "Limit to comments by a certain user") do |scope, value|
       scope.where(user_id: value)
     end

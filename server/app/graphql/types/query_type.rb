@@ -11,6 +11,7 @@ module Types
     include Types::Queries::TypeaheadQueries
     include Types::Queries::DataReleaseQuery
     include Types::Queries::LeaderboardQueries
+    include Types::Queries::AdvancedSearchQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
@@ -168,14 +169,6 @@ module Types
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
-    field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
-      argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
-      argument :create_permalink, Boolean, required: false, default_value: false
-    end
-
-    field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
-      argument :permalink_id, String, required: true
-    end
 
     field :preview_comment_text, [ Types::Commentable::CommentBodySegment ], null: false do
       argument :comment_text, String, required: true
@@ -317,40 +310,6 @@ module Types
       else
         nil
       end
-    end
-
-    def search_genes(query:, create_permalink:)
-      permalink = if create_permalink
-                    ::AdvancedSearch.where(
-                      params: context.query.query_string,
-                      search_type: "searchGenes"
-                    ).first_or_create
-                      .token
-      else
-                    nil
-      end
-
-      {
-        result_ids: ::AdvancedSearches::Gene.new(query: query).results,
-        permalink_id: permalink,
-        search_endpoint: "searchGenes",
-      }
-    end
-
-    def search_by_permalink(permalink_id:)
-      saved_search = ::AdvancedSearch.find_by(token: permalink_id)
-
-      if saved_search.nil?
-        raise GraphQL::ExecutionError.new("Saved search with id #{permalink_id} not found.")
-      end
-
-      result = Civic2Schema.execute(saved_search.params, context: context)
-      formatted_hash = result.to_h.dig("data", saved_search.search_type)
-      {
-        permalink_id: formatted_hash["permalinkId"],
-        result_ids: formatted_hash["resultIds"],
-        search_endpoint: saved_search.search_type,
-      }
     end
 
     def preview_comment_text(comment_text:)

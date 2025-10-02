@@ -9,6 +9,10 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
 
   scope { MaterializedViews::FeatureBrowseTableRow.all }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:feature_name, type: String) { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
   option(:feature_full_name, type: String) { |scope, value| scope.where("full_name ILIKE ?", "%#{value}%") }
   option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column("alias_names"), "#{value}%") }

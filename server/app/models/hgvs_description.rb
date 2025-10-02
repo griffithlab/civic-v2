@@ -19,55 +19,53 @@ class HgvsDescription < ActiveRecord::Base
       variant.coordinates.start.nil?,
     ].none?
 
+    return nil unless valid_for_query
+
     coordinates = variant.coordinates
 
-    if valid_for_query
-      start = coordinates.start
-      ref = coordinates.reference_bases
-      alt = coordinates.variant_bases
-      stop = coordinates.stop
-      if type == "my_gene_info"
-        if coordinates.reference_build == "GRCh38"
-          coords = get_build_37_coords(variant)
-          return unless coords
-          start = coords["coordinates"].first["start"]
-          ref = coords["coordinates"].first["referenceAllele"]
-          alt = coords["coordinates"].first["allele"]
-          stop = coords["coordinates"].first["end"]
-          start = convert_zero_to_one_based(start, ref, alt)
-          chromosome = "chr#{coordinates.chromosome}"
-        elsif coordinates.reference_build == "GRCh37"
-          chromosome = "chr#{coordinates.chromosome}"
-        end
-      elsif type == "allele_registry"
-        if coordinates.reference_build == "GRCh38"
-          chromosome = refseq_sequence_b38(coordinates.chromosome)
-        elsif coordinates.reference_build == "GRCh37"
-          chromosome = refseq_sequence_b37(coordinates.chromosome)
-        else
-          return
-        end
+    start = coordinates.start
+    ref = coordinates.reference_bases
+    alt = coordinates.variant_bases
+    stop = coordinates.stop
+    if type == "my_gene_info"
+      if coordinates.reference_build == "GRCh38"
+        coords = get_build_37_coords(variant)
+        return unless coords
+        start = coords["coordinates"].first["start"]
+        ref = coords["coordinates"].first["referenceAllele"]
+        alt = coords["coordinates"].first["allele"]
+        stop = coords["coordinates"].first["end"]
+        start = convert_zero_to_one_based(start, ref, alt)
+        chromosome = "chr#{coordinates.chromosome}"
+      elsif coordinates.reference_build == "GRCh37"
+        chromosome = "chr#{coordinates.chromosome}"
       end
-      base_hgvs = "#{chromosome}:g.#{start}"
-      case variant_type(coordinates)
-      when :deletion
-        if ref.size > 1
-          "#{base_hgvs}_#{stop}del"
-        else
-          "#{base_hgvs}del"
-        end
-      when :substitution
-        "#{base_hgvs}#{ref}>#{alt}"
-      when :insertion
-        "#{base_hgvs}_#{stop.to_i}ins#{alt}"
-      when :indel
-        if ref.size > 1
-          "#{base_hgvs}_#{stop}delins#{alt}"
-        else
-          "#{base_hgvs}delins#{alt}"
-        end
+    elsif type == "allele_registry"
+      if coordinates.reference_build == "GRCh38"
+        chromosome = refseq_sequence_b38(coordinates.chromosome)
+      elsif coordinates.reference_build == "GRCh37"
+        chromosome = refseq_sequence_b37(coordinates.chromosome)
       else
-        nil
+        return
+      end
+    end
+    base_hgvs = "#{chromosome}:g.#{start}"
+    case variant_type(coordinates)
+    when :deletion
+      if ref.size > 1
+        "#{base_hgvs}_#{stop}del"
+      else
+        "#{base_hgvs}del"
+      end
+    when :substitution
+      "#{base_hgvs}#{ref}>#{alt}"
+    when :insertion
+      "#{base_hgvs}_#{stop.to_i}ins#{alt}"
+    when :indel
+      if ref.size > 1
+        "#{base_hgvs}_#{stop}delins#{alt}"
+      else
+        "#{base_hgvs}delins#{alt}"
       end
     else
       nil

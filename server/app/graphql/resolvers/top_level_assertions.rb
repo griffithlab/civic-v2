@@ -24,6 +24,10 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of the assertion.") do |scope, value|
     scope.where("assertions.id = ?", value)
   end
+
+  option(:ids, type: [ GraphQL::Types::Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where("assertions.id IN (?)", value)
+  end
   option(:variant_id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of the variant.") do |scope, value|
     scope.joins(molecular_profile: [ :variants ]).where("variants.id = ?", value)
   end

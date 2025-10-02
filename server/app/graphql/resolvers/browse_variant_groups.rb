@@ -9,6 +9,10 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
 
   scope { MaterializedViews::VariantGroupBrowseTableRow.all }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: String) do |scope, value|
     scope.where("name ILIKE ?", "%#{value}%")
   end

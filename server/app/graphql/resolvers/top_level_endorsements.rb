@@ -13,6 +13,10 @@ class Resolvers::TopLevelEndorsements < GraphQL::Schema::Resolver
       .order("endorsements.last_reviewed DESC")
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:endorsing_user_id, type: Int, description: "CIViC User ID of the user endorsing the assertion.") do |scope, value|
     scope.where(user_id: value)
   end
