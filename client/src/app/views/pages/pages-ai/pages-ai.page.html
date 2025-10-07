@@ -1,14 +1,95 @@
 <nz-page-header class="site-page-header">
-  <!--title-->
-  <nz-page-header-title>
-    CIViC AI Integrations and Policies
-  </nz-page-header-title>
-
   <!--content-->
   <nz-page-header-content>
-    <nz-row [nzGutter]="[8, 12]">
-      <nz-col [nzSpan]="24">
-        <p>AI Integrations Content</p>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col
+        nzFlex="48px"
+        class="header-icon">
+        <i
+          nz-icon
+          nzType="robot"
+          nzTheme="fill"
+          style="color: #faad14"></i>
+      </nz-col>
+      <nz-col
+        nzFlex="auto"
+        class="header-description">
+        <h2 nz-typography>AI Integrations</h2>
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
+          Use tools and scripts to integrate CIViC into your AI workflows and
+          analysis.
+        </p>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="[8, 8]">
+      <nz-col nzSpan="12">
+        <nz-card
+          nzType="inner"
+          nzSize="small"
+          nzTitle="CIViC's AI Editorial and Curation Policies"
+          style="width: 100%">
+          <p nz-typography>
+            The CIViC project defines policies for the use of AI that ensure
+            human accountability by restricting AI's role in core curation and
+            editorial activities. These policies prohibit AI authorship, and
+            require transparency for the use of AI in research or other
+            assistive purposes. Please review the AI Editorial and Curation
+            Policies in the CIViC documentation for more information.
+          </p>
+        </nz-card>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <h2>CIViC MCP Server</h2>
+        <p nz-typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
+        </p>
+        <p nz-typography>
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde
+          omnis iste natus error sit voluptatem accusantium doloremque
+          laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+          veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        </p>
+
+        <h2>CIViC-Fact</h2>
+        <p nz-typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
+        </p>
+
+        <h2>CIViCmine</h2>
+        <p nz-typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
+        </p>
+
+        <h2>CIViC NLI</h2>
+        <p nz-typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
+        </p>
       </nz-col>
     </nz-row>
   </nz-page-header-content>
