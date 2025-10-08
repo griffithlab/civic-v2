@@ -19,7 +19,7 @@ module Types
         when "EQ_SELF_OR_CHILDREN"
           term = base_query.find_by(column_name => value)
           if term
-            ids = term.children.pluck(:id) << term.id
+            ids = term.direct_children.pluck(:id) << term.id
             base_query.where(id: ids)
           else
             base_query.none
@@ -27,7 +27,7 @@ module Types
         when "EQ_SELF_OR_PARENT"
           term = base_query.find_by(column_name => value)
           if term
-            ids = term.parent.pluck(:id) << term.id
+            ids = term.direct_parents.pluck(:id) << term.id
             base_query.where(id: ids)
           else
             base_query.none

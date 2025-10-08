@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_04_210314) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_223513) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -482,6 +482,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_210314) do
     t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
   end
 
+  create_table "edges", force: :cascade do |t|
+    t.bigint "previous_node_id", null: false
+    t.bigint "next_node_id", null: false
+    t.text "edge_type", null: false
+    t.index ["edge_type"], name: "index_edges_on_edge_type"
+    t.index ["next_node_id"], name: "index_edges_on_next_node_id"
+    t.index ["previous_node_id"], name: "index_edges_on_previous_node_id"
+  end
+
   create_table "endorsements", force: :cascade do |t|
     t.bigint "organization_id", null: false
     t.bigint "user_id", null: false
@@ -769,6 +778,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_210314) do
     t.datetime "published_at"
     t.text "title", null: false
     t.boolean "published", default: false, null: false
+  end
+
+  create_table "nodes", force: :cascade do |t|
+    t.string "term_type", null: false
+    t.bigint "term_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id", "term_type"], name: "index_nodes_on_id_and_term_type"
+    t.index ["term_id", "term_type"], name: "index_nodes_on_term_id_and_term_type"
+    t.index ["term_type", "term_id"], name: "index_nodes_on_term"
   end
 
   create_table "notifications", id: :serial, force: :cascade do |t|
@@ -1239,6 +1258,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_210314) do
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
+  add_foreign_key "edges", "nodes", column: "next_node_id"
+  add_foreign_key "edges", "nodes", column: "previous_node_id"
   add_foreign_key "entity_mentions", "comments"
   add_foreign_key "events", "activities"
   add_foreign_key "events", "organizations"
