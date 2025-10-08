@@ -29,6 +29,18 @@
       [ngClass]="{ 'is-collapsed': isCollapsed }"
       [nzInlineCollapsed]="isCollapsed">
       <li
+        nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Search' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i
+          nz-icon
+          nzType="search"></i>
+        <a routerLink="/search"><span>Search</span></a>
+      </li>
+      <li
         nz-menu-group
         [nzTitle]="isCollapsed ? 'KNOW' : 'KNOWLEDGEBASE'">
         <ul>

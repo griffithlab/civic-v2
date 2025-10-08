@@ -12,6 +12,14 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      {
+        path: 'search',
+        loadChildren: () =>
+          import('@app/views/search/search.module').then((m) => m.SearchModule),
+        data: {
+          breadcrumb: 'Search',
+        },
+      },
       // Primary Views
       {
         path: 'assertions',
@@ -73,18 +81,20 @@ const routes: Routes = [
           breadcrumb: 'Evidence',
         },
       },
-       {
+      {
         path: 'genes',
         redirectTo: 'features',
         data: {
           breadcrumb: 'Features',
         },
-      } ,
+      },
 
       {
         path: 'features',
         loadChildren: () =>
-          import('@app/views/features/features.module').then((m) => m.FeaturesModule),
+          import('@app/views/features/features.module').then(
+            (m) => m.FeaturesModule
+          ),
         data: {
           breadcrumb: 'Features',
         },
