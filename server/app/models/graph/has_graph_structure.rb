@@ -70,6 +70,8 @@ module Graph
         super
       end
 
+      private
+
       def create_node
         Graph::Node.where(term: self).first_or_create!
       end
@@ -78,13 +80,18 @@ module Graph
         Graph::Node.where(term: self).destroy_all
       end
 
+      def escape(string)
+        ActiveRecord::Base.connection.quote(string)
+      end
+
+
       def direct_children_sql(relationship:)
         <<-SQL
           SELECT term_id
           FROM nodes
           JOIN edges on nodes.id = edges.next_node_id
           WHERE edges.previous_node_id = #{self.graph_node.id}
-          AND edges.edge_type = '#{relationship}'
+          AND edges.edge_type = #{escape(relationship)}
         SQL
       end
 
@@ -94,12 +101,12 @@ module Graph
             SELECT edges.next_node_id
             FROM edges
             WHERE edges.previous_node_id = #{self.graph_node.id}
-            AND edges.edge_type = '#{relationship}'
+            AND edges.edge_type = #{escape(relationship)}
             UNION
             SELECT edges.next_node_id
             FROM edges
             JOIN search_tree ON edges.previous_node_id = search_tree.next_node_id
-            WHERE edges.edge_type = '#{relationship}'
+            WHERE edges.edge_type = #{escape(relationship)}
           )
           SELECT nodes.term_id
           FROM nodes
@@ -114,7 +121,7 @@ module Graph
           FROM nodes
           JOIN edges on nodes.id = edges.previous_node_id
           WHERE edges.next_node_id = #{self.graph_node.id}
-          AND edges.edge_type = '#{relationship}'
+          AND edges.edge_type = #{escape(relationship)}
         SQL
       end
 
@@ -124,12 +131,12 @@ module Graph
             SELECT edges.previous_node_id
             FROM edges
             WHERE edges.next_node_id = #{self.graph_node.id}
-            AND edges.edge_type = '#{relationship}'
+            AND edges.edge_type = #{escape(relationship)}
             UNION
             SELECT edges.previous_node_id
             FROM edges
             JOIN search_tree ON edges.next_node_id = search_tree.previous_node_id
-            WHERE edges.edge_type = '#{relationship}'
+            WHERE edges.edge_type = #{escape(relationship)}
           )
           SELECT nodes.term_id
           FROM nodes
@@ -147,9 +154,9 @@ module Graph
              SELECT edges.previous_node_id
              FROM edges
              WHERE edges.next_node_id = #{self.graph_node.id}
-             AND edges.edge_type = '#{relationship}'
+             AND edges.edge_type = #{escape(relationship)}
            )
-           AND edges.edge_type = '#{relationship}'
+           AND edges.edge_type = #{escape(relationship)}
            AND nodes.id != #{self.graph_node.id}
         SQL
       end
