@@ -11,26 +11,53 @@ module Graph
     included do
       after_destroy :delete_node
 
+      class_attribute :default_edge_type, default: "is_a"
+
       has_one :graph_node, as: :term, class_name: "Graph::Node", dependent: :destroy
 
-      def add_parent_term(term, relationship:)
+      def add_parent_term(term, relationship: default_edge_type)
         parent_term = Graph::Node.find_by(term: term)
         Graph::Edge.find_or_create_by!(previous_node: parent_term, next_node: self.graph_node, edge_type: relationship)
       end
 
-      def add_child_term(term, relationship:)
+      def add_child_term(term, relationship: default_edge_type)
         child_term = Graph::Node.find_by(term: term)
         Graph::Edge.find_or_create_by!(previous_node: self.graph_node, next_node: child_term, edge_type: relationship)
       end
 
+      def remove_parent_term(term, relationship: default_edge_type)
+        parent_term = Graph::Node.find_by(term: term)
+        Graph::Edge.where(previous_node: parent_term, next_node: self.graph_node, edge_type: relationship).destroy_all
+      end
+
+      def delete_child_term(term, relationship:)
+        child_term = Graph::Node.find_by(term: term)
+        Graph::Edge.where(previous_node: self.graph_node, next_node: child_term, edge_type: relationship).destroy_all
+      end
+
       # get only direct child nodes
-      def direct_children(relationship: "is_a")
+      def direct_children(relationship: default_edge_type)
         instance_sql_for(direct_children_sql(relationship: relationship))
       end
 
       # get all child nodes recursively
-      def all_children(relationship: "is_a")
+      def all_children(relationship: default_edge_type)
         instance_sql_for(all_children_sql(relationship: relationship))
+      end
+
+      # get sibling nodes
+      def siblings(relationship: default_edge_type)
+        instance_sql_for(siblings_sql(relationship: relationship))
+      end
+
+      # get direct parent nodes
+      def direct_parents(relationship: default_edge_type)
+        instance_sql_for(direct_parents_sql(relationship: relationship))
+      end
+
+      # get all parent nodes rescursively
+      def all_parents(relationship: default_edge_type)
+        instance_sql_for(all_parents_sql(relationship: relationship))
       end
 
       def save(...)
@@ -57,7 +84,7 @@ module Graph
           FROM nodes
           JOIN edges on nodes.id = edges.next_node_id
           WHERE edges.previous_node_id = #{self.graph_node.id}
-          AND edges.previous_node_id = #{self.graph_node.id}
+          AND edges.edge_type = '#{relationship}'
         SQL
       end
 
@@ -78,6 +105,52 @@ module Graph
           FROM nodes
           JOIN search_tree on nodes.id = search_tree.next_node_id
           WHERE nodes.term_type = '#{self.class}'
+        SQL
+      end
+
+      def direct_parents_sql(relationship:)
+        <<-SQL
+          SELECT term_id
+          FROM nodes
+          JOIN edges on nodes.id = edges.previous_node_id
+          WHERE edges.next_node_id = #{self.graph_node.id}
+          AND edges.edge_type = '#{relationship}'
+        SQL
+      end
+
+      def all_parents_sql(relationship:)
+        <<-SQL
+          WITH RECURSIVE search_tree AS (
+            SELECT edges.previous_node_id
+            FROM edges
+            WHERE edges.next_node_id = #{self.graph_node.id}
+            AND edges.edge_type = '#{relationship}'
+            UNION
+            SELECT edges.previous_node_id
+            FROM edges
+            JOIN search_tree ON edges.next_node_id = search_tree.previous_node_id
+            WHERE edges.edge_type = '#{relationship}'
+          )
+          SELECT nodes.term_id
+          FROM nodes
+          JOIN search_tree on nodes.id = search_tree.previous_node_id
+          WHERE nodes.term_type = '#{self.class}'
+        SQL
+      end
+
+      def siblings_sql(relationship:)
+        <<-SQL
+           SELECT nodes.term_id
+           FROM nodes
+           JOIN edges ON nodes.id = edges.next_node_id
+           WHERE edges.previous_node_id IN (
+             SELECT edges.previous_node_id
+             FROM edges
+             WHERE edges.next_node_id = #{self.graph_node.id}
+             AND edges.edge_type = '#{relationship}'
+           )
+           AND edges.edge_type = '#{relationship}'
+           AND nodes.id != #{self.graph_node.id}
         SQL
       end
 
