@@ -17,6 +17,7 @@ import {
   BrowseTherapyConnection,
   Maybe,
   PageInfo,
+  SortDirection,
   TherapiesBrowseGQL,
   TherapiesBrowseQuery,
   TherapiesBrowseQueryVariables,
@@ -46,10 +47,10 @@ export interface TherapyTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-therapies-table',
-    templateUrl: './therapies-table.component.html',
-    styleUrls: ['./therapies-table.component.less'],
-    standalone: false
+  selector: 'cvc-therapies-table',
+  templateUrl: './therapies-table.component.html',
+  styleUrls: ['./therapies-table.component.less'],
+  standalone: false,
 })
 export class CvcTherapiesTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
@@ -104,7 +105,13 @@ export class CvcTherapiesTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.initialPageSize })
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      sortBy: {
+        column: TherapySortColumns.EvidenceItemCount,
+        direction: SortDirection.Desc,
+      },
+    })
 
     this.result$ = this.queryRef.valueChanges
 

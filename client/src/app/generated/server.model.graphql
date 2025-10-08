@@ -1684,6 +1684,7 @@ type BrowseVariant {
   category: VariantCategories!
   deprecated: Boolean!
   diseases: [Disease!]!
+  evidenceItemCount: Int!
   featureDeprecated: Boolean!
   featureFlagged: Boolean!
   featureId: Int!
@@ -14318,6 +14319,7 @@ input VariantsSort {
 
 enum VariantsSortColumns {
   diseaseName
+  evidenceItemCount
   featureName
   therapyName
   variantName
