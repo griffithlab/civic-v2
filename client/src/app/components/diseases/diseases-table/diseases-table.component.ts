@@ -106,7 +106,7 @@ export class CvcDiseasesTableComponent implements OnInit {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       sortBy: {
-        column: DiseasesSortColumns.VariantCount,
+        column: DiseasesSortColumns.EvidenceItemCount,
         direction: SortDirection.Desc,
       },
     })
