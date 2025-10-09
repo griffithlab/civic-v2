@@ -22,6 +22,7 @@ import {
   FeaturesSortColumns,
   Maybe,
   PageInfo,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -48,11 +49,11 @@ export interface BrowseFeaturesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-features-table',
-    templateUrl: './features-table.component.html',
-    styleUrls: ['./features-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-features-table',
+  templateUrl: './features-table.component.html',
+  styleUrls: ['./features-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFeaturesTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -112,7 +113,13 @@ export class CvcFeaturesTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.query.watch({ first: this.initialPageSize })
+    this.queryRef = this.query.watch({
+      first: this.initialPageSize,
+      sortBy: {
+        column: FeaturesSortColumns.VariantCount,
+        direction: SortDirection.Desc,
+      },
+    })
 
     this.result$ = this.queryRef.valueChanges
 

@@ -8315,6 +8315,22 @@
               "deprecationReason": null
             },
             {
+              "name": "evidenceItemCount",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "featureDeprecated",
               "description": null,
               "args": [],
@@ -65113,6 +65129,12 @@
             },
             {
               "name": "therapyName",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceItemCount",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
