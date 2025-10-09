@@ -4,6 +4,6 @@ import { Component } from '@angular/core'
   selector: 'app-search',
   templateUrl: './search.view.html',
   standalone: false,
-  // styleUrls: ['./search.view.less'],
+  styleUrls: ['./search.view.less'],
 })
 export class SearchView {}
