@@ -12,3 +12,11 @@
   z-index: 0;
   overflow-y: auto;
 }
+
+// NOTE: this fixes a regression in ng-zorro v19 causing
+// dropdowns to be detached from nz-select elements.
+// See: https://github.com/NG-ZORRO/ng-zorro-antd/issues/9401
+::ng-deep .ant-select-dropdown,
+.ant-dropdown {
+  position: initial !important;
+}
