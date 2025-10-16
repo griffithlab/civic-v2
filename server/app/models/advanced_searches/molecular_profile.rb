@@ -3,6 +3,7 @@ module AdvancedSearches
     include AdvancedSearches::Shared::Id
     include AdvancedSearches::Shared::Flagged
     include AdvancedSearches::Shared::Description
+    include AdvancedSearches::Shared::Activities
 
     def base_query
       ::MolecularProfile.left_outer_joins(:molecular_profile_aliases)
@@ -23,6 +24,9 @@ module AdvancedSearches
         resolve_score_filter(node),
         resolve_evidence_items_count_filter(node),
         resolve_source_filter(node),
+        resolve_activity_user(node.creating_user, "CreateComplexMolecularProfileActivity"),
+        resolve_activity_user(node.deprecating_user, "DeprecateComplexMolecularProfileActivity"),
+        resolve_revisions_filter(node),
       ]
     end
 
@@ -100,6 +104,15 @@ module AdvancedSearches
       end
       (clause, value) = node.score.resolve_query_for_type("molecular_profiles.evidence_score")
       base_query.where(clause, value)
+    end
+
+    def resolve_revisions_filter(node)
+      return nil if node.revisions.nil?
+      revision_ids = AdvancedSearches::Revision.new(query: node.revisions).results
+      mp_ids = ::MolecularProfile.joins(:revisions)
+        .where(revisions: { id: revision_ids })
+        .pluck(:id)
+      base_query.where(id: mp_ids)
     end
   end
 end
