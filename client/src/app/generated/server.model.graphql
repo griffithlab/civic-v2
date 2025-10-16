@@ -817,6 +817,7 @@ input AssertionSearchFilter {
   assertionDirection: AssertionDirectionTypeSearchInput
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
+  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceItemCount: IntSearchInput
@@ -824,10 +825,12 @@ input AssertionSearchFilter {
   fdaCompanionTest: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
+  moderatingUser: UserSearchFilter
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   phenotypes: PhenotypeSearchFilter
   regulatoryApproval: BooleanSearchInput
+  revisions: RevisionSearchFilter
   significance: AssertionSignificanceTypeSearchInput
   status: EvidenceStatusTypeSearchInput
   subFilters: [AssertionSearchFilter!]
@@ -3717,6 +3720,7 @@ input EvidenceItemSearchFilter {
   assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
+  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceDirection: EvidenceDirectionTypeSearchInput
@@ -3725,9 +3729,11 @@ input EvidenceItemSearchFilter {
   evidenceType: EvidenceTypeTypeSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
+  moderatingUser: UserSearchFilter
   molecularProfile: MolecularProfileSearchFilter
   openRevisionCount: IntSearchInput
   phenotypes: PhenotypeSearchFilter
+  revisions: RevisionSearchFilter
   significance: EvidenceSignificanceTypeSearchInput
   source: SourceSearchFilter
   status: EvidenceStatusTypeSearchInput
@@ -4919,6 +4925,8 @@ input FeatureInstanceTypesSearchInput {
 input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  creatingUser: UserSearchFilter
+  deprecatingUser: UserSearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
   description: StringSearchInput
   entrezId: IntSearchInput
@@ -7114,6 +7122,11 @@ enum ModeratedEntities {
   VARIANT_GROUP
 }
 
+input ModeratedEntitiesTypeSearchInput {
+  operator: EnumSearchOperator!
+  value: ModeratedEntities!
+}
+
 """
 Fields that can have revisions can be either scalar values or complex objects
 """
@@ -7546,6 +7559,8 @@ type MolecularProfileNamePreview {
 input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  creatingUser: UserSearchFilter
+  deprecatingUser: UserSearchFilter
   description: StringSearchInput
   evidenceItemsCount: IntSearchInput
   hasAssertion: BooleanSearchInput
@@ -10336,6 +10351,7 @@ type Query {
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
   searchTherapies(createPermalink: Boolean = false, query: TherapySearchFilter!): AdvancedSearchResult!
+  searchUsers(createPermalink: Boolean = false, query: UserSearchFilter!): AdvancedSearchResult!
   searchVariantTypes(createPermalink: Boolean = false, query: VariantTypeSearchFilter!): AdvancedSearchResult!
   searchVariants(createPermalink: Boolean = false, query: VariantSearchFilter!): AdvancedSearchResult!
 
@@ -11074,6 +11090,18 @@ type RevisionResult {
   revisionSetId: Int!
 }
 
+input RevisionSearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  creatingUser: UserSearchFilter
+  fieldName: StringSearchInput
+  moderatingUser: UserSearchFilter
+  status: RevisionStatusSearchInput
+  subFilters: [RevisionSearchFilter!]
+  subjectId: IntSearchInput
+  subjectType: ModeratedEntitiesTypeSearchInput
+}
+
 type RevisionSet implements EventSubject {
   createdAt: ISO8601DateTime!
   displayName: String!
@@ -11122,6 +11150,11 @@ enum RevisionStatus {
   NEW
   REJECTED
   SUPERSEDED
+}
+
+input RevisionStatusSearchInput {
+  operator: EnumSearchOperator!
+  value: RevisionStatus!
 }
 
 """
@@ -13207,6 +13240,17 @@ enum UserRole {
   EDITOR
 }
 
+input UserSearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  organizationId: IntSearchInput
+  organizationName: StringSearchInput
+  subFilters: [CommentSearchFilter!]
+  username: StringSearchInput
+}
+
 input UsersSort {
   """
   Available columns for sorting
@@ -14245,6 +14289,8 @@ input VariantSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   coordinates: CoordinateSearchInput
+  creatingUser: UserSearchFilter
+  deprecatingUser: UserSearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
   id: IntSearchInput
@@ -14253,6 +14299,7 @@ input VariantSearchFilter {
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   openRevisionCount: IntSearchInput
+  revisions: RevisionSearchFilter
   singleVariantMolecularProfile: MolecularProfileSearchFilter
   subFilters: [VariantSearchFilter!]
   variantAlias: StringSearchInput

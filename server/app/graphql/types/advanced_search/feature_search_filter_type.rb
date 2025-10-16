@@ -11,6 +11,8 @@ module Types::AdvancedSearch
     argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
     argument :is_deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
     argument :deprecation_reason, Types::AdvancedSearch::EnumSearchInput.for(Types::FeatureDeprecationReasonType, is_activerecord_enum: true), required: false
+    argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+    argument :deprecating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
 
     # Gene Fields
     argument :entrez_id, Types::AdvancedSearch::IntSearchInput, required: false
