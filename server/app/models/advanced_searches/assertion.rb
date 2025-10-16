@@ -4,6 +4,7 @@ module AdvancedSearches
     include AdvancedSearches::Shared::Status
     include AdvancedSearches::Shared::Flagged
     include AdvancedSearches::Shared::Description
+    include AdvancedSearches::Shared::Activities
 
     def base_query
       ::Assertion
@@ -32,6 +33,9 @@ module AdvancedSearches
         resolve_therapies_filter(node),
         resolve_variant_origin_filter(node),
         resolve_is_flagged_filter(node),
+        resolve_activity_user(node.creating_user, "SubmitAsssertionActivity"),
+        resolve_activity_user(node.moderating_user, "ModerateAsssertionActivity"),
+        resolve_revisions_filter(node),
       ]
     end
 
@@ -119,6 +123,15 @@ module AdvancedSearches
     def resolve_variant_origin_filter(node)
       return nil if node.variant_origin.nil?
       node.variant_origin.resolve_query_for_activerecord_enum(base_query, "assertions.variant_origin")
+    end
+
+    def resolve_revisions_filter(node)
+      return nil if node.revisions.nil?
+      revision_ids = AdvancedSearches::Revision.new(query: node.revisions).results
+      assertion_ids = ::Assertion.joins(:revisions)
+        .where(revisions: { id: revision_ids })
+        .pluck(:id)
+      base_query.where(id: assertion_ids)
     end
   end
 end

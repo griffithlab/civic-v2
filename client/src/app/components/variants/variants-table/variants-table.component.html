@@ -79,6 +79,20 @@
         </th>
         <th nzWidth="200px">Diseases</th>
         <th nzWidth="180px">Therapies</th>
+        <th
+          nzWidth="75px"
+          nzRight
+          [nzColumnKey]="sortColumns.EvidenceItemCount"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          [nzSortFn]="true"
+          nzSortOrder="descend"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count">
+          <i
+            nz-icon
+            nzType="civic-evidence"></i>
+          Count
+        </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
@@ -144,6 +158,7 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -210,6 +225,11 @@
               [enablePopover]="!isScrolling"
               [matchingText]="therapyNameInput">
             </cvc-tag-overflow>
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ variant.evidenceItemCount }}
           </td>
         </tr>
       </ng-template>

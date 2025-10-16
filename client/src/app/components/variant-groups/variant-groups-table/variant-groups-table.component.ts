@@ -22,6 +22,7 @@ import {
   Maybe,
   PageInfo,
   QueryBrowseVariantGroupsArgs,
+  SortDirection,
   VariantGroupsSortColumns,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
@@ -48,11 +49,11 @@ export interface VariantGroupTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variant-groups-table',
-    templateUrl: './variant-groups-table.component.html',
-    styleUrls: ['./variant-groups-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variant-groups-table',
+  templateUrl: './variant-groups-table.component.html',
+  styleUrls: ['./variant-groups-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantGroupsTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -106,7 +107,13 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.initialPageSize })
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      sortBy: {
+        column: this.sortColumns.VariantCount,
+        direction: SortDirection.Desc,
+      },
+    })
 
     this.result$ = this.queryRef.valueChanges
 

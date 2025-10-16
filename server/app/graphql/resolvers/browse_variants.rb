@@ -56,6 +56,8 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
       scope.reorder "drug_names #{value.direction}"
     when "diseaseName"
       scope.reorder "disease_names #{value.direction}"
+    when "evidenceItemCount"
+      scope.reorder "evidence_item_count #{value.direction}"
     end
   end
 end

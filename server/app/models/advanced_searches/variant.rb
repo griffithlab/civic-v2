@@ -4,6 +4,7 @@ module AdvancedSearches
     include AdvancedSearches::Shared::Name
     include AdvancedSearches::Shared::Flagged
     include AdvancedSearches::Shared::Deprecated
+    include AdvancedSearches::Shared::Activities
 
     def base_query
       ::Variant.left_outer_joins(:variant_aliases)
@@ -28,6 +29,9 @@ module AdvancedSearches
         resolve_single_variant_molecular_profile_filter(node),
         resolve_variant_type_filter(node),
         resolve_coordinates_filter(node),
+        resolve_revisions_filter(node),
+        resolve_activity_user(node.creating_user, "CreateVariantActivity"),
+        resolve_activity_user(node.deprecating_user, "DeprecateVariantActivity"),
       ]
     end
 
@@ -41,14 +45,25 @@ module AdvancedSearches
       return nil if node.open_revision_count.nil?
       (clause, value) = node.open_revision_count.resolve_query_for_type("count(revisions.id)")
 
-      matching_ids = ::Variant.joins(:open_revisions)
-        .where("status = 'new'")
+      matching_variant_ids = ::Variant.joins(:open_revisions)
         .group("variants.id")
         .having(clause, value)
         .distinct
         .pluck("variants.id")
 
-      base_query.where(id: matching_ids)
+      matching_variant_coordinate_ids = ::VariantCoordinate.joins(:open_revisions)
+        .group("variant_coordinates.id")
+        .having(clause, value)
+        .distinct
+        .pluck("variant_coordinates.variant_id")
+
+      matching_exon_coordinate_ids = ::ExonCoordinate.joins(:open_revisions)
+        .group("exon_coordinates.id")
+        .having(clause, value)
+        .distinct
+        .pluck("exon_coordinates.variant_id")
+
+      base_query.where(id: matching_variant_ids + matching_variant_coordinate_ids + matching_exon_coordinate_ids)
     end
 
     def resolve_comment_filter(node)
@@ -84,6 +99,26 @@ module AdvancedSearches
       type_ids = ::AdvancedSearches::VariantType.new(query: node.variant_type).results
       variant_ids = ::Variant.joins(:variant_types).where(variant_types: { id: type_ids }).select(:id)
       base_query.where(id: variant_ids)
+    end
+
+    def resolve_revisions_filter(node)
+      return nil if node.revisions.nil?
+      revision_ids = AdvancedSearches::Revision.new(query: node.revisions).results
+      variant_ids = ::Variant.joins(:revisions)
+        .where(revisions: { id: revision_ids })
+        .pluck(:id)
+
+      matching_variant_coordinate_ids = ::VariantCoordinate.joins(:revisions)
+        .where(revisions: { id: revision_ids })
+        .distinct
+        .pluck("variant_coordinates.variant_id")
+
+      matching_exon_coordinate_ids = ::ExonCoordinate.joins(:revisions)
+        .where(revisions: { id: revision_ids })
+        .distinct
+        .pluck("exon_coordinates.variant_id")
+
+      base_query.where(id: variant_ids + matching_variant_coordinate_ids + matching_exon_coordinate_ids)
     end
 
     def resolve_coordinates_filter(node)

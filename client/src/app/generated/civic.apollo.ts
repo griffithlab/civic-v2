@@ -270,6 +270,11 @@ export enum AmpLevel {
   TierILevelB = 'TIER_I_LEVEL_B'
 }
 
+export type AmpLevelTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: AmpLevel;
+};
+
 export type ApiKey = {
   __typename: 'ApiKey';
   createdAt?: Maybe<Scalars['ISO8601DateTime']['output']>;
@@ -416,6 +421,11 @@ export enum AssertionDirection {
   Supports = 'SUPPORTS'
 }
 
+export type AssertionDirectionTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: AssertionDirection;
+};
+
 /** An edge in a connection. */
 export type AssertionEdge = {
   __typename: 'AssertionEdge';
@@ -467,6 +477,29 @@ export type AssertionFields = {
   variantOrigin: VariantOrigin;
 };
 
+export type AssertionSearchFilter = {
+  ampLevel?: InputMaybe<AmpLevelTypeSearchInput>;
+  assertionDirection?: InputMaybe<AssertionDirectionTypeSearchInput>;
+  assertionType?: InputMaybe<AssertionTypeTypeSearchInput>;
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  description?: InputMaybe<StringSearchInput>;
+  disease?: InputMaybe<DiseaseSearchFilter>;
+  evidenceItemCount?: InputMaybe<IntSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  fdaCompanionTest?: InputMaybe<BooleanSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  isFlagged?: InputMaybe<BooleanSearchInput>;
+  molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
+  name?: InputMaybe<StringSearchInput>;
+  phenotypes?: InputMaybe<PhenotypeSearchFilter>;
+  regulatoryApproval?: InputMaybe<BooleanSearchInput>;
+  significance?: InputMaybe<AssertionSignificanceTypeSearchInput>;
+  status?: InputMaybe<EvidenceStatusTypeSearchInput>;
+  subFilters?: InputMaybe<Array<AssertionSearchFilter>>;
+  therapies?: InputMaybe<TherapySearchFilter>;
+  variantOrigin?: InputMaybe<VariantOriginTypeSearchInput>;
+};
+
 export enum AssertionSignificance {
   AdverseResponse = 'ADVERSE_RESPONSE',
   Benign = 'BENIGN',
@@ -485,6 +518,11 @@ export enum AssertionSignificance {
   Sensitivityresponse = 'SENSITIVITYRESPONSE',
   UncertainSignificance = 'UNCERTAIN_SIGNIFICANCE'
 }
+
+export type AssertionSignificanceTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: AssertionSignificance;
+};
 
 export type AssertionSort = {
   /** Available columns for sorting */
@@ -512,6 +550,11 @@ export enum AssertionType {
   Predisposing = 'PREDISPOSING',
   Prognostic = 'PROGNOSTIC'
 }
+
+export type AssertionTypeTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: AssertionType;
+};
 
 export enum AssociatedEvidenceStatusFilter {
   /** Apply no status filter to an entity in order to display all entities regardless of attached evidence status. */
@@ -988,6 +1031,7 @@ export type BrowseVariant = {
   category: VariantCategories;
   deprecated: Scalars['Boolean']['output'];
   diseases: Array<Disease>;
+  evidenceItemCount: Scalars['Int']['output'];
   featureDeprecated: Scalars['Boolean']['output'];
   featureFlagged: Scalars['Boolean']['output'];
   featureId: Scalars['Int']['output'];
@@ -1104,6 +1148,38 @@ export type BrowseVariantTypeEdge = {
   cursor: Scalars['String']['output'];
   /** The item at the end of the edge. */
   node?: Maybe<BrowseVariantType>;
+};
+
+export enum Chromosome {
+  Chr_1 = 'CHR_1',
+  Chr_2 = 'CHR_2',
+  Chr_3 = 'CHR_3',
+  Chr_4 = 'CHR_4',
+  Chr_5 = 'CHR_5',
+  Chr_6 = 'CHR_6',
+  Chr_7 = 'CHR_7',
+  Chr_8 = 'CHR_8',
+  Chr_9 = 'CHR_9',
+  Chr_10 = 'CHR_10',
+  Chr_11 = 'CHR_11',
+  Chr_12 = 'CHR_12',
+  Chr_13 = 'CHR_13',
+  Chr_14 = 'CHR_14',
+  Chr_15 = 'CHR_15',
+  Chr_16 = 'CHR_16',
+  Chr_17 = 'CHR_17',
+  Chr_18 = 'CHR_18',
+  Chr_19 = 'CHR_19',
+  Chr_20 = 'CHR_20',
+  Chr_21 = 'CHR_21',
+  Chr_22 = 'CHR_22',
+  ChrX = 'CHR_X',
+  ChrY = 'CHR_Y'
+}
+
+export type ChromosomeTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: Chromosome;
 };
 
 /** Counts of CIViC activity over time, used for the homepage */
@@ -1268,6 +1344,14 @@ export type CommentEdge = {
   node?: Maybe<Comment>;
 };
 
+export type CommentSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<StringSearchInput>;
+  createdAt?: InputMaybe<DateSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  subFilters?: InputMaybe<Array<CommentSearchFilter>>;
+};
+
 export type CommentTagSegment = {
   __typename: 'CommentTagSegment';
   displayName: Scalars['String']['output'];
@@ -1379,6 +1463,14 @@ export type Contribution = {
   __typename: 'Contribution';
   action: EventAction;
   count: Scalars['Int']['output'];
+};
+
+export type CoordinateSearchInput = {
+  chromosome?: InputMaybe<ChromosomeTypeSearchInput>;
+  referenceBases?: InputMaybe<DnaBaseStringInput>;
+  start?: InputMaybe<IntSearchInput>;
+  stop?: InputMaybe<IntSearchInput>;
+  variantBases?: InputMaybe<DnaBaseStringInput>;
 };
 
 export type Country = {
@@ -1584,6 +1676,18 @@ export type DataRelease = {
   variantGroupTsv?: Maybe<DownloadableFile>;
   variantTsv?: Maybe<DownloadableFile>;
 };
+
+export type DateSearchInput = {
+  date: Scalars['ISO8601DateTime']['input'];
+  operator: DateSearchOperator;
+};
+
+export enum DateSearchOperator {
+  After = 'AFTER',
+  Before = 'BEFORE',
+  OnOrAfter = 'ON_OR_AFTER',
+  OnOrBefore = 'ON_OR_BEFORE'
+}
 
 export type DateSort = {
   /** Value to sort by. */
@@ -1831,6 +1935,16 @@ export type DiseasePopover = {
   name: Scalars['String']['output'];
 };
 
+export type DiseaseSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  deprecated?: InputMaybe<BooleanSearchInput>;
+  diseaseAliases?: InputMaybe<StringSearchInput>;
+  doid?: InputMaybe<StringSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
+  subFilters?: InputMaybe<Array<DiseaseSearchFilter>>;
+};
+
 export type DiseasesSort = {
   /** Available columns for sorting */
   column: DiseasesSortColumns;
@@ -1846,6 +1960,12 @@ export enum DiseasesSortColumns {
   Name = 'NAME',
   VariantCount = 'VARIANT_COUNT'
 }
+
+/** String search input that only accepts DNA bases (A, C, T, G, /) */
+export type DnaBaseStringInput = {
+  operator: StringSearchOperator;
+  value: Scalars['String']['input'];
+};
 
 export type DownloadableFile = {
   __typename: 'DownloadableFile';
@@ -1975,6 +2095,11 @@ export enum EndorsementStatus {
   Active = 'ACTIVE',
   RequiresReview = 'REQUIRES_REVIEW',
   Revoked = 'REVOKED'
+}
+
+export enum EnumSearchOperator {
+  Eq = 'EQ',
+  Ne = 'NE'
 }
 
 export type Event = {
@@ -2112,6 +2237,11 @@ export enum EvidenceDirection {
   Na = 'NA',
   Supports = 'SUPPORTS'
 }
+
+export type EvidenceDirectionTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: EvidenceDirection;
+};
 
 export type EvidenceItem = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
   __typename: 'EvidenceItem';
@@ -2257,6 +2387,29 @@ export type EvidenceItemFields = {
   variantOrigin: VariantOrigin;
 };
 
+export type EvidenceItemSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
+  description?: InputMaybe<StringSearchInput>;
+  disease?: InputMaybe<DiseaseSearchFilter>;
+  evidenceDirection?: InputMaybe<EvidenceDirectionTypeSearchInput>;
+  evidenceLevel?: InputMaybe<EvidenceLevelTypeSearchInput>;
+  evidenceRating?: InputMaybe<IntSearchInput>;
+  evidenceType?: InputMaybe<EvidenceTypeTypeSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  isFlagged?: InputMaybe<BooleanSearchInput>;
+  molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
+  openRevisionCount?: InputMaybe<IntSearchInput>;
+  phenotypes?: InputMaybe<PhenotypeSearchFilter>;
+  significance?: InputMaybe<EvidenceSignificanceTypeSearchInput>;
+  source?: InputMaybe<SourceSearchFilter>;
+  status?: InputMaybe<EvidenceStatusTypeSearchInput>;
+  subFilters?: InputMaybe<Array<EvidenceItemSearchFilter>>;
+  therapies?: InputMaybe<TherapySearchFilter>;
+  therapyInteractionType?: InputMaybe<TherapyInteractionTypeSearchInput>;
+};
+
 export type EvidenceItemsByStatus = {
   __typename: 'EvidenceItemsByStatus';
   acceptedCount: Scalars['Int']['output'];
@@ -2283,6 +2436,11 @@ export enum EvidenceLevel {
   D = 'D',
   E = 'E'
 }
+
+export type EvidenceLevelTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: EvidenceLevel;
+};
 
 export enum EvidenceSignificance {
   AdverseResponse = 'ADVERSE_RESPONSE',
@@ -2311,6 +2469,11 @@ export enum EvidenceSignificance {
   UncertainSignificance = 'UNCERTAIN_SIGNIFICANCE',
   Unknown = 'UNKNOWN'
 }
+
+export type EvidenceSignificanceTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: EvidenceSignificance;
+};
 
 export type EvidenceSort = {
   /** Available columns for sorting */
@@ -2346,6 +2509,11 @@ export enum EvidenceStatusFilter {
   Submitted = 'SUBMITTED'
 }
 
+export type EvidenceStatusTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: EvidenceStatus;
+};
+
 export enum EvidenceType {
   Diagnostic = 'DIAGNOSTIC',
   Functional = 'FUNCTIONAL',
@@ -2354,6 +2522,11 @@ export enum EvidenceType {
   Predisposing = 'PREDISPOSING',
   Prognostic = 'PROGNOSTIC'
 }
+
+export type EvidenceTypeTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: EvidenceType;
+};
 
 export type ExonCoordinate = EventSubject & WithRevisions & {
   __typename: 'ExonCoordinate';
@@ -2514,6 +2687,7 @@ export type FactorVariantsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -2793,6 +2967,7 @@ export type FeatureVariantsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -2805,6 +2980,11 @@ export enum FeatureDeprecationReason {
   Other = 'OTHER'
 }
 
+export type FeatureDeprecationReasonTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: FeatureDeprecationReason;
+};
+
 /** The specific type of a feature instance */
 export type FeatureInstance = Factor | Fusion | Gene;
 
@@ -2813,6 +2993,32 @@ export enum FeatureInstanceTypes {
   Fusion = 'FUSION',
   Gene = 'GENE'
 }
+
+export type FeatureInstanceTypesSearchInput = {
+  operator: EnumSearchOperator;
+  value: FeatureInstanceTypes;
+};
+
+export type FeatureSearchFilter = {
+  alias?: InputMaybe<StringSearchInput>;
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  deprecationReason?: InputMaybe<FeatureDeprecationReasonTypeSearchInput>;
+  description?: InputMaybe<StringSearchInput>;
+  entrezId?: InputMaybe<IntSearchInput>;
+  entrezSymbol?: InputMaybe<StringSearchInput>;
+  featureInstanceType?: InputMaybe<FeatureInstanceTypesSearchInput>;
+  fivePrimePartnerEntrezId?: InputMaybe<IntSearchInput>;
+  fivePrimePartnerEntrezSymbol?: InputMaybe<StringSearchInput>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  isDeprecated?: InputMaybe<BooleanSearchInput>;
+  isFlagged?: InputMaybe<BooleanSearchInput>;
+  ncitId?: InputMaybe<StringSearchInput>;
+  openRevisionCount?: InputMaybe<IntSearchInput>;
+  subFilters?: InputMaybe<Array<FeatureSearchFilter>>;
+  threePrimePartnerEntrezId?: InputMaybe<IntSearchInput>;
+  threePrimePartnerEntrezSymbol?: InputMaybe<StringSearchInput>;
+};
 
 export type FeaturesSort = {
   /** Available columns for sorting */
@@ -3010,6 +3216,26 @@ export type FlaggableInput = {
   id: Scalars['Int']['input'];
 };
 
+export type FloatSearchInput = {
+  operator: FloatSearchOperator;
+  value: Scalars['Float']['input'];
+};
+
+export enum FloatSearchOperator {
+  /** Equal To */
+  Eq = 'EQ',
+  /** Greater Than or Equal To */
+  Ge = 'GE',
+  /** Greater Than */
+  Gt = 'GT',
+  /** Less Than or Equal To */
+  Le = 'LE',
+  /** Less Than */
+  Lt = 'LT',
+  /** Not Equal To */
+  Ne = 'NE'
+}
+
 /** The Feature that a Variant can belong to */
 export type Fusion = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions & {
   __typename: 'Fusion';
@@ -3113,6 +3339,7 @@ export type FusionVariantsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -3389,6 +3616,7 @@ export type GeneVariantsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -3425,18 +3653,6 @@ export type GeneFields = {
   description: NullableStringInput;
   /** Source IDs cited by the Gene's summary. */
   sourceIds: Array<Scalars['Int']['input']>;
-};
-
-export type GeneSearchFilter = {
-  alias?: InputMaybe<StringSearchInput>;
-  booleanOperator?: InputMaybe<BooleanOperator>;
-  description?: InputMaybe<StringSearchInput>;
-  entrezId?: InputMaybe<IntSearchInput>;
-  entrezSymbol?: InputMaybe<StringSearchInput>;
-  hasAssertion?: InputMaybe<BooleanSearchInput>;
-  id?: InputMaybe<IntSearchInput>;
-  openRevisionCount?: InputMaybe<IntSearchInput>;
-  subFilters?: InputMaybe<Array<GeneSearchFilter>>;
 };
 
 export type GeneVariant = Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions & {
@@ -3611,17 +3827,22 @@ export type GenerateApiKeyPayload = {
 };
 
 export type IntSearchInput = {
-  comparisonOperator: IntSearchOperator;
+  operator: IntSearchOperator;
   value: Scalars['Int']['input'];
 };
 
 export enum IntSearchOperator {
   /** Equal To */
   Eq = 'EQ',
+  /** Greater Than or Equal To */
   Ge = 'GE',
+  /** Greater Than */
   Gt = 'GT',
+  /** Less Than or Equal To */
   Le = 'LE',
+  /** Less Than */
   Lt = 'LT',
+  /** Not Equal To */
   Ne = 'NE'
 }
 
@@ -4142,6 +4363,20 @@ export type MolecularProfileNamePreview = {
   /** The already existing MP matching this name, if it exists */
   existingMolecularProfile?: Maybe<MolecularProfile>;
   segments: Array<MolecularProfileSegment>;
+};
+
+export type MolecularProfileSearchFilter = {
+  alias?: InputMaybe<StringSearchInput>;
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  description?: InputMaybe<StringSearchInput>;
+  evidenceItemsCount?: InputMaybe<IntSearchInput>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  isFlagged?: InputMaybe<BooleanSearchInput>;
+  openRevisionCount?: InputMaybe<IntSearchInput>;
+  score?: InputMaybe<FloatSearchInput>;
+  source?: InputMaybe<SourceSearchFilter>;
+  subFilters?: InputMaybe<Array<MolecularProfileSearchFilter>>;
 };
 
 /**
@@ -4786,6 +5021,22 @@ export type ObjectFieldDiff = {
   suggestedObjects: Array<ModeratedObjectField>;
 };
 
+export type OntologyTermSearchInput = {
+  operator: OntologyTermSearchOperator;
+  value: Scalars['String']['input'];
+};
+
+export enum OntologyTermSearchOperator {
+  /** Equals */
+  Eq = 'EQ',
+  /** Include the matched term and any child terms */
+  EqSelfOrChildren = 'EQ_SELF_OR_CHILDREN',
+  /** Include the matched term and its parent term */
+  EqSelfOrParent = 'EQ_SELF_OR_PARENT',
+  /** Does not equal */
+  Ne = 'NE'
+}
+
 export type Organization = {
   __typename: 'Organization';
   canEndorse: Scalars['Boolean']['output'];
@@ -4985,6 +5236,15 @@ export type PhenotypePopover = {
   url: Scalars['String']['output'];
 };
 
+export type PhenotypeSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  description?: InputMaybe<StringSearchInput>;
+  hpoId?: InputMaybe<StringSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
+  subFilters?: InputMaybe<Array<PhenotypeSearchFilter>>;
+};
+
 export type PhenotypeSort = {
   /** Available columns for sorting */
   column: PhenotypeSortColumns;
@@ -5111,8 +5371,17 @@ export type Query = {
   /** List and filter revisions. */
   revisions: RevisionConnection;
   search: Array<SearchResult>;
+  searchAssertions: AdvancedSearchResult;
   searchByPermalink: AdvancedSearchResult;
-  searchGenes: AdvancedSearchResult;
+  searchDiseases: AdvancedSearchResult;
+  searchEvidenceItems: AdvancedSearchResult;
+  searchFeatures: AdvancedSearchResult;
+  searchMolecularProfiles: AdvancedSearchResult;
+  searchPhenotypes: AdvancedSearchResult;
+  searchSources: AdvancedSearchResult;
+  searchTherapies: AdvancedSearchResult;
+  searchVariantTypes: AdvancedSearchResult;
+  searchVariants: AdvancedSearchResult;
   /** Find a source by CIViC ID */
   source?: Maybe<Source>;
   /** Retrieve popover fields for a specific source. */
@@ -5214,6 +5483,7 @@ export type QueryAssertionsArgs = {
   evidenceId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileId?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
@@ -5239,6 +5509,7 @@ export type QueryBrowseDiseasesArgs = {
   featureName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<DiseasesSort>;
@@ -5254,6 +5525,7 @@ export type QueryBrowseFeaturesArgs = {
   featureName?: InputMaybe<Scalars['String']['input']>;
   featureType?: InputMaybe<FeatureInstanceTypes>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<FeaturesSort>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
@@ -5266,6 +5538,7 @@ export type QueryBrowseMolecularProfilesArgs = {
   diseaseName?: InputMaybe<Scalars['String']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileAlias?: InputMaybe<Scalars['String']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
@@ -5281,6 +5554,7 @@ export type QueryBrowseOrganizationsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<OrganizationSort>;
@@ -5293,6 +5567,7 @@ export type QueryBrowsePhenotypesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   hpoId?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<PhenotypeSort>;
@@ -5307,6 +5582,7 @@ export type QueryBrowseSourcesArgs = {
   clinicalTrialId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   journal?: InputMaybe<Scalars['String']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -5322,6 +5598,7 @@ export type QueryBrowseTherapiesArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   ncitId?: InputMaybe<Scalars['String']['input']>;
@@ -5334,6 +5611,7 @@ export type QueryBrowseUsersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   organization?: InputMaybe<OrganizationFilter>;
@@ -5348,6 +5626,7 @@ export type QueryBrowseVariantGroupsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   featureNames?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantGroupsSort>;
@@ -5363,6 +5642,7 @@ export type QueryBrowseVariantsArgs = {
   featureName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<VariantsSort>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
@@ -5394,6 +5674,7 @@ export type QueryClinicalTrialsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   nctId?: InputMaybe<Scalars['String']['input']>;
@@ -5410,6 +5691,7 @@ export type QueryCommentsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   mentionedEntity?: InputMaybe<TaggableEntityInput>;
   mentionedRole?: InputMaybe<UserRole>;
@@ -5446,6 +5728,7 @@ export type QueryDiseasesArgs = {
   doid?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
@@ -5459,6 +5742,7 @@ export type QueryEndorsementsArgs = {
   endorsingOrganizationIsApprovedVcep?: InputMaybe<Scalars['Boolean']['input']>;
   endorsingUserId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<DateSort>;
   status?: InputMaybe<EndorsementStatus>;
@@ -5475,6 +5759,7 @@ export type QueryEventsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   eventType?: InputMaybe<EventAction>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   includeAutomatedEvents?: InputMaybe<Scalars['Boolean']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   mode?: InputMaybe<EventFeedMode>;
@@ -5533,6 +5818,7 @@ export type QueryFactorsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Array<Scalars['String']['input']>>;
   ncitIt?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -5561,6 +5847,7 @@ export type QueryFlagsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   flaggable?: InputMaybe<FlaggableInput>;
   flaggingUserId?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   resolvingUserId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<DateSort>;
@@ -5579,6 +5866,7 @@ export type QueryFusionsArgs = {
   evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   genePartnerId?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -5596,6 +5884,7 @@ export type QueryGenesArgs = {
   entrezSymbols?: InputMaybe<Array<Scalars['String']['input']>>;
   evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -5613,6 +5902,7 @@ export type QueryMolecularProfilesArgs = {
   featureId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
@@ -5654,6 +5944,7 @@ export type QueryOrganizationsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
@@ -5680,6 +5971,7 @@ export type QueryPhenotypesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   hpoId?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
@@ -5711,6 +6003,7 @@ export type QueryRevisionsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   fieldName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   originatingUserId?: InputMaybe<Scalars['Int']['input']>;
   resolvingUserId?: InputMaybe<Scalars['Int']['input']>;
@@ -5728,14 +6021,68 @@ export type QuerySearchArgs = {
 };
 
 
+export type QuerySearchAssertionsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: AssertionSearchFilter;
+};
+
+
 export type QuerySearchByPermalinkArgs = {
   permalinkId: Scalars['String']['input'];
 };
 
 
-export type QuerySearchGenesArgs = {
+export type QuerySearchDiseasesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
-  query: GeneSearchFilter;
+  query: DiseaseSearchFilter;
+};
+
+
+export type QuerySearchEvidenceItemsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: EvidenceItemSearchFilter;
+};
+
+
+export type QuerySearchFeaturesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: FeatureSearchFilter;
+};
+
+
+export type QuerySearchMolecularProfilesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: MolecularProfileSearchFilter;
+};
+
+
+export type QuerySearchPhenotypesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: PhenotypeSearchFilter;
+};
+
+
+export type QuerySearchSourcesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: SourceSearchFilter;
+};
+
+
+export type QuerySearchTherapiesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: TherapySearchFilter;
+};
+
+
+export type QuerySearchVariantTypesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: VariantTypeSearchFilter;
+};
+
+
+export type QuerySearchVariantsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: VariantSearchFilter;
 };
 
 
@@ -5764,6 +6111,7 @@ export type QuerySourceSuggestionsArgs = {
   comment?: InputMaybe<Scalars['String']['input']>;
   diseaseName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<SourceSuggestionsSort>;
@@ -5786,6 +6134,7 @@ export type QuerySourcesArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   citationId?: InputMaybe<Array<Scalars['String']['input']>>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -5801,6 +6150,7 @@ export type QueryTherapiesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   hasLinkedEvidence?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   ncitId?: InputMaybe<Scalars['String']['input']>;
@@ -5837,6 +6187,7 @@ export type QueryUsersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   organization?: InputMaybe<OrganizationFilter>;
@@ -5864,6 +6215,7 @@ export type QueryVariantGroupsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -5890,6 +6242,7 @@ export type QueryVariantTypesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   soid?: InputMaybe<Scalars['String']['input']>;
@@ -5907,6 +6260,7 @@ export type QueryVariantsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -6390,11 +6744,29 @@ export type SourcePopoverEventsArgs = {
   sortBy?: InputMaybe<DateSort>;
 };
 
+export type SourceSearchFilter = {
+  abstract?: InputMaybe<StringSearchInput>;
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  citation?: InputMaybe<StringSearchInput>;
+  citationId?: InputMaybe<StringSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  isRetracted?: InputMaybe<BooleanSearchInput>;
+  journal?: InputMaybe<StringSearchInput>;
+  sourceType?: InputMaybe<SourceSourceTypeSearchInput>;
+  subFilters?: InputMaybe<Array<SourceSearchFilter>>;
+  title?: InputMaybe<StringSearchInput>;
+};
+
 export enum SourceSource {
   Asco = 'ASCO',
   Ash = 'ASH',
   Pubmed = 'PUBMED'
 }
+
+export type SourceSourceTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: SourceSource;
+};
 
 export type SourceStub = {
   __typename: 'SourceStub';
@@ -6522,7 +6894,7 @@ export type Stats = {
 };
 
 export type StringSearchInput = {
-  comparisonOperator: StringSearchOperator;
+  operator: StringSearchOperator;
   value: Scalars['String']['input'];
 };
 
@@ -7216,6 +7588,11 @@ export enum TherapyInteraction {
   Substitutes = 'SUBSTITUTES'
 }
 
+export type TherapyInteractionTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: TherapyInteraction;
+};
+
 export type TherapyPopover = {
   __typename: 'TherapyPopover';
   assertionCount: Scalars['Int']['output'];
@@ -7229,6 +7606,16 @@ export type TherapyPopover = {
   ncitId?: Maybe<Scalars['String']['output']>;
   therapyAliases: Array<Scalars['String']['output']>;
   therapyUrl?: Maybe<Scalars['String']['output']>;
+};
+
+export type TherapySearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  deprecated?: InputMaybe<BooleanSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
+  ncitId?: InputMaybe<StringSearchInput>;
+  subFilters?: InputMaybe<Array<TherapySearchFilter>>;
+  therapyAliases?: InputMaybe<StringSearchInput>;
 };
 
 export type TherapySort = {
@@ -7691,6 +8078,11 @@ export enum VariantDeprecationReason {
   Other = 'OTHER'
 }
 
+export type VariantDeprecationReasonTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: VariantDeprecationReason;
+};
+
 export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'VariantGroup';
   /** List and filter comments. */
@@ -7776,6 +8168,7 @@ export type VariantGroupVariantsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -7973,6 +8366,29 @@ export enum VariantOrigin {
   Unknown = 'UNKNOWN'
 }
 
+export type VariantOriginTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: VariantOrigin;
+};
+
+export type VariantSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
+  coordinates?: InputMaybe<CoordinateSearchInput>;
+  deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>;
+  feature?: InputMaybe<FeatureSearchFilter>;
+  id?: InputMaybe<IntSearchInput>;
+  isDeprecated?: InputMaybe<BooleanSearchInput>;
+  isFlagged?: InputMaybe<BooleanSearchInput>;
+  molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
+  name?: InputMaybe<StringSearchInput>;
+  openRevisionCount?: InputMaybe<IntSearchInput>;
+  singleVariantMolecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
+  subFilters?: InputMaybe<Array<VariantSearchFilter>>;
+  variantAlias?: InputMaybe<StringSearchInput>;
+  variantType?: InputMaybe<VariantTypeSearchFilter>;
+};
+
 export type VariantType = {
   __typename: 'VariantType';
   description: Scalars['String']['output'];
@@ -7992,6 +8408,15 @@ export type VariantTypePopover = {
   soid: Scalars['String']['output'];
   url?: Maybe<Scalars['String']['output']>;
   variantCount: Scalars['Int']['output'];
+};
+
+export type VariantTypeSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  description?: InputMaybe<StringSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
+  soid?: InputMaybe<OntologyTermSearchInput>;
+  subFilters?: InputMaybe<Array<VariantTypeSearchFilter>>;
 };
 
 export type VariantTypeSort = {
@@ -8016,6 +8441,7 @@ export type VariantsSort = {
 
 export enum VariantsSortColumns {
   DiseaseName = 'diseaseName',
+  EvidenceItemCount = 'evidenceItemCount',
   FeatureName = 'featureName',
   TherapyName = 'therapyName',
   VariantName = 'variantName'
@@ -9133,9 +9559,9 @@ export type BrowseVariantsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, evidenceItemCount: number, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
+export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, evidenceItemCount: number, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9880,7 +10306,7 @@ export type VariantManagerQueryVariables = Exact<{
 }>;
 
 
-export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, evidenceItemCount: number, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
 export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
 
@@ -12262,6 +12688,7 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   featureName
   featureLink
   category
+  evidenceItemCount
   featureDeprecated
   featureFlagged
   diseases {

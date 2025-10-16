@@ -12,6 +12,8 @@ module Types
       argument :score, Types::AdvancedSearch::FloatSearchInput, required: false
       argument :evidence_items_count, Types::AdvancedSearch::IntSearchInput, required: false
       argument :source, Types::AdvancedSearch::SourceSearchFilterType, required: false
+      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :deprecating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
     end
   end
 end

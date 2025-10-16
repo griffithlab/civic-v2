@@ -62,4 +62,8 @@ class VariantCoordinate < ApplicationRecord
       :representative_transcript,
     ]
   end
+
+  def on_revision_accepted
+    SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
+  end
 end
