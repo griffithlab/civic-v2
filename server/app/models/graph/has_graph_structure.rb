@@ -10,10 +10,12 @@ module Graph
 
     included do
       after_destroy :delete_node
+      after_create :create_node
+      after_save :create_node
 
       class_attribute :default_edge_type, default: "is_a"
 
-      has_one :graph_node, as: :term, class_name: "Graph::Node", dependent: :destroy
+      has_one :graph_node, as: :term, class_name: "Graph::Node", dependent: :destroy, autosave: true
 
       def add_parent_term(term, relationship: default_edge_type)
         parent_term = Graph::Node.find_by(term: term)
@@ -60,16 +62,6 @@ module Graph
         instance_sql_for(all_ancestors_sql(relationship: relationship))
       end
 
-      def save(...)
-        create_node
-        super
-      end
-
-      def save!(...)
-        create_node
-        super
-      end
-
       private
 
       def create_node
@@ -83,7 +75,6 @@ module Graph
       def escape(string)
         ActiveRecord::Base.connection.quote(string)
       end
-
 
       def direct_children_sql(relationship:)
         <<-SQL
