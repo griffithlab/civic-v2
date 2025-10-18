@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_223513) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -1144,9 +1144,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_223513) do
     t.text "soid", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.integer "parent_id"
-    t.integer "lft"
-    t.integer "rgt"
     t.index ["display_name"], name: "index_variant_types_on_display_name"
     t.index ["name"], name: "index_variant_types_on_name"
     t.index ["soid"], name: "index_variant_types_on_soid"

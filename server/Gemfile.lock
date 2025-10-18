@@ -90,8 +90,6 @@ GEM
     audited (5.8.0)
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
-    awesome_nested_set (3.8.0)
-      activerecord (>= 4.0.0, < 8.1)
     aws-eventstream (1.4.0)
     aws-partitions (1.1165.0)
     aws-sdk-core (3.233.0)
@@ -629,7 +627,6 @@ DEPENDENCIES
   activejob-null (~> 0.0.1)
   angular_rails_csrf (~> 7.0.0)
   audited (~> 5.3)
-  awesome_nested_set (~> 3.6)
   aws-sdk-s3 (~> 1.94.0)
   bcrypt_pbkdf
   bootsnap (>= 1.4.4)
