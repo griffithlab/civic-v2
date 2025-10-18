@@ -1,22 +1,22 @@
 module Importer
   class SequenceOntologyMirror
-    attr_reader :parser, :version, :obsolete_terms
+    attr_reader :parser, :version, :obsolete_terms, :parents
 
     def initialize(path, version = Time.now.utc.iso8601)
       @parser = Obo::Parser.new(path)
       @version = version
       @obsolete_terms = []
+      @parents = {}
     end
 
     def import
       ActiveRecord::Base.transaction do
-        VariantType.rebuild!
         parser.elements.each do |elem|
           next unless valid_entry?(elem)
           store_parent(elem)
           create_object_from_entry(elem)
         end
-        create_parent_links
+        create_graph
         process_obsolete_terms
       end
     end
@@ -27,14 +27,13 @@ module Importer
         obsolete_terms.append(entry)
         return false
       else
-        [ "id", "name" ].all? { |term| entry[term].present? }
+        entry.respond_to?(:name) && entry.name == "Term" && entry["id"].present?
       end
     end
 
     def store_parent(elem)
-      @parents ||= {}
       if elem["is_a"].present?
-        @parents[elem["id"]] = Array(elem["is_a"]).first
+        parents[elem["id"]] = Array(elem["is_a"])
       end
     end
 
@@ -43,7 +42,7 @@ module Importer
       variant_type.display_name =  process_name(entry["name"])
       variant_type.name =  entry["name"]
       variant_type.description =  process_description(entry["def"])
-      variant_type.save
+      variant_type.save!
     end
 
     def process_name(name)
@@ -63,13 +62,16 @@ module Importer
       end
     end
 
-    def create_parent_links
-      @parents.each do |elem_soid, parent_soid|
-        parent = VariantType.find_by(soid: parent_soid)
-        child = VariantType.find_by(soid: elem_soid)
-        if parent.present? && child.present?
-          child.move_to_child_of(parent)
-          child.save
+    def create_graph
+      parents.each do |elem_soid, parent_soids|
+        parent_soids.each do |parent_soid|
+          parent = VariantType.find_by(soid: parent_soid)
+          child = VariantType.find_by(soid: elem_soid)
+          if parent.present? && child.present?
+            parent.add_child_term(child, relationship: "is_a")
+          else
+            raise StandardError.new("Unexpected unknown SOID: #{parent_soid} or #{elem_soid}")
+          end
         end
       end
     end
@@ -82,7 +84,6 @@ module Importer
             obsolete_type.destroy
           else
             civicbot_user = User.find(385)
-            title = "Obsolete SO Term"
             text = "This variant uses an obsolete Sequence Ontology term #{obsolete_type.display_name} (#{obsolete_type.soid})."
             if term["consider"].present?
               text += " Consider #{term['consider']}."

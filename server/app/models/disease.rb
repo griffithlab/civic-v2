@@ -3,6 +3,7 @@ class Disease < ApplicationRecord
 
   include WithTimepointCounts
   include WithCapitalizedName
+  include Graph::HasGraphStructure
 
   has_many :evidence_items
   has_many :assertions

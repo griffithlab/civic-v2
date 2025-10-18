@@ -35,8 +35,12 @@ module AdvancedSearches
       if node.doid.nil?
         return nil
       end
-      clause, value = node.doid.resolve_query_for_type("diseases.doid")
-      base_query.where(clause, value)
+      # We store DOID in the db just as the number component, but we want users to be able to search with DOID:123
+      node.doid.resolve_ontology_query(
+        base_query,
+        "diseases.doid",
+        value_override: node.doid.value.sub("DOID:", "")
+      )
     end
 
     def resolve_deprecated_filter(node)
