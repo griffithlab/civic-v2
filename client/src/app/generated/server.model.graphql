@@ -2957,7 +2957,7 @@ input DiseaseSearchFilter {
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
-  doid: StringSearchInput
+  doid: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
