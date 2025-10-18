@@ -39967,14 +39967,32 @@
               "deprecationReason": null
             },
             {
-              "name": "EQ_SELF_OR_CHILDREN",
-              "description": "Include the matched term and any child terms",
+              "name": "EQ_SELF_OR_DIRECT_CHILDREN",
+              "description": "Include the matched term and any direct child terms",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "EQ_SELF_OR_PARENT",
-              "description": "Include the matched term and its parent term",
+              "name": "EQ_SELF_OR_DIRECT_PARENTS",
+              "description": "Include the matched term and its direct parent terms",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EQ_SELF_OR_ALL_ANCESTORS",
+              "description": "Include the matched term along with all ancestor terms recursively",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EQ_SELF_OR_ALL_DESCENDANTS",
+              "description": "Include the matched term and any descendant terms recursively",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EQ_SELF_AND_SIBLINGS",
+              "description": "Include the matched term and any sibling terms",
               "isDeprecated": false,
               "deprecationReason": null
             }
