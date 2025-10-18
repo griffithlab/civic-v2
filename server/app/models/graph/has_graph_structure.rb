@@ -42,7 +42,7 @@ module Graph
 
       # get all child nodes recursively
       def all_children(relationship: default_edge_type)
-        instance_sql_for(all_children_sql(relationship: relationship))
+        instance_sql_for(all_descendants_sql(relationship: relationship))
       end
 
       # get sibling nodes
@@ -57,7 +57,7 @@ module Graph
 
       # get all parent nodes rescursively
       def all_parents(relationship: default_edge_type)
-        instance_sql_for(all_parents_sql(relationship: relationship))
+        instance_sql_for(all_ancestors_sql(relationship: relationship))
       end
 
       def save(...)
@@ -95,7 +95,7 @@ module Graph
         SQL
       end
 
-      def all_children_sql(relationship:)
+      def all_descendants_sql(relationship:)
         <<-SQL
           WITH RECURSIVE search_tree AS (
             SELECT edges.next_node_id
@@ -125,7 +125,7 @@ module Graph
         SQL
       end
 
-      def all_parents_sql(relationship:)
+      def all_ancestors_sql(relationship:)
         <<-SQL
           WITH RECURSIVE search_tree AS (
             SELECT edges.previous_node_id
