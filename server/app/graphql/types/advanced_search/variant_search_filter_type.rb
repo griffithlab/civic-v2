@@ -16,6 +16,9 @@ module Types
       argument :variant_alias, Types::AdvancedSearch::StringSearchInput, required: false
       argument :variant_type, Types::AdvancedSearch::VariantTypeSearchFilterType, required: false
       argument :coordinates, Types::AdvancedSearch::CoordinateSearchInput, required: false
+      argument :revisions, Types::AdvancedSearch::RevisionSearchFilterType, required: false
+      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :deprecating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
     end
   end
 end

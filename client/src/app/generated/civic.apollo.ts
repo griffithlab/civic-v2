@@ -1031,6 +1031,7 @@ export type BrowseVariant = {
   category: VariantCategories;
   deprecated: Scalars['Boolean']['output'];
   diseases: Array<Disease>;
+  evidenceItemCount: Scalars['Int']['output'];
   featureDeprecated: Scalars['Boolean']['output'];
   featureFlagged: Scalars['Boolean']['output'];
   featureId: Scalars['Int']['output'];
@@ -8440,6 +8441,7 @@ export type VariantsSort = {
 
 export enum VariantsSortColumns {
   DiseaseName = 'diseaseName',
+  EvidenceItemCount = 'evidenceItemCount',
   FeatureName = 'featureName',
   TherapyName = 'therapyName',
   VariantName = 'variantName'
@@ -9557,9 +9559,9 @@ export type BrowseVariantsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, evidenceItemCount: number, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
+export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, evidenceItemCount: number, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10304,7 +10306,7 @@ export type VariantManagerQueryVariables = Exact<{
 }>;
 
 
-export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, evidenceItemCount: number, featureDeprecated: boolean, featureFlagged: boolean, deprecated: boolean, flagged: boolean, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
 export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
 
@@ -12686,6 +12688,7 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   featureName
   featureLink
   category
+  evidenceItemCount
   featureDeprecated
   featureFlagged
   diseases {

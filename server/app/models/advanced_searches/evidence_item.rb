@@ -4,6 +4,7 @@ module AdvancedSearches
     include AdvancedSearches::Shared::Status
     include AdvancedSearches::Shared::Flagged
     include AdvancedSearches::Shared::Description
+    include AdvancedSearches::Shared::Activities
 
     def base_query
       ::EvidenceItem
@@ -33,6 +34,9 @@ module AdvancedSearches
         resolve_assertion_filter(node),
         resolve_comment_filter(node),
         resolve_status_filter(node),
+        resolve_activity_user(node.creating_user, "SubmitEvidenceItemActivity"),
+        resolve_activity_user(node.moderating_user, "ModerateEvidenceItemActivity"),
+        resolve_revisions_filter(node),
       ]
     end
 
@@ -130,6 +134,15 @@ module AdvancedSearches
         .where(comments: { id: comment_ids })
         .select(:id)
       base_query.where(id: evidence_item_ids)
+    end
+
+    def resolve_revisions_filter(node)
+      return nil if node.revisions.nil?
+      revision_ids = AdvancedSearches::Revision.new(query: node.revisions).results
+      eids = ::EvidenceItem.joins(:revisions)
+        .where(revisions: { id: revision_ids })
+        .pluck(:id)
+      base_query.where(id: eids)
     end
   end
 end

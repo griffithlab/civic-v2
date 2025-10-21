@@ -102,7 +102,6 @@ class Variant < ApplicationRecord
   end
 
   def on_revision_accepted
-    SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
     update_single_variant_mp_aliases
   end
 

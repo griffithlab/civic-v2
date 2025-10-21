@@ -20,6 +20,7 @@ import {
   Maybe,
   PageInfo,
   QueryBrowseDiseasesArgs,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -45,10 +46,10 @@ export interface DiseasesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-diseases-table',
-    templateUrl: './diseases-table.component.html',
-    styleUrls: ['./diseases-table.component.less'],
-    standalone: false
+  selector: 'cvc-diseases-table',
+  templateUrl: './diseases-table.component.html',
+  styleUrls: ['./diseases-table.component.less'],
+  standalone: false,
 })
 export class CvcDiseasesTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -102,7 +103,13 @@ export class CvcDiseasesTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.initialPageSize })
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      sortBy: {
+        column: DiseasesSortColumns.EvidenceItemCount,
+        direction: SortDirection.Desc,
+      },
+    })
 
     this.result$ = this.queryRef.valueChanges
     //

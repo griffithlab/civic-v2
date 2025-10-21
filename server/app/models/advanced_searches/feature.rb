@@ -4,6 +4,7 @@ module AdvancedSearches
     include AdvancedSearches::Shared::Flagged
     include AdvancedSearches::Shared::Deprecated
     include AdvancedSearches::Shared::Description
+    include AdvancedSearches::Shared::Activities
 
     def base_query
       ::Feature.left_outer_joins(:feature_aliases)
@@ -31,6 +32,8 @@ module AdvancedSearches
         resolve_three_prime_partner_entrez_symbol(node),
         resolve_is_deprecated_filter(node),
         resolve_deprecation_reason_filter(node),
+        resolve_activity_user(node.creating_user, "CreateFeatureActivity"),
+        resolve_activity_user(node.deprecating_user, "DeprecateFeatureActivity"),
       ]
     end
 

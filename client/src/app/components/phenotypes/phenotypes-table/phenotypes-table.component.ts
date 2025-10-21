@@ -22,6 +22,7 @@ import {
   PhenotypesBrowseQuery,
   PhenotypesBrowseQueryVariables,
   PhenotypeSortColumns,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -46,10 +47,10 @@ export interface PhenotypesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-phenotypes-table',
-    templateUrl: './phenotypes-table.component.html',
-    styleUrls: ['./phenotypes-table.component.less'],
-    standalone: false
+  selector: 'cvc-phenotypes-table',
+  templateUrl: './phenotypes-table.component.html',
+  styleUrls: ['./phenotypes-table.component.less'],
+  standalone: false,
 })
 export class CvcPhenotypesTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -102,7 +103,13 @@ export class CvcPhenotypesTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.initialPageSize })
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      sortBy: {
+        column: PhenotypeSortColumns.EvidenceItemCount,
+        direction: SortDirection.Desc,
+      },
+    })
 
     this.result$ = this.queryRef.valueChanges
 
