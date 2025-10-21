@@ -482,6 +482,7 @@ export type AssertionSearchFilter = {
   assertionDirection?: InputMaybe<AssertionDirectionTypeSearchInput>;
   assertionType?: InputMaybe<AssertionTypeTypeSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  creatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   disease?: InputMaybe<DiseaseSearchFilter>;
   evidenceItemCount?: InputMaybe<IntSearchInput>;
@@ -489,10 +490,12 @@ export type AssertionSearchFilter = {
   fdaCompanionTest?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
+  moderatingUser?: InputMaybe<UserSearchFilter>;
   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
   name?: InputMaybe<StringSearchInput>;
   phenotypes?: InputMaybe<PhenotypeSearchFilter>;
   regulatoryApproval?: InputMaybe<BooleanSearchInput>;
+  revisions?: InputMaybe<RevisionSearchFilter>;
   significance?: InputMaybe<AssertionSignificanceTypeSearchInput>;
   status?: InputMaybe<EvidenceStatusTypeSearchInput>;
   subFilters?: InputMaybe<Array<AssertionSearchFilter>>;
@@ -2391,6 +2394,7 @@ export type EvidenceItemSearchFilter = {
   assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
+  creatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   disease?: InputMaybe<DiseaseSearchFilter>;
   evidenceDirection?: InputMaybe<EvidenceDirectionTypeSearchInput>;
@@ -2399,9 +2403,11 @@ export type EvidenceItemSearchFilter = {
   evidenceType?: InputMaybe<EvidenceTypeTypeSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
+  moderatingUser?: InputMaybe<UserSearchFilter>;
   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
   openRevisionCount?: InputMaybe<IntSearchInput>;
   phenotypes?: InputMaybe<PhenotypeSearchFilter>;
+  revisions?: InputMaybe<RevisionSearchFilter>;
   significance?: InputMaybe<EvidenceSignificanceTypeSearchInput>;
   source?: InputMaybe<SourceSearchFilter>;
   status?: InputMaybe<EvidenceStatusTypeSearchInput>;
@@ -3002,6 +3008,8 @@ export type FeatureInstanceTypesSearchInput = {
 export type FeatureSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  creatingUser?: InputMaybe<UserSearchFilter>;
+  deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<FeatureDeprecationReasonTypeSearchInput>;
   description?: InputMaybe<StringSearchInput>;
   entrezId?: InputMaybe<IntSearchInput>;
@@ -4148,6 +4156,11 @@ export enum ModeratedEntities {
   VariantGroup = 'VARIANT_GROUP'
 }
 
+export type ModeratedEntitiesTypeSearchInput = {
+  operator: EnumSearchOperator;
+  value: ModeratedEntities;
+};
+
 /** Fields that can have revisions can be either scalar values or complex objects */
 export type ModeratedField = ObjectField | ScalarField;
 
@@ -4368,6 +4381,8 @@ export type MolecularProfileNamePreview = {
 export type MolecularProfileSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  creatingUser?: InputMaybe<UserSearchFilter>;
+  deprecatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   evidenceItemsCount?: InputMaybe<IntSearchInput>;
   hasAssertion?: InputMaybe<BooleanSearchInput>;
@@ -5380,6 +5395,7 @@ export type Query = {
   searchPhenotypes: AdvancedSearchResult;
   searchSources: AdvancedSearchResult;
   searchTherapies: AdvancedSearchResult;
+  searchUsers: AdvancedSearchResult;
   searchVariantTypes: AdvancedSearchResult;
   searchVariants: AdvancedSearchResult;
   /** Find a source by CIViC ID */
@@ -6074,6 +6090,12 @@ export type QuerySearchTherapiesArgs = {
 };
 
 
+export type QuerySearchUsersArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: UserSearchFilter;
+};
+
+
 export type QuerySearchVariantTypesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
   query: VariantTypeSearchFilter;
@@ -6471,6 +6493,18 @@ export type RevisionResult = {
   revisionSetId: Scalars['Int']['output'];
 };
 
+export type RevisionSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  createdAt?: InputMaybe<DateSearchInput>;
+  creatingUser?: InputMaybe<UserSearchFilter>;
+  fieldName?: InputMaybe<StringSearchInput>;
+  moderatingUser?: InputMaybe<UserSearchFilter>;
+  status?: InputMaybe<RevisionStatusSearchInput>;
+  subFilters?: InputMaybe<Array<RevisionSearchFilter>>;
+  subjectId?: InputMaybe<IntSearchInput>;
+  subjectType?: InputMaybe<ModeratedEntitiesTypeSearchInput>;
+};
+
 export type RevisionSet = EventSubject & {
   __typename: 'RevisionSet';
   createdAt: Scalars['ISO8601DateTime']['output'];
@@ -6502,6 +6536,11 @@ export enum RevisionStatus {
   Rejected = 'REJECTED',
   Superseded = 'SUPERSEDED'
 }
+
+export type RevisionStatusSearchInput = {
+  operator: EnumSearchOperator;
+  value: RevisionStatus;
+};
 
 /** Autogenerated input type of RevokeApiKey */
 export type RevokeApiKeyInput = {
@@ -7888,6 +7927,17 @@ export enum UserRole {
   Editor = 'EDITOR'
 }
 
+export type UserSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  createdAt?: InputMaybe<DateSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
+  organizationId?: InputMaybe<IntSearchInput>;
+  organizationName?: InputMaybe<StringSearchInput>;
+  subFilters?: InputMaybe<Array<CommentSearchFilter>>;
+  username?: InputMaybe<StringSearchInput>;
+};
+
 export type UsersSort = {
   /** Available columns for sorting */
   column: UsersSortColumns;
@@ -8375,6 +8425,8 @@ export type VariantSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
   coordinates?: InputMaybe<CoordinateSearchInput>;
+  creatingUser?: InputMaybe<UserSearchFilter>;
+  deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>;
   feature?: InputMaybe<FeatureSearchFilter>;
   id?: InputMaybe<IntSearchInput>;
@@ -8383,6 +8435,7 @@ export type VariantSearchFilter = {
   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
   name?: InputMaybe<StringSearchInput>;
   openRevisionCount?: InputMaybe<IntSearchInput>;
+  revisions?: InputMaybe<RevisionSearchFilter>;
   singleVariantMolecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
   subFilters?: InputMaybe<Array<VariantSearchFilter>>;
   variantAlias?: InputMaybe<StringSearchInput>;
