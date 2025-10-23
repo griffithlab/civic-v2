@@ -41567,7 +41567,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
+                "name": "OntologyTermSearchInput",
                 "ofType": null
               },
               "defaultValue": null,
@@ -58472,7 +58472,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
+                "name": "OntologyTermSearchInput",
                 "ofType": null
               },
               "defaultValue": null,

@@ -8756,7 +8756,7 @@ type PhenotypePopover {
 input PhenotypeSearchFilter {
   booleanOperator: BooleanOperator
   description: StringSearchInput
-  hpoId: StringSearchInput
+  hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [PhenotypeSearchFilter!]
@@ -12776,7 +12776,7 @@ input TherapySearchFilter {
   deprecated: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  ncitId: StringSearchInput
+  ncitId: OntologyTermSearchInput
   subFilters: [TherapySearchFilter!]
   therapyAliases: StringSearchInput
 }
