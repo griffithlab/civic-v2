@@ -6,7 +6,7 @@ module Types
       argument :deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :name, Types::AdvancedSearch::StringSearchInput, required: false
-      argument :ncit_id, Types::AdvancedSearch::StringSearchInput, required: false
+      argument :ncit_id, Types::AdvancedSearch::OntologyTermSearchInput, required: false
       argument :therapy_aliases, Types::AdvancedSearch::StringSearchInput, required: false
     end
   end
