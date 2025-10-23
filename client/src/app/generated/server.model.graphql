@@ -2961,7 +2961,7 @@ input DiseaseSearchFilter {
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
-  doid: StringSearchInput
+  doid: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
@@ -8408,14 +8408,29 @@ enum OntologyTermSearchOperator {
   EQ
 
   """
-  Include the matched term and any child terms
+  Include the matched term and any sibling terms
   """
-  EQ_SELF_OR_CHILDREN
+  EQ_SELF_AND_SIBLINGS
 
   """
-  Include the matched term and its parent term
+  Include the matched term along with all ancestor terms recursively
   """
-  EQ_SELF_OR_PARENT
+  EQ_SELF_OR_ALL_ANCESTORS
+
+  """
+  Include the matched term and any descendant terms recursively
+  """
+  EQ_SELF_OR_ALL_DESCENDANTS
+
+  """
+  Include the matched term and any direct child terms
+  """
+  EQ_SELF_OR_DIRECT_CHILDREN
+
+  """
+  Include the matched term and its direct parent terms
+  """
+  EQ_SELF_OR_DIRECT_PARENTS
 
   """
   Does not equal
@@ -8757,7 +8772,7 @@ type PhenotypePopover {
 input PhenotypeSearchFilter {
   booleanOperator: BooleanOperator
   description: StringSearchInput
-  hpoId: StringSearchInput
+  hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [PhenotypeSearchFilter!]
@@ -12795,7 +12810,7 @@ input TherapySearchFilter {
   deprecated: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  ncitId: StringSearchInput
+  ncitId: OntologyTermSearchInput
   subFilters: [TherapySearchFilter!]
   therapyAliases: StringSearchInput
 }

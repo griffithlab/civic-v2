@@ -26,6 +26,7 @@ module Scrapers
     end
 
     def self.update
+      parents = {}
       resp = Util.make_get_request(url())
       xml = Nokogiri::XML(resp)
       xml.xpath("//owl:Class[@rdf:about]").each do |row|
@@ -55,10 +56,43 @@ module Scrapers
               end
             end
           else
-            p = Phenotype.where(hpo_id: hpo_id).first_or_create
+            p = Phenotype.where(hpo_id: hpo_id).first_or_create!
             p.hpo_class = name
             p.description = desc
-            p.save
+            parents[hpo_id] = extract_parent_hpo_ids_from_row(row)
+            p.save!
+          end
+        end
+      end
+      create_graph(parents)
+    end
+
+    def self.extract_parent_hpo_ids_from_row(row)
+      parent_ids = []
+
+      # Find all rdfs:subClassOf elements with rdf:resource attributes (direct parent references)
+      row.xpath("rdfs:subClassOf[@rdf:resource]").each do |sub_class_element|
+        resource_uri = sub_class_element.attributes["resource"]&.value
+
+        # Extract HPO IDs from URIs that match the HPO pattern
+        if resource_uri && resource_uri.match(/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]+)/)
+          hpo_id = $1.sub("_", ":")  # Convert HP_0000001 to HP:0000001
+          parent_ids << hpo_id
+        end
+      end
+
+      parent_ids.uniq
+    end
+
+    def self.create_graph(parents)
+      parents.each do |elem_hpo, parent_hpos|
+        parent_hpos.each do |parent_hpo|
+          parent = Phenotype.find_by(hpo_id: parent_hpo)
+          child = Phenotype.find_by(hpo_id: elem_hpo)
+          if parent.present? && child.present?
+            parent.add_child_term(child, relationship: "is_a")
+          else
+            raise StandardError.new("Unexpected unknown HPO ID: #{parent_hpo} or #{elem_hpo}")
           end
         end
       end
