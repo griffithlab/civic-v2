@@ -1,5 +1,11 @@
 <div
   [cvcAutoHeightDiv]="34"
   cvcAutoHeightTarget="viewport">
-  <h2>Structured Search</h2>
+  <nz-tabset nzType="card">
+    <nz-tab nzTitle="Diseases">
+      <ng-template nz-tab>
+        <cvc-disease-search-page></cvc-disease-search-page>
+      </ng-template>
+    </nz-tab>
+  </nz-tabset>
 </div>

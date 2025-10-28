@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
-import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 
 @Component({
-  imports: [CvcAutoHeightDivModule],
-  templateUrl: 'structured-search.page.html',
+  selector: 'cvc-structured-search-page',
+  templateUrl: './structured-search.page.html',
+  standalone: false,
 })
 export class StructuredSearchPage {}
