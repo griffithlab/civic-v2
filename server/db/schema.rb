@@ -412,30 +412,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.text "name", null: false
   end
 
-  create_table "cytogenetic_coordinates", force: :cascade do |t|
-    t.bigint "cytogenetic_region_id", null: false
-    t.integer "reference_build", null: false
-    t.text "chromosome", null: false
-    t.integer "start", null: false
-    t.integer "stop", null: false
-    t.index ["chromosome"], name: "index_cytogenetic_coordinates_on_chromosome"
-    t.index ["cytogenetic_region_id"], name: "index_cytogenetic_coordinates_on_cytogenetic_region_id"
-    t.index ["reference_build"], name: "index_cytogenetic_coordinates_on_reference_build"
-    t.index ["start"], name: "index_cytogenetic_coordinates_on_start"
-    t.index ["stop"], name: "index_cytogenetic_coordinates_on_stop"
-  end
-
-  create_table "cytogenetic_regions", force: :cascade do |t|
-    t.text "name", null: false
-    t.text "chromosome", null: false
-    t.text "band"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["band"], name: "index_cytogenetic_regions_on_band"
-    t.index ["chromosome"], name: "index_cytogenetic_regions_on_chromosome"
-    t.index ["name"], name: "index_cytogenetic_regions_on_name"
-  end
-
   create_table "data_versions", id: :serial, force: :cascade do |t|
     t.integer "version", default: 0
   end
@@ -458,6 +434,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.integer "disease_id", null: false
     t.index ["disease_alias_id", "disease_id"], name: "disease_alias_diseases_composite"
     t.index ["disease_id"], name: "index_disease_aliases_diseases_on_disease_id"
+  end
+
+  create_table "disease_xrefs", force: :cascade do |t|
+    t.bigint "disease_id", null: false
+    t.string "xref_db", null: false
+    t.string "xref_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["disease_id", "xref_db", "xref_id"], name: "index_disease_xrefs_on_disease_and_xref", unique: true
+    t.index ["disease_id"], name: "index_disease_xrefs_on_disease_id"
+    t.index ["xref_db", "xref_id"], name: "index_disease_xrefs_on_xref"
   end
 
   create_table "diseases", id: :serial, force: :cascade do |t|
@@ -849,22 +836,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["variant_type_id", "pipeline_type_id"], name: "idx_variant_type_pipeline_type"
   end
 
-  create_table "region_members", force: :cascade do |t|
-    t.bigint "region_id", null: false
-    t.bigint "cytogenetic_region_id", null: false
-    t.integer "position", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cytogenetic_region_id"], name: "index_region_members_on_cytogenetic_region_id"
-    t.index ["position"], name: "index_region_members_on_position"
-    t.index ["region_id"], name: "index_region_members_on_region_id"
-  end
-
-  create_table "regions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "regulatory_agencies", id: :serial, force: :cascade do |t|
     t.text "abbreviation"
     t.text "name"
@@ -1189,8 +1160,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
-    t.text "open_cravat_url"
-    t.string "iscn_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -1198,7 +1167,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
     t.index ["gene_id"], name: "index_variants_on_gene_id"
-    t.index ["iscn_name"], name: "index_variants_on_iscn_name"
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
     t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
@@ -1251,9 +1219,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   add_foreign_key "clinvar_submission_responses", "clinvar_batch_submissions"
   add_foreign_key "comments", "users"
   add_foreign_key "conflict_of_interest_statements", "users"
-  add_foreign_key "cytogenetic_coordinates", "cytogenetic_regions"
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
+  add_foreign_key "disease_xrefs", "diseases"
   add_foreign_key "domain_expert_tags", "users"
   add_foreign_key "edges", "nodes", column: "next_node_id"
   add_foreign_key "edges", "nodes", column: "previous_node_id"
@@ -1289,8 +1257,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   add_foreign_key "notifications", "users", column: "notified_user_id"
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
-  add_foreign_key "region_members", "cytogenetic_regions"
-  add_foreign_key "region_members", "regions"
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
@@ -1336,6 +1302,160 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
        JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
     GROUP BY mp.id;
   SQL
+  create_view "evidence_items_by_types", sql_definition: <<-SQL
+      SELECT mp.id AS molecular_profile_id,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 0) THEN 1
+              ELSE 0
+          END) AS diagnostic_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 1) THEN 1
+              ELSE 0
+          END) AS prognostic_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 2) THEN 1
+              ELSE 0
+          END) AS predictive_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 3) THEN 1
+              ELSE 0
+          END) AS predisposing_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 4) THEN 1
+              ELSE 0
+          END) AS functional_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 5) THEN 1
+              ELSE 0
+          END) AS oncogenic_count
+     FROM (molecular_profiles mp
+       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false) AND ((ei.status)::text <> 'rejected'::text))))
+    GROUP BY mp.id;
+  SQL
+  create_view "therapy_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT therapies.id,
+      therapies.name,
+      therapies.deprecated,
+      therapies.ncit_id,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT evidence_items.id) AS evidence_count,
+      array_agg(DISTINCT therapy_aliases.name ORDER BY therapy_aliases.name) AS alias_names
+     FROM ((((((therapies
+       JOIN evidence_items_therapies ON ((evidence_items_therapies.therapy_id = therapies.id)))
+       JOIN evidence_items ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       LEFT JOIN therapies_therapy_aliases ON ((therapies_therapy_aliases.therapy_id = therapies.id)))
+       LEFT JOIN therapy_aliases ON ((therapy_aliases.id = therapies_therapy_aliases.therapy_alias_id)))
+    WHERE ((((evidence_items.status)::text <> 'rejected'::text) OR (assertions.status <> 'rejected'::text)) AND (therapies.deprecated = false))
+    GROUP BY therapies.id, therapies.name, therapies.deprecated, therapies.ncit_id
+   HAVING ((count(evidence_items.id) > 0) OR (count(assertions.id) > 0))
+    ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
+  SQL
+  add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
+
+  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variant_groups.id,
+      variant_groups.name,
+      array_agg(DISTINCT variants.name) AS variant_names,
+      array_agg(DISTINCT features.name) AS feature_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM ((((((variant_groups
+       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
+       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
+       JOIN features ON ((variants.feature_id = features.id)))
+       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variant_groups.id, variant_groups.name;
+  SQL
+  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
+
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.display_name,
+      diseases.doid,
+      diseases.deprecated,
+      array_agg(DISTINCT disease_aliases.name ORDER BY disease_aliases.name) AS alias_names,
+      json_agg(DISTINCT jsonb_build_object('name', features.name, 'id', features.id)) FILTER (WHERE (features.name IS NOT NULL)) AS features,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT features.id) AS feature_count
+     FROM (((((((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       LEFT JOIN disease_aliases_diseases ON ((disease_aliases_diseases.disease_id = diseases.id)))
+       LEFT JOIN disease_aliases ON ((disease_aliases.id = disease_aliases_diseases.disease_alias_id)))
+       JOIN molecular_profiles ON ((molecular_profiles.id = evidence_items.molecular_profile_id)))
+       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.molecular_profile_id = molecular_profiles.id)))
+       JOIN variants ON ((variants.id = molecular_profiles_variants.variant_id)))
+       JOIN features ON ((features.id = variants.feature_id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (diseases.deprecated = false))
+    GROUP BY diseases.id, diseases.name, diseases.doid;
+  SQL
+  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
+
+  create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT outer_features.id,
+      outer_features.name,
+      outer_features.flagged,
+      outer_features.deprecated,
+      outer_features.feature_instance_type,
+      outer_features.feature_instance_id,
+      outer_features.full_name,
+      array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'deprecated', diseases.deprecated, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'deprecated', therapies.deprecated, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT molecular_profiles.id) AS molecular_profile_count
+     FROM ((((((((((((features outer_features
+       LEFT JOIN feature_aliases_features ON ((feature_aliases_features.feature_id = outer_features.id)))
+       LEFT JOIN feature_aliases ON ((feature_aliases.id = feature_aliases_features.feature_alias_id)))
+       JOIN variants ON ((variants.feature_id = outer_features.id)))
+       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
+       LEFT JOIN assertions ON ((assertions.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM (((((evidence_items evidence_items_1
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               LEFT JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               LEFT JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
+            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
+            GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
+       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM ((((evidence_items evidence_items_1
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               LEFT JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
+            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((evidence_items.status IS NULL) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false)))
+    GROUP BY outer_features.id, outer_features.name;
+  SQL
+  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
+
   create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_genes.id,
       outer_genes.name,
@@ -1383,84 +1503,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   SQL
   add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
 
-  create_view "evidence_items_by_types", sql_definition: <<-SQL
-      SELECT mp.id AS molecular_profile_id,
-      sum(
-          CASE
-              WHEN (ei.evidence_type = 0) THEN 1
-              ELSE 0
-          END) AS diagnostic_count,
-      sum(
-          CASE
-              WHEN (ei.evidence_type = 1) THEN 1
-              ELSE 0
-          END) AS prognostic_count,
-      sum(
-          CASE
-              WHEN (ei.evidence_type = 2) THEN 1
-              ELSE 0
-          END) AS predictive_count,
-      sum(
-          CASE
-              WHEN (ei.evidence_type = 3) THEN 1
-              ELSE 0
-          END) AS predisposing_count,
-      sum(
-          CASE
-              WHEN (ei.evidence_type = 4) THEN 1
-              ELSE 0
-          END) AS functional_count,
-      sum(
-          CASE
-              WHEN (ei.evidence_type = 5) THEN 1
-              ELSE 0
-          END) AS oncogenic_count
-     FROM (molecular_profiles mp
-       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false) AND ((ei.status)::text <> 'rejected'::text))))
-    GROUP BY mp.id;
-  SQL
-  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT variant_groups.id,
-      variant_groups.name,
-      array_agg(DISTINCT variants.name) AS variant_names,
-      array_agg(DISTINCT features.name) AS feature_names,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count
-     FROM ((((((variant_groups
-       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
-       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
-       JOIN features ON ((variants.feature_id = features.id)))
-       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY variant_groups.id, variant_groups.name;
-  SQL
-  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
-
-  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT sources.id,
-      sources.source_type,
-      sources.citation_id,
-      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
-      sources.publication_year,
-      sources.asco_presenter,
-      sources.journal,
-      sources.title,
-      sources.citation,
-      sources.open_access,
-      sources.retraction_nature,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT source_suggestions.id) AS source_suggestion_count
-     FROM ((((sources
-       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
-       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
-       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
-    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
-  SQL
-  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
-
   create_view "molecular_profile_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_mps.id,
       outer_mps.name,
@@ -1502,6 +1544,81 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     GROUP BY outer_mps.id, outer_mps.name, outer_mps.evidence_score;
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
+
+  create_view "organization_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT organizations.id,
+      organizations.name,
+      organizations.url,
+      organizations.description,
+      organizations.parent_id,
+      organizations.created_at,
+      organizations.updated_at,
+      organizations.most_recent_activity_timestamp,
+      count(DISTINCT activities.id) AS activity_count,
+      count(DISTINCT affiliations.user_id) AS member_count,
+      json_agg(DISTINCT jsonb_build_object('child_id', child.id, 'child_name', child.name)) FILTER (WHERE (child.id IS NOT NULL)) AS child_organizations
+     FROM (((organizations
+       LEFT JOIN activities ON ((activities.organization_id = organizations.id)))
+       LEFT JOIN affiliations ON ((affiliations.organization_id = organizations.id)))
+       LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
+    GROUP BY organizations.id;
+  SQL
+  add_index "organization_browse_table_rows", ["id"], name: "index_organization_browse_table_rows_on_id", unique: true
+
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
+      sources.publication_year,
+      sources.asco_presenter,
+      sources.journal,
+      sources.title,
+      sources.citation,
+      sources.open_access,
+      sources.retraction_nature,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT source_suggestions.id) AS source_suggestion_count
+     FROM ((((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+
+  create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT users.id,
+      users.email,
+      users.name,
+      users.url,
+      users.username,
+      users.created_at,
+      users.updated_at,
+      users.orcid,
+      users.area_of_expertise,
+      users.deleted,
+      users.deleted_at,
+      users.role,
+      users.last_seen_at,
+      users.twitter_handle,
+      users.facebook_profile,
+      users.linkedin_profile,
+      users.accepted_license,
+      users.featured_expert,
+      users.bio,
+      users.signup_complete,
+      users.country_id,
+      users.most_recent_organization_id,
+      users.most_recent_activity_timestamp,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'revision suggested'::text)) AS revision_count,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'submitted'::text)) AS evidence_count
+     FROM (users
+       LEFT JOIN events ON ((events.originating_user_id = users.id)))
+    GROUP BY users.id;
+  SQL
+  add_index "user_browse_table_rows", ["id"], name: "index_user_browse_table_rows_on_id", unique: true
 
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
@@ -1555,156 +1672,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     GROUP BY outer_variants.id, outer_variants.name, features.id, features.name;
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
-
-  create_view "organization_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT organizations.id,
-      organizations.name,
-      organizations.url,
-      organizations.description,
-      organizations.parent_id,
-      organizations.created_at,
-      organizations.updated_at,
-      organizations.most_recent_activity_timestamp,
-      count(DISTINCT activities.id) AS activity_count,
-      count(DISTINCT affiliations.user_id) AS member_count,
-      json_agg(DISTINCT jsonb_build_object('child_id', child.id, 'child_name', child.name)) FILTER (WHERE (child.id IS NOT NULL)) AS child_organizations
-     FROM (((organizations
-       LEFT JOIN activities ON ((activities.organization_id = organizations.id)))
-       LEFT JOIN affiliations ON ((affiliations.organization_id = organizations.id)))
-       LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
-    GROUP BY organizations.id;
-  SQL
-  add_index "organization_browse_table_rows", ["id"], name: "index_organization_browse_table_rows_on_id", unique: true
-
-  create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT users.id,
-      users.email,
-      users.name,
-      users.url,
-      users.username,
-      users.created_at,
-      users.updated_at,
-      users.orcid,
-      users.area_of_expertise,
-      users.deleted,
-      users.deleted_at,
-      users.role,
-      users.last_seen_at,
-      users.twitter_handle,
-      users.facebook_profile,
-      users.linkedin_profile,
-      users.accepted_license,
-      users.featured_expert,
-      users.bio,
-      users.signup_complete,
-      users.country_id,
-      users.most_recent_organization_id,
-      users.most_recent_activity_timestamp,
-      count(DISTINCT events.id) FILTER (WHERE (events.action = 'revision suggested'::text)) AS revision_count,
-      count(DISTINCT events.id) FILTER (WHERE (events.action = 'submitted'::text)) AS evidence_count
-     FROM (users
-       LEFT JOIN events ON ((events.originating_user_id = users.id)))
-    GROUP BY users.id;
-  SQL
-  add_index "user_browse_table_rows", ["id"], name: "index_user_browse_table_rows_on_id", unique: true
-
-  create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT outer_features.id,
-      outer_features.name,
-      outer_features.flagged,
-      outer_features.deprecated,
-      outer_features.feature_instance_type,
-      outer_features.feature_instance_id,
-      outer_features.full_name,
-      array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
-      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'deprecated', diseases.deprecated, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
-      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'deprecated', therapies.deprecated, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT assertions.id) AS assertion_count,
-      count(DISTINCT molecular_profiles.id) AS molecular_profile_count
-     FROM ((((((((((((features outer_features
-       LEFT JOIN feature_aliases_features ON ((feature_aliases_features.feature_id = outer_features.id)))
-       LEFT JOIN feature_aliases ON ((feature_aliases.id = feature_aliases_features.feature_alias_id)))
-       JOIN variants ON ((variants.feature_id = outer_features.id)))
-       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
-       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
-       LEFT JOIN assertions ON ((assertions.molecular_profile_id = molecular_profiles.id)))
-       LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
-              count(DISTINCT evidence_items_1.id) AS total
-             FROM (((((evidence_items evidence_items_1
-               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               LEFT JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
-               LEFT JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
-            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
-            GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
-       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
-              count(DISTINCT evidence_items_1.id) AS total
-             FROM ((((evidence_items evidence_items_1
-               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               LEFT JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
-            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((evidence_items.status IS NULL) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false)))
-    GROUP BY outer_features.id, outer_features.name;
-  SQL
-  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
-
-  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT diseases.id,
-      diseases.name,
-      diseases.display_name,
-      diseases.doid,
-      diseases.deprecated,
-      array_agg(DISTINCT disease_aliases.name ORDER BY disease_aliases.name) AS alias_names,
-      json_agg(DISTINCT jsonb_build_object('name', features.name, 'id', features.id)) FILTER (WHERE (features.name IS NOT NULL)) AS features,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT assertions.id) AS assertion_count,
-      count(DISTINCT features.id) AS feature_count
-     FROM (((((((((diseases
-       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
-       LEFT JOIN disease_aliases_diseases ON ((disease_aliases_diseases.disease_id = diseases.id)))
-       LEFT JOIN disease_aliases ON ((disease_aliases.id = disease_aliases_diseases.disease_alias_id)))
-       JOIN molecular_profiles ON ((molecular_profiles.id = evidence_items.molecular_profile_id)))
-       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.molecular_profile_id = molecular_profiles.id)))
-       JOIN variants ON ((variants.id = molecular_profiles_variants.variant_id)))
-       JOIN features ON ((features.id = variants.feature_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (diseases.deprecated = false))
-    GROUP BY diseases.id, diseases.name, diseases.doid;
-  SQL
-  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
-
-  create_view "therapy_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT therapies.id,
-      therapies.name,
-      therapies.deprecated,
-      therapies.ncit_id,
-      count(DISTINCT assertions.id) AS assertion_count,
-      count(DISTINCT evidence_items.id) AS evidence_count,
-      array_agg(DISTINCT therapy_aliases.name ORDER BY therapy_aliases.name) AS alias_names
-     FROM ((((((therapies
-       JOIN evidence_items_therapies ON ((evidence_items_therapies.therapy_id = therapies.id)))
-       JOIN evidence_items ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
-       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
-       LEFT JOIN therapies_therapy_aliases ON ((therapies_therapy_aliases.therapy_id = therapies.id)))
-       LEFT JOIN therapy_aliases ON ((therapy_aliases.id = therapies_therapy_aliases.therapy_alias_id)))
-    WHERE ((((evidence_items.status)::text <> 'rejected'::text) OR (assertions.status <> 'rejected'::text)) AND (therapies.deprecated = false))
-    GROUP BY therapies.id, therapies.name, therapies.deprecated, therapies.ncit_id
-   HAVING ((count(evidence_items.id) > 0) OR (count(assertions.id) > 0))
-    ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
-  SQL
-  add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
 
 end
