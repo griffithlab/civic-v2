@@ -151,6 +151,21 @@ export const diseaseSearchFields: FormlyFieldConfig[] = [
           },
         ],
       },
+      {
+        wrappers: ['form-footer'],
+        fieldGroup: [
+          {
+            type: 'cvc-cancel-button',
+          },
+          {
+            key: 'organizationId',
+            type: 'search-button',
+            props: {
+              submitLabel: 'Search Diseases',
+            },
+          },
+        ],
+      },
     ],
   },
 ]

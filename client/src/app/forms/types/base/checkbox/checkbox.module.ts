@@ -9,7 +9,7 @@ import { CvcBaseCheckboxField } from './checkbox.type'
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'checkbox',
+      name: 'base-checkbox',
       wrappers: ['form-field'],
       component: CvcBaseCheckboxField,
     },

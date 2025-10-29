@@ -4,7 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
-import { debounceTime, distinctUntilChanged, filter, switchMap, } from 'rxjs/operators'
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+} from 'rxjs/operators'
 import { BehaviorSubject, Observable } from 'rxjs'
 import {
   DiseaseSearchFilter,

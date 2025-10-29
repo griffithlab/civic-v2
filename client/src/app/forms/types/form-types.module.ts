@@ -32,6 +32,7 @@ import { CvcTagInputModule } from './tag-input/tag-input.module'
 import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
+import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search-button.module'
 
 @NgModule({
   imports: [
@@ -68,6 +69,7 @@ import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-s
     CvcTherapySelectModule,
     CvcVariantSelectModule,
     CvcVariantTypeSelectModule,
+    CvcSearchButtonTypeModule,
   ],
 })
 export class CvcFormTypesModule {}
