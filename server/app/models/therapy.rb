@@ -3,6 +3,7 @@ class Therapy < ApplicationRecord
 
   include WithTimepointCounts
   include WithCapitalizedName
+  include Graph::HasGraphStructure
 
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :assertions

@@ -118,6 +118,7 @@ module Types::Queries
           permalink_id: formatted_hash["permalinkId"],
           result_ids: formatted_hash["resultIds"],
           search_endpoint: saved_search.search_type,
+          original_query: formatted_hash["originalQuery"],
         }
       end
 
@@ -127,6 +128,7 @@ module Types::Queries
           result_ids: search_class.new(query: query).results,
           permalink_id: permalink,
           search_endpoint: search_type,
+          original_query: query.to_h,
         }
       end
 

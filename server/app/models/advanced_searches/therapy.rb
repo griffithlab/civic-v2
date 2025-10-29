@@ -24,8 +24,7 @@ module AdvancedSearches
 
     def resolve_ncit_id_filter(node)
       return nil if node.ncit_id.nil?
-      clause, value = node.ncit_id.resolve_query_for_type("therapies.ncit_id")
-      base_query.where(clause, value)
+      node.ncit_id.resolve_ontology_query(base_query, "therapies.ncit_id")
     end
 
     def resolve_therapy_aliases_filter(node)
