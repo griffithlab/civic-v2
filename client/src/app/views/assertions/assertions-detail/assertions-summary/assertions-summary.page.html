@@ -129,7 +129,7 @@
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.acmgCodes"
-                    >{{ code.code }}
+                      >{{ code.code }}
                     </nz-tag>
                   </cvc-tag-list>
                 </ng-container>
@@ -137,7 +137,7 @@
                   <span
                     nz-typography
                     nzType="secondary"
-                  >None provided</span
+                    >None provided</span
                   >
                 </ng-container>
               </ng-container>
@@ -171,7 +171,7 @@
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.clingenCodes"
-                    >{{ code.code }}
+                      >{{ code.code }}
                     </nz-tag>
                   </cvc-tag-list>
                 </ng-container>
@@ -179,7 +179,7 @@
                   <span
                     nz-typography
                     nzType="secondary"
-                  >None provided</span
+                    >None provided</span
                   >
                 </ng-container>
               </ng-container>
@@ -189,7 +189,7 @@
               <span
                 nz-typography
                 nzType="secondary"
-              >Not applicable</span
+                >Not applicable</span
               >
             </ng-template>
           </nz-descriptions>
@@ -202,10 +202,12 @@
       <!-- right col layout row -->
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: endorsements block -->
-        @for (endorsement of assertion.activeEndorsements.nodes.concat(
-          assertion.requiresReviewEndorsements.nodes
-        );
-          track endorsement.id) {
+        @for (
+          endorsement of assertion.activeEndorsements.nodes.concat(
+            assertion.requiresReviewEndorsements.nodes
+          );
+          track endorsement.id
+        ) {
           <nz-col [nzSpan]="24">
             <cvc-endorsement-notification
               [cvcEndorsement]="endorsement"></cvc-endorsement-notification>
@@ -228,7 +230,7 @@
               by
               <cvc-user-tag
                 [user]="
-                  assertion.submissionEvent.originatingUser
+                  assertion.submissionEvent!.originatingUser
                 "></cvc-user-tag>
               <nz-tag
                 nz-popover
@@ -252,7 +254,7 @@
               <span
                 nz-typography
                 nzType="secondary">
-                ({{ assertion.submissionEvent.createdAt | timeAgo }})
+                ({{ assertion.submissionEvent?.createdAt | timeAgo }})
               </span>
             </ng-template>
 
@@ -343,7 +345,7 @@
                 *ngIf="!assertion.disease?.name"
                 nz-typography
                 nzType="secondary"
-              >Not applicable</span
+                >Not applicable</span
               >
             </nz-descriptions-item>
 
@@ -356,7 +358,7 @@
                 <span
                   nz-typography
                   nzType="secondary"
-                >None Specified</span
+                  >None Specified</span
                 >
               </ng-container>
               <ng-container *ngIf="assertion.phenotypes.length > 0">
@@ -430,7 +432,7 @@
                 <span
                   nz-typography
                   nzType="secondary"
-                >N/A</span
+                  >N/A</span
                 >
               </ng-container>
               <ng-container
@@ -462,7 +464,7 @@
                 <span
                   nz-typography
                   nzType="secondary"
-                >N/A</span
+                  >N/A</span
                 >
               </ng-container>
             </nz-descriptions-item>
@@ -470,7 +472,7 @@
             <!-- NCCN guideline -->
             <nz-descriptions-item nzTitle="NCCN Guideline">
               <ng-container *ngIf="assertion.nccnGuideline"
-              >{{ assertion.nccnGuideline.name }} ({{
+                >{{ assertion.nccnGuideline.name }} ({{
                   assertion.nccnGuidelineVersion
                 }})
               </ng-container>
@@ -478,7 +480,7 @@
                 <span
                   nz-typography
                   nzType="secondary"
-                >None Provided</span
+                  >None Provided</span
                 >
               </ng-container>
             </nz-descriptions-item>
