@@ -62,7 +62,7 @@ export class CvcDiseaseSearchForm implements OnInit {
       if (permalinkId) {
         this.loadFromPermalink(permalinkId)
       } else {
-        this.setupReactiveSearch()
+        // this.setupReactiveSearch()
       }
     })
   }
