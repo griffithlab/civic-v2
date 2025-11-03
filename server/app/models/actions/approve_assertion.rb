@@ -1,8 +1,8 @@
 module Actions
-  class EndorseAssertion
+  class ApproveAssertion
     include Actions::Transactional
 
-    attr_reader :assertion, :originating_user, :organization_id, :endorsement, :previous_status
+    attr_reader :assertion, :originating_user, :organization_id, :approval, :previous_status
 
     def initialize(assertion:, originating_user:, organization_id:)
       @assertion = assertion
@@ -12,26 +12,26 @@ module Actions
 
     private
     def execute
-      create_or_update_endorsement
+      create_or_update_approval
       create_event
     end
 
-    def create_or_update_endorsement
-      existing_endorsement = Endorsement.where(
+    def create_or_update_approval
+      existing_approval = Approval.where(
         assertion: assertion,
         organization_id: organization_id,
       ).first
 
-      if existing_endorsement
-        @previous_status = existing_endorsement.status
-        @endorsement = existing_endorsement
-        @endorsement.user = originating_user
-        @endorsement.status = "active"
-        @endorsement.last_reviewed = Time.now
-        @endorsement.save!
+      if existing_approval
+        @previous_status = existing_approval.status
+        @approval = existing_approval
+        @approval.user = originating_user
+        @approval.status = "active"
+        @approval.last_reviewed = Time.now
+        @approval.save!
       else
         @previous_status = nil
-        @endorsement = Endorsement.create!(
+        @approval = Approval.create!(
           organization_id: organization_id,
           user: originating_user,
           status: "active",
@@ -43,7 +43,7 @@ module Actions
 
     def create_event
       events << Event.new(
-        action: "assertion endorsed",
+        action: "assertion approved",
         originating_user: originating_user,
         subject: assertion,
         organization_id: organization_id,

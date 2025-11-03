@@ -46,8 +46,8 @@ module Resolvers
       scope.where(subject: value)
     end
 
-    option(:linked_endorsement_id, type: Int, description: "Filter activities on being linked to the endorsement with the given CIViC ID.") do |scope, value|
-      scope.joins(:activity_linked_entities).where("activity_linked_entities.entity_type = 'Endorsement' AND activity_linked_entities.entity_id = ?", value)
+    option(:linked_approval_id, type: Int, description: "Filter activities on being linked to the approval with the given CIViC ID.") do |scope, value|
+      scope.joins(:activity_linked_entities).where("activity_linked_entities.entity_type = 'Approval' AND activity_linked_entities.entity_id = ?", value)
     end
 
     option(:occurred_before, type:  GraphQL::Types::ISO8601DateTime) do |scope, value|

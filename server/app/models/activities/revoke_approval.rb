@@ -1,16 +1,16 @@
 module Activities
-  class RevokeEndorsement < Base
-    attr_reader :endorsement
+  class RevokeApproval < Base
+    attr_reader :approval
 
-    def initialize(originating_user:, endorsement:, note:, organization_id: nil)
+    def initialize(originating_user:, approval:, note:, organization_id: nil)
       super(organization_id: organization_id, user: originating_user, note: note)
-      @endorsement = endorsement
+      @approval = approval
     end
 
     private
     def create_activity
-      @activity = RevokeEndorsementActivity.create!(
-        subject: endorsement.assertion,
+      @activity = RevokeApprovalActivity.create!(
+        subject: approval.assertion,
         user: user,
         organization: organization,
         note: note
@@ -18,9 +18,9 @@ module Activities
     end
 
     def call_actions
-      cmd = Actions::RevokeEndorsement.new(
+      cmd = Actions::RevokeApproval.new(
         originating_user: user,
-        endorsement: endorsement,
+        approval: approval,
         organization_id: organization&.id,
       )
       cmd.perform
@@ -28,11 +28,11 @@ module Activities
         raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
-      @endorsement = cmd.endorsement
+      @approval = cmd.approval
     end
 
     def linked_entities
-      [ endorsement ]
+      [ approval ]
     end
   end
 end

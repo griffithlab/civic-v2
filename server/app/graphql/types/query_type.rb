@@ -209,7 +209,7 @@ module Types
 
     field :activities, resolver: Resolvers::Activities
 
-    field :endorsements, resolver: Resolvers::TopLevelEndorsements
+    field :approvals, resolver: Resolvers::TopLevelApprovals
 
     def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)

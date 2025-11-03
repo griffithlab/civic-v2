@@ -1,6 +1,6 @@
 module Activities
-  class EndorseAssertion < Base
-    attr_reader :assertion, :endorsement
+  class ApproveAssertion < Base
+    attr_reader :assertion, :approval
 
     def initialize(originating_user:, assertion:, organization_id: nil)
       super(organization_id: organization_id, user: originating_user)
@@ -9,7 +9,7 @@ module Activities
 
     private
     def create_activity
-      @activity = EndorseAssertionActivity.create!(
+      @activity = ApproveAssertionActivity.create!(
         subject: assertion,
         user: user,
         organization: organization,
@@ -17,7 +17,7 @@ module Activities
     end
 
     def call_actions
-      cmd = Actions::EndorseAssertion.new(
+      cmd = Actions::ApproveAssertion.new(
         originating_user: user,
         assertion: assertion,
         organization_id: organization&.id,
@@ -27,11 +27,11 @@ module Activities
         raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
-      @endorsement = cmd.endorsement
+      @approval = cmd.approval
     end
 
     def linked_entities
-      [ endorsement ]
+      [ approval ]
     end
   end
 end
