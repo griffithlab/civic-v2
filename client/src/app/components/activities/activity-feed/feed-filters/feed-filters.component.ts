@@ -93,7 +93,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   includeSubgroups!: WritableSignal<boolean>
   subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
-  linkedEndorsementId!: WritableSignal<number | null>
+  linkedApprovalId!: WritableSignal<number | null>
   occurredAfter!: WritableSignal<Date | null>
   occurredBefore!: WritableSignal<Date | null>
   disableDates: { [key: string]: (current: Date) => boolean }
@@ -113,7 +113,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         includeSubgroups: this.includeSubgroups(),
         subjectType: this.subjectType(),
         userId: this.userId(),
-        linkedEndorsementId: this.linkedEndorsementId(),
+        linkedApprovalId: this.linkedApprovalId(),
         occurredAfter: this.occurredAfter(),
         occurredBefore: this.occurredBefore(),
         sortByColumn: this.sortByColumn(),
@@ -170,7 +170,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     this.organizationId = signal(this.cvcFilters().organizationId)
     this.includeSubgroups = signal(this.cvcFilters().includeSubgroups)
     this.userId = signal(this.cvcFilters().userId)
-    this.linkedEndorsementId = signal(this.cvcFilters().linkedEndorsementId)
+    this.linkedApprovalId = signal(this.cvcFilters().linkedApprovalId)
     this.occurredAfter = signal(this.cvcFilters().occurredAfter)
     this.occurredBefore = signal(this.cvcFilters().occurredBefore)
     this.sortByColumn = signal(this.cvcFilters().sortByColumn)

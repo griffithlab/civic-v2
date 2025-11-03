@@ -1,4 +1,0 @@
-fragment EndorseAssertionActivityDetail on EndorseAssertionActivity {
-  ...ActivityFeedItemBase
-  ...ActivityFeedItemEvents
-}

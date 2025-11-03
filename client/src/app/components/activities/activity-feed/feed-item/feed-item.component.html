@@ -37,18 +37,18 @@
       </div>
     }
     <div class="description">
-      <!-- Custom Endorse/Revoke Endorsement Layout -->
+      <!-- Custom Approve/Revoke Approval Layout -->
       @if (
-        (activity.__typename === 'EndorseAssertionActivity' ||
-          activity.__typename === 'RevokeEndorsementActivity') &&
+        (activity.__typename === 'ApproveAssertionActivity' ||
+          activity.__typename === 'RevokeApprovalActivity') &&
         activity.organization
       ) {
-        <!-- Endorsing Organization Tag -->
+        <!-- Approving Organization Tag -->
         <cvc-organization-tag
           [org]="activity.organization"
           [enablePopover]="!$scroller().isScrolling"></cvc-organization-tag>
 
-        <!-- Endorse/Revoke Verbiage -->
+        <!-- Approve/Revoke Verbiage -->
         <span
           class="verbiage"
           nz-typography
@@ -56,7 +56,7 @@
           {{ activity.verbiage }}
         </span>
 
-        <!-- Endorseme/Revoke Subject-->
+        <!-- Approve/Revoke Subject-->
         <ng-container
           *ngTemplateOutlet="
             subject;
@@ -67,7 +67,7 @@
           ">
         </ng-container>
 
-        <!-- Endorsement/Revoke User Tag-->
+        <!-- Approval/Revoke User Tag-->
         <!-- @if (scope().mode !== 'USER') {
           <span
             class="verbiage"
@@ -80,7 +80,7 @@
             [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
         } -->
       } @else {
-        <!-- Default (non Endorse/Revoke) Layout -->
+        <!-- Default (non Approve/Revoke) Layout -->
         <!-- User Tag -->
         @if (scope().mode !== 'USER') {
           <cvc-user-tag

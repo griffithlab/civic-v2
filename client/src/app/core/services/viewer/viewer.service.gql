@@ -17,7 +17,7 @@ fragment viewerFields on User {
     role
     displayName
     profileImagePath(size: 32)
-    organizationsWithEndorsementPrivileges {
+    organizationsWithApprovalPrivileges {
       id
     }
     organizations {

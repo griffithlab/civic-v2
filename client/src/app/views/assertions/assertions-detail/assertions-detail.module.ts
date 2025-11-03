@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module'
-import { CvcEndorseAssertionButtonComponent } from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
+import { CvcApproveAssertionButtonComponent } from '@app/components/approvals/approve-assertion-button/approve-assertion-button.component'
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module'
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-buttons.module'
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module'
@@ -28,10 +28,10 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module'
 import { AssertionsDetailView } from './assertions-detail.view'
-import { CvcCanPerformEndorsementActionsPipe } from '@app/components/endorsements/endorsement-pipes/can-perform-endorsement-actions.pipe'
-import { CvcEndorsementActionTooltipPipe } from '@app/components/endorsements/endorsement-pipes/endorsement-action-tooltip.pipe'
-import { CvcEndorsableDirective } from '@app/components/endorsements/endorsable/endorsable.component'
-import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endorsement-pipes/can-create-endorsement.pipe'
+import { CvcCanPerformApprovalActionsPipe } from '@app/components/approvals/approval-pipes/can-perform-approval-actions.pipe'
+import { CvcApprovalActionTooltipPipe } from '@app/components/approvals/approval-pipes/approval-action-tooltip.pipe'
+import { CvcCanCreateApprovalPipe } from '@app/components/approvals/approval-pipes/can-create-approval.pipe'
+import { CvcApprovableDirective } from '@app/components/approvals/approvable/approvable.component'
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -54,22 +54,22 @@ import { CvcCanCreateEndorsementPipe } from '@app/components/endorsements/endors
     NzSpinModule,
     NzEmptyModule,
     CvcPipesModule,
-    CvcCanCreateEndorsementPipe,
-    CvcEndorsementActionTooltipPipe,
-    CvcCanPerformEndorsementActionsPipe,
+    CvcCanCreateApprovalPipe,
+    CvcApprovalActionTooltipPipe,
+    CvcCanPerformApprovalActionsPipe,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
-    CvcEndorsableDirective,
+    CvcApprovableDirective,
     CvcRevertEntityButtonModule,
     CvcModerateEntityButtonsModule,
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
     CvcMolecularProfileTagModule,
-    CvcEndorseAssertionButtonComponent,
+    CvcApproveAssertionButtonComponent,
     CvcUserTagModule,
     CvcOrganizationTagModule,
     CvcAutoHeightDivModule,
-    CvcCanPerformEndorsementActionsPipe,
+    CvcCanPerformApprovalActionsPipe,
   ],
 })
 export class AssertionsDetailModule {}

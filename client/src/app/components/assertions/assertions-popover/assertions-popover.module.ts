@@ -25,7 +25,7 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
 import { NzFlexModule } from 'ng-zorro-antd/flex'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
-import { CvcEndorsementNotificationComponent } from '@app/components/endorsements/endorsement-notification/endorsement-notification.component'
+import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 
 @NgModule({
   declarations: [CvcAssertionPopoverComponent],
@@ -58,7 +58,7 @@ import { CvcEndorsementNotificationComponent } from '@app/components/endorsement
     CvcAttributeTagModule,
     CvcOrganizationTagModule,
     CvcOrganizationTagModule,
-    CvcEndorsementNotificationComponent,
+    CvcApprovalNotificationComponent,
   ],
   exports: [CvcAssertionPopoverComponent],
 })
