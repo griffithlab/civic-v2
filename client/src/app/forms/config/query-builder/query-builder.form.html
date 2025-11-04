@@ -1,3 +1,4 @@
+<p>query-builder.form</p>
 <form
   nz-form
   nzLayout="inline"
@@ -10,3 +11,11 @@
     style="width: 100%">
   </formly-form>
 </form>
+<p>
+  Form Model:
+  @if (formModel()) {
+    {{ formModel() | json }}
+  } @else {
+    undefined
+  }
+</p>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core'
-import { Routes, RouterModule, ExtraOptions } from '@angular/router'
+import { ExtraOptions, RouterModule, Routes } from '@angular/router'
 
 export const routes: Routes = [
   // see layout-routing module for the rest of the routes
@@ -16,6 +16,7 @@ export const routingConfiguration: ExtraOptions = {
   scrollOffset: [0, 64],
   onSameUrlNavigation: 'reload',
   scrollPositionRestoration: 'enabled',
+  bindToComponentInputs: true,
   // enableTracing: true
 }
 

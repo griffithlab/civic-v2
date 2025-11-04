@@ -1,0 +1,9 @@
+<h1>Query Search</h1>
+<p>Endpoint: {{ searchEndpoint() }}</p>
+<p>Permalink Id: {{ permalinkId() }}</p>
+<p>Results: {{ results() | json }}</p>
+<cvc-query-builder-form
+  [searchEndpoint]="searchEndpoint()"
+  [permalinkId]="permalinkId()"
+  (results)="results.set($event)">
+</cvc-query-builder-form>

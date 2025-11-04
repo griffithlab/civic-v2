@@ -1,21 +1,30 @@
 import { RouterModule, Routes } from '@angular/router'
 import { NgModule } from '@angular/core'
 import { SearchView } from '@app/views/search/search.view'
-import { StructuredSearchPage } from '@app/views/search/structured/structured-search.page'
+import { QuerySearchPage } from '@app/views/search/query-search/query-search.page'
+
+const defaultSearchEndpoint = 'searchDiseases'
 
 const routes: Routes = [
   {
     path: '',
     component: SearchView,
     children: [
-      { path: '', redirectTo: 'structured', pathMatch: 'full' },
+      // default search endpoint
       {
-        path: 'structured',
-        component: StructuredSearchPage,
+        path: '',
+        redirectTo: `query/${defaultSearchEndpoint}`,
+        pathMatch: 'full',
+      },
+      {
+        path: 'query/:searchEndpoint',
+        component: QuerySearchPage,
         data: {
-          breadcrumb: 'Structured Search',
+          breadcrumb: 'Search by Query',
         },
       },
+      // handle search endpoint default if only a path provided
+      { path: 'query', redirectTo: `query/${defaultSearchEndpoint}` },
     ],
   },
 ]

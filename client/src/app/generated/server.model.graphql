@@ -651,7 +651,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   significance: AssertionSignificance!
   status: EvidenceStatus!
   submissionActivity: SubmitAssertionActivity!
-  submissionEvent: Event
+  submissionEvent: Event!
   summary: String!
   therapies: [Therapy!]!
   therapyInteractionType: TherapyInteraction

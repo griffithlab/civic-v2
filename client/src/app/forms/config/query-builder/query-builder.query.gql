@@ -1,0 +1,6 @@
+query GetOriginalQuery($permalinkId: String!) {
+  searchByPermalink(permalinkId: $permalinkId) {
+    originalQuery
+    searchEndpoint
+  }
+}
