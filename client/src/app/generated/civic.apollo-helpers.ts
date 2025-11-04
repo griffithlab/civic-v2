@@ -79,8 +79,9 @@ export type AddTherapyPayloadFieldPolicy = {
 	new?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapy?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AdvancedSearchResultKeySpecifier = ('originalQuery' | 'permalinkId' | 'resultIds' | 'searchEndpoint' | AdvancedSearchResultKeySpecifier)[];
+export type AdvancedSearchResultKeySpecifier = ('formQuery' | 'originalQuery' | 'permalinkId' | 'resultIds' | 'searchEndpoint' | AdvancedSearchResultKeySpecifier)[];
 export type AdvancedSearchResultFieldPolicy = {
+	formQuery?: FieldPolicy<any> | FieldReadFunction<any>,
 	originalQuery?: FieldPolicy<any> | FieldReadFunction<any>,
 	permalinkId?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultIds?: FieldPolicy<any> | FieldReadFunction<any>,

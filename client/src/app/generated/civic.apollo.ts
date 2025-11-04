@@ -255,6 +255,7 @@ export type AddTherapyPayload = {
 
 export type AdvancedSearchResult = {
   __typename: 'AdvancedSearchResult';
+  formQuery?: Maybe<Scalars['JSON']['output']>;
   originalQuery: Scalars['JSON']['output'];
   permalinkId?: Maybe<Scalars['String']['output']>;
   resultIds: Array<Scalars['Int']['output']>;
@@ -10016,7 +10017,7 @@ export type GetOriginalQueryQueryVariables = Exact<{
 }>;
 
 
-export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', originalQuery: any, searchEndpoint: string } };
+export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, formQuery?: any | undefined } };
 
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -17979,8 +17980,9 @@ export const SuggestMolecularProfileRevisionDocument = gql`
 export const GetOriginalQueryDocument = gql`
     query GetOriginalQuery($permalinkId: String!) {
   searchByPermalink(permalinkId: $permalinkId) {
-    originalQuery
     searchEndpoint
+    originalQuery
+    formQuery @client
   }
 }
     `;
