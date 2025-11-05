@@ -11,11 +11,9 @@
     style="width: 100%">
   </formly-form>
 </form>
-<p>
-  Form Model:
-  @if (formModel()) {
-    {{ formModel() | json }}
-  } @else {
-    undefined
-  }
-</p>
+<pre>
+Permalink ID: {{ permalinkId() }}
+Form Search Endpoint: {{ searchEndpoint() }}
+Form Model:
+{{ formModel() | json }}
+</pre>

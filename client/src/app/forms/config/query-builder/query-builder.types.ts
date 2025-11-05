@@ -9,7 +9,7 @@ export type AdvancedSearchFilter =
   | AssertionSearchFilter
   | EvidenceItemSearchFilter
 
-export interface QueryBuilderFormModel {
+export type QueryBuilderFormModel = {
   query: AdvancedSearchFilter
   createPermalink: boolean
 }

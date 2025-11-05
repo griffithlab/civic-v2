@@ -17,12 +17,11 @@ import { UntypedFormGroup } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcForms2Module } from '@app/forms/forms.module'
+import { GetOriginalQueryGQL } from '@app/generated/civic.apollo'
 import {
-  AdvancedSearchResult,
-  GetOriginalQueryGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
-import { QueryBuilderFormModel } from '@app/forms/config/query-builder/query-builder.types'
+  defaultQueryBuildFormModel,
+  QueryBuilderFormModel,
+} from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { take } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
@@ -38,29 +37,56 @@ import { filter } from 'rxjs/operators'
   imports: [CommonModule, FormlyModule, NzFormModule, CvcForms2Module],
 })
 export class CvcQueryBuilderForm {
-  searchEndpoint = model<string>()
-  permalinkId = model<Maybe<string>>()
+  searchEndpoint = model.required<string>()
+  permalinkId = model<string>()
+  resultIds = output<number[]>()
 
-  results = output<AdvancedSearchResult>()
-
-  formModel: WritableSignal<Maybe<QueryBuilderFormModel>> =
-    signal<Maybe<QueryBuilderFormModel>>(undefined)
-  result = output<AdvancedSearchResult>()
+  formModel: WritableSignal<QueryBuilderFormModel> = signal(
+    defaultQueryBuildFormModel
+  )
+  // keeps track of permalink-loaded searchEndpoints,
+  // so that the form model update effect doesn't replace
+  // the permalink form model with the default, in the case
+  // a permalinkId param is provided on the wrong searchEndpoint route
+  private permalinkSearchEndpoint?: string
 
   form: UntypedFormGroup = new UntypedFormGroup({})
   fields: FormlyFieldConfig[] = []
   options: FormlyFormOptions = { formState: { formLayout: 'inline' } }
 
-  searchByPermalinkGQL = inject(GetOriginalQueryGQL)
+  getOriginalQueryGQL = inject(GetOriginalQueryGQL)
   constructor() {
+    // update form model, unset permalinkId when searchEndpoint changes
+    effect(() => {
+      if (this.searchEndpoint() !== this.permalinkSearchEndpoint) {
+        this.formModel.update(() => defaultQueryBuildFormModel)
+        this.permalinkSearchEndpoint = undefined
+      }
+    })
+    // load form model from permalink if provided
     effect(() => {
       if (this.permalinkId() !== undefined) {
-        this.searchByPermalinkGQL
+        this.getOriginalQueryGQL
           .fetch({ permalinkId: this.permalinkId()! })
           .pipe(pluck('data'), filter(isNonNulled), take(1))
-          .subscribe((res) => {
-            console.log('permalink search results:', res.searchByPermalink)
-            this.results.emit(res.searchByPermalink as AdvancedSearchResult)
+          .subscribe((query) => {
+            const { searchEndpoint, formQuery, permalinkId } =
+              query.searchByPermalink
+            this.permalinkSearchEndpoint = searchEndpoint
+            this.searchEndpoint.update(() => searchEndpoint)
+            this.permalinkId.update(() => permalinkId)
+            if (formQuery) {
+              this.formModel.update((value) => {
+                return {
+                  ...value,
+                  query: formQuery,
+                }
+              })
+            } else {
+              console.error(
+                'searchByPermalink results did not include a formModel'
+              )
+            }
           })
       }
     })

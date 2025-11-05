@@ -2,6 +2,7 @@ query GetOriginalQuery($permalinkId: String!) {
   searchByPermalink(permalinkId: $permalinkId) {
     searchEndpoint
     originalQuery
+    permalinkId
     formQuery @client
   }
 }

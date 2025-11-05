@@ -10017,7 +10017,7 @@ export type GetOriginalQueryQueryVariables = Exact<{
 }>;
 
 
-export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, formQuery?: any | undefined } };
+export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, permalinkId?: string | undefined, formQuery?: any | undefined } };
 
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -17982,6 +17982,7 @@ export const GetOriginalQueryDocument = gql`
   searchByPermalink(permalinkId: $permalinkId) {
     searchEndpoint
     originalQuery
+    permalinkId
     formQuery @client
   }
 }
