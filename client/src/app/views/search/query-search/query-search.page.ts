@@ -1,19 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
   inject,
   model,
   signal,
-  Signal,
   WritableSignal,
 } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { NzTabComponent, NzTabsComponent } from 'ng-zorro-antd/tabs'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
-import { CvcQueryBuilderForm } from '@app/forms/config/query-builder/query-builder.form'
+import { CvcQueryBuilderModule } from '@app/forms/config/query-builder/query-builder.module'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   getSearchEndpointFromTabIndex,
@@ -31,7 +29,7 @@ import {
     NzTabComponent,
     NzTabsComponent,
     CvcAutoHeightDivModule,
-    CvcQueryBuilderForm,
+    CvcQueryBuilderModule,
   ],
 })
 export class QuerySearchPage {
@@ -39,9 +37,7 @@ export class QuerySearchPage {
   permalinkId = model<Maybe<string>>()
 
   // update tab index when searchEndpoint changes
-  selectedTabIndex: Signal<number> = computed(() =>
-    getTabIndexFromSearchEndpoint(this.searchEndpoint())
-  )
+  selectedTabIndex: WritableSignal<number> = signal(0)
 
   resultIds: WritableSignal<Maybe<number[]>> = signal(undefined)
   tabs = queryBuilderTabs
@@ -50,9 +46,10 @@ export class QuerySearchPage {
   private route = inject(ActivatedRoute)
 
   constructor() {
-    // update route when searchEndpoint changes
+    // update tabs, route when searchEndpoint changes
     effect(() => {
       const newEndpoint = this.searchEndpoint()
+      this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(newEndpoint))
       const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
       if (newEndpoint === currentEndpoint) return
       this.router.navigate(['../', newEndpoint], {

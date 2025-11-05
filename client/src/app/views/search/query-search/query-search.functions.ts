@@ -12,7 +12,6 @@ export const queryBuilderTabs: QuerySearchPageTab[] = [
   { label: 'Phenotypes', searchEndpoint: 'searchPhenotypes' },
   { label: 'Variant Types', searchEndpoint: 'searchVariantTypes' },
   { label: 'Users', searchEndpoint: 'searchUsers' },
-  { label: 'Organizations', searchEndpoint: 'searchOrganizations' },
 ]
 
 export function getTabIndexFromSearchEndpoint(searchEndpoint: string): number {

@@ -8,33 +8,30 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core'
-import {
-  FormlyFieldConfig,
-  FormlyFormOptions,
-  FormlyModule,
-} from '@ngx-formly/core'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { CommonModule } from '@angular/common'
-import { NzFormModule } from 'ng-zorro-antd/form'
-import { CvcForms2Module } from '@app/forms/forms.module'
 import { GetOriginalQueryGQL } from '@app/generated/civic.apollo'
-import {
-  defaultQueryBuildFormModel,
-  QueryBuilderFormModel,
-} from '@app/forms/config/query-builder/query-builder.types'
+import { QueryBuilderFormModel } from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { take } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
 import { filter } from 'rxjs/operators'
+import { queryBuilderFieldsConfig } from '@app/forms/config/query-builder/query-builder-fields.config'
+
+const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
+  query: {
+    subFilters: [],
+  },
+  createPermalink: true,
+}
 
 @UntilDestroy()
 @Component({
   selector: 'cvc-query-builder-form',
   templateUrl: './query-builder.form.html',
+  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, FormlyModule, NzFormModule, CvcForms2Module],
 })
 export class CvcQueryBuilderForm {
   searchEndpoint = model.required<string>()
@@ -42,7 +39,7 @@ export class CvcQueryBuilderForm {
   resultIds = output<number[]>()
 
   formModel: WritableSignal<QueryBuilderFormModel> = signal(
-    defaultQueryBuildFormModel
+    defaultQueryBuilderFormModel
   )
   // keeps track of permalink-loaded searchEndpoints,
   // so that the form model update effect doesn't replace
@@ -51,7 +48,7 @@ export class CvcQueryBuilderForm {
   private permalinkSearchEndpoint?: string
 
   form: UntypedFormGroup = new UntypedFormGroup({})
-  fields: FormlyFieldConfig[] = []
+  fields: FormlyFieldConfig[] = queryBuilderFieldsConfig
   options: FormlyFormOptions = { formState: { formLayout: 'inline' } }
 
   getOriginalQueryGQL = inject(GetOriginalQueryGQL)
@@ -59,7 +56,7 @@ export class CvcQueryBuilderForm {
     // update form model, unset permalinkId when searchEndpoint changes
     effect(() => {
       if (this.searchEndpoint() !== this.permalinkSearchEndpoint) {
-        this.formModel.update(() => defaultQueryBuildFormModel)
+        this.formModel.update(() => defaultQueryBuilderFormModel)
         this.permalinkSearchEndpoint = undefined
       }
     })

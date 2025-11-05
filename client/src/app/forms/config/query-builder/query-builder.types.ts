@@ -2,19 +2,30 @@ import {
   AssertionSearchFilter,
   DiseaseSearchFilter,
   EvidenceItemSearchFilter,
+  FeatureSearchFilter,
+  MolecularProfileSearchFilter,
+  PhenotypeSearchFilter,
+  SourceSearchFilter,
+  TherapySearchFilter,
+  UserSearchFilter,
+  VariantSearchFilter,
+  VariantTypeSearchFilter,
 } from '@app/generated/civic.apollo'
 
 export type AdvancedSearchFilter =
-  | DiseaseSearchFilter
   | AssertionSearchFilter
+  | DiseaseSearchFilter
   | EvidenceItemSearchFilter
+  | FeatureSearchFilter
+  | MolecularProfileSearchFilter
+  | PhenotypeSearchFilter
+  | SourceSearchFilter
+  | TherapySearchFilter
+  | UserSearchFilter
+  | VariantSearchFilter
+  | VariantTypeSearchFilter
 
 export type QueryBuilderFormModel = {
   query: AdvancedSearchFilter
   createPermalink: boolean
-}
-
-export const defaultQueryBuildFormModel: QueryBuilderFormModel = {
-  query: {},
-  createPermalink: true,
 }

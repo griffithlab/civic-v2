@@ -8,7 +8,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconDirective } from 'ng-zorro-antd/icon'
 import { NzTagComponent } from 'ng-zorro-antd/tag'
 import { PushPipe } from '@ngrx/component'
-import { StructuredSearchModule } from './structured/structured-search.module'
 
 @NgModule({
   declarations: [SearchView],
@@ -21,7 +20,6 @@ import { StructuredSearchModule } from './structured/structured-search.module'
     NzTagComponent,
     PushPipe,
     CvcSectionNavigationModule,
-    StructuredSearchModule,
   ],
 })
 export class SearchModule {}
