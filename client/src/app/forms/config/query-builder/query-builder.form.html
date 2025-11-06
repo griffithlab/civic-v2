@@ -1,20 +1,32 @@
-<h3>query-builder.form</h3>
-<hr />
-<form
-  nz-form
-  nzLayout="inline"
-  [formGroup]="form">
-  <formly-form
-    [form]="form"
-    [fields]="fields"
-    [model]="formModel()"
-    [options]="options"
-    style="width: 100%">
-  </formly-form>
-</form>
-<pre>
-Permalink ID: {{ permalinkId() }}
-Form Search Endpoint: {{ searchEndpoint() }}
-Form Model:
-{{ formModel() | json }}
-</pre>
+<nz-row>
+  <nz-col [nzSpan]="24">
+    <form
+      nz-form
+      nzLayout="inline"
+      [formGroup]="form">
+      <formly-form
+        [form]="form"
+        [fields]="fields"
+        [model]="formModel()"
+        [options]="options()"
+        style="width: 100%">
+      </formly-form>
+    </form>
+  </nz-col>
+  <nz-col [nzSpan]="8">
+    <p>
+      <b>Permalink ID:</b><br />
+      @if (permalinkId()) {
+        {{ permalinkId() }}
+      } @else {
+        undefined
+      }
+    </p>
+    <p><b>Form Options:</b></p>
+    <pre>{{ options() | json }}</pre>
+  </nz-col>
+  <nz-col [nzSpan]="16">
+    <b>Form Model:</b>
+    <pre>{{ formModel() | json }}</pre>
+  </nz-col>
+</nz-row>

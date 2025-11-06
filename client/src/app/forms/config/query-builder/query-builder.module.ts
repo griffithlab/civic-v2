@@ -7,18 +7,17 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcForms2Module } from '@app/forms/forms.module'
 
 import { CvcQueryBuilderForm } from './query-builder.form'
-import { queryBuilderTypesConfig } from './types/query-builder-types.config'
-import { CvcQuerySubfiltersField } from './types/query-subfilters/query-subfilters.type'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 
 @NgModule({
   declarations: [CvcQueryBuilderForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormlyModule,
     NzFormModule,
+    NzGridModule,
     CvcForms2Module,
-    FormlyModule.forChild(queryBuilderTypesConfig),
-    CvcQuerySubfiltersField,
   ],
   exports: [CvcQueryBuilderForm],
 })

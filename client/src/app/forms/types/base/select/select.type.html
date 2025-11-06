@@ -1,12 +1,13 @@
 <nz-select
   [class.ng-dirty]="showError"
   [nzPlaceHolder]="props.placeholder !== undefined ? props.placeholder : null"
+  [nzSize]="props.size || 'default'"
   [formControl]="formControl"
   [formlyAttributes]="field"
   [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
   (ngModelChange)="props.change && props.change(field, $event)">
   <ng-container
-    *ngFor="let item of props.options | formlySelectOptions : field | async">
+    *ngFor="let item of props.options | formlySelectOptions: field | async">
     <nz-option-group
       *ngIf="item.group"
       [nzLabel]="item.label">

@@ -33,6 +33,7 @@ import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
 import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search-button.module'
+import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-subfilters/query-subfilters.module'
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search
     CvcVariantSelectModule,
     CvcVariantTypeSelectModule,
     CvcSearchButtonTypeModule,
+    CvcQuerySubfiltersModule,
   ],
 })
 export class CvcFormTypesModule {}

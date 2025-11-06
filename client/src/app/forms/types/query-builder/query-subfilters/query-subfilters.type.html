@@ -1,4 +1,6 @@
-<nz-card>QUERY SUBFILTERS</nz-card>
+@for (field of field.fieldGroup; track field.id) {
+  <formly-field [field]="field"></formly-field>
+}
 <!--<div class="mb-3">-->
 <!--  <legend *ngIf="props.label">{{ props.label }}</legend>-->
 <!--  <p *ngIf="props.description">{{ props.description }}</p>-->
