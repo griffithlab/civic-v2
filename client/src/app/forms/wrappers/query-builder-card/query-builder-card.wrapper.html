@@ -1,0 +1,22 @@
+<nz-card
+  [nzTitle]="wrapperOptions.title"
+  [nzSize]="wrapperOptions.size ?? 'default'"
+  [nzExtra]="operatorSelector">
+  @if (subFiltersField) {
+    <formly-field [field]="subFiltersField"></formly-field>
+  } @else {
+    <span style="color: red">No subfilters field found</span>
+  }
+</nz-card>
+
+<ng-template #operatorSelector>
+  @if (operatorField) {
+    <nz-space nzSize="small">
+      <span *nzSpaceItem>Match</span>
+      <formly-field
+        *nzSpaceItem
+        [field]="operatorField"></formly-field>
+      <span *nzSpaceItem>of the following conditions</span>
+    </nz-space>
+  }
+</ng-template>

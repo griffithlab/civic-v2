@@ -34,6 +34,7 @@ import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
 import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search-button.module'
 import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-subfilters/query-subfilters.module'
+import { CvcBaseRadioFieldModule } from '@app/forms/types/base/radio/radio.module'
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-s
     CvcBaseInputModule,
     CvcBaseSelectModule,
     CvcBaseTextareaFieldModule,
+    CvcBaseRadioFieldModule,
     CvcCancelButtonModule,
     CvcClingenCodeSelectModule,
     CvcClinvarInputFieldModule,

@@ -16,14 +16,17 @@ import {
   BooleanOperator,
   GetOriginalQueryGQL,
 } from '@app/generated/civic.apollo'
-import { QueryBuilderFormModel } from '@app/forms/config/query-builder/query-builder.types'
+import {
+  QueryBuilderFormModel,
+  QueryBuilderSearchEndpoint,
+} from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { catchError, EMPTY } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
 import { filter, switchMap } from 'rxjs/operators'
-import { queryBuilderFieldsConfig } from '@app/forms/config/query-builder/field-config/query-builder-fields.config'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
+import { getFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-field-config'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   query: {
@@ -41,7 +44,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcQueryBuilderForm {
-  searchEndpoint = model.required<string>()
+  searchEndpoint = model.required<QueryBuilderSearchEndpoint>()
   permalinkId = model<string>()
   resultIds = output<number[]>()
 
@@ -50,7 +53,7 @@ export class CvcQueryBuilderForm {
   )
 
   form: UntypedFormGroup = new UntypedFormGroup({})
-  fields: FormlyFieldConfig[] = queryBuilderFieldsConfig
+  fields: FormlyFieldConfig[] = []
   options: Signal<FormlyFormOptions> = computed(() => ({
     formState: {
       formLayout: 'inline',
@@ -79,28 +82,39 @@ export class CvcQueryBuilderForm {
 
   private permalinkSearchEndpoint?: string
   constructor() {
-    // reset the form model when search endpoint changes,
-    // but only if it will not overwrite a formModel returned
-    // from a permalink query
+    // when search endpoint changes, always switch fields first
+    // then reset the model to the default, but do NOT overwrite
+    // a model that was just loaded from a permalink
     effect(() => {
-      if (this.searchEndpoint() !== this.permalinkSearchEndpoint) {
+      const ep = this.searchEndpoint()
+      // always update fields to match endpoint
+      this.fields = getFieldConfig(
+        ep,
+        'query-builder-card',
+        this.searchEndpointToCardTitle(ep)
+      )
+      // only reset model if this change did not originate from a permalink
+      if (ep !== this.permalinkSearchEndpoint) {
         this.formModel.update(() => defaultQueryBuilderFormModel)
         this.permalinkSearchEndpoint = undefined
       }
     })
+
     // load form model from permalink if provided
     effect(() => {
-      const query = this.permalinkQuery() // Track the new signal
+      const query = this.permalinkQuery()
       if (query) {
         const { searchEndpoint, formQuery, permalinkId } = query
-        this.permalinkSearchEndpoint = searchEndpoint // Set the flag
-        this.searchEndpoint.update(() => searchEndpoint) // Update parent
+        this.permalinkSearchEndpoint = searchEndpoint // Set the flag so the reset effect won't overwrite the model
+        this.searchEndpoint.update(
+          () => searchEndpoint as QueryBuilderSearchEndpoint
+        ) // Update parent (triggers fields update)
         this.permalinkId.update(() => permalinkId) // Update parent
         if (formQuery) {
           this.formModel.update((value) => {
             return {
               ...value,
-              query: formQuery,
+              query: { ...formQuery },
             }
           })
         } else {
@@ -108,5 +122,13 @@ export class CvcQueryBuilderForm {
         }
       }
     })
+  }
+  private searchEndpointToCardTitle(
+    endpoint: QueryBuilderSearchEndpoint
+  ): string {
+    // Capitalize initial character
+    const capitalized = endpoint.charAt(0).toUpperCase() + endpoint.slice(1)
+    // Split on capital letters and join with space
+    return capitalized.replace(/([A-Z])/g, ' $1').trim()
   }
 }

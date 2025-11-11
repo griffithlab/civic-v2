@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import { FormlySelectModule } from '@ngx-formly/core/select'
 
 import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { CvcBaseRadioField } from './radio.type'
+import { FormlyNzRadioModule } from '@ngx-formly/ng-zorro-antd/radio'
+import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
+import { FormlySelectOptionsPipe } from '@ngx-formly/core/select'
 
 @NgModule({
   declarations: [CvcBaseRadioField],
@@ -13,16 +15,18 @@ import { CvcBaseRadioField } from './radio.type'
     CommonModule,
     ReactiveFormsModule,
     NzRadioModule,
-    FormlySelectModule,
+    FormlyNzFormFieldModule,
+    FormlyNzRadioModule,
     FormlyModule.forChild({
       types: [
         {
-          name: 'radio',
+          name: 'base-radio',
           component: CvcBaseRadioField,
           wrappers: ['form-field'],
         },
       ],
     }),
+    FormlySelectOptionsPipe,
   ],
 })
 export class CvcBaseRadioFieldModule {}
