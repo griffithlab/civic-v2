@@ -129,7 +129,7 @@
           @if (vwr && vwr.signedIn && entity.status === 'SUBMITTED') {
             @if (
               vwr.canModerate ||
-              vwr.user?.id === entity.submissionEvent?.originatingUser?.id
+              vwr.user?.id === entity.submissionEvent.originatingUser.id
             ) {
               <cvc-moderate-entity-buttons
                 entityType="Assertion"
