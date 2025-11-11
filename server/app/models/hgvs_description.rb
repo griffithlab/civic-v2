@@ -14,67 +14,111 @@ class HgvsDescription < ActiveRecord::Base
   end
 
   def self.hgvs(variant, type)
-    valid_for_query =[
-      variant.chromosome.nil?,
-      variant.chromosome2.present?,
-      variant.start2.present?,
-      variant.start.nil?,
+    valid_for_query = variant.type == "Variants::GeneVariant" && [
+      variant.coordinates.chromosome.nil?,
+      variant.coordinates.start.nil?,
     ].none?
 
-    if valid_for_query
-      if type == "my_gene_info"
-        chromosome = "chr#{variant.chromosome}"
-      elsif type == "allele_registry"
-        if variant.reference_build == "GRCh38"
-          chromosome = refseq_sequence_b38(variant.chromosome)
-        elsif variant.reference_build == "GRCh37"
-          chromosome = refseq_sequence_b37(variant.chromosome)
-        else
-          return
-        end
+    return nil unless valid_for_query
+
+    coordinates = variant.coordinates
+
+    start = coordinates.start
+    ref = coordinates.reference_bases
+    alt = coordinates.variant_bases
+    stop = coordinates.stop
+    if type == "my_gene_info"
+      if coordinates.reference_build == "GRCh38"
+        coords = get_build_37_coords(variant)
+        return unless coords
+        start = coords["coordinates"].first["start"]
+        ref = coords["coordinates"].first["referenceAllele"]
+        alt = coords["coordinates"].first["allele"]
+        stop = coords["coordinates"].first["end"]
+        start = convert_zero_to_one_based(start, ref, alt)
+        chromosome = "chr#{coordinates.chromosome}"
+      elsif coordinates.reference_build == "GRCh37"
+        chromosome = "chr#{coordinates.chromosome}"
       end
-      base_hgvs = "#{chromosome}:g.#{variant.start}"
-      case variant_type(variant)
-      when :deletion
-        if variant.reference_bases.size > 1
-          "#{base_hgvs}_#{variant.stop}del"
-        else
-          "#{base_hgvs}del"
-        end
-      when :substitution
-        "#{base_hgvs}#{variant.reference_bases}>#{variant.variant_bases}"
-      when :insertion
-        "#{base_hgvs}_#{variant.stop.to_i}ins#{variant.variant_bases}"
-      when :indel
-        if variant.reference_bases.size > 1
-          "#{base_hgvs}_#{variant.stop}delins#{variant.variant_bases}"
-        else
-          "#{base_hgvs}delins#{variant.variant_bases}"
-        end
+    elsif type == "allele_registry"
+      if coordinates.reference_build == "GRCh38"
+        chromosome = refseq_sequence_b38(coordinates.chromosome)
+      elsif coordinates.reference_build == "GRCh37"
+        chromosome = refseq_sequence_b37(coordinates.chromosome)
       else
-        nil
+        return
+      end
+    end
+    base_hgvs = "#{chromosome}:g.#{start}"
+    case variant_type(coordinates)
+    when :deletion
+      if ref.size > 1
+        "#{base_hgvs}_#{stop}del"
+      else
+        "#{base_hgvs}del"
+      end
+    when :substitution
+      "#{base_hgvs}#{ref}>#{alt}"
+    when :insertion
+      "#{base_hgvs}_#{stop.to_i}ins#{alt}"
+    when :indel
+      if ref.size > 1
+        "#{base_hgvs}_#{stop}delins#{alt}"
+      else
+        "#{base_hgvs}delins#{alt}"
       end
     else
       nil
     end
   end
 
-  def self.variant_type(variant)
-    if variant.reference_bases.blank? && variant.variant_bases.blank?
+  def self.variant_type(coordinates)
+    if coordinates.reference_bases.blank? && coordinates.variant_bases.blank?
       nil
-    elsif variant.reference_bases.present? && variant.variant_bases.blank?
+    elsif coordinates.reference_bases.present? && coordinates.variant_bases.blank?
       :deletion
-    elsif variant.reference_bases.blank? && variant.variant_bases.present?
+    elsif coordinates.reference_bases.blank? && coordinates.variant_bases.present?
       :insertion
-    elsif variant.reference_bases.size == 1 && variant.variant_bases.size == 1
+    elsif coordinates.reference_bases.size == 1 && coordinates.variant_bases.size == 1
       :substitution
-    elsif variant.reference_bases.size >= 1 && variant.variant_bases.size >= 1
+    elsif coordinates.reference_bases.size >= 1 && coordinates.variant_bases.size >= 1
       :indel
     else
       nil
     end
   end
 
+  def self.get_build_37_coords(variant)
+    resp = make_request(variant)
+    coords = resp["genomicAlleles"]
+
+    if coords
+      coords.select { |coords| coords["referenceGenome"] == "GRCh37" }.first
+    else
+      nil
+    end
+  end
+
+  def self.make_request(variant)
+    res = Scrapers::Util.make_get_request(make_allele_registry_url(variant))
+    JSON.parse(res)
+  rescue StandardError
+    {}
+  end
+
+  def self.make_allele_registry_url(variant)
+    "https://reg.genome.network/allele/#{variant.allele_registry_id}"
+  end
+
+  def self.convert_zero_to_one_based(start, ref, alt)
+    if ref.size == alt.size # SNV
+      start.to_i + 1
+    elsif ref.size > alt.size # DEL
+      start.to_i + 1
+    else # INS
+      start
+    end
+  end
 
   def self.refseq_sequence_b38(chromosome)
     sequences = {

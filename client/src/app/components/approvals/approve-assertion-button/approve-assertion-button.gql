@@ -1,0 +1,15 @@
+mutation ApproveAssertion($input: ApproveAssertionInput!) {
+  approveAssertion(input: $input) {
+    assertion {
+      ...AssertionSummaryFields
+    }
+  }
+}
+
+mutation RevokeApproval($input: RevokeApprovalInput!) {
+  revokeApproval(input: $input) {
+    assertion {
+      ...AssertionSummaryFields
+    }
+  }
+}

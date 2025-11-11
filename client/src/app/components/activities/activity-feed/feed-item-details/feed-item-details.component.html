@@ -90,15 +90,15 @@
         [cvcCreateSourceLinkActivity]="activity">
       </cvc-create-source-link-activity-details>
     }
-    @case ('EndorseAssertionActivity') {
-      <cvc-endorse-assertion-activity-details
-        [cvcEndorseAssertionActivity]="activity">
-      </cvc-endorse-assertion-activity-details>
+    @case ('ApproveAssertionActivity') {
+      <cvc-approve-assertion-activity-details
+        [cvcApproveAssertionActivity]="activity">
+      </cvc-approve-assertion-activity-details>
     }
-    @case ('RevokeEndorsementActivity') {
-      <cvc-revoke-endorsement-activity-details
-        [cvcRevokeEndorsementActivity]="activity">
-      </cvc-revoke-endorsement-activity-details>
+    @case ('RevokeApprovalActivity') {
+      <cvc-revoke-approval-activity-details
+        [cvcRevokeApprovalActivity]="activity">
+      </cvc-revoke-approval-activity-details>
     }
     @default {
       <h4 style="margin: 8px">Unhandled activity type</h4>

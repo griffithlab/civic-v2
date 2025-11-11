@@ -10,11 +10,20 @@ Trestle.resource(:affiliations) do
   end
 
   search do |q|
-    q ? collection.where("users.name ILIKE ? OR organizations.name ILIKE ?", "%#{q}%", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("users.name ILIKE ? OR organizations.name ILIKE ? OR affiliations.id = ?", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("users.name ILIKE ? OR organizations.name ILIKE ?", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   scope :all, default: true
-  scope :with_endorsement_permissions, -> {  Affiliation.eager_load(:user, :organization).where(can_endorse: true) }
+  scope :with_approval_permissions, -> {  Affiliation.eager_load(:user, :organization).where(can_approve: true) }
 
   # Customize the table columns shown on the index view.
   table do
@@ -24,7 +33,7 @@ Trestle.resource(:affiliations) do
     column :organization do |a|
       a.organization.name
     end
-    column :can_endorse
+    column :can_approve
   end
 
   # Customize the form fields shown on the new/edit views.
@@ -41,7 +50,7 @@ Trestle.resource(:affiliations) do
       end
     end
     row do
-      col { check_box :can_endorse, label: "User Allowed to Endorse Assertions for this Organization" }
+      col { check_box :can_approve, label: "User Allowed to Approve Assertions for this Organization" }
     end
   end
 

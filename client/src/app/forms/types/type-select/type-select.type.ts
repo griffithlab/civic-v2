@@ -21,8 +21,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map, take, filter } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
+import { BehaviorSubject, filter, map, take } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 const optionText: { [option: string]: string } = {
@@ -64,11 +63,11 @@ const EntityTypeSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-type-select',
-    templateUrl: './type-select.type.html',
-    styleUrls: ['./type-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-type-select',
+  templateUrl: './type-select.type.html',
+  styleUrls: ['./type-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEntityTypeSelectField
   extends EntityTypeSelectMixin

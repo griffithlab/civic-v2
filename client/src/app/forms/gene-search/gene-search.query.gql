@@ -1,9 +1,0 @@
-query GeneAdvancedSearch($query: GeneSearchFilter!) {
-  searchGenes(query: $query, createPermalink: true) {
-    ...AdvancedSearchPermalink
-  }
-}
-
-fragment AdvancedSearchPermalink on AdvancedSearchResult {
-  permalinkId
-}

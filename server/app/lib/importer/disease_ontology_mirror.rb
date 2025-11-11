@@ -1,24 +1,33 @@
 module Importer
   class DiseaseOntologyMirror
-    attr_reader :parser, :version, :unprocessed_doids
+    attr_reader :parser, :version, :unprocessed_doids, :parents
 
     def initialize(path, version = Time.now.utc.iso8601)
       @parser = Obo::Parser.new(path)
       @version = version
       @unprocessed_doids = Disease.where.not(doid: nil).pluck(:doid)
+      @parents = {}
     end
 
     def import
       parser.elements.each do |elem|
         next unless valid_entry?(elem)
+        store_parent(elem)
         create_object_from_entry(elem)
       end
+      create_graph
       delete_unprocessed_diseases
     end
 
     private
     def valid_entry?(entry)
       entry["id"].present? && entry["name"].present? && entry.respond_to?(:name) && entry.name == "Term"
+    end
+
+    def store_parent(elem)
+      if elem["is_a"].present?
+        parents[elem["id"]] = Array(elem["is_a"])
+      end
     end
 
     def create_object_from_entry(entry)
@@ -36,7 +45,7 @@ module Importer
       disease.name = name
       disease.doid = doid
       disease.display_name = display_name
-      disease.save
+      disease.save!
       assign_synonyms(disease, synonyms)
       unprocessed_doids.delete(disease.doid)
     end
@@ -75,6 +84,20 @@ module Importer
       removed_aliases.each do |a|
         alias_to_remove = DiseaseAlias.find_by(name: a)
         disease.disease_aliases.delete(alias_to_remove)
+      end
+    end
+
+    def create_graph
+      parents.each do |elem_doid, parent_doid|
+        parent_doid.each do |parent_doid|
+          parent = Disease.find_by(doid: parse_doid(parent_doid))
+          child = Disease.find_by(doid: parse_doid(elem_doid))
+          if parent.present? && child.present?
+            parent.add_child_term(child, relationship: "is_a")
+          else
+            raise StandardError.new("Unexpected unknown DOID: #{parent_doid} or #{elem_doid}")
+          end
+        end
       end
     end
 

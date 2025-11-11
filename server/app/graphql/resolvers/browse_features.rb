@@ -9,11 +9,12 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
 
   scope { MaterializedViews::FeatureBrowseTableRow.all }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:feature_name, type: String) { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
   option(:feature_full_name, type: String) { |scope, value| scope.where("full_name ILIKE ?", "%#{value}%") }
-  option(:search_scope, type: Types::AdvancedSearch::GeneSearchFilterType) do |scope, value|
-    scope.where("gene_browse_table_rows.id" => AdvancedSearches::Gene.new(query: value).results)
-  end
   option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column("alias_names"), "#{value}%") }
   option(:disease_name, type: String)  do |scope, value|
     scope.where(json_name_query_for_column(scope.table_name, "diseases"), "%#{value}%")

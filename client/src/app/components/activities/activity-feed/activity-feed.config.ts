@@ -30,7 +30,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   userId: [],
   activityType: [],
   subjectType: [],
-  linkedEndorsementId: null,
+  linkedApprovalId: null,
   occurredAfter: null,
   occurredBefore: null,
   sortByColumn: DateSortColumns.Created,
@@ -46,7 +46,7 @@ export const simpleActivityTypes = new Set([
   'CreateVariantActivity',
   'CreateFeatureActivity',
   'DeleteCommentActivity',
-  'EndorseAssertionActivity',
+  'ApproveAssertionActivity',
 ])
 
 //TODO: Remove me, not needed
@@ -60,8 +60,7 @@ export const commentOnlyActivityTypes = new Set([
   'ModerateAssertionActivity',
   'ModerateEvidenceItemActivity',
   'CreateSourceLinkActivity',
-  'RevokeEndorsementActivity',
-  'RevokeEndorsementActivity',
+  'RevokeApprovalActivity',
   'ModerateAssertionActivity',
   'ModerateEvidenceItemActivity',
 ])

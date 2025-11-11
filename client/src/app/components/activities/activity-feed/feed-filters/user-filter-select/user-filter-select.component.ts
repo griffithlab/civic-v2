@@ -1,40 +1,31 @@
-import {
-  Component,
-  input,
-  model,
-  output,
-  Signal,
-  WritableSignal,
-} from '@angular/core'
+import { Component, input, model, Signal } from '@angular/core'
 import { ActivityFeedFilterOptions } from '../../activity-feed.types'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { FormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CommonModule } from '@angular/common'
-import { from, map, skip, startWith, Subject, switchMap } from 'rxjs'
+import { from, map, Subject, switchMap } from 'rxjs'
 import {
   BrowseUser,
-  User,
   UserFilterSearchGQL,
   UserFilterSearchQuery,
   UserFilterSearchQueryVariables,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
-import { tag } from 'rxjs-spy/operators'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
-    selector: 'cvc-user-filter-select',
-    imports: [
-        CommonModule,
-        FormsModule,
-        NzIconModule,
-        NzSelectModule,
-        CvcPipesModule,
-    ],
-    templateUrl: './user-filter-select.component.html',
-    styleUrl: './user-filter-select.component.less'
+  selector: 'cvc-user-filter-select',
+  imports: [
+    CommonModule,
+    FormsModule,
+    NzIconModule,
+    NzSelectModule,
+    CvcPipesModule,
+  ],
+  templateUrl: './user-filter-select.component.html',
+  styleUrl: './user-filter-select.component.less',
 })
 export class CvcUserFilterSelect {
   cvcUniqueParticipants =
@@ -49,7 +40,6 @@ export class CvcUserFilterSelect {
   constructor(private gql: UserFilterSearchGQL) {
     this.onSearch$ = new Subject<string>()
     const filteredUser$ = this.onSearch$.pipe(
-      tag(`filteredUser$`),
       // skip(1),
       // filter(isNonNulled),
       switchMap((nameStr) => {
@@ -67,9 +57,8 @@ export class CvcUserFilterSelect {
       }),
       map(
         (result) =>
-          result.data?.users.edges.map((e) => e.node! as BrowseUser) ?? []
-      ),
-      tag(`${this.constructor.name} filteredUser$ after`)
+          result.data?.browseUsers.edges.map((e) => e.node! as BrowseUser) ?? []
+      )
     )
     this.filteredUsers = toSignal(filteredUser$, { initialValue: [] })
     this.onSearch = toSignal(this.onSearch$, { initialValue: '' })

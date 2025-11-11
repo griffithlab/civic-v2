@@ -20,7 +20,7 @@ module Types::Activities
     value "DEPRECATE_FEATURE", value: "DeprecateFeatureActivity"
     value "DELETE_COMMENT", value: "DeleteCommentActivity"
     value "CREATE_LINKED_SOURCE", value: "CreateLinkedSourceActivity"
-    value "ENDORSE_ASSERTION", value: "EndorseAssertionActivity"
-    value "REVOKE_ENDORSEMENT", value: "RevokeEndorsementActivity"
+    value "APPROVE_ASSERTION", value: "ApproveAssertionActivity"
+    value "REVOKE_APPROVAL", value: "RevokeApprovalActivity"
   end
 end

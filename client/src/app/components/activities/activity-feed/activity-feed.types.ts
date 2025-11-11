@@ -35,7 +35,7 @@ export type ActivityFeedFilters = {
   includeSubgroups: boolean
   subjectType: ActivitySubjectInput[]
   userId: number[]
-  linkedEndorsementId: number | null
+  linkedApprovalId: number | null
   occurredAfter: Date | null
   occurredBefore: Date | null
   sortByColumn: DateSortColumns

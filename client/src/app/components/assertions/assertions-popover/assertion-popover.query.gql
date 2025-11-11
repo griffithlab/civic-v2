@@ -67,10 +67,10 @@ fragment assertionPopover on Assertion {
   comments {
     totalCount
   }
-  endorsements(status: ACTIVE) {
+  approvals(status: ACTIVE) {
     totalCount
     nodes {
-      ...endorsementListNode
+      ...approvalListNode
     }
   }
 }

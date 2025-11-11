@@ -9,7 +9,7 @@ query ActivityFeed(
   $userId: [Int!]
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
-  $linkedEndorsementId: Int
+  $linkedApprovalId: Int
   $includeAutomatedEvents: Boolean
   $includeConnection: Boolean = true
   $includePageInfo: Boolean = true
@@ -27,9 +27,9 @@ query ActivityFeed(
     before: $before
     after: $after
     userId: $userId
-    linkedEndorsementId: $linkedEndorsementId
+    linkedApprovalId: $linkedApprovalId
     includeAutomatedEvents: $includeAutomatedEvents
-    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
+    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
     activityType: $activityType
     subjectType: $subjectType
     mode: $mode
@@ -183,6 +183,6 @@ fragment ActivityFeedItem on ActivityInterface {
   ...SuggestSourceActivityDetail @include(if: $requestDetails)
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
   ...CreateSourceLinkActivityDetail @include(if: $requestDetails)
-  ...EndorseAssertionActivityDetail @include(if: $requestDetails)
-  ...RevokeEndorsementActivityDetail @include(if: $requestDetails)
+  ...ApproveAssertionActivityDetail @include(if: $requestDetails)
+  ...RevokeApprovalActivityDetail @include(if: $requestDetails)
 }

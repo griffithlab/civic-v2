@@ -68,8 +68,8 @@ module Types
     field :generate_api_key, mutation: Mutations::GenerateApiKey
     field :revoke_api_key, mutation: Mutations::RevokeApiKey
 
-    # endorsements
-    field :endorse_assertion, mutation: Mutations::EndorseAssertion
-    field :revoke_endorsement, mutation: Mutations::RevokeEndorsement
+    # approvals
+    field :approve_assertion, mutation: Mutations::ApproveAssertion
+    field :revoke_approval, mutation: Mutations::RevokeApproval
   end
 end

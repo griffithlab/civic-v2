@@ -24,6 +24,10 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of the assertion.") do |scope, value|
     scope.where("assertions.id = ?", value)
   end
+
+  option(:ids, type: [ GraphQL::Types::Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where("assertions.id IN (?)", value)
+  end
   option(:variant_id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of the variant.") do |scope, value|
     scope.joins(molecular_profile: [ :variants ]).where("variants.id = ?", value)
   end
@@ -104,20 +108,20 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     end
   end
 
-  option(:endorsing_organizations, type: Types::OrganizationFilterType, description: "Filter AIDs by Organziations that have endorsed them. Specifying multiple IDs will return Assertions endorsed by any of the Organizations.") do |scope, value|
+  option(:approving_organizations, type: Types::OrganizationFilterType, description: "Filter AIDs by Organizations that have approved them. Specifying multiple IDs will return Assertions approved by any of the Organizations.") do |scope, value|
     included_statuses = [ "active", "requires_review" ]
 
     if value.include_subgroups && !value.ids.blank?
       org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }
-      scope.joins(:endorsements)
-        .where(endorsements: { status: included_statuses, organization_id: org_ids })
+      scope.joins(:approvals)
+        .where(approvals: { status: included_statuses, organization_id: org_ids })
     elsif !value.ids.blank?
-      scope.joins(:endorsements)
-        .where(endorsements: { status: included_statuses, organization_id: value.ids })
+      scope.joins(:approvals)
+        .where(approvals: { status: included_statuses, organization_id: value.ids })
     elsif !value.name.blank?
       org_id = Organization.where("ILIKE ?", value.name).pluck(:id)
-      scope.joins(:endorsements)
-        .where(endorsements: { status: included_statuses, organization_id: org_id })
+      scope.joins(:approvals)
+        .where(approvals: { status: included_statuses, organization_id: org_id })
     else
       scope
     end

@@ -1,150 +1,276 @@
-<!--
- *  Copyright (c) 2021 GraphQL Contributors
- *  All rights reserved.
- *
- *  This source code is licensed under the license found in the
- *  LICENSE file in the root directory of this source tree.
--->
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>CIViC GraphiQL</title>
-    <style>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CIViC GraphiQL</title>
+  <link rel="stylesheet" href="https://esm.sh/graphiql/dist/style.css"/>
+  <link
+    rel="stylesheet"
+    href="https://esm.sh/@graphiql/plugin-explorer/dist/style.css"
+    />
+  <link
+    rel="stylesheet"
+    href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css"
+    />
+  <style>
       body {
-        height: 100%;
-        margin: 0;
-        width: 100%;
-        overflow: hidden;
+          height: 100%;
+          margin: 0;
+          width: 100%;
+          overflow: hidden;
       }
 
       #graphiql {
-        height: 100vh;
+          height: calc(100dvh - 80px);
       }
-    </style>
-    <!--
-      This GraphiQL example depends on Promise and fetch, which are available in
-      modern browsers, but can be "polyfilled" for older browsers.
-      GraphiQL itself depends on React DOM.
-      If you do not want to rely on a CDN, you can host these files locally or
-      include them directly in your favored resource bundler.
-    -->
-    <script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.development.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
-    ></script>
-    <!--
-      These two files can be found in the npm module, however you may wish to
-      copy them directly into your environment, or perhaps include them in your
-      favored resource bundler.
-     -->
-    <script
-      src="https://unpkg.com/graphiql/graphiql.min.js"
-      type="application/javascript"
-    ></script>
-    <link rel="stylesheet" href="https://unpkg.com/graphiql/graphiql.min.css" />
-    <!-- 
-      These are imports for the GraphIQL Explorer plugin.
-     -->
-    <script
-      src="https://unpkg.com/@graphiql/plugin-explorer/dist/index.umd.js"
-      crossorigin
-    ></script>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@graphiql/plugin-explorer/dist/style.css"
-    />
+      .loading {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 4rem;
+      }
 
-    <link
-      rel="stylesheet"
-      href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css"
-    />
-  </head>
+      .navbar {
+          padding: 0 .5rem !important;
 
-  <body>
-    <nav class="navbar is-dark is-spaced ">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="https://civicdb.org">
-          <img src="/assets/images/civic-logo_sidebar-expanded.png" height="28">
-        </a>
-        <a class="navbar-item" href="https://civicdb.org/api/graphiql">
-          <h1 class="title has-text-light">GraphQL Sandbox</h1>
-        </a>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <a class="navbar-item" href="https://docs.civicdb.org" target="_blank">
-            Documentation
-          </a>
-          <a class="navbar-item" href="https://civicdb.org/pages/help" target="_blank">
-            Contact
-          </a>
-        </div>
-      </div>
-    </nav>
-    <section class="section">
-      <div class="content">
-        <p>
-          Welcome to the CIViC GraphiQL Sandbox. Here you can browse the API schema 
-          and documentation as well as view example queries in the sidebar. Click the 
-          <svg height="1em" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title>docs icon</title><path d="M0.75 3C0.75 4.24264 1.75736 5.25 3 5.25H17.25M0.75 3C0.75 1.75736 1.75736 0.75 3 0.75H16.25C16.8023 0.75 17.25 1.19772 17.25 1.75V5.25M0.75 3V21C0.75 22.2426 1.75736 23.25 3 23.25H18.25C18.8023 23.25 19.25 22.8023 19.25 22.25V6.25C19.25 5.69771 18.8023 5.25 18.25 5.25H17.25" stroke="currentColor" stroke-width="1.5"></path><line x1="13" y1="11.75" x2="6" y2="11.75" stroke="currentColor" stroke-width="1.5"></line></svg>
-           icon to browse the CIViC API Documentation or <a href="https://graphql.org/learn/" target="_blank">click here</a> to learn more about GraphQL.
-        </p>
-      </div>
-      <div class="columns">
-        <div class="column is-2 is-narrow" style="margin-top: 18px;">
-          <% @examples.each do |ex| %>
-            <div class="block">
-              <div class="field">
-                <div class="control">
-                  <button class="button is-info is-outlined" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" onclick="updateQuery(`<%= ex["query"] %>`)"><%= ex["name"] %></button>
-                  <div class="content">
-                    <p class="help">
-                    <%= ex["description"] %>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-        <div class="column">
-          <div id="graphiql">Loading...</div>
-        </div>
-      </div>
-    </section>
+          .title {
+              font-size: 1.5rem !important;
+          }
+      }
 
-    <script>
-      const root = ReactDOM.createRoot(document.getElementById("graphiql"));
-      const fetcher = GraphiQL.createFetcher({
-        url: "/api/graphql",
+      .navbar-burger {
+          display: flex !important;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          /* keep the same footprint Bulma uses by default */
+          width: 3.25rem;
+          height: 3.25rem;
+          font-size: 1rem
+      }
+
+      .navbar-burger i {
+          width: 1.5rem;
+          height: 2px;
+          margin: 0.25rem 0 !important;
+          background-color: currentColor;
+      }
+
+      /* default navbar toggle icon */
+      .navbar-burger {
+          #bars {
+              display: none !important;
+          }
+
+          #plus {
+              display: block !important;
+          }
+      }
+
+      /* active navbar toggle icon */
+      .navbar-burger.is-active {
+          #bars {
+              display: block !important;
+          }
+
+          #plus {
+              display: none !important;
+          }
+      }
+
+      #sidebarMenu {
+          display: none !important;
+      }
+
+      #sidebarMenu.is-active {
+          display: block !important;
+      }
+  </style>
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <!-- Note: the ?standalone flag bundles the module along with all of its `dependencies`, excluding `peerDependencies`, into a single JavaScript file. -->
+  <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@19.1.0",
+          "react/jsx-runtime": "https://esm.sh/react@19.1.0/jsx-runtime",
+
+          "react-dom": "https://esm.sh/react-dom@19.1.0",
+          "react-dom/client": "https://esm.sh/react-dom@19.1.0/client",
+
+          "graphiql": "https://esm.sh/graphiql?standalone&external=react,react-dom,@graphiql/react,graphql",
+          "@graphiql/plugin-explorer": "https://esm.sh/@graphiql/plugin-explorer?standalone&external=react,@graphiql/react,graphql",
+          "@graphiql/react": "https://esm.sh/@graphiql/react?standalone&external=react,react-dom,graphql",
+
+          "@graphiql/toolkit": "https://esm.sh/@graphiql/toolkit?standalone&external=graphql",
+          "graphql": "https://esm.sh/graphql@16.11.0"
+        }
+      }
+
+
+
+
+
+
+
+  </script>
+  <script type="module">
+      // Import React and ReactDOM
+      import React from "react";
+      import ReactDOM from "react-dom/client";
+      // Import GraphiQL and the Explorer plugin
+      import {GraphiQL, HISTORY_PLUGIN} from "graphiql";
+      import {createGraphiQLFetcher} from "@graphiql/toolkit";
+      import {explorerPlugin} from "@graphiql/plugin-explorer";
+
+      import createJSONWorker from "https://esm.sh/monaco-editor/esm/vs/language/json/json.worker.js?worker";
+      import createGraphQLWorker from "https://esm.sh/monaco-graphql/esm/graphql.worker.js?worker";
+      import createEditorWorker from "https://esm.sh/monaco-editor/esm/vs/editor/editor.worker.js?worker";
+
+      globalThis.MonacoEnvironment = {
+          getWorker(_workerId, label) {
+              console.info("MonacoEnvironment.getWorker", {label});
+              switch (label) {
+                  case "json":
+                      return createJSONWorker();
+                  case "graphql":
+                      return createGraphQLWorker();
+              }
+              return createEditorWorker();
+          },
+      };
+
+      const fetcher = createGraphiQLFetcher({
+          url: "/api/graphql",
       });
+      const plugins = [HISTORY_PLUGIN, explorerPlugin()];
 
-      const explorerPlugin = GraphiQLPluginExplorer.explorerPlugin();
+      function ComponentWithQuery(query) {
+          return function App() {
+              return React.createElement(GraphiQL, {
+                  fetcher,
+                  plugins,
+                  defaultEditorToolsVisibility: true,
+                  initialQuery: query,
+              });
+          }
+      }
 
-      const gql = React.createElement(GraphiQL, {
-        fetcher,
-        defaultQuery: `<%= @initial_query %>`,
-        defaultEditorToolsVisibility: true,
-        plugins: [explorerPlugin],
-      });
-
-      root.render(gql);
+      const container = document.getElementById("graphiql");
+      const root = ReactDOM.createRoot(container);
+      const defaultQuery = `<%= @initial_query %>`
+      root.render(React.createElement(ComponentWithQuery(defaultQuery)))
 
       function updateQuery(newQuery) {
-        const newGQL = React.createElement(GraphiQL, {
-          fetcher,
-          query: newQuery,
-          defaultEditorToolsVisibility: true,
-          plugins: [explorerPlugin],
-        });
-
-        root.render(newGQL);
+          root.render(React.createElement(ComponentWithQuery(newQuery)))
       }
-    </script>
-  </body>
+
+      window.updateQuery = updateQuery
+  </script>
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+          // Get all "navbar-burger" elements
+          const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach(el => {
+              el.addEventListener('click', () => {
+
+                  // Get the target from the "data-target" attribute
+                  const target = el.dataset.target;
+                  const $target = document.getElementById(target);
+                  console.log('target', target)
+                  console.log('$target', $target)
+                  // toggle active on button and target
+                  el.classList.toggle('is-active');
+                  $target.classList.toggle('is-active');
+              });
+          });
+
+      });
+  </script>
+</head>
+<body>
+<nav class="navbar is-dark is-spaced ">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://civicdb.org">
+      <img src="/assets/images/civic-logo_sidebar-expanded.png" alt="CIViC Logo" height="28">
+    </a>
+    <a class="navbar-item" href="https://civicdb.org/api/graphiql">
+      <h1 class="title has-text-light">GraphQL Sandbox</h1>
+    </a>
+    <a role="button"
+       class="navbar-burger is-active"
+       data-target="sidebarMenu"
+       aria-label="menu"
+       aria-expanded="false">
+      <i id="bars" class="fas fa-bars fa-lg"></i>
+      <i id="plus" class="fas fa-plus-square fa-lg"></i>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <div class="is-size-6" style="padding-left: 48px; font-style: oblique;">Learn and explore the CIViC GraphQL API
+      </div>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="https://docs.civicdb.org" target="_blank">
+        CIViC Docs
+      </a>
+      <a class="navbar-item" href="https://graphql.org/learn/" target="_blank">
+        GraphQL Docs
+      </a>
+      <a class="navbar-item" href="https://civicdb.org/pages/help" target="_blank">
+        Contact
+      </a>
+    </div>
+  </div>
+</nav>
+<div class="columns theme">
+  <div class="column is-2 is-dark is-active" id="sidebarMenu" style="padding-top: 24px; padding-left: 24px;">
+    <div class="block">
+      <p class="is-size-7 has-text-right" style="white-space: nowrap">
+        Click
+        <svg height="1em" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title>docs icon</title>
+          <path d="M0.75 3C0.75 4.24264 1.75736 5.25 3 5.25H17.25M0.75 3C0.75 1.75736 1.75736 0.75 3 0.75H16.25C16.8023 0.75 17.25 1.19772 17.25 1.75V5.25M0.75 3V21C0.75 22.2426 1.75736 23.25 3 23.25H18.25C18.8023 23.25 19.25 22.8023 19.25 22.25V6.25C19.25 5.69771 18.8023 5.25 18.25 5.25H17.25" stroke="currentColor" stroke-width="1.5"></path>
+          <line x1="13" y1="11.75" x2="6" y2="11.75" stroke="currentColor" stroke-width="1.5"></line>
+        </svg>
+        for API documentation&nbsp;<span class="icon"><i class="fas fa-arrow-right"></i></span>
+      </p>
+    </div>
+    <div class="block" style="margin-bottom: 8px">
+      <p class="is-size-7 has-text-centered" style="margin-top: 24px;white-space: nowrap">
+        <span class="icon"><i class="fas fa-arrow-down"></i></span>&nbsp;Click to insert example
+        queries&nbsp;<span class="icon"><i class="fas fa-arrow-down"></i></span>
+      </p>
+    </div>
+    <% @examples.each do |ex| %>
+      <div class="block">
+        <div class="field">
+          <div class="control">
+            <button class="button is-info is-outlined is-small"
+                    style="width: 100%; overflow: hidden; text-overflow: ellipsis;"
+                    onclick="updateQuery(`<%= ex["query"] %>`)">
+              <strong> <%= ex["name"] %> </strong>
+            </button>
+            <div class="content">
+              <p class="help">
+                <%= ex["description"] %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="column">
+    <div id="graphiql">
+      <div class="loading">Loading…</div>
+    </div>
+  </div>
+</div>
+</body>
 </html>

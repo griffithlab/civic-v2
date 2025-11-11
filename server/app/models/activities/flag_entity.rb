@@ -1,6 +1,6 @@
 module Activities
   class FlagEntity < Base
-    attr_reader :flaggable, :flag, :endorsements
+    attr_reader :flaggable, :flag, :approvals
 
     def initialize(flagging_user:, flaggable:, organization_id: nil, note:)
       super(organization_id: organization_id, user: flagging_user, note: note)
@@ -32,19 +32,19 @@ module Activities
     end
 
     def after_actions
-      @endorsements = if self.flaggable.respond_to?(:endorsements)
-        self.flaggable.endorsements.select { |e| e.active? || e.requires_review? }
+      @approvals = if self.flaggable.respond_to?(:approvals)
+        self.flaggable.approvals.select { |e| e.active? || e.requires_review? }
       else
         []
       end
-      endorsements.select { |e| e.active? }.each do |e|
+      approvals.select { |e| e.active? }.each do |e|
         e.status = "requires_review"
         e.save!
       end
     end
 
     def linked_entities
-      [ flag, endorsements ]
+      [ flag, approvals ]
     end
   end
 end

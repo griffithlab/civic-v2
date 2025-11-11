@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_31_154507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "endorsement_status", ["active", "revoked", "requires_review"]
+  create_enum "approval_status", ["active", "revoked", "requires_review"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
@@ -34,6 +34,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.integer "assertion_id", null: false
     t.index ["acmg_code_id", "assertion_id"], name: "index_acmg_codes_assertions_on_acmg_code_id_and_assertion_id"
     t.index ["assertion_id"], name: "index_acmg_codes_assertions_on_assertion_id"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -104,7 +114,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.bigint "organization_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "can_endorse", default: false, null: false
+    t.boolean "can_approve", default: false, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
@@ -121,6 +131,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
     t.index ["revoked"], name: "index_api_keys_on_revoked"
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
+  end
+
+  create_table "approvals", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "assertion_id", null: false
+    t.enum "status", default: "active", null: false, enum_type: "approval_status"
+    t.datetime "last_reviewed", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_approvals_on_assertion_id"
+    t.index ["organization_id"], name: "index_approvals_on_organization_id"
+    t.index ["user_id"], name: "index_approvals_on_user_id"
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
@@ -472,17 +495,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
   end
 
-  create_table "endorsements", force: :cascade do |t|
-    t.bigint "organization_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "assertion_id", null: false
-    t.enum "status", default: "active", null: false, enum_type: "endorsement_status"
-    t.datetime "last_reviewed", precision: nil, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assertion_id"], name: "index_endorsements_on_assertion_id"
-    t.index ["organization_id"], name: "index_endorsements_on_organization_id"
-    t.index ["user_id"], name: "index_endorsements_on_user_id"
+  create_table "edges", force: :cascade do |t|
+    t.bigint "previous_node_id", null: false
+    t.bigint "next_node_id", null: false
+    t.text "edge_type", null: false
+    t.index ["edge_type"], name: "index_edges_on_edge_type"
+    t.index ["next_node_id"], name: "index_edges_on_next_node_id"
+    t.index ["previous_node_id"], name: "index_edges_on_previous_node_id"
   end
 
   create_table "entity_mentions", force: :cascade do |t|
@@ -753,6 +772,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.text "name", null: false
   end
 
+  create_table "news_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "published_at"
+    t.text "title", null: false
+    t.boolean "published", default: false, null: false
+  end
+
+  create_table "nodes", force: :cascade do |t|
+    t.string "term_type", null: false
+    t.bigint "term_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id", "term_type"], name: "index_nodes_on_id_and_term_type"
+    t.index ["term_id", "term_type"], name: "index_nodes_on_term_id_and_term_type"
+    t.index ["term_type", "term_id"], name: "index_nodes_on_term"
+  end
+
   create_table "notifications", id: :serial, force: :cascade do |t|
     t.integer "notified_user_id"
     t.integer "originating_user_id"
@@ -784,7 +821,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "most_recent_activity_timestamp", precision: nil
-    t.boolean "can_endorse", default: false, null: false
+    t.boolean "can_approve", default: false, null: false
     t.boolean "is_approved_vcep", default: false, null: false
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
@@ -1107,9 +1144,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
     t.text "soid", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.integer "parent_id"
-    t.integer "lft"
-    t.integer "rgt"
     t.index ["display_name"], name: "index_variant_types_on_display_name"
     t.index ["name"], name: "index_variant_types_on_name"
     t.index ["soid"], name: "index_variant_types_on_soid"
@@ -1221,6 +1255,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_153314) do
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
+  add_foreign_key "edges", "nodes", column: "next_node_id"
+  add_foreign_key "edges", "nodes", column: "previous_node_id"
   add_foreign_key "entity_mentions", "comments"
   add_foreign_key "events", "activities"
   add_foreign_key "events", "organizations"

@@ -8,7 +8,16 @@ Trestle.resource(:organizations) do
   end
 
   search do |q|
-    q ? collection.where("name ILIKE ?", "%#{q}%") : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("name ILIKE ? OR id = ?", "%#{q}%", query_id)
+      else
+        collection.where("name ILIKE ?", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   # Customize the table columns shown on the index view.
@@ -32,7 +41,7 @@ Trestle.resource(:organizations) do
     end
 
     row do
-      col { check_box :can_endorse, label: "Organization Allowed to Endorse Assertions" }
+      col { check_box :can_approve, label: "Organization Allowed to Approve Assertions" }
     end
     row do
       col { check_box :is_approved_vcep, label: "This Organization is a ClinGen Approved VCEP" }
