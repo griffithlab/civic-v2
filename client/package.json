@@ -24,7 +24,7 @@
     "error-stack-parser": "2.0.6"
   },
   "dependencies": {
-    "@angular-devkit/schematics": "20.0.5",
+    "@angular-devkit/schematics": "^20.3.9",
     "@angular/animations": "^20.0.6",
     "@angular/common": "^20.0.6",
     "@angular/compiler": "^20.0.6",
@@ -52,15 +52,15 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^20.0.5",
-    "@angular-devkit/core": "^20.0.5",
+    "@angular-devkit/build-angular": "^20.3.9",
+    "@angular-devkit/core": "^20.3.9",
     "@angular-eslint/builder": "19.2.0",
     "@angular-eslint/eslint-plugin": "20.1.1",
     "@angular-eslint/eslint-plugin-template": "20.1.1",
     "@angular-eslint/schematics": "19.2.0",
     "@angular-eslint/template-parser": "20.1.1",
-    "@angular/cli": "^20.0.5",
-    "@angular/compiler-cli": "20.0.6",
+    "@angular/cli": "^20.3.9",
+    "@angular/compiler-cli": "^20.0.6",
     "@ctrl/tinycolor": "^4.1.0",
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.5",
