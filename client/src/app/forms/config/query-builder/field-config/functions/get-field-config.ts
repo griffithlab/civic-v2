@@ -1,10 +1,10 @@
 import {
-  QueryBuilderFieldOption,
+  QueryBuilderFilterOption,
   QueryBuilderSearchEndpoint,
 } from '@app/forms/config/query-builder/query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { BooleanOperator } from '@app/generated/civic.apollo'
-import { searchDiseasesFieldOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
+import { searchDiseasesFilterOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
 import { searchFeaturesFieldOptions } from '@app/forms/config/query-builder/field-config/search-features.config'
 import { searchAssertionsFieldOptions } from '@app/forms/config/query-builder/field-config/search-assertions.config'
 import { searchMolecularProfilesFieldOptions } from '@app/forms/config/query-builder/field-config/search-molecular-profiles.config'
@@ -21,22 +21,21 @@ export type QueryBuilderWrapper = 'query-builder-card' | 'query-subfilter-card'
 
 export function getFieldOptions(
   endpoint: QueryBuilderSearchEndpoint
-): QueryBuilderFieldOption[] {
-  const QUERY_FIELD_OPTION_REGISTRY: Record<string, QueryBuilderFieldOption[]> =
-    {
-      searchDiseases: searchDiseasesFieldOptions,
-      searchFeatures: searchFeaturesFieldOptions,
-      searchAssertions: searchAssertionsFieldOptions,
-      searchMolecularProfiles: searchMolecularProfilesFieldOptions,
-      searchEvidenceItems: searchEvidenceItemsFieldOptions,
-      searchPhenotypes: searchPhenotypesFieldOptions,
-      searchSources: searchSourcesFieldOptions,
-      searchTherapies: searchTherapiesFieldOptions,
-      searchUsers: searchUsersFieldOptions,
-      searchVariantTypes: searchVariantTypesFieldOptions,
-      searchVariants: searchVariantsFieldOptions,
-    }
-  const options = QUERY_FIELD_OPTION_REGISTRY[endpoint]
+): QueryBuilderFilterOption[] {
+  const FILTER_OPTIONS: Record<string, QueryBuilderFilterOption[]> = {
+    searchDiseases: searchDiseasesFilterOptions,
+    searchFeatures: searchFeaturesFieldOptions,
+    searchAssertions: searchAssertionsFieldOptions,
+    searchMolecularProfiles: searchMolecularProfilesFieldOptions,
+    searchEvidenceItems: searchEvidenceItemsFieldOptions,
+    searchPhenotypes: searchPhenotypesFieldOptions,
+    searchSources: searchSourcesFieldOptions,
+    searchTherapies: searchTherapiesFieldOptions,
+    searchUsers: searchUsersFieldOptions,
+    searchVariantTypes: searchVariantTypesFieldOptions,
+    searchVariants: searchVariantsFieldOptions,
+  }
+  const options = FILTER_OPTIONS[endpoint]
   if (!options) {
     console.warn(
       `Unknown searchEndpoint provided to getFieldOptions: "${endpoint}".`

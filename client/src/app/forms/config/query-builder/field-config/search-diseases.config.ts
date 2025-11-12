@@ -1,4 +1,4 @@
-import { QueryBuilderFieldOption } from '@app/forms/config/query-builder/query-builder.types'
+import { QueryBuilderFilterOption } from '@app/forms/config/query-builder/query-builder.types'
 import {
   BooleanOperator,
   BooleanSearchInput,
@@ -7,13 +7,30 @@ import {
   OntologyTermSearchInput,
   StringSearchInput,
 } from '@app/generated/civic.apollo'
+import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 
-// TODO: rename search*FieldOptions to search*FilterOptions
-export const searchDiseasesFieldOptions: QueryBuilderFieldOption[] = [
-  { key: 'deprecated', label: 'Deprecated', fieldConfig: [] },
-  { key: 'diseaseAliases', label: 'Aliases', fieldConfig: [] },
-  { key: 'id', label: 'ID', fieldConfig: [] },
-  { key: 'name', label: 'Name', fieldConfig: [] },
+export const searchDiseasesFilterOptions: QueryBuilderFilterOption[] = [
+  {
+    key: 'name',
+    label: 'Disease Name',
+    fieldConfig: INPUT_FIELD_CONFIG['StringSearchInput'],
+  },
+  {
+    key: 'diseaseAliases',
+    label: 'Disease Aliases',
+    fieldConfig: INPUT_FIELD_CONFIG['StringSearchInput'],
+  },
+  { key: 'id', label: 'ID', fieldConfig: INPUT_FIELD_CONFIG['IntSearchInput'] },
+  {
+    key: 'doid',
+    label: 'Disease Ontology ID',
+    fieldConfig: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
+  },
+  {
+    key: 'deprecated',
+    label: 'Deprecation Status',
+    fieldConfig: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+  },
 ]
 
 export type DiseaseSearchFilter = {

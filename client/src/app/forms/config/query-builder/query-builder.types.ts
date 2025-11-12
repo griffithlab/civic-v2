@@ -44,7 +44,7 @@ export type QueryBuilderSearchEndpoint =
   | 'searchVariants'
   | 'searchVariantTypes'
 
-export type QueryBuilderFieldOption = {
+export type QueryBuilderFilterOption = {
   key: string
   label: string
   fieldConfig: FormlyFieldConfig[]

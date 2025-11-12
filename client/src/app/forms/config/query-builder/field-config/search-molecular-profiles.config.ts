@@ -1,5 +1,5 @@
-import { QueryBuilderFieldOption } from '@app/forms/config/query-builder/query-builder.types'
+import { QueryBuilderFilterOption } from '@app/forms/config/query-builder/query-builder.types'
 
-export const searchMolecularProfilesFieldOptions: QueryBuilderFieldOption[] = [
+export const searchMolecularProfilesFieldOptions: QueryBuilderFilterOption[] = [
   { key: 'name', label: 'Name', fieldConfig: [] },
 ]
