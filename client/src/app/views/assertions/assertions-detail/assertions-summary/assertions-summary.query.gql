@@ -99,7 +99,7 @@ fragment AssertionSummaryFields on Assertion {
       profileImagePath(size: 32)
     }
   }
-  activeEndorsements: endorsements(status: ACTIVE) {
+  activeApprovals: approvals(status: ACTIVE) {
     totalCount
     nodes {
       id
@@ -111,7 +111,7 @@ fragment AssertionSummaryFields on Assertion {
       lastReviewed
     }
   }
-  requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
+  requiresReviewApprovals: approvals(status: REQUIRES_REVIEW) {
     totalCount
     nodes {
       id

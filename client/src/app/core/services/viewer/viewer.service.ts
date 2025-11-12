@@ -16,7 +16,7 @@ import { pluck } from 'rxjs-etc/operators'
 export interface Viewer {
   user?: ViewerFieldsFragment
   mostRecentOrg: Maybe<ViewerOrganizationFragment>
-  endorsableOrgIds: number[]
+  approvableOrgIds: number[]
   signedIn: boolean
   signedOut: boolean
   isAdmin: boolean
@@ -58,10 +58,11 @@ export class ViewerService {
           isCurator: isCurator(v),
           organizations: v == null ? [] : v.organizations,
           mostRecentOrg: v == null ? undefined : mostRecentOrg(v),
-          endorsableOrgIds:
+          approvableOrgIds:
             v == null
               ? []
-              : v.organizationsWithEndorsementPrivileges.map((o) => o.id),
+              : v.organizationsWithApprovalPrivileges?.map((o: any) => o.id) ||
+                [],
           invalidCoi:
             isEditor(v) &&
             (!v?.mostRecentConflictOfInterestStatement ||

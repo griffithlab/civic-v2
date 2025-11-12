@@ -53,7 +53,7 @@ Trestle.resource(:assertions) do
     tab :assertion do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) { status_field assertion.molecular_profile.display_name }
+        col(sm: 1) { status_tag assertion.molecular_profile.display_name }
         col(sm: 2) do
           variant_origins = Assertion.variant_origins.keys.map { |variant_origin| [ variant_origin, variant_origin ] }
           select :variant_origin, variant_origins
@@ -77,8 +77,8 @@ Trestle.resource(:assertions) do
           select :assertion_type, assertion_types
         end
         col(sm: 2) do
-          evidence_directions = Assertion.evidence_directions.keys.map { |evidence_direction| [ evidence_direction, evidence_direction ] }
-          select :evidence_direction, evidence_directions
+          directions = Assertion.assertion_directions.keys.map { |evidence_direction| [ evidence_direction, evidence_direction ] }
+          select :assertion_direction, directions
         end
         col(sm: 5) do
           significances = Assertion.significances.keys.map { |significance| [ significance, significance ] }
