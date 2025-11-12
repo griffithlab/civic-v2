@@ -12,7 +12,7 @@ class MolecularProfile < ActiveRecord::Base
   has_many :submitted_and_accepted_assertions,
     ->() { where.not(status: "rejected") },
     class_name: "Assertion"
-  has_many :endorsements, through: :assertions
+  has_many :approvals, through: :assertions
 
   has_many :evidence_items
   has_many :submitted_and_accepted_evidence_items,

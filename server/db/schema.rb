@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_31_154507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "endorsement_status", ["active", "revoked", "requires_review"]
+  create_enum "approval_status", ["active", "revoked", "requires_review"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
@@ -114,7 +114,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.bigint "organization_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "can_endorse", default: false, null: false
+    t.boolean "can_approve", default: false, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
@@ -131,6 +131,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
     t.index ["revoked"], name: "index_api_keys_on_revoked"
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
+  end
+
+  create_table "approvals", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "assertion_id", null: false
+    t.enum "status", default: "active", null: false, enum_type: "approval_status"
+    t.datetime "last_reviewed", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_approvals_on_assertion_id"
+    t.index ["organization_id"], name: "index_approvals_on_organization_id"
+    t.index ["user_id"], name: "index_approvals_on_user_id"
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
@@ -491,19 +504,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["previous_node_id"], name: "index_edges_on_previous_node_id"
   end
 
-  create_table "endorsements", force: :cascade do |t|
-    t.bigint "organization_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "assertion_id", null: false
-    t.enum "status", default: "active", null: false, enum_type: "endorsement_status"
-    t.datetime "last_reviewed", precision: nil, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assertion_id"], name: "index_endorsements_on_assertion_id"
-    t.index ["organization_id"], name: "index_endorsements_on_organization_id"
-    t.index ["user_id"], name: "index_endorsements_on_user_id"
-  end
-
   create_table "entity_mentions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -821,7 +821,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "most_recent_activity_timestamp", precision: nil
-    t.boolean "can_endorse", default: false, null: false
+    t.boolean "can_approve", default: false, null: false
     t.boolean "is_approved_vcep", default: false, null: false
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end

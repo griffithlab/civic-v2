@@ -26,7 +26,7 @@ module Types::Events
     value "DEPRECATED_FEATURE", value: "deprecated feature"
     value "FEATURE_CREATED", value: "feature created"
     value "COMMENT_DELETED", value: "comment deleted"
-    value "ASSERTION_ENDORSED", value: "assertion endorsed"
-    value "ASSERTION_ENDORSMENT_REVOKED", value: "assertion endorsement revoked"
+    value "ASSERTION_APPROVED", value: "assertion approved"
+    value "ASSERTION_APPROVAL_REVOKED", value: "assertion approval revoked"
   end
 end

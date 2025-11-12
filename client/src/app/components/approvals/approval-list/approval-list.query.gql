@@ -1,0 +1,68 @@
+query ApprovalList(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $assertionId: Int
+  $sortBy: DateSort
+) {
+  approvals(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    approvedAssertionId: $assertionId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    #    edges {
+    #      cursor
+    #      node {
+    #        ...approvalListNode
+    #      }
+    #    }
+    nodes {
+      ...approvalListNode
+    }
+  }
+}
+
+fragment approvalListNode on Approval {
+  id
+  status
+  lastReviewed
+  updatedAt
+  assertion {
+    id
+    name
+    status
+    flags(state: OPEN) {
+      totalCount
+    }
+  }
+  organization {
+    id
+    name
+    profileImagePath(size: 64)
+  }
+  user {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  revocationActivity {
+    ...RevokeApprovalActivityDetail
+    note
+  }
+  approvalActivity {
+    ...ApproveAssertionActivityDetail
+    note
+  }
+}
