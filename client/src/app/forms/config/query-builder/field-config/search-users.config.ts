@@ -1,5 +1,10 @@
-import { QueryBuilderFilterOption } from '@app/forms/config/query-builder/query-builder.types'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 
-export const searchUsersFieldOptions: QueryBuilderFilterOption[] = [
-  { key: 'name', label: 'Name', fieldConfig: [] },
+export const searchUsersFieldOptions: FormlyFieldConfig[] = [
+  {
+    key: 'name',
+    props: { label: 'Name' },
+    fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+  },
 ]

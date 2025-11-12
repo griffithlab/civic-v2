@@ -1,7 +1,7 @@
-import { ConfigOption, FormlyField, FormlyModule } from '@ngx-formly/core'
+import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSelectModule } from 'ng-zorro-antd/select'
@@ -23,9 +23,8 @@ const typeConfig: ConfigOption = {
   declarations: [CvcQueryFilterField],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    FormsModule,
     FormlyModule.forChild(typeConfig),
-    FormlyField,
     NzFormModule,
     NzGridModule,
     NzSelectModule,

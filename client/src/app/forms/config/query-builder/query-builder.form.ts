@@ -69,11 +69,11 @@ export class CvcQueryBuilderForm {
       filter(isNonNulled), // Only fetch if permalinkId is not null/undefined
       switchMap((id) =>
         this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
-          pluck('data', 'searchByPermalink'), // Get the nested data
-          filter(isNonNulled), // Ensure it's not null
+          pluck('data', 'searchByPermalink'),
+          filter(isNonNulled),
           catchError((err) => {
             console.error('Error fetching permalink query:', err)
-            return EMPTY // On error, emit nothing and complete
+            return EMPTY
           })
         )
       )
@@ -87,7 +87,7 @@ export class CvcQueryBuilderForm {
     // a model that was just loaded from a permalink
     effect(() => {
       const ep = this.searchEndpoint()
-      // always update fields to match endpoint
+      // update fields to match endpoint
       this.fields = getFieldConfig(
         ep,
         'query-builder-card',
@@ -95,7 +95,9 @@ export class CvcQueryBuilderForm {
       )
       // only reset model if this change did not originate from a permalink
       if (ep !== this.permalinkSearchEndpoint) {
-        this.formModel.update(() => defaultQueryBuilderFormModel)
+        this.formModel.update(() =>
+          structuredClone(defaultQueryBuilderFormModel)
+        )
         this.permalinkSearchEndpoint = undefined
       }
     })
@@ -114,7 +116,9 @@ export class CvcQueryBuilderForm {
           this.formModel.update((value) => {
             return {
               ...value,
-              query: { ...formQuery },
+              query: structuredClone(
+                formQuery
+              ) as QueryBuilderFormModel['query'],
             }
           })
         } else {

@@ -1,6 +1,24 @@
-<p>query-filter.type.html</p>
-<nz-row>
-  <nz-col [nzSpan]="24">
-    <formly-field [field]="field"></formly-field>
+<nz-row [nzGutter]="8">
+  <nz-col
+    nzFlex="175px"
+    styles="padding-top: 4px">
+    <nz-select
+      [ngModel]="props.selectedKey"
+      (ngModelChange)="onKeyChange($event)"
+      nzPlaceHolder="Select Filter">
+      @for (option of filterSelectOptions(); track option.value) {
+        <nz-option
+          [nzLabel]="option.label"
+          [nzValue]="option.value">
+        </nz-option>
+      }
+    </nz-select>
+  </nz-col>
+  <nz-col nzFlex="auto">
+    @for (childField of field.fieldGroup; track childField.key) {
+      @if (childField.key === props.selectedKey) {
+        <formly-field [field]="childField"></formly-field>
+      }
+    }
   </nz-col>
 </nz-row>

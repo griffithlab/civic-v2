@@ -1,7 +1,4 @@
-import {
-  QueryBuilderFilterOption,
-  QueryBuilderSearchEndpoint,
-} from '@app/forms/config/query-builder/query-builder.types'
+import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { BooleanOperator } from '@app/generated/civic.apollo'
 import { searchDiseasesFilterOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
@@ -21,8 +18,8 @@ export type QueryBuilderWrapper = 'query-builder-card' | 'query-subfilter-card'
 
 export function getFieldOptions(
   endpoint: QueryBuilderSearchEndpoint
-): QueryBuilderFilterOption[] {
-  const FILTER_OPTIONS: Record<string, QueryBuilderFilterOption[]> = {
+): FormlyFieldConfig[] {
+  const FILTER_OPTIONS: Record<string, FormlyFieldConfig[]> = {
     searchDiseases: searchDiseasesFilterOptions,
     searchFeatures: searchFeaturesFieldOptions,
     searchAssertions: searchAssertionsFieldOptions,
@@ -75,12 +72,14 @@ export function getFieldConfig(
           wrappers: [],
           fieldArray: {
             type: 'query-filter',
+            resetOnHide: true,
             props: {
-              fieldOptions: getFieldOptions(endpoint),
+              selectedKey: undefined,
             },
-            fieldGroup: [
-              /* ... */
-            ],
+            /* TODO: commenting out this fieldGroup, and the model
+             * population works, as far as properly setting the select.
+             * However, query-filter's field builder fails with a formControl err.*/
+            fieldGroup: getFieldOptions(endpoint),
           },
         },
       ],

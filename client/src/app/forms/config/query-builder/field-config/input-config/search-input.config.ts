@@ -13,7 +13,6 @@ const STRING_SEARCH_INPUT = [
     key: 'operator',
     type: 'base-select',
     props: {
-      label: 'Select search operator',
       options: getSelectOptions('StringSearchOperator'),
     },
   },
@@ -30,7 +29,6 @@ const ONTOLOGY_TERM_INPUT = [
     key: 'operator',
     type: 'base-select',
     props: {
-      label: 'Select Search Operator',
       options: getSelectOptions('OntologyTermSearchOperator'),
     },
   },

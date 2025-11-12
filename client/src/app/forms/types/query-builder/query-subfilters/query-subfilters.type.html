@@ -1,26 +1,45 @@
-<p>query-subfilters.type.html</p>
-@for (filter of field.fieldGroup; track $index) {
-  <nz-row>
-    <nz-col [nzSpan]="22">
-      <!--      <formly-field [field]="field"></formly-field>-->
-    </nz-col>
-    <nz-col [nzSpan]="2">
-      <button
-        (click)="remove($index)"
-        nz-button
-        nzSize="small"
-        nzType="primary"
-        nzShape="circle">
-        <nz-icon nzType="minus" />
-      </button>
-      <button
-        (click)="addRow()"
-        nz-button
-        nzSize="small"
-        nzType="primary"
-        nzShape="circle">
-        <nz-icon nzType="plus" />
-      </button>
-    </nz-col>
-  </nz-row>
+@if (field.fieldGroup?.length === 0) {
+  <button
+    (click)="addRow()"
+    nz-button
+    nzType="primary"
+    nzBlock>
+    Add Filter
+  </button>
+} @else {
+  @for (subFilter of field.fieldGroup; track $index) {
+    <nz-row [nzGutter]="[8, 8]">
+      <nz-col nzFlex="auto">
+        <formly-field [field]="subFilter"></formly-field>
+      </nz-col>
+      <nz-col nzFlex="1 0 64px">
+        <div style="padding-top: 4px; display: flex; justify-content: flex-end">
+          <nz-space
+            nzSize="small"
+            nzDirection="horizontal">
+            <button
+              *nzSpaceItem
+              (click)="remove($index)"
+              [disabled]="$count === 1"
+              nz-button
+              nzSize="default"
+              nzType="primary"
+              nzShape="circle">
+              <nz-icon nzType="minus" />
+            </button>
+            <button
+              *nzSpaceItem
+              (click)="addRow()"
+              [disabled]="!$last"
+              nz-button
+              nzSize="default"
+              nzType="primary"
+              nzShape="circle">
+              <nz-icon nzType="plus" />
+            </button>
+          </nz-space>
+        </div>
+      </nz-col>
+    </nz-row>
+  }
 }

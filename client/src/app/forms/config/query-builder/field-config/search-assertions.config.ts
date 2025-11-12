@@ -1,5 +1,5 @@
-import { QueryBuilderFilterOption } from '@app/forms/config/query-builder/query-builder.types'
+import { FormlyFieldConfig } from '@ngx-formly/core'
 
-export const searchAssertionsFieldOptions: QueryBuilderFilterOption[] = [
-  { key: 'name', label: 'Name', fieldConfig: [] },
+export const searchAssertionsFieldOptions: FormlyFieldConfig[] = [
+  { key: 'name', props: { label: 'Name' }, fieldGroup: [] },
 ]
