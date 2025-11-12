@@ -1,31 +1,26 @@
-@for (field of field.fieldGroup; track field.id) {
-  <formly-field [field]="field"></formly-field>
+<p>query-subfilters.type.html</p>
+@for (filter of field.fieldGroup; track $index) {
+  <nz-row>
+    <nz-col [nzSpan]="22">
+      <!--      <formly-field [field]="field"></formly-field>-->
+    </nz-col>
+    <nz-col [nzSpan]="2">
+      <button
+        (click)="remove($index)"
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        nzShape="circle">
+        <nz-icon nzType="minus" />
+      </button>
+      <button
+        (click)="addRow()"
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        nzShape="circle">
+        <nz-icon nzType="plus" />
+      </button>
+    </nz-col>
+  </nz-row>
 }
-<!--<div class="mb-3">-->
-<!--  <legend *ngIf="props.label">{{ props.label }}</legend>-->
-<!--  <p *ngIf="props.description">{{ props.description }}</p>-->
-
-<!--  <div-->
-<!--    *ngFor="let field of field.fieldGroup; let i = index"-->
-<!--    class="row align-items-baseline">-->
-<!--    <formly-field-->
-<!--      class="col"-->
-<!--      [field]="field"></formly-field>-->
-<!--    <div class="col-1 d-flex align-items-center">-->
-<!--      <button-->
-<!--        class="btn btn-danger"-->
-<!--        type="button"-->
-<!--        (click)="remove(i)">-->
-<!--        - -->
-<!--      </button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div style="margin: 30px 0">-->
-<!--    <button-->
-<!--      class="btn btn-primary"-->
-<!--      type="button"-->
-<!--      (click)="add()">-->
-<!--      {{ props.addText }}-->
-<!--    </button>-->
-<!--  </div>-->
-<!--</div>-->

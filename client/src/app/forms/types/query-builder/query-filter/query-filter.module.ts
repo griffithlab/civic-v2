@@ -1,5 +1,4 @@
 import { ConfigOption, FormlyField, FormlyModule } from '@ngx-formly/core'
-import { CvcQuerySubfiltersField } from '@app/forms/types/query-builder/query-subfilters/query-subfilters.type'
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
@@ -8,23 +7,20 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { CvcQueryFilterField } from '@app/forms/types/query-builder/query-filter/query-filter.type'
 
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'query-subfilters',
-      component: CvcQuerySubfiltersField,
-      defaultOptions: {
-        props: {
-          label: 'Query Subfilter Repeater',
-        },
-      },
+      name: 'query-filter',
+      component: CvcQueryFilterField,
+      defaultOptions: {},
     },
   ],
 }
 
 @NgModule({
-  declarations: [CvcQuerySubfiltersField],
+  declarations: [CvcQueryFilterField],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -37,4 +33,4 @@ const typeConfig: ConfigOption = {
     NzIconModule,
   ],
 })
-export class CvcQuerySubfiltersModule {}
+export class CvcQueryFilterModule {}

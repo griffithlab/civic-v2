@@ -1,5 +1,5 @@
 import { QueryBuilderFieldOption } from '@app/forms/config/query-builder/query-builder.types'
 
 export const searchUsersFieldOptions: QueryBuilderFieldOption[] = [
-  { key: 'name', label: 'Name' },
+  { key: 'name', label: 'Name', fieldConfig: [] },
 ]

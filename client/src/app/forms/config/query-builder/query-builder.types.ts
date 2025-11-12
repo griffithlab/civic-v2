@@ -11,6 +11,7 @@ import {
   VariantSearchFilter,
   VariantTypeSearchFilter,
 } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig } from '@ngx-formly/core'
 
 export type AdvancedSearchFilter =
   | AssertionSearchFilter
@@ -46,4 +47,5 @@ export type QueryBuilderSearchEndpoint =
 export type QueryBuilderFieldOption = {
   key: string
   label: string
+  fieldConfig: FormlyFieldConfig[]
 }

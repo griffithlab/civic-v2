@@ -56,7 +56,6 @@ export function getFieldConfig(
       wrappers: [`${wrapper}`],
       props: {
         formCardOptions: { title: `${title}` },
-        fieldOptions: getFieldOptions(endpoint),
       },
       fieldGroup: [
         {
@@ -75,9 +74,13 @@ export function getFieldConfig(
         },
         {
           key: 'subFilters',
-          // type: 'query-subfilters',
+          type: 'query-subfilters',
           wrappers: [],
           fieldArray: {
+            type: 'query-filter',
+            props: {
+              fieldOptions: getFieldOptions(endpoint),
+            },
             fieldGroup: [
               /* ... */
             ],
