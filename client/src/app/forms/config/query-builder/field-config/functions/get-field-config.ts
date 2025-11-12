@@ -15,6 +15,7 @@ import { searchTherapiesFieldOptions } from '@app/forms/config/query-builder/fie
 import { searchUsersFieldOptions } from '@app/forms/config/query-builder/field-config/search-users.config'
 import { searchVariantTypesFieldOptions } from '@app/forms/config/query-builder/field-config/search-variant-types.config'
 import { searchVariantsFieldOptions } from '@app/forms/config/query-builder/field-config/search-variants.config'
+import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
 
 export type QueryBuilderWrapper = 'query-builder-card' | 'query-subfilter-card'
 
@@ -66,10 +67,7 @@ export function getFieldConfig(
             required: true,
             size: 'small',
             type: 'button',
-            options: [
-              { label: 'all', value: BooleanOperator.And },
-              { label: 'any', value: BooleanOperator.Or },
-            ],
+            options: getSelectOptions('BooleanOperator'),
           },
         },
         {

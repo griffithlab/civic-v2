@@ -1,27 +1,55 @@
 import { $enum } from 'ts-enum-util'
-import { StringSearchOperator } from '@app/generated/civic.apollo'
+import {
+  BooleanOperator,
+  DateSearchOperator,
+  EnumSearchOperator,
+  FloatSearchOperator,
+  IntSearchOperator,
+  OntologyTermSearchOperator,
+  StringSearchOperator,
+} from '@app/generated/civic.apollo'
+import {
+  formatBooleanOperator,
+  formatDateSearchOperator,
+  formatIntFloatOperator,
+  formatOntologyTermSearchOperator,
+  formatStringSearchOperator,
+} from '@app/core/utilities/enum-formatters/format-operator-enums'
 
-const NULL_VALUE = null
+const getOption = function (label: string, value: string) {
+  return { label: label, value: value }
+}
 
 export function getSelectOptions(enumType: string) {
   switch (enumType) {
     case 'StringSearchOperator':
-      return $enum(StringSearchOperator).map(
-        (value, key, wrappedEnum, index) => {
-          // type of value is Contains, DoesNotContain
-          // type of key is CONTAINS, DOES_NOT_CONTAIN
-          // wrappedEnum is a reference to wrapped enum
-          // index is based on original defined order of the enum
-          return `{ label: "${key}", value: "${value}"`
-        }
-      )
-    // export enum StringSearchOperator {
-    //   Contains = 'CONTAINS',
-    //   DoesNotContain = 'DOES_NOT_CONTAIN',
-    //   Eq = 'EQ',
-    //   Ne = 'NE',
-    //   StartsWith = 'STARTS_WITH'
-    // }
+      return $enum(StringSearchOperator).map((value) => {
+        return getOption(formatStringSearchOperator(value), value)
+      })
+    case 'BooleanOperator':
+      return $enum(BooleanOperator).map((value) => {
+        return getOption(formatBooleanOperator(value), value)
+      })
+    case 'DateSearchOperator':
+      return $enum(DateSearchOperator).map((value) => {
+        return getOption(formatDateSearchOperator(value), value)
+      })
+    case 'EnumSearchOperator':
+      return $enum(EnumSearchOperator).map((value) => {
+        return getOption(formatIntFloatOperator(value), value)
+      })
+    case 'FloatSearchOperator':
+      return $enum(FloatSearchOperator).map((value) => {
+        return getOption(formatIntFloatOperator(value), value)
+      })
+    case 'IntSearchOperator':
+      return $enum(IntSearchOperator).map((value) => {
+        return getOption(formatIntFloatOperator(value), value)
+      })
+    case 'OntologyTermSearchOperator':
+      return $enum(OntologyTermSearchOperator).map((value) => {
+        return getOption(formatOntologyTermSearchOperator(value), value)
+      })
     default:
       return []
   }
