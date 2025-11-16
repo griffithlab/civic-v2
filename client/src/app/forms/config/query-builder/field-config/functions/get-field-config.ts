@@ -82,6 +82,10 @@ export function getFieldConfig(
             fieldGroup: getFieldOptions(endpoint),
           },
         },
+        {
+          key: 'createPermalink',
+          wrappers: [],
+        },
       ],
     },
   ]

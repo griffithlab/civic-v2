@@ -53,6 +53,11 @@ export class CvcQueryBuilderCardWrapper
   get subFiltersField(): FormlyFieldConfig | undefined {
     return this.field.fieldGroup?.find((f) => f.key === 'subFilters')
   }
+  onResetForm() {
+    if (this.options.resetModel) {
+      this.options.resetModel()
+    }
+  }
   ngOnInit(): void {
     if (this.props.formCardOptions) {
       this.wrapperOptions = {
@@ -63,7 +68,15 @@ export class CvcQueryBuilderCardWrapper
   }
   ngAfterViewInit() {
     runInInjectionContext(this.injector, () => {
-      effect(() => {})
+      effect(() => {
+        const newChecked = this.onCreatePermalinkChecked()
+        const model = this.field.parent?.model
+        if (model) {
+          if (newChecked !== model.createPermalink) {
+            model.createPermalink = newChecked
+          }
+        }
+      })
     })
   }
 }

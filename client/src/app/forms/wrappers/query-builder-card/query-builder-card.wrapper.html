@@ -19,7 +19,7 @@
         nzBlock
         nzType="dashed"
         nzSize="default"
-        (click)="this.options?.resetModel()">
+        (click)="onResetForm()">
         Reset Form
       </button>
     </nz-col>
@@ -30,7 +30,7 @@
       <label
         nz-checkbox
         class="ant-checkbox-rtl"
-        [ngModel]="this.model.createPermalink"
+        [ngModel]="this.field.parent?.model.createPermalink"
         (ngModelChange)="this.onCreatePermalinkChecked.set($event)">
         Create search permalink
       </label>
