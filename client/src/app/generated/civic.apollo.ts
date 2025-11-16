@@ -9827,21 +9827,6 @@ export type SubmitAssertionMutationVariables = Exact<{
 
 export type SubmitAssertionMutation = { __typename: 'Mutation', submitAssertion?: { __typename: 'SubmitAssertionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number } } | undefined };
 
-export type SearchDiseasesQueryVariables = Exact<{
-  query: DiseaseSearchFilter;
-  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
-}>;
-
-
-export type SearchDiseasesQuery = { __typename: 'Query', searchDiseases: { __typename: 'AdvancedSearchResult', resultIds: Array<number>, permalinkId?: string | undefined, searchEndpoint: string } };
-
-export type SearchByPermalinkQueryVariables = Exact<{
-  permalinkId: Scalars['String']['input'];
-}>;
-
-
-export type SearchByPermalinkQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', resultIds: Array<number>, searchEndpoint: string } };
-
 export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
   evidenceId: Scalars['Int']['input'];
 }>;
@@ -17469,45 +17454,6 @@ export const SubmitAssertionDocument = gql`
   })
   export class SubmitAssertionGQL extends Apollo.Mutation<SubmitAssertionMutation, SubmitAssertionMutationVariables> {
     document = SubmitAssertionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SearchDiseasesDocument = gql`
-    query SearchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
-  searchDiseases(query: $query, createPermalink: $createPermalink) {
-    resultIds
-    permalinkId
-    searchEndpoint
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SearchDiseasesGQL extends Apollo.Query<SearchDiseasesQuery, SearchDiseasesQueryVariables> {
-    document = SearchDiseasesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SearchByPermalinkDocument = gql`
-    query SearchByPermalink($permalinkId: String!) {
-  searchByPermalink(permalinkId: $permalinkId) {
-    resultIds
-    searchEndpoint
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SearchByPermalinkGQL extends Apollo.Query<SearchByPermalinkQuery, SearchByPermalinkQueryVariables> {
-    document = SearchByPermalinkDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
