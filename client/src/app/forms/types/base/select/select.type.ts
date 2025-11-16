@@ -10,10 +10,13 @@ import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import mixin from 'ts-mixin-extended'
 import { NzSelectSizeType } from 'ng-zorro-antd/select'
+import { NzVariant } from 'ng-zorro-antd/core/types'
 
 export interface CvcBaseSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   size: NzSelectSizeType
+  variant: NzVariant
+  optionHeightPx?: number
 }
 
 export interface CvcBaseSelectFieldConfig
@@ -42,6 +45,7 @@ export class CvcBaseSelectField
     props: {
       isMultiSelect: false,
       size: 'default',
+      variant: 'outlined',
     },
   }
   constructor() {

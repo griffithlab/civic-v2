@@ -1,10 +1,11 @@
 <nz-row [nzGutter]="8">
   <nz-col
-    nzFlex="175px"
+    nzFlex="150px"
     styles="padding-top: 4px">
     <nz-select
       [ngModel]="props.selectedKey"
       (ngModelChange)="onKeyChange($event)"
+      [nzOptionHeightPx]="28"
       nzPlaceHolder="Select Filter">
       @for (option of filterSelectOptions(); track option.value) {
         <nz-option

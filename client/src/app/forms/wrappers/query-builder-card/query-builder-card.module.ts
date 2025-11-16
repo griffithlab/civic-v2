@@ -7,6 +7,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcQueryBuilderCardWrapper } from './query-builder-card.wrapper'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzButtonModule } from 'ng-zorro-antd/button'
 
 const wrapperConfig: ConfigOption = {
   wrappers: [
@@ -21,9 +23,11 @@ const wrapperConfig: ConfigOption = {
     FormsModule,
     FormlyModule.forChild(wrapperConfig),
     NzGridModule,
+    NzButtonModule,
     NzCardModule,
     NzCheckboxModule,
     NzSpaceModule,
+    NzIconModule,
   ],
   exports: [CvcQueryBuilderCardWrapper],
 })

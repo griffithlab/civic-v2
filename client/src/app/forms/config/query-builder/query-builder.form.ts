@@ -127,6 +127,7 @@ export class CvcQueryBuilderForm {
       }
     })
   }
+
   private searchEndpointToCardTitle(
     endpoint: QueryBuilderSearchEndpoint
   ): string {

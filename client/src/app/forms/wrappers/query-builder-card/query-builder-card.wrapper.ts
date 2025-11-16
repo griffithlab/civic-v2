@@ -1,4 +1,14 @@
-import { Component, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  EnvironmentInjector,
+  inject,
+  OnInit,
+  runInInjectionContext,
+  signal,
+  WritableSignal,
+} from '@angular/core'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 
@@ -23,14 +33,16 @@ const defaultWrapperOptions: QueryBuilderCardOptions = {
 })
 export class CvcQueryBuilderCardWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcQueryBuilderCardWrapperProps>>
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
+  onCreatePermalinkChecked: WritableSignal<boolean> = signal(false)
   wrapperOptions: QueryBuilderCardOptions = { ...defaultWrapperOptions }
 
   get errorState() {
     return this.showError ? 'error' : ''
   }
 
+  private injector = inject(EnvironmentInjector)
   constructor() {
     super()
   }
@@ -48,5 +60,10 @@ export class CvcQueryBuilderCardWrapper
         ...this.props.formCardOptions,
       }
     }
+  }
+  ngAfterViewInit() {
+    runInInjectionContext(this.injector, () => {
+      effect(() => {})
+    })
   }
 }

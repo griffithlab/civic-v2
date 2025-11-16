@@ -2,6 +2,8 @@
   *ngIf="props.type !== 'number'; else numberTmp"
   nz-input
   [formControl]="formControl"
+  [nzVariant]="props.variant || 'outlined'"
+  [nzSize]="props.size || 'default'"
   [type]="props.type || 'text'"
   [formlyAttributes]="field"
   (ngModelChange)="onValueChange$.next($event)" />

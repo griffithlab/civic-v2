@@ -2,6 +2,8 @@
   [class.ng-dirty]="showError"
   [nzPlaceHolder]="props.placeholder !== undefined ? props.placeholder : null"
   [nzSize]="props.size || 'default'"
+  [nzVariant]="props.variant || 'outlined'"
+  [nzOptionHeightPx]="props.optionHeightPx || 28"
   [formControl]="formControl"
   [formlyAttributes]="field"
   [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"

@@ -1,13 +1,54 @@
 <nz-card
   [nzTitle]="wrapperOptions.title"
   [nzSize]="wrapperOptions.size ?? 'default'"
-  [nzExtra]="operatorSelector">
+  [nzExtra]="operatorSelector"
+  [nzActions]="[actionSearch]">
   @if (subFiltersField) {
     <formly-field [field]="subFiltersField"></formly-field>
   } @else {
     <span style="color: red">No subfilters field found</span>
   }
 </nz-card>
+<ng-template #actionSearch>
+  <nz-row
+    [nzGutter]="[8, 8]"
+    class="form-actions">
+    <nz-col nzSpan="4">
+      <button
+        nz-button
+        nzBlock
+        nzType="dashed"
+        nzSize="default"
+        (click)="this.options?.resetModel()">
+        Reset Form
+      </button>
+    </nz-col>
+
+    <nz-col
+      nzSpan="12"
+      class="submit-note">
+      <label
+        nz-checkbox
+        class="ant-checkbox-rtl"
+        [ngModel]="this.model.createPermalink"
+        (ngModelChange)="this.onCreatePermalinkChecked.set($event)">
+        Create search permalink
+      </label>
+      <!--          <formly-field-->
+      <!--            *nzSpaceItem-->
+      <!--            [field]="permalinkField"></formly-field>-->
+    </nz-col>
+    <nz-col nzSpan="8">
+      <button
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default">
+        Search
+      </button>
+    </nz-col>
+  </nz-row>
+</ng-template>
 
 <ng-template #operatorSelector>
   @if (operatorField) {

@@ -5,14 +5,14 @@ export const searchDiseasesFilterOptions: FormlyFieldConfig[] = [
   {
     key: 'name',
     props: {
-      label: 'Disease Name',
+      label: 'Name',
     },
     fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
   },
   {
     key: 'diseaseAliases',
     props: {
-      label: 'Disease Aliases',
+      label: 'Aliases',
     },
     fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
   },

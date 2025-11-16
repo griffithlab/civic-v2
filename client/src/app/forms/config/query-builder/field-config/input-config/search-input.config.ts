@@ -14,6 +14,7 @@ const STRING_SEARCH_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('StringSearchOperator'),
+      variant: 'underlined',
     },
   },
   {
@@ -21,6 +22,7 @@ const STRING_SEARCH_INPUT = [
     type: 'base-input',
     props: {
       placeholder: 'Enter search term',
+      variant: 'underlined',
     },
   },
 ]
@@ -30,6 +32,7 @@ const ONTOLOGY_TERM_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('OntologyTermSearchOperator'),
+      variant: 'underlined',
     },
   },
   {
@@ -37,6 +40,7 @@ const ONTOLOGY_TERM_INPUT = [
     type: 'base-input',
     props: {
       placeholder: 'Enter search term',
+      variant: 'underlined',
     },
   },
 ]
@@ -45,8 +49,8 @@ const INT_INPUT = [
     key: 'operator',
     type: 'base-select',
     props: {
-      label: 'Select operator',
       options: getSelectOptions('IntSearchOperator'),
+      variant: 'underlined',
     },
   },
   {
@@ -54,6 +58,7 @@ const INT_INPUT = [
     type: 'base-input',
     props: {
       placeholder: 'Enter number',
+      variant: 'underlined',
     },
   },
 ]
