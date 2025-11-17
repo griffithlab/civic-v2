@@ -89,6 +89,7 @@ export class CvcQueryBuilderForm {
       const ep = this.searchEndpoint()
       // update fields to match endpoint
       this.fields = getFieldConfig(
+        'query',
         ep,
         'query-builder-card',
         this.searchEndpointToCardTitle(ep)

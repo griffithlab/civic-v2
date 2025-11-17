@@ -6,3 +6,23 @@ query GetOriginalQuery($permalinkId: String!) {
     formQuery @client
   }
 }
+
+query searchEvidenceItems(
+  $query: EvidenceItemSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchEvidenceItems(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
+  searchVariants(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+
+#query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
+#  searchVariants(query: $query, createPermalink: $createPermalink)
+#}

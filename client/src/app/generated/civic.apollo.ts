@@ -10004,6 +10004,22 @@ export type GetOriginalQueryQueryVariables = Exact<{
 
 export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, permalinkId?: string | undefined, formQuery?: any | undefined } };
 
+export type SearchEvidenceItemsQueryVariables = Exact<{
+  query: EvidenceItemSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchEvidenceItemsQuery = { __typename: 'Query', searchEvidenceItems: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchVariantsQueryVariables = Exact<{
+  query: VariantSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
 }>;
@@ -17939,6 +17955,44 @@ export const GetOriginalQueryDocument = gql`
   })
   export class GetOriginalQueryGQL extends Apollo.Query<GetOriginalQueryQuery, GetOriginalQueryQueryVariables> {
     document = GetOriginalQueryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchEvidenceItemsDocument = gql`
+    query searchEvidenceItems($query: EvidenceItemSearchFilter!, $createPermalink: Boolean) {
+  searchEvidenceItems(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchEvidenceItemsGQL extends Apollo.Query<SearchEvidenceItemsQuery, SearchEvidenceItemsQueryVariables> {
+    document = SearchEvidenceItemsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchVariantsDocument = gql`
+    query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
+  searchVariants(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchVariantsGQL extends Apollo.Query<SearchVariantsQuery, SearchVariantsQueryVariables> {
+    document = SearchVariantsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
