@@ -14,7 +14,7 @@ export class CvcQuerySubfiltersField
     super()
   }
   addRow() {
-    super.add(undefined, {})
+    super.add()
   }
   ngAfterViewInit(): void {
     console.log(`query-subfilters OnInit: ${this.field.id}`)

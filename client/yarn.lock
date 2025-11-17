@@ -9526,7 +9526,7 @@ __metadata:
     mustache: "npm:^4.2.0"
     ng-zorro-antd: "npm:20.0.0"
     ngx-cookie-service: "npm:20.0.1"
-    ngx-json-viewer: "npm:^3.0.2"
+    ngx-json-viewer: "npm:^3.2.1"
     ngx-ui-scroll: "npm:3.2.0"
     prettier: "npm:^3.2.4"
     rxjs: "npm:^7.8.1"
@@ -10091,7 +10091,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-json-viewer@npm:^3.0.2":
+"ngx-json-viewer@npm:^3.2.1":
   version: 3.2.1
   resolution: "ngx-json-viewer@npm:3.2.1"
   dependencies:

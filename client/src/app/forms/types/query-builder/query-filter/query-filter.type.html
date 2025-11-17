@@ -16,10 +16,8 @@
     </nz-select>
   </nz-col>
   <nz-col nzFlex="auto">
-    @for (childField of field.fieldGroup; track childField.key) {
-      @if (childField.key === props.selectedKey) {
-        <formly-field [field]="childField"></formly-field>
-      }
+    @for (childField of field.fieldGroup; track $index) {
+      <formly-field [field]="childField"></formly-field>
     }
   </nz-col>
 </nz-row>

@@ -79,7 +79,7 @@
     "eslint": "8.57.0",
     "graphql": "^16.11.0",
     "mustache": "^4.2.0",
-    "ngx-json-viewer": "^3.0.2",
+    "ngx-json-viewer": "^3.2.1",
     "prettier": "^3.2.4",
     "svg-to-ts": "^12.0.0",
     "svgo": "^3.0.2",

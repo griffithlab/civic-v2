@@ -2,7 +2,6 @@ import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/quer
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { BooleanOperator } from '@app/generated/civic.apollo'
 import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
-import { getFieldOptions } from '@app/forms/config/query-builder/field-config/functions/get-field-options'
 import { getSearchQuery } from '@app/forms/config/query-builder/field-config/functions/get-search-query'
 
 export type QueryBuilderWrapper = 'query-builder-card' | 'query-subfilter-card'
@@ -15,11 +14,11 @@ export function getFieldConfig(
 ): FormlyFieldConfig[] {
   return [
     {
-      key: `${key}`,
-      wrappers: [`${wrapper}`],
+      key: `${key}`, // root: 'query', nested:  'assertion', 'variant'
+      wrappers: [`${wrapper}`], // query-builder-card or query-subfilter-card
       props: {
         formCardOptions: { title: `${title}` },
-        formSearchQuery: getSearchQuery(endpoint),
+        searchQuery: getSearchQuery(endpoint), // Apollo GQL service
       },
       fieldGroup: [
         {
@@ -39,14 +38,14 @@ export function getFieldConfig(
           wrappers: [],
           fieldArray: {
             type: 'query-filter',
-            resetOnHide: true,
+            resetOnHide: false,
             props: {
               selectedKey: undefined,
+              parentEndpoint: endpoint, // Pass endpoint so query-filter knows which metadata to use
             },
-            /* TODO: commenting out this fieldGroup, and the model
-             * population works, as far as properly setting the select.
-             * However, query-filter's field builder fails with a formControl err.*/
-            fieldGroup: getFieldOptions(endpoint),
+            // Empty fieldGroup, populated dynamically by query-filter.type
+            // when user selects a filter key. This prevents recursive config generation.
+            fieldGroup: [],
           },
         },
         {

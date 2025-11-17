@@ -1,26 +1,18 @@
-import { FormlyFieldConfig } from '@ngx-formly/core'
-import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
+/**
+ * DEPRECATED: This file is no longer used for field config generation.
+ *
+ * Filter options for Evidence Items are now defined in filter-metadata.config.ts
+ * and field configs are generated dynamically at runtime by generate-runtime-field-config.ts
+ *
+ * This prevents recursive config generation issues and allows for nested entity filters.
+ *
+ * See:
+ * - filter-metadata.config.ts for filter definitions
+ * - generate-runtime-field-config.ts for dynamic field generation
+ * - query-filter.type.ts for the component that uses these
+ */
 
-export function getSearchEvidenceItemsFieldOptions(): FormlyFieldConfig[] {
-  return [
-    {
-      key: 'name',
-      props: { label: 'Name' },
-      fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
-    },
-    // ...getFieldConfig(
-    //   'diseases',
-    //   'searchDiseases',
-    //   'query-subfilter-card',
-    //   'Diseases matching all/any of the following'
-    // ),
-    // {
-    //   key: 'disease',
-    //   props: { label: 'Disease' },
-    //   fieldGroup: getFieldOptions('searchDiseases'),
-    // },
-  ]
-}
+// Reference: GraphQL EvidenceItemSearchFilter type
 // export type EvidenceItemSearchFilter = {
 //   assertion?: InputMaybe<AssertionSearchFilter>;
 //   booleanOperator?: InputMaybe<BooleanOperator>;
