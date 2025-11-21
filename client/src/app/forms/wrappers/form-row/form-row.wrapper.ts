@@ -4,7 +4,6 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { IndexableObject } from 'ng-zorro-antd/core/types'
 import { EmbeddedProperty } from 'ng-zorro-antd/grid'
 
 type ResponsiveColConfig = {
@@ -16,7 +15,7 @@ type ResponsiveColConfig = {
   xxl?: string | number | EmbeddedProperty | null
 }
 
-type FormRowOptions = {
+export type FormRowOptions = {
   // nz-row gutter
   gutter?: number | [number, number] | null
   // NOTE: if gutter[1] (vertical gutter) is set to 0, row will receive no top margin (see mp-finder config)
@@ -45,11 +44,11 @@ const defaultWrapperOptions: FormRowOptions = {
 }
 
 @Component({
-    selector: 'cvc-form-row',
-    templateUrl: './form-row.wrapper.html',
-    styleUrls: ['./form-row.wrapper.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-form-row',
+  templateUrl: './form-row.wrapper.html',
+  styleUrls: ['./form-row.wrapper.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFormRowWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormRowWrapperProps>>

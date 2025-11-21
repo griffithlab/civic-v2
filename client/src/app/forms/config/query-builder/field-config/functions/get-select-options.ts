@@ -3,6 +3,8 @@ import {
   BooleanOperator,
   DateSearchOperator,
   EnumSearchOperator,
+  EvidenceDirection,
+  EvidenceStatus,
   FloatSearchOperator,
   IntSearchOperator,
   OntologyTermSearchOperator,
@@ -15,6 +17,7 @@ import {
   formatOntologyTermSearchOperator,
   formatStringSearchOperator,
 } from '@app/core/utilities/enum-formatters/format-operator-enums'
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 
 const getOption = function (label: string, value: string) {
   return { label: label, value: value }
@@ -49,6 +52,14 @@ export function getSelectOptions(enumType: string) {
     case 'OntologyTermSearchOperator':
       return $enum(OntologyTermSearchOperator).map((value) => {
         return getOption(formatOntologyTermSearchOperator(value), value)
+      })
+    case 'EvidenceItemStatusEnum':
+      return $enum(EvidenceStatus).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'EvidenceItemDirectionEnum':
+      return $enum(EvidenceDirection).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
       })
     default:
       return []

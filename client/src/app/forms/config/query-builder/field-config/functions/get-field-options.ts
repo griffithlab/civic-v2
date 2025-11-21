@@ -1,10 +1,10 @@
 import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { searchDiseasesFilterOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
+import { searchDiseasesFieldOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
 import { searchFeaturesFieldOptions } from '@app/forms/config/query-builder/field-config/search-features.config'
 import { searchAssertionsFieldOptions } from '@app/forms/config/query-builder/field-config/search-assertions.config'
 import { searchMolecularProfilesFieldOptions } from '@app/forms/config/query-builder/field-config/search-molecular-profiles.config'
-import { getSearchEvidenceItemsFieldOptions } from '@app/forms/config/query-builder/field-config/search-evidence-items.config'
+import { searchEvidenceItemsFieldOptions } from '@app/forms/config/query-builder/field-config/search-evidence-items.config'
 import { searchPhenotypesFieldOptions } from '@app/forms/config/query-builder/field-config/search-phenotypes.config'
 import { searchSourcesFieldOptions } from '@app/forms/config/query-builder/field-config/search-sources.config'
 import { searchTherapiesFieldOptions } from '@app/forms/config/query-builder/field-config/search-therapies.config'
@@ -16,11 +16,11 @@ export function getFieldOptions(
   endpoint: QueryBuilderSearchEndpoint
 ): FormlyFieldConfig[] {
   const FILTER_OPTIONS: Record<string, FormlyFieldConfig[]> = {
-    searchDiseases: searchDiseasesFilterOptions,
+    searchDiseases: searchDiseasesFieldOptions,
     searchFeatures: searchFeaturesFieldOptions,
     searchAssertions: searchAssertionsFieldOptions,
     searchMolecularProfiles: searchMolecularProfilesFieldOptions,
-    searchEvidenceItems: getSearchEvidenceItemsFieldOptions(),
+    searchEvidenceItems: searchEvidenceItemsFieldOptions,
     searchPhenotypes: searchPhenotypesFieldOptions,
     searchSources: searchSourcesFieldOptions,
     searchTherapies: searchTherapiesFieldOptions,
