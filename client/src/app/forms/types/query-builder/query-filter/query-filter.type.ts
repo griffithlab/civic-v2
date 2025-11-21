@@ -6,7 +6,6 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
-import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 import {
   AdvancedSearchFilter,
   AdvancedSearchRecursiveFilterKey,
@@ -49,34 +48,6 @@ export class CvcQueryFilterField
 
   ngOnInit(): void {
     this.props.selectedKey = null
-    // generate & build full recursive filter field config(s)
-    if (this.field.fieldGroup) {
-      const fg = this.field.fieldGroup
-      fg.forEach((stubField, i) => {
-        if (stubField?.props?.filterType === 'recursive') {
-          const key = String(stubField.key)
-          const endpoint = stubField.props.filterEndpoint
-          const baseField = getQueryFieldConfig(key, endpoint)[0]
-          if (baseField && this.options.build) {
-            // // preserve props, expressions
-            // baseField.props = { ...stubField.props, ...baseField.props }
-            // baseField.expressions = {
-            //   ...stubField.expressions,
-            //   ...baseField.expressions,
-            // }
-            // baseField.hooks = { ...stubField.hooks, ...baseField.hooks }
-            // fg[i] = this.options.build(baseField)
-            const newField = this.mergeFieldConfigs(baseField, stubField)
-            console.log(newField)
-            fg[i] = this.options.build(newField)
-          }
-          const newModel = this.getRecursiveDefaultModel(
-            key as AdvancedSearchRecursiveFilterKey
-          )
-          this.field.formControl.reset(newModel)
-        }
-      })
-    }
   }
   ngAfterViewInit(): void {
     if (this.props.options) {

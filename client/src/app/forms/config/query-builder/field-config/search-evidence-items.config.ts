@@ -5,6 +5,8 @@ import {
   withRecursive,
   withStatic,
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
+import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
+import { getFieldOptions } from '@app/forms/config/query-builder/field-config/functions/get-field-options'
 
 export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] = sortByKey([
   ...withStatic([
@@ -54,7 +56,48 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] = sortByKey([
   ...withRecursive([
     {
       key: 'disease',
-      props: { label: 'Disease', filterEndpoint: 'searchDiseases' },
+      wrappers: ['query-subfilters-card'],
+      props: {
+        label: 'Disease',
+        // formSearchQuery: getSearchQuery(endpoint),
+      },
+      fieldGroup: [
+        {
+          key: 'booleanOperator',
+          type: 'base-radio',
+          wrappers: [],
+          props: {
+            required: true,
+            size: 'small',
+            type: 'button',
+            options: getSelectOptions('BooleanOperator'),
+          },
+        },
+        {
+          key: 'subFilters',
+          type: 'query-subfilters',
+          wrappers: [],
+          props: {
+            filterEndpoint: 'searchDiseases',
+          },
+          fieldArray: (field) => ({
+            type: 'query-filter',
+            resetOnHide: true,
+            props: {
+              selectedKey: undefined,
+              options: getFieldOptions('searchDiseases').map((opt) => ({
+                label: opt.props?.label,
+                value: opt.key,
+              })),
+            },
+            fieldGroup: getFieldOptions(field.props!.filterEndpoint),
+          }),
+        },
+        {
+          key: 'createPermalink',
+          wrappers: [],
+        },
+      ],
     },
   ]),
 ])

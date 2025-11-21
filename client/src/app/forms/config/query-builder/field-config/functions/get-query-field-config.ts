@@ -29,7 +29,6 @@ export function getQueryFieldConfig(
             wrappers: [],
             props: {
               required: true,
-              size: 'small',
               type: 'button',
               options: getSelectOptions('BooleanOperator'),
             },
@@ -43,6 +42,7 @@ export function getQueryFieldConfig(
               resetOnHide: true,
               props: {
                 selectedKey: undefined,
+                size: 'default',
                 options: getFieldOptions(endpoint).map((opt) => ({
                   label: opt.props?.label,
                   value: opt.key,
@@ -68,7 +68,7 @@ export function getQueryFieldConfig(
         wrappers: ['query-subfilters-card'],
         props: {
           formCardOptions: cardOptions,
-          formSearchQuery: getSearchQuery(endpoint),
+          // formSearchQuery: getSearchQuery(endpoint),
         },
         fieldGroup: [
           {
@@ -86,14 +86,21 @@ export function getQueryFieldConfig(
             key: 'subFilters',
             type: 'query-subfilters',
             wrappers: [],
-            fieldArray: {
+            props: {
+              filterEndpoint: endpoint,
+            },
+            fieldArray: (field) => ({
               type: 'query-filter',
               resetOnHide: true,
               props: {
                 selectedKey: undefined,
+                options: getFieldOptions(endpoint).map((opt) => ({
+                  label: opt.props?.label,
+                  value: opt.key,
+                })),
               },
-              fieldGroup: getFieldOptions(endpoint),
-            },
+              fieldGroup: getFieldOptions(field.props!.filterEndpoint),
+            }),
           },
           {
             key: 'createPermalink',

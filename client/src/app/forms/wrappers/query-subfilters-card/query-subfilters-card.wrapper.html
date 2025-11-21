@@ -1,6 +1,6 @@
 <nz-card
   [nzTitle]="wrapperOptions.title"
-  [nzSize]="wrapperOptions.size ?? 'default'"
+  nzSize="small"
   [nzExtra]="operatorSelector">
   @if (subFiltersField) {
     <formly-field [field]="subFiltersField"></formly-field>

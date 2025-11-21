@@ -27,8 +27,7 @@ export const withRecursive = (
     props: { ...i.props, filterType: 'recursive' },
     expressions: {
       hide: (field: FormlyFieldConfig) => {
-        return false
-        // return field.key !== field.parent?.props?.selectedKey
+        return field.key !== field.parent?.props?.selectedKey
       },
     },
     hooks: {
