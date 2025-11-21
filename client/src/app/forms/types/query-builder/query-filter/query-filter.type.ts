@@ -5,13 +5,24 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core'
-import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
+import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
+import {
+  AdvancedSearchFilter,
+  AdvancedSearchRecursiveFilterKey,
+} from '@app/forms/config/query-builder/query-builder.types'
+import { BooleanOperator } from '@app/generated/civic.apollo'
 
 export type QueryFilterConfigType = 'recursive' | 'static'
 
 export type QueryFilterSelectOption = { label: string; value: string }
-
+export type QueryFilterFormModel<
+  TKey extends AdvancedSearchRecursiveFilterKey,
+> = {
+  createPermalink: boolean
+} & {
+  [K in TKey]: AdvancedSearchFilter
+}
 @Component({
   selector: 'query-filter',
   templateUrl: './query-filter.type.html',
@@ -27,6 +38,7 @@ export class CvcQueryFilterField
 
   constructor() {
     super()
+    console.log(this)
   }
 
   private checkExpressions() {
@@ -40,14 +52,28 @@ export class CvcQueryFilterField
     // generate & build full recursive filter field config(s)
     if (this.field.fieldGroup) {
       const fg = this.field.fieldGroup
-      fg.forEach((f, i) => {
-        if (f?.props?.filterType === 'recursive') {
-          const key = String(f.key)
-          const endpoint = f.props.filterEndpoint
-          const query = getQueryFieldConfig(key, endpoint)[0]
-          if (query && this.options.build) {
-            fg[i] = this.options.build(query)
+      fg.forEach((stubField, i) => {
+        if (stubField?.props?.filterType === 'recursive') {
+          const key = String(stubField.key)
+          const endpoint = stubField.props.filterEndpoint
+          const baseField = getQueryFieldConfig(key, endpoint)[0]
+          if (baseField && this.options.build) {
+            // // preserve props, expressions
+            // baseField.props = { ...stubField.props, ...baseField.props }
+            // baseField.expressions = {
+            //   ...stubField.expressions,
+            //   ...baseField.expressions,
+            // }
+            // baseField.hooks = { ...stubField.hooks, ...baseField.hooks }
+            // fg[i] = this.options.build(baseField)
+            const newField = this.mergeFieldConfigs(baseField, stubField)
+            console.log(newField)
+            fg[i] = this.options.build(newField)
           }
+          const newModel = this.getRecursiveDefaultModel(
+            key as AdvancedSearchRecursiveFilterKey
+          )
+          this.field.formControl.reset(newModel)
         }
       })
     }
@@ -58,7 +84,6 @@ export class CvcQueryFilterField
         this.props.options as QueryFilterSelectOption[]
       )
     }
-
     // set selectedKey to model key, if it exists
     if (this.model) {
       this.props.selectedKey = Object.keys(this.model).find(
@@ -70,7 +95,36 @@ export class CvcQueryFilterField
 
   onKeyChange(newKey: string): void {
     this.props.selectedKey = newKey
-
+    // if (this.options.build) this.options.build()
     this.checkExpressions()
+  }
+
+  mergeFieldConfigs(
+    base: FormlyFieldConfig,
+    stub: Partial<FormlyFieldConfig>
+  ): FormlyFieldConfig {
+    return {
+      ...base,
+      props: { ...(base.props || {}), ...(stub.props || {}) },
+      expressions: {
+        ...(base.expressions || {}),
+        ...(stub.expressions || {}),
+      },
+      hooks: { ...(base.hooks || {}), ...(stub.hooks || {}) },
+      // parent: stub.parent,
+    }
+  }
+  private getRecursiveDefaultModel<
+    TKey extends AdvancedSearchRecursiveFilterKey,
+  >(key: TKey): QueryFilterFormModel<TKey> {
+    const model = {
+      createPermalink: true,
+      [key]: {
+        booleanOperator: BooleanOperator.Or,
+        subFilters: [],
+      },
+    } as QueryFilterFormModel<TKey>
+
+    return model
   }
 }

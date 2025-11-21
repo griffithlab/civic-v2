@@ -1,4 +1,4 @@
-@if (model.length === 0) {
+@if (!model || model.length === 0) {
   <button
     (click)="addRow()"
     nz-button

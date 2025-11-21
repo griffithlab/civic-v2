@@ -1,5 +1,6 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
+import { StringSearchOperator } from '@app/generated/civic.apollo'
 
 const BOOLEAN_INPUT = [
   {
@@ -7,12 +8,13 @@ const BOOLEAN_INPUT = [
     type: 'base-checkbox',
   },
 ]
-
 const STRING_SEARCH_INPUT = [
   {
     key: 'operator',
     type: 'base-select',
+    defaultValue: undefined,
     props: {
+      placeholder: 'Select Operator',
       options: getSelectOptions('StringSearchOperator'),
       variant: 'underlined',
     },
@@ -20,6 +22,7 @@ const STRING_SEARCH_INPUT = [
   {
     key: 'value',
     type: 'base-input',
+    defaultValue: '',
     props: {
       placeholder: 'Enter search term',
       variant: 'underlined',
@@ -88,6 +91,7 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('EnumSearchOperator'),
+      defaultValue: undefined,
       variant: 'underlined',
     },
   },
@@ -96,6 +100,7 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('EvidenceItemDirectionEnum'),
+      defaultValue: undefined,
       placeholder: 'Select Direction',
       variant: 'underlined',
     },
