@@ -16,6 +16,11 @@ export class CvcQuerySubfiltersField
   addRow() {
     super.add()
   }
+  removeRow(index: number) {
+    console.log('removing row', index)
+    super.remove(index)
+  }
+
   ngAfterViewInit(): void {
     console.log(`query-subfilters OnInit: ${this.field.id}`)
     // if (this.field.fieldGroup?.length === 0) {

@@ -13,7 +13,7 @@
       </formly-form>
     </form>
   </nz-col>
-  <nz-col [nzSpan]="12">
+  <nz-col [nzSpan]="8">
     <p>
       <b>Permalink ID:</b><br />
       @if (permalinkId()) {
@@ -24,15 +24,9 @@
     </p>
     <p><b>Form Options:</b></p>
     <pre>{{ options() | json }}</pre>
-    <p><b>Form Fields:</b></p>
-    <pre>{{ fields | json }}</pre>
   </nz-col>
-  <nz-col [nzSpan]="12">
+  <nz-col [nzSpan]="16">
     <b>Form Model:</b>
-    <!--    <ngx-json-treeview [json]="formModel()"></ngx-json-treeview>-->
     <pre>{{ formModel() | json }}</pre>
-    <b>Sub-Filter Field Group</b>
-    <!--    <ngx-json-treeview [json]="fields[0].fieldGroup![1]"></ngx-json-treeview>-->
-    <pre>{{ fields[0].fieldGroup![1].fieldGroup | json }}</pre>
   </nz-col>
 </nz-row>

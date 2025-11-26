@@ -11,7 +11,20 @@ import {
   VariantSearchFilter,
   VariantTypeSearchFilter,
 } from '@app/generated/civic.apollo'
-import { FormlyFieldConfig } from '@ngx-formly/core'
+
+export type AdvancedSearchFilterKey = keyof AdvancedSearchFilter
+export type AdvancedSearchRecursiveFilterKey =
+  | 'assertion'
+  | 'disease'
+  | 'evidenceItem'
+  | 'feature'
+  | 'molecularProfile'
+  | 'phenotype'
+  | 'source'
+  | 'therapy'
+  | 'user'
+  | 'variant'
+  | 'variantType'
 
 export type AdvancedSearchFilter =
   | AssertionSearchFilter
@@ -43,9 +56,3 @@ export type QueryBuilderSearchEndpoint =
   | 'searchUsers'
   | 'searchVariants'
   | 'searchVariantTypes'
-
-export type QueryBuilderFilterOption = {
-  key: string
-  label: string
-  fieldConfig: FormlyFieldConfig[]
-}

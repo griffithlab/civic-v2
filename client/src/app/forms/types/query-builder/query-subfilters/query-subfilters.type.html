@@ -1,4 +1,4 @@
-@if (field.fieldGroup?.length === 0) {
+@if (!model || model.length === 0) {
   <button
     (click)="addRow()"
     nz-button
@@ -12,14 +12,14 @@
       <nz-col nzFlex="auto">
         <formly-field [field]="subFilter"></formly-field>
       </nz-col>
-      <nz-col nzFlex="1 0 64px">
+      <nz-col nzFlex="0 0 64px">
         <div style="padding-top: 4px; display: flex; justify-content: flex-end">
           <nz-space
             nzSize="small"
             nzDirection="horizontal">
             <button
               *nzSpaceItem
-              (click)="remove($index)"
+              (click)="removeRow($index)"
               [disabled]="$count === 1"
               nz-button
               nzSize="default"

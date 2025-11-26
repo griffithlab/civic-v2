@@ -1,42 +1,40 @@
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import { FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  sortByKey,
+  withStatic,
+} from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
 
-export const searchDiseasesFilterOptions: FormlyFieldConfig[] = [
-  {
-    key: 'name',
-    props: {
-      label: 'Name',
+export const searchDiseasesFieldOptions: FormlyFieldConfig[] = sortByKey([
+  ...withStatic([
+    {
+      key: 'name',
+      props: {
+        label: 'Name',
+      },
+      fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
     },
-    fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
-  },
-  {
-    key: 'diseaseAliases',
-    props: {
-      label: 'Aliases',
+    {
+      key: 'diseaseAliases',
+      props: {
+        label: 'Aliases',
+      },
+      fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
     },
-    fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
-  },
-  {
-    key: 'id',
-    props: { label: 'ID' },
-    fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
-  },
-  {
-    key: 'doid',
-    props: { label: 'Disease Ontology ID' },
-    fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
-  },
-  {
-    key: 'deprecated',
-    props: { label: 'Deprecation Status' },
-    fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
-  },
-].map((option: FormlyFieldConfig) => {
-  // merge formly boilerplate
-  return {
-    ...option,
-    type: 'formly-group',
-    wrappers: ['form-row'],
-    props: { ...option.props, formRowOptions: { span: 12 } },
-  }
-})
+    {
+      key: 'id',
+      props: { label: 'ID' },
+      fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+    },
+    {
+      key: 'doid',
+      props: { label: 'Disease Ontology ID' },
+      fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
+    },
+    {
+      key: 'deprecated',
+      props: { label: 'Deprecation Status' },
+      fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+    },
+  ]),
+])

@@ -8,7 +8,6 @@ import { CvcForms2Module } from '@app/forms/forms.module'
 
 import { CvcQueryBuilderForm } from './query-builder.form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { NgxJsonTreeviewComponent } from 'ngx-json-treeview'
 
 @NgModule({
   declarations: [CvcQueryBuilderForm],
@@ -19,7 +18,6 @@ import { NgxJsonTreeviewComponent } from 'ngx-json-treeview'
     NzFormModule,
     NzGridModule,
     CvcForms2Module,
-    NgxJsonTreeviewComponent,
   ],
   exports: [CvcQueryBuilderForm],
 })

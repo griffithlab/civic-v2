@@ -26,7 +26,7 @@ import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
 import { filter, switchMap } from 'rxjs/operators'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
-import { getFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-field-config'
+import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   query: {
@@ -86,16 +86,13 @@ export class CvcQueryBuilderForm {
     // then reset the model to the default, but do NOT overwrite
     // a model that was just loaded from a permalink
     effect(() => {
-      const ep = this.searchEndpoint()
-      // update fields to match endpoint
-      this.fields = getFieldConfig(
-        'query',
-        ep,
-        'query-builder-card',
-        this.searchEndpointToCardTitle(ep)
-      )
+      const endpoint = this.searchEndpoint()
+      // update root builder card field config
+      this.fields = getQueryFieldConfig('query', endpoint, {
+        title: this.searchEndpointToCardTitle(endpoint),
+      })
       // only reset model if this change did not originate from a permalink
-      if (ep !== this.permalinkSearchEndpoint) {
+      if (endpoint !== this.permalinkSearchEndpoint) {
         this.formModel.update(() =>
           structuredClone(defaultQueryBuilderFormModel)
         )
