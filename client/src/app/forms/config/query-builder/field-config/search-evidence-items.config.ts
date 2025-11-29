@@ -53,6 +53,8 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
       ]),
-      ...withRecursive(getQueryFieldConfig('disease', 'searchDiseases')),
+      ...withRecursive(
+        getQueryFieldConfig('disease', 'searchDiseases', 'Disease')
+      ),
     ])
   )

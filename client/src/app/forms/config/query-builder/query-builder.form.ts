@@ -88,9 +88,11 @@ export class CvcQueryBuilderForm {
     effect(() => {
       const endpoint = this.searchEndpoint()
       // update root builder card field config
-      this.fields = getQueryFieldConfig('query', endpoint, {
-        title: this.searchEndpointToCardTitle(endpoint),
-      })
+      this.fields = getQueryFieldConfig(
+        'query',
+        endpoint,
+        this.searchEndpointToCardTitle(endpoint)
+      )
       // only reset model if this change did not originate from a permalink
       if (endpoint !== this.permalinkSearchEndpoint) {
         this.formModel.update(() =>

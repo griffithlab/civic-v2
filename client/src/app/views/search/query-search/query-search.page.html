@@ -1,20 +1,27 @@
 <div
   [cvcAutoHeightDiv]="34"
   cvcAutoHeightTarget="viewport">
-  <nz-tabs
-    nzType="card"
-    nzSize="small"
-    (nzSelectedIndexChange)="onTabIndexChange($event)"
-    [nzSelectedIndex]="selectedTabIndex()">
-    @for (tab of tabs; track tab) {
-      <nz-tab [nzTitle]="tab.label"> </nz-tab>
-    }
-  </nz-tabs>
-  <cvc-query-builder-form
-    [(searchEndpoint)]="searchEndpoint"
-    [(permalinkId)]="permalinkId"
-    (resultIds)="resultIds.set($event)">
-  </cvc-query-builder-form>
+  <nz-row [nzGutter]="[8, 8]">
+    /* TABS */
+    <nz-col nzSpan="24">
+      <nz-tabs
+        nzType="card"
+        nzSize="small"
+        (nzSelectedIndexChange)="onTabIndexChange($event)"
+        [nzSelectedIndex]="selectedTabIndex()">
+        @for (tab of tabs; track tab) {
+          <nz-tab [nzTitle]="tab.label"> </nz-tab>
+        }
+      </nz-tabs>
+      <nz-col nzSpan="24">
+        <cvc-query-builder-form
+          [(searchEndpoint)]="searchEndpoint"
+          [(permalinkId)]="permalinkId"
+          (resultIds)="resultIds.set($event)">
+        </cvc-query-builder-form>
+      </nz-col>
+    </nz-col>
+  </nz-row>
 </div>
 <!--<pre>Result Ids: {{ resultIds() | json }}</pre>-->
 <!--<h1>Query Search</h1>-->

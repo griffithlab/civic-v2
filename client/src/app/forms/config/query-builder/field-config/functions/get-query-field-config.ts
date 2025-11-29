@@ -4,14 +4,13 @@ import { BooleanOperator } from '@app/generated/civic.apollo'
 import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
 import { getFieldOptions } from '@app/forms/config/query-builder/field-config/functions/get-field-options'
 import { getSearchQuery } from '@app/forms/config/query-builder/field-config/functions/get-search-query'
-import { FormCardOptions } from '@app/forms/wrappers/form-card/form-card.wrapper'
 
 export type QueryBuilderWrapper = 'query-builder-card' | 'query-subfilter-card'
 
 export function getQueryFieldConfig(
   key: 'query' | string = 'query',
   endpoint: QueryBuilderSearchEndpoint,
-  cardOptions?: FormCardOptions
+  title?: string
 ): FormlyFieldConfig[] {
   if (key === 'query') {
     return [
@@ -19,7 +18,7 @@ export function getQueryFieldConfig(
         key: `${key}`,
         wrappers: [`query-builder-card`],
         props: {
-          formCardOptions: cardOptions,
+          formCardOptions: { title: title, size: 'default' },
           formSearchQuery: getSearchQuery(endpoint),
         },
         fieldGroup: [
@@ -68,7 +67,8 @@ export function getQueryFieldConfig(
         key: `${key}`,
         wrappers: ['query-subfilters-card'],
         props: {
-          formCardOptions: cardOptions,
+          formCardOptions: { title: title, size: 'small' },
+          label: `${title}`,
           // formSearchQuery: getSearchQuery(endpoint),
         },
         fieldGroup: [
@@ -91,7 +91,7 @@ export function getQueryFieldConfig(
               filterEndpoint: endpoint,
             },
             fieldArray: (field) => {
-              console.log('fieldArray fn called', field)
+              // console.log('fieldArray fn called', field)
               return {
                 type: 'query-filter',
                 resetOnHide: true,

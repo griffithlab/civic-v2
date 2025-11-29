@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
-import { NzTabComponent, NzTabsComponent } from 'ng-zorro-antd/tabs'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { CvcQueryBuilderModule } from '@app/forms/config/query-builder/query-builder.module'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -19,6 +19,7 @@ import {
   queryBuilderTabs,
 } from '@app/views/search/query-search/query-search.functions'
 import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -27,8 +28,8 @@ import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/quer
   standalone: true,
   imports: [
     CommonModule,
-    NzTabComponent,
-    NzTabsComponent,
+    NzTabsModule,
+    NzGridModule,
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
   ],
