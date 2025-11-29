@@ -6,6 +6,7 @@ query EvidenceBrowse(
   $diseaseName: String
   $therapyName: String
   $id: Int
+  $ids: [Int!]
   $description: String
   $evidenceLevel: EvidenceLevel
   $evidenceDirection: EvidenceDirection
@@ -36,6 +37,7 @@ query EvidenceBrowse(
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     description: $description
     evidenceLevel: $evidenceLevel
     evidenceDirection: $evidenceDirection

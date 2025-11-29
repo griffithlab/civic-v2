@@ -8992,6 +8992,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   diseaseName?: InputMaybe<Scalars['String']['input']>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   evidenceLevel?: InputMaybe<EvidenceLevel>;
   evidenceDirection?: InputMaybe<EvidenceDirection>;
@@ -10002,7 +10003,7 @@ export type GetOriginalQueryQueryVariables = Exact<{
 }>;
 
 
-export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, permalinkId?: string | undefined, formQuery?: any | undefined } };
+export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, permalinkId?: string | undefined, formQuery?: any | undefined, resultIds: Array<number> } };
 
 export type SearchEvidenceItemsQueryVariables = Exact<{
   query: EvidenceItemSearchFilter;
@@ -15332,7 +15333,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $ids: [Int!], $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -15341,6 +15342,7 @@ export const EvidenceBrowseDocument = gql`
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     description: $description
     evidenceLevel: $evidenceLevel
     evidenceDirection: $evidenceDirection
@@ -17946,6 +17948,7 @@ export const GetOriginalQueryDocument = gql`
     originalQuery
     permalinkId
     formQuery @client
+    resultIds
   }
 }
     `;

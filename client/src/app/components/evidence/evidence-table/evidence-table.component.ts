@@ -19,11 +19,11 @@ import {
   EvidenceBrowseGQL,
   EvidenceBrowseQuery,
   EvidenceBrowseQueryVariables,
-  EvidenceSignificance,
   EvidenceDirection,
   EvidenceGridFieldsFragment,
   EvidenceItemConnection,
   EvidenceLevel,
+  EvidenceSignificance,
   EvidenceSortColumns,
   EvidenceStatusFilter,
   EvidenceType,
@@ -65,11 +65,11 @@ export interface EvidenceTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-table',
-    templateUrl: './evidence-table.component.html',
-    styleUrls: ['./evidence-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-table',
+  templateUrl: './evidence-table.component.html',
+  styleUrls: ['./evidence-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() cvcHeight: Maybe<string>
@@ -87,6 +87,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
   @Input() molecularProfileId: Maybe<number>
+  @Input() evidenceItemIds: Maybe<number[]>
   @Input() initialPageSize = 35
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
@@ -153,7 +154,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.scrollIndex$ = new Subject<number>()
     this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
       if (params.has('includeSubgroups')) {
-        this.includeSubgroups = params.get('includeSubgroups') === 'true' ? true : false
+        this.includeSubgroups =
+          params.get('includeSubgroups') === 'true' ? true : false
       }
     })
   }
@@ -191,6 +193,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       variantOrigin: this.variantOriginInput
         ? this.variantOriginInput
         : undefined,
+      ids: this.evidenceItemIds,
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -320,6 +323,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         molecularProfileName: this.molecularProfileNameInput
           ? this.molecularProfileNameInput
           : undefined,
+        ids: this.evidenceItemIds ? this.evidenceItemIds : undefined,
       })
       .then(() => this.scrollIndex$.next(0))
 
