@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core'
+import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { FieldArrayType } from '@ngx-formly/core'
 
 @Component({
@@ -8,7 +8,7 @@ import { FieldArrayType } from '@ngx-formly/core'
 })
 export class CvcQuerySubfiltersField
   extends FieldArrayType
-  implements AfterViewInit
+  implements OnInit, AfterViewInit
 {
   constructor() {
     super()
@@ -20,7 +20,9 @@ export class CvcQuerySubfiltersField
     console.log('removing row', index)
     super.remove(index)
   }
-
+  ngOnInit(): void {
+    this.props.isRootFilter = this.field.parent?.key === 'query'
+  }
   ngAfterViewInit(): void {
     console.log(`query-subfilters OnInit: ${this.field.id}`)
     // if (this.field.fieldGroup?.length === 0) {

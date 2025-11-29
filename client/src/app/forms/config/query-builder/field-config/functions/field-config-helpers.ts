@@ -8,13 +8,7 @@ export const withStatic = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
     wrappers: ['form-row'],
     props: {
       ...i.props,
-      filterType: 'static',
       formRowOptions: <FormRowOptions>{ spanIndexed: [8, 16] },
-    },
-    expressions: {
-      hide: (field: FormlyFieldConfig) => {
-        return field.key !== field.parent?.props?.selectedKey
-      },
     },
   }))
 
@@ -24,19 +18,26 @@ export const withRecursive = (
   items.map((i) => ({
     ...i,
     type: 'formly-group',
-    props: { ...i.props, filterType: 'recursive' },
+    props: { ...i.props },
+  }))
+
+export const withExpressions = (
+  items: FormlyFieldConfig[]
+): FormlyFieldConfig[] =>
+  items.map((i) => ({
+    ...i,
     expressions: {
+      ...i.expressions,
       hide: (field: FormlyFieldConfig) => {
         return field.key !== field.parent?.props?.selectedKey
       },
-    },
-    hooks: {
-      onInit: (field: FormlyFieldConfig) => {
-        const { form, model, options } = field
-        console.log(form, model, options)
+      'props.size': (field: FormlyFieldConfig) => {
+        // if (field.parent?.props?.isRootFilter === undefined) {
+        //   console.log('props.size expression isRootFilter:', field.parent)
+        // }
+        return field.parent?.props?.isRootFilter ? 'default' : 'small'
       },
     },
   }))
-
 export const sortByKey = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
   [...items].sort((a, b) => String(a.key).localeCompare(String(b.key)))

@@ -43,6 +43,7 @@ export function getQueryFieldConfig(
               props: {
                 selectedKey: undefined,
                 size: 'default',
+                isRootFilter: true,
                 options: getFieldOptions(endpoint).map((opt) => ({
                   label: opt.props?.label,
                   value: opt.key,
@@ -89,18 +90,22 @@ export function getQueryFieldConfig(
             props: {
               filterEndpoint: endpoint,
             },
-            fieldArray: (field) => ({
-              type: 'query-filter',
-              resetOnHide: true,
-              props: {
-                selectedKey: undefined,
-                options: getFieldOptions(endpoint).map((opt) => ({
-                  label: opt.props?.label,
-                  value: opt.key,
-                })),
-              },
-              fieldGroup: getFieldOptions(field.props!.filterEndpoint),
-            }),
+            fieldArray: (field) => {
+              console.log('fieldArray fn called', field)
+              return {
+                type: 'query-filter',
+                resetOnHide: true,
+                props: {
+                  selectedKey: undefined,
+                  isRootFilter: false,
+                  options: getFieldOptions(endpoint).map((opt) => ({
+                    label: opt.props?.label,
+                    value: opt.key,
+                  })),
+                },
+                fieldGroup: getFieldOptions(field.props!.filterEndpoint),
+              }
+            },
           },
           {
             key: 'createPermalink',

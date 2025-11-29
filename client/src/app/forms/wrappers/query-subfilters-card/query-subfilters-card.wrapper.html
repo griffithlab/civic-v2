@@ -1,7 +1,8 @@
 <nz-card
   [nzTitle]="wrapperOptions.title"
   nzSize="small"
-  [nzExtra]="operatorSelector">
+  [nzBordered]="false"
+  [nzTitle]="titleSelector">
   @if (subFiltersField) {
     <formly-field [field]="subFiltersField"></formly-field>
   } @else {
@@ -9,10 +10,10 @@
   }
 </nz-card>
 
-<ng-template #operatorSelector>
+<ng-template #titleSelector>
   @if (operatorField) {
     <nz-space nzSize="small">
-      <span *nzSpaceItem>Match</span>
+      <span *nzSpaceItem>matching</span>
       <formly-field
         *nzSpaceItem
         [field]="operatorField"></formly-field>

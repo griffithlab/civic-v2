@@ -34,7 +34,6 @@ export class CvcQueryFilterField
 {
   // This signal just holds the <select> options
   filterSelectOptions: WritableSignal<QueryFilterSelectOption[]> = signal([])
-
   constructor() {
     super()
     console.log(this)
@@ -66,7 +65,6 @@ export class CvcQueryFilterField
 
   onKeyChange(newKey: string): void {
     this.props.selectedKey = newKey
-    // if (this.options.build) this.options.build()
     this.checkExpressions()
   }
 

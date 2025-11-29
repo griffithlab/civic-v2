@@ -4,6 +4,7 @@
     styles="padding-top: 4px">
     <nz-select
       [ngModel]="props.selectedKey"
+      [nzSize]="props.size"
       (ngModelChange)="onKeyChange($event)"
       [nzOptionHeightPx]="28"
       nzPlaceHolder="Select Filter">

@@ -8,11 +8,15 @@
   </button>
 } @else {
   @for (subFilter of field.fieldGroup; track $index) {
-    <nz-row [nzGutter]="[8, 8]">
-      <nz-col nzFlex="auto">
+    <nz-row [nzGutter]="props.isRootFilter ? [8, 8] : [4, 4]">
+      <nz-col
+        nzFlex="auto"
+        [nzOrder]="props.isRootFilter ? 0 : 1">
         <formly-field [field]="subFilter"></formly-field>
       </nz-col>
-      <nz-col nzFlex="0 0 64px">
+      <nz-col
+        [nzFlex]="props.isRootFilter ? '0 0 64px' : '0 0 48px'"
+        [nzOrder]="props.isRootFilter ? 1 : 0">
         <div style="padding-top: 4px; display: flex; justify-content: flex-end">
           <nz-space
             nzSize="small"
@@ -22,7 +26,7 @@
               (click)="removeRow($index)"
               [disabled]="$count === 1"
               nz-button
-              nzSize="default"
+              [nzSize]="props.isRootFilter ? 'default' : 'small'"
               nzType="primary"
               nzShape="circle">
               <nz-icon nzType="minus" />
@@ -32,7 +36,7 @@
               (click)="addRow()"
               [disabled]="!$last"
               nz-button
-              nzSize="default"
+              [nzSize]="props.isRootFilter ? 'default' : 'small'"
               nzType="primary"
               nzShape="circle">
               <nz-icon nzType="plus" />
