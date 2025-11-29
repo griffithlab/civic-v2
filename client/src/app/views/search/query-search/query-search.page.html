@@ -1,29 +1,42 @@
-<div
-  [cvcAutoHeightDiv]="34"
-  cvcAutoHeightTarget="viewport">
-  <nz-row [nzGutter]="[8, 8]">
-    /* TABS */
-    <nz-col nzSpan="24">
-      <nz-tabs
-        nzType="card"
-        nzSize="small"
-        (nzSelectedIndexChange)="onTabIndexChange($event)"
-        [nzSelectedIndex]="selectedTabIndex()">
-        @for (tab of tabs; track tab) {
-          <nz-tab [nzTitle]="tab.label"> </nz-tab>
-        }
-      </nz-tabs>
-      <nz-col nzSpan="24">
-        <cvc-query-builder-form
-          [(searchEndpoint)]="searchEndpoint"
-          [(permalinkId)]="permalinkId"
-          (resultIds)="resultIds.set($event)">
-        </cvc-query-builder-form>
-      </nz-col>
-    </nz-col>
-  </nz-row>
-</div>
-<!--<pre>Result Ids: {{ resultIds() | json }}</pre>-->
+<nz-row [nzGutter]="[0, 0]">
+  <!-- TABS -->
+  <nz-col nzSpan="24">
+    <nz-tabs
+      nzType="card"
+      nzSize="small"
+      (nzSelectedIndexChange)="onTabIndexChange($event)"
+      [nzSelectedIndex]="selectedTabIndex()">
+      @for (tab of tabs; track tab) {
+        <nz-tab [nzTitle]="tab.label"> </nz-tab>
+      }
+    </nz-tabs>
+  </nz-col>
+
+  <!-- QUERY BUILDER FORM -->
+  <nz-col
+    nzSpan="24"
+    class="query-form">
+    <cvc-query-builder-form
+      [(searchEndpoint)]="searchEndpoint"
+      [(permalinkId)]="permalinkId"
+      (resultIds)="resultIds.set($event)">
+    </cvc-query-builder-form>
+  </nz-col>
+
+  <!-- RESULTS TABLE -->
+  <nz-col
+    nzSpan="24"
+    class="query-results">
+    @let ids = resultIds();
+    @if (ids && ids.length > 0) {
+      <cvc-evidence-table
+        [evidenceItemIds]="ids"
+        [cvcHeight]="'400px'"></cvc-evidence-table>
+    } @else {
+      <p>No results found.</p>
+    }
+  </nz-col>
+</nz-row>
 <!--<h1>Query Search</h1>-->
 <!--<p>Endpoint: {{ searchEndpoint() }}</p>-->
 <!--<p>Permalink Id: {{ permalinkId() }}</p>-->

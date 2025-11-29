@@ -20,18 +20,23 @@ import {
 } from '@app/views/search/query-search/query-search.functions'
 import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzResizableModule, NzResizeEvent } from 'ng-zorro-antd/resizable'
+import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
   templateUrl: './query-search.page.html',
+  styleUrls: ['./query-search.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
     NzTabsModule,
     NzGridModule,
+    NzResizableModule,
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
+    CvcEvidenceTableModule,
   ],
 })
 export class QuerySearchPage {
@@ -47,6 +52,8 @@ export class QuerySearchPage {
   private router = inject(Router)
   private route = inject(ActivatedRoute)
 
+  resizableFrameId = -1
+  resizableHeight = -1
   constructor() {
     // update tabs and route when searchEndpoint changes
     effect(() => {
@@ -69,5 +76,12 @@ export class QuerySearchPage {
   onTabIndexChange(index: number) {
     this.searchEndpoint.set(getSearchEndpointFromTabIndex(index))
     this.permalinkId.set(undefined)
+  }
+  onContentResize(event: NzResizeEvent): void {
+    const { width, height, col, mouseEvent, direction } = event
+    cancelAnimationFrame(this.resizableFrameId)
+    this.resizableFrameId = requestAnimationFrame(() => {
+      this.resizableHeight = height!
+    })
   }
 }

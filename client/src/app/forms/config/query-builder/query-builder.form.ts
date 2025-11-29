@@ -106,12 +106,13 @@ export class CvcQueryBuilderForm {
     effect(() => {
       const query = this.permalinkQuery()
       if (query) {
-        const { searchEndpoint, formQuery, permalinkId } = query
+        const { searchEndpoint, formQuery, permalinkId, resultIds } = query
         this.permalinkSearchEndpoint = searchEndpoint // Set the flag so the searchEndpoint effect won't overwrite the model
         this.searchEndpoint.update(
           () => searchEndpoint as QueryBuilderSearchEndpoint
         ) // Update parent (triggers fields update)
         this.permalinkId.update(() => permalinkId) // Update parent
+        this.resultIds.emit(resultIds)
         if (formQuery) {
           this.formModel.update((value) => {
             return {

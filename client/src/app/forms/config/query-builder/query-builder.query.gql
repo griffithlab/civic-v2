@@ -4,6 +4,7 @@ query GetOriginalQuery($permalinkId: String!) {
     originalQuery
     permalinkId
     formQuery @client
+    resultIds
   }
 }
 

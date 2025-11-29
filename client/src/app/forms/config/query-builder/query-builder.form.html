@@ -13,20 +13,4 @@
       </formly-form>
     </form>
   </nz-col>
-  <nz-col [nzSpan]="8">
-    <p>
-      <b>Permalink ID:</b><br />
-      @if (permalinkId()) {
-        {{ permalinkId() }}
-      } @else {
-        undefined
-      }
-    </p>
-    <p><b>Form Options:</b></p>
-    <pre>{{ options() | json }}</pre>
-  </nz-col>
-  <nz-col [nzSpan]="16">
-    <b>Form Model:</b>
-    <pre>{{ formModel() | json }}</pre>
-  </nz-col>
 </nz-row>
