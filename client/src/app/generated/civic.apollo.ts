@@ -10013,6 +10013,70 @@ export type SearchEvidenceItemsQueryVariables = Exact<{
 
 export type SearchEvidenceItemsQuery = { __typename: 'Query', searchEvidenceItems: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
 
+export type SearchAssertionsQueryVariables = Exact<{
+  query: AssertionSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchAssertionsQuery = { __typename: 'Query', searchAssertions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchDiseasesQueryVariables = Exact<{
+  query: DiseaseSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchDiseasesQuery = { __typename: 'Query', searchDiseases: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchFeaturesQueryVariables = Exact<{
+  query: FeatureSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchFeaturesQuery = { __typename: 'Query', searchFeatures: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchMolecularProfilesQueryVariables = Exact<{
+  query: MolecularProfileSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchMolecularProfilesQuery = { __typename: 'Query', searchMolecularProfiles: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchPhenotypesQueryVariables = Exact<{
+  query: PhenotypeSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchPhenotypesQuery = { __typename: 'Query', searchPhenotypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchSourcesQueryVariables = Exact<{
+  query: SourceSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchSourcesQuery = { __typename: 'Query', searchSources: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchTherapiesQueryVariables = Exact<{
+  query: TherapySearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchTherapiesQuery = { __typename: 'Query', searchTherapies: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchUsersQueryVariables = Exact<{
+  query: UserSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchUsersQuery = { __typename: 'Query', searchUsers: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
 export type SearchVariantsQueryVariables = Exact<{
   query: VariantSearchFilter;
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
@@ -10020,6 +10084,14 @@ export type SearchVariantsQueryVariables = Exact<{
 
 
 export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchVariantTypesQueryVariables = Exact<{
+  query: VariantTypeSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchVariantTypesQuery = { __typename: 'Query', searchVariantTypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
 
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -17982,6 +18054,158 @@ export const SearchEvidenceItemsDocument = gql`
       super(apollo);
     }
   }
+export const SearchAssertionsDocument = gql`
+    query searchAssertions($query: AssertionSearchFilter!, $createPermalink: Boolean) {
+  searchAssertions(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchAssertionsGQL extends Apollo.Query<SearchAssertionsQuery, SearchAssertionsQueryVariables> {
+    document = SearchAssertionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchDiseasesDocument = gql`
+    query searchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
+  searchDiseases(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchDiseasesGQL extends Apollo.Query<SearchDiseasesQuery, SearchDiseasesQueryVariables> {
+    document = SearchDiseasesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchFeaturesDocument = gql`
+    query searchFeatures($query: FeatureSearchFilter!, $createPermalink: Boolean) {
+  searchFeatures(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchFeaturesGQL extends Apollo.Query<SearchFeaturesQuery, SearchFeaturesQueryVariables> {
+    document = SearchFeaturesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchMolecularProfilesDocument = gql`
+    query searchMolecularProfiles($query: MolecularProfileSearchFilter!, $createPermalink: Boolean) {
+  searchMolecularProfiles(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchMolecularProfilesGQL extends Apollo.Query<SearchMolecularProfilesQuery, SearchMolecularProfilesQueryVariables> {
+    document = SearchMolecularProfilesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchPhenotypesDocument = gql`
+    query searchPhenotypes($query: PhenotypeSearchFilter!, $createPermalink: Boolean) {
+  searchPhenotypes(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchPhenotypesGQL extends Apollo.Query<SearchPhenotypesQuery, SearchPhenotypesQueryVariables> {
+    document = SearchPhenotypesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchSourcesDocument = gql`
+    query searchSources($query: SourceSearchFilter!, $createPermalink: Boolean) {
+  searchSources(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchSourcesGQL extends Apollo.Query<SearchSourcesQuery, SearchSourcesQueryVariables> {
+    document = SearchSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchTherapiesDocument = gql`
+    query searchTherapies($query: TherapySearchFilter!, $createPermalink: Boolean) {
+  searchTherapies(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchTherapiesGQL extends Apollo.Query<SearchTherapiesQuery, SearchTherapiesQueryVariables> {
+    document = SearchTherapiesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchUsersDocument = gql`
+    query searchUsers($query: UserSearchFilter!, $createPermalink: Boolean) {
+  searchUsers(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchUsersGQL extends Apollo.Query<SearchUsersQuery, SearchUsersQueryVariables> {
+    document = SearchUsersDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const SearchVariantsDocument = gql`
     query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
   searchVariants(query: $query, createPermalink: $createPermalink) {
@@ -17996,6 +18220,25 @@ export const SearchVariantsDocument = gql`
   })
   export class SearchVariantsGQL extends Apollo.Query<SearchVariantsQuery, SearchVariantsQueryVariables> {
     document = SearchVariantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchVariantTypesDocument = gql`
+    query searchVariantTypes($query: VariantTypeSearchFilter!, $createPermalink: Boolean) {
+  searchVariantTypes(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchVariantTypesGQL extends Apollo.Query<SearchVariantTypesQuery, SearchVariantTypesQueryVariables> {
+    document = SearchVariantTypesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

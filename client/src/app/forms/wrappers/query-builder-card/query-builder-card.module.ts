@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { FormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
@@ -9,6 +9,7 @@ import { CvcQueryBuilderCardWrapper } from './query-builder-card.wrapper'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzFormModule } from 'ng-zorro-antd/form'
 
 const wrapperConfig: ConfigOption = {
   wrappers: [
@@ -20,8 +21,9 @@ const wrapperConfig: ConfigOption = {
   declarations: [CvcQueryBuilderCardWrapper],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     FormlyModule.forChild(wrapperConfig),
+    NzFormModule,
     NzGridModule,
     NzButtonModule,
     NzCardModule,

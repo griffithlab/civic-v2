@@ -17,8 +17,74 @@ query searchEvidenceItems(
     resultIds
   }
 }
+query searchAssertions(
+  $query: AssertionSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchAssertions(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
+  searchDiseases(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchFeatures($query: FeatureSearchFilter!, $createPermalink: Boolean) {
+  searchFeatures(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchMolecularProfiles(
+  $query: MolecularProfileSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchMolecularProfiles(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchPhenotypes(
+  $query: PhenotypeSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchPhenotypes(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchSources($query: SourceSearchFilter!, $createPermalink: Boolean) {
+  searchSources(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchTherapies($query: TherapySearchFilter!, $createPermalink: Boolean) {
+  searchTherapies(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchUsers($query: UserSearchFilter!, $createPermalink: Boolean) {
+  searchUsers(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
 query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
   searchVariants(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+query searchVariantTypes(
+  $query: VariantTypeSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchVariantTypes(query: $query, createPermalink: $createPermalink) {
     permalinkId
     resultIds
   }

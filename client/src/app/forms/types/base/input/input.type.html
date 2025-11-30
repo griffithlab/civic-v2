@@ -11,5 +11,6 @@
   <nz-input-number
     [formControl]="formControl"
     [formlyAttributes]="field"
+    [nzSize]="props.size || 'default'"
     (ngModelChange)="onValueChange$.next($event)"></nz-input-number>
 </ng-template>

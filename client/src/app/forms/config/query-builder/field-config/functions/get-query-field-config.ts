@@ -1,15 +1,11 @@
-import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
+import { AdvancedSearchEndpoint } from '../../query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { BooleanOperator } from '@app/generated/civic.apollo'
-import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
-import { getFieldOptions } from '@app/forms/config/query-builder/field-config/functions/get-field-options'
-import { getSearchQuery } from '@app/forms/config/query-builder/field-config/functions/get-search-query'
-
-export type QueryBuilderWrapper = 'query-builder-card' | 'query-subfilter-card'
+import { getSelectOptions } from './get-select-options'
+import { getFieldOptions } from './get-field-options'
 
 export function getQueryFieldConfig(
   key: 'query' | string = 'query',
-  endpoint: QueryBuilderSearchEndpoint,
+  endpoint: AdvancedSearchEndpoint,
   title?: string
 ): FormlyFieldConfig[] {
   if (key === 'query') {
@@ -18,8 +14,7 @@ export function getQueryFieldConfig(
         key: `${key}`,
         wrappers: [`query-builder-card`],
         props: {
-          formCardOptions: { title: title, size: 'default' },
-          formSearchQuery: getSearchQuery(endpoint),
+          formCardOptions: { title: title, size: 'small' },
         },
         fieldGroup: [
           {
@@ -51,14 +46,16 @@ export function getQueryFieldConfig(
               fieldGroup: getFieldOptions(endpoint),
             },
           },
-          // NOTE: createPermalink has no field type bc its value
-          // is managed by a reactive checkbox control & effect()
-          // in query-builder-card.wrapper
-          {
-            key: 'createPermalink',
-            wrappers: [],
-          },
         ],
+      },
+      // NOTE: createPermalink hides its field bc its value
+      // is managed by a reactive checkbox control in
+      // query-builder-card.wrapper
+      {
+        key: 'createPermalink',
+        type: 'checkbox',
+        hide: true,
+        wrappers: [],
       },
     ]
   } else {
@@ -67,9 +64,8 @@ export function getQueryFieldConfig(
         key: `${key}`,
         wrappers: ['query-subfilters-card'],
         props: {
-          formCardOptions: { title: title, size: 'small' },
           label: `${title}`,
-          // formSearchQuery: getSearchQuery(endpoint),
+          formCardOptions: { title: title, size: 'small' },
         },
         fieldGroup: [
           {
@@ -91,7 +87,6 @@ export function getQueryFieldConfig(
               filterEndpoint: endpoint,
             },
             fieldArray: (field) => {
-              // console.log('fieldArray fn called', field)
               return {
                 type: 'query-filter',
                 resetOnHide: true,

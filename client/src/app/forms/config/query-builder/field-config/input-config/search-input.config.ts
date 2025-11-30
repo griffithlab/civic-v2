@@ -58,9 +58,9 @@ const INT_INPUT = [
   },
   {
     key: 'value',
-    type: 'base-input',
+    type: 'base-integer',
     props: {
-      placeholder: 'Enter number',
+      placeholder: 'Enter integer',
       variant: 'underlined',
     },
   },

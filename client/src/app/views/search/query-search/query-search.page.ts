@@ -22,6 +22,7 @@ import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/quer
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzResizableModule, NzResizeEvent } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
+import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-table/diseases-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -37,6 +38,7 @@ import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-ta
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
     CvcEvidenceTableModule,
+    CvcDiseasesTableModule,
   ],
 })
 export class QuerySearchPage {

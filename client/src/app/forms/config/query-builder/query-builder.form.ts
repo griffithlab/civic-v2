@@ -17,6 +17,8 @@ import {
   GetOriginalQueryGQL,
 } from '@app/generated/civic.apollo'
 import {
+  AdvancedSearchEndpoint,
+  AdvancedSearchService,
   QueryBuilderFormModel,
   QueryBuilderSearchEndpoint,
 } from '@app/forms/config/query-builder/query-builder.types'
@@ -27,6 +29,7 @@ import { isNonNulled } from 'rxjs-etc/dist/esm/util'
 import { filter, switchMap } from 'rxjs/operators'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
+import { AdvancedSearchRegistry } from './query-builder.service'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   query: {
@@ -44,20 +47,27 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcQueryBuilderForm {
-  searchEndpoint = model.required<QueryBuilderSearchEndpoint>()
+  searchEndpoint = model.required<AdvancedSearchEndpoint>()
   permalinkId = model<string>()
   resultIds = output<number[]>()
 
   formModel: WritableSignal<QueryBuilderFormModel> = signal(
     defaultQueryBuilderFormModel
   )
+  private advancedSearch = inject(AdvancedSearchRegistry)
 
+  formGQL = computed<AdvancedSearchService>(() => {
+    const endpoint = this.searchEndpoint()
+    return this.advancedSearch.getService(endpoint)
+  })
   form: UntypedFormGroup = new UntypedFormGroup({})
   fields: FormlyFieldConfig[] = []
   options: Signal<FormlyFormOptions> = computed(() => ({
     formState: {
       formLayout: 'inline',
       searchEndpoint: this.searchEndpoint(),
+      submitQuery: this.onSubmit.bind(this),
+      resetForm: this.onReset.bind(this),
     },
   }))
 
@@ -128,7 +138,31 @@ export class CvcQueryBuilderForm {
       }
     })
   }
+  onFormModelChange(model: QueryBuilderFormModel) {
+    console.log('!!!! query-builder model', model)
+  }
+  onSubmit() {
+    // if (this.form.invalid) {
+    //   this.form.markAllAsTouched()
+    //   return
+    // }
 
+    const model = this.form.value as QueryBuilderFormModel
+    const endpoint = this.searchEndpoint()
+    const gql = this.formGQL()
+
+    gql
+      .fetch(model) // variables typed as any; runtime-checked by backend
+      .pipe(
+        pluck('data', endpoint, 'resultIds')
+        // ...
+      )
+      .subscribe((ids) => {
+        this.resultIds.emit(ids)
+      })
+  }
+
+  onReset() {}
   private searchEndpointToCardTitle(
     endpoint: QueryBuilderSearchEndpoint
   ): string {

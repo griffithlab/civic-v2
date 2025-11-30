@@ -1,6 +1,7 @@
 <nz-row [nzGutter]="[0, 0]">
   <!-- TABS -->
   <nz-col nzSpan="24">
+    <!--<p><b>Permalink Id:</b> {{ permalinkId() }}</p>-->
     <nz-tabs
       nzType="card"
       nzSize="small"
@@ -28,15 +29,21 @@
     nzSpan="24"
     class="query-results">
     @let ids = resultIds();
+    <!--    <p><b>Result IDs:</b> {{ resultIds() | json }}</p>-->
     @if (ids && ids.length > 0) {
-      <cvc-evidence-table
-        [evidenceItemIds]="ids"
-        [cvcHeight]="'400px'"></cvc-evidence-table>
+      @switch (searchEndpoint()) {
+        @case ('searchEvidenceItems') {
+          <cvc-evidence-table [evidenceItemIds]="ids"></cvc-evidence-table>
+        }
+        @case ('searchDiseases') {
+          <cvc-diseases-table [diseaseIds]="ids"></cvc-diseases-table>
+        }
+        @default {
+          <p>No table specified for this search endpoint.</p>
+        }
+      }
     } @else {
       <p>No results found.</p>
     }
   </nz-col>
 </nz-row>
-<!--<h1>Query Search</h1>-->
-<!--<p>Endpoint: {{ searchEndpoint() }}</p>-->
-<!--<p>Permalink Id: {{ permalinkId() }}</p>-->

@@ -56,6 +56,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() initialPageSize = 35
+  @Input() diseaseIds: Maybe<number[]>
   @Input()
   set initialUserFilters(f: Maybe<DiseasesTableUserFilters>) {
     // assign any attributes in filters object to this class

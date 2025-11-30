@@ -8,9 +8,14 @@
         [form]="form"
         [fields]="fields"
         [model]="formModel()"
+        (modelChange)="onFormModelChange($event)"
         [options]="options()"
         style="width: 100%">
       </formly-form>
     </form>
   </nz-col>
+  <!--  <nz-col nzSpan="8">-->
+  <!--    <b>Form Model:</b>-->
+  <!--    <pre>{{ formModel() | json }}</pre>-->
+  <!--  </nz-col>-->
 </nz-row>

@@ -30,20 +30,18 @@
       <label
         nz-checkbox
         class="ant-checkbox-rtl"
-        [ngModel]="this.field.parent?.model.createPermalink"
-        (ngModelChange)="this.onCreatePermalinkChecked.set($event)">
+        *ngIf="createPermalinkControl as ctrl"
+        [formControl]="ctrl">
         Create search permalink
       </label>
-      <!--          <formly-field-->
-      <!--            *nzSpaceItem-->
-      <!--            [field]="permalinkField"></formly-field>-->
     </nz-col>
     <nz-col nzSpan="8">
       <button
         nz-button
         nzBlock
         nzType="primary"
-        nzSize="default">
+        nzSize="default"
+        (click)="onSubmitQuery()">
         Search
       </button>
     </nz-col>
