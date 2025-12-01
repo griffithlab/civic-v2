@@ -4,12 +4,9 @@ import {
   EnvironmentInjector,
   inject,
   OnInit,
-  signal,
-  WritableSignal,
 } from '@angular/core'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
-import { Maybe } from '@generated/civic.apollo'
 import { FormControl } from '@angular/forms'
 
 type QueryBuilderCardOptions = {
@@ -35,7 +32,6 @@ export class CvcQueryBuilderCardWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcQueryBuilderCardWrapperProps>>
   implements OnInit, AfterViewInit
 {
-  onCreatePermalinkChecked: WritableSignal<Maybe<boolean>> = signal(undefined)
   wrapperOptions: QueryBuilderCardOptions = { ...defaultWrapperOptions }
 
   get errorState() {
@@ -71,8 +67,8 @@ export class CvcQueryBuilderCardWrapper
   }
 
   onResetForm() {
-    if (this.options.formState.resetForm) {
-      this.options.formState.resetForm()
+    if (this.options?.resetModel) {
+      this.options.resetModel()
     }
   }
 

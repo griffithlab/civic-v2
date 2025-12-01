@@ -8,6 +8,8 @@ import {
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
 
+export const searchEvidenceItemsDefaultKey = 'description'
+
 export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
   withExpressions(
     sortByKey([

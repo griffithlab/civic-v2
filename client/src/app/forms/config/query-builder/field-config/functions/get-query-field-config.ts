@@ -1,13 +1,14 @@
 import { AdvancedSearchEndpoint } from '../../query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from './get-select-options'
-import { getFieldOptions } from './get-field-options'
+import { getDefaultSelectedKey, getFieldOptions } from './get-field-options'
 
 export function getQueryFieldConfig(
   key: 'query' | string = 'query',
   endpoint: AdvancedSearchEndpoint,
   title?: string
 ): FormlyFieldConfig[] {
+  // generate root query field config
   if (key === 'query') {
     return [
       {
@@ -31,26 +32,36 @@ export function getQueryFieldConfig(
             key: 'subFilters',
             type: 'query-subfilters',
             wrappers: [],
-            fieldArray: {
-              type: 'query-filter',
-              resetOnHide: true,
-              props: {
-                selectedKey: undefined,
-                size: 'default',
-                isRootFilter: true,
-                options: getFieldOptions(endpoint).map((opt) => ({
-                  label: opt.props?.label,
-                  value: opt.key,
-                })),
-              },
-              fieldGroup: getFieldOptions(endpoint),
+            props: {
+              filterEndpoint: endpoint,
+            },
+            fieldArray: (field) => {
+              return {
+                type: 'query-filter',
+                resetOnHide: true,
+                props: {
+                  selectedKey: getDefaultSelectedKey(
+                    field.props!.filterEndpoint
+                  ),
+                  size: 'default',
+                  isRootFilter: true,
+                  options: getFieldOptions(field.props!.filterEndpoint).map(
+                    (opt) => ({
+                      label: opt.props?.label,
+                      value: opt.key,
+                    })
+                  ),
+                },
+                fieldGroup: getFieldOptions(field.props!.filterEndpoint),
+              }
             },
           },
         ],
       },
-      // NOTE: createPermalink hides its field bc its value
-      // is managed by a reactive checkbox control in
-      // query-builder-card.wrapper
+      // NOTE: createPermalink field's value is manually managed by
+      // a standard checkbox in the query-builder-card wrapper and
+      // is hidden in the field config so that formly does not
+      // build an extraneous field control component for it.
       {
         key: 'createPermalink',
         type: 'checkbox',
@@ -59,6 +70,7 @@ export function getQueryFieldConfig(
       },
     ]
   } else {
+    // generate subfilter field config
     return [
       {
         key: `${key}`,
@@ -91,12 +103,16 @@ export function getQueryFieldConfig(
                 type: 'query-filter',
                 resetOnHide: true,
                 props: {
-                  selectedKey: undefined,
+                  selectedKey: getDefaultSelectedKey(
+                    field.props!.filterEndpoint
+                  ),
                   isRootFilter: false,
-                  options: getFieldOptions(endpoint).map((opt) => ({
-                    label: opt.props?.label,
-                    value: opt.key,
-                  })),
+                  options: getFieldOptions(field.props!.filterEndpoint).map(
+                    (opt) => ({
+                      label: opt.props?.label,
+                      value: opt.key,
+                    })
+                  ),
                 },
                 fieldGroup: getFieldOptions(field.props!.filterEndpoint),
               }

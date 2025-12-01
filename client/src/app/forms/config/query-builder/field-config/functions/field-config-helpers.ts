@@ -18,7 +18,9 @@ export const withRecursive = (
   items.map((i) => ({
     ...i,
     type: 'formly-group',
-    props: { ...i.props },
+    props: {
+      ...i.props,
+    },
   }))
 
 export const withExpressions = (

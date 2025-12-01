@@ -36,7 +36,6 @@ export class CvcQueryFilterField
   filterSelectOptions: WritableSignal<QueryFilterSelectOption[]> = signal([])
   constructor() {
     super()
-    console.log(this)
   }
 
   private checkExpressions() {
@@ -46,7 +45,11 @@ export class CvcQueryFilterField
   }
 
   ngOnInit(): void {
-    this.props.selectedKey = null
+    // console.log(
+    //   '=====query-filter.type ngOnInit selectedKey',
+    //   this.props?.selectedKey
+    // )
+    // this.props.selectedKey = null
   }
   ngAfterViewInit(): void {
     if (this.props.options) {
@@ -59,6 +62,8 @@ export class CvcQueryFilterField
       this.props.selectedKey = Object.keys(this.model).find(
         (k) => this.model[k] != null
       )
+    } else {
+      console.log('query-filter AfterViewInit no model')
     }
     this.checkExpressions()
   }

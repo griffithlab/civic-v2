@@ -6,6 +6,7 @@ import {
   withStatic,
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
 
+export const searchDiseasesDefaultKey = 'name'
 export const searchDiseasesFieldOptions: FormlyFieldConfig[] = withExpressions(
   sortByKey([
     ...withStatic([

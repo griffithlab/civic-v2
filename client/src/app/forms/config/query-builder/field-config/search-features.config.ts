@@ -1,6 +1,7 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 
+export const searchFeaturesDefaultKey = 'name'
 export const searchFeaturesFieldOptions: FormlyFieldConfig[] = [
   {
     key: 'name',
