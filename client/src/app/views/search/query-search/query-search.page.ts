@@ -24,6 +24,7 @@ import { NzResizableModule, NzResizeEvent } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
 import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-table/diseases-table.module'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { CvcAssertionsTableModule } from '../../../components/assertions/assertions-table/assertions-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -41,6 +42,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
     CvcQueryBuilderModule,
     CvcEvidenceTableModule,
     CvcDiseasesTableModule,
+    CvcAssertionsTableModule,
   ],
 })
 export class QuerySearchPage {

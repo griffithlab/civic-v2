@@ -8787,6 +8787,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   diseaseName?: InputMaybe<Scalars['String']['input']>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   summary?: InputMaybe<Scalars['String']['input']>;
   assertionDirection?: InputMaybe<EvidenceDirection>;
   significance?: InputMaybe<EvidenceSignificance>;
@@ -14965,7 +14966,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: EvidenceSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $endorsingOrganizationIds: [Int!]) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $ids: [Int!], $summary: String, $assertionDirection: EvidenceDirection, $significance: EvidenceSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $endorsingOrganizationIds: [Int!]) {
   assertions(
     first: $first
     last: $last
@@ -14974,6 +14975,7 @@ export const AssertionsBrowseDocument = gql`
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     summary: $summary
     assertionDirection: $assertionDirection
     significance: $significance

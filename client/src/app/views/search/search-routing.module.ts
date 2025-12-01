@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core'
 import { SearchView } from '@app/views/search/search.view'
 import { QuerySearchPage } from '@app/views/search/query-search/query-search.page'
 
-const defaultSearchEndpoint = 'searchDiseases'
+const defaultSearchEndpoint = 'searchAssertions'
 
 const routes: Routes = [
   {

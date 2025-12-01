@@ -6,6 +6,7 @@ query AssertionsBrowse(
   $diseaseName: String
   $therapyName: String
   $id: Int
+  $ids: [Int!]
   $summary: String
   $assertionDirection: EvidenceDirection
   $significance: EvidenceSignificance
@@ -33,6 +34,7 @@ query AssertionsBrowse(
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     summary: $summary
     assertionDirection: $assertionDirection
     significance: $significance
@@ -43,15 +45,15 @@ query AssertionsBrowse(
     ampLevel: $ampLevel
     molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
-    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
+    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
     userId: $userId
     phenotypeId: $phenotypeId
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
-    endorsingOrganizations:  {
-       ids: $endorsingOrganizationIds
-       includeSubgroups: $includeSubgroups
+    endorsingOrganizations: {
+      ids: $endorsingOrganizationIds
+      includeSubgroups: $includeSubgroups
     }
   ) {
     totalCount

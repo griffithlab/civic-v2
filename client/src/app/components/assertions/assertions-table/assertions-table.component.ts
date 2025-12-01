@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -20,13 +22,12 @@ import {
   AssertionsBrowseQuery,
   AssertionsBrowseQueryVariables,
   AssertionSortColumns,
-  EvidenceSignificance,
   EvidenceDirection,
+  EvidenceSignificance,
   EvidenceStatusFilter,
   EvidenceType,
   Maybe,
   PageInfo,
-  EvidenceLevel,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -38,7 +39,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeUntil,
   takeWhile,
   withLatestFrom,
@@ -54,7 +54,7 @@ import { ActivatedRoute } from '@angular/router'
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcAssertionsTableComponent implements OnInit {
+export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
@@ -68,6 +68,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() endorsingOrganizationId: Maybe<number>
+  @Input() ids: Maybe<number[]>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -167,6 +168,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       diseaseId: this.diseaseId,
       therapyId: this.therapyId,
       status: this.status || EvidenceStatusFilter.NonRejected,
+      ids: this.ids,
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -287,6 +289,7 @@ export class CvcAssertionsTableComponent implements OnInit {
         : undefined,
       significance: this.SignificanceInput ? this.SignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
+      ids: this.ids ? this.ids : undefined,
     })
   }
 
@@ -318,6 +321,11 @@ export class CvcAssertionsTableComponent implements OnInit {
     return data?.id
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
+  }
   ngOnDestroy() {
     this.queryParamsSub$.unsubscribe()
     this.destroy$.next()
