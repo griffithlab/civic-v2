@@ -31,21 +31,21 @@
     nzXXl="12"
     class="query-results">
     @let ids = resultIds();
-    <!--    <p><b>Result IDs:</b> {{ resultIds() | json }}</p>-->
+
     @if (ids && ids.length > 0) {
       @switch (searchEndpoint()) {
         @case ('searchEvidenceItems') {
-          <cvc-evidence-table [evidenceItemIds]="ids"></cvc-evidence-table>
+          <cvc-evidence-table [ids]="ids"></cvc-evidence-table>
         }
         @case ('searchDiseases') {
-          <cvc-diseases-table [diseaseIds]="ids"></cvc-diseases-table>
+          <cvc-diseases-table [ids]="ids"></cvc-diseases-table>
         }
         @default {
           <p>No table specified for this search endpoint.</p>
         }
       }
     } @else {
-      <p>No results found.</p>
+      <nz-empty></nz-empty>
     }
   </nz-col>
 </nz-row>

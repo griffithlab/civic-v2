@@ -24,7 +24,6 @@
         [nzOrder]="props.isRootFilter ? 1 : 1">
         <button
           (click)="removeRow($index)"
-          [disabled]="$count === 1"
           nz-button
           [nzSize]="props.isRootFilter ? 'default' : 'small'"
           nzType="primary"

@@ -69,7 +69,6 @@ export function getDefaultSelectedKey(
       "${endpoint}". Setting to 'name' default.`
     )
   }
-  console.log(`()()() getFieldOptions(${endpoint}) defaultKey: ${defaultKey}`)
   return defaultKey
 }
 export function getFieldOptions(

@@ -2,7 +2,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -14,12 +16,12 @@ import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive
 import {
   BrowseDiseaseConnection,
   BrowseDiseaseRowFieldsFragment,
-  BrowseDiseasesGQL,
-  BrowseDiseasesQuery,
+  DiseaseBrowseGQL,
+  DiseaseBrowseQuery,
+  DiseaseBrowseQueryVariables,
   DiseasesSortColumns,
   Maybe,
   PageInfo,
-  QueryBrowseDiseasesArgs,
   SortDirection,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -51,12 +53,12 @@ export interface DiseasesTableUserFilters {
   styleUrls: ['./diseases-table.component.less'],
   standalone: false,
 })
-export class CvcDiseasesTableComponent implements OnInit {
+export class CvcDiseasesTableComponent implements OnInit, OnChanges {
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() initialPageSize = 35
-  @Input() diseaseIds: Maybe<number[]>
+  @Input() ids: Maybe<number[] | number>
   @Input()
   set initialUserFilters(f: Maybe<DiseasesTableUserFilters>) {
     // assign any attributes in filters object to this class
@@ -69,8 +71,8 @@ export class CvcDiseasesTableComponent implements OnInit {
   filterChange$: Subject<void>
 
   // INTERMEDIATE STREAMS
-  queryRef!: QueryRef<BrowseDiseasesQuery, QueryBrowseDiseasesArgs>
-  result$!: Observable<ApolloQueryResult<BrowseDiseasesQuery>>
+  queryRef!: QueryRef<DiseaseBrowseQuery, DiseaseBrowseQueryVariables>
+  result$!: Observable<ApolloQueryResult<DiseaseBrowseQuery>>
   connection$!: Observable<BrowseDiseaseConnection>
 
   // PRESENTATION STREAMS
@@ -93,7 +95,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   sortColumns: typeof DiseasesSortColumns = DiseasesSortColumns
 
   constructor(
-    private gql: BrowseDiseasesGQL,
+    private gql: DiseaseBrowseGQL,
     private cdr: ChangeDetectorRef
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
@@ -106,6 +108,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
+      ids: this.ids ? this.ids : undefined,
       sortBy: {
         column: DiseasesSortColumns.EvidenceItemCount,
         direction: SortDirection.Desc,
@@ -193,11 +196,13 @@ export class CvcDiseasesTableComponent implements OnInit {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
         name: this.nameInput,
         featureName: this.featureNameInput,
         doid: this.doidInput,
+        ids: this.ids ? this.ids : undefined,
         diseaseAlias: this.diseaseAliasInput,
       })
       .then(() => this.scrollIndex$.next(0))
@@ -210,5 +215,10 @@ export class CvcDiseasesTableComponent implements OnInit {
     data: Maybe<BrowseDiseaseRowFieldsFragment>
   ): Maybe<number> {
     return data?.id
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 }

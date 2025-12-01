@@ -23,6 +23,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzResizableModule, NzResizeEvent } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
 import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-table/diseases-table.module'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -35,6 +36,7 @@ import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-ta
     NzTabsModule,
     NzGridModule,
     NzResizableModule,
+    NzEmptyModule,
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
     CvcEvidenceTableModule,
@@ -63,11 +65,26 @@ export class QuerySearchPage {
       this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(newEndpoint))
       const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
       if (newEndpoint === currentEndpoint) return
+      this.resultIds.set(undefined)
       this.router.navigate(['../', newEndpoint], {
         relativeTo: this.route,
         queryParams: {
           ...this.route.snapshot.queryParams,
           permalinkId: this.permalinkId(),
+        },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+        skipLocationChange: false,
+      })
+    })
+    // update route with permalinkId when provided
+    effect(() => {
+      const permalinkId = this.permalinkId()
+      if (!permalinkId) return
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          permalinkId,
         },
         queryParamsHandling: 'merge',
         replaceUrl: true,

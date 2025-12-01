@@ -8893,7 +8893,7 @@ export type DiseasePopoverQueryVariables = Exact<{
 
 export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string, deprecated: boolean } | undefined };
 
-export type BrowseDiseasesQueryVariables = Exact<{
+export type DiseaseBrowseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -8901,12 +8901,13 @@ export type BrowseDiseasesQueryVariables = Exact<{
   sortBy?: InputMaybe<DiseasesSort>;
   name?: InputMaybe<Scalars['String']['input']>;
   doid?: InputMaybe<Scalars['String']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   diseaseAlias?: InputMaybe<Scalars['String']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> } | undefined }> } };
+export type DiseaseBrowseQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> } | undefined }> } };
 
 export type BrowseDiseaseRowFieldsFragment = { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> };
 
@@ -15211,8 +15212,8 @@ export const DiseasePopoverDocument = gql`
       super(apollo);
     }
   }
-export const BrowseDiseasesDocument = gql`
-    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $diseaseAlias: String, $featureName: String) {
+export const DiseaseBrowseDocument = gql`
+    query DiseaseBrowse($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $ids: [Int!], $diseaseAlias: String, $featureName: String) {
   browseDiseases(
     first: $first
     last: $last
@@ -15221,6 +15222,7 @@ export const BrowseDiseasesDocument = gql`
     sortBy: $sortBy
     name: $name
     doid: $doid
+    ids: $ids
     diseaseAlias: $diseaseAlias
     featureName: $featureName
   ) {
@@ -15247,8 +15249,8 @@ export const BrowseDiseasesDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
-    document = BrowseDiseasesDocument;
+  export class DiseaseBrowseGQL extends Apollo.Query<DiseaseBrowseQuery, DiseaseBrowseQueryVariables> {
+    document = DiseaseBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -7,7 +7,6 @@ import {
   model,
   output,
   signal,
-  Signal,
   WritableSignal,
 } from '@angular/core'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -33,7 +32,7 @@ import { AdvancedSearchRegistry } from './query-builder.service'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   query: {
-    booleanOperator: BooleanOperator.Or,
+    booleanOperator: BooleanOperator.And,
     subFilters: [],
   },
   createPermalink: true,
@@ -62,19 +61,12 @@ export class CvcQueryBuilderForm {
   })
   form: UntypedFormGroup = new UntypedFormGroup({})
   fields: FormlyFieldConfig[] = []
-  options: Signal<FormlyFormOptions> = computed(() => ({
-    formState: {
-      formLayout: 'inline',
-      searchEndpoint: this.searchEndpoint(),
-      submitQuery: this.onSubmit.bind(this),
-      resetForm: this.onReset.bind(this),
-    },
-  }))
+  options: FormlyFormOptions = { formState: { formLayout: 'inline' } }
 
   getOriginalQueryGQL = inject(GetOriginalQueryGQL)
 
   private permalinkId$ = toObservable(this.permalinkId)
-  private permalinkQuery = toSignal(
+  permalinkQuery = toSignal(
     this.permalinkId$.pipe(
       filter(isNonNulled), // Only fetch if permalinkId is not null/undefined
       switchMap((id) =>
@@ -97,6 +89,17 @@ export class CvcQueryBuilderForm {
     // a model that was just loaded from a permalink
     effect(() => {
       const endpoint = this.searchEndpoint()
+      this.options = {
+        ...this.options,
+        formState: {
+          ...this.options.formState,
+          formLayout: 'inline',
+          searchEndpoint: endpoint,
+          submitQuery: this.onSubmit.bind(this),
+          resetForm: this.onReset.bind(this),
+        },
+      }
+
       // update root builder card field config
       this.fields = getQueryFieldConfig(
         'query',
@@ -105,9 +108,15 @@ export class CvcQueryBuilderForm {
       )
       // only reset model if this change did not originate from a permalink
       if (endpoint !== this.permalinkSearchEndpoint) {
-        this.formModel.update(() =>
-          structuredClone(defaultQueryBuilderFormModel)
-        )
+        // this.formModel.update(() =>
+        //   structuredClone(defaultQueryBuilderFormModel)
+        // )
+        if (this.options.resetModel && this.options.updateInitialValue) {
+          this.options.updateInitialValue(
+            structuredClone(defaultQueryBuilderFormModel)
+          )
+          this.options.resetModel()
+        }
         this.permalinkSearchEndpoint = undefined
       }
     })
@@ -122,7 +131,7 @@ export class CvcQueryBuilderForm {
           () => searchEndpoint as QueryBuilderSearchEndpoint
         ) // Update parent (triggers fields update)
         this.permalinkId.update(() => permalinkId) // Update parent
-        this.resultIds.emit(resultIds)
+        this.resultIds.emit([...resultIds])
         if (formQuery) {
           this.formModel.update((value) => {
             return {
@@ -142,23 +151,20 @@ export class CvcQueryBuilderForm {
     console.log('!!!! query-builder model', model)
   }
   onSubmit() {
-    // if (this.form.invalid) {
-    //   this.form.markAllAsTouched()
-    //   return
-    // }
-
-    const model = this.form.value as QueryBuilderFormModel
+    const model = this.formModel()
+    // const model = this.form.value as QueryBuilderFormModel
     const endpoint = this.searchEndpoint()
     const gql = this.formGQL()
 
     gql
       .fetch(model) // variables typed as any; runtime-checked by backend
       .pipe(
-        pluck('data', endpoint, 'resultIds')
+        pluck('data', endpoint)
         // ...
       )
-      .subscribe((ids) => {
+      .subscribe(({ ids, permalinkId }) => {
         this.resultIds.emit(ids)
+        this.permalinkId.update(() => permalinkId)
       })
   }
 

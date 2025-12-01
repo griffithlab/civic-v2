@@ -9,13 +9,25 @@
         [fields]="fields"
         [model]="formModel()"
         (modelChange)="onFormModelChange($event)"
-        [options]="options()"
+        [options]="options"
         style="width: 100%">
       </formly-form>
     </form>
   </nz-col>
-  <!--  <nz-col nzSpan="8">-->
-  <!--    <b>Form Model:</b>-->
-  <!--    <pre>{{ formModel() | json }}</pre>-->
-  <!--  </nz-col>-->
 </nz-row>
+<!--<nz-row nzSpan="24">-->
+<!--  <nz-col nzSpan="8">-->
+<!--    <b>formModel():</b>-->
+<!--    <pre>{{ formModel() | json }}</pre>-->
+<!--  </nz-col>-->
+<!--  <nz-col nzSpan="8">-->
+<!--    <b>form.value.model:</b>-->
+<!--    <pre>{{ this.form.value | json }}</pre>-->
+<!--  </nz-col>-->
+<!--  <nz-col nzSpan="8">-->
+<!--    <b>permalinkId:</b>-->
+<!--    <pre>{{ permalinkId() | json }}</pre>-->
+<!--    <b>permalinkQuery:</b>-->
+<!--    <pre>{{ permalinkQuery()?.formQuery | json }}</pre>-->
+<!--  </nz-col>-->
+<!--</nz-row>-->

@@ -33,7 +33,10 @@ export function getFormModelFromOriginalQuery(queryString: string): any {
         }
       },
     })
-
+    console.log(
+      'form-model-from-original-query model',
+      JSON.stringify(model, null, 2)
+    )
     return model
   } catch (error) {
     console.error('Failed to parse permalink query string', error)

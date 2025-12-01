@@ -2,6 +2,7 @@ import { AdvancedSearchEndpoint } from '../../query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from './get-select-options'
 import { getDefaultSelectedKey, getFieldOptions } from './get-field-options'
+import { BooleanOperator } from '@generated/civic.apollo'
 
 export function getQueryFieldConfig(
   key: 'query' | string = 'query',
@@ -65,6 +66,7 @@ export function getQueryFieldConfig(
       {
         key: 'createPermalink',
         type: 'checkbox',
+        resetOnHide: false,
         hide: true,
         wrappers: [],
       },
@@ -83,6 +85,7 @@ export function getQueryFieldConfig(
           {
             key: 'booleanOperator',
             type: 'base-radio',
+            defaultValue: 'AND',
             wrappers: [],
             props: {
               required: true,

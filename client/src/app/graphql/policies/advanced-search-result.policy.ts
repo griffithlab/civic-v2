@@ -12,6 +12,7 @@ export const CvcAdvancedSearchResultPolicy = {
         const { readField } = options
         const originalQuery = readField<string>('originalQuery')
         if (!originalQuery) return undefined
+        console.log('policy originalQuery', originalQuery)
         return getFormModelFromOriginalQuery(originalQuery)
       },
     },
