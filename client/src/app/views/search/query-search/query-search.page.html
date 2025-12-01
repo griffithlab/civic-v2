@@ -1,4 +1,4 @@
-<nz-row [nzGutter]="[0, 0]">
+<nz-row [nzGutter]="[8, 4]">
   <!-- TABS -->
   <nz-col nzSpan="24">
     <!--<p><b>Permalink Id:</b> {{ permalinkId() }}</p>-->
@@ -15,7 +15,8 @@
 
   <!-- QUERY BUILDER FORM -->
   <nz-col
-    nzSpan="24"
+    nzXs="24"
+    nzXXl="12"
     class="query-form">
     <cvc-query-builder-form
       [(searchEndpoint)]="searchEndpoint"
@@ -26,7 +27,8 @@
 
   <!-- RESULTS TABLE -->
   <nz-col
-    nzSpan="24"
+    nzXs="24"
+    nzXXl="12"
     class="query-results">
     @let ids = resultIds();
     <!--    <p><b>Result IDs:</b> {{ resultIds() | json }}</p>-->
