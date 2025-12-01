@@ -8,41 +8,44 @@
   </button>
 } @else {
   @for (subFilter of field.fieldGroup; track $index) {
-    <nz-row [nzGutter]="props.isRootFilter ? [8, 8] : [4, 4]">
+    <nz-row
+      [nzGutter]="props.isRootFilter ? [8, 8] : [4, 4]"
+      class="subfilter-row">
+      <!-- SubFilter Field -->
       <nz-col
         nzFlex="auto"
-        [nzOrder]="props.isRootFilter ? 0 : 1">
+        [nzOrder]="props.isRootFilter ? 0 : 2">
         <formly-field [field]="subFilter"></formly-field>
       </nz-col>
+
+      <!-- SubFilter Remove Row Button-->
       <nz-col
-        [nzFlex]="props.isRootFilter ? '0 0 64px' : '0 0 48px'"
-        [nzOrder]="props.isRootFilter ? 1 : 0">
-        <div style="padding-top: 4px; display: flex; justify-content: flex-end">
-          <nz-space
-            nzSize="small"
-            nzDirection="horizontal">
-            <button
-              *nzSpaceItem
-              (click)="removeRow($index)"
-              [disabled]="$count === 1"
-              nz-button
-              [nzSize]="props.isRootFilter ? 'default' : 'small'"
-              nzType="primary"
-              nzShape="circle">
-              <nz-icon nzType="minus" />
-            </button>
-            <button
-              *nzSpaceItem
-              (click)="addRow()"
-              [disabled]="!$last"
-              nz-button
-              [nzSize]="props.isRootFilter ? 'default' : 'small'"
-              nzType="primary"
-              nzShape="circle">
-              <nz-icon nzType="plus" />
-            </button>
-          </nz-space>
-        </div>
+        [nzFlex]="props.isRootFilter ? '0 0 28px' : '0 0 22px'"
+        [nzOrder]="props.isRootFilter ? 1 : 1">
+        <button
+          (click)="removeRow($index)"
+          [disabled]="$count === 1"
+          nz-button
+          [nzSize]="props.isRootFilter ? 'default' : 'small'"
+          nzType="primary"
+          nzShape="circle">
+          <nz-icon nzType="minus" />
+        </button>
+      </nz-col>
+
+      <!-- SubFilter Add Row Button-->
+      <nz-col
+        [nzFlex]="props.isRootFilter ? '0 0 28px' : '0 0 22px'"
+        [nzOrder]="props.isRootFilter ? 2 : 0">
+        <button
+          (click)="addRow()"
+          [disabled]="!$last"
+          nz-button
+          [nzSize]="props.isRootFilter ? 'default' : 'small'"
+          nzType="primary"
+          nzShape="circle">
+          <nz-icon nzType="plus" />
+        </button>
       </nz-col>
     </nz-row>
   }

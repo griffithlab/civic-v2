@@ -4,6 +4,7 @@ import { FieldArrayType } from '@ngx-formly/core'
 @Component({
   selector: 'query-subfilters',
   templateUrl: './query-subfilters.type.html',
+  styleUrls: ['./query-subfilters.type.less'],
   standalone: false,
 })
 export class CvcQuerySubfiltersField
