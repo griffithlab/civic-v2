@@ -130,8 +130,8 @@ module Types::Queries
           permalink_id: formatted_hash["permalinkId"],
           result_ids: formatted_hash["resultIds"],
           search_endpoint: saved_search.search_type,
-          # original_query: original_query,
           original_query: query_string,
+          original_variables: variables,
         }
       end
 
@@ -142,6 +142,7 @@ module Types::Queries
           permalink_id: permalink,
           search_endpoint: search_type,
           original_query: query.to_h,
+          original_variables: context.query.variables.to_h,
         }
       end
 
