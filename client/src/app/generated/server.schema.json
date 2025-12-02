@@ -1656,6 +1656,18 @@
               "deprecationReason": null
             },
             {
+              "name": "originalVariables",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "permalinkId",
               "description": null,
               "args": [],

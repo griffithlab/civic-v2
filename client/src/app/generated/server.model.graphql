@@ -359,6 +359,7 @@ type AddTherapyPayload {
 
 type AdvancedSearchResult {
   originalQuery: JSON!
+  originalVariables: JSON
   permalinkId: String
   resultIds: [Int!]!
   searchEndpoint: String!

@@ -257,6 +257,7 @@ export type AdvancedSearchResult = {
   __typename: 'AdvancedSearchResult';
   formQuery?: Maybe<Scalars['JSON']['output']>;
   originalQuery: Scalars['JSON']['output'];
+  originalVariables?: Maybe<Scalars['JSON']['output']>;
   permalinkId?: Maybe<Scalars['String']['output']>;
   resultIds: Array<Scalars['Int']['output']>;
   searchEndpoint: Scalars['String']['output'];
@@ -10005,7 +10006,7 @@ export type GetOriginalQueryQueryVariables = Exact<{
 }>;
 
 
-export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, originalQuery: any, permalinkId?: string | undefined, formQuery?: any | undefined, resultIds: Array<number> } };
+export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, resultIds: Array<number>, originalQuery: any, originalVariables?: any | undefined, permalinkId?: string | undefined, formQuery?: any | undefined } };
 
 export type SearchEvidenceItemsQueryVariables = Exact<{
   query: EvidenceItemSearchFilter;
@@ -18021,10 +18022,11 @@ export const GetOriginalQueryDocument = gql`
     query GetOriginalQuery($permalinkId: String!) {
   searchByPermalink(permalinkId: $permalinkId) {
     searchEndpoint
+    resultIds
     originalQuery
+    originalVariables
     permalinkId
     formQuery @client
-    resultIds
   }
 }
     `;

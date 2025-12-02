@@ -11,9 +11,10 @@ export const CvcAdvancedSearchResultPolicy = {
       ): Maybe<Reference> {
         const { readField } = options
         const originalQuery = readField<string>('originalQuery')
+        const originalVariables = readField<any>('originalVariables')
         if (!originalQuery) return undefined
         console.log('policy originalQuery', originalQuery)
-        return getFormModelFromOriginalQuery(originalQuery)
+        return getFormModelFromOriginalQuery(originalQuery, originalVariables)
       },
     },
   },
