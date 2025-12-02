@@ -142,7 +142,7 @@ module Types::Queries
           permalink_id: permalink,
           search_endpoint: search_type,
           original_query: query.to_h,
-          original_variables: context.query.variables.to_h,
+          original_variables: context.query&.variables&.to_h,
         }
       end
 
@@ -152,7 +152,7 @@ module Types::Queries
             .where(
               params: {
                 query_string: context.query.query_string,
-                variables: context.query.variables.to_h,
+                variables: context.query&.variables&.to_h,
                 original_query: query.to_h,
               }.to_json,
               search_type: search_type
