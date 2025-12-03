@@ -19,7 +19,7 @@ export function getFormModelFromOriginalQuery(
     const documentNode = parse(originalQuery)
     let model: JSON | null = null
     if (originalVariables) {
-      // query variables payload stored as JSON, can just be returned
+      // query variables payload stored as JSON, can just be returned directly
       if (originalVariables.query !== undefined) {
         model = originalVariables.query
       } else {
@@ -31,17 +31,9 @@ export function getFormModelFromOriginalQuery(
       // if no query variables provided, we need to extract them from the GQL document
       visit(documentNode, {
         Argument: (node) => {
-          if (
-            node.name.value === 'query' &&
-            // Fix 3: Use the 'Kind' enum import
-            node.value.kind === Kind.OBJECT
-          ) {
-            // Fix 2: Use 'valueFromASTUntyped' which does not
-            // require a schema type as the second argument.
+          if (node.name.value === 'query' && node.value.kind === Kind.OBJECT) {
             model = valueFromASTUntyped(node.value) as JSON
-
-            // Fix 1: Return the imported 'BREAK' constant
-            return BREAK // Stop visiting
+            return BREAK
           } else {
             throw new Error('Could not find query in original query document.')
           }

@@ -1,10 +1,11 @@
 query GetOriginalQuery($permalinkId: String!) {
   searchByPermalink(permalinkId: $permalinkId) {
     searchEndpoint
+    resultIds
     originalQuery
+    originalVariables
     permalinkId
     formQuery @client
-    resultIds
   }
 }
 

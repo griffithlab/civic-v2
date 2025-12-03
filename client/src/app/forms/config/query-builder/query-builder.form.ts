@@ -108,9 +108,6 @@ export class CvcQueryBuilderForm {
       )
       // only reset model if this change did not originate from a permalink
       if (endpoint !== this.permalinkSearchEndpoint) {
-        // this.formModel.update(() =>
-        //   structuredClone(defaultQueryBuilderFormModel)
-        // )
         if (this.options.resetModel && this.options.updateInitialValue) {
           this.options.updateInitialValue(
             structuredClone(defaultQueryBuilderFormModel)

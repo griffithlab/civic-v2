@@ -261,6 +261,7 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
 
   // refetch results, replacing current rows
   refresh() {
+    if (!this.queryRef) return
     this.isLoading = true
     this.loadedPages = 1
     var aid: Maybe<number>

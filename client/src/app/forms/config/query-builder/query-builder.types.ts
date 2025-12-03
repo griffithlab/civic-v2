@@ -22,7 +22,6 @@ export type AdvancedSearchAttribute<
   E extends AdvancedSearchEndpoint = AdvancedSearchEndpoint,
 > = (typeof ADVANCED_SEARCH_ENDPOINTS)[E]['attribute']
 
-// map endpoint → *filter* type (this is the one extra place you must touch)
 interface EndpointFilterTypes {
   searchAssertions: AssertionSearchFilter
   searchDiseases: DiseaseSearchFilter
@@ -41,11 +40,11 @@ export type AdvancedSearchFilter<
   E extends AdvancedSearchEndpoint = AdvancedSearchEndpoint,
 > = EndpointFilterTypes[E]
 
+// generic interface for all adv. search's Apollo GQL services
 export interface AdvancedSearchService {
   fetch(variables?: any, options?: any): Observable<any>
   watch(variables?: any, options?: any): QueryRef<any, any>
 }
-export type AdvancedSearchQueryGQL = AdvancedSearchService
 
 // TODO: AdvSearchRecursiveFilterKey is an old type, refactor to use AdvancedSearchAttribute
 export type AdvancedSearchRecursiveFilterKey = AdvancedSearchAttribute
