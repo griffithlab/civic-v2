@@ -59,16 +59,9 @@ export function getQueryFieldConfig(
           },
         ],
       },
-      // NOTE: createPermalink field's value is manually managed by
-      // a standard checkbox in the query-builder-card wrapper and
-      // is hidden in the field config so that formly does not
-      // build an extraneous field control component for it.
       {
         key: 'createPermalink',
-        type: 'checkbox',
-        resetOnHide: false,
-        hide: true,
-        wrappers: [],
+        defaultValue: true,
       },
     ]
   } else {
@@ -120,10 +113,6 @@ export function getQueryFieldConfig(
                 fieldGroup: getFieldOptions(field.props!.filterEndpoint),
               }
             },
-          },
-          {
-            key: 'createPermalink',
-            wrappers: [],
           },
         ],
       },

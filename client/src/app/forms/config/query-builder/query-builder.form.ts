@@ -65,6 +65,8 @@ export class CvcQueryBuilderForm {
 
   getOriginalQueryGQL = inject(GetOriginalQueryGQL)
 
+  // if permalinkId provided, fetch original query
+  // NOTE: results are handled by permalink effect below
   private permalinkId$ = toObservable(this.permalinkId)
   permalinkQuery = toSignal(
     this.permalinkId$.pipe(
@@ -82,7 +84,9 @@ export class CvcQueryBuilderForm {
     )
   )
 
+  // flag to prevent permalink model from being overwritten
   private permalinkSearchEndpoint?: string
+
   constructor() {
     // when search endpoint changes, always switch fields first
     // then reset the model to the default, but do NOT overwrite
@@ -118,16 +122,22 @@ export class CvcQueryBuilderForm {
       }
     })
 
-    // load form model from permalink if provided
+    // load form model from permalink query results, if any
     effect(() => {
       const query = this.permalinkQuery()
       if (query) {
         const { searchEndpoint, formQuery, permalinkId, resultIds } = query
-        this.permalinkSearchEndpoint = searchEndpoint // Set the flag so the searchEndpoint effect won't overwrite the model
+        // Set permalink endpoint flag so that the searchEndpoint effect logic
+        // won't overwrite the model returned from the permalink query
+        this.permalinkSearchEndpoint = searchEndpoint
+        // Update parent search page (which might need to change the tab),
+        // and triggers effect to generate this endpoint's field configuration
         this.searchEndpoint.update(
           () => searchEndpoint as QueryBuilderSearchEndpoint
-        ) // Update parent (triggers fields update)
-        this.permalinkId.update(() => permalinkId) // Update parent
+        )
+        // emit permalink to parent search page so it can append permalinkId to URL
+        this.permalinkId.update(() => permalinkId)
+        // emit resultIds to parent search page for display in results table
         this.resultIds.emit([...resultIds])
         if (formQuery) {
           this.formModel.update((value) => {
@@ -144,12 +154,9 @@ export class CvcQueryBuilderForm {
       }
     })
   }
-  onFormModelChange(model: QueryBuilderFormModel) {
-    console.log('!!!! query-builder model', model)
-  }
+
   onSubmit() {
-    const model = this.formModel()
-    // const model = this.form.value as QueryBuilderFormModel
+    const model = this.form.value
     const endpoint = this.searchEndpoint()
     const gql = this.formGQL()
 
