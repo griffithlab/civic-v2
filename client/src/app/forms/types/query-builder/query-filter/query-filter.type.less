@@ -1,7 +1,7 @@
 :host {
   nz-select {
     width: 100%;
-    margin-top: 4px;
+    //margin-top: 4px;
   }
   ::ng-deep .ant-form-item.ant-row:first-child {
     margin-right: 0;
@@ -9,11 +9,17 @@
   ::ng-deep .ant-form-item-extra {
     display: none;
   }
+  ::ng-deep .filter-select .ant-select-selector {
+    border-radius: 20px;
+    padding-left: 12px !important;
+  }
 }
+
 // small-mode select needs some extra top padding to align with the filter-fields
-.select-col-small {
-  padding-top: 4px;
-}
+//.select-col-small {
+//  padding-top: 4px;
+//}
 .filter-row {
+  //background-color: lightseagreen;
   flex-wrap: nowrap;
 }

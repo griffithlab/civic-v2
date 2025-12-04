@@ -1,13 +1,18 @@
 :host {
-  ::ng-deep nz-card {
-    > .ant-card-head {
-      padding-left: 6px;
+  ::ng-deep nz-card.small-card > .ant-card-head {
+    padding-left: 6px;
+    min-height: 28px;
+    border-bottom: 1px solid #d9d9d9;
+    .ant-card-head-wrapper {
       .ant-card-head-title {
+        line-height: 27px;
+        padding-top: 0;
+        padding-bottom: 0;
         font-weight: normal;
       }
     }
-    > .ant-card-body {
-      padding: 6px;
-    }
+  }
+  ::ng-deep nz-card.small-card > .ant-card-body {
+    padding: 4px 0;
   }
 }

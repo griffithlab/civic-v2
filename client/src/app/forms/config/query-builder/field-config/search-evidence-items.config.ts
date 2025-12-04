@@ -2,7 +2,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import {
   sortByKey,
-  withExpressions,
+  withHideExpression,
   withRecursive,
   withStatic,
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
@@ -11,7 +11,7 @@ import { getQueryFieldConfig } from './functions/get-query-field-config'
 export const searchEvidenceItemsDefaultKey = 'description'
 
 export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
-  withExpressions(
+  withHideExpression(
     sortByKey([
       ...withStatic([
         {

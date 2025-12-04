@@ -14,8 +14,8 @@ import { NzVariant } from 'ng-zorro-antd/core/types'
 
 export interface CvcBaseSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
-  size: NzSelectSizeType
-  variant: NzVariant
+  size?: NzSelectSizeType
+  variant?: NzVariant
   optionHeightPx?: number
 }
 

@@ -1,8 +1,8 @@
 <nz-card
-  [nzTitle]="wrapperOptions.title"
-  nzSize="small"
+  [nzTitle]="titleSelector"
+  [nzSize]="wrapperOptions.size ?? 'default'"
   [nzBordered]="false"
-  [nzTitle]="titleSelector">
+  [ngClass]="{ 'small-card': wrapperOptions.size === 'small' }">
   @if (subFiltersField) {
     <formly-field [field]="subFiltersField"></formly-field>
   } @else {

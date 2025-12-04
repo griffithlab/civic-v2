@@ -5,12 +5,11 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core'
-import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
 import {
   AdvancedSearchFilter,
   AdvancedSearchRecursiveFilterKey,
 } from '@app/forms/config/query-builder/query-builder.types'
-import { BooleanOperator } from '@app/generated/civic.apollo'
 
 export type QueryFilterConfigType = 'recursive' | 'static'
 
@@ -71,34 +70,5 @@ export class CvcQueryFilterField
   onKeyChange(newKey: string): void {
     this.props.selectedKey = newKey
     this.checkExpressions()
-  }
-
-  mergeFieldConfigs(
-    base: FormlyFieldConfig,
-    stub: Partial<FormlyFieldConfig>
-  ): FormlyFieldConfig {
-    return {
-      ...base,
-      props: { ...(base.props || {}), ...(stub.props || {}) },
-      expressions: {
-        ...(base.expressions || {}),
-        ...(stub.expressions || {}),
-      },
-      hooks: { ...(base.hooks || {}), ...(stub.hooks || {}) },
-      // parent: stub.parent,
-    }
-  }
-  private getRecursiveDefaultModel<
-    TKey extends AdvancedSearchRecursiveFilterKey,
-  >(key: TKey): QueryFilterFormModel<TKey> {
-    const model = {
-      createPermalink: true,
-      [key]: {
-        booleanOperator: BooleanOperator.Or,
-        subFilters: [],
-      },
-    } as QueryFilterFormModel<TKey>
-
-    return model
   }
 }

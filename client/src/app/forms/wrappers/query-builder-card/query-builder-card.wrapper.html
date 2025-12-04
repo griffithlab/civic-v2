@@ -2,7 +2,8 @@
   [nzTitle]="wrapperOptions.title"
   [nzSize]="wrapperOptions.size ?? 'default'"
   [nzExtra]="operatorSelector"
-  [nzActions]="[actionSearch]">
+  [nzActions]="[actionSearch]"
+  [ngClass]="{ 'small-card': wrapperOptions.size === 'small' }">
   @if (subFiltersField) {
     <formly-field [field]="subFiltersField"></formly-field>
   } @else {

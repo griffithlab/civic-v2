@@ -23,7 +23,7 @@ export class CvcQuerySubfiltersField
   }
 
   ngOnInit(): void {
-    this.props.isRootFilter = this.field.parent?.key === 'query'
+    // this.props.isRootFilter = this.field.parent?.key === 'query'
   }
   ngAfterViewInit(): void {
     // if (this.field.fieldGroup?.length === 0) {

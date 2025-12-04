@@ -8,8 +8,9 @@
   </button>
 } @else {
   @for (subFilter of field.fieldGroup; track $index) {
+    <!--    <div>isRootFilter: {{ props.isRootFilter }}</div>-->
     <nz-row
-      [nzGutter]="props.isRootFilter ? [8, 8] : [4, 4]"
+      [nzGutter]="props.isRootFilter ? 16 : 8"
       class="subfilter-row">
       <!-- SubFilter Field -->
       <nz-col
@@ -20,14 +21,14 @@
 
       <!-- SubFilter Remove Row Button-->
       <nz-col
-        class="filter-button-col"
+        [ngClass]="{ 'filter-btn-sm': !props.isRootFilter }"
         [nzFlex]="props.isRootFilter ? '0 0 28px' : '0 0 22px'"
         [nzOrder]="props.isRootFilter ? 1 : 1">
         <button
           (click)="removeRow($index)"
           nz-button
           [nzSize]="props.isRootFilter ? 'default' : 'small'"
-          nzType="primary"
+          nzType="default"
           nzShape="circle">
           <nz-icon nzType="minus" />
         </button>
@@ -35,7 +36,7 @@
 
       <!-- SubFilter Add Row Button-->
       <nz-col
-        class="filter-button-col"
+        [ngClass]="{ 'filter-btn-sm': !props.isRootFilter }"
         [nzFlex]="props.isRootFilter ? '0 0 28px' : '0 0 22px'"
         [nzOrder]="props.isRootFilter ? 2 : 0">
         <button
@@ -43,7 +44,7 @@
           [disabled]="!$last"
           nz-button
           [nzSize]="props.isRootFilter ? 'default' : 'small'"
-          nzType="primary"
+          nzType="default"
           nzShape="circle">
           <nz-icon nzType="plus" />
         </button>

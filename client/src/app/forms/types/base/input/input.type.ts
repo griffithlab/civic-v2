@@ -13,8 +13,8 @@ import { NzVariant } from 'ng-zorro-antd/core/types'
 import { NzSelectSizeType } from 'ng-zorro-antd/select'
 
 export interface CvcBaseInputFieldProps extends FormlyFieldProps {
-  size: NzSelectSizeType
-  variant: NzVariant
+  size?: NzSelectSizeType
+  variant?: NzVariant
 }
 
 export interface CvcBaseInputFieldConfig

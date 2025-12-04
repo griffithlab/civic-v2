@@ -35,13 +35,9 @@ export function getQueryFieldConfig(
             wrappers: [],
             props: {
               filterEndpoint: endpoint,
+              isRootFilter: true,
             },
             fieldArray: (field) => {
-              console.log(
-                'getQueryFieldConfig',
-                field.props!.filterEndpoint,
-                field.props!.isRootFilter
-              )
               return {
                 type: 'query-filter',
                 resetOnHide: true,
@@ -49,14 +45,13 @@ export function getQueryFieldConfig(
                   selectedKey: getDefaultSelectedKey(
                     field.props!.filterEndpoint
                   ),
-                  size: 'default',
-                  isRootFilter: true,
-                  options: getFieldOptions(field.props!.filterEndpoint).map(
-                    (opt) => ({
-                      label: opt.props?.label,
-                      value: opt.key,
-                    })
-                  ),
+                  options: getFieldOptions(
+                    field.props!.filterEndpoint,
+                    true
+                  ).map((opt) => ({
+                    label: opt.props?.label,
+                    value: opt.key,
+                  })),
                 },
                 fieldGroup: getFieldOptions(
                   field.props!.filterEndpoint,
@@ -101,13 +96,9 @@ export function getQueryFieldConfig(
             wrappers: [],
             props: {
               filterEndpoint: endpoint,
+              isRootFilter: false,
             },
             fieldArray: (field) => {
-              console.log(
-                'getQueryFieldConfig',
-                field.props!.filterEndpoint,
-                field.props!.isRootFilter
-              )
               return {
                 type: 'query-filter',
                 resetOnHide: true,
@@ -116,12 +107,13 @@ export function getQueryFieldConfig(
                     field.props!.filterEndpoint
                   ),
                   isRootFilter: false,
-                  options: getFieldOptions(field.props!.filterEndpoint).map(
-                    (opt) => ({
-                      label: opt.props?.label,
-                      value: opt.key,
-                    })
-                  ),
+                  options: getFieldOptions(
+                    field.props!.filterEndpoint,
+                    true
+                  ).map((opt) => ({
+                    label: opt.props?.label,
+                    value: opt.key,
+                  })),
                 },
                 fieldGroup: getFieldOptions(
                   field.props!.filterEndpoint,
