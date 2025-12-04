@@ -18,15 +18,9 @@ export function getFormModelFromOriginalQuery(
   try {
     const documentNode = parse(originalQuery)
     let model: JSON | null = null
-    if (originalVariables) {
-      // query variables payload stored as JSON, can just be returned directly
-      if (originalVariables.query !== undefined) {
-        model = originalVariables.query
-      } else {
-        throw new Error(
-          'Could not find query node in original query variables.'
-        )
-      }
+    if (originalVariables && originalVariables.query !== undefined) {
+      // query stored as JSON, can just be returned directly
+      model = originalVariables.query
     } else {
       // if no query variables provided, we need to extract them from the GQL document
       visit(documentNode, {
