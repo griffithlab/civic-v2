@@ -45,6 +45,7 @@ module Importer
       ncit_id = entry["code"]
       therapy = ::Therapy.where(ncit_id: ncit_id).first_or_initialize
       therapy.name = name
+      therapy.description = entry['definition']
       synonyms.each do |syn|
         therapy_alias = ::TherapyAlias.where(name: syn).first_or_create
         if !therapy.therapy_aliases.map { |a| a.name.downcase }.include?(syn.downcase) && !(syn.downcase == therapy.name.downcase)

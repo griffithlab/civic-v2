@@ -3,6 +3,16 @@
     <!-- grid with 8px horizontal gutter, 16px vertical gutter -->
     <nz-row [nzGutter]="[8, 16]">
       <!-- summary details -->
+      <nz-col [nzSpan]="24">
+        <nz-space nzDirection="vertical" style="width: 100%;">
+          <nz-descriptions *nzSpaceItem [nzBordered]="true" nzLayout="vertical" [nzColumn]="1">
+            <nz-descriptions-item nzTitle="Definition">
+              {{therapy.description | ifEmpty: '--'}}
+            </nz-descriptions-item>
+          </nz-descriptions>
+          <p *nzSpaceItem></p>
+        </nz-space>
+      </nz-col>
       <cvc-my-chem-info [chemInfo]="therapy.myChemInfo"></cvc-my-chem-info>
       <nz-col [nzSpan]="24">
         <nz-descriptions nzSize="small"

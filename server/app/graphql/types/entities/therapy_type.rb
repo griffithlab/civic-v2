@@ -2,6 +2,7 @@ module Types::Entities
   class TherapyType < Types::BaseObject
     field :id, Int, null: false
     field :name, String, null: false
+    field :description, String, null: true
     field :ncit_id, String, null: true
     field :therapy_url, String, null: true
     field :therapy_aliases, [ String ], null: false
