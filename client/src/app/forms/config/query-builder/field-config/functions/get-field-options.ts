@@ -45,6 +45,40 @@ import {
   searchVariantsFieldOptions,
 } from '@app/forms/config/query-builder/field-config/search-variants.config'
 import { Maybe } from '@generated/civic.apollo'
+import { withSmallSize } from './field-config-helpers'
+
+export function getFieldOptions(
+  endpoint: QueryBuilderSearchEndpoint,
+  isRootFilter?: boolean
+): FormlyFieldConfig[] {
+  const FILTER_OPTIONS: Record<string, FormlyFieldConfig[]> = {
+    searchDiseases: searchDiseasesFieldOptions,
+    searchFeatures: searchFeaturesFieldOptions,
+    searchAssertions: searchAssertionsFieldOptions,
+    searchMolecularProfiles: searchMolecularProfilesFieldOptions,
+    searchEvidenceItems: searchEvidenceItemsFieldOptions,
+    searchPhenotypes: searchPhenotypesFieldOptions,
+    searchSources: searchSourcesFieldOptions,
+    searchTherapies: searchTherapiesFieldOptions,
+    searchUsers: searchUsersFieldOptions,
+    searchVariantTypes: searchVariantTypesFieldOptions,
+    searchVariants: searchVariantsFieldOptions,
+  }
+  const options = FILTER_OPTIONS[endpoint]
+  if (!options) {
+    console.warn(
+      `Unknown searchEndpoint provided to getFieldOptions:
+      "${endpoint}". Returning empty array.`
+    )
+    return []
+  }
+  if (isRootFilter === false && options.length > 0) {
+    options.forEach((opt) => {
+      if (opt.fieldGroup) opt.fieldGroup = withSmallSize(opt.fieldGroup)
+    })
+  }
+  return options
+}
 
 export function getDefaultSelectedKey(
   endpoint: QueryBuilderSearchEndpoint
@@ -70,30 +104,4 @@ export function getDefaultSelectedKey(
     )
   }
   return defaultKey
-}
-export function getFieldOptions(
-  endpoint: QueryBuilderSearchEndpoint
-): FormlyFieldConfig[] {
-  const FILTER_OPTIONS: Record<string, FormlyFieldConfig[]> = {
-    searchDiseases: searchDiseasesFieldOptions,
-    searchFeatures: searchFeaturesFieldOptions,
-    searchAssertions: searchAssertionsFieldOptions,
-    searchMolecularProfiles: searchMolecularProfilesFieldOptions,
-    searchEvidenceItems: searchEvidenceItemsFieldOptions,
-    searchPhenotypes: searchPhenotypesFieldOptions,
-    searchSources: searchSourcesFieldOptions,
-    searchTherapies: searchTherapiesFieldOptions,
-    searchUsers: searchUsersFieldOptions,
-    searchVariantTypes: searchVariantTypesFieldOptions,
-    searchVariants: searchVariantsFieldOptions,
-  }
-  const options = FILTER_OPTIONS[endpoint]
-  if (!options) {
-    console.warn(
-      `Unknown searchEndpoint provided to getFieldOptions:
-      "${endpoint}". Returning empty array.`
-    )
-    return []
-  }
-  return options
 }

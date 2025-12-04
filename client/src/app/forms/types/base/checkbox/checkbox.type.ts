@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Type,
-  AfterViewInit,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { Maybe } from '@app/generated/civic.apollo'
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
@@ -22,28 +17,22 @@ export interface FormlyCheckboxFieldConfig
   type: 'checkbox' | Type<CvcBaseCheckboxField>
 }
 
-const BaseCheckboxMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
-)
+const BaseCheckboxMixin =
+  mixin(
+    BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
+  )
 @Component({
-    selector: 'cvc-checkbox',
-    templateUrl: './checkbox.type.html',
-    styleUrls: ['./checkbox.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-checkbox',
+  templateUrl: './checkbox.type.html',
+  styleUrls: ['./checkbox.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcBaseCheckboxField
-  extends BaseCheckboxMixin
-  implements AfterViewInit
-{
+export class CvcBaseCheckboxField extends BaseCheckboxMixin {
   override defaultOptions = {
     props: {
       indeterminate: true,
       hideLabel: true,
     },
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.props)
   }
 }

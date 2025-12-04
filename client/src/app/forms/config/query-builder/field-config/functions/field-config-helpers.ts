@@ -1,6 +1,9 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { FormRowOptions } from '@app/forms/wrappers/form-row/form-row.wrapper'
 
+export const sortByKey = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
+  [...items].sort((a, b) => String(a.key).localeCompare(String(b.key)))
+
 export const withStatic = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
   items.map((i) => ({
     ...i,
@@ -33,13 +36,16 @@ export const withExpressions = (
       hide: (field: FormlyFieldConfig) => {
         return field.key !== field.parent?.props?.selectedKey
       },
-      'props.size': (field: FormlyFieldConfig) => {
-        // if (field.parent?.props?.isRootFilter === undefined) {
-        //   console.log('props.size expression isRootFilter:', field.parent)
-        // }
-        return field.parent?.props?.isRootFilter ? 'default' : 'small'
-      },
     },
   }))
-export const sortByKey = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
-  [...items].sort((a, b) => String(a.key).localeCompare(String(b.key)))
+
+export const withSmallSize = (
+  items: FormlyFieldConfig[]
+): FormlyFieldConfig[] =>
+  items.map((i) => ({
+    ...i,
+    props: {
+      ...i.props,
+      size: 'small',
+    },
+  }))

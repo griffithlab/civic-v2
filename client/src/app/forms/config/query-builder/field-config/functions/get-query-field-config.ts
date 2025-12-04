@@ -37,6 +37,11 @@ export function getQueryFieldConfig(
               filterEndpoint: endpoint,
             },
             fieldArray: (field) => {
+              console.log(
+                'getQueryFieldConfig',
+                field.props!.filterEndpoint,
+                field.props!.isRootFilter
+              )
               return {
                 type: 'query-filter',
                 resetOnHide: true,
@@ -53,7 +58,10 @@ export function getQueryFieldConfig(
                     })
                   ),
                 },
-                fieldGroup: getFieldOptions(field.props!.filterEndpoint),
+                fieldGroup: getFieldOptions(
+                  field.props!.filterEndpoint,
+                  field.props!.isRootFilter
+                ),
               }
             },
           },
@@ -95,6 +103,11 @@ export function getQueryFieldConfig(
               filterEndpoint: endpoint,
             },
             fieldArray: (field) => {
+              console.log(
+                'getQueryFieldConfig',
+                field.props!.filterEndpoint,
+                field.props!.isRootFilter
+              )
               return {
                 type: 'query-filter',
                 resetOnHide: true,
@@ -110,7 +123,10 @@ export function getQueryFieldConfig(
                     })
                   ),
                 },
-                fieldGroup: getFieldOptions(field.props!.filterEndpoint),
+                fieldGroup: getFieldOptions(
+                  field.props!.filterEndpoint,
+                  field.props!.isRootFilter
+                ),
               }
             },
           },

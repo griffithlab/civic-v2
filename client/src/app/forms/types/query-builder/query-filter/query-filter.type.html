@@ -3,10 +3,10 @@
   class="filter-row">
   <nz-col
     nzFlex="150px"
-    styles="padding-top: 4px">
+    [ngClass]="{ 'select-col-small': !props.isRootFilter }">
     <nz-select
       [ngModel]="props.selectedKey"
-      [nzSize]="props.size"
+      [nzSize]="props.isRootFilter ? 'default' : 'small'"
       (ngModelChange)="onKeyChange($event)"
       [nzOptionHeightPx]="28"
       nzPlaceHolder="Select Filter">
@@ -18,7 +18,9 @@
       }
     </nz-select>
   </nz-col>
-  <nz-col nzFlex="auto">
+  <nz-col
+    nzFlex="auto"
+    class="field-col">
     @for (childField of field.fieldGroup; track childField.key) {
       <formly-field [field]="childField"></formly-field>
     }
