@@ -10,8 +10,11 @@
   @for (subFilter of field.fieldGroup; track $index) {
     <!--    <div>isRootFilter: {{ props.isRootFilter }}</div>-->
     <nz-row
-      [nzGutter]="props.isRootFilter ? 16 : 8"
-      class="subfilter-row">
+      [nzGutter]="props.isRootFilter ? 8 : 4"
+      [ngClass]="{
+        'subfilter-row-root': props.isRootFilter,
+        'subfilter-row-child': !props.isRootFilter,
+      }">
       <!-- SubFilter Field -->
       <nz-col
         nzFlex="auto"

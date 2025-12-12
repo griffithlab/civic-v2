@@ -16,7 +16,7 @@ const STRING_SEARCH_INPUT = [
     props: {
       placeholder: 'Select Operator',
       options: getSelectOptions('StringSearchOperator'),
-      variant: 'underlined',
+      variant: 'default',
     },
   },
   {
@@ -25,7 +25,7 @@ const STRING_SEARCH_INPUT = [
     defaultValue: '',
     props: {
       placeholder: 'Enter search term',
-      variant: 'underlined',
+      variant: 'default',
     },
   },
 ]
@@ -35,7 +35,7 @@ const ONTOLOGY_TERM_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('OntologyTermSearchOperator'),
-      variant: 'underlined',
+      variant: 'default',
     },
   },
   {
@@ -43,7 +43,7 @@ const ONTOLOGY_TERM_INPUT = [
     type: 'base-input',
     props: {
       placeholder: 'Enter search term',
-      variant: 'underlined',
+      variant: 'default',
     },
   },
 ]
@@ -53,7 +53,7 @@ const INT_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('IntSearchOperator'),
-      variant: 'underlined',
+      variant: 'default',
     },
   },
   {
@@ -61,7 +61,7 @@ const INT_INPUT = [
     type: 'base-integer',
     props: {
       placeholder: 'Enter integer',
-      variant: 'underlined',
+      variant: 'default',
     },
   },
 ]
@@ -72,7 +72,7 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     props: {
       options: getSelectOptions('EnumSearchOperator'),
-      variant: 'underlined',
+      variant: 'default',
     },
   },
   {
@@ -81,7 +81,7 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
     props: {
       options: getSelectOptions('EvidenceItemStatusEnum'),
       placeholder: 'Select Status',
-      variant: 'underlined',
+      variant: 'default',
     },
   },
 ]
@@ -92,7 +92,7 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
     props: {
       options: getSelectOptions('EnumSearchOperator'),
       defaultValue: undefined,
-      variant: 'underlined',
+      variant: 'default',
     },
   },
   {
@@ -102,7 +102,7 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
       options: getSelectOptions('EvidenceItemDirectionEnum'),
       defaultValue: undefined,
       placeholder: 'Select Direction',
-      variant: 'underlined',
+      variant: 'default',
     },
   },
 ]

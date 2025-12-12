@@ -1,6 +1,17 @@
 @import 'ng-zorro-antd/style/color/colors.less';
 
-.subfilter-row {
+.subfilter-row-root {
+  flex-wrap: nowrap;
+  background-color: @blue-2;
+  border-radius: 10px;
+  margin-left: 0;
+  margin-bottom: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 2px;
+  padding-right: 4px;
+}
+.subfilter-row-child {
   flex-wrap: nowrap;
   background-color: @blue-1;
   border-radius: 10px;
@@ -8,6 +19,8 @@
   margin-bottom: 8px;
   padding-top: 8px;
   padding-bottom: 8px;
+  padding-left: 6px;
+  padding-right: 8px;
 }
 .filter-btn-sm {
   margin-top: 3px;
