@@ -308,8 +308,28 @@ const FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
     },
   },
 ]
+const FEATURE_INSTANCE_TYPES_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('FeatureInstanceTypes'),
+      placeholder: 'Select Feature Instance Type',
+    },
+  },
+]
 
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
+  FeatureInstanceTypesSearchInput: FEATURE_INSTANCE_TYPES_SEARCH_INPUT,
   FeatureDeprecationReasonTypeSearchInput:
     FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
   AmpLevelTypeSearchInput: AMP_LEVEL_TYPE_SEARCH_INPUT,

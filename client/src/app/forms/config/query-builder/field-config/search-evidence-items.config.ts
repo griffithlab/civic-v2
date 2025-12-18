@@ -1,7 +1,7 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withRecursive,
   withStatic,
@@ -60,7 +60,7 @@ export const searchEvidenceItemsDefaultKey = 'description'
 
 export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
-    sortByKey([
+    sortByLabel([
       ...withStatic([
         {
           key: 'ampLevel',

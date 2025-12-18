@@ -12,7 +12,7 @@ import {
   UserSearchFilter,
 } from '@generated/civic.apollo'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withStatic,
 } from './functions/field-config-helpers'
@@ -35,7 +35,7 @@ export type MolecularProfileSearchFilterREF = {
 export const searchMolecularProfilesDefaultKey = 'name'
 export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
-    sortByKey([
+    sortByLabel([
       ...withStatic([
         {
           key: 'name',

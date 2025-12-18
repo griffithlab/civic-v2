@@ -1,6 +1,6 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withRecursive,
   withStatic,
@@ -57,7 +57,7 @@ type AssertionSearchFilterREF = {
 export const searchAssertionsDefaultKey = 'description'
 export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
-    sortByKey([
+    sortByLabel([
       ...withStatic([
         {
           key: 'ampLevel',

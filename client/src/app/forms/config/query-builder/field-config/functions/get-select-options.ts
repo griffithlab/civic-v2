@@ -13,6 +13,7 @@ import {
   EvidenceStatus,
   EvidenceType,
   FeatureDeprecationReason,
+  FeatureInstanceTypes,
   FloatSearchOperator,
   IntSearchOperator,
   OntologyTermSearchOperator,
@@ -35,6 +36,12 @@ const getOption = function (label: string, value: string) {
 
 export function getSelectOptions(enumType: string) {
   switch (enumType) {
+    case 'FeatureInstanceTypes':
+      return $enum(FeatureInstanceTypes).map((value) => {
+        const label =
+          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        return getOption(label, value)
+      })
     case 'FeatureDeprecationReason':
       return $enum(FeatureDeprecationReason).map((value) => {
         const label =

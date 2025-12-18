@@ -4,6 +4,11 @@ import { FormRowOptions } from '@app/forms/wrappers/form-row/form-row.wrapper'
 export const sortByKey = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
   [...items].sort((a, b) => String(a.key).localeCompare(String(b.key)))
 
+export const sortByLabel = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
+  [...items].sort((a, b) =>
+    String(a.props!.label).localeCompare(String(b.props!.label))
+  )
+
 export const withStatic = (items: FormlyFieldConfig[]): FormlyFieldConfig[] =>
   items.map((i) => ({
     ...i,
