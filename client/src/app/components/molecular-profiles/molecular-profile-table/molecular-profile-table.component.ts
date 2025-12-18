@@ -13,14 +13,14 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
+  BrowseMolecularProfileConnection,
   BrowseMolecularProfilesFieldsFragment,
-  Maybe,
-  PageInfo,
+  BrowseMolecularProfilesGQL,
   BrowseMolecularProfilesQuery,
   BrowseMolecularProfilesQueryVariables,
-  BrowseMolecularProfileConnection,
+  Maybe,
   MolecularProfilesSortColumns,
-  BrowseMolecularProfilesGQL,
+  PageInfo,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -45,13 +45,14 @@ export interface MolecularProfileTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-molecular-profiles-table',
-    templateUrl: './molecular-profile-table.component.html',
-    styleUrls: ['./molecular-profile-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-molecular-profiles-table',
+  templateUrl: './molecular-profile-table.component.html',
+  styleUrls: ['./molecular-profile-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfilesTableComponent implements OnInit {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -114,6 +115,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
     this.initialQueryArgs = {
       first: this.initialPageSize,
       variantId: this.variantId,
+      ids: this.ids,
     }
 
     this.queryRef = this.gql.watch(this.initialQueryArgs)

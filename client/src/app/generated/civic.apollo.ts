@@ -9034,6 +9034,7 @@ export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename:
 export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
   featureFullName?: InputMaybe<Scalars['String']['input']>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
@@ -9114,6 +9115,7 @@ export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfi
 export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, molecularProfileAliases: Array<string>, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, assertions: { __typename: 'AssertionConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseMolecularProfilesQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
   variantName?: InputMaybe<Scalars['String']['input']>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
@@ -15487,8 +15489,9 @@ export const FeaturePopoverDocument = gql`
     }
   }
 export const BrowseFeaturesDocument = gql`
-    query BrowseFeatures($featureName: String, $featureFullName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseFeatures($ids: [Int!], $featureName: String, $featureFullName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseFeatures(
+    ids: $ids
     featureName: $featureName
     featureFullName: $featureFullName
     therapyName: $therapyName
@@ -15650,8 +15653,9 @@ export const MolecularProfilePopoverDocument = gql`
     }
   }
 export const BrowseMolecularProfilesDocument = gql`
-    query BrowseMolecularProfiles($molecularProfileName: String, $variantName: String, $variantId: Int, $featureName: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseMolecularProfiles($ids: [Int!], $molecularProfileName: String, $variantName: String, $variantId: Int, $featureName: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseMolecularProfiles(
+    ids: $ids
     molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId

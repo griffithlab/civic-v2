@@ -34,14 +34,21 @@
 
     @if (ids && ids.length > 0) {
       @switch (searchEndpoint()) {
+        @case ('searchAssertions') {
+          <cvc-assertions-table [ids]="ids"></cvc-assertions-table>
+        }
         @case ('searchEvidenceItems') {
           <cvc-evidence-table [ids]="ids"></cvc-evidence-table>
         }
         @case ('searchDiseases') {
           <cvc-diseases-table [ids]="ids"></cvc-diseases-table>
         }
-        @case ('searchAssertions') {
-          <cvc-assertions-table [ids]="ids"></cvc-assertions-table>
+        @case ('searchMolecularProfiles') {
+          <cvc-molecular-profiles-table
+            [ids]="ids"></cvc-molecular-profiles-table>
+        }
+        @case ('searchFeatures') {
+          <cvc-features-table [ids]="ids"></cvc-features-table>
         }
         @default {
           <p>No table specified for this search endpoint.</p>

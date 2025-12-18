@@ -1,4 +1,5 @@
 query BrowseFeatures(
+  $ids: [Int!]
   $featureName: String
   $featureFullName: String
   $therapyName: String
@@ -12,6 +13,7 @@ query BrowseFeatures(
   $after: String
 ) {
   browseFeatures(
+    ids: $ids
     featureName: $featureName
     featureFullName: $featureFullName
     therapyName: $therapyName
