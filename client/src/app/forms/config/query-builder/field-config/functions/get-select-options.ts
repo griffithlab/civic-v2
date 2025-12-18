@@ -1,6 +1,9 @@
 import { $enum } from 'ts-enum-util'
 import {
   AmpLevel,
+  AssertionDirection,
+  AssertionSignificance,
+  AssertionType,
   BooleanOperator,
   DateSearchOperator,
   EnumSearchOperator,
@@ -9,11 +12,13 @@ import {
   EvidenceSignificance,
   EvidenceStatus,
   EvidenceType,
+  FeatureDeprecationReason,
   FloatSearchOperator,
   IntSearchOperator,
   OntologyTermSearchOperator,
   StringSearchOperator,
   TherapyInteraction,
+  VariantOrigin,
 } from '@app/generated/civic.apollo'
 import {
   formatBooleanOperator,
@@ -30,6 +35,20 @@ const getOption = function (label: string, value: string) {
 
 export function getSelectOptions(enumType: string) {
   switch (enumType) {
+    case 'FeatureDeprecationReason':
+      return $enum(FeatureDeprecationReason).map((value) => {
+        const label =
+          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        return getOption(label, value)
+      })
+    case 'AssertionDirection':
+      return $enum(AssertionDirection).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'AssertionType':
+      return $enum(AssertionType).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
     case 'StringSearchOperator':
       return $enum(StringSearchOperator).map((value) => {
         return getOption(formatStringSearchOperator(value), value)
@@ -70,6 +89,10 @@ export function getSelectOptions(enumType: string) {
       return $enum(EvidenceSignificance).map((value) => {
         return getOption(formatEvidenceEnum(value), value)
       })
+    case 'AssertionSignificance':
+      return $enum(AssertionSignificance).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
     case 'EvidenceType':
       return $enum(EvidenceType).map((value) => {
         return getOption(formatEvidenceEnum(value), value)
@@ -84,6 +107,10 @@ export function getSelectOptions(enumType: string) {
       })
     case 'TherapyInteraction':
       return $enum(TherapyInteraction).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'VariantOrigin':
+      return $enum(VariantOrigin).map((value) => {
         return getOption(formatEvidenceEnum(value), value)
       })
     default:

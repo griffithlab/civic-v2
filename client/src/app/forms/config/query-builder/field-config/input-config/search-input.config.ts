@@ -86,6 +86,7 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
     },
   },
 ]
+
 const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
   {
     key: 'operator',
@@ -101,6 +102,26 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
     defaultValue: undefined,
     props: {
       options: getSelectOptions('EvidenceItemDirectionEnum'),
+      placeholder: 'Select Direction',
+    },
+  },
+]
+
+const ASSERTION_DIRECTION_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('AssertionDirection'),
       placeholder: 'Select Direction',
     },
   },
@@ -125,6 +146,7 @@ const AMP_LEVEL_TYPE_SEARCH_INPUT = [
     },
   },
 ]
+
 const EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
   {
     key: 'operator',
@@ -141,6 +163,28 @@ const EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
     props: {
       options: getSelectOptions('EvidenceSignificance'),
       placeholder: 'Select Significance',
+      optionOverflowSize: 25,
+    },
+  },
+]
+
+const ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('AssertionSignificance'),
+      placeholder: 'Select Significance',
+      optionOverflowSize: 25,
     },
   },
 ]
@@ -185,6 +229,46 @@ const EVIDENCE_TYPE_TYPE_SEARCH_INPUT = [
   },
 ]
 
+const VARIANT_ORIGIN_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('VariantOrigin'),
+      placeholder: 'Select Type',
+    },
+  },
+]
+
+const ASSERTION_TYPE_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('AssertionType'),
+      placeholder: 'Select Type',
+    },
+  },
+]
+
 const THERAPY_INTERACTION_TYPE_SEARCH_INPUT = [
   {
     key: 'operator',
@@ -204,8 +288,32 @@ const THERAPY_INTERACTION_TYPE_SEARCH_INPUT = [
     },
   },
 ]
+
+const FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('FeatureDeprecationReason'),
+      placeholder: 'Select Deprecation Reason',
+    },
+  },
+]
+
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
+  FeatureDeprecationReasonTypeSearchInput:
+    FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
   AmpLevelTypeSearchInput: AMP_LEVEL_TYPE_SEARCH_INPUT,
+  AssertionDirectionTypeSearchInput: ASSERTION_DIRECTION_TYPE_SEARCH_INPUT,
   StringSearchInput: STRING_SEARCH_INPUT,
   OntologyTermSearchInput: ONTOLOGY_TERM_INPUT,
   IntSearchInput: INT_INPUT,
@@ -214,6 +322,10 @@ export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
   EvidenceDirectionTypeSearchInput: EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT,
   EvidenceLevelTypeSearchInput: EVIDENCE_LEVEL_TYPE_SEARCH_INPUT,
   EvidenceTypeTypeSearchInput: EVIDENCE_TYPE_TYPE_SEARCH_INPUT,
+  AssertionTypeTypeSearchInput: ASSERTION_TYPE_TYPE_SEARCH_INPUT,
   EvidenceSignificanceTypeSearchInput: EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT,
+  AssertionSignificanceTypeSearchInput:
+    ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT,
   TherapyInteractionTypeSearchInput: THERAPY_INTERACTION_TYPE_SEARCH_INPUT,
+  VariantOriginTypeSearchInput: VARIANT_ORIGIN_TYPE_SEARCH_INPUT,
 }

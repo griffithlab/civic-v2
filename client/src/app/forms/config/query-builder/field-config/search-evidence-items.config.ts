@@ -128,39 +128,25 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['TherapyInteractionTypeSearchInput'],
         },
       ]),
-      ...withRecursive(
-        getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion')
-      ),
-      ...withRecursive(
-        getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User')
-      ),
-      // ...withRecursive(
-      //   getQueryFieldConfig('comment', 'searchComments', 'Comments')
-      // ),
-      ...withRecursive(
-        getQueryFieldConfig('disease', 'searchDiseases', 'Disease')
-      ),
-      ...withRecursive(
-        getQueryFieldConfig(
+      ...withRecursive([
+        ...getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion'),
+        //...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
+        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
+        ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
+        ...getQueryFieldConfig(
           'molecularProfile',
           'searchMolecularProfiles',
           'Molecular Profile'
-        )
-      ),
-      ...withRecursive(
-        getQueryFieldConfig('moderatingUser', 'searchUsers', 'Moderating User')
-      ),
-      ...withRecursive(
-        getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes')
-      ),
-      ...withRecursive(
-        getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies')
-      ),
-      // ...withRecursive(
-      //   getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
-      // ),
-      ...withRecursive(
-        getQueryFieldConfig('sources', 'searchSources', 'Sources')
-      ),
+        ),
+        ...getQueryFieldConfig(
+          'moderatingUser',
+          'searchUsers',
+          'Moderating User'
+        ),
+        ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
+        //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
+        ...getQueryFieldConfig('sources', 'searchSources', 'Sources'),
+        ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
+      ]),
     ])
   )

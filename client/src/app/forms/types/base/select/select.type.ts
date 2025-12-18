@@ -17,6 +17,7 @@ export interface CvcBaseSelectFieldProps extends FormlyFieldProps {
   size?: NzSelectSizeType
   variant?: NzVariant
   optionHeightPx?: number
+  optionOverflowSize?: number
 }
 
 export interface CvcBaseSelectFieldConfig

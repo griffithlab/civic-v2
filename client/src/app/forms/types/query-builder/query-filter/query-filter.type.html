@@ -9,6 +9,7 @@
         [ngModel]="props.selectedKey"
         [nzSize]="field.parent?.props?.isRootFilter ? 'default' : 'small'"
         (ngModelChange)="onKeyChange($event)"
+        [nzOptionOverflowSize]="props.optionOverflowSize || 25"
         [nzOptionHeightPx]="28"
         nzPlaceHolder="Select Filter"
         class="filter-select">

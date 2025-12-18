@@ -60,6 +60,21 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
     sortByKey([
       ...withStatic([
         {
+          key: 'ampLevel',
+          props: { label: 'AMP Level' },
+          fieldGroup: INPUT_FIELD_CONFIG['AmpLevelTypeSearchInput'],
+        },
+        {
+          key: 'assertionDirection',
+          props: { label: 'Assertion Direction' },
+          fieldGroup: INPUT_FIELD_CONFIG['AssertionDirectionTypeSearchInput'],
+        },
+        {
+          key: 'assertionType',
+          props: { label: 'Assertion Type' },
+          fieldGroup: INPUT_FIELD_CONFIG['AssertionTypeTypeSearchInput'],
+        },
+        {
           key: 'name',
           props: { label: 'Name' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
@@ -75,18 +90,18 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
+          key: 'fdaCompanionTest',
+          props: { label: 'FDA Companion Test' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
           key: 'id',
           props: { label: 'ID' },
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
-          key: 'status',
-          props: { label: 'Status' },
-          fieldGroup: INPUT_FIELD_CONFIG['EvidenceStatusTypeSearchInput'],
-        },
-        {
           key: 'isFlagged',
-          props: { label: 'Is Flagged' },
+          props: { label: 'Flagged Status' },
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
         },
         {
@@ -94,14 +109,39 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Regulatory Approval' },
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
         },
+        {
+          key: 'significance',
+          props: { label: 'Significance' },
+          fieldGroup:
+            INPUT_FIELD_CONFIG['AssertionSignificanceTypeSearchInput'],
+        },
+        {
+          key: 'status',
+          props: { label: 'Status' },
+          fieldGroup: INPUT_FIELD_CONFIG['EvidenceStatusTypeSearchInput'],
+        },
+        {
+          key: 'variantOrigin',
+          props: { label: 'Variant Origin' },
+          fieldGroup: INPUT_FIELD_CONFIG['VariantOriginTypeSearchInput'],
+        },
       ]),
       ...withRecursive([
+        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
         ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
         ...getQueryFieldConfig(
           'evidenceItems',
           'searchEvidenceItems',
           'Evidence Items'
         ),
+        ...getQueryFieldConfig(
+          'molecularProfile',
+          'searchMolecularProfiles',
+          'Molecular Profile'
+        ),
+        ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
+        //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
+        ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
       ]),
     ])
   )
