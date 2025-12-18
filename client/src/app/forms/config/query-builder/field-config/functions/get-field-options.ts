@@ -46,6 +46,7 @@ import {
 } from '@app/forms/config/query-builder/field-config/search-variants.config'
 import { Maybe } from '@generated/civic.apollo'
 import { withSmallSize } from './field-config-helpers'
+import { searchRevisionsFieldOptions } from '../search-revisions.config'
 
 export function getFieldOptions(
   endpoint: QueryBuilderSearchEndpoint,
@@ -63,6 +64,7 @@ export function getFieldOptions(
     searchUsers: searchUsersFieldOptions,
     searchVariantTypes: searchVariantTypesFieldOptions,
     searchVariants: searchVariantsFieldOptions,
+    searchRevisions: searchRevisionsFieldOptions,
   }
   const options = FILTER_OPTIONS[endpoint]
   if (!options) {

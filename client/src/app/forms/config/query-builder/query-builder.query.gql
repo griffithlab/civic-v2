@@ -81,6 +81,15 @@ query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
     resultIds
   }
 }
+#query searchRevisions(
+#  $query: RevisionSearchFilter!
+#  $createPermalink: Boolean
+#) {
+#  searchRevisions(query: $query, createPermalink: $createPermalink) {
+#    permalinkId
+#    resultIds
+#  }
+#}
 query searchVariantTypes(
   $query: VariantTypeSearchFilter!
   $createPermalink: Boolean

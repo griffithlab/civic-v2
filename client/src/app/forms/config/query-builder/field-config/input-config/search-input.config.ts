@@ -1,6 +1,12 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from '@app/forms/config/query-builder/field-config/functions/get-select-options'
-import { StringSearchOperator } from '@app/generated/civic.apollo'
+import {
+  AmpLevel,
+  EnumSearchOperator,
+  IntSearchOperator,
+  OntologyTermSearchOperator,
+  StringSearchOperator,
+} from '@app/generated/civic.apollo'
 
 const BOOLEAN_INPUT = [
   {
@@ -12,11 +18,10 @@ const STRING_SEARCH_INPUT = [
   {
     key: 'operator',
     type: 'base-select',
-    defaultValue: undefined,
+    defaultValue: StringSearchOperator.Contains,
     props: {
       placeholder: 'Select Operator',
       options: getSelectOptions('StringSearchOperator'),
-      variant: 'default',
     },
   },
   {
@@ -25,7 +30,6 @@ const STRING_SEARCH_INPUT = [
     defaultValue: '',
     props: {
       placeholder: 'Enter search term',
-      variant: 'default',
     },
   },
 ]
@@ -33,9 +37,9 @@ const ONTOLOGY_TERM_INPUT = [
   {
     key: 'operator',
     type: 'base-select',
+    defaultValue: OntologyTermSearchOperator.Eq,
     props: {
       options: getSelectOptions('OntologyTermSearchOperator'),
-      variant: 'default',
     },
   },
   {
@@ -43,7 +47,6 @@ const ONTOLOGY_TERM_INPUT = [
     type: 'base-input',
     props: {
       placeholder: 'Enter search term',
-      variant: 'default',
     },
   },
 ]
@@ -51,9 +54,9 @@ const INT_INPUT = [
   {
     key: 'operator',
     type: 'base-select',
+    defaultValue: IntSearchOperator.Eq,
     props: {
       options: getSelectOptions('IntSearchOperator'),
-      variant: 'default',
     },
   },
   {
@@ -61,7 +64,6 @@ const INT_INPUT = [
     type: 'base-integer',
     props: {
       placeholder: 'Enter integer',
-      variant: 'default',
     },
   },
 ]
@@ -70,9 +72,9 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
   {
     key: 'operator',
     type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
     props: {
       options: getSelectOptions('EnumSearchOperator'),
-      variant: 'default',
     },
   },
   {
@@ -81,7 +83,6 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
     props: {
       options: getSelectOptions('EvidenceItemStatusEnum'),
       placeholder: 'Select Status',
-      variant: 'default',
     },
   },
 ]
@@ -89,29 +90,130 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
   {
     key: 'operator',
     type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
     props: {
       options: getSelectOptions('EnumSearchOperator'),
-      defaultValue: undefined,
-      variant: 'default',
     },
   },
   {
     key: 'value',
     type: 'base-select',
+    defaultValue: undefined,
     props: {
       options: getSelectOptions('EvidenceItemDirectionEnum'),
-      defaultValue: undefined,
       placeholder: 'Select Direction',
-      variant: 'default',
     },
   },
 ]
 
+const AMP_LEVEL_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('AmpLevel'),
+      placeholder: 'Select Level',
+    },
+  },
+]
+const EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('EvidenceSignificance'),
+      placeholder: 'Select Significance',
+    },
+  },
+]
+
+const EVIDENCE_LEVEL_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('EvidenceLevel'),
+      placeholder: 'Select Level',
+    },
+  },
+]
+
+const EVIDENCE_TYPE_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('EvidenceType'),
+      placeholder: 'Select Type',
+    },
+  },
+]
+
+const THERAPY_INTERACTION_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('TherapyInteraction'),
+      placeholder: 'Select Interaction Type',
+    },
+  },
+]
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
+  AmpLevelTypeSearchInput: AMP_LEVEL_TYPE_SEARCH_INPUT,
   StringSearchInput: STRING_SEARCH_INPUT,
   OntologyTermSearchInput: ONTOLOGY_TERM_INPUT,
   IntSearchInput: INT_INPUT,
   BooleanSearchInput: BOOLEAN_INPUT,
   EvidenceStatusTypeSearchInput: EVIDENCE_STATUS_TYPE_SEARCH_INPUT,
   EvidenceDirectionTypeSearchInput: EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT,
+  EvidenceLevelTypeSearchInput: EVIDENCE_LEVEL_TYPE_SEARCH_INPUT,
+  EvidenceTypeTypeSearchInput: EVIDENCE_TYPE_TYPE_SEARCH_INPUT,
+  EvidenceSignificanceTypeSearchInput: EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT,
+  TherapyInteractionTypeSearchInput: THERAPY_INTERACTION_TYPE_SEARCH_INPUT,
 }

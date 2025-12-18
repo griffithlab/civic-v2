@@ -5,6 +5,7 @@ import {
   FeatureSearchFilter,
   MolecularProfileSearchFilter,
   PhenotypeSearchFilter,
+  RevisionSearchFilter,
   SourceSearchFilter,
   TherapySearchFilter,
   UserSearchFilter,
@@ -34,6 +35,7 @@ interface EndpointFilterTypes {
   searchUsers: UserSearchFilter
   searchVariants: VariantSearchFilter
   searchVariantTypes: VariantTypeSearchFilter
+  searchRevisions: RevisionSearchFilter
 }
 
 export type AdvancedSearchFilter<

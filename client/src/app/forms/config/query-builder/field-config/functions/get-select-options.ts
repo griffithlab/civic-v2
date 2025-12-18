@@ -1,14 +1,19 @@
 import { $enum } from 'ts-enum-util'
 import {
+  AmpLevel,
   BooleanOperator,
   DateSearchOperator,
   EnumSearchOperator,
   EvidenceDirection,
+  EvidenceLevel,
+  EvidenceSignificance,
   EvidenceStatus,
+  EvidenceType,
   FloatSearchOperator,
   IntSearchOperator,
   OntologyTermSearchOperator,
   StringSearchOperator,
+  TherapyInteraction,
 } from '@app/generated/civic.apollo'
 import {
   formatBooleanOperator,
@@ -59,6 +64,26 @@ export function getSelectOptions(enumType: string) {
       })
     case 'EvidenceItemDirectionEnum':
       return $enum(EvidenceDirection).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'EvidenceSignificance':
+      return $enum(EvidenceSignificance).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'EvidenceType':
+      return $enum(EvidenceType).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'AmpLevel':
+      return $enum(AmpLevel).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'EvidenceLevel':
+      return $enum(EvidenceLevel).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'TherapyInteraction':
+      return $enum(TherapyInteraction).map((value) => {
         return getOption(formatEvidenceEnum(value), value)
       })
     default:

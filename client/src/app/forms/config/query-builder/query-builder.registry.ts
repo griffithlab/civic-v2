@@ -15,6 +15,10 @@ import {
 import { AdvancedSearchService } from './query-builder.types'
 
 export const ADVANCED_SEARCH_ENDPOINTS = {
+  // searchRevisions: {
+  //   attribute: 'revision',
+  //   token: SearchRevisionsGQL as Type<AdvancedSearchService>,
+  // },
   searchAssertions: {
     attribute: 'assertion',
     token: SearchAssertionsGQL as Type<AdvancedSearchService>,
