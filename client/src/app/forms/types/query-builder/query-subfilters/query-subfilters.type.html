@@ -1,11 +1,17 @@
 @if (!model || model.length === 0) {
-  <button
-    (click)="addRow()"
-    nz-button
-    nzType="primary"
-    nzBlock>
-    Add Filter
-  </button>
+  <nz-row class="filter-add-btn">
+    <nz-col
+      nzSpan="12"
+      nzOffset="6">
+      <button
+        (click)="addRow()"
+        nz-button
+        nzType="primary"
+        nzBlock>
+        Add Filter
+      </button>
+    </nz-col>
+  </nz-row>
 } @else {
   @for (subFilter of field.fieldGroup; track $index) {
     <!--    <div>isRootFilter: {{ props.isRootFilter }}</div>-->
