@@ -3,6 +3,7 @@ import { getSelectOptions } from '@app/forms/config/query-builder/field-config/f
 import {
   AmpLevel,
   EnumSearchOperator,
+  FloatSearchOperator,
   IntSearchOperator,
   OntologyTermSearchOperator,
   StringSearchOperator,
@@ -328,7 +329,25 @@ const FEATURE_INSTANCE_TYPES_SEARCH_INPUT = [
   },
 ]
 
+const FLOAT_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: FloatSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('FloatSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-number',
+    props: {
+      placeholder: 'Enter Number',
+    },
+  },
+]
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
+  FloatSearchInput: FLOAT_SEARCH_INPUT,
   FeatureInstanceTypesSearchInput: FEATURE_INSTANCE_TYPES_SEARCH_INPUT,
   FeatureDeprecationReasonTypeSearchInput:
     FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
