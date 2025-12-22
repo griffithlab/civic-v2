@@ -15,8 +15,8 @@ export class CvcQuerySubfiltersField
     super()
   }
 
-  addRow() {
-    super.add()
+  addRow(initialModel?: any) {
+    super.add(undefined, initialModel)
   }
   removeRow(index: number) {
     super.remove(index)
@@ -26,6 +26,14 @@ export class CvcQuerySubfiltersField
     // this.props.isRootFilter = this.field.parent?.key === 'query'
   }
   ngAfterViewInit(): void {
+    // this.addRow()
+    // const filterEndpoint = this.field.props.filterEndpoint
+    // if (this.field.props.filterEndpoint) {
+    //   const defaultSelectedKey = getDefaultSelectedKey(filterEndpoint)
+    //   if (defaultSelectedKey) {
+    //     this.addRow({ [defaultSelectedKey]: null })
+    //   }
+    // }
     // if (this.field.fieldGroup?.length === 0) {
     //   console.log(`--- no model rows, adding undefined filter`)
     //   this.addRow()
