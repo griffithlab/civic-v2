@@ -204,6 +204,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
+        ids: this.ids,
         molecularProfileName: this.mpNameInput,
         diseaseName: this.diseaseNameInput,
         therapyName: this.therapyNameInput,

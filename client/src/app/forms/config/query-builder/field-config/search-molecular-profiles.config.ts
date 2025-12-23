@@ -34,7 +34,9 @@ export type MolecularProfileSearchFilterREF = {
   source?: InputMaybe<SourceSearchFilter>
   subFilters?: InputMaybe<Array<MolecularProfileSearchFilter>>
 }
+
 export const searchMolecularProfilesDefaultKey = 'alias'
+
 export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
     sortByLabel([
@@ -87,7 +89,7 @@ export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
           'searchUsers',
           'Deprecating User'
         ),
-        ...getQueryFieldConfig('sources', 'searchSources', 'Sources'),
+        ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
       ]),
     ])
   )

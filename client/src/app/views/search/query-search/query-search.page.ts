@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, effect, inject, model, signal, WritableSignal, } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  model,
+  signal,
+  WritableSignal,
+} from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
@@ -18,9 +26,7 @@ import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-ta
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { CvcAssertionsTableModule } from '../../../components/assertions/assertions-table/assertions-table.module'
 import { CvcFeaturesTableModule } from '../../../components/features/features-table/features-table.module'
-import {
-  CvcMolecularProfilesTableModule
-} from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
+import { CvcMolecularProfilesTableModule } from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
