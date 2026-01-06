@@ -12726,6 +12726,7 @@ input TaggableEntityInput {
 
 type Therapy {
   deprecated: Boolean!
+  description: String
   id: Int!
   link: String!
   myChemInfo: MyChemInfo
@@ -12794,6 +12795,7 @@ input TherapyInteractionTypeSearchInput {
 type TherapyPopover {
   assertionCount: Int!
   deprecated: Boolean!
+  description: String
   evidenceItemCount: Int!
   id: Int!
   link: String!
