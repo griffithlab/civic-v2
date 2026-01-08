@@ -20,6 +20,5 @@ class SetAlleleRegistryIdSingleVariant < AlleleRegistryIds
         delete_allele_registry_link(old_allele_registry_id)
       end
     end
-    GenerateOpenCravatLink.perform_later(variant)
   end
 end

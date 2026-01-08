@@ -65,5 +65,6 @@ class VariantCoordinate < ApplicationRecord
 
   def on_revision_accepted
     SetAlleleRegistryIdSingleVariant.perform_later(self.variant) if Rails.env.production?
+    GenerateOpenCravatLink.perform_later(self.variant) if Rails.env.production?
   end
 end
