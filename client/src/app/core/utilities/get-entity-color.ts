@@ -24,7 +24,8 @@ export const EntityColors = new Map<string, string>([
   ['Comment', '#44d8ef'],
   ['Event', '#ffdb00'],
   ['Flag', '#e24759'],
-  ['Approval', '#EFBF04'],
+  ['Approval', '#C0C0C0'],
+  ['VcepApproval', '#EFBF04'],
   ['Queue', '#666699'],
   ['Revision', '#f0673a'],
 

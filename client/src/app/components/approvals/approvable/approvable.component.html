@@ -44,6 +44,8 @@
 <ng-template #tooltipText>
   @if (approvals() > 0 && flags() > 0) {
     Approved and Flagged
+  } @else if (vcepApprovals() > 0) {
+    VCEP Approved
   } @else if (approvals() > 0) {
     Approved
   } @else if (flags() > 0) {

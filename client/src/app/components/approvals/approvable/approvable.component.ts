@@ -14,6 +14,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 export type CvcApprovableCounts = {
   flags: number
   approvals: number
+  vcepApprovals: number
 }
 
 @Component({
@@ -31,19 +32,26 @@ export type CvcApprovableCounts = {
 })
 export class CvcApprovableDirective {
   counts = input<CvcApprovableCounts>(
-    { flags: 0, approvals: 0 },
+    { flags: 0, approvals: 0, vcepApprovals: 0 },
     { alias: 'cvcApprovableCounts' }
   )
 
   flags = computed(() => this.counts().flags)
   approvals = computed(() => this.counts().approvals)
+  vcepApprovals = computed(() => this.counts().vcepApprovals)
 
   isFlagged = computed(() => this.flags() > 0)
-  isApproved = computed(() => this.approvals() > 0)
+  isApproved = computed(() => this.approvals() > 0 || this.vcepApprovals() > 0)
 
   flaggedColor = computed(() => {
-    return this.isApproved()
-      ? getEntityColor('Approval')
-      : getEntityColor('Flag')
+    if (this.isApproved()) {
+      if (this.vcepApprovals() > 0) {
+        return getEntityColor('VcepApproval')
+      } else {
+        return getEntityColor('Approval')
+      }
+    } else {
+      return getEntityColor('Flag')
+    }
   })
 }

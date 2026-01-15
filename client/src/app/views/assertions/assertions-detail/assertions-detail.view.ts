@@ -29,6 +29,7 @@ import { QueryRef } from 'apollo-angular'
 
 type ApprovalCounts = {
   active: number
+  activeVcep: number
   requiresReview: number
   revoked: number
 }
@@ -154,13 +155,19 @@ export class AssertionsDetailView {
       const approvals = this.approvals()
       let counts = {
         active: 0,
+        activeVcep: 0,
         requiresReview: 0,
         revoked: 0,
       }
       if (approvals.length > 0) {
         counts = {
           active: approvals.filter(
-            (node: ApprovalListNodeFragment) => node.status === 'ACTIVE'
+            (node: ApprovalListNodeFragment) =>
+              node.status === 'ACTIVE' && !node.organization.isApprovedVcep
+          ).length,
+          activeVcep: approvals.filter(
+            (node: ApprovalListNodeFragment) =>
+              node.status === 'ACTIVE' && node.organization.isApprovedVcep
           ).length,
           requiresReview: approvals.filter(
             (node: ApprovalListNodeFragment) =>
@@ -180,11 +187,13 @@ export class AssertionsDetailView {
       let counts = {
         flags: 0,
         approvals: 0,
+        vcepApprovals: 0,
       }
       if (assertion) {
         counts = {
           flags: assertion.flags.totalCount,
           approvals: this.approvalCounts().active,
+          vcepApprovals: this.approvalCounts().activeVcep,
         }
       }
       return counts
