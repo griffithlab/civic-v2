@@ -34,9 +34,9 @@ module Features
             valid_variant_names.concat(["Trisomy", "Monosomy", "Nullisomy", "Tetrasomy", "Ring"])
           end
         else #band
-          #no-op
+          valid_variant_names.concat(["Homozygous Deletion", "Duplication", "Triplication"])
         end
-        return valid_variant_names
+        return valid_variant_names.sort
       else #complex region
         #TODO add support
       end
