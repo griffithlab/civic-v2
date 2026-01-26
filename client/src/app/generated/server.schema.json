@@ -43470,6 +43470,43 @@
               "deprecationReason": null
             },
             {
+              "name": "regionVariantNamesForFeatureId",
+              "description": "Find all CIViC region variant names valid for a given CIViC (region) feature ID",
+              "args": [
+                {
+                  "name": "featureId",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "RegionVariantName",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "remoteCitation",
               "description": "Check to see if a citation ID for a source not already in CIViC exists in an external database.",
               "args": [

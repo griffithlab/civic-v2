@@ -217,6 +217,11 @@ module Types
 
     field :activities, resolver: Resolvers::Activities
 
+    field :region_variant_names_for_feature_id, [ Types::Region::RegionVariantNameType ], null: true do
+      description "Find all CIViC region variant names valid for a given CIViC (region) feature ID"
+      argument :feature_id, Int, required: true
+    end
+
     def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)
     end
@@ -415,6 +420,10 @@ module Types
       Rails.cache.fetch("homepage_timepoint_stats", expires_in: 10.minutes) do
         CivicStats.homepage_stats
       end
+    end
+
+    def region_variant_names_for_feature_id(feature_id:)
+      Feature.find_by(id: feature_id, feature_instance_type: "Features::Region").feature_instance.valid_variant_names()
     end
   end
 end

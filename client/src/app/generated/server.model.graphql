@@ -9547,6 +9547,11 @@ type Query {
   previewMolecularProfileName(structure: MolecularProfileComponentInput): MolecularProfileNamePreview!
 
   """
+  Find all CIViC region variant names valid for a given CIViC (region) feature ID
+  """
+  regionVariantNamesForFeatureId(featureId: Int!): [RegionVariantName!]
+
+  """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
   """
   remoteCitation(citationId: String!, sourceType: SourceSource!): String

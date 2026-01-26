@@ -188,9 +188,13 @@ export class CvcFeatureSelectField
     results: FeatureSelectTypeaheadFieldsFragment[]
   ): boolean {
     const searchName = s.toLowerCase()
-    return (
-      s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
-    )
+    if (this.selectedFeatureType == 'REGION') {
+      return true
+    } else {
+      return (
+        s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
+      )
+    }
   }
 
   onSelectOrCreate(feature: FeatureIdWithCreationStatus) {

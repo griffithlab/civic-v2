@@ -5041,6 +5041,8 @@ export type Query = {
   phenotypes: PhenotypeConnection;
   previewCommentText: Array<CommentBodySegment>;
   previewMolecularProfileName: MolecularProfileNamePreview;
+  /** Find all CIViC region variant names valid for a given CIViC (region) feature ID */
+  regionVariantNamesForFeatureId?: Maybe<Array<RegionVariantName>>;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']['output']>;
   /** Find a revision by CIViC ID */
@@ -5600,6 +5602,11 @@ export type QueryPreviewCommentTextArgs = {
 
 export type QueryPreviewMolecularProfileNameArgs = {
   structure?: InputMaybe<MolecularProfileComponentInput>;
+};
+
+
+export type QueryRegionVariantNamesForFeatureIdArgs = {
+  featureId: Scalars['Int']['input'];
 };
 
 
@@ -10002,6 +10009,13 @@ export type PhenotypeSelectTagQueryVariables = Exact<{
 export type PhenotypeSelectTagQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string } | undefined };
 
 export type PhenotypeSelectTypeaheadFieldsFragment = { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string };
+
+export type RegionVariantNameForFeatureQueryVariables = Exact<{
+  featureId: Scalars['Int']['input'];
+}>;
+
+
+export type RegionVariantNameForFeatureQuery = { __typename: 'Query', regionVariantNamesForFeatureId?: Array<RegionVariantName> | undefined };
 
 export type QuickAddSourceCheckCitationQueryVariables = Exact<{
   sourceType: SourceSource;
@@ -18364,6 +18378,22 @@ export const PhenotypeSelectTagDocument = gql`
   })
   export class PhenotypeSelectTagGQL extends Apollo.Query<PhenotypeSelectTagQuery, PhenotypeSelectTagQueryVariables> {
     document = PhenotypeSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RegionVariantNameForFeatureDocument = gql`
+    query RegionVariantNameForFeature($featureId: Int!) {
+  regionVariantNamesForFeatureId(featureId: $featureId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegionVariantNameForFeatureGQL extends Apollo.Query<RegionVariantNameForFeatureQuery, RegionVariantNameForFeatureQueryVariables> {
+    document = RegionVariantNameForFeatureDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
