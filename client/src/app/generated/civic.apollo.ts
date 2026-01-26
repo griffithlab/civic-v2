@@ -7823,7 +7823,8 @@ export type VariantAlias = {
 export enum VariantCategories {
   Factor = 'FACTOR',
   Fusion = 'FUSION',
-  Gene = 'GENE'
+  Gene = 'GENE',
+  Region = 'REGION'
 }
 
 /** Representation of a Variant's membership in a Molecular Profile. */

@@ -13332,6 +13332,7 @@ enum VariantCategories {
   FACTOR
   FUSION
   GENE
+  REGION
 }
 
 """
