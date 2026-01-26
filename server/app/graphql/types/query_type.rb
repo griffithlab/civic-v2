@@ -77,6 +77,11 @@ module Types
       argument :id, Int, required: false
     end
 
+    field :cytogenetic_region, Types::Entities::CytogeneticRegionType, null: true do
+      description "Find a single cytogenetic entry by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :variant, Types::Interfaces::VariantInterface, null: true do
       description "Find a variant by CIViC ID"
       argument :id, Int, required: true
@@ -252,6 +257,10 @@ module Types
 
     def feature(id:)
       Feature.find_by(id: id)
+    end
+
+    def cytogenetic_region(id:)
+      CytogeneticRegion.find_by(id: id)
     end
 
     def variant(id:)

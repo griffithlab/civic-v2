@@ -1902,7 +1902,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1926,6 +1926,8 @@ export type QueryFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	contributors?: FieldPolicy<any> | FieldReadFunction<any>,
 	countries?: FieldPolicy<any> | FieldReadFunction<any>,
+	cytogeneticRegion?: FieldPolicy<any> | FieldReadFunction<any>,
+	cytogeneticRegionTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	dataReleases?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseasePopover?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2052,6 +2054,19 @@ export type RegionVariantFieldPolicy = {
 	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RegionVariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | RegionVariantConnectionKeySpecifier)[];
+export type RegionVariantConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RegionVariantEdgeKeySpecifier = ('cursor' | 'node' | RegionVariantEdgeKeySpecifier)[];
+export type RegionVariantEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RejectRevisionsActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'revisions' | 'subject' | 'user' | 'verbiage' | RejectRevisionsActivityKeySpecifier)[];
 export type RejectRevisionsActivityFieldPolicy = {
@@ -3473,6 +3488,14 @@ export type StrictTypedTypePolicies = {
 	RegionVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RegionVariantKeySpecifier | (() => undefined | RegionVariantKeySpecifier),
 		fields?: RegionVariantFieldPolicy,
+	},
+	RegionVariantConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RegionVariantConnectionKeySpecifier | (() => undefined | RegionVariantConnectionKeySpecifier),
+		fields?: RegionVariantConnectionFieldPolicy,
+	},
+	RegionVariantEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RegionVariantEdgeKeySpecifier | (() => undefined | RegionVariantEdgeKeySpecifier),
+		fields?: RegionVariantEdgeFieldPolicy,
 	},
 	RejectRevisionsActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RejectRevisionsActivityKeySpecifier | (() => undefined | RejectRevisionsActivityKeySpecifier),

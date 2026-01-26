@@ -241,7 +241,8 @@
   [nzContent]="variantModalContent"
   [nzTitle]="variantModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="addVariantModalVisible$.next(false)">
+  (nzOnCancel)="addVariantModalVisible$.next(false)"
+  nzWidth="700px">
   <ng-template #variantModalTitle><span>Add New Variant</span></ng-template>
   <ng-template #variantModalContent>
     <cvc-variant-submit-form></cvc-variant-submit-form>

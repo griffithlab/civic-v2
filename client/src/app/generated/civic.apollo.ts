@@ -4976,6 +4976,10 @@ export type Query = {
   contributors: ContributingUsersSummary;
   /** Fetch a list of countries for user profiles. */
   countries: Array<Country>;
+  /** Find a single cytogenetic entry by CIViC ID */
+  cytogeneticRegion?: Maybe<CytogeneticRegion>;
+  /** Retrieve Cytogenetic Region for a search term. */
+  cytogeneticRegionTypeahead: Array<CytogeneticRegion>;
   dataReleases: Array<DataRelease>;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
@@ -5329,6 +5333,16 @@ export type QueryCommentsArgs = {
 
 export type QueryContributorsArgs = {
   subscribable: SubscribableInput;
+};
+
+
+export type QueryCytogeneticRegionArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type QueryCytogeneticRegionTypeaheadArgs = {
+  queryTerm: Scalars['String']['input'];
 };
 
 
@@ -5863,8 +5877,8 @@ export type Region = Commentable & EventOriginObject & EventSubject & Flaggable 
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
-  /** List and filter variants. */
-  variants: VariantInterfaceConnection;
+  /** List and filter Region variants. */
+  variants: RegionVariantConnection;
 };
 
 
@@ -6038,6 +6052,30 @@ export type RegionVariantRevisionsArgs = {
   status?: InputMaybe<RevisionStatus>;
 };
 
+/** The connection type for RegionVariant. */
+export type RegionVariantConnection = {
+  __typename: 'RegionVariantConnection';
+  /** A list of edges. */
+  edges: Array<RegionVariantEdge>;
+  /** A list of nodes. */
+  nodes: Array<RegionVariant>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type RegionVariantEdge = {
+  __typename: 'RegionVariantEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<RegionVariant>;
+};
+
 /** Fields on a RegionVariant that curators may propose revisions to. */
 export type RegionVariantFields = {
   /** List of aliases or alternate names for the Variant. */
@@ -6050,10 +6088,16 @@ export enum RegionVariantName {
   Addition = 'ADDITION',
   Amplification = 'AMPLIFICATION',
   Deletion = 'DELETION',
+  Disomy = 'DISOMY',
   Duplication = 'DUPLICATION',
   HomozygousDeletion = 'HOMOZYGOUS_DELETION',
+  Monosomy = 'MONOSOMY',
+  Nullisomy = 'NULLISOMY',
+  Ring = 'RING',
+  Tetrasomy = 'TETRASOMY',
   Translocation = 'TRANSLOCATION',
-  Triplication = 'TRIPLICATION'
+  Triplication = 'TRIPLICATION',
+  Trisomy = 'TRISOMY'
 }
 
 export type RejectRevisionsActivity = ActivityInterface & {
@@ -9740,6 +9784,22 @@ export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { _
 
 export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean };
 
+export type CytogeneticRegionSelectTypeaheadQueryVariables = Exact<{
+  queryTerm: Scalars['String']['input'];
+}>;
+
+
+export type CytogeneticRegionSelectTypeaheadQuery = { __typename: 'Query', cytogeneticRegionTypeahead: Array<{ __typename: 'CytogeneticRegion', id: number, name: string }> };
+
+export type CytogeneticRegionSelectTagQueryVariables = Exact<{
+  cytogeneticRegionId: Scalars['Int']['input'];
+}>;
+
+
+export type CytogeneticRegionSelectTagQuery = { __typename: 'Query', cytogeneticRegion?: { __typename: 'CytogeneticRegion', id: number, name: string } | undefined };
+
+export type CytogeneticRegionSelectTypeaheadFieldsFragment = { __typename: 'CytogeneticRegion', id: number, name: string };
+
 export type QuickAddDiseaseMutationVariables = Exact<{
   name: Scalars['String']['input'];
   doid?: InputMaybe<Scalars['String']['input']>;
@@ -9855,6 +9915,14 @@ export type SelectOrCreateFusionMutationVariables = Exact<{
 
 
 export type SelectOrCreateFusionMutation = { __typename: 'Mutation', createFusionFeature?: { __typename: 'CreateFusionFeaturePayload', new: boolean, feature: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, deprecated: boolean, flagged: boolean, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Fusion', id: number, description?: string | undefined, featureAliases: Array<string>, name: string, fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }>, fivePrimeGene?: { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }> } | undefined, threePrimeGene?: { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', myGeneInfoDetails?: any | undefined, id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }> } | { __typename: 'Region', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }>, cytogeneticRegions?: Array<{ __typename: 'CytogeneticRegion', name: string, chromosome: string, band?: string | undefined, cytogeneticCoordinates: Array<{ __typename: 'CytogeneticCoordinate', referenceBuild: ReferenceBuild, chromosome: string, start: number, stop: number }> }> | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } } } | undefined };
+
+export type SelectOrCreateRegionMutationVariables = Exact<{
+  organizationId?: InputMaybe<Scalars['Int']['input']>;
+  cytogeneticRegionId: Scalars['Int']['input'];
+}>;
+
+
+export type SelectOrCreateRegionMutation = { __typename: 'Mutation', createRegionFeature?: { __typename: 'CreateRegionFeaturePayload', new: boolean, feature: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, deprecated: boolean, flagged: boolean, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Fusion', id: number, description?: string | undefined, featureAliases: Array<string>, name: string, fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }>, fivePrimeGene?: { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }> } | undefined, threePrimeGene?: { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', myGeneInfoDetails?: any | undefined, id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }> } | { __typename: 'Region', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource, deprecated: boolean }>, cytogeneticRegions?: Array<{ __typename: 'CytogeneticRegion', name: string, chromosome: string, band?: string | undefined, cytogeneticCoordinates: Array<{ __typename: 'CytogeneticCoordinate', referenceBuild: ReferenceBuild, chromosome: string, start: number, stop: number }> }> | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } } } | undefined };
 
 export type MolecularProfileSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -10003,6 +10071,17 @@ export type SelectOrCreateFusionVariantMutationVariables = Exact<{
 export type SelectOrCreateFusionVariantMutation = { __typename: 'Mutation', createFusionVariant?: { __typename: 'CreateFusionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'RegionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
 
 export type CreateFusionVariantFieldsFragment = { __typename: 'CreateFusionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'RegionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
+
+export type SelectOrCreateRegionVariantMutationVariables = Exact<{
+  organizationId?: InputMaybe<Scalars['Int']['input']>;
+  featureId: Scalars['Int']['input'];
+  name: RegionVariantName;
+}>;
+
+
+export type SelectOrCreateRegionVariantMutation = { __typename: 'Mutation', createRegionVariant?: { __typename: 'CreateRegionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'RegionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
+
+export type CreateRegionVariantFieldsFragment = { __typename: 'CreateRegionVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'RegionVariant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
 
 export type VariantManagerQueryVariables = Exact<{
   variantName?: InputMaybe<Scalars['String']['input']>;
@@ -12769,6 +12848,12 @@ export const ClingenCodeSelectTypeaheadFieldsFragmentDoc = gql`
   exclusive
 }
     `;
+export const CytogeneticRegionSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment CytogeneticRegionSelectTypeaheadFields on CytogeneticRegion {
+  id
+  name
+}
+    `;
 export const QuickAddDiseaseFieldsFragmentDoc = gql`
     fragment QuickAddDiseaseFields on AddDiseasePayload {
   new
@@ -13111,6 +13196,15 @@ export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
     `;
 export const CreateFusionVariantFieldsFragmentDoc = gql`
     fragment CreateFusionVariantFields on CreateFusionVariantPayload {
+  clientMutationId
+  new
+  variant {
+    ...VariantSelectTypeaheadFields
+  }
+}
+    ${VariantSelectTypeaheadFieldsFragmentDoc}`;
+export const CreateRegionVariantFieldsFragmentDoc = gql`
+    fragment CreateRegionVariantFields on CreateRegionVariantPayload {
   clientMutationId
   new
   variant {
@@ -17789,6 +17883,42 @@ export const ClingenCodeSelectTagDocument = gql`
       super(apollo);
     }
   }
+export const CytogeneticRegionSelectTypeaheadDocument = gql`
+    query CytogeneticRegionSelectTypeahead($queryTerm: String!) {
+  cytogeneticRegionTypeahead(queryTerm: $queryTerm) {
+    ...CytogeneticRegionSelectTypeaheadFields
+  }
+}
+    ${CytogeneticRegionSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CytogeneticRegionSelectTypeaheadGQL extends Apollo.Query<CytogeneticRegionSelectTypeaheadQuery, CytogeneticRegionSelectTypeaheadQueryVariables> {
+    document = CytogeneticRegionSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CytogeneticRegionSelectTagDocument = gql`
+    query CytogeneticRegionSelectTag($cytogeneticRegionId: Int!) {
+  cytogeneticRegion(id: $cytogeneticRegionId) {
+    ...CytogeneticRegionSelectTypeaheadFields
+  }
+}
+    ${CytogeneticRegionSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CytogeneticRegionSelectTagGQL extends Apollo.Query<CytogeneticRegionSelectTagQuery, CytogeneticRegionSelectTagQueryVariables> {
+    document = CytogeneticRegionSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const QuickAddDiseaseDocument = gql`
     mutation QuickAddDisease($name: String!, $doid: String) {
   addDisease(input: {name: $name, doid: $doid}) {
@@ -18017,6 +18147,29 @@ export const SelectOrCreateFusionDocument = gql`
   })
   export class SelectOrCreateFusionGQL extends Apollo.Mutation<SelectOrCreateFusionMutation, SelectOrCreateFusionMutationVariables> {
     document = SelectOrCreateFusionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SelectOrCreateRegionDocument = gql`
+    mutation SelectOrCreateRegion($organizationId: Int, $cytogeneticRegionId: Int!) {
+  createRegionFeature(
+    input: {organizationId: $organizationId, cytogeneticRegionIds: [$cytogeneticRegionId]}
+  ) {
+    new
+    feature {
+      ...FeatureSummaryFields
+    }
+  }
+}
+    ${FeatureSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SelectOrCreateRegionGQL extends Apollo.Mutation<SelectOrCreateRegionMutation, SelectOrCreateRegionMutationVariables> {
+    document = SelectOrCreateRegionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -18359,6 +18512,26 @@ export const SelectOrCreateFusionVariantDocument = gql`
   })
   export class SelectOrCreateFusionVariantGQL extends Apollo.Mutation<SelectOrCreateFusionVariantMutation, SelectOrCreateFusionVariantMutationVariables> {
     document = SelectOrCreateFusionVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SelectOrCreateRegionVariantDocument = gql`
+    mutation SelectOrCreateRegionVariant($organizationId: Int, $featureId: Int!, $name: RegionVariantName!) {
+  createRegionVariant(
+    input: {organizationId: $organizationId, featureId: $featureId, name: $name}
+  ) {
+    ...CreateRegionVariantFields
+  }
+}
+    ${CreateRegionVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SelectOrCreateRegionVariantGQL extends Apollo.Mutation<SelectOrCreateRegionVariantMutation, SelectOrCreateRegionVariantMutationVariables> {
+    document = SelectOrCreateRegionVariantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,0 +1,32 @@
+<cvc-enum-select
+  [cvcFormControl]="formControl"
+  [cvcFormlyAttributes]="field"
+  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [cvcPlaceholder]="placeholder$ | ngrxPush"
+  [cvcCustomTemplate]="selectedTemplate"
+  [cvcOptions]="selectOption$ | ngrxPush"
+  [cvcShowError]="showError"
+  [cvcDisabled]="props.disabled"></cvc-enum-select>
+<ng-container *ngFor="let build of nameEnum$ | ngrxPush; index as i">
+  <ng-template #optionTemplates>
+    <nz-tag>
+      <strong>{{ build }}</strong>
+    </nz-tag>
+  </ng-template>
+</ng-container>
+
+<ng-template
+  #selectedTemplate
+  let-selected>
+  <div class="ant-select-selection-item-content">
+    <nz-tag
+      *ngIf="!props.isMultiSelect"
+      nzMode="closeable"
+      (nzOnClose)="onTagClose$.next($event)">
+      <strong>{{ selected.nzValue }}</strong> 
+    </nz-tag>
+    <ng-container *ngIf="props.isMultiSelect">
+      {{ selected.nzValue }}
+    </ng-container>
+  </div>
+</ng-template>

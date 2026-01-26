@@ -8908,6 +8908,16 @@ type Query {
   Fetch a list of countries for user profiles.
   """
   countries: [Country!]!
+
+  """
+  Find a single cytogenetic entry by CIViC ID
+  """
+  cytogeneticRegion(id: Int!): CytogeneticRegion
+
+  """
+  Retrieve Cytogenetic Region for a search term.
+  """
+  cytogeneticRegionTypeahead(queryTerm: String!): [CytogeneticRegion!]!
   dataReleases: [DataRelease!]!
 
   """
@@ -10226,7 +10236,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
   sources: [Source!]!
 
   """
-  List and filter variants.
+  List and filter Region variants.
   """
   variants(
     """
@@ -10285,7 +10295,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     A list of CIViC identifiers for variant types
     """
     variantTypeIds: [Int!]
-  ): VariantInterfaceConnection!
+  ): RegionVariantConnection!
 }
 
 """
@@ -10528,6 +10538,51 @@ type RegionVariant implements Commentable & EventOriginObject & EventSubject & F
 }
 
 """
+The connection type for RegionVariant.
+"""
+type RegionVariantConnection {
+  """
+  A list of edges.
+  """
+  edges: [RegionVariantEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [RegionVariant!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type RegionVariantEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: RegionVariant
+}
+
+"""
 Fields on a RegionVariant that curators may propose revisions to.
 """
 input RegionVariantFields {
@@ -10546,10 +10601,16 @@ enum RegionVariantName {
   ADDITION
   AMPLIFICATION
   DELETION
+  DISOMY
   DUPLICATION
   HOMOZYGOUS_DELETION
+  MONOSOMY
+  NULLISOMY
+  RING
+  TETRASOMY
   TRANSLOCATION
   TRIPLICATION
+  TRISOMY
 }
 
 type RejectRevisionsActivity implements ActivityInterface {

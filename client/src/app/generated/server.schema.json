@@ -41141,6 +41141,76 @@
               "deprecationReason": null
             },
             {
+              "name": "cytogeneticRegion",
+              "description": "Find a single cytogenetic entry by CIViC ID",
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "CytogeneticRegion",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "cytogeneticRegionTypeahead",
+              "description": "Retrieve Cytogenetic Region for a search term.",
+              "args": [
+                {
+                  "name": "queryTerm",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "CytogeneticRegion",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "dataReleases",
               "description": null,
               "args": [],
@@ -46241,7 +46311,7 @@
             },
             {
               "name": "variants",
-              "description": "List and filter variants.",
+              "description": "List and filter Region variants.",
               "args": [
                 {
                   "name": "name",
@@ -46413,7 +46483,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VariantInterfaceConnection",
+                  "name": "RegionVariantConnection",
                   "ofType": null
                 }
               },
@@ -47397,6 +47467,152 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "RegionVariantConnection",
+          "description": "The connection type for RegionVariant.",
+          "fields": [
+            {
+              "name": "edges",
+              "description": "A list of edges.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "RegionVariantEdge",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "nodes",
+              "description": "A list of nodes.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "RegionVariant",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageInfo",
+              "description": "Information to aid in pagination.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PageInfo",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "totalCount",
+              "description": "The total number of records in this filtered collection.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RegionVariantEdge",
+          "description": "An edge in a connection.",
+          "fields": [
+            {
+              "name": "cursor",
+              "description": "A cursor for use in pagination.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": "The item at the end of the edge.",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "RegionVariant",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
           "name": "RegionVariantFields",
           "description": "Fields on a RegionVariant that curators may propose revisions to.",
@@ -47501,6 +47717,42 @@
             },
             {
               "name": "AMPLIFICATION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "TRISOMY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "MONOSOMY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NULLISOMY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "TETRASOMY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DISOMY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RING",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

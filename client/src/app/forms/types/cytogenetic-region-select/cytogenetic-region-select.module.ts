@@ -18,29 +18,26 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-  CvcFeatureSelectField,
-  CvcFeatureSelectFieldConfig,
-} from './feature-select.type'
-import { CvcFeatureQuickAddForm } from './feature-quick-add/feature-quick-add.form'
-import { CvcFusionSelectForm } from './fusion-select/fusion-select.form'
+  CvcCytogeneticRegionSelectField,
+  CvcCytogeneticRegionSelectFieldConfig,
+} from './cytogenetic-region-select.type'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzModalModule } from 'ng-zorro-antd/modal'
-import { CvcRegionSelectForm } from './region-select/region-select.form'
 
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'feature-select',
+      name: 'cytogenetic-region-select',
       wrappers: ['form-field'],
-      component: CvcFeatureSelectField,
+      component: CvcCytogeneticRegionSelectField,
     },
     {
-      name: 'feature-multi-select',
+      name: 'cytogenetic-region-multi-select',
       wrappers: ['form-field'],
-      component: CvcFeatureSelectField,
-      defaultOptions: <CvcFeatureSelectFieldConfig>{
+      component: CvcCytogeneticRegionSelectField,
+      defaultOptions: <CvcCytogeneticRegionSelectFieldConfig>{
         props: {
-          label: 'Features',
+          label: 'Regions',
           isMultiSelect: true,
         },
       },
@@ -49,7 +46,7 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcFeatureSelectField],
+  declarations: [CvcCytogeneticRegionSelectField],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -73,10 +70,7 @@ const typeConfig: ConfigOption = {
     CvcEntitySelectModule,
     CvcPipesModule,
     CvcEntityTagModule,
-    CvcFeatureQuickAddForm,
-    CvcFusionSelectForm,
-    CvcRegionSelectForm,
   ],
-  exports: [CvcFeatureSelectField],
+  exports: [CvcCytogeneticRegionSelectField],
 })
-export class CvcFeatureSelectModule {}
+export class CvcCytogeneticRegionSelectModule {}
