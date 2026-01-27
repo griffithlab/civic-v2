@@ -1,0 +1,3 @@
+query RegionVariantNameForFeature($featureId: Int!) {
+  regionVariantNamesForFeatureId(featureId: $featureId)
+}
