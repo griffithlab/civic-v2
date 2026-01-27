@@ -20,6 +20,14 @@ class Resolvers::Shared::Variants < GraphQL::Schema::Resolver
     scope.joins(:feature).where(feature_id: value, feature: { feature_instance_type: "Features::Factor" })
   end
 
+  option(:fusion_id, type: GraphQL::Types::Int, description: "Feature that the variants are associated with, limited to only Fusion type features.") do |scope, value|
+    scope.joins(:feature).where(feature_id: value, feature: { feature_instance_type: "Features::Fusion" })
+  end
+
+  option(:region_id, type: GraphQL::Types::Int, description: "Feature that the variants are associated with, limited to only Region type features.") do |scope, value|
+    scope.joins(:feature).where(feature_id: value, feature: { feature_instance_type: "Features::Region" })
+  end
+
   option(:variant_type_ids, type: [ GraphQL::Types::Int ], description: "A list of CIViC identifiers for variant types") do  |scope, value|
     if value.size > 0
       scope.joins(:variant_types).where(variant_types: { id: value })

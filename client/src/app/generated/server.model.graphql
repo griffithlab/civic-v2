@@ -3961,6 +3961,11 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -3979,6 +3984,11 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """
@@ -4604,6 +4614,11 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -4622,6 +4637,11 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """
@@ -5230,6 +5250,11 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -5248,6 +5273,11 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """
@@ -5847,6 +5877,11 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -5865,6 +5900,11 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """
@@ -9992,6 +10032,11 @@ type Query {
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -10010,6 +10055,11 @@ type Query {
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """
@@ -10276,6 +10326,11 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -10294,6 +10349,11 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """
@@ -13689,6 +13749,11 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     first: Int
 
     """
+    Feature that the variants are associated with, limited to only Fusion type features.
+    """
+    fusionId: Int
+
+    """
     Feature that the variants are associated with, limited to only Gene type features.
     """
     geneId: Int
@@ -13707,6 +13772,11 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Left anchored filtering for variant name and aliases.
     """
     name: String
+
+    """
+    Feature that the variants are associated with, limited to only Region type features.
+    """
+    regionId: Int
     sortBy: VariantMenuSort
 
     """

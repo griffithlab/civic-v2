@@ -19655,6 +19655,30 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "variantTypeIds",
                   "description": "A list of CIViC identifiers for variant types",
                   "type": {
@@ -22057,6 +22081,30 @@
                 {
                   "name": "factorId",
                   "description": "Feature that the variants are associated with, limited to only Factor type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -24713,6 +24761,30 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "variantTypeIds",
                   "description": "A list of CIViC identifiers for variant types",
                   "type": {
@@ -27157,6 +27229,30 @@
                 {
                   "name": "factorId",
                   "description": "Feature that the variants are associated with, limited to only Factor type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -45263,6 +45359,30 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "variantTypeIds",
                   "description": "A list of CIViC identifiers for variant types",
                   "type": {
@@ -46389,6 +46509,30 @@
                 {
                   "name": "factorId",
                   "description": "Feature that the variants are associated with, limited to only Factor type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -60476,6 +60620,30 @@
                 {
                   "name": "factorId",
                   "description": "Feature that the variants are associated with, limited to only Factor type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fusionId",
+                  "description": "Feature that the variants are associated with, limited to only Fusion type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "regionId",
+                  "description": "Feature that the variants are associated with, limited to only Region type features.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
