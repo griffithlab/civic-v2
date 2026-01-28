@@ -5665,7 +5665,7 @@ The fusion partner's status and gene ID (if applicable)
 """
 input FusionPartnerInput {
   """
-  The CIViC gene ID of the partner, if known
+  The CIViC ID of the Gene Feature that is the Fusion partner, if known
   """
   geneId: Int
 
