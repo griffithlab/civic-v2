@@ -1,11 +1,5 @@
 braf:
   entrez_id: 673
-  name: BRAF
-  official_name: B-Raf proto-oncogene, serine/threonine kinase
-  description: The description for the BRAF gene
 
 vhl:
   entrez_id: 7428
-  name: VHL
-  official_name: von Hippel-Lindau tumor suppressor
-  description: The description for the VHL gene
