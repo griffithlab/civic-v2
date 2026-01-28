@@ -19,7 +19,7 @@ class EntrezJob < ApplicationJob
   end
 
   def download_file
-    download_stream = URI.open(latest_entrez_path)
+    download_stream = URI(latest_entrez_path).open
     IO.copy_stream(download_stream, entrez_file)
   end
 
