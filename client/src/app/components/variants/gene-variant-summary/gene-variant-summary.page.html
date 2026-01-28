@@ -170,27 +170,33 @@
           nzBordered="true">
           <!-- allele reg. id -->
           <nz-descriptions-item nzTitle="Allele Registry ID">
-            <cvc-link-tag
-              *ngIf="
-                  variant.alleleRegistryId &&
-                    variant.alleleRegistryId != 'unregistered';
-                  else noAlleleRegistry
-                "
-              [href]="
-                  'https://reg.genome.network/allele/' +
-                  variant.alleleRegistryId +
-                  '.html'
-                "
-              tooltip="View on ClinGen Allele Registry">
-              {{ variant.alleleRegistryId }}
-            </cvc-link-tag>
-            <ng-template #noAlleleRegistry>
+            @if (variant.alleleRegistryId) {
+              @if (variant.alleleRegistryId == 'unregistered') {
               <span
                 nz-typography
                 nzType="secondary">
                 Unregistered
               </span>
-            </ng-template>
+              }
+              @else {
+                <cvc-link-tag
+                  [href]="
+                      'https://reg.genome.network/allele/' +
+                      variant.alleleRegistryId +
+                      '.html'
+                    "
+                  tooltip="View on ClinGen Allele Registry">
+                  {{ variant.alleleRegistryId }}
+                </cvc-link-tag>
+              }
+            }
+            @else {
+              <span
+                nz-typography
+                nzType="secondary">
+                Not available
+              </span>
+            }
           </nz-descriptions-item>
 
           <!-- open cravat report -->
