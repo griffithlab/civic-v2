@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_27_162338) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_28_154154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -1149,56 +1149,29 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_27_162338) do
   end
 
   create_table "variants", id: :serial, force: :cascade do |t|
-    t.integer "gene_id", null: false
     t.string "name", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
-    t.text "genome_build"
-    t.text "chromosome"
-    t.integer "start"
-    t.integer "stop"
-    t.text "reference_bases"
-    t.text "variant_bases"
-    t.text "representative_transcript"
-    t.text "chromosome2"
-    t.integer "start2"
-    t.integer "stop2"
     t.integer "reference_build"
     t.text "representative_transcript2"
     t.integer "ensembl_version"
-    t.integer "secondary_gene_id"
     t.text "allele_registry_id"
     t.boolean "flagged", default: false, null: false
     t.integer "single_variant_molecular_profile_id"
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
-    t.integer "deprecation_comment_id"
     t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
-    t.text "open_cravat_url"
     t.string "iscn_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
-    t.index ["chromosome"], name: "index_variants_on_chromosome"
-    t.index ["chromosome2"], name: "index_variants_on_chromosome2"
-    t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
-    t.index ["gene_id"], name: "index_variants_on_gene_id"
     t.index ["iscn_name"], name: "index_variants_on_iscn_name"
     t.index ["name"], name: "index_variants_on_name"
-    t.index ["reference_bases"], name: "index_variants_on_reference_bases"
-    t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
     t.index ["single_variant_molecular_profile_id"], name: "index_variants_on_single_variant_molecular_profile_id"
-    t.index ["start"], name: "index_variants_on_start"
-    t.index ["start2"], name: "index_variants_on_start2"
-    t.index ["stop"], name: "index_variants_on_stop"
-    t.index ["stop2"], name: "index_variants_on_stop2"
-    t.index ["variant_bases"], name: "index_variants_on_variant_bases"
     t.index ["vicc_compliant_name"], name: "index_variants_on_vicc_compliant_name"
   end
 
@@ -1300,10 +1273,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_27_162338) do
   add_foreign_key "variant_coordinates", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
-  add_foreign_key "variants", "comments", column: "deprecation_comment_id"
   add_foreign_key "variants", "features"
-  add_foreign_key "variants", "genes"
-  add_foreign_key "variants", "genes", column: "secondary_gene_id"
   add_foreign_key "variants", "molecular_profiles", column: "single_variant_molecular_profile_id"
 
   create_view "evidence_items_by_statuses", sql_definition: <<-SQL

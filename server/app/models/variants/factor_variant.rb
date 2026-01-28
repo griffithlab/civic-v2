@@ -1,5 +1,8 @@
 module Variants
   class FactorVariant < Variant
+    has_one :factor, through: :feature,
+      source: :feature_instance, source_type: "Features::Factor"
+
     def unique_editable_fields
       [
         :feature_id,
