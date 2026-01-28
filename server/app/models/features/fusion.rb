@@ -3,6 +3,7 @@ module Features
     include Subscribable
     include IsFeatureInstance
 
+    # These point intentionally to the Feature Instance
     belongs_to :five_prime_gene, class_name: "Features::Gene", optional: true
     belongs_to :three_prime_gene, class_name: "Features::Gene", optional: true
 
