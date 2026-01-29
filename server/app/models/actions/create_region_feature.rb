@@ -17,7 +17,7 @@ module Actions
     def construct_feature_name
       # TODO - correct delimiter?
       # less efficient but ensures that order is preserved
-      cytogenetic_region_ids.map{|region_id| CytogeneticRegion.find(region_id).name}.join(" ")
+      cytogenetic_region_ids.map { |region_id| CytogeneticRegion.find(region_id).name }.join(" ")
     end
 
     private

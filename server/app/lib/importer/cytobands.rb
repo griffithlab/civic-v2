@@ -23,7 +23,7 @@ module Importer
           arm_last_line = nil
           band_last_line = nil
           CSV.new(reader, col_sep: "\t", headers: false, liberal_parsing: true).each do |line|
-            next if line[0].include?("_") || line[0] == 'chrM'
+            next if line[0].include?("_") || line[0] == "chrM"
             parsed_line = parse_line(line)
             if chromosome_first_line.nil?
               chromosome_first_line = parsed_line
@@ -138,10 +138,10 @@ module Importer
 
     def parse_line(line)
       parsed_line = {
-        'chromosome': line[0].sub('chr', ''),
+        'chromosome': line[0].sub("chr", ""),
         'start': line[1],
         'stop': line[2],
-        'cytoband': line[3]
+        'cytoband': line[3],
       }
       arm, band, subband = parsed_line[:cytoband].match(/(q|p)(\d+)\.?(\d*)/i).captures
       parsed_line[:arm] = arm
