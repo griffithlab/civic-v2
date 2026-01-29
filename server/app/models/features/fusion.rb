@@ -6,6 +6,12 @@ module Features
     belongs_to :five_prime_gene, class_name: "Features::Gene", optional: true
     belongs_to :three_prime_gene, class_name: "Features::Gene", optional: true
 
+    has_many :fusions_known_partner_genes
+
+    has_many :known_partner_genes,
+      through: :fusions_known_partner_genes,
+      source: :gene
+
     enum :five_prime_partner_status, {
       known: "known",
       unknown: "unknown",
@@ -26,6 +32,7 @@ module Features
 
     validate :partner_status_valid_for_gene_ids
     validate :at_least_one_gene_id
+    validate :known_partner_genes_only_valid_for_known_partner_status
 
     def partner_status_valid_for_gene_ids
       if !self.in_revision_validation_context
@@ -45,6 +52,12 @@ module Features
       end
     end
 
+    def known_partner_genes_only_valid_for_known_partner_status
+      if self.known_partner_gene_ids.size > 0 && self.five_prime_partner_status != "multiple" && self.three_prime_partner_status != "multiple"
+        errors.add(:base, "None of the fusion partners' statuses is 'multiple' but known partner genes are set")
+      end
+    end
+
     def display_name
       name
     end
@@ -54,6 +67,7 @@ module Features
         :description,
         :source_ids,
         :feature_alias_ids,
+        :known_partner_gene_ids,
       ]
     end
 

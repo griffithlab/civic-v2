@@ -8,6 +8,7 @@ export interface FusionReviseModel extends FormReviseBaseModel {
 export const fusionReviseFieldsDefaults: FusionFields = {
   description: undefined,
   sourceIds: undefined,
+  knownPartnerGeneIds: undefined,
 }
 
 export const fusionReviseFormInitialModel: FusionReviseModel = {

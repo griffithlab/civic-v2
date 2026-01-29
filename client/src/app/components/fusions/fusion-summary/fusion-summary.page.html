@@ -136,10 +136,8 @@
       nzTitle="5' Partner"
       [nzExtra]="fusion.fivePrimePartnerStatus | enumToTitle">
       <ng-container
-        *ngTemplateOutlet="
-          partnerStatusDescription;
-          context: { $implicit: fusion.fivePrimePartnerStatus }
-        ">
+        [ngTemplateOutlet]="partnerStatusDescription"
+        [ngTemplateOutletContext]="{status: fusion.fivePrimePartnerStatus, knownPartnerGenes: fusion.knownPartnerGenes}">
       </ng-container>
     </nz-card>
   </nz-col>
@@ -161,18 +159,39 @@
       nzTitle="3' Partner"
       [nzExtra]="fusion.threePrimePartnerStatus | enumToTitle">
       <ng-container
-        *ngTemplateOutlet="
-          partnerStatusDescription;
-          context: { $implicit: fusion.threePrimePartnerStatus }
-        ">
+        [ngTemplateOutlet]="partnerStatusDescription"
+        [ngTemplateOutletContext]="{status: fusion.threePrimePartnerStatus, knownPartnerGenes: fusion.knownPartnerGenes}">
       </ng-container>
     </nz-card>
     <ng-template
       #partnerStatusDescription
-      let-status>
+      let-status="status"
+      let-knownPartnerGenes="knownPartnerGenes">
       @switch (status) {
         @case ('MULTIPLE') {
           There are Multiple possible fusion partners.
+            <nz-descriptions
+              nzLayout="vertical"
+              nzSize="small"
+              [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+              nzBordered="true">
+              <!-- known partner genes -->
+              <nz-descriptions-item nzTitle="Known Partner Genes">
+                <ng-container
+                  *ngIf="knownPartnerGenes.length > 0; else noKnownPartners">
+                  @for (gene of knownPartnerGenes; track gene) {
+                    <cvc-feature-tag [feature]="gene"></cvc-feature-tag>
+                  }
+                </ng-container>
+              </nz-descriptions-item>
+              <ng-template #noKnownPartners>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
+              </ng-template>
+            </nz-descriptions>
         }
         @case ('UNKNOWN') {
           The fusion partner is unknown.
