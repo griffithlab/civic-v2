@@ -15,6 +15,7 @@ import {
   ModerateEvidenceItemGQL,
   ModerateEvidenceItemMutation,
   ModerateEvidenceItemMutationVariables,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable, Subject } from 'rxjs'
@@ -48,7 +49,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
   showConfirm = false
   revertComment?: string
 
-  mostRecentOrg: Maybe<Organization>
+  mostRecentOrg: Maybe<ViewerOrganizationFragment>
 
   destroy$ = new Subject<void>()
   viewer$: Observable<Viewer>

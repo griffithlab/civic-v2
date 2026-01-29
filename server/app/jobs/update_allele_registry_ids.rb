@@ -24,6 +24,7 @@ class UpdateAlleleRegistryIds < AlleleRegistryIds
           end
         end
       end
+      GenerateOpenCravatLink.perform_later(v)
     end
   end
 end

@@ -7,6 +7,19 @@ Trestle.resource(:organizations) do
     item :organizations, icon: "fa fa-users"
   end
 
+  search do |q|
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("name ILIKE ? OR id = ?", "%#{q}%", query_id)
+      else
+        collection.where("name ILIKE ?", "%#{q}%")
+      end
+    else
+      collection
+    end
+  end
+
   # Customize the table columns shown on the index view.
   table do
     column :id
@@ -25,6 +38,13 @@ Trestle.resource(:organizations) do
           end
         end
       end
+    end
+
+    row do
+      col { check_box :can_approve, label: "Organization Allowed to Approve Assertions" }
+    end
+    row do
+      col { check_box :is_approved_vcep, label: "This Organization is a ClinGen Approved VCEP" }
     end
 
     select :parent_id, [ nil ] + Organization.all

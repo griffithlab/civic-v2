@@ -21,5 +21,11 @@ module Mutations
         raise GraphQL::ExecutionError, "User cannot perform actions on behalf of organization ##{organization_id}"
       end
     end
+
+    def validate_user_approving_as_org(user:, organization_id:)
+      if !user.can_approve_for_org?(organization_id: organization_id)
+        raise GraphQL::ExecutionError, "User cannot manage approvals on behalf of organization ##{organization_id}"
+      end
+    end
   end
 end

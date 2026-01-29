@@ -20,32 +20,32 @@
     [nzLoading]="(loading$ | ngrxPush) && !(isFetchMore$ | ngrxPush)">
     <!-- col$ provide col config defaults and query param, table prefs updates -->
     <thead *ngrxLet="col$ as cols">
-      <tr class="col-header-row">
-        <ng-container *ngFor="let col of cols">
-          <ng-container *ngIf="!col.hidden">
-            <!-- SELECT HEADER -->
-            <th
-              *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
-              [nzShowCheckbox]="selectCol.checkbox.th.showCheckbox || false"
-              [nzWidth]="selectCol.width"
-              [nzAlign]="selectCol.align ?? 'left'"
-              [nzLeft]="selectCol.fixedLeft || false"
-              [nzRight]="selectCol.fixedRight || false"></th>
+    <tr class="col-header-row">
+      <ng-container *ngFor="let col of cols">
+        <ng-container *ngIf="!col.hidden">
+          <!-- SELECT HEADER -->
+          <th
+            *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
+            [nzShowCheckbox]="selectCol.checkbox.th.showCheckbox || false"
+            [nzWidth]="selectCol.width"
+            [nzAlign]="selectCol.align ?? 'left'"
+            [nzLeft]="selectCol.fixedLeft || false"
+            [nzRight]="selectCol.fixedRight || false"></th>
 
-            <!-- ENTITY TAG HEADER -->
-            <th
-              *ngIf="col | guardType : colGuards.isEntityTagCol as entityTagCol"
-              [nzColumnKey]="entityTagCol.key"
-              [nzAlign]="entityTagCol.align ?? 'left'"
-              [nzWidth]="entityTagCol.width"
-              [nzLeft]="entityTagCol.fixedLeft || false"
-              [nzRight]="entityTagCol.fixedRight || false"
-              [nzShowSort]="entityTagCol.sort !== undefined"
-              [nzSortFn]="true"
-              [nzSortOrder]="
+          <!-- ENTITY TAG HEADER -->
+          <th
+            *ngIf="col | guardType : colGuards.isEntityTagCol as entityTagCol"
+            [nzColumnKey]="entityTagCol.key"
+            [nzAlign]="entityTagCol.align ?? 'left'"
+            [nzWidth]="entityTagCol.width"
+            [nzLeft]="entityTagCol.fixedLeft || false"
+            [nzRight]="entityTagCol.fixedRight || false"
+            [nzShowSort]="entityTagCol.sort !== undefined"
+            [nzSortFn]="true"
+            [nzSortOrder]="
                 (entityTagCol.sort!.changes | ngrxPush)?.value || null
               "
-              (nzSortOrderChange)="
+            (nzSortOrderChange)="
                 entityTagCol.sort!.changes!.next({
                   key: entityTagCol.key,
                   value: $event
@@ -57,225 +57,225 @@
                 [nzTooltipTitle]="entityTagCol.tooltip">
                 {{ entityTagCol.label }}
               </span>
-            </th>
+          </th>
 
-            <!-- ENUM TAG HEADER -->
-            <th
-              *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
-              [nzColumnKey]="enumTagCol.key"
-              [nzAlign]="enumTagCol.align ?? 'left'"
-              [nzWidth]="enumTagCol.width"
-              [nzLeft]="enumTagCol.fixedLeft || false"
-              [nzRight]="enumTagCol.fixedRight || false"
-              nz-tooltip
-              [nzTooltipTitle]="enumTagCol.tooltip">
-              {{ enumTagCol.label }}
-            </th>
+          <!-- ENUM TAG HEADER -->
+          <th
+            *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+            [nzColumnKey]="enumTagCol.key"
+            [nzAlign]="enumTagCol.align ?? 'left'"
+            [nzWidth]="enumTagCol.width"
+            [nzLeft]="enumTagCol.fixedLeft || false"
+            [nzRight]="enumTagCol.fixedRight || false"
+            nz-tooltip
+            [nzTooltipTitle]="enumTagCol.tooltip">
+            {{ enumTagCol.label }}
+          </th>
 
-            <!-- TEXT TAG HEADER -->
-            <th
-              *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
-              [nzColumnKey]="textTagCol.key"
-              [nzAlign]="textTagCol.align ?? 'left'"
-              [nzWidth]="textTagCol.width"
-              [nzLeft]="textTagCol.fixedLeft || false"
-              [nzRight]="textTagCol.fixedRight || false"
-              nz-tooltip
-              [nzTooltipTitle]="textTagCol.tooltip">
-              {{ textTagCol.label }}
-            </th>
+          <!-- TEXT TAG HEADER -->
+          <th
+            *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
+            [nzColumnKey]="textTagCol.key"
+            [nzAlign]="textTagCol.align ?? 'left'"
+            [nzWidth]="textTagCol.width"
+            [nzLeft]="textTagCol.fixedLeft || false"
+            [nzRight]="textTagCol.fixedRight || false"
+            nz-tooltip
+            [nzTooltipTitle]="textTagCol.tooltip">
+            {{ textTagCol.label }}
+          </th>
 
-            <!-- DEFAULT TAG HEADER -->
-            <th
-              *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
-              [nzColumnKey]="defaultCol.key"
-              [nzAlign]="defaultCol.align ?? 'left'"
-              [nzWidth]="defaultCol.width"
-              [nzLeft]="defaultCol.fixedLeft || false"
-              [nzRight]="defaultCol.fixedRight || false"
-              nz-tooltip
-              [nzTooltipTitle]="defaultCol.tooltip">
-              {{ defaultCol.label }}
-            </th>
-          </ng-container>
+          <!-- DEFAULT TAG HEADER -->
+          <th
+            *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
+            [nzColumnKey]="defaultCol.key"
+            [nzAlign]="defaultCol.align ?? 'left'"
+            [nzWidth]="defaultCol.width"
+            [nzLeft]="defaultCol.fixedLeft || false"
+            [nzRight]="defaultCol.fixedRight || false"
+            nz-tooltip
+            [nzTooltipTitle]="defaultCol.tooltip">
+            {{ defaultCol.label }}
+          </th>
         </ng-container>
-      </tr>
+      </ng-container>
+    </tr>
 
-      <tr class="filter-row">
-        <ng-container *ngFor="let col of cols">
-          <ng-container *ngIf="!col.hidden">
-            <!-- SELECT FILTER -->
-            <th
-              *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
-              [nzColumnKey]="selectCol.key"
-              [nzAlign]="selectCol.align ?? 'left'"
-              [nzWidth]="selectCol.width"
-              [nzLeft]="selectCol.fixedLeft || false"
-              [nzRight]="selectCol.fixedRight || false">
-              &nbsp;
-            </th>
+    <tr class="filter-row">
+      <ng-container *ngFor="let col of cols">
+        <ng-container *ngIf="!col.hidden">
+          <!-- SELECT FILTER -->
+          <th
+            *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
+            [nzColumnKey]="selectCol.key"
+            [nzAlign]="selectCol.align ?? 'left'"
+            [nzWidth]="selectCol.width"
+            [nzLeft]="selectCol.fixedLeft || false"
+            [nzRight]="selectCol.fixedRight || false">
+            &nbsp;
+          </th>
 
-            <!-- ENTITY TAG FILTER -->
-            <th
-              *ngIf="col | guardType : colGuards.isEntityTagCol as entityTagCol"
-              [nzColumnKey]="entityTagCol.key"
-              [nzWidth]="entityTagCol.width"
-              [nzAlign]="entityTagCol.align ?? 'left'"
-              [nzLeft]="entityTagCol.fixedLeft || false"
-              [nzRight]="entityTagCol.fixedRight || false">
-              <cvc-variant-table-filter-input
-                *ngIf="entityTagCol.filter as filter"
-                [cvcInputType]="entityTagCol.filter.inputType"
-                [cvcPlaceholder]="entityTagCol.filter.options[0].key"
-                [cvcModel]="entityTagCol.filter.options[0].value"
-                (cvcModelChange)="
+          <!-- ENTITY TAG FILTER -->
+          <th
+            *ngIf="col | guardType : colGuards.isEntityTagCol as entityTagCol"
+            [nzColumnKey]="entityTagCol.key"
+            [nzWidth]="entityTagCol.width"
+            [nzAlign]="entityTagCol.align ?? 'left'"
+            [nzLeft]="entityTagCol.fixedLeft || false"
+            [nzRight]="entityTagCol.fixedRight || false">
+            <cvc-variant-table-filter-input
+              *ngIf="entityTagCol.filter as filter"
+              [cvcInputType]="entityTagCol.filter.inputType"
+              [cvcPlaceholder]="entityTagCol.filter.options[0].key"
+              [cvcModel]="entityTagCol.filter.options[0].value"
+              (cvcModelChange)="
                   filter.changes!.next({ key: entityTagCol.key, value: $event })
                 ">
-              </cvc-variant-table-filter-input>
-            </th>
+            </cvc-variant-table-filter-input>
+          </th>
 
-            <!-- ENUM TAG FILTER -->
-            <th
-              #enumTableFilter
-              *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
-              [nzColumnKey]="enumTagCol.key"
-              class="attribute-filter"
-              [nzWidth]="enumTagCol.width"
-              [nzAlign]="enumTagCol.align ?? 'left'"
-              [nzLeft]="enumTagCol.fixedLeft || false"
-              [nzRight]="enumTagCol.fixedRight || false"
-              [nzShowSort]="true"
-              [nzSortFn]="true"
-              [nzSortOrder]="
+          <!-- ENUM TAG FILTER -->
+          <th
+            #enumTableFilter
+            *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+            [nzColumnKey]="enumTagCol.key"
+            class="attribute-filter"
+            [nzWidth]="enumTagCol.width"
+            [nzAlign]="enumTagCol.align ?? 'left'"
+            [nzLeft]="enumTagCol.fixedLeft || false"
+            [nzRight]="enumTagCol.fixedRight || false"
+            [nzShowSort]="true"
+            [nzSortFn]="true"
+            [nzSortOrder]="
                 (enumTagCol.sort!.changes | ngrxPush)?.value || null
               "
-              (nzSortOrderChange)="
+            (nzSortOrderChange)="
                 enumTagCol.sort!.changes!.next({
                   key: enumTagCol.key,
                   value: $event
                 })
               "
-              nzCustomFilter
-              [nzShowFilter]="enumTagCol.filter !== undefined"
-              [nzFilterFn]="true">
-              <nz-filter-trigger
-                #enumTagFilterTrigger
-                [nzDropdownMenu]="enumFilterMenu"
-                [nzActive]="
+            nzCustomFilter
+            [nzShowFilter]="enumTagCol.filter !== undefined"
+            [nzFilterFn]="true">
+            <nz-filter-trigger
+              #enumTagFilterTrigger
+              [nzDropdownMenu]="enumFilterMenu"
+              [nzActive]="
                   (enumTagCol.filter.changes | ngrxPush)?.value !== null
                 ">
                 <span
                   nz-icon
                   nzType="filter"
                   nzTheme="fill"></span>
-              </nz-filter-trigger>
-              <nz-dropdown-menu #enumFilterMenu="nzDropdownMenu">
-                <cvc-variant-enum-filter-menu
-                  [cvcColumnKey]="enumTagCol.key"
-                  [cvcFilterOptions]="enumTagCol.filter.options"
-                  [cvcOption]="enumTagCol.filter.changes | ngrxPush"
-                  (cvcOptionChange)="
+            </nz-filter-trigger>
+            <nz-dropdown-menu #enumFilterMenu="nzDropdownMenu">
+              <cvc-variant-enum-filter-menu
+                [cvcColumnKey]="enumTagCol.key"
+                [cvcFilterOptions]="enumTagCol.filter.options"
+                [cvcOption]="enumTagCol.filter.changes | ngrxPush"
+                (cvcOptionChange)="
                     enumTagCol.filter.changes!.next($event);
                     enumTagFilterTrigger.nzVisible = false
                   ">
-                </cvc-variant-enum-filter-menu>
-              </nz-dropdown-menu>
-            </th>
+              </cvc-variant-enum-filter-menu>
+            </nz-dropdown-menu>
+          </th>
 
-            <!-- TEXT TAG FILTER -->
-            <th
-              #enumTableFilter
-              *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
-              [nzColumnKey]="textTagCol.key"
-              class="attribute-filter"
-              [nzWidth]="textTagCol.width"
-              [nzAlign]="textTagCol.align ?? 'left'"
-              [nzLeft]="textTagCol.fixedLeft || false"
-              [nzRight]="textTagCol.fixedRight || false"
-              nzCustomFilter
-              [nzFilterFn]="true">
-              <nz-filter-trigger
-                [nzDropdownMenu]="textTagFilterMenu"
-                [nzActive]="
+          <!-- TEXT TAG FILTER -->
+          <th
+            #enumTableFilter
+            *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
+            [nzColumnKey]="textTagCol.key"
+            class="attribute-filter"
+            [nzWidth]="textTagCol.width"
+            [nzAlign]="textTagCol.align ?? 'left'"
+            [nzLeft]="textTagCol.fixedLeft || false"
+            [nzRight]="textTagCol.fixedRight || false"
+            nzCustomFilter
+            [nzFilterFn]="true">
+            <nz-filter-trigger
+              [nzDropdownMenu]="textTagFilterMenu"
+              [nzActive]="
                   (textTagCol.filter.changes | ngrxPush)?.value !== null
                 ">
                 <span
                   nz-icon
                   nzType="search"></span>
-              </nz-filter-trigger>
-              <nz-dropdown-menu #textTagFilterMenu="nzDropdownMenu">
-                <div class="ant-table-filter-dropdown">
-                  <div class="custom-input-dropdown">
-                    <cvc-variant-table-filter-input
-                      [cvcPlaceholder]="textTagCol.filter.options[0].key"
-                      [cvcModel]="textTagCol.filter.options[0].value"
-                      (cvcModelChange)="
+            </nz-filter-trigger>
+            <nz-dropdown-menu #textTagFilterMenu="nzDropdownMenu">
+              <div class="ant-table-filter-dropdown">
+                <div class="custom-input-dropdown">
+                  <cvc-variant-table-filter-input
+                    [cvcPlaceholder]="textTagCol.filter.options[0].key"
+                    [cvcModel]="textTagCol.filter.options[0].value"
+                    (cvcModelChange)="
                         textTagCol.filter.changes!.next({
                           key: textTagCol.key,
                           value: $event
                         })
                       ">
-                    </cvc-variant-table-filter-input>
-                  </div>
+                  </cvc-variant-table-filter-input>
                 </div>
-              </nz-dropdown-menu>
-            </th>
+              </div>
+            </nz-dropdown-menu>
+          </th>
 
-            <!-- DEFAULT TAG FILTER -->
-            <th
-              *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
-              [nzColumnKey]="defaultCol.key"
-              [nzWidth]="defaultCol.width"
-              [nzAlign]="defaultCol.align ?? 'left'"
-              [nzLeft]="defaultCol.fixedLeft || false"
-              [nzRight]="defaultCol.fixedRight || false">
-              <cvc-variant-table-filter-input
-                *ngIf="defaultCol.filter as filter"
-                [cvcPlaceholder]="defaultCol.filter.options[0].key"
-                [cvcModel]="defaultCol.filter.options[0].value"
-                (cvcModelChange)="
+          <!-- DEFAULT TAG FILTER -->
+          <th
+            *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
+            [nzColumnKey]="defaultCol.key"
+            [nzWidth]="defaultCol.width"
+            [nzAlign]="defaultCol.align ?? 'left'"
+            [nzLeft]="defaultCol.fixedLeft || false"
+            [nzRight]="defaultCol.fixedRight || false">
+            <cvc-variant-table-filter-input
+              *ngIf="defaultCol.filter as filter"
+              [cvcPlaceholder]="defaultCol.filter.options[0].key"
+              [cvcModel]="defaultCol.filter.options[0].value"
+              (cvcModelChange)="
                   filter.changes!.next({ key: defaultCol.key, value: $event })
                 ">
-              </cvc-variant-table-filter-input>
-            </th>
-          </ng-container>
+            </cvc-variant-table-filter-input>
+          </th>
         </ng-container>
-      </tr>
+      </ng-container>
+    </tr>
     </thead>
 
     <tbody *ngrxLet="col$ as cols">
-      <ng-template
-        nz-virtual-scroll
-        let-row>
-        <tr class="data-row">
-          <ng-container *ngFor="let col of cols">
-            <ng-container *ngIf="!col.hidden">
-              <!-- SELECT CELL -->
-              <td
-                *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
-                [nzChecked]="row.selected"
-                (nzCheckedChange)="
+    <ng-template
+      nz-virtual-scroll
+      let-row>
+      <tr class="data-row">
+        <ng-container *ngFor="let col of cols">
+          <ng-container *ngIf="!col.hidden">
+            <!-- SELECT CELL -->
+            <td
+              *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
+              [nzChecked]="row.selected"
+              (nzCheckedChange)="
                   onRowSelected$.next({ id: row.id, selected: $event })
                 "
-                [nzAlign]="selectCol.align ?? 'left'"
-                [nzLeft]="selectCol.fixedLeft || false"
-                [nzRight]="selectCol.fixedRight || false"></td>
+              [nzAlign]="selectCol.align ?? 'left'"
+              [nzLeft]="selectCol.fixedLeft || false"
+              [nzRight]="selectCol.fixedRight || false"></td>
 
-              <!-- ENTITY TAG CELL -->
-              <td
-                *ngIf="
+            <!-- ENTITY TAG CELL -->
+            <td
+              *ngIf="
                   col | guardType : colGuards.isEntityTagCol as entityTagCol
                 "
-                [nzAlign]="entityTagCol.align ?? 'left'"
-                [nzLeft]="entityTagCol.fixedLeft || false"
-                [nzRight]="entityTagCol.fixedRight || false">
-                <!-- set a context, if provided, as colKey, else use col.key -->
-                <ng-container
-                  *ngIf="entityTagCol.context || entityTagCol.key as colKey">
-                  <ng-container *ngIf="row[colKey]; else emptyEntityTagCell">
-                    <!-- if value array, display w/ tag list template, else single tag -->
-                    <ng-container
-                      *ngTemplateOutlet="
+              [nzAlign]="entityTagCol.align ?? 'left'"
+              [nzLeft]="entityTagCol.fixedLeft || false"
+              [nzRight]="entityTagCol.fixedRight || false">
+              <!-- set a context, if provided, as colKey, else use col.key -->
+              <ng-container
+                *ngIf="entityTagCol.context || entityTagCol.key as colKey">
+                <ng-container *ngIf="row[colKey]; else emptyEntityTagCell">
+                  <!-- if value array, display w/ tag list template, else single tag -->
+                  <ng-container
+                    *ngTemplateOutlet="
                         (row[colKey] | isArray) ? entityTagList : entityTag;
                         context: {
                           $implicit: row[colKey],
@@ -284,22 +284,22 @@
                             ?.value
                         }
                       ">
-                    </ng-container>
                   </ng-container>
                 </ng-container>
+              </ng-container>
 
-                <!-- entity tag list template -->
-                <ng-template
-                  #entityTagList
-                  let-data
-                  let-config="config"
-                  let-emphasize="emphasize">
-                  <ng-container
-                    *ngIf="data.length > 0; else emptyEntityTagCell">
-                    <!-- display full size tags up to maxTags length -->
-                    <cvc-entity-tag-list
-                      [cvcTagTemplate]="entityTag"
-                      [cvcTagListConfig]="{
+              <!-- entity tag list template -->
+              <ng-template
+                #entityTagList
+                let-data
+                let-config="config"
+                let-emphasize="emphasize">
+                <ng-container
+                  *ngIf="data.length > 0; else emptyEntityTagCell">
+                  <!-- display full size tags up to maxTags length -->
+                  <cvc-entity-tag-list
+                    [cvcTagTemplate]="entityTag"
+                    [cvcTagListConfig]="{
                         tagList: data.slice(0, config.tag.maxTags),
                         tag: config.tag,
                         showPopover: !isScrolling,
@@ -307,15 +307,15 @@
                           config.showStatus === true ? data.status : undefined,
                         emphasize: emphasize
                       }">
-                    </cvc-entity-tag-list>
+                  </cvc-entity-tag-list>
 
-                    <!-- display any additional entities in entity-collection tag -->
-                    <ng-container
-                      *ngIf="
+                  <!-- display any additional entities in entity-collection tag -->
+                  <ng-container
+                    *ngIf="
                         data.slice(config.tag.maxTags, data.length).length > 0
                       ">
-                      <cvc-entity-collection-tag
-                        [cvcCollectionTagConfig]="{
+                    <cvc-entity-collection-tag
+                      [cvcCollectionTagConfig]="{
                           tagList: data.slice(config.tag.maxTags, data.length),
                           tag: config.tag,
                           showPopover: !isScrolling,
@@ -325,128 +325,129 @@
                               : undefined,
                           emphasize: emphasize
                         }"
-                        [cvcTagTemplate]="entityTag"
-                        [cvcShowFullLabels]="true"></cvc-entity-collection-tag>
-                    </ng-container>
+                      [cvcTagTemplate]="entityTag"
+                      [cvcShowFullLabels]="true"></cvc-entity-collection-tag>
                   </ng-container>
-                </ng-template>
+                </ng-container>
+              </ng-template>
 
-                <!-- entity tag template -->
-                <ng-template
-                  #entityTag
-                  let-data
-                  let-config="config"
-                  let-emphasize="emphasize">
-                  <cvc-entity-tag
-                    [cvcTruncateLabel]="config.tag?.truncateLabel"
-                    [cvcLinkableEntity]="data"
-                    [cvcEmphasize]="emphasize"
-                    [cvcShowPopover]="!isScrolling"
-                    [cvcStatus]="
+              <!-- entity tag template -->
+              <ng-template
+                #entityTag
+                let-data
+                let-config="config"
+                let-emphasize="emphasize">
+                <cvc-entity-tag
+                  [cvcTruncateLabel]="config.tag?.truncateLabel"
+                  [cvcLinkableEntity]="data"
+                  [cvcEmphasize]="emphasize"
+                  [cvcShowPopover]="!isScrolling"
+                  [cvcStatus]="
                       config.showStatus === true ? data.status : undefined
                     "
-                    [cvcFullWidth]="
+                  [cvcFullWidth]="
                       config.tag?.fullWidth ?? false
                     "></cvc-entity-tag>
-                </ng-template>
+              </ng-template>
 
-                <ng-template #emptyEntityTagCell>
-                  <cvc-empty-value
-                    [cvcEmptyCategory]="
+              <ng-template #emptyEntityTagCell>
+                <cvc-empty-value
+                  [cvcEmptyCategory]="
                       entityTagCol.emptyValueCategory || 'unspecified'
                     "></cvc-empty-value>
-                </ng-template>
-              </td>
+              </ng-template>
+            </td>
 
-              <!-- ENUM TAG CELL -->
-              <td
-                *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
-                [nzAlign]="enumTagCol.align ?? 'left'"
-                [nzLeft]="enumTagCol.fixedLeft || false"
-                [nzRight]="enumTagCol.fixedRight || false">
-                <cvc-attribute-tag
-                  *ngIf="row[enumTagCol.key]; else emptyEnumTagCell"
-                  [cvcFullWidth]="true"
-                  [cvcAttrValue]="row[enumTagCol.key]"
-                  [cvcTooltip]="
+            <!-- ENUM TAG CELL -->
+            <td
+              *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+              [nzAlign]="enumTagCol.align ?? 'left'"
+              [nzLeft]="enumTagCol.fixedLeft || false"
+              [nzRight]="enumTagCol.fixedRight || false">
+              <cvc-attribute-tag
+                *ngIf="row[enumTagCol.key]; else emptyEnumTagCell"
+                [cvcFullWidth]="true"
+                [cvcAttrValue]="row[enumTagCol.key]"
+                [cvcTooltip]="
                     !isScrolling && row[enumTagCol.key] | evidenceEnumDisplay
                   "
-                  cvcContext="compact"></cvc-attribute-tag>
-                <ng-template #emptyEnumTagCell>
-                  <cvc-empty-value
-                    [cvcEmptyCategory]="
+                cvcContext="compact"></cvc-attribute-tag>
+              <ng-template #emptyEnumTagCell>
+                <cvc-empty-value
+                  [cvcEmptyCategory]="
                       enumTagCol.emptyValueCategory || 'unspecified'
                     "></cvc-empty-value>
-                </ng-template>
-              </td>
+              </ng-template>
+            </td>
 
-              <!-- TEXT TAG CELL -->
-              <td
-                *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
-                [nzAlign]="textTagCol.align ?? 'left'"
-                [nzLeft]="textTagCol.fixedLeft || false"
-                [nzRight]="textTagCol.fixedRight || false">
-                <nz-tag
-                  *ngIf="row[textTagCol.key]; else emptyTextTagCell"
-                  nz-tooltip
-                  [nzTooltipTitle]="row[textTagCol.key]"
-                  style="width: 100%; cursor: help; color: #595959">
+            <!-- TEXT TAG CELL -->
+            <td
+              *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
+              [nzAlign]="textTagCol.align ?? 'left'"
+              [nzLeft]="textTagCol.fixedLeft || false"
+              [nzRight]="textTagCol.fixedRight || false">
+              <nz-tag
+                *ngIf="row[textTagCol.key]; else emptyTextTagCell"
+                nz-tooltip
+                [nzTooltipTitle]="row[textTagCol.key]"
+                style="width: 100%; cursor: help; color: #595959">
                   <span
                     nz-icon
                     nzType="align-left"
                     nzTheme="outline"></span>
-                </nz-tag>
-                <ng-template #emptyTextTagCell>
-                  <cvc-empty-value
-                    [cvcEmptyCategory]="
+              </nz-tag>
+              <ng-template #emptyTextTagCell>
+                <cvc-empty-value
+                  [cvcEmptyCategory]="
                       textTagCol.emptyValueCategory || 'unspecified'
                     "></cvc-empty-value>
-                </ng-template>
-              </td>
+              </ng-template>
+            </td>
 
-              <!-- DEFAULT CELL -->
-              <td
-                *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
-                [nzAlign]="defaultCol.align ?? 'left'"
-                [nzLeft]="defaultCol.fixedLeft || false"
-                [nzRight]="defaultCol.fixedRight || false" class="default-col-type">
+            <!-- DEFAULT CELL -->
+            <td
+              *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
+              [nzAlign]="defaultCol.align ?? 'left'"
+              [nzLeft]="defaultCol.fixedLeft || false"
+              [nzRight]="defaultCol.fixedRight || false" class="default-col-type">
+              <ng-container
+                *ngIf="row[defaultCol.key] as colData; else emptyDefaultCell">
                 <ng-container
-                  *ngIf="row[defaultCol.key] as colData; else emptyDefaultCell">
-                  <ng-container
-                    *ngTemplateOutlet="
+                  *ngTemplateOutlet="
                       (colData | isArray) ? staticList : staticValue;
                       context: {
                         $implicit: colData,
                         emphasize: (defaultCol.filter.changes | ngrxPush)?.value
                       }
                     ">
-                  </ng-container>
                 </ng-container>
+              </ng-container>
 
-                <ng-template
-                  #staticList
-                  let-array
-                  let-emphasize="emphasize">
-                  <ng-container *ngIf="array.length > 0; else emptyDefaultCell">
-                    <ng-container *ngFor="let value of array; last as last">
-                      <ng-container
-                        *ngTemplateOutlet="
+              <ng-template
+                #staticList
+                let-array
+                let-emphasize="emphasize">
+                <ng-container *ngIf="array.length > 0; else emptyDefaultCell">
+                  <ng-container *ngFor="let value of array; last as last">
+                    <ng-container
+                      *ngTemplateOutlet="
                           staticValue;
                           context: {
                             $implicit: value,
                             emphasize: emphasize
                           }
                         ">
-                      </ng-container
-                      ><ng-container *ngIf="!last">, </ng-container>
-                    </ng-container>
+                    </ng-container
+                    >
+                    <ng-container *ngIf="!last">,</ng-container>
                   </ng-container>
-                </ng-template>
+                </ng-container>
+              </ng-template>
 
-                <ng-template
-                  #staticValue
-                  let-value
-                  let-emphasize="emphasize">
+              <ng-template
+                #staticValue
+                let-value
+                let-emphasize="emphasize">
                   <span
                     [innerHtml]="
                       (defaultCol.objectKey
@@ -454,19 +455,19 @@
                         : value
                       ) | highlightTypeahead : emphasize
                     "></span>
-                </ng-template>
+              </ng-template>
 
-                <ng-template #emptyDefaultCell>
-                  <cvc-empty-value
-                    [cvcEmptyCategory]="
+              <ng-template #emptyDefaultCell>
+                <cvc-empty-value
+                  [cvcEmptyCategory]="
                       defaultCol.emptyValueCategory || 'unspecified'
                     "></cvc-empty-value>
-                </ng-template>
-              </td>
-            </ng-container>
+              </ng-template>
+            </td>
           </ng-container>
-        </tr>
-      </ng-template>
+        </ng-container>
+      </tr>
+    </ng-template>
     </tbody>
   </nz-table>
 </nz-card>
@@ -612,7 +613,7 @@
 
     <!-- card button row -->
     <nz-col nzFlex="35px">
-      <nz-button-group>
+      <nz-space-compact>
         <button
           nz-button
           type="button"
@@ -638,7 +639,7 @@
             nzType="setting"
             nzTheme="outline"></span>
         </button>
-      </nz-button-group>
+      </nz-space-compact>
       <ng-template #prefsPopover>
         <div class="prefs-popover">
           <nz-checkbox-group

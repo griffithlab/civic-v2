@@ -27,6 +27,12 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
+import { CvcWelcomeBannerComponent } from '@app/views/welcome/banners/welcome-banner/welcome-banner.component'
+import { CvcDiscoverBannerComponent } from '@app/views/welcome/banners/discover-banner/discover-banner.component'
+import { CvcLicenseBannerComponent } from '@app/views/welcome/banners/license-banner/license-banner.component'
+import { CvcContributeBannerComponent } from '@app/views/welcome/banners/contribute-banner/contribute-banner.component'
+import { CvcEditorBannerComponent } from '@app/views/welcome/banners/editor-banner/editor-banner.component'
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 
 @NgModule({
   imports: [
@@ -49,12 +55,18 @@ import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-h
     NzDividerModule,
     NzIconModule,
     NzSelectModule,
+    NzSkeletonModule,
     WelcomeRoutingModule,
     CvcAutoHeightDivModule,
     CvcAutoHeightCardModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
     CvcActivityFeed,
+    CvcWelcomeBannerComponent,
+    CvcDiscoverBannerComponent,
+    CvcLicenseBannerComponent,
+    CvcContributeBannerComponent,
+    CvcEditorBannerComponent,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],

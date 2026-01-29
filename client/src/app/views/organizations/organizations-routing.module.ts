@@ -10,6 +10,7 @@ import { OrganizationsMembersComponent } from './organizations-members/organizat
 import { OrganizationsSourceSuggestionsComponent } from './organizations-source-suggestions/organizations-source-suggestions.component'
 
 import { OrganizationsComponent } from './organizations.component'
+import { OrganizationsApprovedAssertionsComponent } from './organization-approved-assertions/organizations-approved-assertions.component'
 
 const routes: Routes = [
   {
@@ -55,6 +56,13 @@ const routes: Routes = [
             component: OrganizationsAssertionsComponent,
             data: {
               breadcrumb: 'Assertions',
+            },
+          },
+          {
+            path: 'approved-assertions',
+            component: OrganizationsApprovedAssertionsComponent,
+            data: {
+              breadcrumb: 'Approved Assertions',
             },
           },
           {

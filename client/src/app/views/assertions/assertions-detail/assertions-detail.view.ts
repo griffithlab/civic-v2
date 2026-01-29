@@ -1,42 +1,73 @@
-import { Component, OnDestroy } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
 import {
-  Maybe,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { ActivatedRoute } from '@angular/router'
+import { ApolloQueryResult } from '@apollo/client/core'
+import { ApprovalResult } from '@app/components/approvals/approve-assertion-button/approve-assertion-button.component'
+import { CvcApprovableCounts } from '@app/components/approvals/approvable/approvable.component'
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import {
   AssertionDetailFieldsFragment,
   AssertionDetailGQL,
+  AssertionDetailQuery,
   AssertionDetailQueryVariables,
-  SubscribableInput,
-  SubscribableEntities,
+  ApprovalListNodeFragment,
   EvidenceStatus,
+  Maybe,
+  SubscribableEntities,
+  SubscribableInput,
 } from '@app/generated/civic.apollo'
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { AssertionDetailQuery } from '@app/generated/civic.apollo'
-import { startWith, takeUntil } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
-import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
+type ApprovalCounts = {
+  active: number
+  requiresReview: number
+  revoked: number
+}
+
+@UntilDestroy()
 @Component({
-    selector: 'assertions-detail',
-    templateUrl: './assertions-detail.view.html',
-    styleUrls: ['./assertions-detail.view.less'],
-    standalone: false
+  selector: 'assertions-detail',
+  templateUrl: './assertions-detail.view.html',
+  styleUrls: ['./assertions-detail.view.less'],
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssertionsDetailView implements OnDestroy {
-  queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
+export class AssertionsDetailView {
+  /* SOURCE SIGNALS */
+  private response: Signal<Maybe<ApolloQueryResult<AssertionDetailQuery>>>
 
-  assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
-  loading$?: Observable<boolean>
-  flagsTotal$?: Observable<number>
-  viewer$: Observable<Viewer>
+  /* PRESENTATION SIGNALS */
+  viewer: Signal<Maybe<Viewer>>
+  loading: Signal<boolean>
+  assertion: Signal<Maybe<AssertionDetailFieldsFragment>>
+  approvals: Signal<ApprovalListNodeFragment[]>
+  approvalCounts: Signal<ApprovalCounts>
+  approvableCounts: Signal<CvcApprovableCounts>
+  tabConfig: Signal<RouteableTab[]>
+  subscribableInput: Signal<Maybe<SubscribableInput>>
+  errors: WritableSignal<string[]>
+  successMessage: WritableSignal<Maybe<string>>
 
-  paramsSub: Subscription
-  subscribable?: SubscribableInput
+  /* ATTRIBUTES */
+  private queryRef: QueryRef<
+    AssertionDetailQuery,
+    AssertionDetailQueryVariables
+  >
+  assertionId?: number
 
-  tabs$: BehaviorSubject<RouteableTab[]>
-  destroy$ = new Subject<void>()
-  defaultTabs: RouteableTab[] = [
+  // CONSTANTS
+  SUBSCRIBABLE_ENTITY_TYPE = SubscribableEntities.Assertion
+  SUBSCRIBABLE_ENTITY_TYPENAME = 'Assertion'
+  DEFAULT_TAB_CONFIG: RouteableTab[] = [
     {
       routeName: 'summary',
       iconName: 'pic-left',
@@ -58,103 +89,204 @@ export class AssertionsDetailView implements OnDestroy {
       tabLabel: 'Flags',
     },
     {
+      routeName: 'approvals',
+      iconName: 'safety-certificate',
+      tabLabel: 'Approvals',
+    },
+    {
       routeName: 'events',
       iconName: 'civic-event',
       tabLabel: 'Activity',
     },
   ]
 
-  errors: string[] = []
-  successMessage: Maybe<string>
-
   constructor(
     private gql: AssertionDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
-    this.tabs$ = new BehaviorSubject(this.defaultTabs)
+    /**************************
+     CONFIGURE QUERY & RESPONSE
+     **************************/
+    // get assertionId from route params
+    this.assertionId = +this.route.snapshot.params['assertionId']
 
-    this.viewer$ = this.viewerService.viewer$
+    // save query reference for calling refetch() or fetchMore()
+    this.queryRef = this.gql.watch({ assertionId: this.assertionId })
 
-    this.paramsSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ assertionId: +params.assertionId })
-
-      let observable = this.queryRef.valueChanges
-
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
-
-      this.assertion$ = observable.pipe(pluck('data', 'assertion'))
-
-      this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
-
-      this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
-        next: (assertionResp) => {
-          this.tabs$.next(
-            this.defaultTabs.map((tab) => {
-              if (tab.tabLabel === 'Revisions') {
-                return {
-                  badgeCount: assertionResp?.revisions.totalCount,
-                  ...tab,
-                }
-              } else if (tab.tabLabel === 'Flags') {
-                return {
-                  badgeCount: assertionResp?.flags.totalCount,
-                  ...tab,
-                }
-              } else if (tab.tabLabel === 'Comments') {
-                return {
-                  badgeCount: assertionResp?.comments.totalCount,
-                  badgeColor: '#cccccc',
-                  ...tab,
-                }
-              } else {
-                return tab
-              }
-            })
-          )
-        },
-      })
-
-      this.subscribable = {
-        id: +params.assertionId,
-        entityType: SubscribableEntities.Assertion,
-      }
+    // provide valueChanges observable as response signal
+    this.response = toSignal(this.queryRef.valueChanges, {
+      initialValue: undefined,
     })
-  }
 
-  ngOnDestroy() {
-    this.paramsSub.unsubscribe()
-    this.destroy$.next()
-    this.destroy$.unsubscribe()
-  }
+    // provide viewer$ observable as signal
+    this.viewer = toSignal(this.viewerService.viewer$)
 
-  onRevertCompleted(res: true | string[]) {
-    if (res === true) {
-      this.errors = []
-      this.successMessage = 'Assertion reverted to submitted status.'
-      this.queryRef?.refetch()
+    this.loading = computed(() => {
+      return this.response()?.loading ?? false
+    })
+
+    this.assertion = computed(() => {
+      const assertion = this.response()?.data?.assertion
+      return assertion ? { ...assertion } : undefined
+    })
+
+    // provide subscribable input as signal derived from assertion & entity type constant
+    this.subscribableInput = computed(() => {
+      const assertion = this.assertion()
+      let subscribable: Maybe<SubscribableInput>
+      if (assertion) {
+        subscribable = {
+          id: assertion.id,
+          entityType: this.SUBSCRIBABLE_ENTITY_TYPE,
+        }
+      }
+      return subscribable
+    })
+
+    // provide approvals as signal derived from assertion approval connection
+    this.approvals = computed(() => {
+      return this.assertion()?.approvals.nodes || []
+    })
+
+    // provide approval counts as signal derived from assertion approval connection
+    this.approvalCounts = computed(() => {
+      const approvals = this.approvals()
+      let counts = {
+        active: 0,
+        requiresReview: 0,
+        revoked: 0,
+      }
+      if (approvals.length > 0) {
+        counts = {
+          active: approvals.filter(
+            (node: ApprovalListNodeFragment) => node.status === 'ACTIVE'
+          ).length,
+          requiresReview: approvals.filter(
+            (node: ApprovalListNodeFragment) =>
+              node.status === 'REQUIRES_REVIEW'
+          ).length,
+          revoked: approvals.filter(
+            (node: ApprovalListNodeFragment) => node.status === 'REVOKED'
+          ).length,
+        }
+      }
+      return counts
+    })
+
+    // provide flaggable counts as signal derived from flag & approval counts
+    this.approvableCounts = computed(() => {
+      const assertion = this.assertion()
+      let counts = {
+        flags: 0,
+        approvals: 0,
+      }
+      if (assertion) {
+        counts = {
+          flags: assertion.flags.totalCount,
+          approvals: this.approvalCounts().active,
+        }
+      }
+      return counts
+    })
+
+    // compute tab configuration
+    this.tabConfig = computed(() => {
+      const assertion = this.assertion()
+      let tabConfig = [...this.DEFAULT_TAB_CONFIG]
+      if (assertion) {
+        tabConfig = this.DEFAULT_TAB_CONFIG.map((tab) => {
+          if (tab.tabLabel === 'Revisions') {
+            return {
+              badgeCount: assertion.revisions.totalCount,
+              badgeColor: '#4096ff', // blue-5
+              ...tab,
+            }
+          } else if (tab.tabLabel === 'Flags') {
+            return {
+              badgeCount: assertion.flags.totalCount,
+              badgeColor: '#4096ff', // blue-5
+              ...tab,
+            }
+          } else if (tab.tabLabel === 'Comments') {
+            return {
+              badgeCount: assertion.comments.totalCount,
+              badgeColor: '#4096ff', // blue-5
+              ...tab,
+            }
+          } else if (tab.tabLabel === 'Approvals') {
+            let count: Maybe<number> =
+              this.approvalCounts().active +
+              this.approvalCounts().requiresReview
+            if (count == 0) {
+              count = undefined
+            }
+            return {
+              badgeCount: count,
+              badgeColor: '#4096ff', // blue-5
+              ...tab,
+            }
+          } else {
+            return tab
+          }
+        })
+      }
+      return tabConfig
+    })
+
+    // provide interaction feedback signals
+    this.errors = signal<string[]>([])
+    this.successMessage = signal<Maybe<string>>(undefined)
+  } // end constructor
+
+  onRevert(revertEvent: true | string[]) {
+    if (revertEvent === true) {
+      this.errors.set([])
+      this.successMessage.set(
+        `Assertion AID${this.assertionId} reverted to Submitted status.`
+      )
+      this.queryRef.refetch()
     } else {
-      this.errors = res
-      this.successMessage = undefined
+      this.errors.set(revertEvent)
+      this.successMessage.set(undefined)
     }
   }
 
-  onErrorBannerClose(err: string) {
-    this.errors = this.errors?.filter((e) => e != err)
+  onModeration(moderationEvent: EvidenceStatus | string[]) {
+    if (Array.isArray(moderationEvent)) {
+      this.errors.set(moderationEvent)
+      this.successMessage.set(undefined)
+    } else {
+      this.errors.set([])
+      this.successMessage.set(moderationEvent)
+    }
+  }
+
+  onErrorBannerClose(err: Maybe<string>) {
+    if (err) {
+      this.errors.set(this.errors().filter((e) => e != err))
+    }
   }
 
   onSuccessBannerClose() {
-    this.successMessage = undefined
+    this.successMessage.set(undefined)
   }
 
-  onModerateCompleted(res: EvidenceStatus | string[]) {
-    if (Array.isArray(res)) {
-      this.errors = res
-      this.successMessage = undefined
+  onApproval(approvalEvent: ApprovalResult) {
+    if (approvalEvent.success) {
+      switch (approvalEvent.action) {
+        case 'approve':
+          this.successMessage.set(
+            'Assertion Classification Approved successfully'
+          )
+          break
+        case 'revoke':
+          this.successMessage.set('Successfully revoked approval')
+          break
+      }
     } else {
-      this.errors = []
-      this.successMessage = `Assertion successfully ${res}.`
-      this.queryRef?.refetch()
+      this.errors.set(approvalEvent.errors)
+      this.successMessage.set(undefined)
     }
   }
 }

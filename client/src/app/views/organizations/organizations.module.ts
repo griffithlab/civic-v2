@@ -11,6 +11,7 @@ import { OrganizationsMembersModule } from './organizations-members/organization
 import { OrganizationsRoutingModule } from './organizations-routing.module'
 import { OrganizationsSourceSuggestionsModule } from './organizations-source-suggestions/organizations-source-suggestions.module'
 import { OrganizationsComponent } from './organizations.component'
+import { OrganizationsApprovedAssertionsModule } from './organization-approved-assertions/organizations-approved-assertions.module'
 
 @NgModule({
   declarations: [OrganizationsComponent],
@@ -27,6 +28,7 @@ import { OrganizationsComponent } from './organizations.component'
     OrganizationsGroupsModule,
     OrganizationsMembersModule,
     OrganizationsSourceSuggestionsModule,
+    OrganizationsApprovedAssertionsModule,
   ],
 })
 export class OrganizationsModule {}

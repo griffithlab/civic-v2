@@ -47,6 +47,29 @@
       "note": "ruby_executable is derived from RbConfig, not user supplied"
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "24a6709093e54f56f3c82b3ba8272214261083d6aba8279fc1a0ca3dd273cd63",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/graph/has_graph_structure.rb",
+      "line": 166,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "self.class.where(\"#{self.class.table_name}.id IN (#{query})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Graph::HasGraphStructure",
+        "method": "instance_sql_for"
+      },
+      "user_input": "query",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "self.class.table_name is internal to the application, and \"query\" is generated safely by the application with no unescaped user input."
+    },
+    {
       "warning_type": "Command Injection",
       "warning_code": 14,
       "fingerprint": "645550e096a807a43dbd85fbc9e12d3dbbddb36529130a6a88a8a2313f938ce0",
@@ -139,5 +162,5 @@
       "note": "ruby_executable is derived from RbConfig, not user supplied"
     }
   ],
-  "brakeman_version": "7.0.0"
+  "brakeman_version": "7.1.0"
 }

@@ -36,39 +36,27 @@
           nzTheme="outline"></span>
       </div>
     }
-    <!-- User Tag -->
     <div class="description">
-      @if (scope().mode !== 'USER') {
-        <cvc-user-tag
-          [user]="activity.user"
-          [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
-      }
-      <!-- For CommentActivity, replace verbiage with 'added [comment]' -->
-      @if (activity.__typename === 'CommentActivity') {
-        <span
-          class="verbiage"
-          nz-typography
-          nzType="secondary">
-          added
-        </span>
-        <cvc-comment-tag
-          [comment]="activity.comment"
-          [enablePopover]="!$scroller().isScrolling"></cvc-comment-tag>
-        <span
-          class="verbiage"
-          nz-typography
-          nzType="secondary">
-          to
-        </span>
-      } @else {
+      <!-- Custom Approve/Revoke Approval Layout -->
+      @if (
+        (activity.__typename === 'ApproveAssertionActivity' ||
+          activity.__typename === 'RevokeApprovalActivity') &&
+        activity.organization
+      ) {
+        <!-- Approving Organization Tag -->
+        <cvc-organization-tag
+          [org]="activity.organization"
+          [enablePopover]="!$scroller().isScrolling"></cvc-organization-tag>
+
+        <!-- Approve/Revoke Verbiage -->
         <span
           class="verbiage"
           nz-typography
           nzType="secondary">
           {{ activity.verbiage }}
         </span>
-      }
-      @if (scope().mode !== 'SUBJECT') {
+
+        <!-- Approve/Revoke Subject-->
         <ng-container
           *ngTemplateOutlet="
             subject;
@@ -78,47 +66,104 @@
             }
           ">
         </ng-container>
-      } @else {
-        <span
-          class="subject-type"
-          nz-typography
-          nzType="secondary">
-          this {{ activity.subject.__typename | entityTypeToTypeLabel }}
-        </span>
-      }
-      <!-- For DeleteCommentActivity, include commentable tag -->
-      @if (
-        activity.__typename === 'DeleteCommentActivity' &&
-        activity.subject.__typename === 'Comment'
-      ) {
-        <span
-          class="verbiage"
-          nz-typography
-          nzType="secondary">
-          from
-        </span>
-        <ng-container
-          *ngTemplateOutlet="
-            subject;
-            context: {
-              $implicit: activity.subject.commentable,
-              isScrolling: $scroller().isScrolling,
-            }
-          ">
-        </ng-container>
-      }
-      @if (showOrganization() && activity.organization) {
-        <div class="organization">
+
+        <!-- Approval/Revoke User Tag-->
+        <!-- @if (scope().mode !== 'USER') {
           <span
             class="verbiage"
             nz-typography
             nzType="secondary">
-            for
+            by the authority of
           </span>
-          <cvc-organization-tag
-            [org]="activity.organization"
-            [enablePopover]="!$scroller().isScrolling"></cvc-organization-tag>
-        </div>
+          <cvc-user-tag
+            [user]="activity.user"
+            [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
+        } -->
+      } @else {
+        <!-- Default (non Approve/Revoke) Layout -->
+        <!-- User Tag -->
+        @if (scope().mode !== 'USER') {
+          <cvc-user-tag
+            [user]="activity.user"
+            [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
+        }
+        <!-- For CommentActivity, replace verbiage with 'added [comment]' -->
+        @if (activity.__typename === 'CommentActivity') {
+          <span
+            class="verbiage"
+            nz-typography
+            nzType="secondary">
+            added
+          </span>
+          <cvc-comment-tag
+            [comment]="activity.comment"
+            [enablePopover]="!$scroller().isScrolling"></cvc-comment-tag>
+          <span
+            class="verbiage"
+            nz-typography
+            nzType="secondary">
+            to
+          </span>
+        } @else {
+          <span
+            class="verbiage"
+            nz-typography
+            nzType="secondary">
+            {{ activity.verbiage }}
+          </span>
+        }
+        @if (scope().mode !== 'SUBJECT') {
+          <ng-container
+            *ngTemplateOutlet="
+              subject;
+              context: {
+                $implicit: activity.subject,
+                isScrolling: $scroller().isScrolling,
+              }
+            ">
+          </ng-container>
+        } @else {
+          <span
+            class="subject-type"
+            nz-typography
+            nzType="secondary">
+            this {{ activity.subject.__typename | entityTypeToTypeLabel }}
+          </span>
+        }
+        <!-- For DeleteCommentActivity, include commentable tag -->
+        @if (
+          activity.__typename === 'DeleteCommentActivity' &&
+          activity.subject.__typename === 'Comment'
+        ) {
+          <span
+            class="verbiage"
+            nz-typography
+            nzType="secondary">
+            from
+          </span>
+          <ng-container
+            *ngTemplateOutlet="
+              subject;
+              context: {
+                $implicit: activity.subject.commentable,
+                isScrolling: $scroller().isScrolling,
+              }
+            ">
+          </ng-container>
+        }
+        @if (showOrganization() && activity.organization) {
+          <div class="organization">
+            <span
+              class="verbiage"
+              nz-typography
+              nzType="secondary">
+              for
+            </span>
+            <cvc-organization-tag
+              [org]="activity.organization"
+              [enablePopover]="!$scroller().isScrolling"></cvc-organization-tag>
+          </div>
+        }
       }
     </div>
   </ng-template>

@@ -19,5 +19,7 @@ module Types::Activities
     value "CREATE_FEATURE", value: "CreateFeatureActivity"
     value "DEPRECATE_FEATURE", value: "DeprecateFeatureActivity"
     value "DELETE_COMMENT", value: "DeleteCommentActivity"
+    value "APPROVE_ASSERTION", value: "ApproveAssertionActivity"
+    value "REVOKE_APPROVAL", value: "RevokeApprovalActivity"
   end
 end

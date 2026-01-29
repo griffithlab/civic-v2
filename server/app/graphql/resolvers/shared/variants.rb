@@ -3,6 +3,10 @@ require "search_object/plugin/graphql"
 class Resolvers::Shared::Variants < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: GraphQL::Types::String, description: "Left anchored filtering for variant name and aliases.") do |scope, value|
     scope.left_joins(:variant_aliases)
       .where("variants.name ILIKE :query OR variant_aliases.name ILIKE :query", { query: "%#{value}%" })

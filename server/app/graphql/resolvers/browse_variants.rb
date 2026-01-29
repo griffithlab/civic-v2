@@ -9,6 +9,10 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
 
   scope { MaterializedViews::VariantBrowseTableRow.all }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
   option(:feature_name, type: String) { |scope, value| scope.where("feature_name ILIKE ?", "#{value}%") }
   option(:variant_type_id, type: Int)  { |scope, value| scope.where(int_array_query_for_column("variant_type_ids"), value) }
@@ -52,6 +56,8 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
       scope.reorder "drug_names #{value.direction}"
     when "diseaseName"
       scope.reorder "disease_names #{value.direction}"
+    when "evidenceItemCount"
+      scope.reorder "evidence_item_count #{value.direction}"
     end
   end
 end

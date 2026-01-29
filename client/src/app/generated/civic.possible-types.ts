@@ -8,6 +8,7 @@
   "possibleTypes": {
     "ActivityInterface": [
       "AcceptRevisionsActivity",
+      "ApproveAssertionActivity",
       "CommentActivity",
       "CreateComplexMolecularProfileActivity",
       "CreateFeatureActivity",
@@ -21,6 +22,7 @@
       "ModerateEvidenceItemActivity",
       "RejectRevisionsActivity",
       "ResolveFlagActivity",
+      "RevokeApprovalActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity",
       "SuggestRevisionSetActivity",

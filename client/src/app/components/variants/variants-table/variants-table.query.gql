@@ -59,6 +59,7 @@ fragment BrowseVariantsFields on BrowseVariant {
   featureName
   featureLink
   category
+  evidenceItemCount
   featureDeprecated
   featureFlagged
   diseases {

@@ -263,9 +263,23 @@
               nz-icon
               nzType="download"></i>
             <a
-              routerLink="/releases"
+              routerLink="/releases/main"
               id="releases">
               <span>Data Releases</span>
+            </a>
+          </li>
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'Data Licensing' : ''"
+            nzMatchRouter>
+            <i
+              nz-icon
+              nzType="copyright-circle"
+              nzTheme="fill"></i>
+            <a routerLink="releases/licensing">
+              <span>Data Licensing</span>
             </a>
           </li>
         </ul>
@@ -361,9 +375,11 @@
           nz-col
           nzFlex="1 0 auto"
           id="header-viewer">
-          <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
+          @let viewer = viewer$ | ngrxPush;
+          <cvc-login-button
+            *ngIf="!viewer || viewer.signedOut"></cvc-login-button>
           <cvc-viewer-button
-            *ngIf="signedIn$ | async"
+            *ngIf="viewer && viewer.signedIn"
             [cvcCollapsed]="isCollapsed"></cvc-viewer-button>
         </div>
       </div>

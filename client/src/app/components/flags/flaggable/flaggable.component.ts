@@ -19,12 +19,13 @@ export interface FlaggableSubject {
 }
 
 @Component({
-    selector: '[cvcFlaggable]',
-    templateUrl: './flaggable.component.html',
-    standalone: false
+  selector: '[cvcFlaggable]',
+  templateUrl: './flaggable.component.html',
+  standalone: false,
 })
 export class CvcFlaggableComponent implements AfterViewInit, OnChanges {
   @Input() flags?: Maybe<number>
+  @Input() approvals?: Maybe<number>
   @Input() entity?: Maybe<FlaggableSubject>
   @ContentChild(CvcFlaggableOptionsDirective, {
     static: false,
@@ -35,11 +36,15 @@ export class CvcFlaggableComponent implements AfterViewInit, OnChanges {
   constructor(private renderer: Renderer2) {}
 
   ngOnChanges(): void {
-    this.flags && this.flags === 0 ? this.removeFlagged() : this.addFlagged()
+    ;(this.flags && this.flags > 0) || (this.approvals && this.approvals > 0)
+      ? this.addFlagged()
+      : this.removeFlagged()
   }
 
   ngAfterViewInit(): void {
-    this.flags && this.flags === 0 ? this.removeFlagged() : this.addFlagged()
+    ;(this.flags && this.flags > 0) || (this.approvals && this.approvals > 0)
+      ? this.addFlagged()
+      : this.removeFlagged()
   }
 
   addFlagged(): void {

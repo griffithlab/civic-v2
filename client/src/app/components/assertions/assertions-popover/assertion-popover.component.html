@@ -46,6 +46,26 @@
       </nz-descriptions-item>
     </nz-descriptions>
 
+    <!-- approvals -->
+    @if (assertion.approvals.nodes.length > 0) {
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="1"
+        nzBordered="true"
+        nzLayout="vertical">
+        <nz-descriptions-item nzTitle="Approvals">
+          @for (approval of assertion.approvals.nodes; track approval.id) {
+            <!-- nz-flex and nz-space weren't working here for some reason,
+            hence the margin-bottom spacing kludge -->
+            <cvc-approval-notification
+              [style.margin-bottom]="
+                $index < assertion.approvals.nodes.length - 1 ? '4px' : '0px'
+              "
+              [cvcApproval]="approval"></cvc-approval-notification>
+          }
+        </nz-descriptions-item>
+      </nz-descriptions>
+    }
     <!-- assertion attributes -->
     <nz-descriptions
       nzSize="small"
@@ -200,7 +220,7 @@
       <nz-descriptions-item
         [nzTitle]="mpTitle"
         nzSpan="2">
-        <ng-template #mpTitle> Molecular&nbsp;Profile </ng-template>
+        <ng-template #mpTitle> Molecular&nbsp;Profile</ng-template>
         <cvc-molecular-profile-tag
           [molecularProfile]="assertion.molecularProfile"
           [enablePopover]="true"></cvc-molecular-profile-tag>

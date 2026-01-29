@@ -15,6 +15,10 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
       .order("therapies.name ASC")
   }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:ncit_id, type: String, description: "Limit to therapies with a specific NCIT ID") do |scope, value|
     if value.upcase.starts_with?("C")
       scope.where(ncit_id: value.upcase)
@@ -38,7 +42,7 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
   end
 
   option(:id, type: Int, description: "Filter on a therapy's internal CIViC id") do |scope, value|
-    scope.where(id: id)
+    scope.where(id: value)
   end
 
   option(:name, type: String, description: "Wildcard match on therapy name") do |scope, value|

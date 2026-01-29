@@ -4,6 +4,10 @@
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
+<ng-container *ngIf="approvals === 0">
+  <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
+</ng-container>
+
 <ng-container *ngIf="flags">
   <nz-ribbon
     [nzText]="flaggedText"
@@ -24,6 +28,33 @@
       </a>
     </ng-template>
     <ng-template #flaggedTooltip> {{ flags }} open flags </ng-template>
+    <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
+  </nz-ribbon>
+</ng-container>
+
+<ng-container *ngIf="approvals">
+  <nz-ribbon
+    [nzText]="approvalRibbonText"
+    nzPlacement="start"
+    nzColor="#EFBF04">
+    <ng-template #approvalRibbonText>
+      <i
+        nz-icon
+        nzType="safety-certificate"
+        nzTheme="fill"
+        nz-tooltip
+        nzTooltipPlacement="top"
+        nzTooltipColor="#EFBF04"
+        [nzTooltipTitle]="approvalRibbonTooltip"></i>
+    </ng-template>
+    <ng-template #approvalRibbonTooltip>
+      Classification Approved by {{ approvals }}
+      @if (approvals === 1) {
+        organization
+      } @else {
+        organizations
+      }
+    </ng-template>
     <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
   </nz-ribbon>
 </ng-container>

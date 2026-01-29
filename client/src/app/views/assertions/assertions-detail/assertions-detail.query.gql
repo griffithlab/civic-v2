@@ -29,6 +29,12 @@ fragment AssertionDetailFields on Assertion {
   comments {
     totalCount
   }
+  approvals {
+    totalCount
+    nodes {
+      ...approvalListNode
+    }
+  }
   ...assertionSubmissionActivity
 }
 

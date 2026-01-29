@@ -3,19 +3,20 @@ import { Injectable } from '@angular/core'
 import {
   CoiStatus,
   Maybe,
-  Organization,
-  User,
   UserRole,
   ViewerBaseGQL,
+  ViewerFieldsFragment,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { Observable } from 'rxjs'
-import { map, shareReplay, startWith } from 'rxjs/operators'
+import { map, Observable, shareReplay } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 
-export interface Viewer extends User {
-  mostRecentOrg: Maybe<Organization>
+export interface Viewer {
+  user?: ViewerFieldsFragment
+  mostRecentOrg: Maybe<ViewerOrganizationFragment>
+  approvableOrgIds: number[]
   signedIn: boolean
   signedOut: boolean
   isAdmin: boolean
@@ -35,37 +36,19 @@ export class ViewerService {
 
   viewer$: Observable<Viewer>
 
-  signedIn$: Observable<boolean>
-  signedOut$: Observable<boolean>
-
-  isCurator$: Observable<boolean>
-  isAdmin$: Observable<boolean>
-  isEditor$: Observable<boolean>
-
-  canCurate$: Observable<boolean>
-  canModerate$: Observable<boolean>
-
-  initialViewer: Viewer = <Viewer>{
-    mostRecentOrg: undefined,
-    signedIn: false,
-    isAdmin: false,
-    isEditor: false,
-    isCurator: false,
-    canCurate: false,
-    canModerate: false,
-    invalidCoi: true,
-  }
-
-  constructor(private viewerBaseGQL: ViewerBaseGQL, private http: HttpClient) {
+  constructor(
+    private viewerBaseGQL: ViewerBaseGQL,
+    private http: HttpClient
+  ) {
     this.queryRef = this.viewerBaseGQL.watch(undefined, {
       notifyOnNetworkStatusChange: false,
     })
 
     this.viewer$ = this.queryRef.valueChanges.pipe(
       pluck('data', 'viewer'),
-      map((v: User): Viewer => {
-        return (<Viewer>{
-          ...v,
+      map((v: Maybe<ViewerFieldsFragment>) => {
+        return {
+          user: v,
           signedIn: v == null ? false : true,
           signedOut: v == null ? true : false,
           canCurate: canCurate(v),
@@ -75,48 +58,38 @@ export class ViewerService {
           isCurator: isCurator(v),
           organizations: v == null ? [] : v.organizations,
           mostRecentOrg: v == null ? undefined : mostRecentOrg(v),
+          approvableOrgIds:
+            v == null
+              ? []
+              : v.organizationsWithApprovalPrivileges?.map((o: any) => o.id) ||
+                [],
           invalidCoi:
             isEditor(v) &&
-            (!v.mostRecentConflictOfInterestStatement ||
-              v.mostRecentConflictOfInterestStatement.coiStatus ===
+            (!v?.mostRecentConflictOfInterestStatement ||
+              v?.mostRecentConflictOfInterestStatement.coiStatus ===
                 CoiStatus.Expired ||
-              v.mostRecentConflictOfInterestStatement.coiStatus ===
+              v?.mostRecentConflictOfInterestStatement.coiStatus ===
                 CoiStatus.Missing),
-        }) as Viewer
+        }
       }),
-      startWith(this.initialViewer),
       shareReplay(1)
     )
 
-    this.signedIn$ = this.viewer$.pipe(map((v) => v.signedIn))
-
-    this.signedOut$ = this.viewer$.pipe(map((v) => v.signedOut))
-
-    this.isAdmin$ = this.viewer$.pipe(map((v) => isAdmin(v)))
-
-    this.isEditor$ = this.viewer$.pipe(map((v) => isEditor(v)))
-
-    this.isCurator$ = this.viewer$.pipe(map((v) => isCurator(v)))
-
-    this.canCurate$ = this.viewer$.pipe(map((v) => canCurate(v)))
-
-    this.canModerate$ = this.viewer$.pipe(map((v) => canModerate(v)))
-
-    function isAdmin(v: User): boolean {
+    function isAdmin(v?: ViewerFieldsFragment): boolean {
       return v && v.role === UserRole.Admin ? true : false
     }
 
-    function isEditor(v: User): boolean {
+    function isEditor(v?: ViewerFieldsFragment): boolean {
       return v && (v.role === UserRole.Editor || v.role === UserRole.Admin)
         ? true
         : false
     }
 
-    function isCurator(v: User): boolean {
+    function isCurator(v?: ViewerFieldsFragment): boolean {
       return v && v.role === UserRole.Curator ? true : false
     }
 
-    function canCurate(v: User): boolean {
+    function canCurate(v?: ViewerFieldsFragment): boolean {
       return v &&
         (v.role === UserRole.Curator ||
           v.role === UserRole.Editor ||
@@ -125,7 +98,7 @@ export class ViewerService {
         : false
     }
 
-    function canModerate(v: User): boolean {
+    function canModerate(v?: ViewerFieldsFragment): boolean {
       return v &&
         (v.role === UserRole.Editor || v.role === UserRole.Admin) &&
         v.mostRecentConflictOfInterestStatement &&
@@ -136,8 +109,10 @@ export class ViewerService {
         : false
     }
 
-    function mostRecentOrg(v: User): Maybe<Organization> {
-      if (v.mostRecentOrganizationId) {
+    function mostRecentOrg(
+      v?: ViewerFieldsFragment
+    ): Maybe<ViewerOrganizationFragment> {
+      if (v?.mostRecentOrganizationId) {
         return v.organizations.find((o) => o.id === v.mostRecentOrganizationId)
       } else {
         return undefined

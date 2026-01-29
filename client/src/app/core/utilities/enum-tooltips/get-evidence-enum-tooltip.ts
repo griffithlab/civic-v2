@@ -46,6 +46,8 @@ export const tooltips: tooltipMap = {
       'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin',
     [VariantOrigin.Combined]:
       'Variants in the Molecular Profile span multiple Origin types.',
+    [VariantOrigin.Mixed]:
+      'The population of patient variants described in the Evidence is a mixture of Somatic and Germline.',
   },
 
   evidenceLevel: {

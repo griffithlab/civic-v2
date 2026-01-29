@@ -14,6 +14,7 @@ import {
   FeatureDeprecationReason,
   FeatureDetailGQL,
   VariantsForFeatureGQL,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -45,32 +46,32 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-feature-deprecate-form',
-    templateUrl: './feature-deprecate.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        ReactiveFormsModule,
-        LetDirective,
-        PushPipe,
-        NzFormModule,
-        NzAlertModule,
-        NzGridModule,
-        NzButtonModule,
-        NzSpinModule,
-        NzCardModule,
-        NzSpaceModule,
-        NzTypographyModule,
-        NzToolTipModule,
-        NzSelectModule,
-        CvcFormErrorsAlertModule,
-        CvcFormButtonsModule,
-        CvcSubmitButtonTypeModule,
-        CvcCommentInputFormModule,
-        CvcVariantTagModule,
-    ]
+  selector: 'cvc-feature-deprecate-form',
+  templateUrl: './feature-deprecate.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    LetDirective,
+    PushPipe,
+    NzFormModule,
+    NzAlertModule,
+    NzGridModule,
+    NzButtonModule,
+    NzSpinModule,
+    NzCardModule,
+    NzSpaceModule,
+    NzTypographyModule,
+    NzToolTipModule,
+    NzSelectModule,
+    CvcFormErrorsAlertModule,
+    CvcFormButtonsModule,
+    CvcSubmitButtonTypeModule,
+    CvcCommentInputFormModule,
+    CvcVariantTagModule,
+  ],
 })
 export class CvcFeatureDeprecateForm implements OnDestroy, OnInit {
   @Input() featureId!: number
@@ -91,7 +92,7 @@ export class CvcFeatureDeprecateForm implements OnDestroy, OnInit {
 
   comment: string = ''
   reason: Maybe<FeatureDeprecationReason>
-  selectedOrg: Maybe<Organization>
+  selectedOrg: Maybe<ViewerOrganizationFragment>
 
   undeprecatedVariants$?: Observable<LinkableVariant[]>
   variantListLoading$?: Observable<boolean>

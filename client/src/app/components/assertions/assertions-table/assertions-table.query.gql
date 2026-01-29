@@ -23,6 +23,7 @@ query AssertionsBrowse(
   $diseaseId: Int
   $therapyId: Int
   $status: EvidenceStatusFilter
+  $approvingOrganizationIds: [Int!]
 ) {
   assertions(
     first: $first
@@ -42,12 +43,16 @@ query AssertionsBrowse(
     ampLevel: $ampLevel
     molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
-    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
+    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
     userId: $userId
     phenotypeId: $phenotypeId
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
+    approvingOrganizations: {
+      ids: $approvingOrganizationIds
+      includeSubgroups: $includeSubgroups
+    }
   ) {
     totalCount
     pageInfo {

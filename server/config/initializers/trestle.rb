@@ -79,27 +79,30 @@ Trestle.configure do |config|
       redirect_to "/"
     end
   end
-  #
-  # config.after_action do |controller|
-  #   Rails.logger.debug("After action")
-  # end
-  #
-  # config.around_action do |controller, block|
-  #   Rails.logger.debug("Around action (before)")
-  #   block.call
-  #   Rails.logger.debug("Around action (after)")
-  # end
+   #
+   # config.after_action do |controller|
+   #   Rails.logger.debug("After action")
+   # end
+   #
+   # config.around_action do |controller, block|
+   #   Rails.logger.debug("Around action (before)")
+   #   block.call
+   #   Rails.logger.debug("Around action (after)")
+   # end
 
-  # Specify a custom hook to be injected into the admin.
-  #
-  # config.hook(:stylesheets) do
-  #   stylesheet_link_tag "custom"
-  # end
-  #
+   # Specify a custom hook to be injected into the admin.
+   #
+   config.hook(:stylesheets) do
+     stylesheet_link_tag "actiontext"
+   end
 
-  # config.hook(:javascripts) do
-  #  javascript_include_tag("trestle/custom.js")
-  # end
+
+   config.hook(:javascripts) do
+    javascript_include_tag("activestorage", "data-turbo-track": "reload")
+    javascript_include_tag("actiontext", "data-turbo-track": "reload")
+    javascript_include_tag("trix", "data-turbo-track": "reload")
+    javascript_pack_tag("application")
+   end
 
   # Toggle whether Turbolinks is enabled within the admin.
   # Defaults to true if Turbolinks is available.

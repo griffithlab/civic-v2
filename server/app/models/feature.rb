@@ -26,7 +26,35 @@ class Feature < ApplicationRecord
   searchkick highlight: [ :name, :aliases, :feature_type ], callbacks: :async
   scope :search_import, -> { includes(:feature_aliases) }
 
-  validates :name, uniqueness: { scope: :feature_instance_type }
+  validate :unique_name_in_context
+
+  def unique_name_in_context
+    base_query = self.class.where(
+      deprecated: false,
+      feature_instance_type: feature_instance_type,
+      name: name
+    )
+
+    duplicate_name = if in_revision_validation_context
+                       base_query
+                         # In the `in_revision_validation_context`, the revision target is the feature instance, not the feature
+                         .where.not(feature_instance_id: revision_target_id)
+                         .exists?
+    else
+                       if persisted?
+                         base_query
+                           .where.not(id: id)
+                           .exists?
+                       else
+                         base_query
+                           .exists?
+                       end
+    end
+
+    if duplicate_name
+      errors.add(:name, "must be unique within a Feature Instance Type")
+    end
+  end
 
   def search_data
     aliases = feature_aliases.map(&:name)

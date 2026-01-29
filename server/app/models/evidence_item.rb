@@ -13,6 +13,7 @@ class EvidenceItem < ActiveRecord::Base
   has_and_belongs_to_many :therapies
   has_and_belongs_to_many :phenotypes
   has_and_belongs_to_many :assertions
+  has_many :approvals, through: :assertions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
 
   enum :evidence_type, Constants::EVIDENCE_TYPES, suffix: true

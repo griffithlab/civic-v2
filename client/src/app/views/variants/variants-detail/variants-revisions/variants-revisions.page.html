@@ -1,4 +1,4 @@
-<nz-tabset [nzAnimated]="false">
+<nz-tabs [nzAnimated]="false">
   @for (tab of tabs(); track tab.name) {
     <nz-tab [nzTitle]="tabTitle">
       <nz-template nz-tab>
@@ -20,4 +20,4 @@
       }
     </ng-template>
   }
-</nz-tabset>
+</nz-tabs>

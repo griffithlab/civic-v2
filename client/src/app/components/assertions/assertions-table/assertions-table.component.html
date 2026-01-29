@@ -547,7 +547,7 @@
         >
       </nz-radio-group>
     </nz-row>
-    @if (this.organizationId) {
+    @if (organizationId) {
       <nz-row>
         <nz-col nzSpan="2">
           <label
@@ -557,6 +557,19 @@
         </nz-col>
         <nz-col nzSpan="22">
           <span>Include assertions submitted by child organizations</span>
+        </nz-col>
+      </nz-row>
+    }
+    @if (approvingOrganizationId) {
+      <nz-row>
+        <nz-col nzSpan="2">
+          <label
+            nz-checkbox
+            [(ngModel)]="includeSubgroups"
+            (ngModelChange)="includeSubgroupsChanged()"></label>
+        </nz-col>
+        <nz-col nzSpan="22">
+          <span>Include assertions approved by child organizations</span>
         </nz-col>
       </nz-row>
     }
