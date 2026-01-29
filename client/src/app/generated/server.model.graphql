@@ -5656,7 +5656,7 @@ input FusionFields {
   description: NullableStringInput!
 
   """
-  Gene IDs that may be involved as a known gene partner.
+  Gene Feature IDs that may be a known gene partner for a fusion with a Multiple partner status.
   """
   knownPartnerGeneIds: [Int!]!
 
