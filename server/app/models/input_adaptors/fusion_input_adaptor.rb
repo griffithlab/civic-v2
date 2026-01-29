@@ -12,7 +12,7 @@ class InputAdaptors::FusionInputAdaptor
       source_ids: input.source_ids,
       feature_alias_ids: get_alias_ids,
     )
-    known_partner_gene_instance_ids = Feature.find(input.known_partner_gene_ids)&.map{|f| f.feature_instance_id}
+    known_partner_gene_instance_ids = Feature.find(input.known_partner_gene_ids)&.map { |f| f.feature_instance_id }
     i = Features::Fusion.new(
       known_partner_gene_ids: known_partner_gene_instance_ids,
       feature: f
