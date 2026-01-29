@@ -164,7 +164,7 @@ const EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
     props: {
       options: getSelectOptions('EvidenceSignificance'),
       placeholder: 'Select Significance',
-      optionOverflowSize: 25,
+      optionOverflowSize: 12,
     },
   },
 ]
@@ -185,7 +185,7 @@ const ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
     props: {
       options: getSelectOptions('AssertionSignificance'),
       placeholder: 'Select Significance',
-      optionOverflowSize: 25,
+      optionOverflowSize: 12,
     },
   },
 ]

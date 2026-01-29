@@ -20,9 +20,9 @@ import {
   BrowseVariantsQueryVariables,
   Maybe,
   PageInfo,
-  VariantsSortColumns,
-  VariantCategories,
   SortDirection,
+  VariantCategories,
+  VariantsSortColumns,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -56,6 +56,7 @@ export interface VariantTableUserFilters {
   standalone: false,
 })
 export class CvcVariantsTableComponent implements OnInit {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() variantTypeId: Maybe<number>
   @Input() variantGroupId: Maybe<number>
@@ -124,6 +125,7 @@ export class CvcVariantsTableComponent implements OnInit {
       variantGroupId: this.variantGroupId,
       hasNoVariantType: this.hasNoVariantTypeInput,
       variantCategory: this.variantCategoryInput,
+      ids: this.ids,
       sortBy: {
         column: VariantsSortColumns.EvidenceItemCount,
         direction: SortDirection.Desc,
@@ -216,6 +218,7 @@ export class CvcVariantsTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
+        ids: this.ids,
         diseaseName: this.diseaseNameInput,
         therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,

@@ -27,6 +27,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { CvcAssertionsTableModule } from '../../../components/assertions/assertions-table/assertions-table.module'
 import { CvcFeaturesTableModule } from '../../../components/features/features-table/features-table.module'
 import { CvcMolecularProfilesTableModule } from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
+import { CvcVariantsTableModule } from '../../../components/variants/variants-table/variants-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -47,6 +48,7 @@ import { CvcMolecularProfilesTableModule } from '../../../components/molecular-p
     CvcAssertionsTableModule,
     CvcFeaturesTableModule,
     CvcMolecularProfilesTableModule,
+    CvcVariantsTableModule,
   ],
 })
 export class QuerySearchPage {

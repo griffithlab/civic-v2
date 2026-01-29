@@ -9608,6 +9608,7 @@ type MenuVariant_Variant_Fragment = { __typename: 'Variant', id: number, name: s
 export type MenuVariantFragment = MenuVariant_FactorVariant_Fragment | MenuVariant_FusionVariant_Fragment | MenuVariant_GeneVariant_Fragment | MenuVariant_Variant_Fragment;
 
 export type BrowseVariantsQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   variantName?: InputMaybe<Scalars['String']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
   diseaseName?: InputMaybe<Scalars['String']['input']>;
@@ -16918,8 +16919,9 @@ export const VariantTypesForFeatureDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $variantCategory: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($ids: [Int!], $variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $variantCategory: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
+    ids: $ids
     variantName: $variantName
     featureName: $featureName
     diseaseName: $diseaseName

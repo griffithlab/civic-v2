@@ -14,7 +14,12 @@
   </nz-row>
 } @else {
   @for (subFilter of field.fieldGroup; track $index) {
-    <!--    <div>isRootFilter: {{ props.isRootFilter }}</div>-->
+    <!-- NOTE: props.isRootFilter is used to determine:
+      * order of formly-field and button columns (reversed for non-root filter rows)
+      * nzSize of add/remove buttons
+      * nzGutter width (horizontal column padding)
+      * flex widths to accommodate size/padding adjustments
+      * row's css class -->
     <nz-row
       [nzGutter]="props.isRootFilter ? 8 : 4"
       [ngClass]="{
