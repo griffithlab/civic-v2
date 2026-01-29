@@ -7,17 +7,20 @@ class InputAdaptors::FusionInputAdaptor
   end
 
   def perform
-    i = Features::Fusion.new()
     f = Feature.new(
       description: input.description,
       source_ids: input.source_ids,
       feature_alias_ids: get_alias_ids,
-      feature_instance: i
+    )
+    known_partner_gene_instance_ids = Feature.find(input.known_partner_gene_ids)&.map{|f| f.feature_instance_id}
+    i = Features::Fusion.new(
+      known_partner_gene_ids: known_partner_gene_instance_ids,
+      feature: f
     )
     # because there are validations on the fusion feature instance,
     # this ensures that the inverse relationship from feature instance -> feature is made
-    i.feature = f
-    return f
+    f.feature_instance = i
+    return i
   end
 
   private

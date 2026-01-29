@@ -3,6 +3,7 @@ import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-de
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
+import { FeatureInstanceTypes } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
@@ -63,6 +64,17 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'source-multi-select',
                 wrappers: ['form-field'],
                 props: {},
+              },
+              {
+                key: 'knownPartnerGeneIds',
+                type: 'feature-multi-select',
+                wrappers: ['form-field'],
+                props: {
+                  description: 'Enter known Gene partners for this Fusion',
+                  label: "Known Gene Partners",
+                  featureType: FeatureInstanceTypes.Gene,
+                  canChangeFeatureType: false,
+                },
               },
             ],
           },

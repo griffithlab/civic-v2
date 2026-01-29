@@ -75,10 +75,14 @@ module Types::Revisions
     end
 
     def self.value_for_set(r, set:)
-      field_class = revision_display_name(r)
-        .singularize
-        .gsub(" ", "")
-        .constantize
+      field_class = if (r.field_name == 'known_partner_gene_ids')
+                      Features::Gene
+                    else
+                      revision_display_name(r)
+                        .singularize
+                        .gsub(" ", "")
+                        .constantize
+                    end
       values = field_class.where(id: set).map do |obj|
         deprecated = if obj.respond_to?(:deprecated)
           obj.deprecated
