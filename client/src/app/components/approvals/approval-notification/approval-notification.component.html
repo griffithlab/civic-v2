@@ -1,13 +1,15 @@
 <nz-alert
-  nzType="warning"
+  [nzType]="this.alertType()"
   [nzMessage]="approvalMessageTemplate"
   nzShowIcon
   [nzIcon]="approvalIconTemplate"
   [nzAction]="
-    approval().status === 'REQUIRES_REVIEW' ? underReviewNotice : null
+    approval().status === 'REQUIRES_REVIEW'
+      ? underReviewNotice
+      : approvalActionTemplate
   "></nz-alert>
 <ng-template #approvalIconTemplate>
-  <span style="color: #efbf04; font-size: 24px">
+  <span style="color: {{ this.color() }}; font-size: 24px">
     <i
       nz-icon
       nzType="safety-certificate"
@@ -17,13 +19,14 @@
 </ng-template>
 <ng-template #approvalMessageTemplate>
   Classification approved by
+  <strong>{{ this.isApprovedVcep() ? 'ClinGen VCEP ' : ' ' }}</strong>
   <cvc-organization-tag [org]="approval().organization"></cvc-organization-tag>
 </ng-template>
 <ng-template #approvalActionTemplate>
   <span
     nz-typography
     nzType="secondary">
-    ({{ approval().lastReviewed | timeAgo }})
+    ({{ approval().lastReviewed | date: 'mediumDate' }})
   </span>
 </ng-template>
 <ng-template #underReviewNotice>
