@@ -43,6 +43,12 @@ jobs:
       - run: bundle exec rails assets:precompile
         working-directory: ./server
 
+      - run: bundle exec rails webpacker:compile
+        working-directory: ./server
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: 1
+
       - if: ${{ inputs.branch == 'staging' }}
         run: mv -f lib/assets/favicon.staging.ico public/favicon.ico
         working-directory: ./server

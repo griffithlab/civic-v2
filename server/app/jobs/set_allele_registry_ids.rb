@@ -12,6 +12,7 @@ class SetAlleleRegistryIds < AlleleRegistryIds
         v.save!
         add_allele_registry_link(allele_registry_id)
       end
+      GenerateOpenCravatLink.perform_later(v)
     end
   end
 end

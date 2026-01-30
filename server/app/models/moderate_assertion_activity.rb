@@ -1,5 +1,5 @@
 class ModerateAssertionActivity < Activity
-  has_many_linked :endorsements
+  has_many_linked :approvals
 
   def assertion
     self.subject

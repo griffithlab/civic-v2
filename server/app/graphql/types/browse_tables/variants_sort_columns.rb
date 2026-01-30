@@ -4,5 +4,6 @@ module Types::BrowseTables
     value "variantName"
     value "diseaseName"
     value "therapyName"
+    value "evidenceItemCount"
   end
 end

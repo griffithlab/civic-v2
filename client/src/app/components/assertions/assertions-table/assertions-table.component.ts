@@ -67,7 +67,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() endorsingOrganizationId: Maybe<number>
+  @Input() approvingOrganizationId: Maybe<number>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -158,8 +158,8 @@ export class CvcAssertionsTableComponent implements OnInit {
       molecularProfileId: this.molecularProfileId,
       evidenceId: this.evidenceId,
       organizationId: this.organizationId ? [this.organizationId] : [],
-      endorsingOrganizationIds: this.endorsingOrganizationId
-        ? [this.endorsingOrganizationId]
+      approvingOrganizationIds: this.approvingOrganizationId
+        ? [this.approvingOrganizationId]
         : [],
       includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       userId: this.userId,

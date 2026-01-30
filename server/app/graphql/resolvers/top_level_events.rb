@@ -15,6 +15,10 @@ class Resolvers::TopLevelEvents < GraphQL::Schema::Resolver
       .order("events.created_at DESC")
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:event_type, type: Types::Events::EventActionType) do |scope, value|
     scope.where(action: value)
   end

@@ -16,6 +16,10 @@ class Resolvers::TopLevelVariantTypes < GraphQL::Schema::Resolver
       .order("variant_count DESC", :id)
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:soid, type: String, description: "Limit to variant types  with a specific Sequence Ontology ID") do |scope, value|
     if value.upcase.starts_with?("SO:")
       scope.where(soid: value.upcase)

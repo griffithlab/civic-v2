@@ -10,6 +10,10 @@ class Resolvers::TopLevelUsers < GraphQL::Schema::Resolver
 
   scope { User.all.order(:id) }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:organization, type: Types::OrganizationFilterType, description: "Limit to users that belong to a certain organizations") do |scope, value|
     if value.include_subgroups && !value.ids.nil?
       org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }

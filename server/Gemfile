@@ -69,8 +69,7 @@ gem "angular_rails_csrf", "~> 7.0.0"
 gem "sidekiq", "< 8"
 gem "sidekiq-cron", "~> 2.0"
 
-gem "aws-sdk-s3", "~> 1.94.0"
-gem "awesome_nested_set", "~> 3.6"
+gem "aws-sdk-s3", "~> 1.208.0"
 gem "obo", "~> 0.1.5"
 
 gem "activejob-null", "~> 0.0.1"

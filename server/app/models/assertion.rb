@@ -16,7 +16,7 @@ class Assertion < ActiveRecord::Base
   has_and_belongs_to_many :clingen_codes
   has_and_belongs_to_many :phenotypes
   has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
-  has_many :endorsements
+  has_many :approvals
 
   enum :amp_level, Constants::AMP_LEVELS
   enum :assertion_type, Constants::ASSERTION_TYPES, suffix: true

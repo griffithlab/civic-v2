@@ -9,8 +9,8 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { EndorsementResult } from '@app/components/endorsements/endorse-assertion-button/endorse-assertion-button.component'
-import { CvcEndorsableCounts } from '@app/components/endorsements/endorsable/endorsable.component'
+import { ApprovalResult } from '@app/components/approvals/approve-assertion-button/approve-assertion-button.component'
+import { CvcApprovableCounts } from '@app/components/approvals/approvable/approvable.component'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
@@ -18,7 +18,7 @@ import {
   AssertionDetailGQL,
   AssertionDetailQuery,
   AssertionDetailQueryVariables,
-  EndorsementListNodeFragment,
+  ApprovalListNodeFragment,
   EvidenceStatus,
   Maybe,
   SubscribableEntities,
@@ -27,7 +27,7 @@ import {
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 
-type EndorsementCounts = {
+type ApprovalCounts = {
   active: number
   requiresReview: number
   revoked: number
@@ -49,9 +49,9 @@ export class AssertionsDetailView {
   viewer: Signal<Maybe<Viewer>>
   loading: Signal<boolean>
   assertion: Signal<Maybe<AssertionDetailFieldsFragment>>
-  endorsements: Signal<EndorsementListNodeFragment[]>
-  endorsementCounts: Signal<EndorsementCounts>
-  endorsableCounts: Signal<CvcEndorsableCounts>
+  approvals: Signal<ApprovalListNodeFragment[]>
+  approvalCounts: Signal<ApprovalCounts>
+  approvableCounts: Signal<CvcApprovableCounts>
   tabConfig: Signal<RouteableTab[]>
   subscribableInput: Signal<Maybe<SubscribableInput>>
   errors: WritableSignal<string[]>
@@ -89,9 +89,9 @@ export class AssertionsDetailView {
       tabLabel: 'Flags',
     },
     {
-      routeName: 'endorsements',
+      routeName: 'approvals',
       iconName: 'safety-certificate',
-      tabLabel: 'Endorsements',
+      tabLabel: 'Approvals',
     },
     {
       routeName: 'events',
@@ -144,44 +144,47 @@ export class AssertionsDetailView {
       return subscribable
     })
 
-    // provide endorsements as signal derived from assertion endorsement connection
-    this.endorsements = computed(() => {
-      return this.assertion()?.endorsements.nodes || []
+    // provide approvals as signal derived from assertion approval connection
+    this.approvals = computed(() => {
+      return this.assertion()?.approvals.nodes || []
     })
 
-    // provide endorsement counts as signal derived from assertion endorsement connection
-    this.endorsementCounts = computed(() => {
-      const endorsements = this.endorsements()
+    // provide approval counts as signal derived from assertion approval connection
+    this.approvalCounts = computed(() => {
+      const approvals = this.approvals()
       let counts = {
         active: 0,
         requiresReview: 0,
         revoked: 0,
       }
-      if (endorsements.length > 0) {
+      if (approvals.length > 0) {
         counts = {
-          active: endorsements.filter((node) => node.status === 'ACTIVE')
-            .length,
-          requiresReview: endorsements.filter(
-            (node) => node.status === 'REQUIRES_REVIEW'
+          active: approvals.filter(
+            (node: ApprovalListNodeFragment) => node.status === 'ACTIVE'
           ).length,
-          revoked: endorsements.filter((node) => node.status === 'REVOKED')
-            .length,
+          requiresReview: approvals.filter(
+            (node: ApprovalListNodeFragment) =>
+              node.status === 'REQUIRES_REVIEW'
+          ).length,
+          revoked: approvals.filter(
+            (node: ApprovalListNodeFragment) => node.status === 'REVOKED'
+          ).length,
         }
       }
       return counts
     })
 
-    // provide flaggable counts as signal derived from flag & endorsement counts
-    this.endorsableCounts = computed(() => {
+    // provide flaggable counts as signal derived from flag & approval counts
+    this.approvableCounts = computed(() => {
       const assertion = this.assertion()
       let counts = {
         flags: 0,
-        endorsements: 0,
+        approvals: 0,
       }
       if (assertion) {
         counts = {
           flags: assertion.flags.totalCount,
-          endorsements: this.endorsementCounts().active,
+          approvals: this.approvalCounts().active,
         }
       }
       return counts
@@ -211,10 +214,10 @@ export class AssertionsDetailView {
               badgeColor: '#4096ff', // blue-5
               ...tab,
             }
-          } else if (tab.tabLabel === 'Endorsements') {
+          } else if (tab.tabLabel === 'Approvals') {
             let count: Maybe<number> =
-              this.endorsementCounts().active +
-              this.endorsementCounts().requiresReview
+              this.approvalCounts().active +
+              this.approvalCounts().requiresReview
             if (count == 0) {
               count = undefined
             }
@@ -269,18 +272,20 @@ export class AssertionsDetailView {
     this.successMessage.set(undefined)
   }
 
-  onEndorsement(endorsementEvent: EndorsementResult) {
-    if (endorsementEvent.success) {
-      switch (endorsementEvent.action) {
-        case 'endorse':
-          this.successMessage.set('Assertion endorsed successfully')
+  onApproval(approvalEvent: ApprovalResult) {
+    if (approvalEvent.success) {
+      switch (approvalEvent.action) {
+        case 'approve':
+          this.successMessage.set(
+            'Assertion Classification Approved successfully'
+          )
           break
         case 'revoke':
-          this.successMessage.set('Successfully revoked endorsement')
+          this.successMessage.set('Successfully revoked approval')
           break
       }
     } else {
-      this.errors.set(endorsementEvent.errors)
+      this.errors.set(approvalEvent.errors)
       this.successMessage.set(undefined)
     }
   }

@@ -22,7 +22,11 @@ class Resolvers::BrowseTherapies < GraphQL::Schema::Resolver
   end
 
   option(:id, type: Int, description: "Filter on a therapy's internal CIViC id") do |scope, value|
-    scope.where(id: id)
+    scope.where(id: value)
+  end
+
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
   end
 
   option(:name, type: String, description: "Wildcard match on therapy name") do |scope, value|

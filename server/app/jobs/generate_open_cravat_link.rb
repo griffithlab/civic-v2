@@ -1,6 +1,10 @@
 class GenerateOpenCravatLink < ApplicationJob
   def perform(variant)
-    return if variant.allele_registry_id.nil? || variant.allele_registry_id == "unregistered"
+    if variant.allele_registry_id.nil? || variant.allele_registry_id == "unregistered"
+      variant.open_cravat_url_parameters = nil
+      variant.save(validate: false)
+      return
+    end
 
     coords = get_build_38_coords(variant)
 

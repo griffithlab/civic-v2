@@ -8,7 +8,7 @@ module Types::Entities
     field :bio, String, null: true
     field :country, Types::Entities::CountryType, null: true
     field :organizations, [ Types::Entities::OrganizationType ], null: false
-    field :organizations_with_endorsement_privileges, [ Types::Entities::OrganizationType ], null: false
+    field :organizations_with_approval_privileges, [ Types::Entities::OrganizationType ], null: false
     field :events, Types::Entities::EventType.connection_type, null: false
     field :display_name, String, null: false
     field :area_of_expertise, Types::AreaOfExpertiseType, null: true
@@ -24,6 +24,7 @@ module Types::Entities
     field :ranks, Types::Entities::RanksType, null: false
     field :email, String, null: true
     field :api_keys, [ Types::ApiKeyType ], null: false
+    field :join_date, GraphQL::Types::ISO8601DateTime, null: true
 
     profile_image_sizes = [ 256, 128, 64, 32, 18, 12 ]
     field :profile_image_path, String, null: true do
@@ -65,8 +66,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(User, :organizations).load(object)
     end
 
-    def organizations_with_endorsement_privileges
-      Loaders::AssociationLoader.for(User, :organizations_with_endorsement_privileges).load(object)
+    def organizations_with_approval_privileges
+      Loaders::AssociationLoader.for(User, :organizations_with_approval_privileges).load(object)
     end
 
     def notifications(notification_type: nil, subscription_id: nil, event_type: nil, include_seen:)
@@ -139,6 +140,15 @@ module Types::Entities
       else
         []
       end
+    end
+
+    def join_date
+      # In the case of merged accounts, the created_at field on the user record
+      # may be misleading. Instead use the first known authorization record.
+      object.authorizations
+        .order("created_at ASC")
+        .pluck(:created_at)
+        .first
     end
   end
 end

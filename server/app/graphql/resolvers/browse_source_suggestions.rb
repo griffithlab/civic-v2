@@ -9,6 +9,10 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
 
   scope { SourceSuggestion.joins(:source).eager_load(:source).all }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:source_type, type: Types::SourceSourceType) do |scope, value|
     scope.eager_load(:source).where("sources.source_type = ?", Source.source_types[value])
   end

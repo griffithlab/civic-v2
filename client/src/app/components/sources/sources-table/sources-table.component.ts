@@ -20,6 +20,7 @@ import {
   Maybe,
   PageInfo,
   QueryBrowseSourcesArgs,
+  SortDirection,
   SourceSource,
   SourcesSortColumns,
 } from '@app/generated/civic.apollo'
@@ -51,11 +52,11 @@ export interface SourcesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-sources-table',
-    templateUrl: './sources-table.component.html',
-    styleUrls: ['./sources-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-sources-table',
+  templateUrl: './sources-table.component.html',
+  styleUrls: ['./sources-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourcesTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -101,7 +102,10 @@ export class CvcSourcesTableComponent implements OnInit {
 
   sortColumns: typeof SourcesSortColumns = SourcesSortColumns
 
-  constructor(private gql: BrowseSourcesGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: BrowseSourcesGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -113,6 +117,10 @@ export class CvcSourcesTableComponent implements OnInit {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       clinicalTrialId: this.clinicalTrialId,
+      sortBy: {
+        column: SourcesSortColumns.EvidenceCount,
+        direction: SortDirection.Desc,
+      },
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -204,14 +212,17 @@ export class CvcSourcesTableComponent implements OnInit {
         journal: this.journalInput,
         name: this.nameInput,
         sourceType: this.sourceTypeInput,
-        openAccess: this.openAccessInput
+        openAccess: this.openAccessInput,
       })
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<BrowseSourceRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseSourceRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

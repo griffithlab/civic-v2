@@ -17,6 +17,10 @@ class Resolvers::TopLevelFusions < GraphQL::Schema::Resolver
       .distinct
   end
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:evidence_status_filter, default_value: "WITH_ACCEPTED_OR_SUBMITTED", type: Types::AssociatedEvidenceStatusFilterType, description: "Limit fusions by the status of attached evidence.") do |scope, value|
     case value
     when "WITH_ACCEPTED"

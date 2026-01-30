@@ -92,18 +92,64 @@ export type ApiKeyFieldPolicy = {
 	reminder?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'disease' | 'endorsements' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type ApprovalKeySpecifier = ('approvalActivity' | 'assertion' | 'createdAt' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | ApprovalKeySpecifier)[];
+export type ApprovalFieldPolicy = {
+	approvalActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	readyForClinvarSubmission?: FieldPolicy<any> | FieldReadFunction<any>,
+	revocationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	status?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ApprovalConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | ApprovalConnectionKeySpecifier)[];
+export type ApprovalConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ApprovalEdgeKeySpecifier = ('cursor' | 'node' | ApprovalEdgeKeySpecifier)[];
+export type ApprovalEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ApproveAssertionActivityKeySpecifier = ('approval' | 'assertion' | 'createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | ApproveAssertionActivityKeySpecifier)[];
+export type ApproveAssertionActivityFieldPolicy = {
+	approval?: FieldPolicy<any> | FieldReadFunction<any>,
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ApproveAssertionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | ApproveAssertionPayloadKeySpecifier)[];
+export type ApproveAssertionPayloadFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	ampLevel?: FieldPolicy<any> | FieldReadFunction<any>,
+	approvals?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertionDirection?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	clingenCodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsements?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemsCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -385,7 +431,7 @@ export type BrowseTherapyEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseUserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'evidenceCount' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithEndorsementPrivileges' | 'profileImagePath' | 'ranks' | 'revisionCount' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | BrowseUserKeySpecifier)[];
+export type BrowseUserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'evidenceCount' | 'facebookProfile' | 'id' | 'joinDate' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithApprovalPrivileges' | 'profileImagePath' | 'ranks' | 'revisionCount' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | BrowseUserKeySpecifier)[];
 export type BrowseUserFieldPolicy = {
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -397,6 +443,7 @@ export type BrowseUserFieldPolicy = {
 	evidenceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	joinDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -406,7 +453,7 @@ export type BrowseUserFieldPolicy = {
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationsWithEndorsementPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationsWithApprovalPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -431,12 +478,13 @@ export type BrowseUserEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseVariantKeySpecifier = ('aliases' | 'category' | 'deprecated' | 'diseases' | 'featureDeprecated' | 'featureFlagged' | 'featureId' | 'featureLink' | 'featureName' | 'flagged' | 'id' | 'link' | 'name' | 'therapies' | 'variantTypes' | BrowseVariantKeySpecifier)[];
+export type BrowseVariantKeySpecifier = ('aliases' | 'category' | 'deprecated' | 'diseases' | 'evidenceItemCount' | 'featureDeprecated' | 'featureFlagged' | 'featureId' | 'featureLink' | 'featureName' | 'flagged' | 'id' | 'link' | 'name' | 'therapies' | 'variantTypes' | BrowseVariantKeySpecifier)[];
 export type BrowseVariantFieldPolicy = {
 	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureDeprecated?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureFlagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -881,52 +929,6 @@ export type EditUserPayloadKeySpecifier = ('clientMutationId' | 'user' | EditUse
 export type EditUserPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type EndorseAssertionActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | EndorseAssertionActivityKeySpecifier)[];
-export type EndorseAssertionActivityFieldPolicy = {
-	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
-	events?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	note?: FieldPolicy<any> | FieldReadFunction<any>,
-	organization?: FieldPolicy<any> | FieldReadFunction<any>,
-	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
-	subject?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>,
-	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type EndorseAssertionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | EndorseAssertionPayloadKeySpecifier)[];
-export type EndorseAssertionPayloadFieldPolicy = {
-	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
-	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type EndorsementKeySpecifier = ('assertion' | 'createdAt' | 'endorsementActivity' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | EndorsementKeySpecifier)[];
-export type EndorsementFieldPolicy = {
-	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsementActivity?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,
-	organization?: FieldPolicy<any> | FieldReadFunction<any>,
-	readyForClinvarSubmission?: FieldPolicy<any> | FieldReadFunction<any>,
-	revocationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
-	status?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type EndorsementConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EndorsementConnectionKeySpecifier)[];
-export type EndorsementConnectionFieldPolicy = {
-	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type EndorsementEdgeKeySpecifier = ('cursor' | 'node' | EndorsementEdgeKeySpecifier)[];
-export type EndorsementEdgeFieldPolicy = {
-	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
-	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EventKeySpecifier = ('action' | 'createdAt' | 'id' | 'organization' | 'originatingObject' | 'originatingUser' | 'subject' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
@@ -1411,14 +1413,14 @@ export type GenerateApiKeyPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'canEndorse' | 'description' | 'eventCount' | 'events' | 'hasEndorsingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
+export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'canApprove' | 'description' | 'eventCount' | 'events' | 'hasApprovingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
 export type LeaderboardOrganizationFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	canEndorse?: FieldPolicy<any> | FieldReadFunction<any>,
+	canApprove?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
-	hasEndorsingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasApprovingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isApprovedVcep?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1451,7 +1453,7 @@ export type LeaderboardRankFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	rank?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardUserKeySpecifier = ('actionCount' | 'apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithEndorsementPrivileges' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
+export type LeaderboardUserKeySpecifier = ('actionCount' | 'apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'joinDate' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithApprovalPrivileges' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
 export type LeaderboardUserFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1463,6 +1465,7 @@ export type LeaderboardUserFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	joinDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1472,7 +1475,7 @@ export type LeaderboardUserFieldPolicy = {
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationsWithEndorsementPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationsWithApprovalPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	rank?: FieldPolicy<any> | FieldReadFunction<any>,
 	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1654,13 +1657,14 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'endorseAssertion' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'revokeEndorsement' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'approveAssertion' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'revokeApproval' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	addDisease?: FieldPolicy<any> | FieldReadFunction<any>,
 	addRemoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	addTherapy?: FieldPolicy<any> | FieldReadFunction<any>,
+	approveAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFusionFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFusionVariant?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1671,7 +1675,6 @@ export type MutationFieldPolicy = {
 	deprecateFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecateVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	editUser?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorseAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	generateApiKey?: FieldPolicy<any> | FieldReadFunction<any>,
 	moderateAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1679,7 +1682,7 @@ export type MutationFieldPolicy = {
 	rejectRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
 	revokeApiKey?: FieldPolicy<any> | FieldReadFunction<any>,
-	revokeEndorsement?: FieldPolicy<any> | FieldReadFunction<any>,
+	revokeApproval?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitEvidence?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitVariantGroup?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1865,13 +1868,13 @@ export type ObjectFieldDiffFieldPolicy = {
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationKeySpecifier = ('canEndorse' | 'description' | 'eventCount' | 'events' | 'hasEndorsingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
+export type OrganizationKeySpecifier = ('canApprove' | 'description' | 'eventCount' | 'events' | 'hasApprovingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
-	canEndorse?: FieldPolicy<any> | FieldReadFunction<any>,
+	canApprove?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
-	hasEndorsingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasApprovingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isApprovedVcep?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1946,12 +1949,13 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'endorsements' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchAssertions' | 'searchByPermalink' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchPhenotypes' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	activities?: FieldPolicy<any> | FieldReadFunction<any>,
 	activity?: FieldPolicy<any> | FieldReadFunction<any>,
+	approvals?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseDiseases?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1977,7 +1981,6 @@ export type QueryFieldPolicy = {
 	diseasePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsements?: FieldPolicy<any> | FieldReadFunction<any>,
 	entityTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2011,8 +2014,18 @@ export type QueryFieldPolicy = {
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	search?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
-	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchDiseases?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchFeatures?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchMolecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchPhenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchSources?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchTherapies?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchUsers?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchVariantTypes?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchVariants?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourcePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestionValues?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2147,11 +2160,11 @@ export type RevokeApiKeyPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevokeEndorsementActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | RevokeEndorsementActivityKeySpecifier)[];
-export type RevokeEndorsementActivityFieldPolicy = {
+export type RevokeApprovalActivityKeySpecifier = ('approval' | 'assertion' | 'createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | RevokeApprovalActivityKeySpecifier)[];
+export type RevokeApprovalActivityFieldPolicy = {
+	approval?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2161,8 +2174,8 @@ export type RevokeEndorsementActivityFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevokeEndorsementPayloadKeySpecifier = ('assertion' | 'clientMutationId' | RevokeEndorsementPayloadKeySpecifier)[];
-export type RevokeEndorsementPayloadFieldPolicy = {
+export type RevokeApprovalPayloadKeySpecifier = ('assertion' | 'clientMutationId' | RevokeApprovalPayloadKeySpecifier)[];
+export type RevokeApprovalPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -2463,9 +2476,10 @@ export type SuggestVariantGroupRevisionPayloadFieldPolicy = {
 	results?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TherapyKeySpecifier = ('deprecated' | 'id' | 'link' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyKeySpecifier)[];
+export type TherapyKeySpecifier = ('deprecated' | 'description' | 'id' | 'link' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyKeySpecifier)[];
 export type TherapyFieldPolicy = {
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	myChemInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2487,10 +2501,11 @@ export type TherapyEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TherapyPopoverKeySpecifier = ('assertionCount' | 'deprecated' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyPopoverKeySpecifier)[];
+export type TherapyPopoverKeySpecifier = ('assertionCount' | 'deprecated' | 'description' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyPopoverKeySpecifier)[];
 export type TherapyPopoverFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2541,7 +2556,7 @@ export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithEndorsementPrivileges' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'joinDate' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithApprovalPrivileges' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2552,6 +2567,7 @@ export type UserFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	joinDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2562,7 +2578,7 @@ export type UserFieldPolicy = {
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationsWithEndorsementPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationsWithApprovalPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	role?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2788,6 +2804,26 @@ export type StrictTypedTypePolicies = {
 	ApiKey?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ApiKeyKeySpecifier | (() => undefined | ApiKeyKeySpecifier),
 		fields?: ApiKeyFieldPolicy,
+	},
+	Approval?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ApprovalKeySpecifier | (() => undefined | ApprovalKeySpecifier),
+		fields?: ApprovalFieldPolicy,
+	},
+	ApprovalConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ApprovalConnectionKeySpecifier | (() => undefined | ApprovalConnectionKeySpecifier),
+		fields?: ApprovalConnectionFieldPolicy,
+	},
+	ApprovalEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ApprovalEdgeKeySpecifier | (() => undefined | ApprovalEdgeKeySpecifier),
+		fields?: ApprovalEdgeFieldPolicy,
+	},
+	ApproveAssertionActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ApproveAssertionActivityKeySpecifier | (() => undefined | ApproveAssertionActivityKeySpecifier),
+		fields?: ApproveAssertionActivityFieldPolicy,
+	},
+	ApproveAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ApproveAssertionPayloadKeySpecifier | (() => undefined | ApproveAssertionPayloadKeySpecifier),
+		fields?: ApproveAssertionPayloadFieldPolicy,
 	},
 	Assertion?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AssertionKeySpecifier | (() => undefined | AssertionKeySpecifier),
@@ -3108,26 +3144,6 @@ export type StrictTypedTypePolicies = {
 	EditUserPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EditUserPayloadKeySpecifier | (() => undefined | EditUserPayloadKeySpecifier),
 		fields?: EditUserPayloadFieldPolicy,
-	},
-	EndorseAssertionActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | EndorseAssertionActivityKeySpecifier | (() => undefined | EndorseAssertionActivityKeySpecifier),
-		fields?: EndorseAssertionActivityFieldPolicy,
-	},
-	EndorseAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | EndorseAssertionPayloadKeySpecifier | (() => undefined | EndorseAssertionPayloadKeySpecifier),
-		fields?: EndorseAssertionPayloadFieldPolicy,
-	},
-	Endorsement?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | EndorsementKeySpecifier | (() => undefined | EndorsementKeySpecifier),
-		fields?: EndorsementFieldPolicy,
-	},
-	EndorsementConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | EndorsementConnectionKeySpecifier | (() => undefined | EndorsementConnectionKeySpecifier),
-		fields?: EndorsementConnectionFieldPolicy,
-	},
-	EndorsementEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | EndorsementEdgeKeySpecifier | (() => undefined | EndorsementEdgeKeySpecifier),
-		fields?: EndorsementEdgeFieldPolicy,
 	},
 	Event?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventKeySpecifier | (() => undefined | EventKeySpecifier),
@@ -3525,13 +3541,13 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | RevokeApiKeyPayloadKeySpecifier | (() => undefined | RevokeApiKeyPayloadKeySpecifier),
 		fields?: RevokeApiKeyPayloadFieldPolicy,
 	},
-	RevokeEndorsementActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | RevokeEndorsementActivityKeySpecifier | (() => undefined | RevokeEndorsementActivityKeySpecifier),
-		fields?: RevokeEndorsementActivityFieldPolicy,
+	RevokeApprovalActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevokeApprovalActivityKeySpecifier | (() => undefined | RevokeApprovalActivityKeySpecifier),
+		fields?: RevokeApprovalActivityFieldPolicy,
 	},
-	RevokeEndorsementPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | RevokeEndorsementPayloadKeySpecifier | (() => undefined | RevokeEndorsementPayloadKeySpecifier),
-		fields?: RevokeEndorsementPayloadFieldPolicy,
+	RevokeApprovalPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevokeApprovalPayloadKeySpecifier | (() => undefined | RevokeApprovalPayloadKeySpecifier),
+		fields?: RevokeApprovalPayloadFieldPolicy,
 	},
 	ScalarField?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ScalarFieldKeySpecifier | (() => undefined | ScalarFieldKeySpecifier),

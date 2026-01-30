@@ -41,7 +41,7 @@ Trestle.resource(:organizations) do
     end
 
     row do
-      col { check_box :can_endorse, label: "Organization Allowed to Endorse Assertions" }
+      col { check_box :can_approve, label: "Organization Allowed to Approve Assertions" }
     end
     row do
       col { check_box :is_approved_vcep, label: "This Organization is a ClinGen Approved VCEP" }
