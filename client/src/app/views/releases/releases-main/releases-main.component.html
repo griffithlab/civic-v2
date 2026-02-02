@@ -131,11 +131,9 @@
                     <th>Features</th>
                     <th>Variants</th>
                     <th>Molecular Profiles</th>
-                    <th>Accepted Evidence</th>
-                    <th>Accepted & Submitted Evidence</th>
+                    <th>Evidence</th>
                     <th>Variant Groups</th>
-                    <th>Accepted Assertions</th>
-                    <th>Accepted & Submitted Assertions</th>
+                    <th>Assertions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -162,15 +160,13 @@
                         Molecular Profiles TSV
                       </cvc-link-tag>
                     </td>
-                    <td *ngIf="release.acceptedEvidenceTsv; else noData">
-                      <cvc-link-tag
+                    <td *ngIf="release.acceptedEvidenceTsv || release.acceptedAndSubmittedEvidenceTsv; else noData">
+                      <cvc-link-tag *ngIf="release.acceptedEvidenceTsv"
                         [href]="release.acceptedEvidenceTsv.path"
                         iconName="download">
                         Accepted EID TSV
                       </cvc-link-tag>
-                    </td>
-                    <td *ngIf="release.acceptedAndSubmittedEvidenceTsv; else noData">
-                      <cvc-link-tag
+                      <cvc-link-tag *ngIf="release.acceptedAndSubmittedEvidenceTsv"
                         [href]="release.acceptedAndSubmittedEvidenceTsv.path"
                         iconName="download">
                         Accepted & Submitted EID TSV
@@ -183,15 +179,13 @@
                         Variant Groups TSV
                       </cvc-link-tag>
                     </td>
-                    <td *ngIf="release.acceptedAssertionTsv; else noData">
-                      <cvc-link-tag
+                    <td *ngIf="release.acceptedAssertionTsv || release.acceptedAndSubmittedAssertionTsv; else noData">
+                      <cvc-link-tag *ngIf="release.acceptedAssertionTsv"
                         [href]="release.acceptedAssertionTsv.path"
                         iconName="download">
                         Accepted AID TSV
                       </cvc-link-tag>
-                    </td>
-                    <td *ngIf="release.acceptedAndSubmittedAssertionTsv; else noData">
-                      <cvc-link-tag
+                      <cvc-link-tag *ngIf="release.acceptedAndSubmittedAssertionTsv"
                         [href]="release.acceptedAndSubmittedAssertionTsv.path"
                         iconName="download">
                         Accepted & Submitted AID TSV
