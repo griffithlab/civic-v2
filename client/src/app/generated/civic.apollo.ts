@@ -1753,10 +1753,12 @@ export enum CreateableFeatureTypes {
 
 export type DataRelease = {
   __typename: 'DataRelease';
+  acceptedAndSubmittedAssertionTsv?: Maybe<DownloadableFile>;
+  acceptedAndSubmittedEvidenceTsv?: Maybe<DownloadableFile>;
   acceptedAndSubmittedVariantsVcf?: Maybe<DownloadableFile>;
+  acceptedAssertionTsv?: Maybe<DownloadableFile>;
+  acceptedEvidenceTsv?: Maybe<DownloadableFile>;
   acceptedVariantsVcf?: Maybe<DownloadableFile>;
-  assertionTsv?: Maybe<DownloadableFile>;
-  evidenceTsv?: Maybe<DownloadableFile>;
   featureTsv?: Maybe<DownloadableFile>;
   molecularProfileTsv?: Maybe<DownloadableFile>;
   name: Scalars['String']['output'];
@@ -10600,9 +10602,9 @@ export type PhenotypeDetailQuery = { __typename: 'Query', phenotype?: { __typena
 export type DataReleasesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DataReleasesQuery = { __typename: 'Query', dataReleases: Array<{ __typename: 'DataRelease', name: string, featureTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, evidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, molecularProfileTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, assertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined }> };
+export type DataReleasesQuery = { __typename: 'Query', dataReleases: Array<{ __typename: 'DataRelease', name: string, featureTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedEvidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedEvidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, molecularProfileTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAssertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedAssertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined }> };
 
-export type ReleaseFragment = { __typename: 'DataRelease', name: string, featureTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, evidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, molecularProfileTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, assertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined };
+export type ReleaseFragment = { __typename: 'DataRelease', name: string, featureTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedEvidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedEvidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, molecularProfileTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAssertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedAssertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined };
 
 export type SourceDetailQueryVariables = Exact<{
   sourceId: Scalars['Int']['input'];
@@ -14314,7 +14316,11 @@ export const ReleaseFragmentDoc = gql`
     filename
     path
   }
-  evidenceTsv {
+  acceptedEvidenceTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedEvidenceTsv {
     filename
     path
   }
@@ -14322,7 +14328,11 @@ export const ReleaseFragmentDoc = gql`
     filename
     path
   }
-  assertionTsv {
+  acceptedAssertionTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedAssertionTsv {
     filename
     path
   }

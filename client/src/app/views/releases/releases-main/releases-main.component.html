@@ -116,7 +116,7 @@
       <nz-row *nzSpaceItem>
         <nz-col [nzSpan]="24">
           <div class="content">
-            <nz-card nzTitle="Browse All Data Releases">
+            <nz-card nzTitle="Browse All TSV Data Releases">
               <nz-table
                 #releasesTable
                 nzSize="small"
@@ -131,11 +131,11 @@
                     <th>Features</th>
                     <th>Variants</th>
                     <th>Molecular Profiles</th>
-                    <th>Evidence</th>
+                    <th>Accepted Evidence</th>
+                    <th>Accepted & Submitted Evidence</th>
                     <th>Variant Groups</th>
-                    <th>Assertions</th>
-                    <th>Accepted Variants VCF</th>
-                    <th>Accepted & Submitted Variants VCF</th>
+                    <th>Accepted Assertions</th>
+                    <th>Accepted & Submitted Assertions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -162,11 +162,18 @@
                         Molecular Profiles TSV
                       </cvc-link-tag>
                     </td>
-                    <td *ngIf="release.evidenceTsv; else noData">
+                    <td *ngIf="release.acceptedEvidenceTsv; else noData">
                       <cvc-link-tag
-                        [href]="release.evidenceTsv.path"
+                        [href]="release.acceptedEvidenceTsv.path"
                         iconName="download">
-                        Evidence TSV
+                        Accepted EID TSV
+                      </cvc-link-tag>
+                    </td>
+                    <td *ngIf="release.acceptedAndSubmittedEvidenceTsv; else noData">
+                      <cvc-link-tag
+                        [href]="release.acceptedAndSubmittedEvidenceTsv.path"
+                        iconName="download">
+                        Accepted & Submitted EID TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.variantGroupTsv; else noData">
@@ -176,13 +183,48 @@
                         Variant Groups TSV
                       </cvc-link-tag>
                     </td>
-                    <td *ngIf="release.assertionTsv; else noData">
+                    <td *ngIf="release.acceptedAssertionTsv; else noData">
                       <cvc-link-tag
-                        [href]="release.assertionTsv.path"
+                        [href]="release.acceptedAssertionTsv.path"
                         iconName="download">
-                        Assertions TSV
+                        Accepted AID TSV
                       </cvc-link-tag>
                     </td>
+                    <td *ngIf="release.acceptedAndSubmittedAssertionTsv; else noData">
+                      <cvc-link-tag
+                        [href]="release.acceptedAndSubmittedAssertionTsv.path"
+                        iconName="download">
+                        Accepted & Submitted AID TSV
+                      </cvc-link-tag>
+                    </td>
+                </tbody>
+              </nz-table>
+            </nz-card>
+          </div>
+        </nz-col>
+      </nz-row>
+      <nz-row *nzSpaceItem>
+        <nz-col [nzSpan]="24">
+          <div class="content">
+            <nz-card nzTitle="Browse All VCF Data Releases">
+              <nz-table
+                #releasesTable
+                nzSize="small"
+                [nzData]="(releases$ | ngrxPush) || []"
+                [nzLoading]="loading$ | ngrxPush"
+                [nzFrontPagination]="true"
+                [nzShowPagination]="true"
+                [nzPageSize]="5">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Accepted Variants VCF</th>
+                    <th>Accepted & Submitted Variants VCF</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let release of releasesTable.data">
+                    <td>{{ release.name }}</td>
                     <td *ngIf="release.acceptedVariantsVcf; else noData">
                       <cvc-link-tag
                         [href]="release.acceptedVariantsVcf.path"
@@ -202,19 +244,19 @@
                       </cvc-link-tag>
                     </td>
                   </tr>
-                  <ng-template #noData>
-                    <td
-                      nz-typography
-                      nzType="secondary">
-                      --
-                    </td>
-                  </ng-template>
                 </tbody>
               </nz-table>
             </nz-card>
           </div>
         </nz-col>
       </nz-row>
+      <ng-template #noData>
+        <td
+          nz-typography
+          nzType="secondary">
+          --
+        </td>
+      </ng-template>
     </nz-space>
   </nz-page-header-content>
 </nz-page-header>

@@ -18,7 +18,11 @@ fragment Release on DataRelease {
     filename
     path
   }
-  evidenceTsv {
+  acceptedEvidenceTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedEvidenceTsv {
     filename
     path
   }
@@ -26,7 +30,11 @@ fragment Release on DataRelease {
     filename
     path
   }
-  assertionTsv {
+  acceptedAssertionTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedAssertionTsv {
     filename
     path
   }
