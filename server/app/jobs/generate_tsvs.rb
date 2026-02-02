@@ -33,9 +33,11 @@ class GenerateTsvs < ApplicationJob
     [
       FeatureTsvFormatter,
       VariantTsvFormatter,
-      EvidenceItemTsvFormatter,
+      AcceptedEvidenceItemTsvFormatter,
+      AcceptedAndSubmittedEvidenceItemTsvFormatter,
       VariantGroupTsvFormatter,
-      AssertionTsvFormatter,
+      AcceptedAssertionTsvFormatter,
+      AcceptedAndSubmittedAssertionTsvFormatter,
       MolecularProfileTsvFormatter,
     ]
   end
