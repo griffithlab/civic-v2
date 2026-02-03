@@ -1,0 +1,84 @@
+query RevisionsBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  revisionSets(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    status: NEW
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...RevisionSetBrowseFields
+      }
+    }
+  }
+}
+
+fragment RevisionSetBrowseFields on RevisionSet {
+  id
+  name
+  revisions {
+    ...revision
+   subject {
+      id
+      name
+      link
+      ... on Variant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+      ... on GeneVariant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+      ... on FactorVariant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+      ... on FusionVariant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+    }
+  }
+  creationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    organization {
+      id
+      name
+    }
+  }
+}

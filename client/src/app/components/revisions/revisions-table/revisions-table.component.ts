@@ -1,0 +1,318 @@
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+} from '@angular/core'
+import { ApolloQueryResult } from '@apollo/client/core'
+import {
+  buildSortParams,
+  SortDirectionEvent,
+} from '@app/core/utilities/datatable-helpers'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import {
+  RevisionSetConnection,
+  RevisionsBrowseGQL,
+  RevisionsBrowseQuery,
+  RevisionsBrowseQueryVariables,
+  Maybe,
+  PageInfo,
+  RevisionSet,
+} from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { QueryRef } from 'apollo-angular'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  skip,
+  take,
+  takeUntil,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { ActivatedRoute } from '@angular/router'
+
+/* export type ExpandableRevisionSet = RevisionSet & {
+  expand: boolean
+} */
+
+@UntilDestroy()
+@Component({
+  selector: 'cvc-revisions-table',
+  templateUrl: './revisions-table.component.html',
+  styleUrls: ['./revisions-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+})
+export class CvcRevisionsTableComponent implements OnInit {
+  @Input() cvcHeight: Maybe<string>
+  @Input() evidenceId: Maybe<number>
+  @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
+  @Input() organizationId: Maybe<number>
+  @Input() userId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
+  @Input() diseaseId: Maybe<number>
+  @Input() therapyId: Maybe<number>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
+  @Input() approvingOrganizationId: Maybe<number>
+
+  // SOURCE STREAMS
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  sortChange$: Subject<SortDirectionEvent>
+
+  // INTERMEDIATE STREAMS
+  result$!: Observable<ApolloQueryResult<RevisionsBrowseQuery>>
+  connection$!: Observable<RevisionSetConnection>
+  pageInfo$!: Observable<PageInfo>
+
+  // PRESENTATION STREAMS
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<RevisionSet>[]>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
+  queryRef!: QueryRef<RevisionsBrowseQuery, RevisionsBrowseQueryVariables>
+
+  // need a static var for scrolling state b/c sub/unsub in
+  // virtual scroll rows degrades performance
+  isScrolling: boolean = false
+
+  private debouncedQuery = new Subject<void>()
+
+  //queryParamsSub$: Subscription
+
+  isLoading$?: Observable<boolean>
+  revisions$?: Observable<Maybe<RevisionSet>[]>
+  filteredCount$?: Observable<number>
+
+  isLoading = false
+
+  initialPageSize = 25
+  totalCount?: number
+  fetchMorePageSize = 25
+  isLoadingDelay = 300
+  visibleCount: number = this.initialPageSize
+
+  loadedPages: number = 1
+
+  tableView: boolean = true
+
+  textInputCallback?: () => void
+
+  showTooltips = true
+
+  //filters
+  //aidInput: Maybe<string>
+  //diseaseNameInput: Maybe<string>
+  //therapyNameInput: Maybe<string>
+  //summaryInput: Maybe<string>
+  //assertionTypeInput: Maybe<EvidenceType>
+  //assertionDirectionInput: Maybe<EvidenceDirection>
+  //SignificanceInput: Maybe<EvidenceSignificance>
+  //molecularProfileNameInput: Maybe<string>
+  //ampLevelInput: Maybe<AmpLevel>
+  //includeSubgroups: Maybe<boolean>
+
+  //sortColumns: typeof AssertionSortColumns = AssertionSortColumns
+
+  private destroy$ = new Subject<void>()
+
+  constructor(
+    private gql: RevisionsBrowseGQL,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
+  ) {
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.scrollIndex$ = new Subject<number>()
+    //this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
+    //  if (params.has('includeSubgroups')) {
+    //    this.includeSubgroups =
+    //      params.get('includeSubgroups') === 'true' ? true : false
+    //  }
+    //})
+  }
+
+  ngOnInit() {
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      //variantId: this.variantId,
+      //molecularProfileId: this.molecularProfileId,
+      //evidenceId: this.evidenceId,
+      //organizationId: this.organizationId ? [this.organizationId] : [],
+      //approvingOrganizationIds: this.approvingOrganizationId
+      //  ? [this.approvingOrganizationId]
+      //  : [],
+      //includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      //userId: this.userId,
+      //phenotypeId: this.phenotypeId,
+      //diseaseId: this.diseaseId,
+      //therapyId: this.therapyId,
+    })
+
+    this.result$ = this.queryRef.valueChanges
+
+    // for controlling nzTable's loading overlay, which covers the whole table -
+    // good for the initial load as it's hard to miss
+    this.initialLoading$ = this.result$.pipe(
+      pluck('loading'),
+      distinctUntilChanged(),
+      takeWhile((l) => l !== false, true)
+    ) // only activate on 1st true/false sequence
+
+    // controls the smaller [Loading...] indicator, better for not distracting
+    // users by overlaying the row data they're focusing on
+    this.moreLoading$ = this.result$.pipe(
+      pluck('loading'),
+      distinctUntilChanged(),
+      skip(2)
+    ) // skip 1st true/false sequence
+
+    this.connection$ = this.result$.pipe(
+      pluck('data', 'revisionSets'),
+      filter(isNonNulled)
+    ) as Observable<RevisionSetConnection>
+
+    this.row$ = this.connection$.pipe(
+      pluck('edges'),
+      filter(isNonNulled),
+      map((edges) => edges.map((e) => e.node))
+      //map((edges) => edges.map((e) => e.node).map(node => { return {...node, expand: false}}))
+    )
+
+    this.pageInfo$ = this.connection$.pipe(
+      pluck('pageInfo'),
+      filter(isNonNulled)
+    )
+
+    // refetch when column sort changes
+    //this.sortChange$
+    //  .pipe(untilDestroyed(this))
+    //  .subscribe((e: SortDirectionEvent) => {
+    //    this.queryRef.refetch({ sortBy: buildSortParams(e) })
+    //  })
+
+    this.debouncedQuery
+      .pipe(takeUntil(this.destroy$), debounceTime(500))
+      .subscribe((_) => this.refresh())
+
+    this.textInputCallback = () => {
+      this.debouncedQuery.next()
+    }
+
+    // for every onScrolled event, convert to bool, share multicast
+    // false on 'scroll', true on 'stop'
+    this.scrollEvent$
+      .pipe(
+        map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+        distinctUntilChanged(),
+        untilDestroyed(this)
+      )
+      .subscribe((e) => {
+        this.isScrolling = e
+        this.cdr.detectChanges()
+      })
+
+    // emit event from noMoreRow$ when scroll viewport hits bottom
+    // and no next page exists
+    this.scrollEvent$
+      .pipe(
+        filter((e) => e === 'bottom'),
+        withLatestFrom(this.pageInfo$),
+        map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
+        untilDestroyed(this)
+      )
+      .subscribe((pageInfo: PageInfo) => {
+        if (!pageInfo.hasNextPage) {
+          this.noMoreRows$.next(true)
+          this.cdr.detectChanges()
+
+          // need to send a followup 'false' here or else
+          // ng won't interpret subsequent 'true' events as changes
+          setInterval(() => this.noMoreRows$.next(false))
+        }
+      })
+  } // ngOnInit()
+
+  // filtering, sorting callbacks
+  onModelChanged() {
+    this.debouncedQuery.next()
+  }
+
+  // refetch results, replacing current rows
+  refresh() {
+    this.isLoading = true
+    this.loadedPages = 1
+    //var aid: Maybe<number>
+    //if (this.aidInput)
+    //  if (this.aidInput.toUpperCase().startsWith('AID')) {
+    //    aid = +this.aidInput.toUpperCase().replace('AID', '')
+    //  } else {
+    //    aid = +this.aidInput
+    //  }
+    //else {
+    //  aid = undefined
+    //}
+    this.queryRef.refetch({
+      //id: aid,
+      //diseaseName: this.diseaseNameInput,
+      //molecularProfileName: this.molecularProfileNameInput,
+      //therapyName: this.therapyNameInput,
+      //summary: this.summaryInput,
+      //status: this.statusInput,
+      //includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      //assertionType: this.assertionTypeInput
+      //  ? this.assertionTypeInput
+      //  : undefined,
+      //assertionDirection: this.assertionDirectionInput
+      //  ? this.assertionDirectionInput
+      //  : undefined,
+      //significance: this.SignificanceInput ? this.SignificanceInput : undefined,
+      //ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
+    })
+  }
+
+  // fetch more results, append to current rows
+  loadMore(cursor: Maybe<string>) {
+    this.isLoading = true
+    this.queryRef.fetchMore({
+      variables: { after: cursor },
+    })
+
+    this.loadedPages += 1
+  }
+
+  statusChanged() {
+    this.debouncedQuery.next()
+    //this.statusFilterVisible = false
+  }
+
+  includeSubgroupsChanged() {
+    this.debouncedQuery.next()
+    //this.statusFilterVisible = false
+  }
+
+  // virtual scroll helpers
+  trackByIndex(
+    _: number,
+    data: Maybe<RevisionSet>
+  ): Maybe<number> {
+    return data?.id
+  }
+
+  ngOnDestroy() {
+    //this.queryParamsSub$.unsubscribe()
+    this.destroy$.next()
+    this.destroy$.unsubscribe()
+  }
+}

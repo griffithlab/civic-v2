@@ -10278,6 +10278,61 @@ type Query {
   revision(id: Int!): Revision
 
   """
+  List and filter revision sets.
+  """
+  revisionSets(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions accepted, rejected, or superseded by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+
+    """
+    Limit to revisions of a specific CIViC entity
+    """
+    subject: ModeratedInput
+  ): RevisionSetConnection!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -11119,6 +11174,7 @@ input RevisionSearchFilter {
 
 type RevisionSet implements EventSubject {
   createdAt: ISO8601DateTime!
+  creationActivity: SuggestRevisionSetActivity
   displayName: String!
 
   """
@@ -11158,6 +11214,51 @@ type RevisionSet implements EventSubject {
   name: String!
   revisions: [Revision!]!
   updatedAt: ISO8601DateTime!
+}
+
+"""
+The connection type for RevisionSet.
+"""
+type RevisionSetConnection {
+  """
+  A list of edges.
+  """
+  edges: [RevisionSetEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [RevisionSet!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type RevisionSetEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: RevisionSet
 }
 
 enum RevisionStatus {
