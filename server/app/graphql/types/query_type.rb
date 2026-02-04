@@ -240,7 +240,7 @@ module Types
       if id != :unspecified
         Feature.find_by(feature_instance_type: "Features::Gene", id: id)&.feature_instance
       else
-        Features::Gene.find_by(name: entrez_symbol)
+        Feature.find_by(feature_instance_type: "Features::Gene", name: entrez_symbol)&.feature_instance
       end
     end
 

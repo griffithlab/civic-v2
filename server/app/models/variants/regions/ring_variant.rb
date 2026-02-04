@@ -4,7 +4,7 @@ module Variants::Regions
       validate!
       if variant.region.cytogenetic_regions.size == 1
         cr = variant.region.cytogenetic_regions.first
-        "r(#{cr.chromsome})"
+        "r(#{cr.chromosome})"
       else
         # TODO implement support for multiple
       end

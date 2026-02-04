@@ -3,7 +3,7 @@ module Variants::Regions
     def generate_iscn_name
       validate!
       cr = variant.region.cytogenetic_regions.first
-      "+#{cr.chromsome},+#{cr.chromosome}"
+      "+#{cr.chromosome},+#{cr.chromosome}"
     end
 
     def validate
@@ -12,7 +12,7 @@ module Variants::Regions
         if !cr.is_chromosome?
           variant.errors.add(:region, "Tetrasomy must specify a whole Chromosome")
         end
-        if cr.name == "chrY" || cr.name == "chrX"
+        if cr.name == "Y" || cr.name == "X"
           variant.errors.add(:region, "Tetrasomy cannot specify sex chromosomes")
         end
       else

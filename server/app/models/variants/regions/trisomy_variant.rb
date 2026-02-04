@@ -3,7 +3,7 @@ module Variants::Regions
     def generate_iscn_name
       validate!
       cr = variant.region.cytogenetic_regions.first
-      "+#{cr.chromsome}"
+      "+#{cr.chromosome}"
     end
 
     def validate
@@ -12,7 +12,7 @@ module Variants::Regions
         if !cr.is_chromosome?
           variant.errors.add(:region, "Trisomy must specify a whole Chromosome")
         end
-        if cr.name == "chrY"
+        if cr.name == "Y"
           variant.errors.add(:region, "Trisomy of Y chromosome is not supported.")
         end
       else

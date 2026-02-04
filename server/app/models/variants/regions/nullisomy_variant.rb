@@ -3,12 +3,12 @@ module Variants::Regions
     def generate_iscn_name
       validate!
       cr = variant.region.cytogenetic_regions.first
-      if cr.name == "chrX"
+      if cr.name == "X"
         "-X OR -X,-X"
-      elsif cr.name == "chrY"
+      elsif cr.name == "Y"
         "-Y"
       else
-        "-#{cr.chromsome},-#{cr.chromosome}"
+        "-#{cr.chromosome},-#{cr.chromosome}"
       end
     end
 

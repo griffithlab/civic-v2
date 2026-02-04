@@ -53,15 +53,12 @@ module Types::Entities
     end
 
     def variants
-      Loaders::AssociationLoader.for(Feature, :variants).load(object)
-    end
-
-    def link
-      object.link
-    end
-
-    def feature_instance
-      object.feature_instance
+      if object.class.name == "Feature"
+        to_load = object
+      else
+        to_load = object.feature
+      end
+      Loaders::AssociationLoader.for(Feature, :variants).load(to_load)
     end
 
     def feature_type

@@ -28124,7 +28124,7 @@
             },
             {
               "name": "geneId",
-              "description": "The CIViC gene ID of the partner, if known",
+              "description": "The CIViC ID of the Gene Feature that is the Fusion partner, if known",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
