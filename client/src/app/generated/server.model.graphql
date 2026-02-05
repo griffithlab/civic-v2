@@ -5733,7 +5733,7 @@ The fusion partner's status and gene ID (if applicable)
 """
 input FusionPartnerInput {
   """
-  The CIViC gene ID of the partner, if known
+  The CIViC ID of the Gene Feature that is the Fusion partner, if known
   """
   geneId: Int
 
@@ -12834,6 +12834,7 @@ input TaggableEntityInput {
 
 type Therapy {
   deprecated: Boolean!
+  description: String
   id: Int!
   link: String!
   myChemInfo: MyChemInfo
@@ -12902,6 +12903,7 @@ input TherapyInteractionTypeSearchInput {
 type TherapyPopover {
   assertionCount: Int!
   deprecated: Boolean!
+  description: String
   evidenceItemCount: Int!
   id: Int!
   link: String!

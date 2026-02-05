@@ -7,6 +7,7 @@ query TherapiesSummary($therapyId: Int!) {
 fragment TherapiesSummaryFields on Therapy {
   id
   name
+  description
   ncitId
   therapyUrl
   therapyAliases

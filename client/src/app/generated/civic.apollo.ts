@@ -7674,6 +7674,7 @@ export type TaggableEntityInput = {
 export type Therapy = {
   __typename: 'Therapy';
   deprecated: Scalars['Boolean']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   link: Scalars['String']['output'];
   myChemInfo?: Maybe<MyChemInfo>;
@@ -7722,6 +7723,7 @@ export type TherapyPopover = {
   __typename: 'TherapyPopover';
   assertionCount: Scalars['Int']['output'];
   deprecated: Scalars['Boolean']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   evidenceItemCount: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   link: Scalars['String']['output'];
@@ -10736,9 +10738,9 @@ export type TherapiesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined } | undefined };
+export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, description?: string | undefined, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined } | undefined };
 
-export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined };
+export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, description?: string | undefined, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined };
 
 export type MyChemInfoFieldsFragment = { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> };
 
@@ -14536,6 +14538,7 @@ export const TherapiesSummaryFieldsFragmentDoc = gql`
     fragment TherapiesSummaryFields on Therapy {
   id
   name
+  description
   ncitId
   therapyUrl
   therapyAliases

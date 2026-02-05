@@ -310,7 +310,12 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
           if (!input || input.trim().length == 0) {
             return newVariant
           } else {
-            return `${input.trim()} ${newVariant}`
+            let [prevVariant] = input.trim().split(' ').slice(-1)
+            if (prevVariant == newVariant) {
+              return input.trim()
+            } else {
+              return `${input.trim()} ${newVariant}`
+            }
           }
         }),
         // tag('onVariantSelect$'),

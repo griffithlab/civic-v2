@@ -27752,7 +27752,7 @@
             },
             {
               "name": "geneId",
-              "description": "The CIViC gene ID of the partner, if known",
+              "description": "The CIViC ID of the Gene Feature that is the Fusion partner, if known",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -58835,6 +58835,18 @@
               "deprecationReason": null
             },
             {
+              "name": "description",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [],
@@ -59199,6 +59211,18 @@
                   "name": "Boolean",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

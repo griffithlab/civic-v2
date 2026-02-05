@@ -5,7 +5,10 @@ module Actions
     attr_reader :feature, :originating_user, :organization_id, :create_variant, :five_prime_partner_status, :three_prime_partner_status
 
     def initialize(originating_user:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, organization_id: nil, create_variant: true)
-      feature_name = "#{construct_fusion_partner_name(five_prime_gene_id, five_prime_partner_status)}::#{construct_fusion_partner_name(three_prime_gene_id, three_prime_partner_status)}"
+      five_prime_name = Features::Fusion.construct_fusion_partner_name(five_prime_gene_id, five_prime_partner_status)
+      three_prime_name = Features::Fusion.construct_fusion_partner_name(three_prime_gene_id, three_prime_partner_status)
+      feature_name = "#{five_prime_name}::#{three_prime_name}"
+
       @feature = Feature.new(
         name: feature_name,
       )
@@ -21,16 +24,6 @@ module Actions
       @originating_user = originating_user
       @organization_id = organization_id
       @create_variant = create_variant
-    end
-
-    def construct_fusion_partner_name(gene_id, partner_status)
-      if partner_status == "known"
-        Features::Gene.find(gene_id).name
-      elsif partner_status == "unknown"
-        "?"
-      elsif partner_status == "multiple"
-        "v"
-      end
     end
 
     def create_representative_variant
