@@ -153,6 +153,13 @@
                     mp.id
                   "></cvc-mp-factor-variant-card>
               }
+              @case ('RegionVariant') {
+                <cvc-mp-region-variant-card
+                  [variant]="v"
+                  [currentMolecularProfileId]="
+                    mp.id
+                  "></cvc-mp-region-variant-card>
+              }
             }
           </nz-col>
         </nz-row>

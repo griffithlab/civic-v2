@@ -108,6 +108,9 @@ fragment VariantMolecularProfileCardFields on VariantInterface {
   ... on FusionVariant {
     ... FusionVariantSummaryFields
   }
+  ... on RegionVariant {
+    ... RegionVariantSummaryFields
+  }
   variantAliases
   variantTypes {
     id
