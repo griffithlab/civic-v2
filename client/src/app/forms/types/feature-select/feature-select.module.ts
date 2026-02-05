@@ -25,6 +25,7 @@ import { CvcFeatureQuickAddForm } from './feature-quick-add/feature-quick-add.fo
 import { CvcFusionSelectForm } from './fusion-select/fusion-select.form'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzModalModule } from 'ng-zorro-antd/modal'
+import { CvcRegionSelectForm } from './region-select/region-select.form'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -74,6 +75,7 @@ const typeConfig: ConfigOption = {
     CvcEntityTagModule,
     CvcFeatureQuickAddForm,
     CvcFusionSelectForm,
+    CvcRegionSelectForm,
   ],
   exports: [CvcFeatureSelectField],
 })

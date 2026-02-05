@@ -5,7 +5,7 @@ module Resolvers
   class TopLevelComments < GraphQL::Schema::Resolver
     include SearchObject.module(:graphql)
 
-    type Types::Entities::CommentType.connection_type, null: false
+    type Types::Connections::CommentsConnection, null: false
 
     description "List and filter comments."
 

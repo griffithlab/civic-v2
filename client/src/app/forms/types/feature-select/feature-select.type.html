@@ -16,6 +16,9 @@
       <nz-option
         nzValue="FUSION"
         nzLabel="Fusion"></nz-option>
+      <nz-option
+        nzValue="REGION"
+        nzLabel="Region"></nz-option>
     </nz-select>
   </nz-col>
   <nz-col nzFlex="auto">
@@ -91,20 +94,35 @@
   let-searchStr
   let-model="model">
   @if (selectedFeatureType == 'FUSION') {
-  <nz-space nzDirection="vertical">
-    <span
-      *nzSpaceItem
-      nz-typography
-      >{{searchStr}} does not match any existing Fusions</span
-    >
-    <button
-      *nzSpaceItem
-      nz-button
-      nzType="primary"
-      (click)="createFusionModal()">
-      Open Fusion Builder
-    </button>
-  </nz-space>
+    <nz-space nzDirection="vertical">
+      <span
+        *nzSpaceItem
+        nz-typography
+        >{{searchStr}} does not match any existing Fusions</span
+      >
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        (click)="createFusionModal()">
+        Open Fusion Builder
+      </button>
+    </nz-space>
+  } @else if (selectedFeatureType == 'REGION') {
+    <nz-space nzDirection="vertical">
+      <span
+        *nzSpaceItem
+        nz-typography
+        >{{searchStr}} does not match any existing Regions</span
+      >
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        (click)="createRegionModal()">
+        Open Region Builder
+      </button>
+    </nz-space>
   } @else {
   <cvc-feature-quick-add-form
     [cvcSearchString]="searchStr"

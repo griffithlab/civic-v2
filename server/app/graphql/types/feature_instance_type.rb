@@ -1,7 +1,7 @@
 module Types
   class FeatureInstanceType < Types::BaseUnion
     description "The specific type of a feature instance"
-    possible_types "Types::Entities::GeneType", "Types::Entities::FactorType", "Types::Entities::FusionType"
+    possible_types "Types::Entities::GeneType", "Types::Entities::FactorType", "Types::Entities::FusionType", "Types::Entities::RegionType"
 
     def self.resolve_type(object, context)
       if object.is_a?(Features::Gene)
@@ -10,6 +10,8 @@ module Types
         Types::Entities::FactorType
       elsif object.is_a?(Features::Fusion)
         Types::Entities::FusionType
+      elsif object.is_a?(Features::Region)
+        Types::Entities::RegionType
       else
         raise StandardError.new("Unknown feature instance type #{object.class}")
       end

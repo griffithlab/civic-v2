@@ -4,6 +4,7 @@ import { VariantsSuggestPage } from './variants-suggest.page'
 import { CvcGeneVariantReviseFormModule } from '@app/forms/config/gene-variant-revise/gene-variant-revise.form.module'
 import { CvcFactorVariantReviseFormModule } from '@app/forms/config/factor-variant-revise/factor-variant-revise.form.module'
 import { CvcFusionVariantReviseFormModule } from '@app/forms/config/fusion-variant-revise/fusion-variant-revise.form.module'
+import { CvcRegionVariantReviseFormModule } from '@app/forms/config/region-variant-revise/region-variant-revise.form.module'
 
 @NgModule({
   declarations: [VariantsSuggestPage],
@@ -12,6 +13,7 @@ import { CvcFusionVariantReviseFormModule } from '@app/forms/config/fusion-varia
     CvcGeneVariantReviseFormModule,
     CvcFactorVariantReviseFormModule,
     CvcFusionVariantReviseFormModule,
+    CvcRegionVariantReviseFormModule
   ],
 })
 export class VariantsSuggestModule {}

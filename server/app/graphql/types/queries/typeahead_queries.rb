@@ -17,6 +17,11 @@ module Types::Queries
         argument :feature_type, Types::FeatureInstanceTypes, required: false
       end
 
+      klass.field :cytogenetic_region_typeahead, [ Types::Entities::CytogeneticRegionType ], null: false do
+        description "Retrieve Cytogenetic Region for a search term."
+        argument :query_term, GraphQL::Types::String, required: true
+      end
+
       klass.field :phenotype_typeahead, [ Types::Entities::PhenotypeType ], null: false do
         description "Retrieve phenotype typeahead fields for a search term."
         argument :query_term, GraphQL::Types::String, required: true
@@ -143,6 +148,13 @@ module Types::Queries
           return results
         end
       end
+
+      def cytogenetic_region_typeahead(query_term:)
+        CytogeneticRegion.where("name ILIKE ?", "#{query_term}%")
+          .order("name")
+          .limit(10)
+      end
+
 
       def phenotype_typeahead(query_term:)
         Phenotype.where("hpo_class ILIKE ?", "%#{query_term}%")

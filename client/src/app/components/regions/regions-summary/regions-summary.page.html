@@ -1,0 +1,148 @@
+<nz-row [nzGutter]="[8, 16]">
+  <nz-col nzSpan="12">
+    <!-- LEFT COLUMN -->
+    <nz-row [nzGutter]="[8, 8]">
+      <!-- region description, sources block -->
+      <nz-col nzSpan="24">
+        <!-- description, sources -->
+        <nz-descriptions
+          nzLayout="vertical"
+          nzSize="small"
+          nzBordered="true"
+          [nzColumn]="1">
+          <!-- description -->
+          <nz-descriptions-item nzTitle="Description">
+            <p
+              *ngIf="region.description; else noDescription"
+              nz-typography
+              nzEllipsis
+              nzExpandable
+              [nzEllipsisRows]="8">
+              {{ region.description }}
+            </p>
+
+            <!-- noDescription Tpl -->
+            <ng-template #noDescription>
+              <cvc-empty-revisable notification="No description provided">
+              </cvc-empty-revisable>
+            </ng-template>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+
+      <!-- sources, aliases, resource block -->
+      <nz-col nzSpan="24">
+        <nz-descriptions
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="1"
+          nzBordered="true">
+          <!-- sources -->
+          <nz-descriptions-item nzTitle="Sources">
+            <ng-container *ngIf="region.sources.length > 0; else noSources">
+              <cvc-tag-list>
+                <cvc-source-tag
+                  *ngFor="let source of region.sources"
+                  [source]="source"></cvc-source-tag>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noSources>
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
+            </ng-template>
+          </nz-descriptions-item>
+
+          <!-- aliases -->
+          <nz-descriptions-item nzTitle="Aliases">
+            <ng-container
+              *ngIf="region.featureAliases.length > 0; else noAliases">
+              <nz-tag *ngFor="let alias of region.featureAliases">{{
+                alias
+              }}</nz-tag>
+            </ng-container>
+          </nz-descriptions-item>
+          <ng-template #noAliases>
+            <span
+              nz-typography
+              nzType="secondary"
+              >None specified</span
+            >
+          </ng-template>
+        </nz-descriptions>
+      </nz-col>
+    </nz-row>
+  </nz-col>
+
+  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <nz-col nzSpan="12">
+    <!-- BLOCK: creation and deprecation events -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+      nzBordered="true">
+      <!-- creation/deprecation curation events -->
+      <ng-container *ngIf="region.creationActivity">
+        <nz-descriptions-item [nzTitle]="createdTitle">
+          by
+          <cvc-user-tag [user]="region.creationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #createdTitle>
+          Created
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ region.creationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="region.deprecationActivity">
+        <nz-descriptions-item [nzTitle]="deprecatedTitle">
+          by
+          <cvc-user-tag [user]="region.deprecationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #deprecatedTitle>
+          Deprecated
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ region.deprecationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+    </nz-descriptions>
+    <br />
+  </nz-col>
+</nz-row>
+<nz-row [nzGutter]="[8, 16]">
+  @for (cytogeneticRegion of region.cytogeneticRegions; track cytogeneticRegion) {
+    <nz-col nzSpan="12">
+      <nz-card
+        nzTitle="{{cytogeneticRegion.name}} Coordinates">
+        <nz-tabset [nzAnimated]="false">
+          @for (coordinates of cytogeneticRegion.cytogeneticCoordinates; track coordinates) {
+            <nz-tab [nzTitle]="coordinates.referenceBuild">
+              <nz-descriptions
+                nzLayout="horizontal"
+                nzBordered="true"
+                nzSize="small"
+                [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
+                <!-- chr. -->
+                <nz-descriptions-item nzTitle="Chr.">{{ coordinates.chromosome }}</nz-descriptions-item>
+
+                <!-- start -->
+                <nz-descriptions-item nzTitle="Start">{{ coordinates.start }}</nz-descriptions-item>
+
+                <!-- stop -->
+                <nz-descriptions-item nzTitle="Stop">{{ coordinates.stop }}</nz-descriptions-item>
+              </nz-descriptions>
+            </nz-tab>
+          }
+        </nz-tabset>
+      </nz-card>
+    </nz-col>
+  }
+</nz-row>

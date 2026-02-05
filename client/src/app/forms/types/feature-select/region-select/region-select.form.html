@@ -1,0 +1,12 @@
+<form
+  nz-form
+  [nzLayout]="layout"
+  (ngSubmit)="submitRegion(model)"
+  [formGroup]="form">
+  <formly-form
+    [form]="form"
+    [fields]="config"
+    [model]="model"
+    [options]="options">
+  </formly-form>
+</form>

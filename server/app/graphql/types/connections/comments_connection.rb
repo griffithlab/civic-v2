@@ -4,6 +4,8 @@ module Types::Connections
 
     description "Connection type for objects with comments including additional metadata."
 
+    edge_type(Types::Entities::CommentType.edge_type)
+
     field :unique_commenters, [ Types::Entities::UserType ], null: false,
       description: "List of all users that have commented on this entity."
 
