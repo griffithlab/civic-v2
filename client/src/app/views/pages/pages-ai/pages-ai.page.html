@@ -1,0 +1,268 @@
+<nz-page-header class="site-page-header">
+  <!--content-->
+  <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col
+        nzFlex="48px"
+        class="header-icon">
+        <i
+          nz-icon
+          nzType="robot"
+          nzTheme="fill"
+          style="color: #faad14"></i>
+      </nz-col>
+      <nz-col
+        nzFlex="auto"
+        class="header-description">
+        <h2 nz-typography>AI Integrations</h2>
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
+          AI Tools and CIViC AI Editorial Policies
+        </p>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="[8, 8]">
+      <nz-col
+        nzXs="24"
+        nzLg="12">
+        <h2>CIViC MCP Server</h2>
+        <p nz-typography>
+          The Clinical Interpretation of Variants in Cancer (CIViC)
+          knowledgebase provides a community-driven, open-source platform for
+          discussing the biological and Clinical Significance of molecular
+          variants in cancer. To enable users to make complex connections
+          between CIViC information, we developed the CIViC Model Context
+          Protocol (MCP) server, which allows large language models (LLMs) to
+          directly interface with the CIViC API through natural language,
+          facilitating the rapid summarization of expertly curated cancer
+          variant interpretations.
+        </p>
+        <p>
+          <strong>Repository:</strong>
+          <a
+            href="https://github.com/CIViC-Model-Context-Protocol/civic-mcp-server"
+            target="_blank">
+            CIViC-Model-Context-Protocol/civic-mcp-server
+          </a>
+          <br />
+          <strong>Preprint:</strong>
+          <a
+            href="https://www.biorxiv.org/content/10.1101/2025.10.13.682185v1"
+            target="_blank">
+            <i>
+              CIViC MCP: Integrating Large Language Models with the Clinical
+              Interpretations of Variants in Cancer
+            </i>
+          </a>
+        </p>
+
+        <h2>CIViC-Fact</h2>
+        <p nz-typography>
+          Accurate interpretation of genomic variants is critical for precision
+          oncology but remains slow and dependent on specialized expertise.
+          Public knowledgebases such as the Clinical Interpretation of Variants
+          in Cancer (CIViC) help by curating literature-backed variant
+          interpretations in a structured form, yet verification and review have
+          become major bottlenecks. To address this, we developed CIViC-Fact, a
+          benchmark dataset and pipeline for testing automated systems that
+          verify the accuracy of cancer variant claims. CIViC-Fact links
+          structured claims to sentence-level supporting or refuting evidence
+          from full-text articles, and includes expert annotations and
+          explanations.
+        </p>
+        <p>
+          <strong>Repository:</strong>
+          <a
+            href="https://github.com/creisle/civicfact"
+            target="_blank">
+            creisle/civicfact
+          </a>
+          <br />
+          <strong>Preprint:</strong>
+          <a
+            href="https://www.biorxiv.org/content/10.1101/2025.09.10.675443v2.full.pdf"
+            target="_blank">
+            <i>
+              Evaluating Language Models for Biomedical Fact-Checking: A
+              Benchmark Dataset for Cancer Variant Interpretation Verification
+            </i>
+          </a>
+        </p>
+
+        <h2>CIViCmine</h2>
+        <p nz-typography>
+          To aid curation and provide the greatest coverage for precision
+          oncology databases, particularly CIViC, we propose the use of text
+          mining approaches to extract these clinically relevant biomarkers from
+          all available published literature. To this end, a group of cancer
+          genomics experts annotated sentences that discussed biomarkers with
+          their clinical associations and achieved good inter-annotator
+          agreement. We then used a supervised learning approach to construct
+          the CIViCmine knowledgebase. We extracted 121,589 relevant sentences
+          from PubMed abstracts and PubMed Central Open Access full-text papers.
+          CIViCmine contains over 87,412 biomarkers associated with 8035 genes,
+          337 drugs, and 572 cancer types, representing 25,818 abstracts and
+          39,795 full-text publications. Through integration with CIVIC, we
+          provide a prioritized list of curatable clinically relevant cancer
+          biomarkers as well as a resource that is valuable to other
+          knowledgebases and precision cancer analysts in general. All data is
+          publicly available and distributed with a Creative Commons Zero
+          license.
+        </p>
+        <p>
+          <strong>Website:</strong>
+          <a
+            href="http://bionlp.bcgsc.ca/civicmine/"
+            target="_blank">
+            http://bionlp.bcgsc.ca/civicmine/
+          </a>
+          <br />
+          <strong>Repository:</strong>
+          <a
+            href="https://github.com/jakelever/civicmine"
+            target="_blank">
+            jakelever/civicmine
+          </a>
+          <br />
+          <strong>Publication:</strong>
+          <a
+            href="https://link.springer.com/article/10.1186/s13073-019-0686-y"
+            target="_blank">
+            <i>
+              Text-mining clinically relevant cancer biomarkers for curation
+              into the CIViC database
+            </i>
+          </a>
+        </p>
+
+        <h2>CIViC Natural Language Inference (CIViC NLI)</h2>
+        <p nz-typography>
+          The CIViC natural language interpretation (NLI) project will create a
+          fact-checking companion data set for CIViC. The aim of this project is
+          to annotate relevant sections of the full-text of articles that are
+          used to support evidence items in the Clinical Interpretation of
+          Variants in Cancer database (CIViC). This will create a novel
+          high-quality oncology-focused data set for natural language inference
+          (NLI). he particular sentences/spans in the text which should be
+          selected are those that are sufficient and required to ensure the
+          article does indeed contain/support the CIViC entry.
+        </p>
+        <p>
+          <strong>Repository:</strong>
+          <a
+            href="https://github.com/creisle/civic-nli-ext"
+            target="_blank">
+            creisle/civic-nli-ext
+          </a>
+          <br />
+          <strong>Extension:</strong>
+          <a
+            href="https://chromewebstore.google.com/detail/civic-nli/ibjaklbaahlokfkilllodngidgmjojfl?pli=1"
+            target="_blank">
+            CIViC-NLI on the Chrome Web Store
+          </a>
+          <br />
+          <strong>Documentation:</strong>
+          <a
+            href="https://creisle.github.io/civic-nli-ext/"
+            target="_blank">
+            Getting Started with CIViC NLI
+          </a>
+        </p>
+      </nz-col>
+      <nz-col
+        nzXs="24"
+        nzLg="12">
+        <nz-card
+          nzType="inner"
+          nzSize="small"
+          nzTitle="Summary of CIViC AI Policies"
+          [nzExtra]="docsBtn"
+          style="width: 100%">
+          <ng-template #docsBtn>
+            <a
+              href="https://civic.readthedocs.org/en/latest/about/ai-editorial-policies.html"
+              target="_blank"
+              nz-button
+              nzType="default"
+              nzSize="small">
+              <i
+                nz-icon
+                nzType="link"></i>
+              CIViC AI Editorial Policies
+            </a>
+          </ng-template>
+          <p>
+            CIViC embraces innovation to enhance curation efficiency while
+            maintaining our foundation as a trustworthy, human-curated resource.
+            These policies govern how AI tools may be used to support—but never
+            replace—expert judgment. We allow AI for supportive tasks when
+            accompanied by strict verification, ensuring that CIViC remains an
+            accurate and accountable resource for the precision medicine
+            community.
+          </p>
+
+          <h4>Editorial Goals</h4>
+
+          <ul>
+            <li>Maintain the integrity and reliability of CIViC’s content</li>
+            <li>Encourage responsible use of AI</li>
+            <li>Protect the collaborative and educational spirit of CIViC</li>
+            <li>Provide clarity</li>
+            <li>Ensure transparency</li>
+          </ul>
+
+          <h4>Allowed Uses of AI</h4>
+
+          <p>
+            AI tools are permitted as supportive assistants to save time and
+            facilitate discovery, provided that a human remains in full control
+            of the final output.
+          </p>
+          <ul>
+            <li>Language and Grammar Assistance</li>
+            <li>Summarizing Published Literature</li>
+            <li>Idea Generation and Research Aid</li>
+            <li>Formatting, Tagging, and Data Handling</li>
+            <li>Internal QA and Detection</li>
+          </ul>
+
+          <h4>Prohibited Uses of AI</h4>
+
+          <ul>
+            <li>No Fully AI-Generated Submissions</li>
+            <li>No AI-Only Interpretations or Conclusions</li>
+            <li>No Undisclosed AI Co-production</li>
+            <li>No AI-Generated References or Data</li>
+            <li>No Automated Bulk Content Creation</li>
+            <li>No Confidential or Proprietary Data in AI Queries</li>
+          </ul>
+          <h4>Verification and Compliance</h4>
+          <p>
+            Contributors bear full responsibility for thorough verification of
+            all AI-assisted content to ensure scientific accuracy and tone. The
+            complete policy details enforcement measures for violations,
+            monitoring strategies, and provides concrete examples of compliant
+            versus non-compliant workflows.
+          </p>
+          <a
+            href="https://civic.readthedocs.org/en/latest/about/ai-editorial-policies.html"
+            target="_blank"
+            nz-button
+            nzBlock
+            nzType="primary"
+            nzSize="default">
+            <i
+              nz-icon
+              nzType="link"></i>
+            Review the Full CIViC AI Editorial Policies
+          </a>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>

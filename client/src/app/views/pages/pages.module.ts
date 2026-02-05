@@ -5,6 +5,7 @@ import { PagesRoutingModule } from './pages-routing.module'
 import { PagesComponent } from './pages.component'
 import { PagesAboutModule } from './pages-about/pages-about.module'
 import { PagesHelpModule } from './pages-help/pages-help.module'
+import { PagesAiModule } from '@app/views/pages/pages-ai/pages-ai.module'
 
 @NgModule({
   declarations: [PagesComponent],
@@ -13,6 +14,7 @@ import { PagesHelpModule } from './pages-help/pages-help.module'
     PagesRoutingModule,
     PagesAboutModule,
     PagesHelpModule,
+    PagesAiModule,
   ],
 })
 export class PagesModule {}
