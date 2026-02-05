@@ -5661,6 +5661,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   ): FlagConnection!
   fullName: String
   id: Int!
+  knownPartnerGenes: [Gene!]!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
@@ -5857,6 +5858,11 @@ input FusionFields {
   The Fusion's description/summary text.
   """
   description: NullableStringInput!
+
+  """
+  Gene Feature IDs that may be a known gene partner for a fusion with a Multiple partner status.
+  """
+  knownPartnerGeneIds: [Int!]!
 
   """
   Source IDs cited by the Fusion's summary.

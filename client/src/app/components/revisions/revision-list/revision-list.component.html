@@ -44,6 +44,24 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'known_partner_gene_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Feature">
+              <ng-template
+                #itemTemplate
+                let-item>
+                <cvc-feature-tag
+                  [feature]="{
+                    id: item.feature.id,
+                    name: item.displayName,
+                    link: item.link,
+                    deprecated: item.deprecated,
+                    flagged: item.flagged,
+                  }"></cvc-feature-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'source_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"

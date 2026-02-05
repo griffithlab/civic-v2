@@ -676,6 +676,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_28_154154) do
     t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
   end
 
+  create_table "fusions_known_partner_genes", force: :cascade do |t|
+    t.bigint "fusion_id"
+    t.bigint "gene_id"
+    t.index ["fusion_id", "gene_id"], name: "index_fusions_known_partner_genes_on_fusion_id_and_gene_id"
+    t.index ["fusion_id"], name: "index_fusions_known_partner_genes_on_fusion_id"
+    t.index ["gene_id", "fusion_id"], name: "index_fusions_known_partner_genes_on_gene_id_and_fusion_id"
+    t.index ["gene_id"], name: "index_fusions_known_partner_genes_on_gene_id"
+  end
+
   create_table "gene_aliases", id: :serial, force: :cascade do |t|
     t.string "name"
     t.index ["name"], name: "index_gene_aliases_on_name"

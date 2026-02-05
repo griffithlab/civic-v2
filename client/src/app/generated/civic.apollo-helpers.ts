@@ -1291,7 +1291,7 @@ export type FlaggableFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FusionKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'fivePrimeGene' | 'fivePrimePartnerStatus' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'revisions' | 'sources' | 'threePrimeGene' | 'threePrimePartnerStatus' | 'variants' | FusionKeySpecifier)[];
+export type FusionKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'fivePrimeGene' | 'fivePrimePartnerStatus' | 'flagged' | 'flags' | 'fullName' | 'id' | 'knownPartnerGenes' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'revisions' | 'sources' | 'threePrimeGene' | 'threePrimePartnerStatus' | 'variants' | FusionKeySpecifier)[];
 export type FusionFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1309,6 +1309,7 @@ export type FusionFieldPolicy = {
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	knownPartnerGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,

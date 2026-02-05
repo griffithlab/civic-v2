@@ -113,6 +113,9 @@ fragment FusionSummaryFields on Fusion {
   }
   fivePrimePartnerStatus
   threePrimePartnerStatus
+  knownPartnerGenes {
+    ... GeneBaseFields
+  }
   creationActivity {
     user {
       id
