@@ -21,6 +21,8 @@ module Types::Interfaces
           Types::Variants::FactorVariantType
         when Variants::FusionVariant
           Types::Variants::FusionVariantType
+        when Variants::RegionVariant
+          Types::Variants::RegionVariantType
         when VariantCoordinate
           Types::Entities::VariantCoordinateType
         when ExonCoordinate

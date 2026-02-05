@@ -220,6 +220,13 @@
           [truncateLongName]="true"
           [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
       }
+      @case ('RegionVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
       @case ('Revision') {
         <cvc-revision-tag
           [revision]="$any(subject)"
