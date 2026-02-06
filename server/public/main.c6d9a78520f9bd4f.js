@@ -3579,7 +3579,11 @@ ${Xn}`,we=t.J1`
     filename
     path
   }
-  evidenceTsv {
+  acceptedEvidenceTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedEvidenceTsv {
     filename
     path
   }
@@ -3587,7 +3591,11 @@ ${Xn}`,we=t.J1`
     filename
     path
   }
-  assertionTsv {
+  acceptedAssertionTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedAssertionTsv {
     filename
     path
   }
