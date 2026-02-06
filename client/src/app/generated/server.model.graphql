@@ -2878,10 +2878,12 @@ type CytogeneticRegion {
 }
 
 type DataRelease {
+  acceptedAndSubmittedAssertionTsv: DownloadableFile
+  acceptedAndSubmittedEvidenceTsv: DownloadableFile
   acceptedAndSubmittedVariantsVcf: DownloadableFile
+  acceptedAssertionTsv: DownloadableFile
+  acceptedEvidenceTsv: DownloadableFile
   acceptedVariantsVcf: DownloadableFile
-  assertionTsv: DownloadableFile
-  evidenceTsv: DownloadableFile
   featureTsv: DownloadableFile
   molecularProfileTsv: DownloadableFile
   name: String!

@@ -841,12 +841,14 @@ export type CytogeneticRegionFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DataReleaseKeySpecifier = ('acceptedAndSubmittedVariantsVcf' | 'acceptedVariantsVcf' | 'assertionTsv' | 'evidenceTsv' | 'featureTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
+export type DataReleaseKeySpecifier = ('acceptedAndSubmittedAssertionTsv' | 'acceptedAndSubmittedEvidenceTsv' | 'acceptedAndSubmittedVariantsVcf' | 'acceptedAssertionTsv' | 'acceptedEvidenceTsv' | 'acceptedVariantsVcf' | 'featureTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
 export type DataReleaseFieldPolicy = {
+	acceptedAndSubmittedAssertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedAndSubmittedEvidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	acceptedAndSubmittedVariantsVcf?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedAssertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedEvidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	acceptedVariantsVcf?: FieldPolicy<any> | FieldReadFunction<any>,
-	assertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
-	evidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfileTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
