@@ -68,6 +68,12 @@ class VariantTsvFormatter
     ]
   end
 
+  def self.region_headers
+    [
+      "iscn_name",
+    ]
+  end
+
   def self.create_gene_row(variant)
     row = [
       variant.feature.name,
@@ -86,6 +92,7 @@ class VariantTsvFormatter
     ]
     row += Array.new(factor_headers.size)
     row += Array.new(fusion_headers.size)
+    row += Array.new(region_headers.size)
     return row
   end
 
@@ -95,6 +102,7 @@ class VariantTsvFormatter
       variant.ncit_id,
     ]
     row += Array.new(fusion_headers.size)
+    row += Array.new(region_headers.size)
     return row
   end
 
@@ -119,6 +127,17 @@ class VariantTsvFormatter
       three_prime_coords&.exon,
       three_prime_coords&.exon_offset,
       three_prime_coords&.exon_offset_direction,
+    ]
+    row += Array.new(region_headers.size)
+    return row
+  end
+
+  def self.create_region_row(variant)
+    row = Array.new(gene_headers.size)
+    row += Array.new(factor_headers.size)
+    row += Array.new(fusion_headers.size)
+    row += [
+      variant.iscn_name,
     ]
     return row
   end
@@ -147,6 +166,8 @@ class VariantTsvFormatter
       create_factor_row(variant)
     when Variants::FusionVariant
       create_fusion_row(variant)
+    when Variants::RegionVariant
+      create_region_row(variant)
     else
       raise StandardError.new("Unknown variant type for TSV export: #{variant.class}")
     end

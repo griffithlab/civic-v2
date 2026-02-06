@@ -4,7 +4,7 @@ module Types::Interfaces
     connection_type_class Types::Connections::VariantsConnection
 
     # TODO: Remove Me
-    orphan_types Types::Variants::FusionVariantType
+    orphan_types Types::Variants::FusionVariantType, Types::Variants::RegionVariantType
 
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
@@ -66,6 +66,8 @@ module Types::Interfaces
           Types::Variants::FactorVariantType
         when Variants::FusionVariant
           Types::Variants::FusionVariantType
+        when Variants::RegionVariant
+          Types::Variants::RegionVariantType
         else
           raise "Unexpected Variant type #{object.class}"
         end

@@ -82,6 +82,11 @@ module Types
       argument :id, Int, required: false
     end
 
+    field :cytogenetic_region, Types::Entities::CytogeneticRegionType, null: true do
+      description "Find a single cytogenetic entry by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :variant, Types::Interfaces::VariantInterface, null: true do
       description "Find a variant by CIViC ID"
       argument :id, Int, required: true
@@ -211,6 +216,11 @@ module Types
 
     field :approvals, resolver: Resolvers::TopLevelApprovals
 
+    field :region_variant_names_for_feature_id, [ Types::Region::RegionVariantNameType ], null: true do
+      description "Find all CIViC region variant names valid for a given CIViC (region) feature ID"
+      argument :feature_id, Int, required: true
+    end
+
     def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)
     end
@@ -251,6 +261,10 @@ module Types
 
     def feature(id:)
       Feature.find_by(id: id)
+    end
+
+    def cytogenetic_region(id:)
+      CytogeneticRegion.find_by(id: id)
     end
 
     def variant(id:)
@@ -375,6 +389,10 @@ module Types
 
     def news_items
       NewsItem.where(published: true).order("published_at desc")
+    end
+
+    def region_variant_names_for_feature_id(feature_id:)
+      Feature.find_by(id: feature_id, feature_instance_type: "Features::Region").feature_instance.valid_variant_names()
     end
   end
 end
