@@ -13,5 +13,6 @@ module Types::Region
     value "TETRASOMY", value: "Tetrasomy"
     value "DISOMY", value: "Disomy"
     value "RING", value: "Ring"
+    value "CNLOH", value: "cnLOH"
   end
 end

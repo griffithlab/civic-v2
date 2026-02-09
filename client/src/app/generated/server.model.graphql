@@ -11592,6 +11592,7 @@ input RegionVariantFields {
 enum RegionVariantName {
   ADDITION
   AMPLIFICATION
+  CNLOH
   DELETION
   DISOMY
   DUPLICATION

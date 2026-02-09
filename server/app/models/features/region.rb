@@ -24,7 +24,7 @@ module Features
       crs = self.cytogenetic_regions
       if crs.count == 1 # simple region
         cr = crs.first
-        valid_variant_names = [ "Amplification" ]
+        valid_variant_names = [ "Amplification", "cnLOH" ]
         if cr.band.nil? # whole chromosome
           if cr.chromosome == "X"
             valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Disomy", "Ring" ])
