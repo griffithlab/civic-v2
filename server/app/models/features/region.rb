@@ -24,7 +24,7 @@ module Features
       crs = self.cytogenetic_regions
       if crs.count == 1 # simple region
         cr = crs.first
-        valid_variant_names = [ "Addition", "Deletion", "Amplification" ]
+        valid_variant_names = [ "Amplification" ]
         if cr.band.nil? # whole chromosome
           if cr.chromosome == "X"
             valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Disomy", "Ring" ])
@@ -33,8 +33,8 @@ module Features
           else # not a sex chromosome
             valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Tetrasomy", "Ring" ])
           end
-        else # band
-          valid_variant_names.concat([ "Homozygous Deletion", "Duplication", "Triplication" ])
+        else # arm or band
+          valid_variant_names.concat([ "Addition", "Deletion", "Homozygous Deletion", "Duplication", "Triplication" ])
         end
         return valid_variant_names.sort
       else # complex region

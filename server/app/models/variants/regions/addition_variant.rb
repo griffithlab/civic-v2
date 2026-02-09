@@ -4,14 +4,13 @@ module Variants::Regions
       validate!
 
       cr = variant.region.cytogenetic_regions.first
-      if cr.is_chromosome?
-        "add(#{cr.chromosome})"
-      else
-        "add(#{cr.name})"
-      end
+      "add(#{cr.name})"
     end
 
     def validate
+      if cr.is_chromosome?
+        variant.errors.add(:region, "Addition cannot specify a whole Chromosome")
+      end
       if variant.region.cytogenetic_regions.size > 1
         variant.errors.add(:region, "Addition Region Variants can only have one cytogenetic region")
       end
