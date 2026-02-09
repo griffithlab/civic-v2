@@ -19,6 +19,7 @@ module Variants
       "Disomy",
       "Ring",
       "Derivative",
+      "cnLOH",
     ]
 
     VALID_MULTIPLE_REGION_VARIANT_NAMES = [
@@ -83,7 +84,11 @@ module Variants
     private
     def variant_adapter
       if VALID_SINGLE_REGION_VARIANT_NAMES.include?(name) || VALID_MULTIPLE_REGION_VARIANT_NAMES.include?(name)
-        @adapter ||= "Variants::Regions::#{name.gsub(" ", "").classify}Variant".constantize.new(self)
+        if name == "cnLOH"
+          @adapter ||= "Variants::Regions::CnlohVariant".constantize.new(self)
+        else
+          @adapter ||= "Variants::Regions::#{name.gsub(" ", "").classify}Variant".constantize.new(self)
+        end
       else
         raise StandardError.new("Invalid Region Variant Name: #{name}")
       end

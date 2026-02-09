@@ -6757,6 +6757,7 @@ export type RegionVariantFields = {
 export enum RegionVariantName {
   Addition = 'ADDITION',
   Amplification = 'AMPLIFICATION',
+  Cnloh = 'CNLOH',
   Deletion = 'DELETION',
   Disomy = 'DISOMY',
   Duplication = 'DUPLICATION',
