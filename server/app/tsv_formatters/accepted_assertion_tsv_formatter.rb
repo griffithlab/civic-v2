@@ -10,7 +10,7 @@ class AcceptedAssertionTsvFormatter < AssertionTsvFormatter
 
   def self.file_aliases
     [
-      "AssertionSummaries.tsv"
+      "AssertionSummaries.tsv",
     ]
   end
 end

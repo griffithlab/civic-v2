@@ -10,7 +10,7 @@ class AcceptedEvidenceItemTsvFormatter < EvidenceItemTsvFormatter
 
   def self.file_aliases
     [
-      "ClinicalEvidenceSummaries.tsv"
+      "ClinicalEvidenceSummaries.tsv",
     ]
   end
 end
