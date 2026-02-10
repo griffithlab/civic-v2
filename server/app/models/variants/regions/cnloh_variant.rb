@@ -12,5 +12,9 @@ module Variants::Regions
         variant.errors.add(:region, "cnLOH Region Variants can only have one cytogenetic region")
       end
     end
+
+    def default_variant_aliases
+      [ "Copy Neutral Loss of Heterozygosity" ]
+    end
   end
 end

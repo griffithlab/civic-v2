@@ -35,6 +35,11 @@ module Activities
       @variant = cmd.variant
       @molecular_profile = cmd.molecular_profile
 
+      variant_aliases = variant.default_variant_aliases.map do |variant_alias|
+        VariantAlias.where(name: variant_alias).first_or_create
+      end
+      variant.variant_aliases = variant_aliases
+
       variant.save!
 
       events << cmd.events

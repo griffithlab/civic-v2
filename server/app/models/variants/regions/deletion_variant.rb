@@ -15,5 +15,9 @@ module Variants::Regions
       end
       # no op
     end
+
+    def default_variant_aliases
+      [ "Loss" ]
+    end
   end
 end
