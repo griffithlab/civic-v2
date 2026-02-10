@@ -120,3 +120,6 @@ group :test do
 end
 
 gem "csv", "~> 3.3"
+
+# rate limit cache
+gem "redis", "~> 5.4"
