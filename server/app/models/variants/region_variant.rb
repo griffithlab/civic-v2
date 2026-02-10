@@ -55,6 +55,10 @@ module Variants
       variant_adapter.generate_iscn_name
     end
 
+    def default_variant_aliases
+      variant_adapter.default_variant_aliases
+    end
+
     def correct_coordinate_type
       if variant_coordinates.size > 0
         errors.add(:variant_coordinates, "Region Variants may not have coordinates")

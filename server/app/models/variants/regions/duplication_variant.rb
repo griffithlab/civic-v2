@@ -16,5 +16,9 @@ module Variants::Regions
         variant.errors.add(:region, "Duplication can only specify a single cytogenomic region")
       end
     end
+
+    def default_variant_aliases
+      [ "Gain" ]
+    end
   end
 end
