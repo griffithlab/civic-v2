@@ -67,14 +67,19 @@ module Types
     end
 
     field :factor, Types::Entities::FactorType, null: true do
-      description "Find a single gene by CIViC ID or NCIt ID"
+      description "Find a single factor by CIViC ID or NCIt ID"
       argument :id, Int, required: false
       argument :ncit_id, String, required: false
     end
 
     field :fusion, Types::Entities::FusionType, null: true do
-      description "Find a single gene by CIViC ID"
-      argument :id, Int, required: false
+      description "Find a single fusion by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :region, Types::Entities::RegionType, null: true do
+      description "Find a single region by CIViC ID"
+      argument :id, Int, required: true
     end
 
     field :feature, Types::Entities::FeatureType, null: true do
@@ -187,6 +192,7 @@ module Types
     field :genes, resolver: Resolvers::TopLevelGenes
     field :fusions, resolver: Resolvers::TopLevelFusions
     field :factors, resolver: Resolvers::TopLevelFactors
+    field :regions, resolver: Resolvers::TopLevelRegions
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
@@ -257,6 +263,10 @@ module Types
 
     def fusion(id:)
       Feature.find_by(feature_instance_type: "Features::Fusion", id: id)&.feature_instance
+    end
+
+    def region(id:)
+      Feature.find_by(feature_instance_type: "Features::Region", id: id)&.feature_instance
     end
 
     def feature(id:)
