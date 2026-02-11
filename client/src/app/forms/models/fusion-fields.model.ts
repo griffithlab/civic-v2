@@ -3,4 +3,5 @@ export type FusionFields = {
   sourceIds?: number[]
   aliases?: string[]
   knownPartnerGeneIds?: number[]
+  canAddPartnerGenes?: boolean
 }

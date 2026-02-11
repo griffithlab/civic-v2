@@ -71,9 +71,14 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 wrappers: ['form-field'],
                 props: {
                   description: 'Enter known Gene partners for this Fusion',
-                  label: "Known Gene Partners",
+                  label: 'Known Gene Partners',
                   featureType: FeatureInstanceTypes.Gene,
                   canChangeFeatureType: false,
+                },
+                expressions: {
+                  'props.disabled': (field) => {
+                    return !field.model.canAddPartnerGenes
+                  },
                 },
               },
             ],

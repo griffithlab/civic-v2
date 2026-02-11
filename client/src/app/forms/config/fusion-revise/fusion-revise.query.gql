@@ -17,6 +17,8 @@ fragment RevisableFusionFields on Feature {
   featureInstance {
     __typename
     ... on Fusion {
+      fivePrimePartnerStatus
+      threePrimePartnerStatus
       knownPartnerGenes {
         id
         name

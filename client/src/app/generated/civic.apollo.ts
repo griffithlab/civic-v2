@@ -3385,7 +3385,7 @@ export type FusionFields = {
   aliases: Array<Scalars['String']['input']>;
   /** The Fusion's description/summary text. */
   description: NullableStringInput;
-  /** Gene IDs that may be involved as a known gene partner. */
+  /** Gene Feature IDs that may be a known gene partner for a fusion with a Multiple partner status. */
   knownPartnerGeneIds: Array<Scalars['Int']['input']>;
   /** Source IDs cited by the Fusion's summary. */
   sourceIds: Array<Scalars['Int']['input']>;
@@ -3393,7 +3393,7 @@ export type FusionFields = {
 
 /** The fusion partner's status and gene ID (if applicable) */
 export type FusionPartnerInput = {
-  /** The CIViC gene ID of the partner, if known */
+  /** The CIViC ID of the Gene Feature that is the Fusion partner, if known */
   geneId?: InputMaybe<Scalars['Int']['input']>;
   /** The status of the fusion partner */
   partnerStatus: FusionPartnerStatus;
@@ -9923,9 +9923,9 @@ export type FusionRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type FusionRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion', knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> } | { __typename: 'Gene' } } | undefined };
+export type FusionRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus, knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> } | { __typename: 'Gene' } } | undefined };
 
-export type RevisableFusionFieldsFragment = { __typename: 'Feature', id: number, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion', knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> } | { __typename: 'Gene' } };
+export type RevisableFusionFieldsFragment = { __typename: 'Feature', id: number, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus, knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> } | { __typename: 'Gene' } };
 
 export type SuggestFusionRevisionMutationVariables = Exact<{
   input: SuggestFusionRevisionInput;
@@ -13030,6 +13030,8 @@ export const RevisableFusionFieldsFragmentDoc = gql`
   featureInstance {
     __typename
     ... on Fusion {
+      fivePrimePartnerStatus
+      threePrimePartnerStatus
       knownPartnerGenes {
         id
         name
