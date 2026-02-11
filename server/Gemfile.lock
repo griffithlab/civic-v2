@@ -638,6 +638,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.6.1)
   capistrano-rbenv (~> 2.2.0)
   capybara (>= 3.26)
+  connection_pool (< 3)
   csv (~> 3.3)
   diffy (~> 3.4.1)
   dockerfile-rails (>= 1.5)
