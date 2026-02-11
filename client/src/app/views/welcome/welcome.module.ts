@@ -33,6 +33,7 @@ import { CvcLicenseBannerComponent } from '@app/views/welcome/banners/license-ba
 import { CvcContributeBannerComponent } from '@app/views/welcome/banners/contribute-banner/contribute-banner.component'
 import { CvcEditorBannerComponent } from '@app/views/welcome/banners/editor-banner/editor-banner.component'
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
+import { CvcAiBannerComponent } from '@app/views/welcome/banners/ai-banner/ai-banner.component'
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
     CvcLicenseBannerComponent,
     CvcContributeBannerComponent,
     CvcEditorBannerComponent,
+    CvcAiBannerComponent,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],
