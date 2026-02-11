@@ -4,8 +4,8 @@ class ApplicationController < ActionController::Base
 
   RATE_LIMIT_STORE = ActiveSupport::Cache::RedisCacheStore.new
 
-  # sustained 2 req/s
-  rate_limit to: 600, within: 5.minutes,
+  # sustained 3 req/s
+  rate_limit to: 900, within: 5.minutes,
     store: RATE_LIMIT_STORE,
     scope: :api_requests,
     with: -> do
