@@ -95,46 +95,66 @@
           nzTitle="Funding"
           style="width: 100%">
           <p>
-            Malachi Griffith was supported by the National Human Genome Research
-            Institute (NHGRI) of the National Institutes of Health (NIH) under
-            Award Number R00HG007940. Obi Lee Griffith was supported by the
-            National Cancer Institute of the NIH under Award Number K22CA188163.
-            The CIViC project is also supported by the NCI under Award Numbers
-            U24CA237719 to Obi Lee Griffith (with Malachi Griffith as co-PI),
-            including a funding supplement from the Childhood Cancer Data
-            Initiative (CCDI), and previously U01CA209936 (with Malachi Griffith
-            and Elaine R Mardis as co-PIs). CIViC is also supported by the
-            Washington University Institute of Clinical and Translational
-            Sciences grant UL1TR002345 from the National Center for Advancing
-            Translational Sciences (NCATS) of the National Institutes of Health
-            (NIH). CIViC is also supported by Children’s Discovery Institute
-            (CDI) of the St. Louis Children’s Hospital and Washington University
-            School of Medicine. This research benefited from the use of credits
-            from the National Institutes of Health (NIH) Cloud Credits Model
-            Pilot, a component of the NIH Big Data to Knowledge (BD2K) program.
-            Support for the VCF format and integration with Google BigQuery was
-            funded by Google. The content of this website is solely the
-            responsibility of the creators and does not necessarily represent
-            the official views of the National Institutes of Health or other
-            funding sources.
+            The CIViC project and ClinGen Somatic Cancer Biomedical
+            Knowledgebase are currently supported by the National Institutes of
+            Health (NIH) National Cancer Institute (NCI) under Award Numbers
+            U24CA305456, U24CA275783, and R50CA305824, including a funding
+            supplement from the NIH Office of Data Science Strategy (ODSS).
+            CIViC is also supported by the Washington University Institute of
+            Clinical and Translational Sciences grant UL1TR002345 from the
+            National Center for Advancing Translational Sciences (NCATS) of the
+            NIH. The content of this website is solely the responsibility of the
+            creators and does not necessarily represent the official views of
+            the NIH or other funding sources.
           </p>
+          <h3>Current</h3>
           <nz-table
-            #basicTable
-            [nzData]="funding"
+            #currentFundingTable
+            [nzData]="currentFunding"
             [nzFrontPagination]="false"
             [nzShowPagination]="false">
             <thead>
               <tr>
                 <th>Awardee</th>
-                <th>Awarding Organization</th>
+                <th>Source</th>
+                <th>Description</th>
                 <th>Award Number</th>
+                <th>Timeframe</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of basicTable.data">
+              <tr *ngFor="let data of currentFundingTable.data">
                 <td>{{ data.awardee }}</td>
-                <td>{{ data.org }}</td>
-                <td>{{ data.award }}</td>
+                <td>{{ data.source }}</td>
+                <td>{{ data.description }}</td>
+                <td>{{ data.awardNumber }}</td>
+                <td>{{ data.timeframe }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+          <br />
+          <h3>Past</h3>
+          <nz-table
+            #pastFundingTable
+            [nzData]="pastFunding"
+            [nzFrontPagination]="false"
+            [nzShowPagination]="false">
+            <thead>
+              <tr>
+                <th>Awardee</th>
+                <th>Source</th>
+                <th>Description</th>
+                <th>Award Number</th>
+                <th>Timeframe</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pastFundingTable.data">
+                <td>{{ data.awardee }}</td>
+                <td>{{ data.source }}</td>
+                <td>{{ data.description }}</td>
+                <td>{{ data.awardNumber }}</td>
+                <td>{{ data.timeframe }}</td>
               </tr>
             </tbody>
           </nz-table>
