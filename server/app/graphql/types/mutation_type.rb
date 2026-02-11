@@ -8,9 +8,11 @@ module Types
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
     field :suggest_factor_revision, mutation: Mutations::SuggestFactorRevision
     field :suggest_fusion_revision, mutation: Mutations::SuggestFusionRevision
+    field :suggest_region_revision, mutation: Mutations::SuggestRegionRevision
     field :suggest_gene_variant_revision, mutation: Mutations::SuggestGeneVariantRevision
     field :suggest_factor_variant_revision, mutation: Mutations::SuggestFactorVariantRevision
     field :suggest_fusion_variant_revision, mutation: Mutations::SuggestFusionVariantRevision
+    field :suggest_region_variant_revision, mutation: Mutations::SuggestRegionVariantRevision
     field :suggest_molecular_profile_revision, mutation: Mutations::SuggestMolecularProfileRevision
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
     field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision
@@ -62,6 +64,8 @@ module Types
     field :create_feature, mutation: Mutations::CreateFeature
     field :create_fusion_feature, mutation: Mutations::CreateFusionFeature
     field :create_fusion_variant, mutation: Mutations::CreateFusionVariant
+    field :create_region_feature, mutation: Mutations::CreateRegionFeature
+    field :create_region_variant, mutation: Mutations::CreateRegionVariant
 
     # api keys
     field :generate_api_key, mutation: Mutations::GenerateApiKey

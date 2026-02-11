@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router'
 import { VariantSubmitForm } from './variant-submit.form'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
   declarations: [VariantSubmitForm],
@@ -21,6 +22,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     RouterModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,
+    CvcPipesModule,
   ],
   exports: [VariantSubmitForm],
 })

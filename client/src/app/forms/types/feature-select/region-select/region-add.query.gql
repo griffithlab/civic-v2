@@ -1,0 +1,11 @@
+mutation SelectOrCreateRegion($organizationId: Int, $cytogeneticRegionId: Int!) {
+  createRegionFeature(input: {
+    organizationId: $organizationId
+    cytogeneticRegionIds: [$cytogeneticRegionId]
+  }) {
+    new
+    feature {
+      ...FeatureSummaryFields
+    }
+  }
+}

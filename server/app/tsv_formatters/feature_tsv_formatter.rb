@@ -73,6 +73,12 @@ class FeatureTsvFormatter
     ]
   end
 
+  def self.create_region_row(feature)
+    row = Array.new(gene_headers.size)
+    row += Array.new(factor_headers.size)
+    row += Array.new(fusion_headers.size)
+  end
+
   def self.row_from_object(feature)
     shared_cols = [
       feature.id,
@@ -92,6 +98,8 @@ class FeatureTsvFormatter
                      create_factor_row(feature)
     when Features::Fusion
                      create_fusion_row(feature)
+    when Features::Region
+                     create_region_row(feature)
     else
                      raise StandardError.new("Unknown feature type for TSV export: #{feature.feature_instance_type}")
     end

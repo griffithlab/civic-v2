@@ -51,7 +51,7 @@ import {
   CvcFusionVariantSelectForm,
   FusionVariantSelectModalData,
 } from './fusion-variant-select/fusion-variant-select.form'
-import { LinkableFeature } from '@app/components/features/feature-tag/feature-tag.component'
+import { CvcRegionVariantSelectForm, RegionVariantSelectModalData } from './region-variant-select /region-variant-select.form'
 
 export interface VariantIdWithCreationStatus {
   new: boolean
@@ -284,6 +284,9 @@ export class CvcVariantSelectField
     if (this.props.isNewlyCreatedCallback) {
       this.props.isNewlyCreatedCallback(variant.new)
     }
+    if (this.props.featureTypeCallback) {
+      this.props.featureTypeCallback(this.selectedFeature?.featureType)
+    }
   }
 
   private onFeatureId(fid: Maybe<number>): void {
@@ -339,6 +342,27 @@ export class CvcVariantSelectField
       nzData: { feature: this.selectedFeature },
       nzFooter: null,
       nzWidth: '60%',
+    })
+
+    modal.getContentComponent()
+    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
+      if (result.variantId) {
+        this.onSelectOrCreate({ id: result.variantId, new: true })
+        this.onVid$.next(result.variantId)
+      }
+    })
+  }
+
+  createRegionVariantModal() {
+    const modal = this.modal.create<
+      CvcRegionVariantSelectForm,
+      RegionVariantSelectModalData
+    >({
+      nzTitle: 'Add New Region Variant',
+      nzContent: CvcRegionVariantSelectForm,
+      nzData: { feature: this.selectedFeature },
+      nzFooter: null,
+      nzWidth: '500px',
     })
 
     modal.getContentComponent()
