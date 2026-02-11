@@ -70,7 +70,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'feature-multi-select',
                 wrappers: ['form-field'],
                 props: {
-                  description: 'Enter known Gene partners for this Fusion',
                   label: 'Known Gene Partners',
                   featureType: FeatureInstanceTypes.Gene,
                   canChangeFeatureType: false,
@@ -79,6 +78,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   'props.disabled': (field) => {
                     return !field.model.canAddPartnerGenes
                   },
+                  'props.description': (field) => {
+                    return field.model.canAddPartnerGenes ? 'Enter known Gene partners for this Fusion' : 'Fusion must have a Multiple partner in order to specify Known Gene Partners'
+                  }
                 },
               },
             ],
