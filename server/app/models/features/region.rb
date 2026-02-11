@@ -24,17 +24,17 @@ module Features
       crs = self.cytogenetic_regions
       if crs.count == 1 # simple region
         cr = crs.first
-        valid_variant_names = [ "Amplification", "cnLOH" ]
+        valid_variant_names = [ "Amplification" ]
         if cr.band.nil? # whole chromosome
           if cr.chromosome == "X"
-            valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Disomy", "Ring" ])
+            valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Disomy", "Ring", "cnLOH" ])
           elsif cr.chromosome == "Y"
             valid_variant_names.concat([ "Nullisomy", "Disomy", "Ring" ])
           else # not a sex chromosome
-            valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Tetrasomy", "Ring" ])
+            valid_variant_names.concat([ "Trisomy", "Monosomy", "Nullisomy", "Tetrasomy", "Ring", "cnLOH" ])
           end
         else # arm or band
-          valid_variant_names.concat([ "Addition", "Deletion", "Homozygous Deletion", "Duplication", "Triplication" ])
+          valid_variant_names.concat([ "Addition", "Deletion", "Homozygous Deletion", "Duplication", "Triplication", "cnLOH" ])
         end
         return valid_variant_names.sort
       else # complex region
