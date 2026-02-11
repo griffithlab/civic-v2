@@ -3,6 +3,7 @@ module Features
     include Subscribable
     include IsFeatureInstance
 
+    # These point intentionally to the Feature Instance
     belongs_to :five_prime_gene, class_name: "Features::Gene", optional: true
     belongs_to :three_prime_gene, class_name: "Features::Gene", optional: true
 
@@ -73,6 +74,22 @@ module Features
 
     def compatible_variant_type
       Variants::FusionVariant
+    end
+
+    def generate_name
+      five_prime_name = Features::Fusion.construct_fusion_partner_name(self.five_prime_gene_id, self.five_prime_partner_status)
+      three_prime_name = Features::Fusion.construct_fusion_partner_name(self.three_prime_gene_id, self.three_prime_partner_status)
+      "#{five_prime_name}::#{three_prime_name}"
+    end
+
+    def self.construct_fusion_partner_name(gene_id, partner_status)
+      if partner_status == "known"
+        Features::Gene.find(gene_id).name
+      elsif partner_status == "unknown"
+        "?"
+      elsif partner_status == "multiple"
+        "v"
+      end
     end
   end
 end
