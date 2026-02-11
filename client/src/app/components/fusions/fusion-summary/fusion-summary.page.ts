@@ -35,6 +35,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
         NzCardModule,
         CvcEmptyRevisableModule,
         CvcTagListModule,
+        CvcFeatureTagModule,
         CvcSourceTagModule,
         CvcLinkTagModule,
         CvcPipesModule,

@@ -16,6 +16,17 @@ fragment RevisableFusionFields on Feature {
   featureAliases
   featureInstance {
     __typename
+    ... on Fusion {
+      fivePrimePartnerStatus
+      threePrimePartnerStatus
+      knownPartnerGenes {
+        id
+        name
+        link
+        deprecated
+        flagged
+      }
+    }
   }
 }
 
