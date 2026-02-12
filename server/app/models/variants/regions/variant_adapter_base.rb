@@ -20,5 +20,9 @@ module Variants::Regions
     def validate
       raise StandardError.new("Implement in subclass")
     end
+
+    def default_variant_aliases
+      []
+    end
   end
 end
