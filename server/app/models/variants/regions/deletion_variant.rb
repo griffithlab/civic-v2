@@ -10,8 +10,11 @@ module Variants::Regions
     end
 
     def validate
-      if cr.is_chromosome?
-        variant.errors.add(:region, "Deletion cannot specify a whole Chromosome")
+      if variant.region.cytogenetic_regions.size == 1
+        cr = variant.region.cytogenetic_regions.first
+        if cr.is_chromosome?
+          variant.errors.add(:region, "Deletion cannot specify a whole Chromosome")
+        end
       end
       # no op
     end
