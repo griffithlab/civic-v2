@@ -175,6 +175,12 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'fieldName',
         'revisionsetId',
       ]),
+      browseUsers: relayStylePagination([
+        'name',
+        'organization',
+        'role',
+        'sortBy',
+      ]),
       users: relayStylePagination(['userName', 'orgName', 'userRole']),
     },
   },
