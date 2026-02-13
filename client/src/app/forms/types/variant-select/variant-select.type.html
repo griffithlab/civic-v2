@@ -126,6 +126,21 @@
       Open Fusion Variant Builder
     </button>
   </nz-space>
+  }@else if (selectedFeatureType == 'REGION') {
+  <nz-space nzDirection="vertical">
+    <span
+      *nzSpaceItem
+      nz-typography>
+      {{searchStr}} does not match any existing Variants</span
+    >
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createRegionVariantModal()">
+      Open Region Variant Builder
+    </button>
+  </nz-space>
   } @else {
   <cvc-variant-quick-add-form
     [cvcSearchString]="searchStr"

@@ -18,6 +18,9 @@ query VariantSelectTag($variantId: Int!) {
     ... on FusionVariant {
       ...VariantSelectTypeaheadFields
     }
+    ... on RegionVariant {
+      ...VariantSelectTypeaheadFields
+    }
   }
 }
 

@@ -39,6 +39,7 @@ import {
   CvcFusionSelectForm,
   FusionSelectModalData,
 } from './fusion-select/fusion-select.form'
+import { CvcRegionSelectForm, RegionSelectModalData } from './region-select/region-select.form'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -187,9 +188,13 @@ export class CvcFeatureSelectField
     results: FeatureSelectTypeaheadFieldsFragment[]
   ): boolean {
     const searchName = s.toLowerCase()
-    return (
-      s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
-    )
+    if (this.selectedFeatureType == 'REGION') {
+      return true
+    } else {
+      return (
+        s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
+      )
+    }
   }
 
   onSelectOrCreate(feature: FeatureIdWithCreationStatus) {
@@ -199,7 +204,7 @@ export class CvcFeatureSelectField
     }
   }
 
-  onFusionSelected(featureId: number) {
+  onFeatureSelected(featureId: number) {
     this.onPopulate$.next(featureId)
     this.formControl.setValue(featureId)
   }
@@ -217,7 +222,25 @@ export class CvcFeatureSelectField
     modal.getContentComponent()
     modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
       if (result.featureId) {
-        this.onFusionSelected(result.featureId)
+        this.onFeatureSelected(result.featureId)
+      }
+    })
+  }
+
+  createRegionModal() {
+    const modal = this.modal.create<CvcRegionSelectForm, RegionSelectModalData>(
+      {
+        nzTitle: 'Add New Region Feature',
+        nzContent: CvcRegionSelectForm,
+        nzData: {},
+        nzFooter: null,
+      }
+    )
+
+    modal.getContentComponent()
+    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
+      if (result.featureId) {
+        this.onFeatureSelected(result.featureId)
       }
     })
   }
