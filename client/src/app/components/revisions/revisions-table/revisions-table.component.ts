@@ -5,7 +5,10 @@ import {
   Input,
   OnInit,
   TemplateRef,
+  Signal,
+  computed,
 } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   buildSortParams,
@@ -17,9 +20,16 @@ import {
   RevisionsBrowseGQL,
   RevisionsBrowseQuery,
   RevisionsBrowseQueryVariables,
+  RevisionGQL,
   Maybe,
   PageInfo,
   RevisionSet,
+  EventSubject,
+  EventConnection,
+  Revision,
+  SuggestRevisionSetActivity,
+  ViewerFieldsFragment,
+  ActivitySubjectInput,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -38,10 +48,12 @@ import {
 } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { ActivatedRoute } from '@angular/router'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 
-/* export type ExpandableRevisionSet = RevisionSet & {
-  expand: boolean
-} */
+//type ExpandableRevisionSet = {
+//  revisionSet: Maybe<RevisionSet>
+//  expand: boolean
+//}
 
 @UntilDestroy()
 @Component({
@@ -53,17 +65,16 @@ import { ActivatedRoute } from '@angular/router'
 })
 export class CvcRevisionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
-  @Input() evidenceId: Maybe<number>
-  @Input() variantId: Maybe<number>
-  @Input() molecularProfileId: Maybe<number>
-  @Input() organizationId: Maybe<number>
-  @Input() userId: Maybe<number>
-  @Input() phenotypeId: Maybe<number>
-  @Input() diseaseId: Maybe<number>
-  @Input() therapyId: Maybe<number>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() approvingOrganizationId: Maybe<number>
+  //@Input() evidenceId: Maybe<number>
+  //@Input() variantId: Maybe<number>
+  //@Input() molecularProfileId: Maybe<number>
+  //@Input() organizationId: Maybe<number>
+  //@Input() phenotypeId: Maybe<number>
+  //@Input() diseaseId: Maybe<number>
+  //@Input() therapyId: Maybe<number>
+  //@Input() approvingOrganizationId: Maybe<number>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -81,17 +92,17 @@ export class CvcRevisionsTableComponent implements OnInit {
   scrollIndex$: Subject<number>
   noMoreRows$: BehaviorSubject<boolean>
   queryRef!: QueryRef<RevisionsBrowseQuery, RevisionsBrowseQueryVariables>
+  expandSet = new Set<number>()
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
   isScrolling: boolean = false
-
+  
   private debouncedQuery = new Subject<void>()
 
   //queryParamsSub$: Subscription
 
   isLoading$?: Observable<boolean>
-  revisions$?: Observable<Maybe<RevisionSet>[]>
   filteredCount$?: Observable<number>
 
   isLoading = false
@@ -111,6 +122,10 @@ export class CvcRevisionsTableComponent implements OnInit {
   showTooltips = true
 
   //filters
+  fieldNameInput: Maybe<string>
+  originatingUserNameInput: Maybe<string>
+  organizationNameInput: Maybe<string>
+  subjectTypeInput: Maybe<ActivitySubjectInput>
   //aidInput: Maybe<string>
   //diseaseNameInput: Maybe<string>
   //therapyNameInput: Maybe<string>
@@ -124,17 +139,28 @@ export class CvcRevisionsTableComponent implements OnInit {
 
   //sortColumns: typeof AssertionSortColumns = AssertionSortColumns
 
+  statusFilterVisible = false
+  excludeOwnRevisions = false
+  viewer: Signal<Maybe<Viewer>>
+  user: Signal<Maybe<ViewerFieldsFragment>>
+
   private destroy$ = new Subject<void>()
 
   constructor(
     private gql: RevisionsBrowseGQL,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private viewerService: ViewerService,
+    private detailGql: RevisionGQL,
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
     this.scrollIndex$ = new Subject<number>()
+    this.viewer = toSignal(this.viewerService.viewer$)
+    this.user = computed(() => {
+      return this.viewer()?.user
+    })
     //this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
     //  if (params.has('includeSubgroups')) {
     //    this.includeSubgroups =
@@ -146,6 +172,7 @@ export class CvcRevisionsTableComponent implements OnInit {
   ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
+      excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
       //variantId: this.variantId,
       //molecularProfileId: this.molecularProfileId,
       //evidenceId: this.evidenceId,
@@ -187,7 +214,6 @@ export class CvcRevisionsTableComponent implements OnInit {
       pluck('edges'),
       filter(isNonNulled),
       map((edges) => edges.map((e) => e.node))
-      //map((edges) => edges.map((e) => e.node).map(node => { return {...node, expand: false}}))
     )
 
     this.pageInfo$ = this.connection$.pipe(
@@ -264,6 +290,11 @@ export class CvcRevisionsTableComponent implements OnInit {
     //  aid = undefined
     //}
     this.queryRef.refetch({
+      fieldName: this.fieldNameInput,
+      originatingUserName: this.originatingUserNameInput,
+      excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
+      organizationName: this.organizationNameInput,
+      subjectType: this.subjectTypeInput,
       //id: aid,
       //diseaseName: this.diseaseNameInput,
       //molecularProfileName: this.molecularProfileNameInput,
@@ -292,14 +323,14 @@ export class CvcRevisionsTableComponent implements OnInit {
     this.loadedPages += 1
   }
 
-  statusChanged() {
-    this.debouncedQuery.next()
+  //statusChanged() {
+  //  this.debouncedQuery.next()
     //this.statusFilterVisible = false
-  }
+  //}
 
-  includeSubgroupsChanged() {
+  excludeOwnRevisionsChanged() {
     this.debouncedQuery.next()
-    //this.statusFilterVisible = false
+    this.statusFilterVisible = false
   }
 
   // virtual scroll helpers
@@ -314,5 +345,21 @@ export class CvcRevisionsTableComponent implements OnInit {
     //this.queryParamsSub$.unsubscribe()
     this.destroy$.next()
     this.destroy$.unsubscribe()
+  }
+
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+      const detailQueryRef = this.detailGql.fetch({
+        id: id,
+      })
+      const detailRevision = detailQueryRef.pipe(
+        pluck('data', 'revision'),
+        // tag('activity-revision component'),
+        filter(isNonNulled)
+      )
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 }

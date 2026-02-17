@@ -28121,7 +28121,7 @@
             },
             {
               "name": "knownPartnerGeneIds",
-              "description": "Gene IDs that may be involved as a known gene partner.",
+              "description": "Gene Feature IDs that may be a known gene partner for a fusion with a Multiple partner status.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -48401,7 +48401,7 @@
               "args": [
                 {
                   "name": "originatingUserId",
-                  "description": "Limit to revisions by a certain user",
+                  "description": "Limit to revisions by a certain user using the user CIViC ID",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -48412,11 +48412,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "resolvingUserId",
-                  "description": "Limit to revisions accepted, rejected, or superseded by a certain user",
+                  "name": "originatingUserName",
+                  "description": "Limit to revisions by a certain user using the user name",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -48425,7 +48425,7 @@
                 },
                 {
                   "name": "status",
-                  "description": "Limit to revisions with a certain status",
+                  "description": "Limit to revision sets that include revisions with a certain status",
                   "type": {
                     "kind": "ENUM",
                     "name": "RevisionStatus",
@@ -48437,7 +48437,7 @@
                 },
                 {
                   "name": "sortBy",
-                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "description": "Sort order for the revision sets. Defaults to most recent.",
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "DateSort",
@@ -48449,7 +48449,7 @@
                 },
                 {
                   "name": "fieldName",
-                  "description": "Limit to revisions on a particular field.",
+                  "description": "Limit to revision sets that include revisions on a particular field.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -48461,10 +48461,58 @@
                 },
                 {
                   "name": "subject",
-                  "description": "Limit to revisions of a specific CIViC entity",
+                  "description": "Limit to revision sets of a specific CIViC entity",
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "ModeratedInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "subjectType",
+                  "description": "Limit to revision sets of a specific CIViC entity type",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "ActivitySubjectInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "excludeRevisionsFromUserId",
+                  "description": "Exclude revision sets submitted by the user with the given CIViC ID",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "organizationId",
+                  "description": "Limit to revisions by a certian organization using the organization CIViC ID",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "organizationName",
+                  "description": "Limit to revisions by a organization user using the organization name",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null,

@@ -52,10 +52,11 @@
           [nzSortFn]="true">
           AID
         </th> -->
-        <th></th>
+        <th nzWidth="20px"></th>
+        <th nzWidth="200px">Revision Subject</th>
         <th nzWidth="200px">Submitter</th>
-        <th nzWidth="320px">Revision Subject</th>
-        <th nzWidth="320px">Revision Fields</th>
+        <th nzWidth="300px">Organization</th>
+        <th>Revision Fields</th>
 
         <!-- <th
           nzWidth="250px"
@@ -134,6 +135,54 @@
           Count
         </th> -->
       </tr>
+      <tr class="filter-row">
+        <th nzLeft></th>
+        <th
+          nzRight
+          nzAlign="left">
+          <nz-select
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+            nzPlaceHolder="All"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="subjectTypeInput">
+            <nz-option
+              nzValue="ASSERTION"
+              nzLabel="Assertion"></nz-option>
+            <nz-option
+              nzValue="EVIDENCE_ITEM"
+              nzLabel="EvidenceItem"></nz-option>
+            <nz-option
+              nzValue="FEATURE"
+              nzLabel="Feature"></nz-option>
+            <nz-option
+              nzValue="MOLECULAR_PROFILE"
+              nzLabel="MolecularProfile"></nz-option>
+            <nz-option
+              nzValue="VARIANT"
+              nzLabel="Variant"></nz-option>
+            <nz-option
+              nzValue="VARIANT_GROUP"
+              nzLabel="VariantGroup"></nz-option>
+          </nz-select>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="originatingUserNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="organizationNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="fieldNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+      </tr>
+
      <!--  <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter
@@ -327,31 +376,50 @@
         let-revisionSet
         let-index="index">
         <tr class="data-row">
-          <td [nzExpand]="true"></td>
+          <td [nzExpand]="expandSet.has(revisionSet.id)" (nzExpandChange)="onExpandChange(revisionSet.id, $event)"></td>
           <td nzLeft>
-            <ng-container
-              *ngTemplateOutlet="
-                subject;
-                context: {
-                  $implicit: revisionSet.revisions[0].subject,
-                  isScrolling: isScrolling,
-                }
-              ">
+            <ng-container *ngIf="revisionSet.creationActivity">
+<!--               <cvc-entity-tag
+                [cvcCacheId]="revisionSet.creationActivity.subject.__typename +':' + revisionSet.creationActivity.subject.id"
+                [cvcDisableLink]="false"
+                [cvcShowPopover]="true">
+              </cvc-entity-tag> -->
+              <ng-container
+                *ngTemplateOutlet="
+                  subject;
+                  context: {
+                    $implicit: revisionSet.creationActivity.subject,
+                    isScrolling: isScrolling,
+                  }
+                ">
+              </ng-container>
             </ng-container>
           </td>
           <td nzLeft>
-            <cvc-user-tag *ngIf="revisionSet.creationActivity" [user]="revisionSet.creationActivity.user"></cvc-user-tag>
+            <cvc-user-tag *ngIf="revisionSet.creationActivity"
+              [user]="revisionSet.creationActivity.user"
+              [enablePopover]="!isScrolling">
+            </cvc-user-tag>
           </td>
           <td nzLeft>
+            <cvc-organization-tag *ngIf="revisionSet.creationActivity && revisionSet.creationActivity.organization"
+              [org]="revisionSet.creationActivity.organization"
+              [enablePopover]="!isScrolling">
+            </cvc-organization-tag>
+          </td>
+          <td nzLeft nzBreakWord>
             @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
               {{ revision.linkoutData.name }}{{ isLast? '' : ', ' }}
             }
           </td>
         </tr>
-        <tr [nzExpand]="true">
+        <tr [nzExpand]="expandSet.has(revisionSet.id)" style="background-color: #ffffff">
           @for (revision of revisionSet.revisions; track revision) {
-            <cvc-activity-revision
-            [cvcActivityRevision]="revision"></cvc-activity-revision>
+            {{ revision.id }}
+<!--             <div style="padding-left: 30px; background-color: #ffffff">
+              <cvc-activity-revision
+              [cvcActivityRevision]="revision"></cvc-activity-revision>
+            </div> -->
           }
         </tr>
       </ng-template>
@@ -460,4 +528,27 @@
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  <nz-filter-trigger
+    [nzDropdownMenu]="statusFilterMenu">
+    <span
+      nz-icon
+      nzType="filter"
+      nzTheme="fill"></span>
+  </nz-filter-trigger>
 </ng-template>
+
+<nz-dropdown-menu #statusFilterMenu>
+  <nz-card>
+    <nz-row>
+      <nz-col nzSpan="2">
+        <label
+          nz-checkbox
+          [(ngModel)]="excludeOwnRevisions"
+          (ngModelChange)="excludeOwnRevisionsChanged()"></label>
+      </nz-col>
+      <nz-col nzSpan="22">
+        <span>Exclude revisions submitted by myself</span>
+      </nz-col>
+    </nz-row>
+  </nz-card>
+</nz-dropdown-menu>

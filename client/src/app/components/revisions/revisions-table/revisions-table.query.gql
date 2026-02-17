@@ -3,6 +3,11 @@ query RevisionsBrowse(
   $last: Int
   $before: String
   $after: String
+  $fieldName: String
+  $originatingUserName: String
+  $excludeRevisionsFromUserId: Int
+  $organizationName: String
+  $subjectType: ActivitySubjectInput
 ) {
   revisionSets(
     first: $first
@@ -10,6 +15,11 @@ query RevisionsBrowse(
     before: $before
     after: $after
     status: NEW
+    fieldName: $fieldName
+    originatingUserName: $originatingUserName
+    excludeRevisionsFromUserId: $excludeRevisionsFromUserId
+    organizationName: $organizationName
+    subjectType: $subjectType
   ) {
     totalCount
     pageInfo {
@@ -31,8 +41,13 @@ fragment RevisionSetBrowseFields on RevisionSet {
   id
   name
   revisions {
-    ...revision
-   subject {
+    id
+    linkoutData {
+      name
+    }
+  }
+  creationActivity {
+    subject {
       id
       name
       link
@@ -65,8 +80,6 @@ fragment RevisionSetBrowseFields on RevisionSet {
         }
       }
     }
-  }
-  creationActivity {
     createdAt
     user {
       id
@@ -80,5 +93,12 @@ fragment RevisionSetBrowseFields on RevisionSet {
       id
       name
     }
+  }
+}
+
+query Revision($id: Int!) {
+  revision(id: $id) {
+    ...revision
+    name
   }
 }
