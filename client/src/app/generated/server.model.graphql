@@ -2706,10 +2706,12 @@ enum CreateableFeatureTypes {
 }
 
 type DataRelease {
+  acceptedAndSubmittedAssertionTsv: DownloadableFile
+  acceptedAndSubmittedEvidenceTsv: DownloadableFile
   acceptedAndSubmittedVariantsVcf: DownloadableFile
+  acceptedAssertionTsv: DownloadableFile
+  acceptedEvidenceTsv: DownloadableFile
   acceptedVariantsVcf: DownloadableFile
-  assertionTsv: DownloadableFile
-  evidenceTsv: DownloadableFile
   featureTsv: DownloadableFile
   molecularProfileTsv: DownloadableFile
   name: String!
@@ -5467,6 +5469,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   ): FlagConnection!
   fullName: String
   id: Int!
+  knownPartnerGenes: [Gene!]!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
@@ -5655,6 +5658,11 @@ input FusionFields {
   description: NullableStringInput!
 
   """
+  Gene Feature IDs that may be a known gene partner for a fusion with a Multiple partner status.
+  """
+  knownPartnerGeneIds: [Int!]!
+
+  """
   Source IDs cited by the Fusion's summary.
   """
   sourceIds: [Int!]!
@@ -5665,7 +5673,7 @@ The fusion partner's status and gene ID (if applicable)
 """
 input FusionPartnerInput {
   """
-  The CIViC gene ID of the partner, if known
+  The CIViC ID of the Gene Feature that is the Fusion partner, if known
   """
   geneId: Int
 
@@ -12726,6 +12734,7 @@ input TaggableEntityInput {
 
 type Therapy {
   deprecated: Boolean!
+  description: String
   id: Int!
   link: String!
   myChemInfo: MyChemInfo
@@ -12794,6 +12803,7 @@ input TherapyInteractionTypeSearchInput {
 type TherapyPopover {
   assertionCount: Int!
   deprecated: Boolean!
+  description: String
   evidenceItemCount: Int!
   id: Int!
   link: String!

@@ -16,8 +16,10 @@ module Types::Queries
               feature_tsv: file_or_nil(release, release_name, "FeatureSummaries.tsv"),
               variant_tsv: file_or_nil(release, release_name, "VariantSummaries.tsv"),
               variant_group_tsv: file_or_nil(release, release_name, "VariantGroupSummaries.tsv"),
-              evidence_tsv: file_or_nil(release, release_name, "ClinicalEvidenceSummaries.tsv"),
-              assertion_tsv: file_or_nil(release, release_name, "AssertionSummaries.tsv"),
+              accepted_evidence_tsv: file_or_nil(release, release_name, "AcceptedClinicalEvidenceSummaries.tsv"),
+              accepted_and_submitted_evidence_tsv: file_or_nil(release, release_name, "AcceptedAndSubmittedClinicalEvidenceSummaries.tsv"),
+              accepted_assertion_tsv: file_or_nil(release, release_name, "AcceptedAssertionSummaries.tsv"),
+              accepted_and_submitted_assertion_tsv: file_or_nil(release, release_name, "AcceptedAndSubmittedAssertionSummaries.tsv"),
               molecular_profile_tsv: file_or_nil(release, release_name, "MolecularProfileSummaries.tsv"),
               accepted_variants_vcf: file_or_nil(release, release_name, "civic_accepted.vcf"),
               accepted_and_submitted_variants_vcf: file_or_nil(release, release_name, "civic_accepted_and_submitted.vcf"),
@@ -35,9 +37,10 @@ module Types::Queries
       end
 
       def file_or_nil(path, release, filename)
-        full_path = File.join(path, "#{release}-#{filename}")
+        release_filename = "#{release}-#{filename}"
+        full_path = File.join(path, release_filename)
         if File.exist?(full_path)
-          { path:  File.join("/downloads", release, "#{release}-#{filename}") }
+          { path:  File.join("/downloads", release, release_filename) }
         else
           nil
         end

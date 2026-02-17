@@ -9,6 +9,8 @@ class Therapy < ApplicationRecord
   has_and_belongs_to_many :assertions
   has_and_belongs_to_many :therapy_aliases
 
+  before_validation :nilify_blank_ncit_id
+
   validates :ncit_id, uniqueness: true, allow_nil: true
 
   searchkick highlight: [ :name, :aliases ], callbacks: :async, word_start: [ :name, :aliases ]
@@ -48,5 +50,11 @@ class Therapy < ApplicationRecord
         .distinct
         .count
     }
+  end
+
+  private
+
+  def nilify_blank_ncit_id
+    self.ncit_id = nil if ncit_id.blank?
   end
 end

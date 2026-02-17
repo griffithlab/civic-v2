@@ -69,6 +69,10 @@ class Feature < ApplicationRecord
     }
   end
 
+  def should_index?
+    !deprecated
+  end
+
   # Name to be used when displayed as part of a Molecular Profile
   def mp_name
     feature_instance.mp_name
@@ -92,5 +96,31 @@ class Feature < ApplicationRecord
         .distinct
         .count
     }
+  end
+
+  def can_deprecate?
+    if deprecated?
+      return [ false, "Feature is already deprecated" ]
+    end
+
+    mps_with_eids = []
+    mps_with_assertions = []
+
+    self.variants.includes(:molecular_profiles).flat_map(&:molecular_profiles).each do |mp|
+      if mp.evidence_items.where("evidence_items.status != 'rejected'").count > 0
+        mps_with_eids.append(mp.id)
+      end
+      if mp.assertions.where("assertions.status != 'rejected'").count > 0
+        mps_with_assertions.append(mp.id)
+      end
+    end
+    if mps_with_assertions.size > 0 && mps_with_eids.size > 0
+      return [ false, "Feature is linked to Variants that belong to Molecular Profiles with accepted or submitted Assertions and Evidence Items: AIDs:#{mps_with_assertions.join(', ')}, EIDs:#{mps_with_eids.join(', ')}. Move them to a different Molecular Profile and try again." ]
+    elsif mps_with_assertions.size > 0
+      return [ false, "Feature is linked to Variants that belong to Molecular Profiles with accepted or submitted Assertions: #{mps_with_assertions.join(', ')}. Move their Assertions to a different Molecular Profile and try again." ]
+    elsif mps_with_eids.size > 0
+      return [ false, "Feature is linked to Variants that belong to Molecular Profiles with accepted or submitted Evidence Items: #{mps_with_eids.join(', ')}. Move their Evidence Items to a different Molecular Profile and try again." ]
+    end
+    return [ true, nil ]
   end
 end
