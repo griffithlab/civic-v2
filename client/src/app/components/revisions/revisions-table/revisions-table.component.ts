@@ -30,6 +30,7 @@ import {
   SuggestRevisionSetActivity,
   ViewerFieldsFragment,
   ActivitySubjectInput,
+  RevisionFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -93,6 +94,7 @@ export class CvcRevisionsTableComponent implements OnInit {
   noMoreRows$: BehaviorSubject<boolean>
   queryRef!: QueryRef<RevisionsBrowseQuery, RevisionsBrowseQueryVariables>
   expandSet = new Set<number>()
+  detailRevision$: undefined | Observable<Maybe<RevisionFragment>> = undefined
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
@@ -126,16 +128,6 @@ export class CvcRevisionsTableComponent implements OnInit {
   originatingUserNameInput: Maybe<string>
   organizationNameInput: Maybe<string>
   subjectTypeInput: Maybe<ActivitySubjectInput>
-  //aidInput: Maybe<string>
-  //diseaseNameInput: Maybe<string>
-  //therapyNameInput: Maybe<string>
-  //summaryInput: Maybe<string>
-  //assertionTypeInput: Maybe<EvidenceType>
-  //assertionDirectionInput: Maybe<EvidenceDirection>
-  //SignificanceInput: Maybe<EvidenceSignificance>
-  //molecularProfileNameInput: Maybe<string>
-  //ampLevelInput: Maybe<AmpLevel>
-  //includeSubgroups: Maybe<boolean>
 
   //sortColumns: typeof AssertionSortColumns = AssertionSortColumns
 
@@ -173,18 +165,6 @@ export class CvcRevisionsTableComponent implements OnInit {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
-      //variantId: this.variantId,
-      //molecularProfileId: this.molecularProfileId,
-      //evidenceId: this.evidenceId,
-      //organizationId: this.organizationId ? [this.organizationId] : [],
-      //approvingOrganizationIds: this.approvingOrganizationId
-      //  ? [this.approvingOrganizationId]
-      //  : [],
-      //includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
-      //userId: this.userId,
-      //phenotypeId: this.phenotypeId,
-      //diseaseId: this.diseaseId,
-      //therapyId: this.therapyId,
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -279,37 +259,12 @@ export class CvcRevisionsTableComponent implements OnInit {
   refresh() {
     this.isLoading = true
     this.loadedPages = 1
-    //var aid: Maybe<number>
-    //if (this.aidInput)
-    //  if (this.aidInput.toUpperCase().startsWith('AID')) {
-    //    aid = +this.aidInput.toUpperCase().replace('AID', '')
-    //  } else {
-    //    aid = +this.aidInput
-    //  }
-    //else {
-    //  aid = undefined
-    //}
     this.queryRef.refetch({
       fieldName: this.fieldNameInput,
       originatingUserName: this.originatingUserNameInput,
       excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
       organizationName: this.organizationNameInput,
-      subjectType: this.subjectTypeInput,
-      //id: aid,
-      //diseaseName: this.diseaseNameInput,
-      //molecularProfileName: this.molecularProfileNameInput,
-      //therapyName: this.therapyNameInput,
-      //summary: this.summaryInput,
-      //status: this.statusInput,
-      //includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
-      //assertionType: this.assertionTypeInput
-      //  ? this.assertionTypeInput
-      //  : undefined,
-      //assertionDirection: this.assertionDirectionInput
-      //  ? this.assertionDirectionInput
-      //  : undefined,
-      //significance: this.SignificanceInput ? this.SignificanceInput : undefined,
-      //ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
+      subjectType: this.subjectTypeInput ? this.subjectTypeInput : undefined,
     })
   }
 
@@ -353,7 +308,7 @@ export class CvcRevisionsTableComponent implements OnInit {
       const detailQueryRef = this.detailGql.fetch({
         id: id,
       })
-      const detailRevision = detailQueryRef.pipe(
+      this.detailRevision$ = detailQueryRef.pipe(
         pluck('data', 'revision'),
         // tag('activity-revision component'),
         filter(isNonNulled)

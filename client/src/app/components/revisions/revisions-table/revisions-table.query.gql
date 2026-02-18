@@ -99,6 +99,5 @@ fragment RevisionSetBrowseFields on RevisionSet {
 query Revision($id: Int!) {
   revision(id: $id) {
     ...revision
-    name
   }
 }
