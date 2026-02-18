@@ -47,15 +47,28 @@ class EidsBySource < Report
   def execute
     return if errors.any?
 
-    source.evidence_items.eager_load(
+    # Preload acceptance activities to avoid N+1 queries
+    evidence_items = source.evidence_items.eager_load(
       :molecular_profile,
       :disease,
-      :acceptance_event,
-      :submission_event,
+      { submission_activity: :user },
       :flags,
-      :comments,
       :open_revisions
-    ).each do |eid|
+    )
+    
+    # Manually preload acceptance activities with users
+    eid_ids = evidence_items.map(&:id)
+    acceptance_activities = ModerateEvidenceItemActivity
+      .joins(:events)
+      .includes(:user)
+      .where(subject_type: "EvidenceItem", subject_id: eid_ids, events: { action: "accepted" })
+      .order("activities.created_at DESC")
+      .group_by(&:subject_id)
+      .transform_values(&:first)
+
+    evidence_items.each do |eid|
+      acceptance_activity = acceptance_activities[eid.id]
+
       data << [
         "EID#{eid.id}",
         "https://civicdb.org#{eid.link}",
@@ -65,10 +78,10 @@ class EidsBySource < Report
         eid.disease&.name || "N/A",
         eid.evidence_type || "N/A",
         eid.status || "N/A",
-        eid.submitter&.username || "N/A",
-        eid.submission_event&.created_at&.strftime("%Y-%m-%d") || "N/A",
-        eid.acceptor&.username || "N/A",
-        eid.acceptance_event&.created_at&.strftime("%Y-%m-%d") || "N/A",
+        eid.submission_activity&.user&.username || "N/A",
+        eid.submission_activity&.created_at&.strftime("%Y-%m-%d") || "N/A",
+        acceptance_activity&.user&.username || "N/A",
+        acceptance_activity&.created_at&.strftime("%Y-%m-%d") || "N/A",
         eid.flags.count,
         eid.comments.count,
         eid.open_revisions.any? ? "Yes" : "No",
