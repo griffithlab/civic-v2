@@ -52,19 +52,19 @@ class EidsBySource < Report
       :molecular_profile,
       :disease,
       { submission_activity: :user },
-      :flags,
       :open_revisions
     )
     
-    # Manually preload acceptance activities with users
+    # Manually preload acceptance activities with users (most recent per EID)
     eid_ids = evidence_items.map(&:id)
-    acceptance_activities = ModerateEvidenceItemActivity
+    acceptance_activities_result = ModerateEvidenceItemActivity
       .joins(:events)
       .includes(:user)
       .where(subject_type: "EvidenceItem", subject_id: eid_ids, events: { action: "accepted" })
-      .order("activities.created_at DESC")
-      .group_by(&:subject_id)
-      .transform_values(&:first)
+      .select("DISTINCT ON (subject_id) activities.*")
+      .order("subject_id, activities.created_at DESC")
+    
+    acceptance_activities = acceptance_activities_result.index_by(&:subject_id)
 
     evidence_items.each do |eid|
       acceptance_activity = acceptance_activities[eid.id]
