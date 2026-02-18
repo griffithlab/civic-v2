@@ -175,7 +175,7 @@ GEM
       tzinfo
     ethon (0.17.0)
       ffi (>= 1.15.0)
-    faraday (1.10.4)
+    faraday (1.10.5)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -191,7 +191,7 @@ GEM
     faraday-em_synchrony (1.0.1)
     faraday-excon (1.1.0)
     faraday-httpclient (1.0.1)
-    faraday-multipart (1.1.1)
+    faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
     faraday-net_http (1.0.2)
     faraday-net_http_persistent (1.2.0)
@@ -370,7 +370,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.20)
+    rack (2.2.22)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-mini-profiler (2.3.4)
@@ -427,6 +427,8 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
     redis-client (0.26.0)
       connection_pool
     regexp_parser (2.11.3)
@@ -636,6 +638,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.6.1)
   capistrano-rbenv (~> 2.2.0)
   capybara (>= 3.26)
+  connection_pool (< 3)
   csv (~> 3.3)
   diffy (~> 3.4.1)
   dockerfile-rails (>= 1.5)
@@ -663,6 +666,7 @@ DEPENDENCIES
   rack-cors (~> 1.1.1)
   rack-mini-profiler (~> 2.0)
   rails (~> 8.0)
+  redis (~> 5.4)
   rinku (~> 2.0.6)
   rubocop-rails-omakase
   rubyzip (~> 2.3.2)

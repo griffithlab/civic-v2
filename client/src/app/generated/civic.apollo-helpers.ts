@@ -823,12 +823,14 @@ export type CytogeneticRegionFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DataReleaseKeySpecifier = ('acceptedAndSubmittedVariantsVcf' | 'acceptedVariantsVcf' | 'assertionTsv' | 'evidenceTsv' | 'featureTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
+export type DataReleaseKeySpecifier = ('acceptedAndSubmittedAssertionTsv' | 'acceptedAndSubmittedEvidenceTsv' | 'acceptedAndSubmittedVariantsVcf' | 'acceptedAssertionTsv' | 'acceptedEvidenceTsv' | 'acceptedVariantsVcf' | 'featureTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
 export type DataReleaseFieldPolicy = {
+	acceptedAndSubmittedAssertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedAndSubmittedEvidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	acceptedAndSubmittedVariantsVcf?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedAssertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedEvidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	acceptedVariantsVcf?: FieldPolicy<any> | FieldReadFunction<any>,
-	assertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
-	evidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfileTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1273,7 +1275,7 @@ export type FlaggableFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FusionKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'fivePrimeGene' | 'fivePrimePartnerStatus' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'revisions' | 'sources' | 'threePrimeGene' | 'threePrimePartnerStatus' | 'variants' | FusionKeySpecifier)[];
+export type FusionKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'fivePrimeGene' | 'fivePrimePartnerStatus' | 'flagged' | 'flags' | 'fullName' | 'id' | 'knownPartnerGenes' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'revisions' | 'sources' | 'threePrimeGene' | 'threePrimePartnerStatus' | 'variants' | FusionKeySpecifier)[];
 export type FusionFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1291,6 +1293,7 @@ export type FusionFieldPolicy = {
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	knownPartnerGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
