@@ -3470,7 +3470,7 @@ export type FusionFields = {
 
 /** The fusion partner's status and gene ID (if applicable) */
 export type FusionPartnerInput = {
-  /** The CIViC gene ID of the partner, if known */
+  /** The CIViC ID of the Gene Feature that is the Fusion partner, if known */
   geneId?: InputMaybe<Scalars['Int']['input']>;
   /** The status of the fusion partner */
   partnerStatus: FusionPartnerStatus;
@@ -5453,7 +5453,7 @@ export type Query = {
   evidenceItem?: Maybe<EvidenceItem>;
   /** List and filter evidence items. */
   evidenceItems: EvidenceItemConnection;
-  /** Find a single gene by CIViC ID or NCIt ID */
+  /** Find a single factor by CIViC ID or NCIt ID */
   factor?: Maybe<Factor>;
   /** List and filter factors. */
   factors: FactorConnection;
@@ -5465,7 +5465,7 @@ export type Query = {
   flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
-  /** Find a single gene by CIViC ID */
+  /** Find a single fusion by CIViC ID */
   fusion?: Maybe<Fusion>;
   /** List and filter fusions. */
   fusions: FusionConnection;
@@ -5499,8 +5499,12 @@ export type Query = {
   phenotypes: PhenotypeConnection;
   previewCommentText: Array<CommentBodySegment>;
   previewMolecularProfileName: MolecularProfileNamePreview;
+  /** Find a single region by CIViC ID */
+  region?: Maybe<Region>;
   /** Find all CIViC region variant names valid for a given CIViC (region) feature ID */
   regionVariantNamesForFeatureId?: Maybe<Array<RegionVariantName>>;
+  /** List and filter regions. */
+  regions: RegionConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']['output']>;
   /** Find a revision by CIViC ID */
@@ -6004,7 +6008,7 @@ export type QueryFlagsArgs = {
 
 
 export type QueryFusionArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['Int']['input'];
 };
 
 
@@ -6135,8 +6139,25 @@ export type QueryPreviewMolecularProfileNameArgs = {
 };
 
 
+export type QueryRegionArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
 export type QueryRegionVariantNamesForFeatureIdArgs = {
   featureId: Scalars['Int']['input'];
+};
+
+
+export type QueryRegionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
+  iscnName?: InputMaybe<Array<Scalars['String']['input']>>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 
@@ -6560,6 +6581,30 @@ export type RegionVariantsArgs = {
   regionId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<VariantMenuSort>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+/** The connection type for Region. */
+export type RegionConnection = {
+  __typename: 'RegionConnection';
+  /** A list of edges. */
+  edges: Array<RegionEdge>;
+  /** A list of nodes. */
+  nodes: Array<Region>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type RegionEdge = {
+  __typename: 'RegionEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Region>;
 };
 
 /** Fields on a Region that curators may propose revisions to. */
