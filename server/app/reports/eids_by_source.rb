@@ -50,8 +50,6 @@ class EidsBySource < Report
     source.evidence_items.eager_load(
       :molecular_profile,
       :disease,
-      :submitter,
-      :acceptor,
       :acceptance_event,
       :submission_event,
       :flags,
