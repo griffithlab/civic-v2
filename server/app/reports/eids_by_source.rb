@@ -11,14 +11,14 @@ class EidsBySource < Report
 
   def self.inputs
     {
-      source_type: ["PubMed", "ASCO", "ASH"],
+      source_type: [ "PubMed", "ASCO", "ASH" ],
       source_id: :text,
     }
   end
 
   def setup(source_type:, source_id:)
     @source = Source.find_by(source_type: source_type, citation_id: source_id)
-    
+
     unless @source
       errors << "Source not found with type '#{source_type}' and ID '#{source_id}'"
     end
@@ -54,7 +54,7 @@ class EidsBySource < Report
       { submission_activity: :user },
       :open_revisions
     )
-    
+
     # Manually preload acceptance activities with users (most recent per EID)
     eid_ids = evidence_items.map(&:id)
     acceptance_activities_result = ModerateEvidenceItemActivity
@@ -63,7 +63,7 @@ class EidsBySource < Report
       .where(subject_type: "EvidenceItem", subject_id: eid_ids, events: { action: "accepted" })
       .select("DISTINCT ON (subject_id) activities.*")
       .order("subject_id, activities.created_at DESC")
-    
+
     acceptance_activities = acceptance_activities_result.index_by(&:subject_id)
 
     evidence_items.each do |eid|
@@ -78,11 +78,11 @@ class EidsBySource < Report
         eid.disease&.name || "N/A",
         eid.evidence_type || "N/A",
         eid.status || "N/A",
-        eid.submission_activity&.user&.username || "N/A",
+        eid.submission_activity&.user&.display_name || "N/A",
         eid.submission_activity&.created_at&.strftime("%Y-%m-%d") || "N/A",
-        acceptance_activity&.user&.username || "N/A",
+        acceptance_activity&.user&.display_name || "N/A",
         acceptance_activity&.created_at&.strftime("%Y-%m-%d") || "N/A",
-        eid.flags.count,
+        eid.flags.where(state: "open").count,
         eid.comments.count,
         eid.open_revisions.any? ? "Yes" : "No",
       ]
