@@ -118,6 +118,7 @@ module Constants
     "Variants::GeneVariant" => "variants",
     "Variants::FactorVariant" => "variants",
     "Variants::FusionVariant" => "variants",
+    "Variants::RegionVariant" => "variants",
     "VariantGroup" => "variant-groups",
     "Source" => "sources",
     "MolecularProfile" => "molecular-profiles",

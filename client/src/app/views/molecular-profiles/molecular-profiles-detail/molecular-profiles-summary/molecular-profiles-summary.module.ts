@@ -23,6 +23,7 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
 import { CvcMolecularProfileGeneVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-gene-variant-card/molecular-profile-gene-variant-card.module'
 import { CvcMolecularProfileFactorVariantCardComponent } from '@app/components/molecular-profiles/molecular-profile-factor-variant-card/molecular-profile-factor-variant-card.component'
 import { CvcMolecularProfileFusionVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-fusion-variant-card/molecular-profile-fusion-variant-card.module'
+import { CvcMolecularProfileRegionVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-region-variant-card/molecular-profile-region-variant-card.module'
 
 @NgModule({
   declarations: [MolecularProfilesSummaryPage],
@@ -51,6 +52,7 @@ import { CvcMolecularProfileFusionVariantCardModule } from '@app/components/mole
     CvcMolecularProfileGeneVariantCardModule,
     CvcMolecularProfileFactorVariantCardComponent,
     CvcMolecularProfileFusionVariantCardModule,
+    CvcMolecularProfileRegionVariantCardModule,
   ],
   exports: [MolecularProfilesSummaryPage],
 })

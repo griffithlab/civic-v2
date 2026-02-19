@@ -6,13 +6,14 @@ import {
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
-import { Maybe, Variant } from '@app/generated/civic.apollo'
+import { FeatureSelectTagGQL, Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, lastValueFrom } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { Apollo, gql } from 'apollo-angular'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
+import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
 
 type VariantSubmitModel = {
   featureId?: number
@@ -41,6 +42,7 @@ export class VariantSubmitForm {
   config: FormlyFieldConfig[]
   layout: NzFormLayoutType = 'horizontal'
   newlyCreated?: boolean
+  featureType?: string
 
   finderState: VariantSubmitState = {
     formLayout: this.layout,
@@ -51,7 +53,10 @@ export class VariantSubmitForm {
   }
   options: FormlyFormOptions
 
-  constructor(private apollo: Apollo) {
+  constructor(
+    private apollo: Apollo,
+    private featureQuery: FeatureSelectTagGQL,
+  ) {
     this.form = new UntypedFormGroup({})
     this.model = { featureId: undefined, variantId: undefined }
     this.options = { formState: this.finderState }
@@ -89,6 +94,9 @@ export class VariantSubmitForm {
               isNewlyCreatedCallback: (isNew: boolean): void => {
                 this.newlyCreated = isNew
               },
+              featureTypeCallback: (featureType: string): void => {
+                this.featureType = new EnumToTitlePipe().transform(featureType)
+              }
             },
           },
         ],
@@ -112,9 +120,9 @@ export class VariantSubmitForm {
   getSelectedVariant(variantId: Maybe<number>): Maybe<Variant> {
     if (!variantId) return
     const fragment = {
-      id: `Variant:${variantId}`,
+      id: `${this.featureType}Variant:${variantId}`,
       fragment: gql`
-        fragment VariantSelectQuery on Variant {
+        fragment VariantSelectQuery on ${this.featureType}Variant {
           id
           name
           link
