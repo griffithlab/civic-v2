@@ -11,6 +11,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { CvcGeneReviseFormModule } from '@app/forms/config/gene-revise/gene-revise.form.module'
 import { CvcFactorReviseForm } from '@app/forms/config/factor-revise/factor-revise.form'
 import { CvcFusionReviseForm } from '@app/forms/config/fusion-revise/fusion-revise.form'
+import { CvcRegionReviseFormModule } from '@app/forms/config/region-revise/region-revise.form.module'
 
 @NgModule({
   declarations: [FeaturesSuggestPage],
@@ -26,7 +27,8 @@ import { CvcFusionReviseForm } from '@app/forms/config/fusion-revise/fusion-revi
     CvcGeneReviseFormModule,
     CvcSectionNavigationModule,
     CvcFactorReviseForm,
-    CvcFusionReviseForm
+    CvcFusionReviseForm,
+    CvcRegionReviseFormModule,
   ],
 })
 export class FeaturesSuggestModule {}

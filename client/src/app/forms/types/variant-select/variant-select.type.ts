@@ -14,6 +14,7 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
+  FeatureInstanceTypes,
   FeatureSelectTagGQL,
   FeatureSelectTypeaheadFieldsFragment,
   Maybe,
@@ -51,7 +52,7 @@ import {
   CvcFusionVariantSelectForm,
   FusionVariantSelectModalData,
 } from './fusion-variant-select/fusion-variant-select.form'
-import { LinkableFeature } from '@app/components/features/feature-tag/feature-tag.component'
+import { CvcRegionVariantSelectForm, RegionVariantSelectModalData } from './region-variant-select /region-variant-select.form'
 
 export interface VariantIdWithCreationStatus {
   new: boolean
@@ -73,6 +74,7 @@ export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType // stores display type for msg beneath select component
   showManagerBtn?: boolean // show manager button
   minSearchStrLength: number
+  alwaysShowCreate?: boolean
 }
 
 export interface CvcVariantSelectFieldConfig
@@ -133,6 +135,7 @@ export class CvcVariantSelectField
       entityName: { singular: 'Variant', plural: 'Variants' },
       showManagerBtn: false,
       minSearchStrLength: 0,
+      alwaysShowCreate: false,
     },
   }
 
@@ -273,9 +276,16 @@ export class CvcVariantSelectField
     results: VariantSelectTypeaheadFieldsFragment[]
   ): boolean {
     const searchName = s.toLowerCase()
-    return (
-      s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
-    )
+    // The compiler thinks this refers to the component but because of
+    // something in the mixin chain, it does not.
+    const mixin = this as any
+    if (mixin.cvcFormlyAttributes.props.alwaysShowCreate) {
+      return true
+    } else {
+      return (
+        s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
+      )
+    }
   }
 
   onSelectOrCreate(variant: VariantIdWithCreationStatus) {
@@ -283,6 +293,9 @@ export class CvcVariantSelectField
     this.formControl.setValue(variant.id)
     if (this.props.isNewlyCreatedCallback) {
       this.props.isNewlyCreatedCallback(variant.new)
+    }
+    if (this.props.featureTypeCallback) {
+      this.props.featureTypeCallback(this.selectedFeature?.featureType)
     }
   }
 
@@ -322,6 +335,9 @@ export class CvcVariantSelectField
           } else {
             this.props.placeholder = this.props.placeholder
           }
+          if (this.selectedFeatureType == FeatureInstanceTypes.Region) {
+            this.props.alwaysShowCreate = true
+          }
           // emit feature name for quick-add form Input
           this.onFeatureName$.next(data.feature.name)
         }
@@ -339,6 +355,27 @@ export class CvcVariantSelectField
       nzData: { feature: this.selectedFeature },
       nzFooter: null,
       nzWidth: '60%',
+    })
+
+    modal.getContentComponent()
+    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
+      if (result.variantId) {
+        this.onSelectOrCreate({ id: result.variantId, new: true })
+        this.onVid$.next(result.variantId)
+      }
+    })
+  }
+
+  createRegionVariantModal() {
+    const modal = this.modal.create<
+      CvcRegionVariantSelectForm,
+      RegionVariantSelectModalData
+    >({
+      nzTitle: 'Add New Region Variant',
+      nzContent: CvcRegionVariantSelectForm,
+      nzData: { feature: this.selectedFeature },
+      nzFooter: null,
+      nzWidth: '500px',
     })
 
     modal.getContentComponent()

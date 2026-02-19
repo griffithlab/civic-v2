@@ -1,0 +1,28 @@
+query RegionRevisableFields($featureId: Int!) {
+  feature(id: $featureId) {
+    ...RevisableRegionFields
+  }
+}
+
+fragment RevisableRegionFields on Feature {
+  id
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  featureAliases
+}
+
+mutation SuggestRegionRevision($input: SuggestRegionRevisionInput!) {
+  suggestRegionRevision(input: $input) {
+    clientMutationId
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}

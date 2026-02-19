@@ -8,6 +8,8 @@ export function entityTypeToTypeLabel(s: string): string {
       return 'Factor Variant'
     case 'GeneVariant':
       return 'Gene Variant'
+    case 'RegionVariant':
+      return 'Region Variant'
     default:
       return s
         .toLowerCase()

@@ -22,6 +22,9 @@ fragment FeatureSummaryFields on Feature{
     ... on Fusion {
       ... FusionSummaryFields
     }
+    ... on Region {
+      ... RegionSummaryFields
+    }
   }
   # lastSubmittedRevisionEvent {
   #   originatingUser {
@@ -39,6 +42,53 @@ fragment FeatureSummaryFields on Feature{
   #     profileImagePath(size: 32)
   #   }
   # }
+}
+
+fragment RegionSummaryFields on Region {
+  id
+  name
+  description
+  featureAliases
+  deprecated
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+    deprecated
+  }
+  cytogeneticRegions {
+    name
+    chromosome
+    band
+    cytogeneticCoordinates {
+      referenceBuild
+      chromosome
+      start
+      stop
+    }
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+
 }
 
 fragment FusionSummaryFields on Fusion {
