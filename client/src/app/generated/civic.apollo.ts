@@ -9580,9 +9580,9 @@ export type FeaturePopoverQueryVariables = Exact<{
 }>;
 
 
-export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' } | { __typename: 'Region' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' } | { __typename: 'Region' }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, stats: { __typename: 'FeatureStats', variantCount: number, molecularProfileCount: number, evidenceItemCount: number, assertionCount: number } } | undefined };
 
-export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' } | { __typename: 'Region' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' } | { __typename: 'Region' }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, stats: { __typename: 'FeatureStats', variantCount: number, molecularProfileCount: number, evidenceItemCount: number, assertionCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']['input']>;
@@ -12666,9 +12666,6 @@ export const FeaturePopoverFragmentDoc = gql`
     __typename
   }
   featureAliases
-  variants {
-    totalCount
-  }
   revisions(status: NEW) {
     totalCount
   }
@@ -12677,6 +12674,12 @@ export const FeaturePopoverFragmentDoc = gql`
   }
   flags(state: OPEN) {
     totalCount
+  }
+  stats {
+    variantCount
+    molecularProfileCount
+    evidenceItemCount
+    assertionCount
   }
 }
     `;

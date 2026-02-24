@@ -179,38 +179,6 @@
                   <tr>
                     <th>Gene</th>
                     <th>Fusion</th>
-                    <th
-                      nz-tooltip
-                      nzTooltipTitle="Variant Count">
-                      <i
-                        nz-icon
-                        nzType="civic-variant"></i>
-                      Count
-                    </th>
-                    <th
-                      nz-tooltip
-                      nzTooltipTitle="Molecular Profile Count">
-                      <i
-                        nz-icon
-                        nzType="civic-molecularprofile"></i>
-                      Count
-                    </th>
-                    <th
-                      nz-tooltip
-                      nzTooltipTitle="Evidence Count">
-                      <i
-                        nz-icon
-                        nzType="civic-evidence"></i>
-                      Count
-                    </th>
-                    <th
-                      nz-tooltip
-                      nzTooltipTitle="Assertion Count">
-                      <i
-                        nz-icon
-                        nzType="civic-assertion"></i>
-                      Count
-                    </th>
                     <th>Significance</th>
                   </tr>
                 </thead>
@@ -223,18 +191,6 @@
                       @if (partner.knowPartnerSpecificFusion) {
                         <td>
                           <cvc-feature-tag [feature]="partner.knowPartnerSpecificFusion"></cvc-feature-tag>
-                        </td>
-                        <td>
-                          {{ partner.knowPartnerSpecificFusion.stats.variantCount }}
-                        </td>
-                        <td>
-                          {{ partner.knowPartnerSpecificFusion.stats.molecularProfileCount }}
-                        </td>
-                        <td>
-                          {{ partner.knowPartnerSpecificFusion.stats.evidenceItemCount }}
-                        </td>
-                        <td>
-                          {{ partner.knowPartnerSpecificFusion.stats.assertionCount }}
                         </td>
                         @if (partner.knowPartnerSpecificFusion.clinicalSignificanceCounts.length > 0) {
                           <td>
@@ -281,14 +237,6 @@
                         }
 
                       } @else {
-                        <td nz-typography
-                        nzType="secondary">None</td>
-                        <td nz-typography
-                        nzType="secondary">None</td>
-                        <td nz-typography
-                        nzType="secondary">None</td>
-                        <td nz-typography
-                        nzType="secondary">None</td>
                         <td nz-typography
                         nzType="secondary">None</td>
                         <td nz-typography

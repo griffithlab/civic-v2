@@ -127,10 +127,10 @@ class Feature < ApplicationRecord
   def stats
     v = MaterializedViews::FeatureBrowseTableRow.find_by(id: self.id)
     stats = {
-      variant_count: v.variant_count || 0,
-      molecular_profile_count: v.molecular_profile_count || 0,
-      evidence_item_count: v.evidence_item_count || 0,
-      assertion_count: v.assertion_count || 0,
+      variant_count: v&.variant_count || 0,
+      molecular_profile_count: v&.molecular_profile_count || 0,
+      evidence_item_count: v&.evidence_item_count || 0,
+      assertion_count: v&.assertion_count || 0,
     }
   end
 
