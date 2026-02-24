@@ -4285,6 +4285,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Gene variants.
@@ -4943,6 +4944,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter variants.
@@ -5071,6 +5073,13 @@ input FeatureSearchFilter {
   subFilters: [FeatureSearchFilter!]
   threePrimePartnerEntrezId: IntSearchInput
   threePrimePartnerEntrezSymbol: StringSearchInput
+}
+
+type FeatureStats {
+  assertionCount: Int!
+  evidenceItemCount: Int!
+  molecularProfileCount: Int!
+  variantCount: Int!
 }
 
 input FeaturesSort {
@@ -5594,6 +5603,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     state: FlagState
   ): FlagConnection!
   fullName: String
+  fusionsKnownPartnerGenes: [FusionKnownPartnerGene!]!
   id: Int!
   knownPartnerGenes: [Gene!]!
   lastAcceptedRevisionEvent: Event
@@ -5653,6 +5663,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
   threePrimeGene: Gene
   threePrimePartnerStatus: FusionPartnerStatus!
 
@@ -5802,6 +5813,12 @@ input FusionFields {
   Source IDs cited by the Fusion's summary.
   """
   sourceIds: [Int!]!
+}
+
+type FusionKnownPartnerGene {
+  fusion: Fusion!
+  gene: Gene!
+  knowPartnerSpecificFusion: Fusion
 }
 
 """
@@ -6292,6 +6309,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Gene variants.
@@ -11269,6 +11287,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Region variants.

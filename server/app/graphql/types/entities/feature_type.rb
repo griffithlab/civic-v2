@@ -23,6 +23,7 @@ module Types::Entities
     field :deprecated, Boolean, null: false
     field :deprecation_reason, Types::FeatureDeprecationReasonType, null: true
     field :creation_activity, Types::Activities::CreateFeatureActivityType, null: true
+    field :stats, Types::FeatureStatsType, null: false
 
     def id
       if object.class.name == "Feature"

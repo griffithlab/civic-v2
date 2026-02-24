@@ -113,6 +113,24 @@ fragment FusionSummaryFields on Fusion {
   }
   fivePrimePartnerStatus
   threePrimePartnerStatus
+  fusionsKnownPartnerGenes {
+    gene {
+      ... GeneBaseFields
+    }
+    knowPartnerSpecificFusion {
+      id
+      name
+      link
+      deprecated
+      flagged
+      stats {
+        variantCount
+        molecularProfileCount
+        evidenceItemCount
+        assertionCount
+      }
+    }
+  }
   knownPartnerGenes {
     ... GeneBaseFields
   }

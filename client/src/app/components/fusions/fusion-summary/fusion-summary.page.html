@@ -137,7 +137,7 @@
       [nzExtra]="fusion.fivePrimePartnerStatus | enumToTitle">
       <ng-container
         [ngTemplateOutlet]="partnerStatusDescription"
-        [ngTemplateOutletContext]="{status: fusion.fivePrimePartnerStatus, knownPartnerGenes: fusion.knownPartnerGenes}">
+        [ngTemplateOutletContext]="{status: fusion.fivePrimePartnerStatus, fusionsKnownPartnerGenes: fusion.fusionsKnownPartnerGenes}">
       </ng-container>
     </nz-card>
   </nz-col>
@@ -166,32 +166,92 @@
     <ng-template
       #partnerStatusDescription
       let-status="status"
-      let-knownPartnerGenes="knownPartnerGenes">
+      let-fusionsKnownPartnerGenes="fusionsKnownPartnerGenes">
       @switch (status) {
         @case ('MULTIPLE') {
           <p>There are Multiple possible (variable) fusion partners.</p>
-            <nz-descriptions
-              nzLayout="vertical"
-              nzSize="small"
-              [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-              nzBordered="true">
               <!-- known partner genes -->
-              <nz-descriptions-item nzTitle="Known Partner Genes">
-                <ng-container
-                  *ngIf="knownPartnerGenes.length > 0; else noKnownPartners">
-                  @for (gene of knownPartnerGenes; track gene) {
-                    <cvc-feature-tag [feature]="gene"></cvc-feature-tag>
+              <nz-table #smallTable
+                nzSize="small"
+                [nzFrontPagination]="false"
+                [nzData]="fusionsKnownPartnerGenes">
+                <thead>
+                  <tr>
+                    <th>Gene</th>
+                    <th>Fusion</th>
+                    <th
+                      nz-tooltip
+                      nzTooltipTitle="Variant Count">
+                      <i
+                        nz-icon
+                        nzType="civic-variant"></i>
+                      Count
+                    </th>
+                    <th
+                      nz-tooltip
+                      nzTooltipTitle="Molecular Profile Count">
+                      <i
+                        nz-icon
+                        nzType="civic-molecularprofile"></i>
+                      Count
+                    </th>
+                    <th
+                      nz-tooltip
+                      nzTooltipTitle="Evidence Count">
+                      <i
+                        nz-icon
+                        nzType="civic-evidence"></i>
+                      Count
+                    </th>
+                    <th
+                      nz-tooltip
+                      nzTooltipTitle="Assertion Count">
+                      <i
+                        nz-icon
+                        nzType="civic-assertion"></i>
+                      Count
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (partner of fusionsKnownPartnerGenes; track partner) {
+                    <tr>
+                      <td>
+                        <cvc-feature-tag [feature]="partner.gene"></cvc-feature-tag>
+                      </td>
+                      @if (partner.knowPartnerSpecificFusion) {
+                        <td>
+                          <cvc-feature-tag [feature]="partner.knowPartnerSpecificFusion"></cvc-feature-tag>
+                        </td>
+                        <td>
+                          {{ partner.knowPartnerSpecificFusion.stats.variantCount }}
+                        </td>
+                        <td>
+                          {{ partner.knowPartnerSpecificFusion.stats.molecularProfileCount }}
+                        </td>
+                        <td>
+                          {{ partner.knowPartnerSpecificFusion.stats.evidenceItemCount }}
+                        </td>
+                        <td>
+                          {{ partner.knowPartnerSpecificFusion.stats.assertionCount }}
+                        </td>
+
+                      } @else {
+                        <td nz-typography
+                        nzType="secondary">None</td>
+                        <td nz-typography
+                        nzType="secondary">None</td>
+                        <td nz-typography
+                        nzType="secondary">None</td>
+                        <td nz-typography
+                        nzType="secondary">None</td>
+                        <td nz-typography
+                        nzType="secondary">None</td>
+                      }
+                    </tr>
                   }
-                </ng-container>
-              </nz-descriptions-item>
-              <ng-template #noKnownPartners>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
-            </nz-descriptions>
+                </tbody>
+              </nz-table>
         }
         @case ('UNKNOWN') {
           The fusion partner is unknown.

@@ -19,6 +19,9 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcGeneBaseSummaryComponent } from '@app/components/genes/gene-base-summary/gene-base-summary.page'
 import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @Component({
@@ -33,6 +36,9 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
         NzSpaceModule,
         NzTagModule,
         NzCardModule,
+        NzTableModule,
+        NzIconModule,
+        NzToolTipModule,
         CvcEmptyRevisableModule,
         CvcTagListModule,
         CvcFeatureTagModule,
