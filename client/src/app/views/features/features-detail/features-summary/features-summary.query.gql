@@ -129,6 +129,12 @@ fragment FusionSummaryFields on Fusion {
         evidenceItemCount
         assertionCount
       }
+      clinicalSignificanceCounts {
+        type
+        direction
+        significance
+        count
+      }
     }
   }
   knownPartnerGenes {

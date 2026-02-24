@@ -23,6 +23,7 @@ import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'
 
 @Component({
     selector: 'cvc-fusion-summary',
@@ -48,6 +49,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
         CvcUserTagModule,
         CvcGeneBaseSummaryComponent,
         CvcFeatureTagModule,
+        CvcAttributeTagModule
     ]
 })
 export class FusionSummaryComponent implements OnInit {

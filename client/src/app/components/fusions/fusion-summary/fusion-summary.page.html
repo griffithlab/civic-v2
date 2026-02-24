@@ -211,6 +211,7 @@
                         nzType="civic-assertion"></i>
                       Count
                     </th>
+                    <th>Significance</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -235,8 +236,53 @@
                         <td>
                           {{ partner.knowPartnerSpecificFusion.stats.assertionCount }}
                         </td>
+                        @if (partner.knowPartnerSpecificFusion.clinicalSignificanceCounts.length > 0) {
+                          <td>
+                            <nz-descriptions
+                              nzSize="small"
+                              nzLayout="horizontal"
+                              [nzColumn]="1"
+                              nzBordered="true">
+                              @for (significance of partner.knowPartnerSpecificFusion.clinicalSignificanceCounts; track significance) {
+                                <nz-descriptions-item
+                                  [nzTitle]="significanceDescription">
+                                  {{ significance.count }}
+                                </nz-descriptions-item>
+                                <ng-template #significanceDescription>
+                                  <cvc-attribute-tag
+                                    [cvcAttrValue]="significance.direction"
+                                    nz-tooltip
+                                    [nzTooltipTitle]="
+                                      significance.direction
+                                        | enumTooltip
+                                          : 'assertionDirection'
+                                          : significance.type
+                                          : 'Assertion'
+                                    ">
+                                  </cvc-attribute-tag>
+                                  <cvc-attribute-tag
+                                    [cvcAttrValue]="significance.significance"
+                                    nz-tooltip
+                                    [nzTooltipTitle]="
+                                      significance.significance
+                                        | enumTooltip
+                                          : 'significance'
+                                          : significance.type
+                                          : 'Assertion'
+                                    ">
+                                  </cvc-attribute-tag>
+                                </ng-template>
+                              }
+                            </nz-descriptions>
+                          </td>
+                        } @else {
+                          <td nz-typography
+                          nzType="secondary">None</td>
+                        }
 
                       } @else {
+                        <td nz-typography
+                        nzType="secondary">None</td>
                         <td nz-typography
                         nzType="secondary">None</td>
                         <td nz-typography

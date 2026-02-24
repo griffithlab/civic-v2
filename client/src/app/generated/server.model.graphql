@@ -2060,6 +2060,13 @@ type ClingenCode {
   tooltip: String!
 }
 
+type ClinicalSignificanceCounts {
+  count: Int!
+  direction: AssertionDirection!
+  significance: AssertionSignificance!
+  type: AssertionType!
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -4088,6 +4095,8 @@ enum ExonCoordinateType {
 The Feature that a Variant can belong to
 """
 type Factor implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4749,6 +4758,8 @@ type FdaCode {
 The Feature that a Variant can belong to
 """
 type Feature implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -5464,6 +5475,8 @@ enum FloatSearchOperator {
 The Feature that a Variant can belong to
 """
 type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -6112,6 +6125,8 @@ input FusionVariantInput {
 The Feature that a Variant can belong to
 """
 type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -11091,6 +11106,8 @@ enum ReferenceBuild {
 The Feature that a Variant can belong to
 """
 type Region implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """

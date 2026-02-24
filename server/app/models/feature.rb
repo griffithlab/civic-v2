@@ -133,4 +133,18 @@ class Feature < ApplicationRecord
       assertion_count: v.assertion_count || 0,
     }
   end
+
+  def clinical_significance_counts
+    counts = Assertion
+      .joins(molecular_profile: [ variants: [ :feature ] ])
+      .where(features: { id: self.id }, molecular_profiles: { deprecated: false }, variants: { deprecated: false })
+      .where.not(assertions: { status: 'rejected' })
+      .group("assertion_type", "assertion_direction", "significance")
+      .count
+    if counts.nil?
+      []
+    else
+      counts.map{|c|  {type: c.first.first, direction: c.first.second, significance: c.first.third, count: c.second }}
+    end
+  end
 end
