@@ -23,7 +23,7 @@ import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
-import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'
+import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
     selector: 'cvc-fusion-summary',
@@ -49,7 +49,7 @@ import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attr
         CvcUserTagModule,
         CvcGeneBaseSummaryComponent,
         CvcFeatureTagModule,
-        CvcAttributeTagModule
+        CvcClinicalSignificanceCounts,
     ]
 })
 export class FusionSummaryComponent implements OnInit {
@@ -69,5 +69,13 @@ export class FusionSummaryComponent implements OnInit {
         entityType: SubscribableEntities.Feature,
       }
     }
+  }
+
+  fusionsKnownPartnerGenesContainsSpecificFusion(partners: any[]): boolean {
+    return partners.some(partner => partner.knowPartnerSpecificFusion)
+  }
+
+  fusionsKnownPartnerGenesContainsNoSpecificFusion(partners: any[]): boolean {
+    return partners.some(partner => !partner.knowPartnerSpecificFusion)
   }
 }
