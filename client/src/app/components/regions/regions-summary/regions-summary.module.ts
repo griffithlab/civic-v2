@@ -19,6 +19,7 @@ import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profil
 import { RegionsSummaryPage } from './regions-summary.page'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzCardModule } from 'ng-zorro-antd/card'
+import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @NgModule({
   declarations: [RegionsSummaryPage],
@@ -44,6 +45,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
     CvcMyGeneInfoModule,
     CvcMolecularProfilesMenuModule,
     CvcPipesModule,
+    CvcClinicalSignificanceCounts,
   ],
   exports: [RegionsSummaryPage],
 })

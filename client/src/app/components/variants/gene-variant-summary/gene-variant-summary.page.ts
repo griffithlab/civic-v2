@@ -17,6 +17,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcOpenCravatAnnotationsModule } from '../open-cravat-annotations/open-cravat-annotations.module'
 import { CvcVariantInfo } from '../variant-info/variant-info.component'
+import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
   selector: 'cvc-gene-variant-summary',
@@ -38,6 +39,7 @@ import { CvcVariantInfo } from '../variant-info/variant-info.component'
     CvcMolecularProfilesTableModule,
     CvcPipesModule,
     CvcVariantInfo,
+    CvcClinicalSignificanceCounts,
   ],
 })
 export class CvcGeneVariantSummaryComponent implements OnInit {

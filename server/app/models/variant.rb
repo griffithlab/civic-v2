@@ -185,4 +185,20 @@ class Variant < ApplicationRecord
       Variants::RegionVariant,
     ]
   end
+
+  def clinical_significance_counts
+    Rails.cache.fetch("variant_clinical_significant_counts_#{self.id}", expires_in: 24.hours) do
+      counts = Assertion
+        .joins(molecular_profile: [ :variants ])
+        .where(variants: { id: self.id, deprecated: false }, molecular_profiles: { deprecated: false })
+        .where.not(assertions: { status: 'rejected' })
+        .group("assertion_type", "assertion_direction", "significance")
+        .count
+      if counts.nil?
+        []
+      else
+        counts.map{|c|  {type: c.first.first, direction: c.first.second, significance: c.first.third, count: c.second }}
+      end
+    end
+  end
 end

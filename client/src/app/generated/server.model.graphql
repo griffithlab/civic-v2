@@ -4455,6 +4455,8 @@ input FactorFields {
 }
 
 type FactorVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -5856,6 +5858,8 @@ enum FusionPartnerStatus {
 }
 
 type FusionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -6466,6 +6470,7 @@ input GeneFields {
 
 type GeneVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
   alleleRegistryId: String
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
   clinvarIds: [String!]!
 
   """
@@ -11450,6 +11455,8 @@ input RegionFields {
 }
 
 type RegionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -14356,6 +14363,8 @@ type ValidationErrors {
 }
 
 type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -15079,6 +15088,8 @@ enum VariantGroupsSortColumns {
 A taggable/linkable component of a molecular profile
 """
 interface VariantInterface implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """

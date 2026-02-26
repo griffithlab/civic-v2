@@ -137,7 +137,7 @@ class Feature < ApplicationRecord
   end
 
   def clinical_significance_counts
-    Rails.cache.fetch("clinical_significant_counts_#{self.id}", expires_in: 24.hours) do
+    Rails.cache.fetch("feature_clinical_significant_counts_#{self.id}", expires_in: 24.hours) do
       counts = Assertion
         .joins(molecular_profile: [ variants: [ :feature ] ])
         .where(features: { id: self.id }, molecular_profiles: { deprecated: false }, variants: { deprecated: false })

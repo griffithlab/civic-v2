@@ -76,7 +76,7 @@
     </nz-row>
   </nz-col>
 
-  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <!-- last revision submitted/accepted, clinical significance col -->
   <nz-col nzSpan="12">
     <!-- BLOCK: creation and deprecation events -->
     <nz-descriptions
@@ -115,6 +115,17 @@
       </ng-container>
     </nz-descriptions>
     <br />
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      nzBordered="true"
+      [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Clinical Significance">
+        <td>
+          <cvc-clinical-significance-counts [cvcClinicalSignificances]="fusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+        </td>
+      </nz-descriptions-item>
+    </nz-descriptions>
   </nz-col>
 </nz-row>
 <nz-row [nzGutter]="[8, 16]">

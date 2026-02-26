@@ -16,6 +16,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
   selector: 'cvc-fusion-variant-summary',
@@ -38,6 +39,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     CvcMolecularProfilesTableModule,
     CvcMyVariantInfoModule,
     CvcPipesModule,
+    CvcClinicalSignificanceCounts,
   ],
 })
 export class CvcFusionVariantSummaryComponent implements OnInit {
