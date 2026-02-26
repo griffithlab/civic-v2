@@ -123,4 +123,32 @@ class Feature < ApplicationRecord
     end
     return [ true, nil ]
   end
+
+  def stats
+    Rails.cache.fetch("feature_stats_#{self.id}", expires_in: 24.hours) do
+      v = MaterializedViews::FeatureBrowseTableRow.find_by(id: self.id)
+      stats = {
+        variant_count: v&.variant_count || 0,
+        molecular_profile_count: v&.molecular_profile_count || 0,
+        evidence_item_count: v&.evidence_item_count || 0,
+        assertion_count: v&.assertion_count || 0,
+      }
+    end
+  end
+
+  def clinical_significance_counts
+    Rails.cache.fetch("feature_clinical_significant_counts_#{self.id}", expires_in: 24.hours) do
+      counts = Assertion
+        .joins(molecular_profile: [ variants: [ :feature ] ])
+        .where(features: { id: self.id }, molecular_profiles: { deprecated: false }, variants: { deprecated: false })
+        .where.not(assertions: { status: 'rejected' })
+        .group("assertion_type", "assertion_direction", "significance")
+        .count
+      if counts.nil?
+        []
+      else
+        counts.map{|c|  {type: c.first.first, direction: c.first.second, significance: c.first.third, count: c.second }}
+      end
+    end
+  end
 end

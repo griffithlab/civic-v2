@@ -76,7 +76,7 @@
     </nz-row>
   </nz-col>
 
-  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <!-- last revision submitted/accepted, clinical significance col -->
   <nz-col nzSpan="12">
     <!-- BLOCK: creation and deprecation events -->
     <nz-descriptions
@@ -115,6 +115,17 @@
       </ng-container>
     </nz-descriptions>
     <br />
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      nzBordered="true"
+      [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Clinical Significance">
+        <td>
+          <cvc-clinical-significance-counts [cvcClinicalSignificances]="fusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+        </td>
+      </nz-descriptions-item>
+    </nz-descriptions>
   </nz-col>
 </nz-row>
 <nz-row [nzGutter]="[8, 16]">
@@ -137,7 +148,7 @@
       [nzExtra]="fusion.fivePrimePartnerStatus | enumToTitle">
       <ng-container
         [ngTemplateOutlet]="partnerStatusDescription"
-        [ngTemplateOutletContext]="{status: fusion.fivePrimePartnerStatus, knownPartnerGenes: fusion.knownPartnerGenes}">
+        [ngTemplateOutletContext]="{status: fusion.fivePrimePartnerStatus, fusionsKnownPartnerGenes: fusion.fusionsKnownPartnerGenes}">
       </ng-container>
     </nz-card>
   </nz-col>
@@ -166,32 +177,71 @@
     <ng-template
       #partnerStatusDescription
       let-status="status"
-      let-knownPartnerGenes="knownPartnerGenes">
+      let-fusionsKnownPartnerGenes="fusionsKnownPartnerGenes">
       @switch (status) {
         @case ('MULTIPLE') {
           <p>There are Multiple possible (variable) fusion partners.</p>
-            <nz-descriptions
-              nzLayout="vertical"
+          <!-- known partner genes -->
+          @if (fusionsKnownPartnerGenes.length > 0) {
+            <!-- known partner genes with specific fusion -->
+            @if (fusionsKnownPartnerGenesContainsSpecificFusion(fusionsKnownPartnerGenes)) {
+            <nz-table #smallTable
               nzSize="small"
-              [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-              nzBordered="true">
-              <!-- known partner genes -->
-              <nz-descriptions-item nzTitle="Known Partner Genes">
-                <ng-container
-                  *ngIf="knownPartnerGenes.length > 0; else noKnownPartners">
-                  @for (gene of knownPartnerGenes; track gene) {
-                    <cvc-feature-tag [feature]="gene"></cvc-feature-tag>
+              [nzFrontPagination]="false"
+              [nzShowPagination]="false"
+              [nzData]="fusionsKnownPartnerGenes">
+              <thead>
+                <tr>
+                  <th>Gene</th>
+                  <th>Fusion</th>
+                  <th>Clinical Significance</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (partner of fusionsKnownPartnerGenes; track partner) {
+                  @if (partner.knowPartnerSpecificFusion) {
+                    <tr>
+                      <td>
+                        <cvc-feature-tag [feature]="partner.gene"></cvc-feature-tag>
+                      </td>
+                      <td>
+                        <cvc-feature-tag [feature]="partner.knowPartnerSpecificFusion"></cvc-feature-tag>
+                      </td>
+                      <td>
+                        <cvc-clinical-significance-counts [cvcClinicalSignificances]="partner.knowPartnerSpecificFusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+                      </td>
+                    </tr>
                   }
-                </ng-container>
-              </nz-descriptions-item>
-              <ng-template #noKnownPartners>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
+                }
+              </tbody>
+            </nz-table>
+            <br/>
+            }
+            @if (fusionsKnownPartnerGenesContainsNoSpecificFusion(fusionsKnownPartnerGenes)) {
+              <nz-descriptions
+                [nzBordered]="true"
+                [nzSize]="'small'"
+                nzLayout="vertical">
+                <nz-descriptions-item [nzTitle]="knownPartnerGeneListTitle">
+                  @for (partner of fusionsKnownPartnerGenes; track partner) {
+                    @if (!partner.knowPartnerSpecificFusion) {
+                      <cvc-feature-tag [feature]="partner.gene"></cvc-feature-tag>
+                    }
+                  }
+                </nz-descriptions-item>
+              </nz-descriptions>
+              <ng-template #knownPartnerGeneListTitle>
+                @if (fusionsKnownPartnerGenesContainsSpecificFusion(fusionsKnownPartnerGenes)) {
+                  Additional Known Partner Genes
+                } @else {
+                  Known Partner Genes
+                }
               </ng-template>
-            </nz-descriptions>
+            }
+          } @else {
+            <span nz-typography
+              nzType="secondary">No Known Partner Genes have been curated</span>
+          }
         }
         @case ('UNKNOWN') {
           The fusion partner is unknown.

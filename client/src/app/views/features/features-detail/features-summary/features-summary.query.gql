@@ -70,6 +70,12 @@ fragment RegionSummaryFields on Region {
       stop
     }
   }
+  clinicalSignificanceCounts {
+    type
+    direction
+    significance
+    count
+  }
   creationActivity {
     user {
       id
@@ -105,6 +111,12 @@ fragment FusionSummaryFields on Fusion {
     sourceType
     deprecated
   }
+  clinicalSignificanceCounts {
+    type
+    direction
+    significance
+    count
+  }
   fivePrimeGene {
     ... GeneBaseFields
   }
@@ -113,6 +125,30 @@ fragment FusionSummaryFields on Fusion {
   }
   fivePrimePartnerStatus
   threePrimePartnerStatus
+  fusionsKnownPartnerGenes {
+    gene {
+      ... GeneBaseFields
+    }
+    knowPartnerSpecificFusion {
+      id
+      name
+      link
+      deprecated
+      flagged
+      stats {
+        variantCount
+        molecularProfileCount
+        evidenceItemCount
+        assertionCount
+      }
+      clinicalSignificanceCounts {
+        type
+        direction
+        significance
+        count
+      }
+    }
+  }
   knownPartnerGenes {
     ... GeneBaseFields
   }
@@ -160,6 +196,12 @@ fragment GeneBaseFields on Gene {
 fragment GeneSummaryFields on Gene {
   ...GeneBaseFields
   myGeneInfoDetails
+  clinicalSignificanceCounts {
+    type
+    direction
+    significance
+    count
+  }
 }
 
 fragment FactorSummaryFields on Factor {
@@ -180,6 +222,12 @@ fragment FactorSummaryFields on Factor {
   }
   ncitDetails {
     ...NcitDetails
+  }
+  clinicalSignificanceCounts {
+    type
+    direction
+    significance
+    count
   }
   creationActivity {
     user {

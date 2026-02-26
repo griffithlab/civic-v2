@@ -1,4 +1,5 @@
 import {
+  FusionPartnerStatus,
   Maybe,
   RevisableFusionFieldsFragment,
   SuggestFusionRevisionInput,
@@ -15,7 +16,14 @@ export function fusionToModelFields(
       description: fusion.description,
       sourceIds: fusion.sources.map((s) => s.id),
       aliases: fusion.featureAliases,
-      knownPartnerGeneIds: fusion.featureInstance.knownPartnerGenes.map((g) => g.id)
+      knownPartnerGeneIds: fusion.featureInstance.knownPartnerGenes.map(
+        (g) => g.id
+      ),
+      canAddPartnerGenes:
+        fusion.featureInstance.fivePrimePartnerStatus ==
+          FusionPartnerStatus.Multiple ||
+        fusion.featureInstance.threePrimePartnerStatus ==
+          FusionPartnerStatus.Multiple,
     }
   } else {
     return undefined

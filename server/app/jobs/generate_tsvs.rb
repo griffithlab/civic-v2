@@ -18,8 +18,9 @@ class GenerateTsvs < ApplicationJob
         # symlink in legacy TSV names for backwards compatibility
         if e.respond_to?(:file_aliases)
           e.file_aliases.each do |fa|
+            permanent_path = permanent_file_path(e.file_name)
             link_path = public_file_path(fa)
-            FileUtils.ln_s(public_path, link_path, force: true)
+            FileUtils.ln_s(permanent_path, link_path, force: true)
             File.chmod(0644, link_path)
           end
         end
@@ -56,8 +57,17 @@ class GenerateTsvs < ApplicationJob
     File.join(downloads_dir_path, desination_filename)
   end
 
+  def permanent_file_path(filename)
+    desination_filename = [ filename_prefix, filename ].join("-")
+    File.join(permanent_dir_path, desination_filename)
+  end
+
   def downloads_dir_path
     File.join(Rails.root, "public", "downloads", release_path)
+  end
+
+  def permanent_dir_path
+    File.join("/var/www/civic/shared/public/downloads", release_path)
   end
 
   def release_path

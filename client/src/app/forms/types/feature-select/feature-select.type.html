@@ -110,11 +110,15 @@
     </nz-space>
   } @else if (selectedFeatureType == 'REGION') {
     <nz-space nzDirection="vertical">
-      <span
-        *nzSpaceItem
-        nz-typography
-        >{{searchStr}} does not match any existing Regions</span
-      >
+      <ng-container *ngIf="result$ | ngrxPush as result">
+        @if (result.length == 0 && searchStr.length > 0){
+          <span
+            *nzSpaceItem
+            nz-typography
+            >{{searchStr}} does not match any existing Regions</span
+          >
+        }
+      </ng-container>
       <button
         *nzSpaceItem
         nz-button
