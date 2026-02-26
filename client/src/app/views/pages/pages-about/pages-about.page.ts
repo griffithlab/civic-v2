@@ -12,7 +12,7 @@ export class PagesAboutPage implements OnInit {
       awardee: 'Obi Griffith; Malachi Griffith; Alex Wagner',
       source: 'NCI Informatics Technology for Cancer Research (ITCR)',
       description: 'Sustained Support Award for CIViC',
-      awardNumber: '1U24CA305456',
+      awardNumber: 'U24CA305456',
       timeframe: '2025-2030',
     },
     {
@@ -20,7 +20,7 @@ export class PagesAboutPage implements OnInit {
       source: 'National Cancer Institute (NCI)',
       description:
         'Research Software Engineer (RSE) Award to Support CIViC Development Effort',
-      awardNumber: '1R50CA305824',
+      awardNumber: 'R50CA305824',
       timeframe: '2025-2028',
     },
     {
