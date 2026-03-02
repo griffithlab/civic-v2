@@ -5687,7 +5687,7 @@ export type QueryAssertionsArgs = {
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
   organization?: InputMaybe<OrganizationFilter>;
   phenotypeId?: InputMaybe<Scalars['Int']['input']>;
-  significance?: InputMaybe<EvidenceSignificance>;
+  significance?: InputMaybe<AssertionSignificance>;
   sortBy?: InputMaybe<AssertionSort>;
   status?: InputMaybe<EvidenceStatusFilter>;
   summary?: InputMaybe<Scalars['String']['input']>;
@@ -9379,7 +9379,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   id?: InputMaybe<Scalars['Int']['input']>;
   summary?: InputMaybe<Scalars['String']['input']>;
   assertionDirection?: InputMaybe<EvidenceDirection>;
-  significance?: InputMaybe<EvidenceSignificance>;
+  significance?: InputMaybe<AssertionSignificance>;
   assertionType?: InputMaybe<EvidenceType>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileId?: InputMaybe<Scalars['Int']['input']>;
@@ -15800,7 +15800,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: EvidenceSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $approvingOrganizationIds: [Int!]) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: AssertionSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $approvingOrganizationIds: [Int!]) {
   assertions(
     first: $first
     last: $last

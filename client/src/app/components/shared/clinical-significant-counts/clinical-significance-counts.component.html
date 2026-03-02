@@ -3,12 +3,15 @@
   <nz-space nzDirection="vertical" [nzSize]="2">
     @for (significance of clinicalSignificances; track significance) {
       <div *nzSpaceItem>
-        <nz-tag
-          nz-popover
-          [nzPopoverContent]="significanceCountPopover"
-          nzPopoverTitle="Assertions">
-          {{ significance.count }}
-        </nz-tag>
+        <a [routerLink]="['/assertions']"
+          [queryParams]="urlParamsForSignificance(significance)">
+          <nz-tag
+            nz-popover
+            [nzPopoverContent]="significanceCountPopover"
+            nzPopoverTitle="Assertions">
+            {{ significance.count }}
+          </nz-tag>
+        </a>
         <ng-template #significanceCountPopover>
           @for (assertion of significance.assertions; track assertion) {
             <cvc-assertion-tag [assertion]="assertion" [enablePopover]="false"></cvc-assertion-tag>

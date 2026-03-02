@@ -43869,7 +43869,7 @@
                   "description": "Filtering on the assertion's significance.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "EvidenceSignificance",
+                    "name": "AssertionSignificance",
                     "ofType": null
                   },
                   "defaultValue": null,

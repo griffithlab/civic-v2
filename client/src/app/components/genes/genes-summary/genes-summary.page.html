@@ -12,7 +12,9 @@
       [nzColumn]="1">
       <nz-descriptions-item nzTitle="Clinical Significance">
         <td>
-          <cvc-clinical-significance-counts [cvcClinicalSignificances]="gene.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+          <cvc-clinical-significance-counts
+            [cvcEntityName]="gene.name"
+            [cvcClinicalSignificances]="gene.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
         </td>
       </nz-descriptions-item>
     </nz-descriptions>

@@ -122,7 +122,9 @@
       [nzColumn]="1">
       <nz-descriptions-item nzTitle="Clinical Significance">
         <td>
-          <cvc-clinical-significance-counts [cvcClinicalSignificances]="fusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+          <cvc-clinical-significance-counts
+            [cvcEntityName]="fusion.name"
+            [cvcClinicalSignificances]="fusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
         </td>
       </nz-descriptions-item>
     </nz-descriptions>
@@ -260,7 +262,9 @@
                         {{ partner.knownPartnerSpecificFusion.stats.assertionCount }}
                       </td>
                       <td>
-                        <cvc-clinical-significance-counts [cvcClinicalSignificances]="partner.knownPartnerSpecificFusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+                        <cvc-clinical-significance-counts
+                          [cvcEntityName]="partner.knownPartnerSpecificFusion.name"
+                          [cvcClinicalSignificances]="partner.knownPartnerSpecificFusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
                       </td>
                     </tr>
                   }

@@ -38,5 +38,15 @@ import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-ta
   standalone: true,
 })
 export class CvcClinicalSignificanceCounts {
+  cvcEntityName = input.required<string>()
   cvcClinicalSignificances = input.required<ClinicalSignificanceCountsFragment[]>()
+
+  urlParamsForSignificance(significance: ClinicalSignificanceCountsFragment): {} {
+    return {
+      'molecularProfileName': this.cvcEntityName(),
+      'assertionType': significance.type,
+      'assertionDirection': significance.direction,
+      'significance': significance.significance,
+    }
+  }
 }

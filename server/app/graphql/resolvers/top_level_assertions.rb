@@ -83,7 +83,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:assertion_direction, type: Types::EvidenceDirectionType, description: "Filtering on the assertion direction.") do |scope, value|
     scope.where(assertion_direction: value)
   end
-  option(:significance, type: Types::EvidenceSignificanceType, description: "Filtering on the assertion's significance.") do |scope, value|
+  option(:significance, type: Types::AssertionSignificanceType, description: "Filtering on the assertion's significance.") do |scope, value|
     scope.where(significance: value)
   end
   option(:amp_level, type: Types::AmpLevelType, description: "Filtering on the AMP/ASCO/CAP category.") do |scope, value|
