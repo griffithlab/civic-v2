@@ -1,7 +1,10 @@
 import { Component, input } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { ClinicalSignificanceCountsFragment } from '@app/generated/civic.apollo'
+import {
+  ClinicalSignificanceCountsFragment,
+  DetailedClinicalSignificanceCountsFragment,
+} from '@app/generated/civic.apollo'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzTableModule } from 'ng-zorro-antd/table'
@@ -42,16 +45,17 @@ import { CvcTagListModule } from '../tag-list/tag-list.module'
 export class CvcClinicalSignificanceCounts {
   cvcEntityName = input.required<string>()
   cvcClinicalSignificances =
-    input.required<ClinicalSignificanceCountsFragment[]>()
+    input.required<DetailedClinicalSignificanceCountsFragment[]>()
 
   urlParamsForSignificance(
-    significance: ClinicalSignificanceCountsFragment
+    significance: DetailedClinicalSignificanceCountsFragment
   ): {} {
     return {
       molecularProfileName: this.cvcEntityName(),
       assertionType: significance.type,
       assertionDirection: significance.direction,
       significance: significance.significance,
+      diseaseName: significance.disease ? significance.disease.name : undefined
     }
   }
 }

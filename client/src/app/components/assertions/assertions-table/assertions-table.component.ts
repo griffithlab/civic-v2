@@ -161,6 +161,9 @@ export class CvcAssertionsTableComponent implements OnInit {
       if (params.has('molecularProfileName') && params.get('molecularProfileName') != null) {
         this.molecularProfileNameInput = params.get('molecularProfileName') as string
       }
+      if (params.has('diseaseName') && params.get('diseaseName') != null) {
+        this.diseaseNameInput = params.get('diseaseName') as string
+      }
     })
   }
 
@@ -184,6 +187,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       assertionType: this.assertionTypeInput,
       assertionDirection: this.assertionDirectionInput,
       significance: this.SignificanceInput,
+      diseaseName: this.diseaseNameInput,
     })
 
     this.result$ = this.queryRef.valueChanges

@@ -70,8 +70,8 @@ fragment RegionSummaryFields on Region {
       stop
     }
   }
-  clinicalSignificanceCounts {
-    ...ClinicalSignificanceCounts
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -108,8 +108,8 @@ fragment FusionSummaryFields on Fusion {
     sourceType
     deprecated
   }
-  clinicalSignificanceCounts {
-    ...ClinicalSignificanceCounts
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   fivePrimeGene {
     ... GeneBaseFields
@@ -186,8 +186,8 @@ fragment GeneBaseFields on Gene {
 fragment GeneSummaryFields on Gene {
   ...GeneBaseFields
   myGeneInfoDetails
-  clinicalSignificanceCounts {
-    ...ClinicalSignificanceCounts
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
 }
 
@@ -213,8 +213,8 @@ fragment FactorSummaryFields on Factor {
   stats {
     evidenceItemCount
   }
-  clinicalSignificanceCounts {
-    ...ClinicalSignificanceCounts
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -245,6 +245,33 @@ fragment NcitDetails on NcitDetails {
       definition
       source
     }
+}
+
+fragment DetailedClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  disease {
+    id
+    name
+    link
+    deprecated
+  }
+  therapies{
+    id
+    name
+    link
+    deprecated
+  }
+  therapyInteractionType
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
 }
 
 fragment ClinicalSignificanceCounts on ClinicalSignificanceCounts {

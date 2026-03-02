@@ -68,8 +68,8 @@ fragment VariantSummaryFields on VariantInterface {
       ...parsedCommentFragment
     }
   }
-  clinicalSignificanceCounts {
-    ...ClinicalSignificanceCounts
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   ... on GeneVariant {
     ... GeneVariantSummaryFields

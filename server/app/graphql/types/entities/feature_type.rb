@@ -25,6 +25,7 @@ module Types::Entities
     field :creation_activity, Types::Activities::CreateFeatureActivityType, null: true
     field :stats, Types::FeatureStatsType, null: false
     field :clinical_significance_counts, [ Types::ClinicalSignificanceCountsType ], null: false
+    field :detailed_clinical_significance_counts, [ Types::ClinicalSignificanceCountsType ], null: false
 
     def id
       if object.class.name == "Feature"

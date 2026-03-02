@@ -42,6 +42,10 @@
                 {{ significance.significance | evidenceEnumDisplay }}
                 {{ significance.type | evidenceEnumDisplay }}
               }
+              @if (significance.disease) {
+                in
+                {{ significance.disease.name }}
+              }
             </nz-tag>
           </span>
         </cvc-tag-group>
