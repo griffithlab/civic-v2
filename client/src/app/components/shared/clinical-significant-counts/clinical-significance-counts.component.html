@@ -1,37 +1,62 @@
 @let clinicalSignificances = cvcClinicalSignificances();
 @if (clinicalSignificances.length > 0) {
-  <nz-space nzDirection="vertical" [nzSize]="2">
+  <cvc-tag-list>
     @for (significance of clinicalSignificances; track significance) {
-      <div *nzSpaceItem>
-        <a [routerLink]="['/assertions']"
-          [queryParams]="urlParamsForSignificance(significance)">
-          <nz-tag
-            nz-popover
-            [nzPopoverContent]="significanceCountPopover"
-            nzPopoverTitle="Assertions">
-            {{ significance.count }}
-          </nz-tag>
-        </a>
-        <ng-template #significanceCountPopover>
-          @for (assertion of significance.assertions; track assertion) {
-            <cvc-assertion-tag [assertion]="assertion" [enablePopover]="false"></cvc-assertion-tag>
-          }
-        </ng-template>
-        @if (significance.direction == 'DOES_NOT_SUPPORT') {
-          not
+      <a
+        [routerLink]="['/assertions']"
+        [queryParams]="urlParamsForSignificance(significance)">
+        <cvc-tag-group>
+          <!-- NOTE: additional span tags required for tag-group styles to match, since
+             it expects entity-tags w/ child nz-tag elements-->
+          <span>
+            <nz-tag
+              nz-popover
+              [nzPopoverContent]="significanceCountPopover"
+              nzPopoverTitle="Assertions">
+              <i
+                nz-icon
+                nzType="civic-assertion"
+                nzTheme="twotone"
+                [nzTwotoneColor]="'Assertion' | entityColor">
+              </i>
+              {{ significance.count }}
+            </nz-tag>
+          </span>
+          <span>
+            <nz-tag>
+              @if (significance.direction == 'DOES_NOT_SUPPORT') {
+                not
+              }
+              @if (
+                significance.type == 'PREDICTIVE' ||
+                significance.type == 'PROGNOSTIC'
+              ) {
+                {{ significance.type | evidenceEnumDisplay }} of
+                {{ significance.significance | evidenceEnumDisplay }}
+              } @else if (
+                significance.type == 'ONCOGENIC' ||
+                significance.type == 'PREDISPOSING'
+              ) {
+                {{ significance.significance | evidenceEnumDisplay }}
+              } @else if (significance.type == 'DIAGNOSTIC') {
+                {{ significance.significance | evidenceEnumDisplay }}
+                {{ significance.type | evidenceEnumDisplay }}
+              }
+            </nz-tag>
+          </span>
+        </cvc-tag-group>
+      </a>
+      <ng-template #significanceCountPopover>
+        @for (assertion of significance.assertions; track assertion) {
+          <cvc-assertion-tag
+            [assertion]="assertion"
+            [enablePopover]="false"></cvc-assertion-tag>
         }
-        @if (significance.type == 'PREDICTIVE' || significance.type == 'PROGNOSTIC') {
-          {{ significance.type | evidenceEnumDisplay }} of {{ significance.significance | evidenceEnumDisplay }}
-        } @else if (significance.type == 'ONCOGENIC' || significance.type == 'PREDISPOSING') {
-          {{ significance.significance | evidenceEnumDisplay}}
-        } @else if (significance.type == 'DIAGNOSTIC') {
-          {{ significance.significance | evidenceEnumDisplay}} {{ significance.type | evidenceEnumDisplay }}
-        }
-      </div>
+      </ng-template>
     }
-  </nz-space>
+  </cvc-tag-list>
 
-<!--     <div nz-flex
+  <!--     <div nz-flex
       [nzVertical]="false"
       nzWrap="nowrap"
       nzAlign="center"
@@ -84,8 +109,11 @@
     </div>
   } -->
 } @else {
-  <span nz-typography
-  nzType="secondary">No associated Assertions</span>
+  <span
+    nz-typography
+    nzType="secondary"
+    >No associated Assertions</span
+  >
 }
 <!--   <nz-table #smallTable
     nzSize="small"
