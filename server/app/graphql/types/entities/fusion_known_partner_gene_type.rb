@@ -2,7 +2,7 @@ module Types::Entities
   class FusionKnownPartnerGeneType < Types::BaseObject
     field :gene, Types::Entities::GeneType, null: false
     field :fusion, Types::Entities::FusionType, null: false
-    field :know_partner_specific_fusion, Types::Entities::FusionType , null: true
+    field :known_partner_specific_fusion, Types::Entities::FusionType , null: true
 
     def gene
       Loaders::AssociationLoader.for(FusionsKnownPartnerGene, :gene).load(object)

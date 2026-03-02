@@ -584,8 +584,9 @@ export type ClingenCodeFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	tooltip?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ClinicalSignificanceCountsKeySpecifier = ('count' | 'direction' | 'significance' | 'type' | ClinicalSignificanceCountsKeySpecifier)[];
+export type ClinicalSignificanceCountsKeySpecifier = ('assertions' | 'count' | 'direction' | 'significance' | 'type' | ClinicalSignificanceCountsKeySpecifier)[];
 export type ClinicalSignificanceCountsFieldPolicy = {
+	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	count?: FieldPolicy<any> | FieldReadFunction<any>,
 	direction?: FieldPolicy<any> | FieldReadFunction<any>,
 	significance?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1341,11 +1342,11 @@ export type FusionEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FusionKnownPartnerGeneKeySpecifier = ('fusion' | 'gene' | 'knowPartnerSpecificFusion' | FusionKnownPartnerGeneKeySpecifier)[];
+export type FusionKnownPartnerGeneKeySpecifier = ('fusion' | 'gene' | 'knownPartnerSpecificFusion' | FusionKnownPartnerGeneKeySpecifier)[];
 export type FusionKnownPartnerGeneFieldPolicy = {
 	fusion?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
-	knowPartnerSpecificFusion?: FieldPolicy<any> | FieldReadFunction<any>
+	knownPartnerSpecificFusion?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FusionVariantKeySpecifier = ('clinicalSignificanceCounts' | 'comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'fivePrimeCoordinates' | 'fivePrimeEndExonCoordinates' | 'fivePrimeStartExonCoordinates' | 'flagged' | 'flags' | 'fusion' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'openRevisionCount' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'threePrimeCoordinates' | 'threePrimeEndExonCoordinates' | 'threePrimeStartExonCoordinates' | 'variantAliases' | 'variantTypes' | 'viccCompliantName' | FusionVariantKeySpecifier)[];
 export type FusionVariantFieldPolicy = {

@@ -66,6 +66,7 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
     CvcCommentBodyModule,
     CvcOrganizationTagModule,
     CvcApprovalNotificationComponent,
+    CvcCommentBodyModule,
   ],
   exports: [AssertionsSummaryPage],
 })

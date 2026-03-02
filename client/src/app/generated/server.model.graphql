@@ -2061,6 +2061,7 @@ type ClingenCode {
 }
 
 type ClinicalSignificanceCounts {
+  assertions: [Assertion!]!
   count: Int!
   direction: AssertionDirection!
   significance: AssertionSignificance!
@@ -5833,7 +5834,7 @@ input FusionFields {
 type FusionKnownPartnerGene {
   fusion: Fusion!
   gene: Gene!
-  knowPartnerSpecificFusion: Fusion
+  knownPartnerSpecificFusion: Fusion
 }
 
 """

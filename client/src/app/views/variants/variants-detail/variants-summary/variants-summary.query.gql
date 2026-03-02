@@ -69,10 +69,7 @@ fragment VariantSummaryFields on VariantInterface {
     }
   }
   clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+    ...ClinicalSignificanceCounts
   }
   ... on GeneVariant {
     ... GeneVariantSummaryFields

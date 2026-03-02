@@ -2,23 +2,19 @@ import { Component, input } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import {
-  AssertionDirection,
-  AssertionSignificance,
-  AssertionType,
+  ClinicalSignificanceCountsFragment
 } from '@app/generated/civic.apollo'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzFlexModule } from 'ng-zorro-antd/flex'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAttributeTagModule } from '@app/forms/components/attribute-tag/attribute-tag.module'
-
-export type ClinicalSignificanceCounts = {
-  type: AssertionType
-  direction: AssertionDirection
-  significance: AssertionSignificance
-  count: number
-}
+import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 
 @Component({
   selector: 'cvc-clinical-significance-counts',
@@ -29,13 +25,18 @@ export type ClinicalSignificanceCounts = {
     NzTypographyModule,
     NzTableModule,
     NzIconModule,
+    NzFlexModule,
+    NzTagModule,
+    NzSpaceModule,
+    NzPopoverModule,
     CvcAttributeTagModule,
     CvcPipesModule,
+    CvcAssertionsTagModule,
   ],
   templateUrl: './clinical-significance-counts.component.html',
   styleUrl: './clinical-significance-counts.component.less',
   standalone: true,
 })
 export class CvcClinicalSignificanceCounts {
-  cvcClinicalSignificances = input.required<ClinicalSignificanceCounts[]>()
+  cvcClinicalSignificances = input.required<ClinicalSignificanceCountsFragment[]>()
 }

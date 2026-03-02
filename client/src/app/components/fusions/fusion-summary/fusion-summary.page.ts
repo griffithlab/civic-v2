@@ -72,10 +72,10 @@ export class FusionSummaryComponent implements OnInit {
   }
 
   fusionsKnownPartnerGenesContainsSpecificFusion(partners: any[]): boolean {
-    return partners.some(partner => partner.knowPartnerSpecificFusion)
+    return partners.some(partner => partner.knownPartnerSpecificFusion)
   }
 
   fusionsKnownPartnerGenesContainsNoSpecificFusion(partners: any[]): boolean {
-    return partners.some(partner => !partner.knowPartnerSpecificFusion)
+    return partners.some(partner => !partner.knownPartnerSpecificFusion)
   }
 }

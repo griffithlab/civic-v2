@@ -192,12 +192,11 @@ class Variant < ApplicationRecord
         .joins(molecular_profile: [ :variants ])
         .where(variants: { id: self.id, deprecated: false }, molecular_profiles: { deprecated: false })
         .where.not(assertions: { status: 'rejected' })
-        .group("assertion_type", "assertion_direction", "significance")
-        .count
+        .group_by{ |a| [a.assertion_type, a.assertion_direction, a.significance] }
       if counts.nil?
         []
       else
-        counts.map{|c|  {type: c.first.first, direction: c.first.second, significance: c.first.third, count: c.second }}
+        counts.map{ |c| { type: c.first.first, direction: c.first.second, significance: c.first.third, assertions: c.second, count: c.second.count } }
       end
     end
   end

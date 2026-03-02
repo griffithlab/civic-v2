@@ -71,10 +71,7 @@ fragment RegionSummaryFields on Region {
     }
   }
   clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+    ...ClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -112,10 +109,7 @@ fragment FusionSummaryFields on Fusion {
     deprecated
   }
   clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+    ...ClinicalSignificanceCounts
   }
   fivePrimeGene {
     ... GeneBaseFields
@@ -129,7 +123,7 @@ fragment FusionSummaryFields on Fusion {
     gene {
       ... GeneBaseFields
     }
-    knowPartnerSpecificFusion {
+    knownPartnerSpecificFusion {
       id
       name
       link
@@ -142,10 +136,7 @@ fragment FusionSummaryFields on Fusion {
         assertionCount
       }
       clinicalSignificanceCounts {
-        type
-        direction
-        significance
-        count
+        ...ClinicalSignificanceCounts
       }
     }
   }
@@ -196,10 +187,7 @@ fragment GeneSummaryFields on Gene {
   ...GeneBaseFields
   myGeneInfoDetails
   clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+    ...ClinicalSignificanceCounts
   }
 }
 
@@ -222,11 +210,11 @@ fragment FactorSummaryFields on Factor {
   ncitDetails {
     ...NcitDetails
   }
+  stats {
+    evidenceItemCount
+  }
   clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+    ...ClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -257,4 +245,18 @@ fragment NcitDetails on NcitDetails {
       definition
       source
     }
+}
+
+fragment ClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
 }
