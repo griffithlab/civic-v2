@@ -3,7 +3,7 @@ require "sanitize"
 
 module Actions
   class FormatCommentText
-    def self.get_segments(text:, mode: 'tags', replace_eid_with_source: false)
+    def self.get_segments(text:, mode: "tags", replace_eid_with_source: false)
       if text.blank?
         return []
       end

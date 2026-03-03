@@ -5,7 +5,7 @@ module Actions
     include Actions::Transactional
     attr_reader :referenced_items, :input_segments, :mode, :replace_eid_with_source, :scan_regex, :curie_scan_regex, :curie_split_regex, :split_regex, :segments
 
-    def initialize(input_segments, mode: 'tags', replace_eid_with_source: false)
+    def initialize(input_segments, mode: "tags", replace_eid_with_source: false)
       @input_segments = Array(input_segments)
       @referenced_items = Set.new
       @segments = []
@@ -21,8 +21,8 @@ module Actions
     def find_matches
       input_segments.flat_map do |segment|
         if segment.is_a?(String)
-          segment.split(self.class.split_regex).flat_map{|s| s.split(self.class.curie_split_regex)}.map do |split_segment|
-            if match = ( split_segment.match(self.class.scan_regex) || split_segment.match(self.class.curie_scan_regex) )
+          segment.split(self.class.split_regex).flat_map { |s| s.split(self.class.curie_split_regex) }.map do |split_segment|
+            if match = (split_segment.match(self.class.scan_regex) || split_segment.match(self.class.curie_scan_regex))
               (klass, tag_type) = self.class.extract_type(match[:type])
               if referenced_item = klass.find_by(id: match[:id])
                 referenced_items << referenced_item
@@ -31,7 +31,7 @@ module Actions
                   tag_type = "SOURCE"
                 end
                 display_name = referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name
-                if mode == 'tags'
+                if mode == "tags"
                   val = {
                     entity_id: referenced_item.id,
                     display_name: display_name,
@@ -52,7 +52,7 @@ module Actions
                   if referenced_item.respond_to?(:status)
                     val[:status] = referenced_item.status
                   end
-                elsif mode == 'names'
+                elsif mode == "names"
                   val = display_name
                 end
                 val
