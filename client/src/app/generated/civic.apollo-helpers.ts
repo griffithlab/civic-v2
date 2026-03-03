@@ -138,7 +138,7 @@ export type ApproveAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'parsedDescription' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -167,6 +167,7 @@ export type AssertionFieldPolicy = {
 	nccnGuideline?: FieldPolicy<any> | FieldReadFunction<any>,
 	nccnGuidelineVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	openRevisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedDescription?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	regulatoryApproval?: FieldPolicy<any> | FieldReadFunction<any>,
 	regulatoryApprovalLastUpdated?: FieldPolicy<any> | FieldReadFunction<any>,

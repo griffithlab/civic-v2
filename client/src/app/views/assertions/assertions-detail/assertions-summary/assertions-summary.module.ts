@@ -29,6 +29,9 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { RouterModule } from '@angular/router'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 
 @NgModule({
@@ -51,6 +54,9 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
     NzAvatarModule,
     NzCardModule,
     NzAlertModule,
+    NzRadioModule,
+    FormsModule,
+    ClipboardModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,

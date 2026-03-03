@@ -710,6 +710,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
   openRevisionCount: Int!
+  parsedDescription: [CommentBodySegment!]!
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   regulatoryApprovalLastUpdated: ISO8601DateTime

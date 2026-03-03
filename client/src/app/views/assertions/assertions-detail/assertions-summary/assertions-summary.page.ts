@@ -34,6 +34,8 @@ export class AssertionsSummaryPage {
 
   subscribable: SubscribableInput
 
+  assertionDescriptionDisplayMode: string = 'tags';
+
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
     var queryAssertionId: number
     if (this.assertionId) {

@@ -12,6 +12,7 @@ module Types::Entities
     field :significance, Types::AssertionSignificanceType, null: false
     field :summary, String, null: false
     field :description, String, null: false
+    field :parsed_description, [ Types::Commentable::CommentBodySegment ], null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :therapies, [ Types::Entities::TherapyType ], null: false
     field :therapy_interaction_type, Types::TherapyInteractionType, null: true
@@ -36,6 +37,16 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
+
+    def parsed_description
+      Rails.cache.fetch(hash_key_from_object(object)) do
+        Actions::FormatCommentText.get_segments(text: object.description)
+      end
+    end
+
+    def hash_key_from_object(object)
+      "segments_#{object.class}_#{object.id}_#{object.updated_at}"
+    end
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)

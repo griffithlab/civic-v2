@@ -3,7 +3,7 @@ require "set"
 module Actions
   class ExtractReferences
     include Actions::Transactional
-    attr_reader :referenced_items, :input_segments, :scan_regex, :split_regex, :segments
+    attr_reader :referenced_items, :input_segments, :scan_regex, :curie_scan_regex, :curie_split_regex, :split_regex, :segments
 
     def initialize(input_segments)
       @input_segments = Array(input_segments)
@@ -19,8 +19,8 @@ module Actions
     def find_matches
       input_segments.flat_map do |segment|
         if segment.is_a?(String)
-          segment.split(self.class.split_regex).map do |split_segment|
-            if match = split_segment.match(self.class.scan_regex)
+          segment.split(self.class.split_regex).flat_map{|s| s.split(self.class.curie_split_regex)}.map do |split_segment|
+            if match = ( split_segment.match(self.class.scan_regex) || split_segment.match(self.class.curie_scan_regex) )
               (klass, tag_type) = self.class.extract_type(match[:type])
               if referenced_item = klass.find_by(id: match[:id])
                 referenced_items << referenced_item
@@ -99,6 +99,8 @@ module Actions
         [ Variant, "VARIANT" ]
       when "F"
         [ Feature, "FEATURE" ]
+      when "G"
+        [ Feature, "FEATURE" ]
       when "VG"
         [ VariantGroup, "VARIANT_GROUP" ]
       when "E"
@@ -113,11 +115,19 @@ module Actions
     end
 
     def self.split_regex
-      @split_regex ||= Regexp.new(/\s*(#(?:a|v|f|vg|e|r|mp)(?:id)?\d+)\b/i)
+      @split_regex ||= Regexp.new(/\s*(#(?:a|v|f|g|vg|e|r|mp)(?:id)?\d+)\b/i)
+    end
+
+    def self.curie_split_regex
+      @curie_split_regex ||= Regexp.new(/\s*(civic\.(?:a|v|f|g|vg|e|r|mp)(?:id)\:\d+)\b/i)
     end
 
     def self.scan_regex
-      @scan_regex ||= Regexp.new(/#(?<type>a|v|f|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
+      @scan_regex ||= Regexp.new(/#(?<type>a|v|f|g|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
+    end
+
+    def self.curie_scan_regex
+      @curie_scan_regex ||= Regexp.new(/civic\.(?<type>a|v|f|g|vg|e|r|mp)(?:id):(?<id>\d+)\b/i)
     end
   end
 end
