@@ -34,8 +34,8 @@ export class AssertionsSummaryPage {
 
   subscribable: SubscribableInput
 
-  assertionDescriptionDisplayMode: string = 'tags';
-  replaceEidWithSourceInDescription: boolean = false;
+  assertionDescriptionDisplayMode: string = 'raw';
+  assertionDescriptionTagMode: string = 'eid';
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
     var queryAssertionId: number
