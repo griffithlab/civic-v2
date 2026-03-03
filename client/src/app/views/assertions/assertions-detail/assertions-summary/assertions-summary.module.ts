@@ -32,6 +32,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 
 @NgModule({
@@ -57,6 +58,7 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
     NzRadioModule,
     FormsModule,
     ClipboardModule,
+    NzCheckboxModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,

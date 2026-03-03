@@ -13,6 +13,9 @@ module Types::Entities
     field :summary, String, null: false
     field :description, String, null: false
     field :parsed_description, [ Types::Commentable::CommentBodySegment ], null: false
+    field :parsed_description_text, String, null: false
+    field :parsed_description_replace_eid_with_source, [ Types::Commentable::CommentBodySegment ], null: false
+    field :parsed_description_text_replace_eid_with_source, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :therapies, [ Types::Entities::TherapyType ], null: false
     field :therapy_interaction_type, Types::TherapyInteractionType, null: true
@@ -39,13 +42,27 @@ module Types::Entities
     field :approvals, resolver: Resolvers::Approvals
 
     def parsed_description
-      Rails.cache.fetch(hash_key_from_object(object)) do
+      Rails.cache.fetch("parsed_description_#{object.class}_#{object.id}_#{object.updated_at}") do
         Actions::FormatCommentText.get_segments(text: object.description)
       end
     end
 
-    def hash_key_from_object(object)
-      "segments_#{object.class}_#{object.id}_#{object.updated_at}"
+    def parsed_description_text
+      Rails.cache.fetch("parsed_description_text_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description, mode: 'names').first
+      end
+    end
+
+    def parsed_description_replace_eid_with_source
+      Rails.cache.fetch("parsed_description_replace_eid_with_source_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description, replace_eid_with_source: true)
+      end
+    end
+
+    def parsed_description_text_replace_eid_with_source
+      Rails.cache.fetch("parsed_description_text_replace_eid_with_source_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description, mode: 'names', replace_eid_with_source: true).first
+      end
     end
 
     def disease

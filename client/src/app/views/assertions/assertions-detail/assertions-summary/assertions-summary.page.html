@@ -20,7 +20,7 @@
               @if (assertionDescriptionDisplayMode == 'tags') {
                 <!-- this component is not compatible with nzExpandable-->
                 <cvc-comment-body
-                  [commentBodySegments]="assertion.parsedDescription"></cvc-comment-body>
+                  [commentBodySegments]="replaceEidWithSourceInDescription ? assertion.parsedDescriptionReplaceEidWithSource : assertion.parsedDescription"></cvc-comment-body>
               } @else if (assertionDescriptionDisplayMode == 'raw') {
                 <p
                   nz-typography
@@ -30,6 +30,26 @@
                   [nzEllipsisRows]="6">
                   {{ assertion.description }}
                 </p>
+              } @else if (assertionDescriptionDisplayMode == 'names') {
+                @if (replaceEidWithSourceInDescription) {
+                  <p
+                    nz-typography
+                    class="summary-block"
+                    nzEllipsis
+                    nzExpandable
+                    [nzEllipsisRows]="6">
+                    {{ assertion.parsedDescriptionTextReplaceEidWithSource }}
+                  </p>
+                } @else {
+                  <p
+                    nz-typography
+                    class="summary-block"
+                    nzEllipsis
+                    nzExpandable
+                    [nzEllipsisRows]="6">
+                    {{ assertion.parsedDescriptionText }}
+                  </p>
+                }
               }
             </nz-descriptions-item>
           </nz-descriptions>
@@ -53,7 +73,7 @@
                   nz-button
                   nzType="default"
                   nzSize="small"
-                  [cdkCopyToClipboard]="assertion.description">
+                  [cdkCopyToClipboard]="assertionDescriptionDisplayMode == 'raw' ? assertion.description : replaceEidWithSourceInDescription ? assertion.parsedDescriptionTextReplaceEidWithSource : assertion.parsedDescriptionText">
                   <nz-icon nzType="copy"></nz-icon>
                 </button>
               </nz-col>
@@ -63,8 +83,16 @@
             Curie Display Mode
             <nz-radio-group [(ngModel)]="assertionDescriptionDisplayMode"  nzButtonStyle="solid">
               <label nz-radio-button nzValue="raw">raw</label>
+              <label nz-radio-button nzValue="names">names</label>
               <label nz-radio-button nzValue="tags">tags</label>
             </nz-radio-group>
+            <br/>
+            <label
+              nz-checkbox
+              [(ngModel)]="replaceEidWithSourceInDescription"
+              [nzDisabled]="assertionDescriptionDisplayMode == 'raw'">
+              Replace referenced Evidence Items with Sources
+            </label>
           </ng-template>
         </nz-col>
 

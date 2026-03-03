@@ -3,12 +3,14 @@ require "set"
 module Actions
   class ExtractReferences
     include Actions::Transactional
-    attr_reader :referenced_items, :input_segments, :scan_regex, :curie_scan_regex, :curie_split_regex, :split_regex, :segments
+    attr_reader :referenced_items, :input_segments, :mode, :replace_eid_with_source, :scan_regex, :curie_scan_regex, :curie_split_regex, :split_regex, :segments
 
-    def initialize(input_segments)
+    def initialize(input_segments, mode: 'tags', replace_eid_with_source: false)
       @input_segments = Array(input_segments)
       @referenced_items = Set.new
       @segments = []
+      @mode = mode
+      @replace_eid_with_source = replace_eid_with_source
     end
 
     private
@@ -24,22 +26,34 @@ module Actions
               (klass, tag_type) = self.class.extract_type(match[:type])
               if referenced_item = klass.find_by(id: match[:id])
                 referenced_items << referenced_item
-                val = {
-                  entity_id: referenced_item.id,
-                  display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
-                  tag_type: tag_type,
-                  link: referenced_item.link,
-                  revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
-                  feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
-                }
-                if referenced_item.respond_to?(:deprecated)
-                  val[:deprecated] = referenced_item.deprecated
+                if replace_eid_with_source && klass == EvidenceItem
+                  referenced_item = referenced_item.source
+                  tag_type = "SOURCE"
                 end
-                if referenced_item.respond_to?(:flagged)
-                  val[:flagged] = referenced_item.flagged
-                end
-                if referenced_item.respond_to?(:status)
-                  val[:status] = referenced_item.status
+                display_name = referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name
+                if mode == 'tags'
+                  val = {
+                    entity_id: referenced_item.id,
+                    display_name: display_name,
+                    tag_type: tag_type,
+                    link: referenced_item.link,
+                    revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
+                    feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
+                  }
+                  if referenced_item.respond_to?(:deprecated)
+                    val[:deprecated] = referenced_item.deprecated
+                  end
+                  if referenced_item.respond_to?(:retracted)
+                    val[:deprecated] = referenced_item.retracted
+                  end
+                  if referenced_item.respond_to?(:flagged)
+                    val[:flagged] = referenced_item.flagged
+                  end
+                  if referenced_item.respond_to?(:status)
+                    val[:status] = referenced_item.status
+                  end
+                elsif mode == 'names'
+                  val = display_name
                 end
                 val
               else
