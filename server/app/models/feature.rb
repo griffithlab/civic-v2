@@ -155,8 +155,10 @@ class Feature < ApplicationRecord
     Rails.cache.fetch("feature_detailed_clinical_significant_counts_#{self.id}", expires_in: 24.hours) do
       counts = Assertion
         .joins(:disease, molecular_profile: [ variants: [ :feature ] ])
+        #.left_joins(:therapies)
         .where(features: { id: self.id }, molecular_profiles: { deprecated: false }, variants: { deprecated: false })
         .where.not(assertions: { status: 'rejected' })
+        #.group_by{ |a| [a.assertion_type, a.assertion_direction, a.significance, a.disease, a.therapies.map{|t| t.id}, a.therapy_interaction_type] }
         .group_by{ |a| [a.assertion_type, a.assertion_direction, a.significance, a.disease_id] }
       if counts.nil?
         []
@@ -169,6 +171,8 @@ class Feature < ApplicationRecord
             direction: props[1],
             significance: props[2],
             disease: assertions.first.disease,
+            #therapies: assertions.first.therapies,
+            #therapy_interaction_type: props[5],
             assertions: assertions,
             count: assertions.count
           }

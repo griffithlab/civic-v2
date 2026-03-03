@@ -33,6 +33,21 @@
               ) {
                 {{ significance.type | evidenceEnumDisplay }} of
                 {{ significance.significance | evidenceEnumDisplay }}
+<!--                 @if (
+                  significance.therapies &&
+                  significance.therapies.length > 0
+                ) {
+                  to
+                  @for (therapy of significance.therapies; track therapy; let isLast = $last) {
+                    {{ therapy.name }}
+                    @if (!isLast) {
+                      ,
+                    }
+                  }
+                  @if (significance.therapyInteractionType) {
+                    ({{ significance.therapyInteractionType | therapyInteractionEnumDisplay }})
+                  }
+                } -->
               } @else if (
                 significance.type == 'ONCOGENIC' ||
                 significance.type == 'PREDISPOSING'
