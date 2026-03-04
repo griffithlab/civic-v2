@@ -191,12 +191,12 @@ class Variant < ApplicationRecord
       counts = Assertion
         .joins(molecular_profile: [ :variants ])
         .where(variants: { id: self.id, deprecated: false }, molecular_profiles: { deprecated: false })
-        .where.not(assertions: { status: 'rejected' })
-        .group_by{ |a| [a.assertion_type, a.assertion_direction, a.significance] }
+        .where.not(assertions: { status: "rejected" })
+        .group_by { |a| [ a.assertion_type, a.assertion_direction, a.significance ] }
       if counts.nil?
         []
       else
-        counts.map{ |c| { type: c.first.first, direction: c.first.second, significance: c.first.third, assertions: c.second, count: c.second.count } }
+        counts.map { |c| { type: c.first.first, direction: c.first.second, significance: c.first.third, assertions: c.second, count: c.second.count } }
       end
     end
   end
@@ -205,11 +205,9 @@ class Variant < ApplicationRecord
     Rails.cache.fetch("variant_detailed_clinical_significant_counts_#{self.id}", expires_in: 24.hours) do
       counts = Assertion
         .joins(:disease, molecular_profile: [ :variants ])
-        #.left_joins(:therapies)
         .where(variants: { id: self.id, deprecated: false }, molecular_profiles: { deprecated: false })
-        .where.not(assertions: { status: 'rejected' })
-        #.group_by{ |a| [a.assertion_type, a.assertion_direction, a.significance, a.disease, a.therapies.map{|t| t.id}, a.therapy_interaction_type] }
-        .group_by{ |a| [a.assertion_type, a.assertion_direction, a.significance, a.disease_id] }
+        .where.not(assertions: { status: "rejected" })
+        .group_by { |a| [ a.assertion_type, a.assertion_direction, a.significance, a.disease_id ] }
       if counts.nil?
         []
       else
@@ -221,10 +219,8 @@ class Variant < ApplicationRecord
             direction: props[1],
             significance: props[2],
             disease: assertions.first.disease,
-            #therapies: assertions.first.therapies,
-            #therapy_interaction_type: props[5],
             assertions: assertions,
-            count: assertions.count
+            count: assertions.count,
           }
         end
       end
