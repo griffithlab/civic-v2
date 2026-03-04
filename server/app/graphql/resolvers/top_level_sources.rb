@@ -8,10 +8,13 @@ class Resolvers::TopLevelSources < GraphQL::Schema::Resolver
   description "List and filter sources."
 
   scope do
-    Source
-      .order("sources.citation_id ASC")
+    retraction_condition = Source
       .where("sources.retraction_nature != 'Retraction'")
       .or(Source.where(retracted: false))
+    Source
+      .order("sources.citation_id ASC")
+      .where(deprecated: false)
+      .merge(retraction_condition)
       .distinct
   end
 
