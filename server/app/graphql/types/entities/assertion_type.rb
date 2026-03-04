@@ -49,7 +49,7 @@ module Types::Entities
 
     def parsed_description_text
       Rails.cache.fetch("parsed_description_text_#{object.class}_#{object.id}_#{object.updated_at}") do
-        Actions::FormatCommentText.get_segments(text: object.description, mode: "names").first
+        Actions::FormatCommentText.get_segments(text: object.description, mode: "names", process_text: false).first
       end
     end
 
@@ -61,7 +61,7 @@ module Types::Entities
 
     def parsed_description_text_replace_eid_with_source
       Rails.cache.fetch("parsed_description_text_replace_eid_with_source_#{object.class}_#{object.id}_#{object.updated_at}") do
-        Actions::FormatCommentText.get_segments(text: object.description, mode: "names", replace_eid_with_source: true).first
+        Actions::FormatCommentText.get_segments(text: object.description, mode: "names", replace_eid_with_source: true, process_text: false).first
       end
     end
 

@@ -3659,6 +3659,10 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   molecularProfile: MolecularProfile!
   name: String!
   openRevisionCount: Int!
+  parsedDescription: [CommentBodySegment!]!
+  parsedDescriptionReplaceEidWithSource: [CommentBodySegment!]!
+  parsedDescriptionText: String!
+  parsedDescriptionTextReplaceEidWithSource: String!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
