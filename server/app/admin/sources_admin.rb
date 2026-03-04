@@ -34,7 +34,7 @@ Trestle.resource(:sources) do
     column :citation
     column :title
     column :authors do |source|
-      source.authors.map{|a| "#{a.last_name}, #{a.fore_name}"}.join(", ")
+      source.authors.map { |a| "#{a.last_name}, #{a.fore_name}" }.join(", ")
     end
     column :clinical_trials do |source|
       source.clinical_trials.map(&:nct_id).join(", ")
