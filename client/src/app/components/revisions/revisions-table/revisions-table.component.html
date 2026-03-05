@@ -147,11 +147,10 @@
             {{ detailRevision.id }}
           </ng-template>
           @for (revision of revisionSet.revisions; track revision) {
-            {{ revision.id }}
-<!--             <div style="padding-left: 30px; background-color: #ffffff">
+            <div style="padding-left: 30px; background-color: #ffffff">
               <cvc-activity-revision
               [cvcActivityRevision]="revision"></cvc-activity-revision>
-            </div> -->
+            </div>
           }
         </tr>
       </ng-template>

@@ -43,7 +43,7 @@ fragment RevisionSetBrowseFields on RevisionSet {
   revisions {
     id
     linkoutData {
-      name
+      ...revisionLinkoutData
     }
   }
   creationActivity {
