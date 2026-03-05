@@ -1,10 +1,4 @@
 class EvidenceItemTsvFormatter
-  def self.objects
-    EvidenceItem.eager_load(:disease, :source, :therapies, :phenotypes, :molecular_profile)
-      .where(status: "accepted")
-  end
-
-
   def self.headers
     [
       "molecular_profile",
@@ -63,9 +57,5 @@ class EvidenceItemTsvFormatter
       LinkAdaptors::MolecularProfile.new(ei.molecular_profile).permalink_path(include_domain: true),
       ei.flagged,
     ]
-  end
-
-  def self.file_name
-    "ClinicalEvidenceSummaries.tsv"
   end
 end

@@ -6,12 +6,14 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 
 @NgModule({
   declarations: [PagesAboutPage],
   imports: [
     CommonModule,
     NzPageHeaderModule,
+    NzDescriptionsModule,
     NzGridModule,
     NzSpaceModule,
     NzCardModule,
