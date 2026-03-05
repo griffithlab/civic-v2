@@ -1,109 +1,68 @@
 @let clinicalSignificances = cvcClinicalSignificances();
 @if (clinicalSignificances.length > 0) {
-  <nz-table #smallTable
-    nzSize="small"
-    [nzFrontPagination]="false"
-    [nzShowPagination]="false"
-    [nzFooter]="null"
-    [nzData]="clinicalSignificances">
-    <tbody>
-      @for (significance of clinicalSignificances; track significance) {
-        <tr>
-          <td>
-            <cvc-attribute-tag
-              [cvcAttrValue]="significance.type"
-              nz-tooltip
-              iconPropertyType="type"
-              [nzTooltipTitle]="
-                significance.type | enumTooltip: 'assertionType'
-              ">
-            </cvc-attribute-tag>
-          </td>
-          <td>
-            <cvc-attribute-tag
-              [cvcAttrValue]="significance.direction"
-              [cvcShowLabel]="false"
-              nz-tooltip
-              [nzTooltipTitle]="
-                significance.direction
-                  | enumTooltip
-                    : 'assertionDirection'
-                    : significance.type
-                    : 'Assertion'
-              ">
-            </cvc-attribute-tag>
-          </td>
-          <td>
-            <cvc-attribute-tag
-              [cvcAttrValue]="significance.significance"
-              nz-tooltip
-              [nzTooltipTitle]="
-                significance.significance
-                  | enumTooltip
-                    : 'significance'
-                    : significance.type
-                    : 'Assertion'
-              ">
-            </cvc-attribute-tag>
-          </td>
-          <td>
-            {{ significance.count }}
-            <i
-              nz-icon
-              nzType="civic-assertion"
-              nz-tooltip
-              nzTooltipTitle="Assertion Count"></i>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </nz-table>
-<!--   <nz-descriptions
-    nzSize="small"
-    nzLayout="horizontal"
-    [nzColumn]="1"
-    nzBordered="true">
+  <cvc-tag-list>
     @for (significance of clinicalSignificances; track significance) {
-      <nz-descriptions-item
-        [nzTitle]="significanceDescription">
-        {{ significance.count }}
-      </nz-descriptions-item>
-      <ng-template #significanceDescription>
-        <cvc-attribute-tag
-          [cvcAttrValue]="significance.type"
-          nz-tooltip
-          iconPropertyType="type"
-          [nzTooltipTitle]="
-            significance.type | enumTooltip: 'assertionType'
-          ">
-        </cvc-attribute-tag>
-        <cvc-attribute-tag
-          [cvcAttrValue]="significance.direction"
-          [cvcShowLabel]="false"
-          nz-tooltip
-          [nzTooltipTitle]="
-            significance.direction
-              | enumTooltip
-                : 'assertionDirection'
-                : significance.type
-                : 'Assertion'
-          ">
-        </cvc-attribute-tag>
-        <cvc-attribute-tag
-          [cvcAttrValue]="significance.significance"
-          nz-tooltip
-          [nzTooltipTitle]="
-            significance.significance
-              | enumTooltip
-                : 'significance'
-                : significance.type
-                : 'Assertion'
-          ">
-        </cvc-attribute-tag>
+      <a
+        [routerLink]="['/assertions']"
+        [queryParams]="urlParamsForSignificance(significance)">
+        <cvc-tag-group>
+          <!-- NOTE: additional span tags required for tag-group styles to match, since
+             it expects entity-tags w/ child nz-tag elements-->
+          <span>
+            <nz-tag
+              nz-popover
+              [nzPopoverContent]="significanceCountPopover"
+              nzPopoverTitle="Assertions">
+              <i
+                nz-icon
+                nzType="civic-assertion"
+                nzTheme="twotone"
+                [nzTwotoneColor]="'Assertion' | entityColor">
+              </i>
+              {{ significance.count }}
+            </nz-tag>
+          </span>
+          <span>
+            <nz-tag>
+              @if (significance.direction == 'DOES_NOT_SUPPORT') {
+                not
+              }
+              @if (
+                significance.type == 'PREDICTIVE' ||
+                significance.type == 'PROGNOSTIC'
+              ) {
+                {{ significance.type | evidenceEnumDisplay }} of
+                {{ significance.significance | evidenceEnumDisplay }}
+              } @else if (
+                significance.type == 'ONCOGENIC' ||
+                significance.type == 'PREDISPOSING'
+              ) {
+                {{ significance.significance | evidenceEnumDisplay }}
+              } @else if (significance.type == 'DIAGNOSTIC') {
+                {{ significance.significance | evidenceEnumDisplay }}
+                {{ significance.type | evidenceEnumDisplay }}
+              }
+              @if (significance.disease) {
+                in
+                {{ significance.disease.name }}
+              }
+            </nz-tag>
+          </span>
+        </cvc-tag-group>
+      </a>
+      <ng-template #significanceCountPopover>
+        @for (assertion of significance.assertions; track assertion) {
+          <cvc-assertion-tag
+            [assertion]="assertion"
+            [enablePopover]="false"></cvc-assertion-tag>
+        }
       </ng-template>
     }
-  </nz-descriptions> -->
+  </cvc-tag-list>
 } @else {
-  <span nz-typography
-  nzType="secondary">No associated Assertions</span>
+  <span
+    nz-typography
+    nzType="secondary"
+    >No associated Assertions</span
+  >
 }

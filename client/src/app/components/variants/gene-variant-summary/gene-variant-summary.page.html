@@ -280,7 +280,9 @@
           [nzColumn]="1">
           <nz-descriptions-item nzTitle="Clinical Significance">
             <td>
-              <cvc-clinical-significance-counts [cvcClinicalSignificances]="variant.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
+              <cvc-clinical-significance-counts
+                [cvcEntityName]="variant.feature.name + ' ' + variant.name"
+                [cvcClinicalSignificances]="variant.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
             </td>
           </nz-descriptions-item>
         </nz-descriptions>

@@ -2066,9 +2066,13 @@ type ClingenCode {
 }
 
 type ClinicalSignificanceCounts {
+  assertions: [Assertion!]!
   count: Int!
   direction: AssertionDirection!
+  disease: Disease
   significance: AssertionSignificance!
+  therapies: [Therapy!]
+  therapyInteractionType: TherapyInteraction
   type: AssertionType!
 }
 
@@ -4237,6 +4241,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4596,6 +4601,7 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4902,6 +4908,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -5619,6 +5626,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -5919,7 +5927,7 @@ input FusionFields {
 type FusionKnownPartnerGene {
   fusion: Fusion!
   gene: Gene!
-  knowPartnerSpecificFusion: Fusion
+  knownPartnerSpecificFusion: Fusion
 }
 
 """
@@ -5999,6 +6007,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -6271,6 +6280,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
   entrezId: Int!
 
   """
@@ -6613,6 +6623,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -9350,7 +9361,7 @@ type Query {
     """
     Filtering on the assertion's significance.
     """
-    significance: EvidenceSignificance
+    significance: AssertionSignificance
 
     """
     Columm and direction to sort evidence on.
@@ -11271,6 +11282,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -11613,6 +11625,7 @@ type RegionVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -14545,6 +14558,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -15270,6 +15284,7 @@ interface VariantInterface implements Commentable & EventOriginObject & EventSub
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object

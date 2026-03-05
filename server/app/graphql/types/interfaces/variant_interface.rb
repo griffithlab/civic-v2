@@ -27,6 +27,7 @@ module Types::Interfaces
     field :creation_activity, Types::Activities::CreateVariantActivityType, null: true # TODO: should try to make this non-nullable if complete backfill is possible
     field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
     field :clinical_significance_counts, [ Types::ClinicalSignificanceCountsType ], null: false
+    field :detailed_clinical_significance_counts, [ Types::ClinicalSignificanceCountsType ], null: false
 
     def feature
       Loaders::AssociationLoader.for(Variant, :feature).load(object)

@@ -70,11 +70,8 @@ fragment RegionSummaryFields on Region {
       stop
     }
   }
-  clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -111,11 +108,8 @@ fragment FusionSummaryFields on Fusion {
     sourceType
     deprecated
   }
-  clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   fivePrimeGene {
     ... GeneBaseFields
@@ -129,7 +123,7 @@ fragment FusionSummaryFields on Fusion {
     gene {
       ... GeneBaseFields
     }
-    knowPartnerSpecificFusion {
+    knownPartnerSpecificFusion {
       id
       name
       link
@@ -142,10 +136,7 @@ fragment FusionSummaryFields on Fusion {
         assertionCount
       }
       clinicalSignificanceCounts {
-        type
-        direction
-        significance
-        count
+        ...ClinicalSignificanceCounts
       }
     }
   }
@@ -196,11 +187,8 @@ fragment GeneBaseFields on Gene {
 fragment GeneSummaryFields on Gene {
   ...GeneBaseFields
   myGeneInfoDetails
-  clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
 }
 
@@ -223,11 +211,11 @@ fragment FactorSummaryFields on Factor {
   ncitDetails {
     ...NcitDetails
   }
-  clinicalSignificanceCounts {
-    type
-    direction
-    significance
-    count
+  stats {
+    evidenceItemCount
+  }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -258,4 +246,45 @@ fragment NcitDetails on NcitDetails {
       definition
       source
     }
+}
+
+fragment DetailedClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  disease {
+    id
+    name
+    link
+    deprecated
+  }
+  therapies{
+    id
+    name
+    link
+    deprecated
+  }
+  therapyInteractionType
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
+}
+
+fragment ClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
 }
