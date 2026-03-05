@@ -2,8 +2,23 @@
   <nz-col nzSpan="12">
     <cvc-gene-base-summary [gene]="gene"></cvc-gene-base-summary>
   </nz-col>
-  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <!-- clinical significance, mygeneinfo col -->
   <nz-col nzSpan="12">
+    <!-- clinical significance -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      nzBordered="true"
+      [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Clinical Significance">
+        <td>
+          <cvc-clinical-significance-counts
+            [cvcEntityName]="gene.name"
+            [cvcClinicalSignificances]="gene.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+        </td>
+      </nz-descriptions-item>
+    </nz-descriptions>
+    <br />
     <!-- mygeneinfo -->
     <cvc-my-gene-info [geneInfo]="gene.myGeneInfoDetails"></cvc-my-gene-info>
   </nz-col>

@@ -92,7 +92,7 @@
     </nz-row>
   </nz-col>
 
-  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <!-- last revision submitted/accepted, clinical significance, ncit info col -->
   <nz-col nzSpan="12">
     <!-- BLOCK: creation and deprecation events -->
     <nz-descriptions
@@ -129,6 +129,21 @@
           </span>
         </ng-template>
       </ng-container>
+    </nz-descriptions>
+    <br />
+    <!-- clinical significance -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      nzBordered="true"
+      [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Clinical Significance">
+        <td>
+          <cvc-clinical-significance-counts
+            [cvcEntityName]="factor.name"
+            [cvcClinicalSignificances]="factor.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+        </td>
+      </nz-descriptions-item>
     </nz-descriptions>
     <br />
     <!-- ncit info -->

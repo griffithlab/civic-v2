@@ -19,7 +19,11 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcGeneBaseSummaryComponent } from '@app/components/genes/gene-base-summary/gene-base-summary.page'
 import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
     selector: 'cvc-fusion-summary',
@@ -33,6 +37,9 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
         NzSpaceModule,
         NzTagModule,
         NzCardModule,
+        NzTableModule,
+        NzIconModule,
+        NzToolTipModule,
         CvcEmptyRevisableModule,
         CvcTagListModule,
         CvcFeatureTagModule,
@@ -42,6 +49,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
         CvcUserTagModule,
         CvcGeneBaseSummaryComponent,
         CvcFeatureTagModule,
+        CvcClinicalSignificanceCounts,
     ]
 })
 export class FusionSummaryComponent implements OnInit {
@@ -61,5 +69,13 @@ export class FusionSummaryComponent implements OnInit {
         entityType: SubscribableEntities.Feature,
       }
     }
+  }
+
+  fusionsKnownPartnerGenesContainsSpecificFusion(partners: any[]): boolean {
+    return partners.some(partner => partner.knownPartnerSpecificFusion)
+  }
+
+  fusionsKnownPartnerGenesContainsNoSpecificFusion(partners: any[]): boolean {
+    return partners.some(partner => !partner.knownPartnerSpecificFusion)
   }
 }

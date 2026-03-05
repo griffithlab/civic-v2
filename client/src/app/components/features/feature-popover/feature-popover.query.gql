@@ -12,9 +12,6 @@ fragment featurePopover on Feature {
     __typename
   }
   featureAliases
-  variants {
-    totalCount
-  }
   revisions(status: NEW) {
     totalCount
   }
@@ -23,5 +20,11 @@ fragment featurePopover on Feature {
   }
   flags(state: OPEN) {
     totalCount
+  }
+  stats {
+    variantCount
+    molecularProfileCount
+    evidenceItemCount
+    assertionCount
   }
 }
