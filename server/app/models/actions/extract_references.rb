@@ -44,7 +44,9 @@ module Actions
                     val[:deprecated] = referenced_item.deprecated
                   end
                   if referenced_item.respond_to?(:retracted)
-                    val[:deprecated] = referenced_item.retracted
+                    if referenced_item.retracted && referenced_item.retraction_nature == "Retraction"
+                      val[:deprecated] = true
+                    end
                   end
                   if referenced_item.respond_to?(:flagged)
                     val[:flagged] = referenced_item.flagged
@@ -125,23 +127,25 @@ module Actions
         [ Assertion, "ASSERTION" ]
       when "MP"
         [ MolecularProfile, "MOLECULAR_PROFILE" ]
+      when "S"
+        [ Source, "SOURCE" ]
       end
     end
 
     def self.split_regex
-      @split_regex ||= Regexp.new(/\s*(#(?:a|v|f|g|vg|e|r|mp)(?:id)?\d+)\b/i)
+      @split_regex ||= Regexp.new(/\s*(#(?:a|v|f|g|vg|e|r|mip|s)(?:id)?\d+)\b/i)
     end
 
     def self.curie_split_regex
-      @curie_split_regex ||= Regexp.new(/\s*(civic\.(?:a|v|f|g|vg|e|r|mp)(?:id)\:\d+)\b/i)
+      @curie_split_regex ||= Regexp.new(/\s*(civic\.(?:a|v|f|g|vg|e|r|mp|s)(?:id)\:\d+)\b/i)
     end
 
     def self.scan_regex
-      @scan_regex ||= Regexp.new(/#(?<type>a|v|f|g|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
+      @scan_regex ||= Regexp.new(/#(?<type>a|v|f|g|vg|e|r|mp|s)(?:id)?(?<id>\d+)\b/i)
     end
 
     def self.curie_scan_regex
-      @curie_scan_regex ||= Regexp.new(/civic\.(?<type>a|v|f|g|vg|e|r|mp)(?:id):(?<id>\d+)\b/i)
+      @curie_scan_regex ||= Regexp.new(/civic\.(?<type>a|v|f|g|vg|e|r|mp|s)(?:id):(?<id>\d+)\b/i)
     end
   end
 end
