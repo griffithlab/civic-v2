@@ -12,7 +12,11 @@
   <nz-descriptions-item [nzTitle]="descriptionTitle">
     @if (descriptionDisplayMode == 'tags') {
       <!-- this component is not compatible with nzExpandable-->
-      <p nz-typography nzCopyable [nzCopyText]="descriptionTagMode == 'source' ? entity.parsedDescriptionTextReplaceEidWithSource : entity.parsedDescriptionText">
+      <p
+        nz-typography
+        class="summary-block"
+        nzCopyable
+        [nzCopyText]="descriptionTagMode == 'source' ? entity.parsedDescriptionTextReplaceEidWithSource : entity.parsedDescriptionText">
         <cvc-comment-body
           [commentBodySegments]="descriptionTagMode == 'source' ? entity.parsedDescriptionReplaceEidWithSource : entity.parsedDescription"></cvc-comment-body>
       </p>
@@ -22,7 +26,7 @@
         class="summary-block"
         nzEllipsis
         nzExpandable
-        [nzEllipsisRows]="14"
+        [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
         nzCopyable
         [nzContent]="entity.description">
       </p>
@@ -33,7 +37,7 @@
           class="summary-block"
           nzEllipsis
           nzExpandable
-          [nzEllipsisRows]="14"
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
           nzCopyable
           [nzContent]="entity.parsedDescriptionTextReplaceEidWithSource">
         </p>
@@ -43,7 +47,7 @@
           class="summary-block"
           nzEllipsis
           nzExpandable
-          [nzEllipsisRows]="14"
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
           nzCopyable
           [nzContent]="entity.parsedDescriptionText">
         </p>
