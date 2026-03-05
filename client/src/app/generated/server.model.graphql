@@ -711,6 +711,10 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
   openRevisionCount: Int!
+  parsedDescription: [CommentBodySegment!]!
+  parsedDescriptionReplaceEidWithSource: [CommentBodySegment!]!
+  parsedDescriptionText: String!
+  parsedDescriptionTextReplaceEidWithSource: String!
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   regulatoryApprovalLastUpdated: ISO8601DateTime
@@ -2189,7 +2193,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentDeprecated | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
 
 """
 An edge in a connection.
@@ -2215,6 +2219,16 @@ input CommentSearchFilter {
 }
 
 type CommentTagSegment {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  link: String!
+  revisionSetId: Int
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentDeprecated {
+  deprecated: Boolean!
   displayName: String!
   entityId: Int!
   feature: LinkableFeature
@@ -3720,6 +3734,10 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   molecularProfile: MolecularProfile!
   name: String!
   openRevisionCount: Int!
+  parsedDescription: [CommentBodySegment!]!
+  parsedDescriptionReplaceEidWithSource: [CommentBodySegment!]!
+  parsedDescriptionText: String!
+  parsedDescriptionTextReplaceEidWithSource: String!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
@@ -13881,6 +13899,7 @@ enum TaggableEntity {
   MOLECULAR_PROFILE
   REVISION
   ROLE
+  SOURCE
   VARIANT
   VARIANT_GROUP
 }

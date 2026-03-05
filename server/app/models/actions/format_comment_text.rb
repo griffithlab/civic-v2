@@ -3,7 +3,7 @@ require "sanitize"
 
 module Actions
   class FormatCommentText
-    def self.get_segments(text:)
+    def self.get_segments(text:, mode: "tags", replace_eid_with_source: false, process_text: true)
       if text.blank?
         return []
       end
@@ -14,13 +14,17 @@ module Actions
       mention_segments = Actions::ExtractMentions.new(input_text)
         .perform
         .segments
-      reference_segments = Actions::ExtractReferences.new(mention_segments)
+      reference_segments = Actions::ExtractReferences.new(mention_segments, mode: mode, replace_eid_with_source: replace_eid_with_source)
         .perform
         .segments
 
       return reference_segments.chunk { |segment| segment.is_a?(String) }.map do |(is_strings, segments)|
         if is_strings
-          process_text_segment(segments)
+          if process_text
+            process_text_segment(segments)
+          else
+            segments.join(" ")
+          end
         else
           segments
         end

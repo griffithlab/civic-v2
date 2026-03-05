@@ -5,20 +5,7 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: evidence description -->
         <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzLayout="vertical"
-            nzSize="small"
-            nzBordered="true">
-            <nz-descriptions-item nzTitle="Statement">
-              <p
-                nz-typography
-                nzEllipsis
-                nzExpandable
-                [nzEllipsisRows]="14">
-                {{ evidence.description }}
-              </p>
-            </nz-descriptions-item>
-          </nz-descriptions>
+          <cvc-entity-description [cvcEntity]="evidence"></cvc-entity-description>
         </nz-col>
 
         <!-- BLOCK: primary attributes -->

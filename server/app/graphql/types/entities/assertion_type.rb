@@ -12,6 +12,10 @@ module Types::Entities
     field :significance, Types::AssertionSignificanceType, null: false
     field :summary, String, null: false
     field :description, String, null: false
+    field :parsed_description, [ Types::Commentable::CommentBodySegment ], null: false
+    field :parsed_description_text, String, null: false
+    field :parsed_description_replace_eid_with_source, [ Types::Commentable::CommentBodySegment ], null: false
+    field :parsed_description_text_replace_eid_with_source, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :therapies, [ Types::Entities::TherapyType ], null: false
     field :therapy_interaction_type, Types::TherapyInteractionType, null: true
@@ -36,6 +40,30 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
+
+    def parsed_description
+      Rails.cache.fetch("parsed_description_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description)
+      end
+    end
+
+    def parsed_description_text
+      Rails.cache.fetch("parsed_description_text_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description, mode: "names", process_text: false).first
+      end
+    end
+
+    def parsed_description_replace_eid_with_source
+      Rails.cache.fetch("parsed_description_replace_eid_with_source_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description, replace_eid_with_source: true)
+      end
+    end
+
+    def parsed_description_text_replace_eid_with_source
+      Rails.cache.fetch("parsed_description_text_replace_eid_with_source_#{object.class}_#{object.id}_#{object.updated_at}") do
+        Actions::FormatCommentText.get_segments(text: object.description, mode: "names", replace_eid_with_source: true, process_text: false).first
+      end
+    end
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)

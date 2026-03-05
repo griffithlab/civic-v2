@@ -107,57 +107,51 @@
             creators and does not necessarily represent the official views of
             the NIH or other funding sources.
           </p>
-          <h3>Current</h3>
-          <nz-table
-            #currentFundingTable
-            [nzData]="currentFunding"
-            [nzFrontPagination]="false"
-            [nzShowPagination]="false">
-            <thead>
-              <tr>
-                <th>Awardee</th>
-                <th>Source</th>
-                <th>Description</th>
-                <th>Award Number</th>
-                <th>Timeframe</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of currentFundingTable.data">
-                <td>{{ data.awardee }}</td>
-                <td>{{ data.source }}</td>
-                <td>{{ data.description }}</td>
-                <td>{{ data.awardNumber }}</td>
-                <td>{{ data.timeframe }}</td>
-              </tr>
-            </tbody>
-          </nz-table>
+          <h2>Current</h2>
+          @for (funding of currentFunding; track currentFunding) {
+            <nz-descriptions
+              [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }"
+              [nzTitle]="title"
+              nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true">
+              <nz-descriptions-item
+                nzTitle="Source"
+                nzSpan="2">
+                {{ funding.source }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                nzTitle="Description"
+                nzSpan="2">
+                {{ funding.description }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                nzTitle="Number"
+                nzSpan="1">
+                {{ funding.awardNumber }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                nzTitle="Timeframe"
+                nzSpan="1">
+                {{ funding.timeframe }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+            <ng-template #title>
+              <h3 style="color: #333; margin-bottom: 0">
+                <strong>Awardee:</strong> {{ funding.awardee }}
+              </h3>
+            </ng-template>
+          }
           <br />
-          <h3>Past</h3>
-          <nz-table
-            #pastFundingTable
-            [nzData]="pastFunding"
-            [nzFrontPagination]="false"
-            [nzShowPagination]="false">
-            <thead>
-              <tr>
-                <th>Awardee</th>
-                <th>Source</th>
-                <th>Description</th>
-                <th>Award Number</th>
-                <th>Timeframe</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of pastFundingTable.data">
-                <td>{{ data.awardee }}</td>
-                <td>{{ data.source }}</td>
-                <td>{{ data.description }}</td>
-                <td>{{ data.awardNumber }}</td>
-                <td>{{ data.timeframe }}</td>
-              </tr>
-            </tbody>
-          </nz-table>
+          <h2>Past</h2>
+          <p>
+            Past funding details are available on the CIViC documentation
+            <a
+              href="https://civic.readthedocs.io/en/latest/about/acknowledgements.html#past"
+              target="_blank">
+              Acknowledgements page.
+            </a>
+          </p>
         </nz-card>
       </nz-col>
       <nz-col

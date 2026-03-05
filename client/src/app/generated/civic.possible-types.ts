@@ -32,6 +32,7 @@
     ],
     "CommentBodySegment": [
       "CommentTagSegment",
+      "CommentTagSegmentDeprecated",
       "CommentTagSegmentFlagged",
       "CommentTagSegmentFlaggedAndDeprecated",
       "CommentTagSegmentFlaggedAndWithStatus",
