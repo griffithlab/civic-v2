@@ -1,0 +1,107 @@
+query RevisionsBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $fieldName: String
+  $originatingUserName: String
+  $excludeRevisionsFromUserId: Int
+  $organizationName: String
+  $subjectType: ActivitySubjectInput
+  $id: Int
+  $requestDetails: Boolean = false
+) {
+  revisionSets(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    status: NEW
+    fieldName: $fieldName
+    originatingUserName: $originatingUserName
+    excludeRevisionsFromUserId: $excludeRevisionsFromUserId
+    organizationName: $organizationName
+    subjectType: $subjectType
+    id: $id
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...RevisionSetBrowseFields
+      }
+    }
+  }
+}
+
+fragment RevisionSetBrowseFields on RevisionSet {
+  id
+  name
+  revisions {
+    id
+    name
+    status
+    currentValue
+    suggestedValue
+    fieldName
+    fieldDisplayName
+    link
+    linkoutData @include(if: $requestDetails) {
+      ...revisionLinkoutData
+    }
+  }
+  creationActivity @skip(if: $requestDetails) {
+    subject {
+      id
+      name
+      link
+      ... on Variant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+      ... on GeneVariant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+      ... on FactorVariant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+      ... on FusionVariant {
+        feature {
+          id
+          name
+          link
+        }
+      }
+    }
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    organization {
+      id
+      name
+    }
+  }
+}
