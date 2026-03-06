@@ -188,6 +188,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'excludeRevisionsFromUserId',
         'organizatioName',
         'subjectType',
+        'id',
       ])
     },
   },

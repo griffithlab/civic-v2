@@ -43,7 +43,7 @@
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="sortChange$.next($event)">
+    <thead>
       <tr class="col-header-row">
         <th nzWidth="20px"></th>
         <th nzWidth="200px">Revision Subject</th>
@@ -138,7 +138,7 @@
           </td>
           <td nzLeft nzBreakWord>
             @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
-              {{ revision.linkoutData.name }}{{ isLast? '' : ', ' }}
+              {{ revision.fieldDisplayName }}{{ isLast? '' : ', ' }}
             }
           </td>
         </tr>
@@ -146,11 +146,16 @@
           <ng-template let-detailRevision>
             {{ detailRevision.id }}
           </ng-template>
-          @for (revision of revisionSet.revisions; track revision) {
-            <div style="padding-left: 30px; background-color: #ffffff">
-              <cvc-activity-revision
-              [cvcActivityRevision]="revision"></cvc-activity-revision>
-            </div>
+          @if (expandSet.has(revisionSet.id)) {
+            @let revisionSetDetails = (queryRevisionDetails(revisionSet.id) | ngrxPush);
+            @if (revisionSetDetails && revisionSetDetails[0]) {
+              @for (revision of revisionSetDetails[0].revisions; track revision ) {
+                <div style="padding-left: 30px; background-color: #ffffff">
+                  <cvc-activity-revision
+                  [cvcActivityRevision]="castToRevision(revision)"></cvc-activity-revision>
+                </div>
+              }
+            }
           }
         </tr>
       </ng-template>

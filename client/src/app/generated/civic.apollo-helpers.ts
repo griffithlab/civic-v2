@@ -2219,7 +2219,7 @@ export type ResolveFlagPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevisionKeySpecifier = ('acceptanceActivity' | 'comments' | 'createdAt' | 'creationActivity' | 'currentValue' | 'events' | 'fieldName' | 'id' | 'lastCommentEvent' | 'link' | 'linkoutData' | 'name' | 'rejectionActivity' | 'resolutionActivity' | 'revisionSetId' | 'status' | 'subject' | 'suggestedValue' | 'supersedingActivity' | 'updatedAt' | RevisionKeySpecifier)[];
+export type RevisionKeySpecifier = ('acceptanceActivity' | 'comments' | 'createdAt' | 'creationActivity' | 'currentValue' | 'events' | 'fieldDisplayName' | 'fieldName' | 'id' | 'lastCommentEvent' | 'link' | 'linkoutData' | 'name' | 'rejectionActivity' | 'resolutionActivity' | 'revisionSetId' | 'status' | 'subject' | 'suggestedValue' | 'supersedingActivity' | 'updatedAt' | RevisionKeySpecifier)[];
 export type RevisionFieldPolicy = {
 	acceptanceActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2227,6 +2227,7 @@ export type RevisionFieldPolicy = {
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	currentValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	fieldDisplayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	fieldName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,

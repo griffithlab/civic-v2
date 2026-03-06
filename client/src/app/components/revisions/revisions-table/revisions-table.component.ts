@@ -11,7 +11,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
-  buildSortParams,
   SortDirectionEvent,
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
@@ -20,17 +19,14 @@ import {
   RevisionsBrowseGQL,
   RevisionsBrowseQuery,
   RevisionsBrowseQueryVariables,
-  RevisionGQL,
   Maybe,
   PageInfo,
   RevisionSet,
-  EventSubject,
-  EventConnection,
   Revision,
-  SuggestRevisionSetActivity,
   ViewerFieldsFragment,
   ActivitySubjectInput,
   RevisionFragment,
+  RevisionSetBrowseFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -42,7 +38,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeUntil,
   takeWhile,
   withLatestFrom,
@@ -50,11 +45,6 @@ import {
 import { pluck } from 'rxjs-etc/operators'
 import { ActivatedRoute } from '@angular/router'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-
-//type ExpandableRevisionSet = {
-//  revisionSet: Maybe<RevisionSet>
-//  expand: boolean
-//}
 
 @UntilDestroy()
 @Component({
@@ -68,18 +58,9 @@ export class CvcRevisionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  //@Input() evidenceId: Maybe<number>
-  //@Input() variantId: Maybe<number>
-  //@Input() molecularProfileId: Maybe<number>
-  //@Input() organizationId: Maybe<number>
-  //@Input() phenotypeId: Maybe<number>
-  //@Input() diseaseId: Maybe<number>
-  //@Input() therapyId: Maybe<number>
-  //@Input() approvingOrganizationId: Maybe<number>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
-  sortChange$: Subject<SortDirectionEvent>
 
   // INTERMEDIATE STREAMS
   result$!: Observable<ApolloQueryResult<RevisionsBrowseQuery>>
@@ -94,6 +75,7 @@ export class CvcRevisionsTableComponent implements OnInit {
   noMoreRows$: BehaviorSubject<boolean>
   queryRef!: QueryRef<RevisionsBrowseQuery, RevisionsBrowseQueryVariables>
   expandSet = new Set<number>()
+  expandDetails = new Map<number, Observable<Maybe<RevisionSetBrowseFieldsFragment>[]>>();
   detailRevision$: undefined | Observable<Maybe<RevisionFragment>> = undefined
 
   // need a static var for scrolling state b/c sub/unsub in
@@ -101,8 +83,6 @@ export class CvcRevisionsTableComponent implements OnInit {
   isScrolling: boolean = false
   
   private debouncedQuery = new Subject<void>()
-
-  //queryParamsSub$: Subscription
 
   isLoading$?: Observable<boolean>
   filteredCount$?: Observable<number>
@@ -129,8 +109,6 @@ export class CvcRevisionsTableComponent implements OnInit {
   organizationNameInput: Maybe<string>
   subjectTypeInput: Maybe<ActivitySubjectInput>
 
-  //sortColumns: typeof AssertionSortColumns = AssertionSortColumns
-
   statusFilterVisible = false
   excludeOwnRevisions = false
   viewer: Signal<Maybe<Viewer>>
@@ -143,22 +121,14 @@ export class CvcRevisionsTableComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private viewerService: ViewerService,
-    private detailGql: RevisionGQL,
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
-    this.sortChange$ = new Subject<SortDirectionEvent>()
     this.scrollIndex$ = new Subject<number>()
     this.viewer = toSignal(this.viewerService.viewer$)
     this.user = computed(() => {
       return this.viewer()?.user
     })
-    //this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
-    //  if (params.has('includeSubgroups')) {
-    //    this.includeSubgroups =
-    //      params.get('includeSubgroups') === 'true' ? true : false
-    //  }
-    //})
   }
 
   ngOnInit() {
@@ -200,13 +170,6 @@ export class CvcRevisionsTableComponent implements OnInit {
       pluck('pageInfo'),
       filter(isNonNulled)
     )
-
-    // refetch when column sort changes
-    //this.sortChange$
-    //  .pipe(untilDestroyed(this))
-    //  .subscribe((e: SortDirectionEvent) => {
-    //    this.queryRef.refetch({ sortBy: buildSortParams(e) })
-    //  })
 
     this.debouncedQuery
       .pipe(takeUntil(this.destroy$), debounceTime(500))
@@ -278,11 +241,6 @@ export class CvcRevisionsTableComponent implements OnInit {
     this.loadedPages += 1
   }
 
-  //statusChanged() {
-  //  this.debouncedQuery.next()
-    //this.statusFilterVisible = false
-  //}
-
   excludeOwnRevisionsChanged() {
     this.debouncedQuery.next()
     this.statusFilterVisible = false
@@ -297,7 +255,6 @@ export class CvcRevisionsTableComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    //this.queryParamsSub$.unsubscribe()
     this.destroy$.next()
     this.destroy$.unsubscribe()
   }
@@ -305,16 +262,30 @@ export class CvcRevisionsTableComponent implements OnInit {
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
       this.expandSet.add(id);
-      const detailQueryRef = this.detailGql.fetch({
-        id: id,
-      })
-      this.detailRevision$ = detailQueryRef.pipe(
-        pluck('data', 'revision'),
-        // tag('activity-revision component'),
-        filter(isNonNulled)
-      )
     } else {
       this.expandSet.delete(id);
     }
+  }
+
+  queryRevisionDetails(setId: number): Observable<Maybe<RevisionSetBrowseFieldsFragment>[]> {
+    if (this.expandDetails.has(setId)) {
+      return this.expandDetails.get(setId)!
+    } else{
+      const query = this.gql.fetch({
+        id: setId,
+        requestDetails: true,
+      })
+      const results = query.pipe(
+        pluck('data', 'revisionSets', 'edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node))
+      )
+      this.expandDetails.set(setId, results)
+      return results
+    }
+  }
+  
+  castToRevision(revision: any): Revision {
+    return revision as Revision
   }
 }

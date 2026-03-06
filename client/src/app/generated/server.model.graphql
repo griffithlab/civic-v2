@@ -10566,6 +10566,11 @@ type Query {
     first: Int
 
     """
+    Return the revision set with the given CIViC ID.
+    """
+    id: Int
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -11985,6 +11990,7 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
+  fieldDisplayName: String!
   fieldName: String!
   id: Int!
   lastCommentEvent: Event
