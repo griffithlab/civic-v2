@@ -33,7 +33,7 @@ import { CommentSegment } from '@app/components/comments/comment-body/comment-bo
 export class CvcEntityDescription {
   cvcEntity = input.required<AssertionSummaryFieldsFragment | EvidenceSummaryFieldsFragment>()
 
-  descriptionDisplayMode: string = 'raw';
+  descriptionDisplayMode: string = 'curies';
   descriptionTagMode: string = 'eid';
 
   descriptionContainsCurie(description: string): boolean {

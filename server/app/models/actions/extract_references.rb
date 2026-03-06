@@ -21,7 +21,7 @@ module Actions
     def find_matches
       input_segments.flat_map do |segment|
         if segment.is_a?(String)
-          segment.split(self.class.split_regex).flat_map { |s| s.split(self.class.curie_split_regex) }.map do |split_segment|
+          split_segments = segment.split(self.class.split_regex).flat_map { |s| s.split(self.class.curie_split_regex) }.map do |split_segment|
             if match = (split_segment.match(self.class.scan_regex) || split_segment.match(self.class.curie_scan_regex))
               (klass, tag_type) = self.class.extract_type(match[:type])
               if referenced_item = klass.find_by(id: match[:id])
@@ -60,6 +60,12 @@ module Actions
                   else
                     val = display_name
                   end
+                elsif mode == "curies"
+                  if replace_eid_with_source && klass == EvidenceItem
+                    val = "civic.sid:#{referenced_item.id}"
+                  else
+                    val = split_segment
+                  end
                 end
                 val
               else
@@ -69,6 +75,10 @@ module Actions
               split_segment
             end
           end
+          if split_segments.all? { |s| s.is_a?(String) }
+            split_segments = split_segments.join("")
+          end
+          split_segments
         else
           segment
         end

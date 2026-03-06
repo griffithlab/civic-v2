@@ -157,6 +157,10 @@
       "RegionVariant",
       "Variant"
     ],
+    "WithDescription": [
+      "Assertion",
+      "EvidenceItem"
+    ],
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",

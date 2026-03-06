@@ -16,21 +16,11 @@
         nz-typography
         class="summary-block"
         nzCopyable
-        [nzCopyText]="descriptionTagMode == 'source' ? tagsToText(entity.parsedDescriptionReplaceEidWithSource) : tagsToText(entity.parsedDescription)">
+        [nzCopyText]="descriptionTagMode == 'source' ? tagsToText(entity.descriptionWithTagsReplaceEidWithSource) : tagsToText(entity.descriptionWithTags)">
         <cvc-comment-body
-          [commentBodySegments]="descriptionTagMode == 'source' ? entity.parsedDescriptionReplaceEidWithSource : entity.parsedDescription"></cvc-comment-body>
+          [commentBodySegments]="descriptionTagMode == 'source' ? entity.descriptionWithTagsReplaceEidWithSource : entity.descriptionWithTags"></cvc-comment-body>
       </p>
-    } @else if (descriptionDisplayMode == 'raw') {
-      <p
-        nz-typography
-        class="summary-block"
-        nzEllipsis
-        nzExpandable
-        [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
-        nzCopyable
-        [nzContent]="entity.description">
-      </p>
-    } @else if (descriptionDisplayMode == 'names') {
+    } @else if (descriptionDisplayMode == 'curies') {
       @if (descriptionTagMode == 'source') {
         <p
           nz-typography
@@ -39,7 +29,7 @@
           nzExpandable
           [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
           nzCopyable
-          [nzContent]="entity.parsedDescriptionTextReplaceEidWithSource">
+          [nzContent]="entity.descriptionReplaceEidWithSource">
         </p>
       } @else if (descriptionTagMode == 'eid') {
         <p
@@ -49,7 +39,29 @@
           nzExpandable
           [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
           nzCopyable
-          [nzContent]="entity.parsedDescriptionText">
+          [nzContent]="entity.description">
+        </p>
+      }
+    } @else if (descriptionDisplayMode == 'names') {
+      @if (descriptionTagMode == 'source') {
+        <p
+          nz-typography
+          class="summary-block"
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
+          nzCopyable
+          [nzContent]="entity.descriptionWithNamesReplaceEidWithSource">
+        </p>
+      } @else if (descriptionTagMode == 'eid') {
+        <p
+          nz-typography
+          class="summary-block"
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
+          nzCopyable
+          [nzContent]="entity.descriptionWithNames">
         </p>
       }
     }
@@ -73,7 +85,7 @@
         [(ngModel)]="descriptionDisplayMode"
         nzButtonStyle="solid"
          nzSize="small">
-        <label nz-radio-button nzValue="raw">curies</label>
+        <label nz-radio-button nzValue="curies">curies</label>
         <label nz-radio-button nzValue="names">names</label>
         <label nz-radio-button nzValue="tags">tags</label>
       </nz-radio-group>
