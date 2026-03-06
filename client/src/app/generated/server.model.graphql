@@ -509,7 +509,7 @@ enum AreaOfExpertise {
   RESEARCH_SCIENTIST
 }
 
-type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
@@ -617,6 +617,11 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     sortBy: DateSort
   ): CommentsConnection!
   description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
   disease: Disease
 
   """
@@ -711,10 +716,6 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
   openRevisionCount: Int!
-  parsedDescription: [CommentBodySegment!]!
-  parsedDescriptionReplaceEidWithSource: [CommentBodySegment!]!
-  parsedDescriptionText: String!
-  parsedDescriptionTextReplaceEidWithSource: String!
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   regulatoryApprovalLastUpdated: ISO8601DateTime
@@ -3592,7 +3593,7 @@ input EvidenceDirectionTypeSearchInput {
   value: EvidenceDirection!
 }
 
-type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
 
@@ -3646,6 +3647,11 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     sortBy: DateSort
   ): CommentsConnection!
   description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
   disease: Disease
 
   """
@@ -3738,10 +3744,6 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   molecularProfile: MolecularProfile!
   name: String!
   openRevisionCount: Int!
-  parsedDescription: [CommentBodySegment!]!
-  parsedDescriptionReplaceEidWithSource: [CommentBodySegment!]!
-  parsedDescriptionText: String!
-  parsedDescriptionTextReplaceEidWithSource: String!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
@@ -15612,6 +15614,18 @@ enum VariantsSortColumns {
   featureName
   therapyName
   variantName
+}
+
+"""
+A CIViC entity that has a description field.
+"""
+interface WithDescription {
+  description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
 }
 
 """
