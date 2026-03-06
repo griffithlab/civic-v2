@@ -15,7 +15,7 @@ class Resolvers::TopLevelRevisionSets < GraphQL::Schema::Resolver
   end
 
   option(:originating_user_name, type: String, description: "Limit to revisions by a certain user using the user name") do |scope, value|
-    scope.joins(activities: [ :user ]).where("users.name ILIKE '%#{value}%' OR users.username ILIKE '%#{value}%'").where("activities.type = ?", "SuggestRevisionSetActivity")
+    scope.joins(activities: [ :user ]).where("users.name ILIKE ? OR users.username ILIKE ?", "%#{value}%", "%#{value}%").where("activities.type = ?", "SuggestRevisionSetActivity")
   end
 
   option(:status, type: Types::Revisions::RevisionStatus, description: "Limit to revision sets that include revisions with a certain status") do |scope, value|
@@ -27,7 +27,7 @@ class Resolvers::TopLevelRevisionSets < GraphQL::Schema::Resolver
   end
 
   option(:field_name, type: String, description: "Limit to revision sets that include revisions on a particular field.") do |scope, value|
-    scope.joins(:revisions).where("revisions.field_name ILIKE '#{value.gsub(" ", "_")}%'").distinct
+    scope.joins(:revisions).where("revisions.field_name ILIKE ?", "#{value.gsub(" ", "_")}%").distinct
   end
 
   option(:subject, type: Types::Revisions::ModeratedInput, description: "Limit to revision sets of a specific CIViC entity") do |scope, value|
@@ -47,7 +47,7 @@ class Resolvers::TopLevelRevisionSets < GraphQL::Schema::Resolver
   end
 
   option(:organization_name, type: String, description: "Limit to revisions by a organization user using the organization name") do |scope, value|
-    scope.joins(activities: [ :organization ]).where("organizations.name ILIKE '%#{value}%'").where("activities.type = ?", "SuggestRevisionSetActivity")
+    scope.joins(activities: [ :organization ]).where("organizations.name ILIKE ?", "%#{value}%").where("activities.type = ?", "SuggestRevisionSetActivity")
   end
 
   option(:id, type: Int, description: "Return the revision set with the given CIViC ID.") do |scope, value|
