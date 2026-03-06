@@ -10,6 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { AssertionSummaryFieldsFragment, EvidenceSummaryFieldsFragment } from '@app/generated/civic.apollo'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { CommentSegment } from '@app/components/comments/comment-body/comment-body.component';
 
 @Component({
   selector: 'cvc-entity-description',
@@ -38,5 +39,15 @@ export class CvcEntityDescription {
   descriptionContainsCurie(description: string): boolean {
     let containsCurieRegex: RegExp = /civic.(e|a|f|g|v|mp|vg|t|d|s)id:\d+/i; 
     return containsCurieRegex.test(description)
+  }
+
+  tagsToText(segments: CommentSegment[]): string {
+    return segments.map( (segment) => {
+      if (segment.__typename == 'CommentTextSegment') {
+        return segment.text
+      } else {
+        return segment.displayName
+      }
+    }).join("")
   }
 }

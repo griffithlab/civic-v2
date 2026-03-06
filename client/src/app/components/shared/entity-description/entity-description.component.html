@@ -16,7 +16,7 @@
         nz-typography
         class="summary-block"
         nzCopyable
-        [nzCopyText]="descriptionTagMode == 'source' ? entity.parsedDescriptionTextReplaceEidWithSource : entity.parsedDescriptionText">
+        [nzCopyText]="descriptionTagMode == 'source' ? tagsToText(entity.parsedDescriptionReplaceEidWithSource) : tagsToText(entity.parsedDescription)">
         <cvc-comment-body
           [commentBodySegments]="descriptionTagMode == 'source' ? entity.parsedDescriptionReplaceEidWithSource : entity.parsedDescription"></cvc-comment-body>
       </p>

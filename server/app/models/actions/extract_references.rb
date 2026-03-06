@@ -55,7 +55,11 @@ module Actions
                     val[:status] = referenced_item.status
                   end
                 elsif mode == "names"
-                  val = display_name
+                  if tag_type == "SOURCE"
+                    val = "#{referenced_item.source_type}: #{referenced_item.citation_id}"
+                  else
+                    val = display_name
+                  end
                 end
                 val
               else
