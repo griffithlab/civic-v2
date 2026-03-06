@@ -66,7 +66,13 @@
     </nz-col>
     <nz-col class="mode-label" nzFlex="190px">
       Mode:
-      <nz-radio-group [(ngModel)]="descriptionDisplayMode"  nzButtonStyle="solid" nzSize="small">
+      <nz-radio-group
+        [nzDisabled]="!descriptionContainsCurie(entity.description)"
+        nz-tooltip
+        [nzTooltipTitle]="descriptionContainsCurie(entity.description) ? 'Select the display mode of the curies in this description' : 'Display mode unavailable. Description doesn\'t contain any curies'"
+        [(ngModel)]="descriptionDisplayMode"
+        nzButtonStyle="solid"
+         nzSize="small">
         <label nz-radio-button nzValue="raw">curies</label>
         <label nz-radio-button nzValue="names">names</label>
         <label nz-radio-button nzValue="tags">tags</label>
@@ -77,6 +83,9 @@
         nz-button
         nzTypy="default"
         nzSize="small"
+        [disabled]="!descriptionContainsCurie(entity.description)"
+        nz-tooltip
+        [nzTooltipTitle]="descriptionContainsCurie(entity.description) ? '' : 'Display settings unavailable. Description doesn\'t contain any curies'"
         nz-popover
         [nzPopoverContent]="settingsPopover"
         [nzPopoverTrigger]="'click'"

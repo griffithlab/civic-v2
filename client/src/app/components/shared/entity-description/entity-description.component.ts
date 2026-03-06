@@ -7,6 +7,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { AssertionSummaryFieldsFragment, EvidenceSummaryFieldsFragment } from '@app/generated/civic.apollo'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 
@@ -21,6 +22,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     NzGridModule,
     NzIconModule,
     NzButtonModule,
+    NzToolTipModule,
     CvcCommentBodyModule,
   ],
   templateUrl: './entity-description.component.html',
@@ -32,4 +34,9 @@ export class CvcEntityDescription {
 
   descriptionDisplayMode: string = 'raw';
   descriptionTagMode: string = 'eid';
+
+  descriptionContainsCurie(description: string): boolean {
+    let containsCurieRegex: RegExp = /civic.(e|a|f|g|v|mp|vg|t|d|s)id:\d+/i; 
+    return containsCurieRegex.test(description)
+  }
 }
