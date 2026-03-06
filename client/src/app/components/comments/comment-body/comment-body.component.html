@@ -77,6 +77,19 @@
       </span>
     </ng-container>
   </ng-container>
+  <ng-container *ngIf="c.__typename == 'CommentTagSegmentDeprecated'">
+    <ng-container [ngSwitch]="c.tagType">
+      <span *ngSwitchCase="'SOURCE'">
+        <cvc-source-tag
+          [source]="{
+            id: c.entityId,
+            displayName: c.displayName,
+            link: c.link,
+            deprecated: c.deprecated
+          }"></cvc-source-tag>
+      </span>
+    </ng-container>
+  </ng-container>
   <ng-container *ngIf="c.__typename == 'CommentTagSegment'">
     <ng-container [ngSwitch]="c.tagType">
       <span *ngSwitchCase="'REVISION'">

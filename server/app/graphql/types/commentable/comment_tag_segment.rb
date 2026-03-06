@@ -21,4 +21,8 @@ module Types::Commentable
   class CommentTagSegmentFlaggedAndDeprecated < CommentTagSegmentFlagged
     field :deprecated, GraphQL::Types::Boolean, null: false
   end
+
+  class CommentTagSegmentDeprecated < CommentTagSegment
+    field :deprecated, GraphQL::Types::Boolean, null: false
+  end
 end

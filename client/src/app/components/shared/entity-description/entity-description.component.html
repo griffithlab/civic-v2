@@ -1,0 +1,116 @@
+@let entity = cvcEntity();
+<nz-descriptions
+  nzLayout="vertical"
+  nzSize="small"
+  nzBordered="true"
+  [nzColumn]="1">
+  @if (entity.__typename == 'Assertion') {
+    <nz-descriptions-item nzTitle="Summary">
+      <p nz-typography>{{ entity.summary }}</p>
+    </nz-descriptions-item>
+  }
+  <nz-descriptions-item [nzTitle]="descriptionTitle">
+    @if (descriptionDisplayMode == 'tags') {
+      <!-- this component is not compatible with nzExpandable-->
+      <p
+        nz-typography
+        class="summary-block"
+        nzCopyable
+        [nzCopyText]="descriptionTagMode == 'source' ? tagsToText(entity.descriptionWithTagsReplaceEidWithSource) : tagsToText(entity.descriptionWithTags)">
+        <cvc-comment-body
+          [commentBodySegments]="descriptionTagMode == 'source' ? entity.descriptionWithTagsReplaceEidWithSource : entity.descriptionWithTags"></cvc-comment-body>
+      </p>
+    } @else if (descriptionDisplayMode == 'curies') {
+      @if (descriptionTagMode == 'source') {
+        <p
+          nz-typography
+          class="summary-block"
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
+          nzCopyable
+          [nzContent]="entity.descriptionReplaceEidWithSource">
+        </p>
+      } @else if (descriptionTagMode == 'eid') {
+        <p
+          nz-typography
+          class="summary-block"
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
+          nzCopyable
+          [nzContent]="entity.description">
+        </p>
+      }
+    } @else if (descriptionDisplayMode == 'names') {
+      @if (descriptionTagMode == 'source') {
+        <p
+          nz-typography
+          class="summary-block"
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
+          nzCopyable
+          [nzContent]="entity.descriptionWithNamesReplaceEidWithSource">
+        </p>
+      } @else if (descriptionTagMode == 'eid') {
+        <p
+          nz-typography
+          class="summary-block"
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="entity.__typename == 'Assertion' ? 6 : 10"
+          nzCopyable
+          [nzContent]="entity.descriptionWithNames">
+        </p>
+      }
+    }
+  </nz-descriptions-item>
+</nz-descriptions>
+<ng-template #descriptionTitle>
+  <nz-row [nzGutter]="[6, 6]">
+    <nz-col nzFlex="auto">
+      @if (entity.__typename == 'Assertion') {
+        Description
+      } @else {
+        Statement
+      }
+    </nz-col>
+    <nz-col class="mode-label" nzFlex="190px">
+      Mode:
+      <nz-radio-group
+        [nzDisabled]="!descriptionContainsCurie(entity.description)"
+        nz-tooltip
+        [nzTooltipTitle]="descriptionContainsCurie(entity.description) ? 'Select the display mode of the curies in this description' : 'Display mode unavailable. Description doesn\'t contain any curies'"
+        [(ngModel)]="descriptionDisplayMode"
+        nzButtonStyle="solid"
+         nzSize="small">
+        <label nz-radio-button nzValue="curies">curies</label>
+        <label nz-radio-button nzValue="names">names</label>
+        <label nz-radio-button nzValue="tags">tags</label>
+      </nz-radio-group>
+    </nz-col>
+    <nz-col class="mode-label" nzFlex="20px">
+      <button
+        nz-button
+        nzTypy="default"
+        nzSize="small"
+        [disabled]="!descriptionContainsCurie(entity.description)"
+        nz-tooltip
+        [nzTooltipTitle]="descriptionContainsCurie(entity.description) ? '' : 'Display settings unavailable. Description doesn\'t contain any curies'"
+        nz-popover
+        [nzPopoverContent]="settingsPopover"
+        [nzPopoverTrigger]="'click'"
+        nzPopoverTitle="Display Settings">
+        <nz-icon nzType="setting"></nz-icon>
+      </button>
+    </nz-col>
+  </nz-row>
+</ng-template>
+<ng-template #settingsPopover>
+  Tag Mode:
+  <nz-radio-group [(ngModel)]="descriptionTagMode" nzButtonStyle="solid" nzSize="small">
+    <label nz-radio-button nzValue="eid">Evidence Items</label>
+    <label nz-radio-button nzValue="source">Sources</label>
+  </nz-radio-group>
+</ng-template>

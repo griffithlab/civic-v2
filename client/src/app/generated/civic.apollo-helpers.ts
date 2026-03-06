@@ -138,7 +138,7 @@ export type ApproveAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -149,6 +149,11 @@ export type AssertionFieldPolicy = {
 	clingenCodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithNames?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithNamesReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithTags?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithTagsReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -658,6 +663,16 @@ export type CommentTagSegmentFieldPolicy = {
 	revisionSetId?: FieldPolicy<any> | FieldReadFunction<any>,
 	tagType?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CommentTagSegmentDeprecatedKeySpecifier = ('deprecated' | 'displayName' | 'entityId' | 'feature' | 'link' | 'revisionSetId' | 'tagType' | CommentTagSegmentDeprecatedKeySpecifier)[];
+export type CommentTagSegmentDeprecatedFieldPolicy = {
+	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	entityId?: FieldPolicy<any> | FieldReadFunction<any>,
+	feature?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionSetId?: FieldPolicy<any> | FieldReadFunction<any>,
+	tagType?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CommentTagSegmentFlaggedKeySpecifier = ('displayName' | 'entityId' | 'feature' | 'flagged' | 'link' | 'revisionSetId' | 'tagType' | CommentTagSegmentFlaggedKeySpecifier)[];
 export type CommentTagSegmentFlaggedFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1007,12 +1022,17 @@ export type EventSubjectWithCountFieldPolicy = {
 	occuranceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EvidenceItemKeySpecifier = ('acceptanceEvent' | 'assertions' | 'comments' | 'description' | 'disease' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'openRevisionCount' | 'phenotypes' | 'rejectionEvent' | 'revisions' | 'significance' | 'source' | 'status' | 'submissionActivity' | 'submissionEvent' | 'therapies' | 'therapyInteractionType' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
+export type EvidenceItemKeySpecifier = ('acceptanceEvent' | 'assertions' | 'comments' | 'description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | 'disease' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'openRevisionCount' | 'phenotypes' | 'rejectionEvent' | 'revisions' | 'significance' | 'source' | 'status' | 'submissionActivity' | 'submissionEvent' | 'therapies' | 'therapyInteractionType' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
 export type EvidenceItemFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithNames?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithNamesReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithTags?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithTagsReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceDirection?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2882,6 +2902,15 @@ export type VariantTypePopoverFieldPolicy = {
 	url?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type WithDescriptionKeySpecifier = ('description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | WithDescriptionKeySpecifier)[];
+export type WithDescriptionFieldPolicy = {
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithNames?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithNamesReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithTags?: FieldPolicy<any> | FieldReadFunction<any>,
+	descriptionWithTagsReplaceEidWithSource?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type WithRevisionsKeySpecifier = ('lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'openRevisionCount' | 'revisions' | WithRevisionsKeySpecifier)[];
 export type WithRevisionsFieldPolicy = {
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3149,6 +3178,10 @@ export type StrictTypedTypePolicies = {
 	CommentTagSegment?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentTagSegmentKeySpecifier | (() => undefined | CommentTagSegmentKeySpecifier),
 		fields?: CommentTagSegmentFieldPolicy,
+	},
+	CommentTagSegmentDeprecated?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentTagSegmentDeprecatedKeySpecifier | (() => undefined | CommentTagSegmentDeprecatedKeySpecifier),
+		fields?: CommentTagSegmentDeprecatedFieldPolicy,
 	},
 	CommentTagSegmentFlagged?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentTagSegmentFlaggedKeySpecifier | (() => undefined | CommentTagSegmentFlaggedKeySpecifier),
@@ -3969,6 +4002,10 @@ export type StrictTypedTypePolicies = {
 	VariantTypePopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantTypePopoverKeySpecifier | (() => undefined | VariantTypePopoverKeySpecifier),
 		fields?: VariantTypePopoverFieldPolicy,
+	},
+	WithDescription?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | WithDescriptionKeySpecifier | (() => undefined | WithDescriptionKeySpecifier),
+		fields?: WithDescriptionFieldPolicy,
 	},
 	WithRevisions?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | WithRevisionsKeySpecifier | (() => undefined | WithRevisionsKeySpecifier),
