@@ -47,7 +47,7 @@ module Types::Entities
     end
 
     def deprecated
-      object&.retraction_nature == "Retraction"
+      object&.retraction_nature == "Retraction" || object.deprecated
     end
 
     def clinical_trials
