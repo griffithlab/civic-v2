@@ -7,6 +7,7 @@ module Types
       argument :description, Types::AdvancedSearch::StringSearchInput, required: false
       argument :alias, Types::AdvancedSearch::StringSearchInput, required: false
       argument :open_revision_count, Types::AdvancedSearch::IntSearchInput, required: false
+      argument :revisions, Types::AdvancedSearch::RevisionSearchFilterType, required: false
       argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :score, Types::AdvancedSearch::FloatSearchInput, required: false
