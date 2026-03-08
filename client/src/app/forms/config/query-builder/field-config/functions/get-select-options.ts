@@ -19,6 +19,7 @@ import {
   OntologyTermSearchOperator,
   StringSearchOperator,
   TherapyInteraction,
+  VariantDeprecationReason,
   VariantOrigin,
 } from '@app/generated/civic.apollo'
 import {
@@ -32,6 +33,14 @@ import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-e
 
 const getOption = function (label: string, value: string) {
   return { label: label, value: value }
+}
+
+function defaultLabelFormat(value: string): string {
+  const str = value.toLowerCase().replace(/_/g, ' ').split(' ')
+  for (var i = 0; i < str.length; i++) {
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)
+  }
+  return str.join(' ')
 }
 
 export function getSelectOptions(enumType: string) {
@@ -119,6 +128,10 @@ export function getSelectOptions(enumType: string) {
     case 'VariantOrigin':
       return $enum(VariantOrigin).map((value) => {
         return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'VariantDeprecationReason':
+      return $enum(VariantDeprecationReason).map((value) => {
+        return getOption(defaultLabelFormat(value), value)
       })
     default:
       return []

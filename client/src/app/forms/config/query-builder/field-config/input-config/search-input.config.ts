@@ -7,6 +7,7 @@ import {
   IntSearchOperator,
   OntologyTermSearchOperator,
   StringSearchOperator,
+  VariantDeprecationReason,
 } from '@app/generated/civic.apollo'
 
 const BOOLEAN_INPUT = [
@@ -309,6 +310,7 @@ const FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
     },
   },
 ]
+
 const FEATURE_INSTANCE_TYPES_SEARCH_INPUT = [
   {
     key: 'operator',
@@ -346,6 +348,48 @@ const FLOAT_SEARCH_INPUT = [
     },
   },
 ]
+
+const VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    props: {
+      options: getSelectOptions('VariantDeprecationReason'),
+      placeholder: 'Select Reason',
+    },
+  },
+]
+
+// TODO: Coordinate Search Input config - needs a 'complex' input type that can handle multiple optional attributes
+// export type CoordinateSearchInputREF = {
+//   chromosome?: InputMaybe<ChromosomeTypeSearchInput>
+//   referenceBases?: InputMaybe<DnaBaseStringInput>
+//   start?: InputMaybe<IntSearchInput>
+//   stop?: InputMaybe<IntSearchInput>
+//   variantBases?: InputMaybe<DnaBaseStringInput>
+// }
+//
+// const COORDINATE_SEARCH_INPUT = [
+//   {
+//     key: 'value',
+//     type: 'base-select',
+//     defaultValue: undefined,
+//     props: {
+//       options: getSelectOptions('FeatureInstanceTypes'),
+//       placeholder: 'Select Feature Instance Type',
+//     },
+//   },
+//   {},
+// ]
+
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
   FloatSearchInput: FLOAT_SEARCH_INPUT,
   FeatureInstanceTypesSearchInput: FEATURE_INSTANCE_TYPES_SEARCH_INPUT,
@@ -367,4 +411,6 @@ export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
     ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT,
   TherapyInteractionTypeSearchInput: THERAPY_INTERACTION_TYPE_SEARCH_INPUT,
   VariantOriginTypeSearchInput: VARIANT_ORIGIN_TYPE_SEARCH_INPUT,
+  VariantDeprecationReasonTypeSearchInput:
+    VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
 }

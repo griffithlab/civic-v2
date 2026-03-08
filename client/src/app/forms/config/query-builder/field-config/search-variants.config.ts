@@ -26,7 +26,7 @@ import { getQueryFieldConfig } from './functions/get-query-field-config'
 
 export type VariantSearchFilterREF = {
   booleanOperator?: InputMaybe<BooleanOperator>
-  comment?: InputMaybe<CommentSearchFilter>
+  comment?: InputMaybe<CommentSearchFilter> // needs searchComments endpoint
   coordinates?: InputMaybe<CoordinateSearchInput>
   creatingUser?: InputMaybe<UserSearchFilter>
   deprecatingUser?: InputMaybe<UserSearchFilter>
