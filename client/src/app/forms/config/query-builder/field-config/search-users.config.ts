@@ -34,6 +34,26 @@ export const searchUsersFieldOptions: FormlyFieldConfig[] = withHideExpression(
         props: { label: 'Name' },
         fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
       },
+      {
+        key: 'username',
+        props: { label: 'User Name' },
+        fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+      },
+      {
+        key: 'id',
+        props: { label: 'User ID' },
+        fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+      },
+      {
+        key: 'organizationName',
+        props: { label: 'Organization Name' },
+        fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+      },
+      {
+        key: 'organizationId',
+        props: { label: 'Organization ID' },
+        fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+      },
     ]),
   ])
 )

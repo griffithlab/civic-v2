@@ -28,6 +28,7 @@ import { CvcAssertionsTableModule } from '../../../components/assertions/asserti
 import { CvcFeaturesTableModule } from '../../../components/features/features-table/features-table.module'
 import { CvcMolecularProfilesTableModule } from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
 import { CvcVariantsTableModule } from '../../../components/variants/variants-table/variants-table.module'
+import { CvcUsersTableModule } from '../../../components/users/users-table/users-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -49,6 +50,7 @@ import { CvcVariantsTableModule } from '../../../components/variants/variants-ta
     CvcFeaturesTableModule,
     CvcMolecularProfilesTableModule,
     CvcVariantsTableModule,
+    CvcUsersTableModule,
   ],
 })
 export class QuerySearchPage {

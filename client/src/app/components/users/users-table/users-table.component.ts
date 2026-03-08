@@ -12,12 +12,11 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
+  BrowseUserConnection,
   Maybe,
-  OrganizationFilter,
   PageInfo,
   SortDirection,
   UserBrowseTableRowFieldsFragment,
-  BrowseUserConnection,
   UserRole,
   UsersBrowseGQL,
   UsersBrowseQuery,
@@ -35,7 +34,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -55,6 +53,7 @@ export interface UsersTableFilters {
   standalone: false,
 })
 export class CvcUsersTableComponent implements OnInit {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -108,6 +107,7 @@ export class CvcUsersTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.queryRef = this.gql.watch({
+      ids: this.ids,
       first: this.initialPageSize,
       sortBy: {
         column: UsersSortColumns.LastAction,

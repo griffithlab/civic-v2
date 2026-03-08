@@ -9481,6 +9481,7 @@ export type UsersBrowseQueryVariables = Exact<{
   orgName?: InputMaybe<OrganizationFilter>;
   userRole?: InputMaybe<UserRole>;
   sortBy?: InputMaybe<UsersSort>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
 }>;
 
 
@@ -16665,8 +16666,9 @@ export const UserPopoverDocument = gql`
     }
   }
 export const UsersBrowseDocument = gql`
-    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort) {
+    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort, $ids: [Int!]) {
   browseUsers(
+    ids: $ids
     first: $first
     last: $last
     before: $before
