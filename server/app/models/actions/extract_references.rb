@@ -56,13 +56,21 @@ module Actions
                   end
                 elsif mode == "names"
                   if tag_type == "SOURCE"
-                    val = "#{referenced_item.source_type}: #{referenced_item.citation_id}"
+                    if referenced_item.source_type == "PubMed"
+                      val = "PMID: #{referenced_item.citation_id}"
+                    else
+                      val = "#{referenced_item.source_type}: #{referenced_item.citation_id}"
+                    end
                   else
                     val = display_name
                   end
                 elsif mode == "curies"
                   if replace_eid_with_source && klass == EvidenceItem
-                    val = "civic.sid:#{referenced_item.id}"
+                    if referenced_item.source_type == "PubMed"
+                      val = "pubmed:#{referenced_item.citation_id}"
+                    else
+                      val = "civic.sid:#{referenced_item.id}"
+                    end
                   else
                     val = split_segment
                   end
