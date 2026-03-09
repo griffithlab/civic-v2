@@ -107,11 +107,6 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Coordinates' },
           fieldGroup: INPUT_FIELD_CONFIG['CoordinateSearchInput'],
         },
-        {
-          key: 'singleVariantMolecularProfile',
-          props: { label: 'Single Variant Molecular Profile' },
-          fieldGroup: INPUT_FIELD_CONFIG['MolecularProfileSearchFilter'],
-        },
       ]),
       ...withRecursive([
         ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
@@ -126,6 +121,11 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           'molecularProfile',
           'searchMolecularProfiles',
           'Molecular Profile'
+        ),
+        ...getQueryFieldConfig(
+          'singleVariantMolecularProfile',
+          'searchMolecularProfiles',
+          'Single Variant Molecular Profile'
         ),
         // ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
         //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
