@@ -56,6 +56,9 @@
         @case ('searchUsers') {
           <cvc-users-table [ids]="ids"></cvc-users-table>
         }
+        @case ('searchVariantTypes') {
+          <cvc-variant-types-table [ids]="ids"></cvc-variant-types-table>
+        }
         @default {
           <p>No table specified for this search endpoint.</p>
         }

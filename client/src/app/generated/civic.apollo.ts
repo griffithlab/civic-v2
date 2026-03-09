@@ -9524,6 +9524,7 @@ export type VariantTypePopoverQuery = { __typename: 'Query', variantTypePopover?
 export type VariantTypePopoverFragment = { __typename: 'VariantTypePopover', id: number, name: string, url?: string | undefined, soid: string, variantCount: number };
 
 export type VariantTypesBrowseQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -16784,8 +16785,9 @@ export const VariantTypePopoverDocument = gql`
     }
   }
 export const VariantTypesBrowseDocument = gql`
-    query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
+    query VariantTypesBrowse($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
   variantTypes(
+    ids: $ids
     first: $first
     last: $last
     before: $before
