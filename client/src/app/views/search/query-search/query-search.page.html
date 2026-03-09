@@ -59,6 +59,9 @@
         @case ('searchVariantTypes') {
           <cvc-variant-types-table [ids]="ids"></cvc-variant-types-table>
         }
+        @case ('searchPhenotypes') {
+          <cvc-phenotypes-table [ids]="ids"></cvc-phenotypes-table>
+        }
         @default {
           <p>No table specified for this search endpoint.</p>
         }

@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
   OnInit,
   TemplateRef,
 } from '@angular/core'
@@ -34,7 +32,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -53,6 +50,7 @@ export interface PhenotypesTableUserFilters {
   standalone: false,
 })
 export class CvcPhenotypesTableComponent implements OnInit {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -104,6 +102,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
+      ids: this.ids,
       first: this.initialPageSize,
       sortBy: {
         column: PhenotypeSortColumns.EvidenceItemCount,
@@ -195,6 +194,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
+        ids: this.ids,
         name: this.hpoNameFilter,
         hpoId: this.hpoIdFilter,
       })

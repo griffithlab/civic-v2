@@ -30,6 +30,7 @@ import { CvcMolecularProfilesTableModule } from '../../../components/molecular-p
 import { CvcVariantsTableModule } from '../../../components/variants/variants-table/variants-table.module'
 import { CvcUsersTableModule } from '../../../components/users/users-table/users-table.module'
 import { CvcVariantTypesTableModule } from '../../../components/variant-types/variant-types-table/variant-types-table.module'
+import { CvcPhenotypesTableModule } from '../../../components/phenotypes/phenotypes-table/phenotypes-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -53,6 +54,7 @@ import { CvcVariantTypesTableModule } from '../../../components/variant-types/va
     CvcVariantsTableModule,
     CvcUsersTableModule,
     CvcVariantTypesTableModule,
+    CvcPhenotypesTableModule,
   ],
 })
 export class QuerySearchPage {

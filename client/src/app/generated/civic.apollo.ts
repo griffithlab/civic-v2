@@ -9229,6 +9229,7 @@ export type PhenotypePopoverQueryVariables = Exact<{
 export type PhenotypePopoverQuery = { __typename: 'Query', phenotypePopover?: { __typename: 'PhenotypePopover', id: number, name: string, url: string, hpoId: string, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string } | undefined };
 
 export type PhenotypesBrowseQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -15982,8 +15983,9 @@ export const PhenotypePopoverDocument = gql`
     }
   }
 export const PhenotypesBrowseDocument = gql`
-    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
+    query PhenotypesBrowse($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
   browsePhenotypes(
+    ids: $ids
     first: $first
     last: $last
     before: $before
