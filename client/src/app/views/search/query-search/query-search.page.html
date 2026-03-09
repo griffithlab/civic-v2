@@ -62,6 +62,9 @@
         @case ('searchPhenotypes') {
           <cvc-phenotypes-table [ids]="ids"></cvc-phenotypes-table>
         }
+        @case ('searchTherapies') {
+          <cvc-therapies-table [ids]="ids"></cvc-therapies-table>
+        }
         @default {
           <p>No table specified for this search endpoint.</p>
         }

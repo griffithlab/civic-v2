@@ -9403,6 +9403,7 @@ export type TherapyPopoverQueryVariables = Exact<{
 export type TherapyPopoverQuery = { __typename: 'Query', therapyPopover?: { __typename: 'TherapyPopover', id: number, name: string, therapyUrl?: string | undefined, ncitId?: string | undefined, therapyAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string, deprecated: boolean } | undefined };
 
 export type TherapiesBrowseQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -16451,8 +16452,9 @@ export const TherapyPopoverDocument = gql`
     }
   }
 export const TherapiesBrowseDocument = gql`
-    query TherapiesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
+    query TherapiesBrowse($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
   browseTherapies(
+    ids: $ids
     first: $first
     last: $last
     before: $before

@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
   OnInit,
   TemplateRef,
 } from '@angular/core'
@@ -53,6 +51,7 @@ export interface TherapyTableUserFilters {
   standalone: false,
 })
 export class CvcTherapiesTableComponent implements OnInit {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -106,6 +105,7 @@ export class CvcTherapiesTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
+      ids: this.ids,
       first: this.initialPageSize,
       sortBy: {
         column: TherapySortColumns.EvidenceItemCount,
@@ -196,6 +196,7 @@ export class CvcTherapiesTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
+        ids: this.ids,
         name: this.nameFilter,
         ncitId: this.ncitIdFilter,
         therapyAlias: this.therapyAliasFilter,
