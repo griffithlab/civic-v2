@@ -27,7 +27,7 @@ import { getQueryFieldConfig } from './functions/get-query-field-config'
 export type VariantSearchFilterREF = {
   booleanOperator?: InputMaybe<BooleanOperator>
   comment?: InputMaybe<CommentSearchFilter> // needs searchComments endpoint
-  coordinates?: InputMaybe<CoordinateSearchInput>
+  coordinates?: InputMaybe<CoordinateSearchInput> // needs 'struct' return from getQueryFieldConfig
   creatingUser?: InputMaybe<UserSearchFilter>
   deprecatingUser?: InputMaybe<UserSearchFilter>
   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>
@@ -38,7 +38,7 @@ export type VariantSearchFilterREF = {
   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>
   name?: InputMaybe<StringSearchInput>
   openRevisionCount?: InputMaybe<IntSearchInput>
-  revisions?: InputMaybe<RevisionSearchFilter>
+  revisions?: InputMaybe<RevisionSearchFilter> // needs searchRevisions endpoint
   singleVariantMolecularProfile?: InputMaybe<MolecularProfileSearchFilter>
   subFilters?: InputMaybe<Array<VariantSearchFilter>>
   variantAlias?: InputMaybe<StringSearchInput>
@@ -101,11 +101,6 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Deprecation Reason' },
           fieldGroup:
             INPUT_FIELD_CONFIG['VariantDeprecationReasonTypeSearchInput'],
-        },
-        {
-          key: 'coordinates',
-          props: { label: 'Coordinates' },
-          fieldGroup: INPUT_FIELD_CONFIG['CoordinateSearchInput'],
         },
       ]),
       ...withRecursive([
