@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { PendingAssertionsPage } from './pending-assertions/pending-assertions.page'
 import { PendingEvidencePage } from './pending-evidence/pending-evidence.page'
+import { PendingRevisionsPage } from './pending-revisions/pending-revisions.page'
 import { PendingSourcesPage } from './pending-sources/pending-sources.page'
 
 const routes: Routes = [
@@ -25,6 +26,13 @@ const routes: Routes = [
     component: PendingAssertionsPage,
     data: {
       breadcrumb: 'Pending Assertions',
+    },
+  },
+  {
+    path: 'pending-revisions',
+    component: PendingRevisionsPage,
+    data: {
+      breadcrumb: 'Pending Revisions',
     },
   },
 ]

@@ -10691,6 +10691,86 @@ type Query {
   revision(id: Int!): Revision
 
   """
+  List and filter revision sets.
+  """
+  revisionSets(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Exclude revision sets submitted by the user with the given CIViC ID
+    """
+    excludeRevisionsFromUserId: Int
+
+    """
+    Limit to revision sets that include revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Return the revision set with the given CIViC ID.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certian organization using the organization CIViC ID
+    """
+    organizationId: Int
+
+    """
+    Limit to revisions by a organization user using the organization name
+    """
+    organizationName: String
+
+    """
+    Limit to revisions by a certain user using the user CIViC ID
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions by a certain user using the user name
+    """
+    originatingUserName: String
+
+    """
+    Sort order for the revision sets. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revision sets that include revisions with a certain status
+    """
+    status: RevisionStatus
+
+    """
+    Limit to revision sets of a specific CIViC entity
+    """
+    subject: ModeratedInput
+
+    """
+    Limit to revision sets of a specific CIViC entity type
+    """
+    subjectType: ActivitySubjectInput
+  ): RevisionSetConnection!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -12071,6 +12151,7 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
+  fieldDisplayName: String!
   fieldName: String!
   id: Int!
   lastCommentEvent: Event
@@ -12189,6 +12270,7 @@ input RevisionSearchFilter {
 
 type RevisionSet implements EventSubject {
   createdAt: ISO8601DateTime!
+  creationActivity: SuggestRevisionSetActivity
   displayName: String!
 
   """
@@ -12228,6 +12310,51 @@ type RevisionSet implements EventSubject {
   name: String!
   revisions: [Revision!]!
   updatedAt: ISO8601DateTime!
+}
+
+"""
+The connection type for RevisionSet.
+"""
+type RevisionSetConnection {
+  """
+  A list of edges.
+  """
+  edges: [RevisionSetEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [RevisionSet!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type RevisionSetEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: RevisionSet
 }
 
 enum RevisionStatus {
