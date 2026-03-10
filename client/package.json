@@ -9,7 +9,6 @@
     "build:watch": "ng build --watch --configuration production",
     "build:generate-stats": "ng build --configuration production --stats-json && webpack-bundle-analyzer ../server/public/stats.json",
     "build:analyze-stats": "yarn run build:generate-stats && webpack-bundle-analyzer ../server/public/stats.json",
-    "build:search-field-config": "ts-node ./scripts/generate-adv-search-field-config.ts",
     "optimize-icon-svg": "svgo --config .svgo.config.js -f ./src/assets/icons/ -r -o ./src/assets/icons/.tmp",
     "generate-icon-ts": "svg-to-ts-constants",
     "generate-icons": "yarn run optimize-icon-svg && yarn run generate-icon-ts",
