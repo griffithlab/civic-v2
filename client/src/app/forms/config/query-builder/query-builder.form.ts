@@ -123,7 +123,7 @@ export class CvcQueryBuilderForm {
       }
     })
 
-    // load form model from permalink query results, if any
+    // handle permalink query results: emit result IDs, update form model
     effect(() => {
       const query = this.permalinkQuery()
       if (query) {

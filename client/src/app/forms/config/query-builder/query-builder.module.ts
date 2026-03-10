@@ -8,6 +8,8 @@ import { CvcForms2Module } from '@app/forms/forms.module'
 
 import { CvcQueryBuilderForm } from './query-builder.form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 
 @NgModule({
   declarations: [CvcQueryBuilderForm],
@@ -17,6 +19,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
     FormlyModule,
     NzFormModule,
     NzGridModule,
+    NzButtonModule,
+    NzPopoverModule,
     CvcForms2Module,
   ],
   exports: [CvcQueryBuilderForm],
