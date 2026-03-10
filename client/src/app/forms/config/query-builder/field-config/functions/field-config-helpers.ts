@@ -47,29 +47,6 @@ export const withHideExpression = (
     },
   }))
 
-export const withSizeExpression = (
-  items: FormlyFieldConfig[]
-): FormlyFieldConfig[] =>
-  items.map((i) => ({
-    ...i,
-    expressions: {
-      ...i.expressions,
-      'props.size': (field: FormlyFieldConfig) => {
-        let depth = 0
-        let current = field.parent
-        while (current) {
-          if (current.key === 'query') {
-            break
-          }
-          if (current.key === 'subFilters') {
-            depth++
-          }
-          current = current.parent
-        }
-        return depth > 1 ? 'small' : 'default'
-      },
-    },
-  }))
 export const withSmallSize = (
   items: FormlyFieldConfig[]
 ): FormlyFieldConfig[] =>
