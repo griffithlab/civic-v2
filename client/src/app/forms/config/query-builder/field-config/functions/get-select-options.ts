@@ -5,6 +5,7 @@ import {
   AssertionSignificance,
   AssertionType,
   BooleanOperator,
+  Chromosome,
   DateSearchOperator,
   EnumSearchOperator,
   EvidenceDirection,
@@ -131,6 +132,10 @@ export function getSelectOptions(enumType: string) {
       })
     case 'VariantDeprecationReason':
       return $enum(VariantDeprecationReason).map((value) => {
+        return getOption(defaultLabelFormat(value), value)
+      })
+    case 'Chromosome':
+      return $enum(Chromosome).map((value) => {
         return getOption(defaultLabelFormat(value), value)
       })
     default:

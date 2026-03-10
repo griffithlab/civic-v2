@@ -1,7 +1,7 @@
 import { AdvancedSearchEndpoint } from '../../query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from './get-select-options'
-import { getDefaultSelectedKey, getFieldOptions } from './get-field-options'
+import { getFieldOptions } from './get-field-options'
 import { BooleanOperator } from '@generated/civic.apollo'
 
 export function getQueryFieldConfig(
@@ -13,6 +13,7 @@ export function getQueryFieldConfig(
   if (key === 'query') {
     return [
       {
+        // NOTE: field type added in entity config with config helper function
         key: `${key}`,
         wrappers: [`query-builder-card`],
         props: {
@@ -42,9 +43,6 @@ export function getQueryFieldConfig(
                 type: 'query-filter',
                 resetOnHide: true,
                 props: {
-                  selectedKey: getDefaultSelectedKey(
-                    field.props!.filterEndpoint
-                  ),
                   options: getFieldOptions(
                     field.props!.filterEndpoint,
                     true
@@ -71,6 +69,7 @@ export function getQueryFieldConfig(
     // generate subfilter field config
     return [
       {
+        // NOTE: field type added in entity config with config helper function
         key: `${key}`,
         wrappers: ['query-subfilters-card'],
         props: {
@@ -103,9 +102,6 @@ export function getQueryFieldConfig(
                 type: 'query-filter',
                 resetOnHide: true,
                 props: {
-                  selectedKey: getDefaultSelectedKey(
-                    field.props!.filterEndpoint
-                  ),
                   isRootFilter: false,
                   options: getFieldOptions(
                     field.props!.filterEndpoint,

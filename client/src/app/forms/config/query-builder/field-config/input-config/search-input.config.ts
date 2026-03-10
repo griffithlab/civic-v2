@@ -368,6 +368,43 @@ const VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
   },
 ]
 
+const CHROMOSOME_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    props: {
+      options: getSelectOptions('Chromosome'),
+      placeholder: 'Select Chromosome',
+    },
+  },
+]
+
+const DNA_BASE_STRING_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: StringSearchOperator.Contains,
+    props: {
+      options: getSelectOptions('StringSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-input',
+    props: {
+      placeholder: 'Enter Bases',
+    },
+  },
+]
+
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
   FloatSearchInput: FLOAT_SEARCH_INPUT,
   FeatureInstanceTypesSearchInput: FEATURE_INSTANCE_TYPES_SEARCH_INPUT,
@@ -391,4 +428,6 @@ export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
   VariantOriginTypeSearchInput: VARIANT_ORIGIN_TYPE_SEARCH_INPUT,
   VariantDeprecationReasonTypeSearchInput:
     VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
+  ChromosomeTypeSearchInput: CHROMOSOME_TYPE_SEARCH_INPUT,
+  DnaBaseStringInput: DNA_BASE_STRING_INPUT,
 }

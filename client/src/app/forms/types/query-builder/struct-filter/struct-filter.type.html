@@ -1,0 +1,14 @@
+@for (childField of field.fieldGroup; track childField.key) {
+  <nz-row
+    [nzGutter]="[4, 4]"
+    class="filter-row">
+    <nz-col nzFlex="125px">
+      {{ childField.props ? childField.props.label : 'NO_LABEL' }}
+    </nz-col>
+    <nz-col
+      nzFlex="3 0 auto"
+      class="field-col">
+      <formly-field [field]="childField"></formly-field>
+    </nz-col>
+  </nz-row>
+}

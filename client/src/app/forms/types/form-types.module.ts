@@ -36,6 +36,7 @@ import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search
 import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-subfilters/query-subfilters.module'
 import { CvcBaseRadioFieldModule } from '@app/forms/types/base/radio/radio.module'
 import { CvcQueryFilterModule } from '@app/forms/types/query-builder/query-filter/query-filter.module'
+import { CvcStructFilterModule } from './query-builder/struct-filter/struct-filter.module'
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { CvcQueryFilterModule } from '@app/forms/types/query-builder/query-filte
     CvcSearchButtonTypeModule,
     CvcQuerySubfiltersModule,
     CvcQueryFilterModule,
+    CvcStructFilterModule,
   ],
 })
 export class CvcFormTypesModule {}

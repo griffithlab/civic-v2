@@ -8,6 +8,7 @@ import { CvcFormLayoutWrapperModule } from './form-layout/form-layout.wrapper.mo
 import { CvcFormRowWrapperModule } from './form-row/form-row.module'
 import { CvcQuerySubfiltersCardModule } from '@app/forms/wrappers/query-subfilters-card/query-subfilters-card.module'
 import { CvcQueryBuilderCardModule } from '@app/forms/wrappers/query-builder-card/query-builder-card.module'
+import { CvcQueryStructCardModule } from './query-struct-card/query-struct-card.module'
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { CvcQueryBuilderCardModule } from '@app/forms/wrappers/query-builder-car
     CvcAddEntityFormWrapperModule,
     CvcQuerySubfiltersCardModule,
     CvcQueryBuilderCardModule,
+    CvcQueryStructCardModule,
   ],
 })
 export class CvcFormWrappersModule {}

@@ -1,52 +1,43 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import {
-  BooleanOperator,
-  BooleanSearchInput,
-  CommentSearchFilter,
-  CoordinateSearchInput,
-  FeatureSearchFilter,
-  InputMaybe,
-  IntSearchInput,
-  MolecularProfileSearchFilter,
-  RevisionSearchFilter,
-  StringSearchInput,
-  UserSearchFilter,
-  VariantDeprecationReasonTypeSearchInput,
-  VariantSearchFilter,
-  VariantTypeSearchFilter,
-} from '@generated/civic.apollo'
-import {
   sortByLabel,
   withHideExpression,
   withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
+import { getStructFieldConfig } from './functions/get-struct-field-config'
 
-export type VariantSearchFilterREF = {
-  booleanOperator?: InputMaybe<BooleanOperator>
-  comment?: InputMaybe<CommentSearchFilter> // needs searchComments endpoint
-  coordinates?: InputMaybe<CoordinateSearchInput> // needs 'struct' return from getQueryFieldConfig
-  creatingUser?: InputMaybe<UserSearchFilter>
-  deprecatingUser?: InputMaybe<UserSearchFilter>
-  deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>
-  feature?: InputMaybe<FeatureSearchFilter>
-  id?: InputMaybe<IntSearchInput>
-  isDeprecated?: InputMaybe<BooleanSearchInput>
-  isFlagged?: InputMaybe<BooleanSearchInput>
-  molecularProfile?: InputMaybe<MolecularProfileSearchFilter>
-  name?: InputMaybe<StringSearchInput>
-  openRevisionCount?: InputMaybe<IntSearchInput>
-  revisions?: InputMaybe<RevisionSearchFilter> // needs searchRevisions endpoint
-  singleVariantMolecularProfile?: InputMaybe<MolecularProfileSearchFilter>
-  subFilters?: InputMaybe<Array<VariantSearchFilter>>
-  variantAlias?: InputMaybe<StringSearchInput>
-  variantType?: InputMaybe<VariantTypeSearchFilter>
-}
+// export type VariantSearchFilterREF = {
+//   booleanOperator?: InputMaybe<BooleanOperator>
+//   comment?: InputMaybe<CommentSearchFilter> // needs searchComments endpoint
+//   coordinates?: InputMaybe<CoordinateSearchInput>
+//   creatingUser?: InputMaybe<UserSearchFilter>
+//   deprecatingUser?: InputMaybe<UserSearchFilter>
+//   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>
+//   feature?: InputMaybe<FeatureSearchFilter>
+//   id?: InputMaybe<IntSearchInput>
+//   isDeprecated?: InputMaybe<BooleanSearchInput>
+//   isFlagged?: InputMaybe<BooleanSearchInput>
+//   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>
+//   name?: InputMaybe<StringSearchInput>
+//   openRevisionCount?: InputMaybe<IntSearchInput>
+//   revisions?: InputMaybe<RevisionSearchFilter> // needs searchRevisions endpoint
+//   singleVariantMolecularProfile?: InputMaybe<MolecularProfileSearchFilter>
+//   subFilters?: InputMaybe<Array<VariantSearchFilter>>
+//   variantAlias?: InputMaybe<StringSearchInput>
+//   variantType?: InputMaybe<VariantTypeSearchFilter>
+// }
+// export type CoordinateSearchInputREF = {
+//   chromosome?: InputMaybe<ChromosomeTypeSearchInput>
+//   referenceBases?: InputMaybe<DnaBaseStringInput>
+//   start?: InputMaybe<IntSearchInput>
+//   stop?: InputMaybe<IntSearchInput>
+//   variantBases?: InputMaybe<DnaBaseStringInput>
+// }
 
 export const searchVariantsDefaultKey = 'name'
-
 export const searchVariantsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
     sortByLabel([
@@ -87,16 +78,6 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
-          key: 'createdAt',
-          props: { label: 'Created At' },
-          fieldGroup: INPUT_FIELD_CONFIG['DateTimeSearchInput'],
-        },
-        {
-          key: 'updatedAt',
-          props: { label: 'Updated At' },
-          fieldGroup: INPUT_FIELD_CONFIG['DateTimeSearchInput'],
-        },
-        {
           key: 'deprecationReason',
           props: { label: 'Deprecation Reason' },
           fieldGroup:
@@ -125,5 +106,14 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
         // ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
         //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
       ]),
+      ...getStructFieldConfig('coordinates', 'Coordinates'),
     ])
   )
+console.log('coordinates field config: ', searchVariantsFieldOptions[0])
+// console.log(
+//   'coordinates subFilters: ',
+//   searchVariantsFieldOptions[0].fieldGroup![0]
+// )
+//
+console.log('MP field config: ', searchVariantsFieldOptions[5])
+// console.log('MP subFilters: ', searchVariantsFieldOptions[5].fieldGroup![1])
