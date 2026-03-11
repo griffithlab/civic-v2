@@ -4392,6 +4392,7 @@ export type MolecularProfileSearchFilter = {
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
   openRevisionCount?: InputMaybe<IntSearchInput>;
+  revisions?: InputMaybe<RevisionSearchFilter>;
   score?: InputMaybe<FloatSearchInput>;
   source?: InputMaybe<SourceSearchFilter>;
   subFilters?: InputMaybe<Array<MolecularProfileSearchFilter>>;
@@ -5397,11 +5398,13 @@ export type Query = {
   search: Array<SearchResult>;
   searchAssertions: AdvancedSearchResult;
   searchByPermalink: AdvancedSearchResult;
+  searchComments: AdvancedSearchResult;
   searchDiseases: AdvancedSearchResult;
   searchEvidenceItems: AdvancedSearchResult;
   searchFeatures: AdvancedSearchResult;
   searchMolecularProfiles: AdvancedSearchResult;
   searchPhenotypes: AdvancedSearchResult;
+  searchRevisions: AdvancedSearchResult;
   searchSources: AdvancedSearchResult;
   searchTherapies: AdvancedSearchResult;
   searchUsers: AdvancedSearchResult;
@@ -6057,6 +6060,12 @@ export type QuerySearchByPermalinkArgs = {
 };
 
 
+export type QuerySearchCommentsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: CommentSearchFilter;
+};
+
+
 export type QuerySearchDiseasesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
   query: DiseaseSearchFilter;
@@ -6084,6 +6093,12 @@ export type QuerySearchMolecularProfilesArgs = {
 export type QuerySearchPhenotypesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
   query: PhenotypeSearchFilter;
+};
+
+
+export type QuerySearchRevisionsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: RevisionSearchFilter;
 };
 
 
@@ -7943,7 +7958,7 @@ export type UserSearchFilter = {
   name?: InputMaybe<StringSearchInput>;
   organizationId?: InputMaybe<IntSearchInput>;
   organizationName?: InputMaybe<StringSearchInput>;
-  subFilters?: InputMaybe<Array<CommentSearchFilter>>;
+  subFilters?: InputMaybe<Array<UserSearchFilter>>;
   username?: InputMaybe<StringSearchInput>;
 };
 
@@ -10094,6 +10109,14 @@ export type SearchVariantsQueryVariables = Exact<{
 
 
 export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
+export type SearchRevisionsQueryVariables = Exact<{
+  query: RevisionSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchRevisionsQuery = { __typename: 'Query', searchRevisions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
 
 export type SearchVariantTypesQueryVariables = Exact<{
   query: VariantTypeSearchFilter;
@@ -18240,6 +18263,25 @@ export const SearchVariantsDocument = gql`
   })
   export class SearchVariantsGQL extends Apollo.Query<SearchVariantsQuery, SearchVariantsQueryVariables> {
     document = SearchVariantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchRevisionsDocument = gql`
+    query searchRevisions($query: RevisionSearchFilter!, $createPermalink: Boolean) {
+  searchRevisions(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchRevisionsGQL extends Apollo.Query<SearchRevisionsQuery, SearchRevisionsQueryVariables> {
+    document = SearchRevisionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -7569,6 +7569,7 @@ input MolecularProfileSearchFilter {
   id: IntSearchInput
   isFlagged: BooleanSearchInput
   openRevisionCount: IntSearchInput
+  revisions: RevisionSearchFilter
   score: FloatSearchInput
   source: SourceSearchFilter
   subFilters: [MolecularProfileSearchFilter!]
@@ -10361,11 +10362,13 @@ type Query {
   ): [SearchResult!]!
   searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
+  searchComments(createPermalink: Boolean = false, query: CommentSearchFilter!): AdvancedSearchResult!
   searchDiseases(createPermalink: Boolean = false, query: DiseaseSearchFilter!): AdvancedSearchResult!
   searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
   searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
+  searchRevisions(createPermalink: Boolean = false, query: RevisionSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
   searchTherapies(createPermalink: Boolean = false, query: TherapySearchFilter!): AdvancedSearchResult!
   searchUsers(createPermalink: Boolean = false, query: UserSearchFilter!): AdvancedSearchResult!
@@ -13264,7 +13267,7 @@ input UserSearchFilter {
   name: StringSearchInput
   organizationId: IntSearchInput
   organizationName: StringSearchInput
-  subFilters: [CommentSearchFilter!]
+  subFilters: [UserSearchFilter!]
   username: StringSearchInput
 }
 

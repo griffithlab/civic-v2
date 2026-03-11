@@ -56,6 +56,16 @@ module Types::Queries
         argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
       end
 
+      klass.field :search_revisions, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::RevisionSearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
+      klass.field :search_comments, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::CommentSearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
       klass.field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
         argument :permalink_id, String, required: true
       end
@@ -103,6 +113,14 @@ module Types::Queries
 
       def search_users(query:, create_permalink:)
         handle_search("searchUsers", AdvancedSearches::User, create_permalink, query)
+      end
+
+      def search_revisions(query:, create_permalink:)
+        handle_search("searchRevisions", AdvancedSearches::Revision, create_permalink, query)
+      end
+
+      def search_comments(query:, create_permalink:)
+        handle_search("searchComments", AdvancedSearches::Comment, create_permalink, query)
       end
 
       def search_by_permalink(permalink_id:)

@@ -36050,6 +36050,18 @@
               "deprecationReason": null
             },
             {
+              "name": "revisions",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "RevisionSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "isFlagged",
               "description": null,
               "type": {
@@ -47671,6 +47683,51 @@
               "deprecationReason": null
             },
             {
+              "name": "searchComments",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "CommentSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "searchDiseases",
               "description": null,
               "args": [
@@ -47863,6 +47920,51 @@
                     "ofType": {
                       "kind": "INPUT_OBJECT",
                       "name": "PhenotypeSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "searchRevisions",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "RevisionSearchFilter",
                       "ofType": null
                     }
                   },
@@ -60880,7 +60982,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CommentSearchFilter",
+                    "name": "UserSearchFilter",
                     "ofType": null
                   }
                 }
