@@ -13,7 +13,6 @@ export function getStructFieldConfig(
       wrappers: ['query-struct-card'],
       props: {
         label: `${title}`,
-        // selectedKey: `${key}`,
         formCardOptions: {
           title: 'matching all of the following conditions:',
           size: 'small',

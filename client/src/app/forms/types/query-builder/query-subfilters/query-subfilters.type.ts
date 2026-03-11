@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FieldArrayType } from '@ngx-formly/core'
 
 @Component({
@@ -7,10 +7,7 @@ import { FieldArrayType } from '@ngx-formly/core'
   styleUrls: ['./query-subfilters.type.less'],
   standalone: false,
 })
-export class CvcQuerySubfiltersField
-  extends FieldArrayType
-  implements OnInit, AfterViewInit
-{
+export class CvcQuerySubfiltersField extends FieldArrayType {
   constructor() {
     super()
   }
@@ -20,23 +17,5 @@ export class CvcQuerySubfiltersField
   }
   removeRow(index: number) {
     super.remove(index)
-  }
-
-  ngOnInit(): void {
-    // this.props.isRootFilter = this.field.parent?.key === 'query'
-  }
-  ngAfterViewInit(): void {
-    // this.addRow()
-    // const filterEndpoint = this.field.props.filterEndpoint
-    // if (this.field.props.filterEndpoint) {
-    //   const defaultSelectedKey = getDefaultSelectedKey(filterEndpoint)
-    //   if (defaultSelectedKey) {
-    //     this.addRow({ [defaultSelectedKey]: null })
-    //   }
-    // }
-    // if (this.field.fieldGroup?.length === 0) {
-    //   console.log(`--- no model rows, adding undefined filter`)
-    //   this.addRow()
-    // }
   }
 }
