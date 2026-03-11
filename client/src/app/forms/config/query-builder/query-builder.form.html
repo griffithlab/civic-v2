@@ -3,7 +3,8 @@
     <form
       nz-form
       nzLayout="inline"
-      [formGroup]="form">
+      [formGroup]="form"
+      (keydown.enter)="$event.preventDefault()">
       <formly-form
         [form]="form"
         [fields]="fields"
