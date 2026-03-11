@@ -2,7 +2,9 @@
   <nz-row
     [nzGutter]="[4, 4]"
     class="filter-row">
-    <nz-col nzFlex="125px">
+    <nz-col
+      nzFlex="125px"
+      class="field-label">
       {{ childField.props ? childField.props.label : 'NO_LABEL' }}
     </nz-col>
     <nz-col
