@@ -1,0 +1,297 @@
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <nz-card
+    [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
+    <nz-card
+      [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <nz-table
+    #virtualTable
+    nzSize="small"
+    [nzData]="(row$ | ngrxPush) || []"
+    [nzLoading]="!(row$ | ngrxPush)"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '680px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead>
+      <tr class="col-header-row">
+        <th nzWidth="20px"></th>
+        <th nzWidth="200px">Revision Subject</th>
+        <th nzWidth="200px">Submitter</th>
+        <th nzWidth="300px">Organization</th>
+        <th>Revision Fields</th>
+      </tr>
+      <tr class="filter-row">
+        <th nzLeft></th>
+        <th
+          nzRight
+          nzAlign="left">
+          <nz-select
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+            nzPlaceHolder="All"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="subjectTypeInput">
+            <nz-option
+              nzValue="ASSERTION"
+              nzLabel="Assertion"></nz-option>
+            <nz-option
+              nzValue="EVIDENCE_ITEM"
+              nzLabel="EvidenceItem"></nz-option>
+            <nz-option
+              nzValue="FEATURE"
+              nzLabel="Feature"></nz-option>
+            <nz-option
+              nzValue="MOLECULAR_PROFILE"
+              nzLabel="MolecularProfile"></nz-option>
+            <nz-option
+              nzValue="VARIANT"
+              nzLabel="Variant"></nz-option>
+            <nz-option
+              nzValue="VARIANT_GROUP"
+              nzLabel="VariantGroup"></nz-option>
+          </nz-select>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="originatingUserNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="organizationNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="fieldNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template
+        nz-virtual-scroll
+        let-revisionSet
+        let-index="index">
+        <tr class="data-row">
+          <td [nzExpand]="expandSet.has(revisionSet.id)" (nzExpandChange)="onExpandChange(revisionSet.id, $event)"></td>
+          <td nzLeft>
+            <ng-container *ngIf="revisionSet.creationActivity">
+<!--               <cvc-entity-tag
+                [cvcCacheId]="revisionSet.creationActivity.subject.__typename +':' + revisionSet.creationActivity.subject.id"
+                [cvcDisableLink]="false"
+                [cvcShowPopover]="true">
+              </cvc-entity-tag> -->
+              <ng-container
+                *ngTemplateOutlet="
+                  subject;
+                  context: {
+                    $implicit: revisionSet.creationActivity.subject,
+                    isScrolling: isScrolling,
+                  }
+                ">
+              </ng-container>
+            </ng-container>
+          </td>
+          <td nzLeft>
+            <cvc-user-tag *ngIf="revisionSet.creationActivity"
+              [user]="revisionSet.creationActivity.user"
+              [enablePopover]="!isScrolling">
+            </cvc-user-tag>
+          </td>
+          <td nzLeft>
+            <cvc-organization-tag *ngIf="revisionSet.creationActivity && revisionSet.creationActivity.organization"
+              [org]="revisionSet.creationActivity.organization"
+              [enablePopover]="!isScrolling">
+            </cvc-organization-tag>
+          </td>
+          <td nzLeft nzBreakWord>
+            @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
+              {{ revision.fieldDisplayName }}{{ isLast? '' : ', ' }}
+            }
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(revisionSet.id)" style="background-color: #ffffff">
+          <ng-template let-detailRevision>
+            {{ detailRevision.id }}
+          </ng-template>
+          @if (expandSet.has(revisionSet.id)) {
+            @let revisionSetDetails = (queryRevisionDetails(revisionSet.id) | ngrxPush);
+            @if (revisionSetDetails && revisionSetDetails[0]) {
+              @for (revision of revisionSetDetails[0].revisions; track revision ) {
+                <div style="padding-left: 30px; background-color: #ffffff">
+                  <cvc-activity-revision
+                  [cvcActivityRevision]="castToRevision(revision)"></cvc-activity-revision>
+                </div>
+              }
+            }
+          }
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+  <ng-template
+    #subject
+    let-subject
+    let-isScrolling="isScrolling">
+    @switch (subject.__typename) {
+      @case ('Feature') {
+        <cvc-feature-tag
+          [feature]="subject"
+          [enablePopover]="!isScrolling"></cvc-feature-tag>
+      }
+      @case ('Assertion') {
+        <cvc-assertion-tag
+          [assertion]="subject"
+          [enablePopover]="!isScrolling"></cvc-assertion-tag>
+      }
+      @case ('Comment') {
+        <cvc-comment-tag
+          [comment]="subject"
+          [enablePopover]="!isScrolling"></cvc-comment-tag>
+      }
+      @case ('EvidenceItem') {
+        <cvc-evidence-tag
+          [evidence]="subject"
+          [enablePopover]="!isScrolling"></cvc-evidence-tag>
+      }
+      @case ('GeneVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('FactorVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('FusionVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('RegionVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('Revision') {
+        <cvc-revision-tag
+          [revision]="$any(subject)"
+          [enablePopover]="!isScrolling"></cvc-revision-tag>
+      }
+      @case ('VariantGroup') {
+        <cvc-variant-group-tag
+          [variantgroup]="subject"
+          [enablePopover]="!isScrolling"></cvc-variant-group-tag>
+      }
+      @case ('Source') {
+        <cvc-source-tag
+          mode="concise"
+          [source]="$any(subject)"
+          [enablePopover]="!isScrolling"></cvc-source-tag>
+      }
+      @case ('MolecularProfile') {
+        <cvc-molecular-profile-tag
+          [molecularProfile]="subject"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
+      }
+      @default {
+        <span>
+          <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
+        </span>
+      }
+    }
+  </ng-template>
+
+<ng-template #titleTemplate>
+  <ng-container *ngIf="cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
+  </ng-container>
+  <span class="table-info">
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+  </span>
+</ng-template>
+
+<!-- card's extra template -->
+<ng-template #extraTemplate>
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
+  </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  <nz-filter-trigger
+    [nzDropdownMenu]="statusFilterMenu">
+    <span
+      nz-icon
+      nzType="filter"
+      nzTheme="fill"></span>
+  </nz-filter-trigger>
+</ng-template>
+
+<nz-dropdown-menu #statusFilterMenu>
+  <nz-card>
+    <nz-row>
+      <nz-col nzSpan="2">
+        <label
+          nz-checkbox
+          [(ngModel)]="excludeOwnRevisions"
+          (ngModelChange)="excludeOwnRevisionsChanged()"></label>
+      </nz-col>
+      <nz-col nzSpan="22">
+        <span>Exclude revisions submitted by myself</span>
+      </nz-col>
+    </nz-row>
+  </nz-card>
+</nz-dropdown-menu>
