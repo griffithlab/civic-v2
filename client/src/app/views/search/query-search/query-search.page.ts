@@ -32,6 +32,7 @@ import { CvcUsersTableModule } from '../../../components/users/users-table/users
 import { CvcVariantTypesTableModule } from '../../../components/variant-types/variant-types-table/variant-types-table.module'
 import { CvcPhenotypesTableModule } from '../../../components/phenotypes/phenotypes-table/phenotypes-table.module'
 import { CvcTherapiesTableModule } from '../../../components/therapies/therapies-table/therapies-table.module'
+import { CvcSourcesTableModule } from '../../../components/sources/sources-table/sources-table.module'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -57,6 +58,7 @@ import { CvcTherapiesTableModule } from '../../../components/therapies/therapies
     CvcVariantTypesTableModule,
     CvcPhenotypesTableModule,
     CvcTherapiesTableModule,
+    CvcSourcesTableModule,
   ],
 })
 export class QuerySearchPage {

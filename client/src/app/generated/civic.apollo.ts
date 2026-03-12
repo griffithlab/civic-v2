@@ -9390,6 +9390,7 @@ export type SourcePopoverQuery = { __typename: 'Query', sourcePopover?: { __type
 export type SourcePopoverFragment = { __typename: 'SourcePopover', id: number, title?: string | undefined, fullJournalTitle?: string | undefined, evidenceItemCount: number, citation?: string | undefined, citationId: string, displayType: string, sourceUrl?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, retractionNature?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', id: number, nctId: string, link: string }> | undefined };
 
 export type BrowseSourcesQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -16401,8 +16402,9 @@ export const SourcePopoverDocument = gql`
     }
   }
 export const BrowseSourcesDocument = gql`
-    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int, $openAccess: Boolean) {
+    query BrowseSources($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int, $openAccess: Boolean) {
   browseSources(
+    ids: $ids
     first: $first
     last: $last
     before: $before

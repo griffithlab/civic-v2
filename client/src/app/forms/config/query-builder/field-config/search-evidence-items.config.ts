@@ -63,11 +63,6 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
     sortByLabel([
       ...withStatic([
         {
-          key: 'ampLevel',
-          props: { label: 'AMP Level' },
-          fieldGroup: INPUT_FIELD_CONFIG['AmpLevelTypeSearchInput'],
-        },
-        {
           key: 'description',
           props: { label: 'Description' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],

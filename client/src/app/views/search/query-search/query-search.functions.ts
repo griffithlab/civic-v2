@@ -10,6 +10,7 @@ export const queryBuilderTabs: QuerySearchPageTab[] = [
   { label: 'Diseases', searchEndpoint: 'searchDiseases' },
   { label: 'Therapies', searchEndpoint: 'searchTherapies' },
   { label: 'Sources', searchEndpoint: 'searchSources' },
+  { label: 'Revisions', searchEndpoint: 'searchRevisions' },
   { label: 'Phenotypes', searchEndpoint: 'searchPhenotypes' },
   { label: 'Variant Types', searchEndpoint: 'searchVariantTypes' },
   { label: 'Users', searchEndpoint: 'searchUsers' },

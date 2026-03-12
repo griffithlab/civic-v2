@@ -62,8 +62,15 @@
         @case ('searchPhenotypes') {
           <cvc-phenotypes-table [ids]="ids"></cvc-phenotypes-table>
         }
+        @case ('searchSources') {
+          <cvc-sources-table [ids]="ids"></cvc-sources-table>
+        }
         @case ('searchTherapies') {
           <cvc-therapies-table [ids]="ids"></cvc-therapies-table>
+        }
+        @case ('searchRevisions') {
+          Revisions Ids: {{ ids | json }}
+          <!--          <cvc-revisions-table [ids]="ids"></cvc-revisions-table>-->
         }
         @default {
           <p>No table specified for this search endpoint.</p>
