@@ -51,6 +51,7 @@ fragment approvalListNode on Approval {
     name
     profileImagePath(size: 64)
     isApprovedVcep
+    isClinvarSubmitter
   }
   user {
     id

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, computed, Input } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   AssertionSummaryGQL,
@@ -15,6 +15,7 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 import { AssertionState } from '@app/forms/states/assertion.state'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
 
 @Component({
     selector: 'cvc-assertion-summary',
@@ -33,6 +34,10 @@ export class AssertionsSummaryPage {
   statusValues = EvidenceStatus
 
   subscribable: SubscribableInput
+
+  color = computed(() =>
+    getEntityColor('Approval')
+  )
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
     var queryAssertionId: number

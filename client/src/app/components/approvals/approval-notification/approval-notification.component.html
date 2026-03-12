@@ -1,7 +1,6 @@
 <nz-alert
-  [nzType]="this.alertType()"
+  nzType="warning"
   [nzMessage]="approvalMessageTemplate"
-  nzShowIcon
   [nzIcon]="approvalIconTemplate"
   [nzAction]="
     approval().status === 'REQUIRES_REVIEW'
@@ -18,8 +17,22 @@
   </span>
 </ng-template>
 <ng-template #approvalMessageTemplate>
+  @if (showStars()) {
+    <span
+      nz-tooltip
+      [nzTooltipTitle]="starTooltip">
+      <nz-rate
+        [nzCount]="starRating()"
+        nzDisabled
+        [ngModel]="starRating()" />
+    </span>
+    <ng-template #starTooltip>
+      {{ approval().organization.name }} is a {{ starRating() }} star ClinVar
+      submitter.
+    </ng-template>
+  }
   Classification approved by
-  <strong>{{ this.isApprovedVcep() ? 'ClinGen VCEP ' : ' ' }}</strong>
+  <strong>{{ this.isApprovedVcep() ? 'ClinGen Expert Panel ' : ' ' }}</strong>
   <cvc-organization-tag [org]="approval().organization"></cvc-organization-tag>
 </ng-template>
 <ng-template #approvalActionTemplate>
