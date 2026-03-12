@@ -16,6 +16,7 @@ module Types::Entities
     field :can_approve, Boolean, null: false
     field :has_approving_subgroups, Boolean, null: false
     field :is_approved_vcep, Boolean, null: false
+    field :is_clinvar_submitter, Boolean, null: false
 
     profile_image_sizes = [ 256, 128, 64, 32, 18, 12 ]
     field :profile_image_path, String, null: true do
@@ -73,6 +74,10 @@ module Types::Entities
         submissions_rank: Leaderboard.single_organization_query(object.id, Leaderboard.submission_actions),
         revisions_rank: Leaderboard.single_organization_query(object.id, Leaderboard.revision_actions),
       }
+    end
+
+    def is_clinvar_submitter
+      object.clinvar_api_key.present?
     end
   end
 end
