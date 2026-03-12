@@ -58,7 +58,7 @@ class SubmitAssertionTest < ActiveSupport::TestCase
   test "submits a new assertion" do
     response = execute_mutation(
       @submit_assertion_mutation,
-      user: @user ,
+      user: @user,
       variables: { fields: valid_fields, organizationId: @org.id },
     )
     result = response.dig("data", "submitAssertion", "assertion")
@@ -69,7 +69,7 @@ class SubmitAssertionTest < ActiveSupport::TestCase
   test "rejects invalid molecular profile id" do
     response = execute_mutation(
       @submit_assertion_mutation,
-      user: @user ,
+      user: @user,
       variables: { fields: valid_fields(molecularProfileId: 999999), organizationId: @org.id },
     )
     assert_graphql_error(response, /molecular profile|not found|does(n't| not) exist/i)

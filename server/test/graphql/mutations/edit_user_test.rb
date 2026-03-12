@@ -68,7 +68,7 @@ class EditUserTest < ActiveSupport::TestCase
   test "updates the current user's profile" do
     response = execute_mutation(
       @edit_user_mutation,
-      user: @user ,
+      user: @user,
       variables: default_variables,
     )
     result = response.dig("data", "editUser", "user")
@@ -82,7 +82,7 @@ class EditUserTest < ActiveSupport::TestCase
   test "can unset nullable fields" do
     response = execute_mutation(
       @edit_user_mutation,
-      user: @user ,
+      user: @user,
       variables: default_variables(
         name: { unset: true },
         bio: { unset: true },

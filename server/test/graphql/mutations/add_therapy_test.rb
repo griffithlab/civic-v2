@@ -25,7 +25,7 @@ class AddTherapyTest < ActiveSupport::TestCase
   test "creates a new therapy by name" do
     response = execute_mutation(
       @add_therapy_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "imatinib" },
     )
     result = response.dig("data", "addTherapy")
@@ -38,7 +38,7 @@ class AddTherapyTest < ActiveSupport::TestCase
     existing = therapies(:erlotinib)
     response = execute_mutation(
       @add_therapy_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: existing.name.downcase },
     )
     result = response.dig("data", "addTherapy")
@@ -50,7 +50,7 @@ class AddTherapyTest < ActiveSupport::TestCase
   test "creates a new therapy with ncit_id" do
     response = execute_mutation(
       @add_therapy_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "imatinib", ncitId: "C12345" },
     )
     result = response.dig("data", "addTherapy")
@@ -62,7 +62,7 @@ class AddTherapyTest < ActiveSupport::TestCase
     existing = therapies(:erlotinib)
     response = execute_mutation(
       @add_therapy_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "anything", ncitId: "NCIT:#{existing.ncit_id}" },
     )
     result = response.dig("data", "addTherapy")
@@ -74,7 +74,7 @@ class AddTherapyTest < ActiveSupport::TestCase
   test "rejects name shorter than 3 characters" do
     response = execute_mutation(
       @add_therapy_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "ab" },
     )
     assert_graphql_error(response, /name|3|minimum/i)

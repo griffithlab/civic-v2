@@ -26,7 +26,7 @@ class AddDiseaseTest < ActiveSupport::TestCase
   test "creates a new disease by name" do
     response = execute_mutation(
       @add_disease_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "adrenal cortex carcinoma" },
     )
     result = response.dig("data", "addDisease")
@@ -39,7 +39,7 @@ class AddDiseaseTest < ActiveSupport::TestCase
     existing = diseases(:lung_cancer)
     response = execute_mutation(
       @add_disease_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: existing.name },
     )
     result = response.dig("data", "addDisease")
@@ -51,7 +51,7 @@ class AddDiseaseTest < ActiveSupport::TestCase
   test "creates a new disease with doid" do
     response = execute_mutation(
       @add_disease_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "adrenal cortex carcinoma", doid: "3948" },
     )
     result = response.dig("data", "addDisease")
@@ -64,7 +64,7 @@ class AddDiseaseTest < ActiveSupport::TestCase
     existing = diseases(:lung_cancer)
     response = execute_mutation(
       @add_disease_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "anything", doid: existing.doid },
     )
     result = response.dig("data", "addDisease")
@@ -76,7 +76,7 @@ class AddDiseaseTest < ActiveSupport::TestCase
   test "rejects name shorter than 5 characters" do
     response = execute_mutation(
       @add_disease_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "ab" },
     )
     assert_graphql_error(response, /name|5|minimum/i)
@@ -85,7 +85,7 @@ class AddDiseaseTest < ActiveSupport::TestCase
   test "rejects invalid doid format" do
     response = execute_mutation(
       @add_disease_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "Valid Disease Name", doid: "INVALID" },
     )
     assert_graphql_error(response, /doid|format|invalid/i)

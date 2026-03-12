@@ -48,7 +48,7 @@ class SubmitVariantGroupTest < ActiveSupport::TestCase
   test "creates a new variant group" do
     response = execute_mutation(
       @submit_vg_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         name: "New Variant Group",
         description: "A description of the new variant group.",
@@ -65,7 +65,7 @@ class SubmitVariantGroupTest < ActiveSupport::TestCase
   test "rejects non-existent variant ids" do
     response = execute_mutation(
       @submit_vg_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         name: "Bad Variant Group",
         description: "A description of the bad variant group.",
@@ -81,7 +81,7 @@ class SubmitVariantGroupTest < ActiveSupport::TestCase
     existing_vg = variant_groups(:test_variant_group)
     response = execute_mutation(
       @submit_vg_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         name: existing_vg.name,
         description: "Duplicate name test description.",
@@ -96,7 +96,7 @@ class SubmitVariantGroupTest < ActiveSupport::TestCase
   test "rejects name shorter than 5 characters" do
     response = execute_mutation(
       @submit_vg_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         name: "Sh",
         description: "A description for the short name group.",

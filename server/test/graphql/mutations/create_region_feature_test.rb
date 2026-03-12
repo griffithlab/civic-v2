@@ -33,7 +33,7 @@ class CreateRegionFeatureTest < ActiveSupport::TestCase
     existing = features(:chr7_region)
     response = execute_mutation(
       @create_region_mutation,
-      user: @user ,
+      user: @user,
       variables: { cytogeneticRegionIds: [ @chr7.id ], organizationId: @org.id },
     )
     result = response.dig("data", "createRegionFeature")
@@ -45,7 +45,7 @@ class CreateRegionFeatureTest < ActiveSupport::TestCase
   test "rejects invalid cytogenetic region ids" do
     response = execute_mutation(
       @create_region_mutation,
-      user: @user ,
+      user: @user,
       variables: { cytogeneticRegionIds: [ 999999 ], organizationId: @org.id },
     )
     assert_graphql_error(response, /Invalid cytogenetic region ids/)
@@ -57,7 +57,7 @@ class CreateRegionFeatureTest < ActiveSupport::TestCase
     # fires. Either way we get an error.
     response = execute_mutation(
       @create_region_mutation,
-      user: @user ,
+      user: @user,
       variables: { cytogeneticRegionIds: [ @chr7.id, @chr7.id ], organizationId: @org.id },
     )
     assert_graphql_error(response, /cytogenetic region ids|duplicate|invalid/i)

@@ -40,7 +40,7 @@ class CreateRegionVariantTest < ActiveSupport::TestCase
   test "creates a new region variant" do
     response = execute_mutation(
       @create_region_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: @region_feature.id,
         name: "AMPLIFICATION",
@@ -57,7 +57,7 @@ class CreateRegionVariantTest < ActiveSupport::TestCase
     existing = variants(:chr7_trisomy)
     response = execute_mutation(
       @create_region_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: @region_feature.id,
         name: "TRISOMY",
@@ -72,7 +72,7 @@ class CreateRegionVariantTest < ActiveSupport::TestCase
   test "rejects non-existent feature id" do
     response = execute_mutation(
       @create_region_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: 999999,
         name: "AMPLIFICATION",
@@ -85,7 +85,7 @@ class CreateRegionVariantTest < ActiveSupport::TestCase
   test "rejects non-region feature" do
     response = execute_mutation(
       @create_region_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: @braf.id,
         name: "AMPLIFICATION",

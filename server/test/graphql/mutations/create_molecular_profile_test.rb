@@ -17,7 +17,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
   end
 
   test "single variant mp" do
-    response = execute_mutation(@query_string, user: users(:curator) )
+    response = execute_mutation(@query_string, user: users(:curator))
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)
@@ -61,7 +61,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     }
     GRAPHQL
 
-    response = execute_mutation(query_string, user: users(:curator) )
+    response = execute_mutation(query_string, user: users(:curator))
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)
@@ -101,7 +101,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     GRAPHQL
 
 
-    response = execute_mutation(query_string, user: users(:curator) )
+    response = execute_mutation(query_string, user: users(:curator))
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)

@@ -45,7 +45,7 @@ class SuggestRegionVariantRevisionTest < ActiveSupport::TestCase
   test "suggests a region variant revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @variant.id,
         fields: default_fields.merge(
@@ -77,7 +77,7 @@ class SuggestRegionVariantRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent variant" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: default_fields,
@@ -91,7 +91,7 @@ class SuggestRegionVariantRevisionTest < ActiveSupport::TestCase
   test "rejects wrong variant type" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @gene_variant.id,
         fields: default_fields,

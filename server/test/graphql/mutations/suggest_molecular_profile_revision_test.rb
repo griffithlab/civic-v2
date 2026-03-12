@@ -37,7 +37,7 @@ class SuggestMolecularProfileRevisionTest < ActiveSupport::TestCase
   test "suggests a molecular profile revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @mp.id,
         fields: {
@@ -75,7 +75,7 @@ class SuggestMolecularProfileRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent molecular profile" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: {
@@ -93,7 +93,7 @@ class SuggestMolecularProfileRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent source ids" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @mp.id,
         fields: {

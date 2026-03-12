@@ -38,7 +38,7 @@ class AddCommentTest < ActiveSupport::TestCase
   test "adds a comment to an evidence item" do
     response = execute_mutation(
       @add_comment_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         body: "This is a useful comment about the evidence.",
         title: "My Comment",
@@ -56,7 +56,7 @@ class AddCommentTest < ActiveSupport::TestCase
     feature = features(:braf)
     response = execute_mutation(
       @add_comment_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         body: "Important note about this gene feature.",
         subject: { id: feature.id, entityType: "FEATURE" },
@@ -70,7 +70,7 @@ class AddCommentTest < ActiveSupport::TestCase
   test "rejects comment body shorter than 10 characters" do
     response = execute_mutation(
       @add_comment_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         body: "Short",
         subject: { id: @ei_id, entityType: "EVIDENCE_ITEM" },
@@ -83,7 +83,7 @@ class AddCommentTest < ActiveSupport::TestCase
   test "rejects non-existent subject" do
     response = execute_mutation(
       @add_comment_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         body: "This is a long enough comment body.",
         subject: { id: 999999, entityType: "EVIDENCE_ITEM" },

@@ -27,7 +27,7 @@ class AddRemoteCitationTest < ActiveSupport::TestCase
   test "creates a new source with PUBMED type" do
     response = execute_mutation(
       @add_citation_mutation,
-      user: @user ,
+      user: @user,
       variables: { citationId: "99999999", sourceType: "PUBMED" },
     )
     result = response.dig("data", "addRemoteCitation", "newSource")
@@ -38,7 +38,7 @@ class AddRemoteCitationTest < ActiveSupport::TestCase
   test "creates a new source with ASCO type" do
     response = execute_mutation(
       @add_citation_mutation,
-      user: @user ,
+      user: @user,
       variables: { citationId: "88888888", sourceType: "ASCO" },
     )
     result = response.dig("data", "addRemoteCitation", "newSource")
@@ -50,7 +50,7 @@ class AddRemoteCitationTest < ActiveSupport::TestCase
     existing = sources(:pubmed_source)
     response = execute_mutation(
       @add_citation_mutation,
-      user: @user ,
+      user: @user,
       variables: { citationId: existing.citation_id, sourceType: "PUBMED" },
     )
     result = response.dig("data", "addRemoteCitation", "newSource")

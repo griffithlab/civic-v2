@@ -46,7 +46,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
   test "suggests a source for curation" do
     response = execute_mutation(
       @suggest_source_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         sourceId: @source.id,
         comment: "This source has relevant clinical data worth curating.",
@@ -61,7 +61,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
   test "suggests a source with molecular profile and disease" do
     response = execute_mutation(
       @suggest_source_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         sourceId: @source.id,
         comment: "This source relates to BRAF V600E in lung cancer.",
@@ -77,7 +77,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
   test "rejects non-existent source id" do
     response = execute_mutation(
       @suggest_source_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         sourceId: 999999,
         comment: "This source does not exist in the database.",
@@ -90,7 +90,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
   test "rejects non-existent molecular profile id" do
     response = execute_mutation(
       @suggest_source_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         sourceId: @source.id,
         comment: "This source references a non-existent molecular profile.",
@@ -104,7 +104,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
   test "rejects non-existent disease id" do
     response = execute_mutation(
       @suggest_source_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         sourceId: @source.id,
         comment: "This source references a non-existent disease.",
@@ -118,7 +118,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
   test "rejects comment shorter than 10 characters" do
     response = execute_mutation(
       @suggest_source_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         sourceId: @source.id,
         comment: "Short",

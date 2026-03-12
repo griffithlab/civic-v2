@@ -48,7 +48,7 @@ class SubscribeUnsubscribeTest < ActiveSupport::TestCase
   test "subscribes to a feature" do
     response = execute_mutation(
       @subscribe_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subscribables: [ { id: @feature.id, entityType: "FEATURE" } ],
       },
@@ -62,7 +62,7 @@ class SubscribeUnsubscribeTest < ActiveSupport::TestCase
     # First subscribe
     execute_mutation(
       @subscribe_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subscribables: [ { id: @feature.id, entityType: "FEATURE" } ],
       },
@@ -71,7 +71,7 @@ class SubscribeUnsubscribeTest < ActiveSupport::TestCase
     # Then unsubscribe
     response = execute_mutation(
       @unsubscribe_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subscribables: [ { id: @feature.id, entityType: "FEATURE" } ],
       },
@@ -84,7 +84,7 @@ class SubscribeUnsubscribeTest < ActiveSupport::TestCase
     ei_id = ActiveRecord::FixtureSet.identify(:submitted_ei)
     response = execute_mutation(
       @subscribe_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subscribables: [
           { id: @feature.id, entityType: "FEATURE" },

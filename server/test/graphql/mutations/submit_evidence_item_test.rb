@@ -52,7 +52,7 @@ class SubmitEvidenceItemTest < ActiveSupport::TestCase
   test "submits a new evidence item" do
     response = execute_mutation(
       @submit_ei_mutation,
-      user: @user ,
+      user: @user,
       variables: { fields: valid_fields, organizationId: @org.id },
     )
     result = response.dig("data", "submitEvidence", "evidenceItem")
@@ -63,7 +63,7 @@ class SubmitEvidenceItemTest < ActiveSupport::TestCase
   test "submits with optional comment" do
     response = execute_mutation(
       @submit_ei_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fields: valid_fields,
         comment: "This evidence supports the diagnostic use case.",
@@ -77,7 +77,7 @@ class SubmitEvidenceItemTest < ActiveSupport::TestCase
   test "rejects invalid source id" do
     response = execute_mutation(
       @submit_ei_mutation,
-      user: @user ,
+      user: @user,
       variables: { fields: valid_fields(sourceId: 999999), organizationId: @org.id },
     )
     assert_graphql_error(response, /source/i)
@@ -86,7 +86,7 @@ class SubmitEvidenceItemTest < ActiveSupport::TestCase
   test "rejects invalid molecular profile id" do
     response = execute_mutation(
       @submit_ei_mutation,
-      user: @user ,
+      user: @user,
       variables: { fields: valid_fields(molecularProfileId: 999999), organizationId: @org.id },
     )
     assert_graphql_error(response, /molecular profile/i)
@@ -95,7 +95,7 @@ class SubmitEvidenceItemTest < ActiveSupport::TestCase
   test "rejects invalid rating" do
     response = execute_mutation(
       @submit_ei_mutation,
-      user: @user ,
+      user: @user,
       variables: { fields: valid_fields(rating: 6), organizationId: @org.id },
     )
     assert_graphql_error(response, /rating|invalid|between/i)

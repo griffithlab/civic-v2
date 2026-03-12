@@ -29,7 +29,7 @@ class DeleteCommentTest < ActiveSupport::TestCase
   test "deletes own comment" do
     response = execute_mutation(
       @delete_comment_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { commentId: @comment.id, organizationId: @org.id },
     )
     result = response.dig("data", "deleteComment", "comment")
@@ -40,7 +40,7 @@ class DeleteCommentTest < ActiveSupport::TestCase
   test "rejects deleting another users comment" do
     response = execute_mutation(
       @delete_comment_mutation,
-      user: @editor ,
+      user: @editor,
       variables: { commentId: @comment.id, organizationId: @org.id },
     )
     assert_graphql_error(response, /only delete your own/)
@@ -49,7 +49,7 @@ class DeleteCommentTest < ActiveSupport::TestCase
   test "rejects non-existent comment id" do
     response = execute_mutation(
       @delete_comment_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { commentId: 999999, organizationId: @org.id },
     )
     assert_graphql_error(response, /does(n't| not) exist/)
@@ -59,14 +59,14 @@ class DeleteCommentTest < ActiveSupport::TestCase
     # Delete it first
     execute_mutation(
       @delete_comment_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { commentId: @comment.id, organizationId: @org.id },
     )
 
     # Try deleting again
     response = execute_mutation(
       @delete_comment_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { commentId: @comment.id, organizationId: @org.id },
     )
     assert_graphql_error(response, /already been deleted/)

@@ -36,7 +36,7 @@ class FlagEntityTest < ActiveSupport::TestCase
   test "flags a feature" do
     response = execute_mutation(
       @flag_entity_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subject: { id: @feature.id, entityType: "FEATURE" },
         comment: "This feature has an issue that needs attention.",
@@ -52,7 +52,7 @@ class FlagEntityTest < ActiveSupport::TestCase
     variant = variants(:v600e)
     response = execute_mutation(
       @flag_entity_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subject: { id: variant.id, entityType: "VARIANT" },
         comment: "This variant needs review by the editorial team.",
@@ -66,7 +66,7 @@ class FlagEntityTest < ActiveSupport::TestCase
   test "rejects comment shorter than 10 characters" do
     response = execute_mutation(
       @flag_entity_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subject: { id: @feature.id, entityType: "FEATURE" },
         comment: "Short",
@@ -79,7 +79,7 @@ class FlagEntityTest < ActiveSupport::TestCase
   test "rejects non-existent subject" do
     response = execute_mutation(
       @flag_entity_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         subject: { id: 999999, entityType: "FEATURE" },
         comment: "This entity does not exist but I am flagging it.",

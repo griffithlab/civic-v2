@@ -32,7 +32,7 @@ class CreateVariantTest < ActiveSupport::TestCase
   test "creates a new variant" do
     response = execute_mutation(
       @create_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "V600R", featureId: @braf.id, organizationId: @org.id },
     )
     result = response.dig("data", "createVariant")
@@ -46,7 +46,7 @@ class CreateVariantTest < ActiveSupport::TestCase
     existing = variants(:v600e)
     response = execute_mutation(
       @create_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: existing.name, featureId: @braf.id, organizationId: @org.id },
     )
     result = response.dig("data", "createVariant")
@@ -58,7 +58,7 @@ class CreateVariantTest < ActiveSupport::TestCase
   test "rejects non-existent feature id" do
     response = execute_mutation(
       @create_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "V600R", featureId: 999999, organizationId: @org.id },
     )
     assert_graphql_error(response, /does(n't| not) exist/)
@@ -67,7 +67,7 @@ class CreateVariantTest < ActiveSupport::TestCase
   test "rejects blank name" do
     response = execute_mutation(
       @create_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "", featureId: @braf.id, organizationId: @org.id },
     )
     assert_graphql_error(response, /name|blank|empty/i)
@@ -76,7 +76,7 @@ class CreateVariantTest < ActiveSupport::TestCase
   test "rejects user acting for wrong org" do
     response = execute_mutation(
       @create_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "V600R", featureId: @braf.id, organizationId: organizations(:other_org).id },
     )
     assert_graphql_error(response, /cannot perform actions/i)

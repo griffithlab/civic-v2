@@ -49,7 +49,7 @@ class SuggestFactorVariantRevisionTest < ActiveSupport::TestCase
   test "suggests a factor variant revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @variant.id,
         fields: default_fields.merge(
@@ -83,7 +83,7 @@ class SuggestFactorVariantRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent variant" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: default_fields,
@@ -97,7 +97,7 @@ class SuggestFactorVariantRevisionTest < ActiveSupport::TestCase
   test "rejects wrong variant type" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @gene_variant.id,
         fields: default_fields.merge(featureId: features(:braf).id),
@@ -111,7 +111,7 @@ class SuggestFactorVariantRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent feature id" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @variant.id,
         fields: default_fields.merge(featureId: 999999),

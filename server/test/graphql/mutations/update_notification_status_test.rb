@@ -29,7 +29,7 @@ class UpdateNotificationStatusTest < ActiveSupport::TestCase
     refute @notification.seen
     response = execute_mutation(
       @update_status_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { ids: [ @notification.id ], newStatus: "READ" },
     )
     result = response.dig("data", "updateNotificationStatus", "notifications")
@@ -45,7 +45,7 @@ class UpdateNotificationStatusTest < ActiveSupport::TestCase
     @notification.update!(seen: true)
     response = execute_mutation(
       @update_status_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { ids: [ @notification.id ], newStatus: "UNREAD" },
     )
     result = response.dig("data", "updateNotificationStatus", "notifications")
@@ -56,7 +56,7 @@ class UpdateNotificationStatusTest < ActiveSupport::TestCase
   test "rejects non-existent notification id" do
     response = execute_mutation(
       @update_status_mutation,
-      user: @curator ,
+      user: @curator,
       variables: { ids: [ 999999 ], newStatus: "READ" },
     )
     assert_graphql_error(response, /notification with id .* does(n't| not) exist/i)
@@ -65,7 +65,7 @@ class UpdateNotificationStatusTest < ActiveSupport::TestCase
   test "rejects marking another user's notification" do
     response = execute_mutation(
       @update_status_mutation,
-      user: @editor ,
+      user: @editor,
       variables: { ids: [ @notification.id ], newStatus: "READ" },
     )
     assert_graphql_error(response, /only allowed to mark your own notifications as read/i)

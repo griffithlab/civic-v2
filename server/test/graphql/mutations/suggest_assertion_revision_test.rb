@@ -63,7 +63,7 @@ class SuggestAssertionRevisionTest < ActiveSupport::TestCase
   test "suggests an assertion revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @assertion.id,
         fields: default_fields.merge(
@@ -95,7 +95,7 @@ class SuggestAssertionRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent assertion" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: default_fields,
@@ -109,7 +109,7 @@ class SuggestAssertionRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent disease id" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @assertion.id,
         fields: default_fields.merge(diseaseId: { value: 999999 }),
@@ -123,7 +123,7 @@ class SuggestAssertionRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent evidence item ids" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @assertion.id,
         fields: default_fields.merge(evidenceItemIds: [ 999999 ]),

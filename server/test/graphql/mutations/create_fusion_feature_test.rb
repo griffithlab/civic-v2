@@ -43,7 +43,7 @@ class CreateFusionFeatureTest < ActiveSupport::TestCase
   test "creates a new fusion feature" do
     response = execute_mutation(
       @create_fusion_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fivePrimeGene: { partnerStatus: "KNOWN", geneId: @braf.id },
         threePrimeGene: { partnerStatus: "KNOWN", geneId: @alk.id },
@@ -60,7 +60,7 @@ class CreateFusionFeatureTest < ActiveSupport::TestCase
     eml4_alk_feature = features(:eml4_alk_fusion)
     response = execute_mutation(
       @create_fusion_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fivePrimeGene: { partnerStatus: "KNOWN", geneId: @eml4.id },
         threePrimeGene: { partnerStatus: "KNOWN", geneId: @alk.id },
@@ -76,7 +76,7 @@ class CreateFusionFeatureTest < ActiveSupport::TestCase
   test "rejects both partners being blank" do
     response = execute_mutation(
       @create_fusion_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fivePrimeGene: { partnerStatus: "UNKNOWN" },
         threePrimeGene: { partnerStatus: "UNKNOWN" },
@@ -89,7 +89,7 @@ class CreateFusionFeatureTest < ActiveSupport::TestCase
   test "rejects identical gene IDs" do
     response = execute_mutation(
       @create_fusion_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fivePrimeGene: { partnerStatus: "KNOWN", geneId: @alk.id },
         threePrimeGene: { partnerStatus: "KNOWN", geneId: @alk.id },
@@ -102,7 +102,7 @@ class CreateFusionFeatureTest < ActiveSupport::TestCase
   test "rejects known status without gene_id" do
     response = execute_mutation(
       @create_fusion_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fivePrimeGene: { partnerStatus: "KNOWN" },
         threePrimeGene: { partnerStatus: "KNOWN", geneId: @alk.id },
@@ -115,7 +115,7 @@ class CreateFusionFeatureTest < ActiveSupport::TestCase
   test "rejects gene_id with non-known status" do
     response = execute_mutation(
       @create_fusion_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         fivePrimeGene: { partnerStatus: "UNKNOWN", geneId: @eml4.id },
         threePrimeGene: { partnerStatus: "KNOWN", geneId: @alk.id },

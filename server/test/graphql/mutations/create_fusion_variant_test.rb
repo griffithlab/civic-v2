@@ -40,7 +40,7 @@ class CreateFusionVariantTest < ActiveSupport::TestCase
   test "creates a new fusion variant with coordinates" do
     response = execute_mutation(
       @create_fusion_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: @fusion_feature.id,
         coordinates: {
@@ -62,7 +62,7 @@ class CreateFusionVariantTest < ActiveSupport::TestCase
   test "rejects non-existent feature id" do
     response = execute_mutation(
       @create_fusion_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: 999999,
         coordinates: { ensemblVersion: 110 },
@@ -75,7 +75,7 @@ class CreateFusionVariantTest < ActiveSupport::TestCase
   test "rejects non-fusion feature" do
     response = execute_mutation(
       @create_fusion_variant_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         featureId: @braf.id,
         coordinates: { ensemblVersion: 110 },

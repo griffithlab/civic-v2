@@ -38,7 +38,7 @@ class SuggestFactorRevisionTest < ActiveSupport::TestCase
   test "suggests a factor revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @msi_feature.id,
         fields: {
@@ -82,7 +82,7 @@ class SuggestFactorRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent feature" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: {
@@ -103,7 +103,7 @@ class SuggestFactorRevisionTest < ActiveSupport::TestCase
   test "rejects non-factor feature" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @braf_feature.id,
         fields: {
@@ -124,7 +124,7 @@ class SuggestFactorRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent source ids" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @msi_feature.id,
         fields: {

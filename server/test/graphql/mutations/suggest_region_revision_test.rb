@@ -38,7 +38,7 @@ class SuggestRegionRevisionTest < ActiveSupport::TestCase
   test "suggests a region revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @region_feature.id,
         fields: {
@@ -76,7 +76,7 @@ class SuggestRegionRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent feature" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: {
@@ -94,7 +94,7 @@ class SuggestRegionRevisionTest < ActiveSupport::TestCase
   test "rejects non-region feature" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @braf_feature.id,
         fields: {
@@ -112,7 +112,7 @@ class SuggestRegionRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent source ids" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @region_feature.id,
         fields: {

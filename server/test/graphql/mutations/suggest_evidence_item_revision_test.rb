@@ -59,7 +59,7 @@ class SuggestEvidenceItemRevisionTest < ActiveSupport::TestCase
   test "suggests an evidence item revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @ei.id,
         fields: default_fields.merge(
@@ -92,7 +92,7 @@ class SuggestEvidenceItemRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent evidence item" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: default_fields,
@@ -106,7 +106,7 @@ class SuggestEvidenceItemRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent source id" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @ei.id,
         fields: default_fields.merge(sourceId: 999999),
@@ -120,7 +120,7 @@ class SuggestEvidenceItemRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent disease id" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @ei.id,
         fields: default_fields.merge(diseaseId: { value: 999999 }),
@@ -135,7 +135,7 @@ class SuggestEvidenceItemRevisionTest < ActiveSupport::TestCase
     mp_deprecated = molecular_profiles(:mp_deprecated)
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @ei.id,
         fields: default_fields.merge(molecularProfileId: mp_deprecated.id),

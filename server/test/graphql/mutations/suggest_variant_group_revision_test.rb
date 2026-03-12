@@ -38,7 +38,7 @@ class SuggestVariantGroupRevisionTest < ActiveSupport::TestCase
   test "suggests a variant group revision" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @vg.id,
         fields: {
@@ -78,7 +78,7 @@ class SuggestVariantGroupRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent variant group" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: 999999,
         fields: {
@@ -97,7 +97,7 @@ class SuggestVariantGroupRevisionTest < ActiveSupport::TestCase
   test "rejects non-existent source ids" do
     response = execute_mutation(
       @mutation,
-      user: @user ,
+      user: @user,
       variables: {
         id: @vg.id,
         fields: {

@@ -27,7 +27,7 @@ class UpdateCoiTest < ActiveSupport::TestCase
   test "creates a COI statement with no conflict" do
     response = execute_mutation(
       @update_coi_mutation,
-      user: @user ,
+      user: @user,
       variables: { coiPresent: false },
     )
     result = response.dig("data", "updateCoi", "coiStatement")
@@ -39,7 +39,7 @@ class UpdateCoiTest < ActiveSupport::TestCase
   test "creates a COI statement with conflict present" do
     response = execute_mutation(
       @update_coi_mutation,
-      user: @user ,
+      user: @user,
       variables: {
         coiPresent: true,
         statement: "I work for a pharmaceutical company that makes relevant drugs.",
@@ -54,7 +54,7 @@ class UpdateCoiTest < ActiveSupport::TestCase
   test "rejects COI present without a statement" do
     response = execute_mutation(
       @update_coi_mutation,
-      user: @user ,
+      user: @user,
       variables: { coiPresent: true },
     )
     assert_graphql_error(response, /must provide a statement/i)
@@ -63,7 +63,7 @@ class UpdateCoiTest < ActiveSupport::TestCase
   test "rejects statement when no COI present" do
     response = execute_mutation(
       @update_coi_mutation,
-      user: @user ,
+      user: @user,
       variables: { coiPresent: false, statement: "Some unnecessary statement" },
     )
     assert_graphql_error(response, /no need for a statement/i)
@@ -72,7 +72,7 @@ class UpdateCoiTest < ActiveSupport::TestCase
   test "rejects statement shorter than 10 characters" do
     response = execute_mutation(
       @update_coi_mutation,
-      user: @user ,
+      user: @user,
       variables: { coiPresent: true, statement: "Short" },
     )
     assert_graphql_error(response, /greater than 10 characters/i)

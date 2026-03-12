@@ -28,7 +28,7 @@ class CreateFeatureTest < ActiveSupport::TestCase
   test "creates a new factor feature" do
     response = execute_mutation(
       @create_feature_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "New Factor Feature", featureType: "FACTOR", organizationId: @org.id },
     )
     result = response.dig("data", "createFeature")
@@ -41,7 +41,7 @@ class CreateFeatureTest < ActiveSupport::TestCase
     existing = features(:msi)
     response = execute_mutation(
       @create_feature_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: existing.name, featureType: "FACTOR", organizationId: @org.id },
     )
     result = response.dig("data", "createFeature")
@@ -53,7 +53,7 @@ class CreateFeatureTest < ActiveSupport::TestCase
   test "rejects blank name" do
     response = execute_mutation(
       @create_feature_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "", featureType: "FACTOR", organizationId: @org.id },
     )
     assert_graphql_error(response, /name|blank|empty/i)
@@ -62,7 +62,7 @@ class CreateFeatureTest < ActiveSupport::TestCase
   test "rejects user acting for org they don't belong to" do
     response = execute_mutation(
       @create_feature_mutation,
-      user: @user ,
+      user: @user,
       variables: { name: "New Factor", featureType: "FACTOR", organizationId: organizations(:other_org).id },
     )
     assert_graphql_error(response, /cannot perform actions/)
