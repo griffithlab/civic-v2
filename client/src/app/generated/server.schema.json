@@ -33597,6 +33597,22 @@
               "deprecationReason": null
             },
             {
+              "name": "isClinvarSubmitter",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "memberCount",
               "description": null,
               "args": [],
@@ -42354,6 +42370,22 @@
             },
             {
               "name": "isApprovedVcep",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isClinvarSubmitter",
               "description": null,
               "args": [],
               "type": {

@@ -8,6 +8,9 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { ApprovalStatus } from '@app/generated/civic.apollo'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { DatePipe } from '@angular/common'
+import { NzRateComponent } from 'ng-zorro-antd/rate'
+import { FormsModule } from '@angular/forms'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
 export interface NotificationApproval {
   id: number
@@ -17,16 +20,20 @@ export interface NotificationApproval {
     id: number
     name: string
     isApprovedVcep: boolean
+    isClinvarSubmitter: boolean
   }
 }
 
 @Component({
   selector: 'cvc-approval-notification',
   imports: [
+    FormsModule,
     NzAlertModule,
     NzTypographyModule,
     NzIconModule,
     NzTagModule,
+    NzRateComponent,
+    NzToolTipModule,
     CvcOrganizationTagModule,
     DatePipe,
     CvcPipesModule,
@@ -40,10 +47,24 @@ export class CvcApprovalNotificationComponent {
   })
 
   isApprovedVcep = computed(() => this.approval().organization.isApprovedVcep)
+  isClinvarSubmitter = computed(() => this.approval().organization.isClinvarSubmitter)
+
+  starRating = computed(() =>{
+    if (this.isApprovedVcep()) {
+      return 3
+    } else if (this.isClinvarSubmitter()) {
+      return 1
+    } else {
+      return 0
+    }
+  })
+
+  showStars = computed(() => this.starRating() > 0)
 
   color = computed(() =>
-    getEntityColor(this.isApprovedVcep() ? 'VcepApproval' : 'Approval')
+    getEntityColor('Approval')
+    //getEntityColor(this.isApprovedVcep() ? 'VcepApproval' : 'Approval')
   )
 
-  alertType = computed(() => (this.isApprovedVcep() ? 'warning' : 'info'))
+  //alertType = computed(() => (this.isApprovedVcep() ? 'warning' : 'info'))
 }

@@ -45,6 +45,7 @@ export class CvcApprovableDirective {
 
   flaggedColor = computed(() => {
     if (this.isApproved()) {
+      return getEntityColor('Approval')
       if (this.vcepApprovals() > 0) {
         return getEntityColor('VcepApproval')
       } else {

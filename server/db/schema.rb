@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_12_153150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -822,6 +822,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
     t.datetime "most_recent_activity_timestamp", precision: nil
     t.boolean "can_approve", default: false, null: false
     t.boolean "is_approved_vcep", default: false, null: false
+    t.text "clinvar_api_key"
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 
@@ -889,12 +890,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
     t.integer "revision_set_id"
     t.index ["created_at"], name: "index_revisions_on_created_at"
     t.index ["field_name"], name: "index_revisions_on_field_name"
-    t.index ["revision_set_id", "status", "subject_type", "field_name"], name: "idx_on_revision_set_id_status_subject_type_field_na_c898002f78"
     t.index ["revisionset_id"], name: "index_revisions_on_revisionset_id"
     t.index ["status"], name: "index_revisions_on_status"
     t.index ["subject_id", "subject_type"], name: "index_revisions_on_subject_id_and_subject_type"
     t.index ["subject_type", "subject_id"], name: "index_v2_suggested_changes_on_subject"
-    t.index ["subject_type"], name: "index_revisions_on_subject_type"
     t.index ["updated_at"], name: "index_revisions_on_updated_at"
   end
 
@@ -976,11 +975,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
     t.string "retraction_nature"
     t.datetime "retraction_date"
     t.string "retraction_reasons"
-    t.boolean "deprecated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
-    t.index ["deprecated"], name: "index_sources_on_deprecated"
     t.index ["retracted"], name: "index_sources_on_retracted"
   end
 
@@ -1365,6 +1362,29 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
   SQL
   add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
 
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
+      sources.publication_year,
+      sources.asco_presenter,
+      sources.journal,
+      sources.title,
+      sources.citation,
+      sources.open_access,
+      sources.retraction_nature,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT source_suggestions.id) AS source_suggestion_count
+     FROM ((((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+
   create_view "molecular_profile_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_mps.id,
       outer_mps.name,
@@ -1610,29 +1630,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
     ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
   SQL
   add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
-
-  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT sources.id,
-      sources.source_type,
-      sources.citation_id,
-      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
-      sources.publication_year,
-      sources.asco_presenter,
-      sources.journal,
-      sources.title,
-      sources.citation,
-      sources.open_access,
-      sources.retraction_nature,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT source_suggestions.id) AS source_suggestion_count
-     FROM ((((sources
-       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
-       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
-       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
-    WHERE (sources.deprecated = false)
-    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
-  SQL
-  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
 end
