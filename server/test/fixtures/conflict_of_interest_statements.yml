@@ -1,0 +1,11 @@
+editor_coi:
+  user: editor
+  coi_present: true
+  created_at: 2026-01-01 00:00:00
+  updated_at: 2026-01-01 00:00:00
+
+editor_submitter_coi:
+  user: editor_submitter
+  coi_present: true
+  created_at: 2026-01-03 00:00:00
+  updated_at: 2026-01-03 00:00:00
