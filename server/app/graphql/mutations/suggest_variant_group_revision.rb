@@ -45,7 +45,7 @@ class Mutations::SuggestVariantGroupRevision < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Provided source ids: #{fields.source_ids.join(', ')} but only #{existing_source_ids.join(', ')} exist."
     end
 
-    existing_variant_ids = Source.where(id: fields.variant_ids).pluck(:id)
+    existing_variant_ids = Variant.where(id: fields.variant_ids).pluck(:id)
     if existing_variant_ids.size != fields.variant_ids.size
       raise GraphQL::ExecutionError, "Provided variant ids: #{fields.variant_ids.join(', ')} but only #{existing_variant_ids.join(', ')} exist."
     end
