@@ -17,7 +17,10 @@ import {
   FeatureInstanceTypes,
   FloatSearchOperator,
   IntSearchOperator,
+  ModeratedEntities,
   OntologyTermSearchOperator,
+  RevisionStatus,
+  SourceSource,
   StringSearchOperator,
   TherapyInteraction,
   VariantDeprecationReason,
@@ -136,6 +139,18 @@ export function getSelectOptions(enumType: string) {
       })
     case 'Chromosome':
       return $enum(Chromosome).map((value) => {
+        return getOption(defaultLabelFormat(value), value)
+      })
+    case 'SourceSource':
+      return $enum(SourceSource).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'RevisionStatus':
+      return $enum(RevisionStatus).map((value) => {
+        return getOption(defaultLabelFormat(value), value)
+      })
+    case 'ModeratedEntities':
+      return $enum(ModeratedEntities).map((value) => {
         return getOption(defaultLabelFormat(value), value)
       })
     default:

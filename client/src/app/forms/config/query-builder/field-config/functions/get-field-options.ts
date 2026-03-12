@@ -1,50 +1,16 @@
 import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import {
-  searchDiseasesDefaultKey,
-  searchDiseasesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-diseases.config'
-import {
-  searchFeaturesDefaultKey,
-  searchFeaturesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-features.config'
-import {
-  searchAssertionsDefaultKey,
-  searchAssertionsFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-assertions.config'
-import {
-  searchMolecularProfilesDefaultKey,
-  searchMolecularProfilesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-molecular-profiles.config'
-import {
-  searchEvidenceItemsDefaultKey,
-  searchEvidenceItemsFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-evidence-items.config'
-import {
-  searchPhenotypesDefaultKey,
-  searchPhenotypesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-phenotypes.config'
-import {
-  searchSourcesDefaultKey,
-  searchSourcesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-sources.config'
-import {
-  searchTherapiesDefaultKey,
-  searchTherapiesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-therapies.config'
-import {
-  searchUsersDefaultKey,
-  searchUsersFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-users.config'
-import {
-  searchVariantTypesDefaultKey,
-  searchVariantTypesFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-variant-types.config'
-import {
-  searchVariantsDefaultKey,
-  searchVariantsFieldOptions,
-} from '@app/forms/config/query-builder/field-config/search-variants.config'
-import { Maybe } from '@generated/civic.apollo'
+import { searchDiseasesFieldOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
+import { searchFeaturesFieldOptions } from '@app/forms/config/query-builder/field-config/search-features.config'
+import { searchAssertionsFieldOptions } from '@app/forms/config/query-builder/field-config/search-assertions.config'
+import { searchMolecularProfilesFieldOptions } from '@app/forms/config/query-builder/field-config/search-molecular-profiles.config'
+import { searchEvidenceItemsFieldOptions } from '@app/forms/config/query-builder/field-config/search-evidence-items.config'
+import { searchPhenotypesFieldOptions } from '@app/forms/config/query-builder/field-config/search-phenotypes.config'
+import { searchSourcesFieldOptions } from '@app/forms/config/query-builder/field-config/search-sources.config'
+import { searchTherapiesFieldOptions } from '@app/forms/config/query-builder/field-config/search-therapies.config'
+import { searchUsersFieldOptions } from '@app/forms/config/query-builder/field-config/search-users.config'
+import { searchVariantTypesFieldOptions } from '@app/forms/config/query-builder/field-config/search-variant-types.config'
+import { searchVariantsFieldOptions } from '@app/forms/config/query-builder/field-config/search-variants.config'
 import { withSmallSize } from './field-config-helpers'
 import { searchRevisionsFieldOptions } from '../search-revisions.config'
 
@@ -82,28 +48,29 @@ export function getFieldOptions(
   return options
 }
 
-export function getDefaultSelectedKey(
-  endpoint: QueryBuilderSearchEndpoint
-): Maybe<string> {
-  const DEFAULT_SELECTED_KEY: Record<string, string> = {
-    searchDiseases: searchDiseasesDefaultKey,
-    searchFeatures: searchFeaturesDefaultKey,
-    searchAssertions: searchAssertionsDefaultKey,
-    searchMolecularProfiles: searchMolecularProfilesDefaultKey,
-    searchEvidenceItems: searchEvidenceItemsDefaultKey,
-    searchPhenotypes: searchPhenotypesDefaultKey,
-    searchSources: searchSourcesDefaultKey,
-    searchTherapies: searchTherapiesDefaultKey,
-    searchUsers: searchUsersDefaultKey,
-    searchVariantTypes: searchVariantTypesDefaultKey,
-    searchVariants: searchVariantsDefaultKey,
-  }
-  let defaultKey = DEFAULT_SELECTED_KEY[endpoint]
-  if (!defaultKey) {
-    console.warn(
-      `Unknown searchEndpoint provided to getDefaultSelectedKey:
-      "${endpoint}". Setting to 'name' default.`
-    )
-  }
-  return defaultKey
-}
+// export function getDefaultSelectedKey(
+//   endpoint: QueryBuilderFilterEndpoint
+// ): Maybe<string> {
+//   const DEFAULT_SELECTED_KEY: Record<string, string> = {
+//     searchDiseases: searchDiseasesDefaultKey,
+//     searchFeatures: searchFeaturesDefaultKey,
+//     searchAssertions: searchAssertionsDefaultKey,
+//     searchMolecularProfiles: searchMolecularProfilesDefaultKey,
+//     searchEvidenceItems: searchEvidenceItemsDefaultKey,
+//     searchPhenotypes: searchPhenotypesDefaultKey,
+//     searchSources: searchSourcesDefaultKey,
+//     searchTherapies: searchTherapiesDefaultKey,
+//     searchUsers: searchUsersDefaultKey,
+//     searchVariantTypes: searchVariantTypesDefaultKey,
+//     searchVariants: searchVariantsDefaultKey,
+//     searchRevisions: searchRevisionsDefaultKey,
+//   }
+//   let defaultKey = DEFAULT_SELECTED_KEY[endpoint]
+//   if (!defaultKey) {
+//     console.warn(
+//       `Unknown searchEndpoint provided to getDefaultSelectedKey:
+//       "${endpoint}". Setting to 'name' default.`
+//     )
+//   }
+//   return defaultKey
+// }

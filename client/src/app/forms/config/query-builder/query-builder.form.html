@@ -15,40 +15,40 @@
     </form>
   </nz-col>
 </nz-row>
-<nz-row nzSpan="24">
-  <nz-col nzSpan="8">
-    <b>formModel():</b>
-    <pre>{{ formModel() | json }}</pre>
-  </nz-col>
-  <nz-col nzSpan="8">
-    <b>query-builder form.value:</b>
-    <pre>{{ this.form.value | json }}</pre>
-  </nz-col>
-  <nz-col nzSpan="8">
-    <b>Search Field Group: </b>
-    <button
-      nz-button
-      nzSize="small"
-      nzPopoverTrigger="click"
-      nz-popover
-      [nzPopoverContent]="fieldsJson"
-      nzPopoverPlacement="left">
-      Click
-    </button>
-    <br />
-    <b>permalinkId:</b>
-    <pre>{{ permalinkId() | json }}</pre>
-    <b>permalinkQuery:</b>
-    <pre>{{ permalinkQuery()?.formQuery | json }}</pre>
-    <ng-template #fieldsJson>
-      <div style="width: 600px; height: 500px; overflow: scroll">
-        <pre style="font-size: 80%">{{
-          (this.fields[0].fieldGroup
-            ? this.fields[0].fieldGroup[1].fieldGroup
-            : false
-          ) | json
-        }}</pre>
-      </div>
-    </ng-template>
-  </nz-col>
-</nz-row>
+<!--<nz-row nzSpan="24">-->
+<!--  <nz-col nzSpan="8">-->
+<!--    <b>formModel():</b>-->
+<!--    <pre>{{ formModel() | json }}</pre>-->
+<!--  </nz-col>-->
+<!--  <nz-col nzSpan="8">-->
+<!--    <b>query-builder form.value:</b>-->
+<!--    <pre>{{ this.form.value | json }}</pre>-->
+<!--  </nz-col>-->
+<!--  <nz-col nzSpan="8">-->
+<!--    <b>Search Field Group: </b>-->
+<!--    <button-->
+<!--      nz-button-->
+<!--      nzSize="small"-->
+<!--      nzPopoverTrigger="click"-->
+<!--      nz-popover-->
+<!--      [nzPopoverContent]="fieldsJson"-->
+<!--      nzPopoverPlacement="left">-->
+<!--      Click-->
+<!--    </button>-->
+<!--    <br />-->
+<!--    <b>permalinkId:</b>-->
+<!--    <pre>{{ permalinkId() | json }}</pre>-->
+<!--    <b>permalinkQuery:</b>-->
+<!--    <pre>{{ permalinkQuery()?.formQuery | json }}</pre>-->
+<!--    <ng-template #fieldsJson>-->
+<!--      <div style="width: 600px; height: 500px; overflow: scroll">-->
+<!--        <pre style="font-size: 80%">{{-->
+<!--          (this.fields[0].fieldGroup-->
+<!--            ? this.fields[0].fieldGroup[1].fieldGroup-->
+<!--            : false-->
+<!--          ) | json-->
+<!--        }}</pre>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </nz-col>-->
+<!--</nz-row>-->

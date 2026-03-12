@@ -33,8 +33,43 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
     sortByKey([
       ...withStatic([
         {
+          key: 'abstract',
+          props: { label: 'Abstract' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'citation',
+          props: { label: 'Citation' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'citationId',
+          props: { label: 'Citation ID' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'id',
+          props: { label: 'ID' },
+          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+        },
+        {
+          key: 'isRetracted',
+          props: { label: 'Is Retracted' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
           key: 'journal',
           props: { label: 'Journal' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'sourceType',
+          props: { label: 'Source Type' },
+          fieldGroup: INPUT_FIELD_CONFIG['SourceSourceTypeSearchInput'],
+        },
+        {
+          key: 'title',
+          props: { label: 'Title' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
       ]),

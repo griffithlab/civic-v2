@@ -68,3 +68,5 @@ export type QueryBuilderSearchEndpoint =
   | 'searchUsers'
   | 'searchVariants'
   | 'searchVariantTypes'
+  | 'searchRevisions'
+

@@ -2,9 +2,11 @@ import { FormlyFieldConfig } from '@ngx-formly/core'
 import {
   sortByKey,
   withHideExpression,
+  withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
 import { INPUT_FIELD_CONFIG } from './input-config/search-input.config'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
 import {
   BooleanOperator,
   DateSearchInput,
@@ -39,6 +41,34 @@ export const searchRevisionsFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Field Name' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
+        {
+          key: 'status',
+          props: { label: 'Status' },
+          fieldGroup: INPUT_FIELD_CONFIG['RevisionStatusTypeSearchInput'],
+        },
+        {
+          key: 'subjectId',
+          props: { label: 'Subject ID' },
+          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+        },
+        {
+          key: 'subjectType',
+          props: { label: 'Subject Type' },
+          fieldGroup:
+            INPUT_FIELD_CONFIG['ModeratedEntitiesTypeSearchInput'],
+        },
+      ]),
+      ...withRecursive([
+        ...getQueryFieldConfig(
+          'creatingUser',
+          'searchUsers',
+          'Creating User'
+        ),
+        ...getQueryFieldConfig(
+          'moderatingUser',
+          'searchUsers',
+          'Moderating User'
+        ),
       ]),
     ])
   )

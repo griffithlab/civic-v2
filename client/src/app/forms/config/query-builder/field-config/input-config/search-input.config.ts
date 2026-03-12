@@ -387,6 +387,66 @@ const CHROMOSOME_TYPE_SEARCH_INPUT = [
   },
 ]
 
+const SOURCE_SOURCE_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('SourceSource'),
+      placeholder: 'Select Source Type',
+    },
+  },
+]
+
+const REVISION_STATUS_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('RevisionStatus'),
+      placeholder: 'Select Status',
+    },
+  },
+]
+
+const MODERATED_ENTITIES_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    defaultValue: undefined,
+    props: {
+      options: getSelectOptions('ModeratedEntities'),
+      placeholder: 'Select Entity Type',
+    },
+  },
+]
+
 const DNA_BASE_STRING_INPUT = [
   {
     key: 'operator',
@@ -430,4 +490,7 @@ export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
     VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
   ChromosomeTypeSearchInput: CHROMOSOME_TYPE_SEARCH_INPUT,
   DnaBaseStringInput: DNA_BASE_STRING_INPUT,
+  SourceSourceTypeSearchInput: SOURCE_SOURCE_TYPE_SEARCH_INPUT,
+  RevisionStatusTypeSearchInput: REVISION_STATUS_TYPE_SEARCH_INPUT,
+  ModeratedEntitiesTypeSearchInput: MODERATED_ENTITIES_TYPE_SEARCH_INPUT,
 }
