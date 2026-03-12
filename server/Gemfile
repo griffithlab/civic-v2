@@ -110,6 +110,7 @@ group :development do
   gem "solargraph-rails"
 
   gem "dockerfile-rails", ">= 1.5"
+  gem "rails-schema"
 end
 
 group :test do
