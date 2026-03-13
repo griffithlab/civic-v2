@@ -1,0 +1,19 @@
+eml4_alk_five_prime_start_exon:
+  variant: eml4_alk_fusion_v
+  coordinate_type: "Five Prime Start Exon Coordinate"
+  record_state: stub
+
+eml4_alk_five_prime_end_exon:
+  variant: eml4_alk_fusion_v
+  coordinate_type: "Five Prime End Exon Coordinate"
+  record_state: stub
+
+eml4_alk_three_prime_start_exon:
+  variant: eml4_alk_fusion_v
+  coordinate_type: "Three Prime Start Exon Coordinate"
+  record_state: stub
+
+eml4_alk_three_prime_end_exon:
+  variant: eml4_alk_fusion_v
+  coordinate_type: "Three Prime End Exon Coordinate"
+  record_state: stub
