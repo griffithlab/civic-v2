@@ -192,7 +192,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'base-textarea',
                 props: {
                   tooltip:
-                    'A complete, original description of this Assertion. Limited to one paragraph. Reference other CIViC entities using curies: civic.eid:123 (Evidence Item), civic.aid:123 (Assertion), civic.fid:123 (Feature), civic.vid:123 (Variant), civic.mpid:123 (Molecular Profile), civic.vgid:123 (Variant Group), civic.sid:123 (Source)',
+                    'A complete, original description of this Assertion. Limited to one paragraph. Reference other CIViC entities using curies, e.g., civic.eid:123 (Evidence Item) or civic.aid:123 (Assertion).',
                   placeholder: 'Enter an Assertion Statement',
                   label: 'Assertion Statement',
                   required: true,
