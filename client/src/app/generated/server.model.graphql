@@ -2060,6 +2060,17 @@ type ClingenCode {
   tooltip: String!
 }
 
+type ClinicalSignificanceCounts {
+  assertions: [Assertion!]!
+  count: Int!
+  direction: AssertionDirection!
+  disease: Disease
+  significance: AssertionSignificance!
+  therapies: [Therapy!]
+  therapyInteractionType: TherapyInteraction
+  type: AssertionType!
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -4088,6 +4099,8 @@ enum ExonCoordinateType {
 The Feature that a Variant can belong to
 """
 type Factor implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4142,6 +4155,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4285,6 +4299,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Gene variants.
@@ -4445,6 +4460,8 @@ input FactorFields {
 }
 
 type FactorVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4498,6 +4515,7 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4748,6 +4766,8 @@ type FdaCode {
 The Feature that a Variant can belong to
 """
 type Feature implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4802,6 +4822,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4943,6 +4964,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter variants.
@@ -5071,6 +5093,13 @@ input FeatureSearchFilter {
   subFilters: [FeatureSearchFilter!]
   threePrimePartnerEntrezId: IntSearchInput
   threePrimePartnerEntrezSymbol: StringSearchInput
+}
+
+type FeatureStats {
+  assertionCount: Int!
+  evidenceItemCount: Int!
+  molecularProfileCount: Int!
+  variantCount: Int!
 }
 
 input FeaturesSort {
@@ -5455,6 +5484,8 @@ enum FloatSearchOperator {
 The Feature that a Variant can belong to
 """
 type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -5509,6 +5540,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -5594,6 +5626,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     state: FlagState
   ): FlagConnection!
   fullName: String
+  fusionsKnownPartnerGenes: [FusionKnownPartnerGene!]!
   id: Int!
   knownPartnerGenes: [Gene!]!
   lastAcceptedRevisionEvent: Event
@@ -5653,6 +5686,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
   threePrimeGene: Gene
   threePrimePartnerStatus: FusionPartnerStatus!
 
@@ -5804,6 +5838,12 @@ input FusionFields {
   sourceIds: [Int!]!
 }
 
+type FusionKnownPartnerGene {
+  fusion: Fusion!
+  gene: Gene!
+  knownPartnerSpecificFusion: Fusion
+}
+
 """
 The fusion partner's status and gene ID (if applicable)
 """
@@ -5826,6 +5866,8 @@ enum FusionPartnerStatus {
 }
 
 type FusionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -5879,6 +5921,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -6095,6 +6138,8 @@ input FusionVariantInput {
 The Feature that a Variant can belong to
 """
 type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -6149,6 +6194,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
   entrezId: Int!
 
   """
@@ -6292,6 +6338,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Gene variants.
@@ -6433,6 +6480,7 @@ input GeneFields {
 
 type GeneVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
   alleleRegistryId: String
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
   clinvarIds: [String!]!
 
   """
@@ -6489,6 +6537,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -9214,7 +9263,7 @@ type Query {
     """
     Filtering on the assertion's significance.
     """
-    significance: EvidenceSignificance
+    significance: AssertionSignificance
 
     """
     Columm and direction to sort evidence on.
@@ -11073,6 +11122,8 @@ enum ReferenceBuild {
 The Feature that a Variant can belong to
 """
 type Region implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -11128,6 +11179,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -11269,6 +11321,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Region variants.
@@ -11414,6 +11467,8 @@ input RegionFields {
 }
 
 type RegionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -11467,6 +11522,7 @@ type RegionVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -14320,6 +14376,8 @@ type ValidationErrors {
 }
 
 type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -14373,6 +14431,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -15043,6 +15102,8 @@ enum VariantGroupsSortColumns {
 A taggable/linkable component of a molecular profile
 """
 interface VariantInterface implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -15096,6 +15157,7 @@ interface VariantInterface implements Commentable & EventOriginObject & EventSub
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
