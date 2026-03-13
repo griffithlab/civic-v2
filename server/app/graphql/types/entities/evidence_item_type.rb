@@ -5,12 +5,12 @@ module Types::Entities
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::WithDescription
 
     field :id, Int, null: false
     field :name, String, null: false
     field :molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :significance, Types::EvidenceSignificanceType, null: false
-    field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :therapies, [ Types::Entities::TherapyType ], null: false
     field :therapy_interaction_type, Types::TherapyInteractionType, null: true

@@ -29,7 +29,10 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { RouterModule } from '@angular/router'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
+import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -51,6 +54,8 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
     NzAvatarModule,
     NzCardModule,
     NzAlertModule,
+    NzRadioModule,
+    FormsModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,
@@ -66,6 +71,7 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
     CvcCommentBodyModule,
     CvcOrganizationTagModule,
     CvcApprovalNotificationComponent,
+    CvcEntityDescription,
   ],
   exports: [AssertionsSummaryPage],
 })
