@@ -17,7 +17,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '3.3'
+          ruby-version: '4'
           working-directory: ./server
 
       - name: Scan for security vulnerabilities
@@ -33,7 +33,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: '4'
           working-directory: ./server
           bundler-cache: true
 
@@ -65,7 +65,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '3.3'
+          ruby-version: '4'
           working-directory: ./server
 
       - name: Setup DB
