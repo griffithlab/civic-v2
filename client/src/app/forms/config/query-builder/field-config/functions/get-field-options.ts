@@ -1,4 +1,4 @@
-import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
+import { AdvancedSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { searchDiseasesFieldOptions } from '@app/forms/config/query-builder/field-config/search-diseases.config'
 import { searchFeaturesFieldOptions } from '@app/forms/config/query-builder/field-config/search-features.config'
@@ -13,12 +13,14 @@ import { searchVariantTypesFieldOptions } from '@app/forms/config/query-builder/
 import { searchVariantsFieldOptions } from '@app/forms/config/query-builder/field-config/search-variants.config'
 import { withSmallSize } from './field-config-helpers'
 import { searchRevisionsFieldOptions } from '../search-revisions.config'
+import { searchCommentsFieldOptions } from '../search-comments.config'
 
 export function getFieldOptions(
-  endpoint: QueryBuilderSearchEndpoint,
+  endpoint: AdvancedSearchEndpoint,
   isRootFilter?: boolean
 ): FormlyFieldConfig[] {
   const FILTER_OPTIONS: Record<string, FormlyFieldConfig[]> = {
+    searchComments: searchCommentsFieldOptions,
     searchDiseases: searchDiseasesFieldOptions,
     searchFeatures: searchFeaturesFieldOptions,
     searchAssertions: searchAssertionsFieldOptions,
@@ -47,30 +49,3 @@ export function getFieldOptions(
   }
   return options
 }
-
-// export function getDefaultSelectedKey(
-//   endpoint: QueryBuilderFilterEndpoint
-// ): Maybe<string> {
-//   const DEFAULT_SELECTED_KEY: Record<string, string> = {
-//     searchDiseases: searchDiseasesDefaultKey,
-//     searchFeatures: searchFeaturesDefaultKey,
-//     searchAssertions: searchAssertionsDefaultKey,
-//     searchMolecularProfiles: searchMolecularProfilesDefaultKey,
-//     searchEvidenceItems: searchEvidenceItemsDefaultKey,
-//     searchPhenotypes: searchPhenotypesDefaultKey,
-//     searchSources: searchSourcesDefaultKey,
-//     searchTherapies: searchTherapiesDefaultKey,
-//     searchUsers: searchUsersDefaultKey,
-//     searchVariantTypes: searchVariantTypesDefaultKey,
-//     searchVariants: searchVariantsDefaultKey,
-//     searchRevisions: searchRevisionsDefaultKey,
-//   }
-//   let defaultKey = DEFAULT_SELECTED_KEY[endpoint]
-//   if (!defaultKey) {
-//     console.warn(
-//       `Unknown searchEndpoint provided to getDefaultSelectedKey:
-//       "${endpoint}". Setting to 'name' default.`
-//     )
-//   }
-//   return defaultKey
-// }

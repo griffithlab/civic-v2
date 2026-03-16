@@ -25,6 +25,7 @@ export type AdvancedSearchAttribute<
 
 interface EndpointFilterTypes {
   searchAssertions: AssertionSearchFilter
+  searchComments: AssertionSearchFilter
   searchDiseases: DiseaseSearchFilter
   searchEvidenceItems: EvidenceItemSearchFilter
   searchFeatures: FeatureSearchFilter
@@ -55,17 +56,3 @@ export type QueryBuilderFormModel = {
   query: AdvancedSearchFilter
   createPermalink?: boolean
 }
-
-export type QueryBuilderSearchEndpoint =
-  | 'searchAssertions'
-  | 'searchDiseases'
-  | 'searchEvidenceItems'
-  | 'searchFeatures'
-  | 'searchMolecularProfiles'
-  | 'searchPhenotypes'
-  | 'searchSources'
-  | 'searchTherapies'
-  | 'searchUsers'
-  | 'searchVariants'
-  | 'searchVariantTypes'
-  | 'searchRevisions'

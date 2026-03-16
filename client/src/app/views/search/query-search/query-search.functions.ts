@@ -1,5 +1,5 @@
 import { QuerySearchPageTab } from '@app/views/search/query-search/query-search.types'
-import { QueryBuilderSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
+import { AdvancedSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
 
 export const queryBuilderTabs: QuerySearchPageTab[] = [
   { label: 'Assertions', searchEndpoint: 'searchAssertions' },
@@ -24,6 +24,6 @@ export function getTabIndexFromSearchEndpoint(searchEndpoint: string): number {
 
 export function getSearchEndpointFromTabIndex(
   tabIndex: number
-): QueryBuilderSearchEndpoint {
+): AdvancedSearchEndpoint {
   return queryBuilderTabs[tabIndex].searchEndpoint
 }
