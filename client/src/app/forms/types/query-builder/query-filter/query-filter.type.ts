@@ -62,7 +62,7 @@ export class CvcQueryFilterField
         (k) => this.model[k] != null
       )
     } else {
-      console.log('query-filter AfterViewInit no model')
+      this.props.selectedKey = null
     }
     this.checkExpressions()
   }

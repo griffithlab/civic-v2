@@ -25,8 +25,17 @@
   <nz-col
     nzFlex="3 0 auto"
     class="field-col">
-    @for (childField of field.fieldGroup; track childField.key) {
-      <formly-field [field]="childField"></formly-field>
+    @if (props.selectedKey === null) {
+      <div class="filter-prompt">
+        <nz-icon
+          nzType="arrow-left"
+          nzTheme="outline" />
+        Select an attribute filter.
+      </div>
+    } @else {
+      @for (childField of field.fieldGroup; track childField.key) {
+        <formly-field [field]="childField"></formly-field>
+      }
     }
   </nz-col>
 </nz-row>
