@@ -9,35 +9,6 @@ import {
 import { getQueryFieldConfig } from './functions/get-query-field-config'
 import { getStructFieldConfig } from './functions/get-struct-field-config'
 
-// export type VariantSearchFilterREF = {
-//   booleanOperator?: InputMaybe<BooleanOperator>
-//   comment?: InputMaybe<CommentSearchFilter> // needs searchComments endpoint
-//   coordinates?: InputMaybe<CoordinateSearchInput>
-//   creatingUser?: InputMaybe<UserSearchFilter>
-//   deprecatingUser?: InputMaybe<UserSearchFilter>
-//   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>
-//   feature?: InputMaybe<FeatureSearchFilter>
-//   id?: InputMaybe<IntSearchInput>
-//   isDeprecated?: InputMaybe<BooleanSearchInput>
-//   isFlagged?: InputMaybe<BooleanSearchInput>
-//   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>
-//   name?: InputMaybe<StringSearchInput>
-//   openRevisionCount?: InputMaybe<IntSearchInput>
-//   revisions?: InputMaybe<RevisionSearchFilter> // needs searchRevisions endpoint
-//   singleVariantMolecularProfile?: InputMaybe<MolecularProfileSearchFilter>
-//   subFilters?: InputMaybe<Array<VariantSearchFilter>>
-//   variantAlias?: InputMaybe<StringSearchInput>
-//   variantType?: InputMaybe<VariantTypeSearchFilter>
-// }
-// export type CoordinateSearchInputREF = {
-//   chromosome?: InputMaybe<ChromosomeTypeSearchInput>
-//   referenceBases?: InputMaybe<DnaBaseStringInput>
-//   start?: InputMaybe<IntSearchInput>
-//   stop?: InputMaybe<IntSearchInput>
-//   variantBases?: InputMaybe<DnaBaseStringInput>
-// }
-
-export const searchVariantsDefaultKey = 'name'
 export const searchVariantsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
     sortByLabel([
@@ -103,17 +74,9 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           'searchMolecularProfiles',
           'Single Variant Molecular Profile'
         ),
-        // ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
-        //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
+        ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
       ]),
       ...getStructFieldConfig('coordinates', 'Coordinates'),
     ])
   )
-console.log('coordinates field config: ', searchVariantsFieldOptions[0])
-// console.log(
-//   'coordinates subFilters: ',
-//   searchVariantsFieldOptions[0].fieldGroup![0]
-// )
-//
-console.log('MP field config: ', searchVariantsFieldOptions[5])
-// console.log('MP subFilters: ', searchVariantsFieldOptions[5].fieldGroup![1])

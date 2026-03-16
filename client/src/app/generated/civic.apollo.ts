@@ -10111,6 +10111,14 @@ export type SearchVariantsQueryVariables = Exact<{
 
 export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
 
+export type SearchCommentsQueryVariables = Exact<{
+  query: CommentSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchCommentsQuery = { __typename: 'Query', searchComments: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+
 export type SearchRevisionsQueryVariables = Exact<{
   query: RevisionSearchFilter;
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
@@ -18265,6 +18273,25 @@ export const SearchVariantsDocument = gql`
   })
   export class SearchVariantsGQL extends Apollo.Query<SearchVariantsQuery, SearchVariantsQueryVariables> {
     document = SearchVariantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchCommentsDocument = gql`
+    query searchComments($query: CommentSearchFilter!, $createPermalink: Boolean) {
+  searchComments(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchCommentsGQL extends Apollo.Query<SearchCommentsQuery, SearchCommentsQueryVariables> {
+    document = SearchCommentsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

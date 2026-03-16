@@ -56,7 +56,6 @@ export type EvidenceItemSearchFilterREF = {
   therapies?: InputMaybe<TherapySearchFilter>
   therapyInteractionType?: InputMaybe<TherapyInteractionTypeSearchInput>
 }
-export const searchEvidenceItemsDefaultKey = 'description'
 
 export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
@@ -125,7 +124,7 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
       ]),
       ...withRecursive([
         ...getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion'),
-        //...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
         ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
         ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
         ...getQueryFieldConfig(
@@ -139,8 +138,8 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           'Moderating User'
         ),
         ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
-        //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
-        ...getQueryFieldConfig('sources', 'searchSources', 'Sources'),
+        ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
+        ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
         ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
       ]),
     ])

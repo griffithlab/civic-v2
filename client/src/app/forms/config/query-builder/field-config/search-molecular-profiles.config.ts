@@ -1,41 +1,12 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import {
-  BooleanOperator,
-  BooleanSearchInput,
-  FloatSearchInput,
-  InputMaybe,
-  IntSearchInput,
-  MolecularProfileSearchFilter,
-  SourceSearchFilter,
-  StringSearchInput,
-  UserSearchFilter,
-} from '@generated/civic.apollo'
-import {
   sortByLabel,
   withHideExpression,
   withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
-
-export type MolecularProfileSearchFilterREF = {
-  alias?: InputMaybe<StringSearchInput>
-  booleanOperator?: InputMaybe<BooleanOperator>
-  creatingUser?: InputMaybe<UserSearchFilter>
-  deprecatingUser?: InputMaybe<UserSearchFilter>
-  description?: InputMaybe<StringSearchInput>
-  evidenceItemsCount?: InputMaybe<IntSearchInput>
-  hasAssertion?: InputMaybe<BooleanSearchInput>
-  id?: InputMaybe<IntSearchInput>
-  isFlagged?: InputMaybe<BooleanSearchInput>
-  openRevisionCount?: InputMaybe<IntSearchInput>
-  score?: InputMaybe<FloatSearchInput>
-  source?: InputMaybe<SourceSearchFilter>
-  subFilters?: InputMaybe<Array<MolecularProfileSearchFilter>>
-}
-
-export const searchMolecularProfilesDefaultKey = 'alias'
 
 export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
   withHideExpression(

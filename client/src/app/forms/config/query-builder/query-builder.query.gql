@@ -81,6 +81,12 @@ query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
     resultIds
   }
 }
+query searchComments($query: CommentSearchFilter!, $createPermalink: Boolean) {
+  searchComments(query: $query, createPermalink: $createPermalink) {
+    permalinkId
+    resultIds
+  }
+}
 query searchRevisions(
   $query: RevisionSearchFilter!
   $createPermalink: Boolean
@@ -99,7 +105,3 @@ query searchVariantTypes(
     resultIds
   }
 }
-
-#query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
-#  searchVariants(query: $query, createPermalink: $createPermalink)
-#}

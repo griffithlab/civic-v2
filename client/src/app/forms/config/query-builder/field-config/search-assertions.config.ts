@@ -7,54 +7,7 @@ import {
 } from './functions/field-config-helpers'
 import { INPUT_FIELD_CONFIG } from './input-config/search-input.config'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
-import {
-  AmpLevelTypeSearchInput,
-  AssertionDirectionTypeSearchInput,
-  AssertionSearchFilter,
-  AssertionSignificanceTypeSearchInput,
-  AssertionTypeTypeSearchInput,
-  BooleanOperator,
-  BooleanSearchInput,
-  DiseaseSearchFilter,
-  EvidenceItemSearchFilter,
-  EvidenceStatusTypeSearchInput,
-  InputMaybe,
-  IntSearchInput,
-  MolecularProfileSearchFilter,
-  PhenotypeSearchFilter,
-  RevisionSearchFilter,
-  StringSearchInput,
-  TherapySearchFilter,
-  UserSearchFilter,
-  VariantOriginTypeSearchInput,
-} from '@generated/civic.apollo'
 
-type AssertionSearchFilterREF = {
-  ampLevel?: InputMaybe<AmpLevelTypeSearchInput>
-  assertionDirection?: InputMaybe<AssertionDirectionTypeSearchInput>
-  assertionType?: InputMaybe<AssertionTypeTypeSearchInput>
-  booleanOperator?: InputMaybe<BooleanOperator>
-  creatingUser?: InputMaybe<UserSearchFilter>
-  description?: InputMaybe<StringSearchInput>
-  disease?: InputMaybe<DiseaseSearchFilter>
-  evidenceItemCount?: InputMaybe<IntSearchInput>
-  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>
-  fdaCompanionTest?: InputMaybe<BooleanSearchInput>
-  id?: InputMaybe<IntSearchInput>
-  isFlagged?: InputMaybe<BooleanSearchInput>
-  moderatingUser?: InputMaybe<UserSearchFilter>
-  molecularProfile?: InputMaybe<MolecularProfileSearchFilter>
-  name?: InputMaybe<StringSearchInput>
-  phenotypes?: InputMaybe<PhenotypeSearchFilter>
-  regulatoryApproval?: InputMaybe<BooleanSearchInput>
-  revisions?: InputMaybe<RevisionSearchFilter>
-  significance?: InputMaybe<AssertionSignificanceTypeSearchInput>
-  status?: InputMaybe<EvidenceStatusTypeSearchInput>
-  subFilters?: InputMaybe<Array<AssertionSearchFilter>>
-  therapies?: InputMaybe<TherapySearchFilter>
-  variantOrigin?: InputMaybe<VariantOriginTypeSearchInput>
-}
-export const searchAssertionsDefaultKey = 'description'
 export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
     sortByLabel([
@@ -128,6 +81,11 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
       ]),
       ...withRecursive([
         ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
+        ...getQueryFieldConfig(
+          'moderatingUser',
+          'searchUsers',
+          'Moderating User'
+        ),
         ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
         ...getQueryFieldConfig(
           'evidenceItems',
@@ -140,7 +98,7 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
           'Molecular Profile'
         ),
         ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
-        //...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions')
+        ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
         ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
       ]),
     ])
