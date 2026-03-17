@@ -5,8 +5,15 @@ query GetOriginalQuery($permalinkId: String!) {
     originalQuery
     originalVariables
     permalinkId
+    searchEndpoint
     formQuery @client
   }
+}
+
+fragment QueryBuilderResponseFields on AdvancedSearchResult {
+  permalinkId
+  searchEndpoint
+  resultIds
 }
 
 query searchEvidenceItems(
@@ -14,8 +21,7 @@ query searchEvidenceItems(
   $createPermalink: Boolean
 ) {
   searchEvidenceItems(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchAssertions(
@@ -23,20 +29,17 @@ query searchAssertions(
   $createPermalink: Boolean
 ) {
   searchAssertions(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
   searchDiseases(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchFeatures($query: FeatureSearchFilter!, $createPermalink: Boolean) {
   searchFeatures(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchMolecularProfiles(
@@ -44,8 +47,7 @@ query searchMolecularProfiles(
   $createPermalink: Boolean
 ) {
   searchMolecularProfiles(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchPhenotypes(
@@ -53,38 +55,32 @@ query searchPhenotypes(
   $createPermalink: Boolean
 ) {
   searchPhenotypes(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchSources($query: SourceSearchFilter!, $createPermalink: Boolean) {
   searchSources(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchTherapies($query: TherapySearchFilter!, $createPermalink: Boolean) {
   searchTherapies(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchUsers($query: UserSearchFilter!, $createPermalink: Boolean) {
   searchUsers(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
   searchVariants(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchComments($query: CommentSearchFilter!, $createPermalink: Boolean) {
   searchComments(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchRevisions(
@@ -92,8 +88,7 @@ query searchRevisions(
   $createPermalink: Boolean
 ) {
   searchRevisions(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
 query searchVariantTypes(
@@ -101,7 +96,6 @@ query searchVariantTypes(
   $createPermalink: Boolean
 ) {
   searchVariantTypes(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }

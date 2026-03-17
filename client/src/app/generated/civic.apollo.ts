@@ -10031,13 +10031,15 @@ export type GetOriginalQueryQueryVariables = Exact<{
 
 export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, resultIds: Array<number>, originalQuery: any, originalVariables?: any | undefined, permalinkId?: string | undefined, formQuery?: any | undefined } };
 
+export type QueryBuilderResponseFieldsFragment = { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> };
+
 export type SearchEvidenceItemsQueryVariables = Exact<{
   query: EvidenceItemSearchFilter;
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type SearchEvidenceItemsQuery = { __typename: 'Query', searchEvidenceItems: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchEvidenceItemsQuery = { __typename: 'Query', searchEvidenceItems: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchAssertionsQueryVariables = Exact<{
   query: AssertionSearchFilter;
@@ -10045,7 +10047,7 @@ export type SearchAssertionsQueryVariables = Exact<{
 }>;
 
 
-export type SearchAssertionsQuery = { __typename: 'Query', searchAssertions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchAssertionsQuery = { __typename: 'Query', searchAssertions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchDiseasesQueryVariables = Exact<{
   query: DiseaseSearchFilter;
@@ -10053,7 +10055,7 @@ export type SearchDiseasesQueryVariables = Exact<{
 }>;
 
 
-export type SearchDiseasesQuery = { __typename: 'Query', searchDiseases: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchDiseasesQuery = { __typename: 'Query', searchDiseases: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchFeaturesQueryVariables = Exact<{
   query: FeatureSearchFilter;
@@ -10061,7 +10063,7 @@ export type SearchFeaturesQueryVariables = Exact<{
 }>;
 
 
-export type SearchFeaturesQuery = { __typename: 'Query', searchFeatures: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchFeaturesQuery = { __typename: 'Query', searchFeatures: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchMolecularProfilesQueryVariables = Exact<{
   query: MolecularProfileSearchFilter;
@@ -10069,7 +10071,7 @@ export type SearchMolecularProfilesQueryVariables = Exact<{
 }>;
 
 
-export type SearchMolecularProfilesQuery = { __typename: 'Query', searchMolecularProfiles: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchMolecularProfilesQuery = { __typename: 'Query', searchMolecularProfiles: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchPhenotypesQueryVariables = Exact<{
   query: PhenotypeSearchFilter;
@@ -10077,7 +10079,7 @@ export type SearchPhenotypesQueryVariables = Exact<{
 }>;
 
 
-export type SearchPhenotypesQuery = { __typename: 'Query', searchPhenotypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchPhenotypesQuery = { __typename: 'Query', searchPhenotypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchSourcesQueryVariables = Exact<{
   query: SourceSearchFilter;
@@ -10085,7 +10087,7 @@ export type SearchSourcesQueryVariables = Exact<{
 }>;
 
 
-export type SearchSourcesQuery = { __typename: 'Query', searchSources: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchSourcesQuery = { __typename: 'Query', searchSources: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchTherapiesQueryVariables = Exact<{
   query: TherapySearchFilter;
@@ -10093,7 +10095,7 @@ export type SearchTherapiesQueryVariables = Exact<{
 }>;
 
 
-export type SearchTherapiesQuery = { __typename: 'Query', searchTherapies: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchTherapiesQuery = { __typename: 'Query', searchTherapies: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchUsersQueryVariables = Exact<{
   query: UserSearchFilter;
@@ -10101,7 +10103,7 @@ export type SearchUsersQueryVariables = Exact<{
 }>;
 
 
-export type SearchUsersQuery = { __typename: 'Query', searchUsers: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchUsersQuery = { __typename: 'Query', searchUsers: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchVariantsQueryVariables = Exact<{
   query: VariantSearchFilter;
@@ -10109,7 +10111,7 @@ export type SearchVariantsQueryVariables = Exact<{
 }>;
 
 
-export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchCommentsQueryVariables = Exact<{
   query: CommentSearchFilter;
@@ -10117,7 +10119,7 @@ export type SearchCommentsQueryVariables = Exact<{
 }>;
 
 
-export type SearchCommentsQuery = { __typename: 'Query', searchComments: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchCommentsQuery = { __typename: 'Query', searchComments: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchRevisionsQueryVariables = Exact<{
   query: RevisionSearchFilter;
@@ -10125,7 +10127,7 @@ export type SearchRevisionsQueryVariables = Exact<{
 }>;
 
 
-export type SearchRevisionsQuery = { __typename: 'Query', searchRevisions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchRevisionsQuery = { __typename: 'Query', searchRevisions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchVariantTypesQueryVariables = Exact<{
   query: VariantTypeSearchFilter;
@@ -10133,7 +10135,7 @@ export type SearchVariantTypesQueryVariables = Exact<{
 }>;
 
 
-export type SearchVariantTypesQuery = { __typename: 'Query', searchVariantTypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, resultIds: Array<number> } };
+export type SearchVariantTypesQuery = { __typename: 'Query', searchVariantTypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -13246,6 +13248,13 @@ export const RevisableMolecularProfileFieldsFragmentDoc = gql`
   }
   molecularProfileAliases
   isComplex
+}
+    `;
+export const QueryBuilderResponseFieldsFragmentDoc = gql`
+    fragment QueryBuilderResponseFields on AdvancedSearchResult {
+  permalinkId
+  searchEndpoint
+  resultIds
 }
     `;
 export const VariantGroupRevisableFieldsFragmentDoc = gql`
@@ -18073,6 +18082,7 @@ export const GetOriginalQueryDocument = gql`
     originalQuery
     originalVariables
     permalinkId
+    searchEndpoint
     formQuery @client
   }
 }
@@ -18091,11 +18101,10 @@ export const GetOriginalQueryDocument = gql`
 export const SearchEvidenceItemsDocument = gql`
     query searchEvidenceItems($query: EvidenceItemSearchFilter!, $createPermalink: Boolean) {
   searchEvidenceItems(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18110,11 +18119,10 @@ export const SearchEvidenceItemsDocument = gql`
 export const SearchAssertionsDocument = gql`
     query searchAssertions($query: AssertionSearchFilter!, $createPermalink: Boolean) {
   searchAssertions(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18129,11 +18137,10 @@ export const SearchAssertionsDocument = gql`
 export const SearchDiseasesDocument = gql`
     query searchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
   searchDiseases(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18148,11 +18155,10 @@ export const SearchDiseasesDocument = gql`
 export const SearchFeaturesDocument = gql`
     query searchFeatures($query: FeatureSearchFilter!, $createPermalink: Boolean) {
   searchFeatures(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18167,11 +18173,10 @@ export const SearchFeaturesDocument = gql`
 export const SearchMolecularProfilesDocument = gql`
     query searchMolecularProfiles($query: MolecularProfileSearchFilter!, $createPermalink: Boolean) {
   searchMolecularProfiles(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18186,11 +18191,10 @@ export const SearchMolecularProfilesDocument = gql`
 export const SearchPhenotypesDocument = gql`
     query searchPhenotypes($query: PhenotypeSearchFilter!, $createPermalink: Boolean) {
   searchPhenotypes(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18205,11 +18209,10 @@ export const SearchPhenotypesDocument = gql`
 export const SearchSourcesDocument = gql`
     query searchSources($query: SourceSearchFilter!, $createPermalink: Boolean) {
   searchSources(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18224,11 +18227,10 @@ export const SearchSourcesDocument = gql`
 export const SearchTherapiesDocument = gql`
     query searchTherapies($query: TherapySearchFilter!, $createPermalink: Boolean) {
   searchTherapies(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18243,11 +18245,10 @@ export const SearchTherapiesDocument = gql`
 export const SearchUsersDocument = gql`
     query searchUsers($query: UserSearchFilter!, $createPermalink: Boolean) {
   searchUsers(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18262,11 +18263,10 @@ export const SearchUsersDocument = gql`
 export const SearchVariantsDocument = gql`
     query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
   searchVariants(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18281,11 +18281,10 @@ export const SearchVariantsDocument = gql`
 export const SearchCommentsDocument = gql`
     query searchComments($query: CommentSearchFilter!, $createPermalink: Boolean) {
   searchComments(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18300,11 +18299,10 @@ export const SearchCommentsDocument = gql`
 export const SearchRevisionsDocument = gql`
     query searchRevisions($query: RevisionSearchFilter!, $createPermalink: Boolean) {
   searchRevisions(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -18319,11 +18317,10 @@ export const SearchRevisionsDocument = gql`
 export const SearchVariantTypesDocument = gql`
     query searchVariantTypes($query: VariantTypeSearchFilter!, $createPermalink: Boolean) {
   searchVariantTypes(query: $query, createPermalink: $createPermalink) {
-    permalinkId
-    resultIds
+    ...QueryBuilderResponseFields
   }
 }
-    `;
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

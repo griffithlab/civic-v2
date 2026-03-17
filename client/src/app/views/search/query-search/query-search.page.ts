@@ -18,7 +18,10 @@ import {
   getTabIndexFromSearchEndpoint,
   queryBuilderTabs,
 } from '@app/views/search/query-search/query-search.functions'
-import { AdvancedSearchEndpoint } from '@app/forms/config/query-builder/query-builder.types'
+import {
+  AdvancedSearchEndpoint,
+  QueryBuilderResult,
+} from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzResizableModule } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
@@ -33,6 +36,7 @@ import { CvcVariantTypesTableModule } from '../../../components/variant-types/va
 import { CvcPhenotypesTableModule } from '../../../components/phenotypes/phenotypes-table/phenotypes-table.module'
 import { CvcTherapiesTableModule } from '../../../components/therapies/therapies-table/therapies-table.module'
 import { CvcSourcesTableModule } from '../../../components/sources/sources-table/sources-table.module'
+import { NzResultComponent } from 'ng-zorro-antd/result'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -59,16 +63,17 @@ import { CvcSourcesTableModule } from '../../../components/sources/sources-table
     CvcPhenotypesTableModule,
     CvcTherapiesTableModule,
     CvcSourcesTableModule,
+    NzResultComponent,
   ],
 })
 export class QuerySearchPage {
   searchEndpoint = model.required<AdvancedSearchEndpoint>()
   permalinkId = model<Maybe<string>>()
 
+  searchResults = signal<Maybe<QueryBuilderResult>>(undefined)
   // update tab index when searchEndpoint changes
   selectedTabIndex: WritableSignal<number> = signal(0)
 
-  resultIds: WritableSignal<Maybe<number[]>> = signal(undefined)
   tabs = queryBuilderTabs
 
   private router = inject(Router)
@@ -81,7 +86,7 @@ export class QuerySearchPage {
       this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(newEndpoint))
       const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
       if (newEndpoint === currentEndpoint) return
-      this.resultIds.set(undefined)
+      this.searchResults.set(undefined)
       this.router.navigate(['../', newEndpoint], {
         relativeTo: this.route,
         queryParams: {

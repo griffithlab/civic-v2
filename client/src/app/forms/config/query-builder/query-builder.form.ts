@@ -14,14 +14,15 @@ import { UntypedFormGroup } from '@angular/forms'
 import {
   BooleanOperator,
   GetOriginalQueryGQL,
+  Maybe,
 } from '@app/generated/civic.apollo'
 import {
   AdvancedSearchEndpoint,
   AdvancedSearchService,
   QueryBuilderFormModel,
-  QueryBuilderSearchEndpoint,
+  QueryBuilderResult,
 } from '@app/forms/config/query-builder/query-builder.types'
-import { UntilDestroy } from '@ngneat/until-destroy'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { catchError, EMPTY } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
@@ -50,6 +51,8 @@ export class CvcQueryBuilderForm {
   permalinkId = model<string>()
   resultIds = output<number[]>()
 
+  searchResults = output<QueryBuilderResult>()
+  searchResultsDISPLAY = signal<Maybe<QueryBuilderResult>>(undefined)
   formModel: WritableSignal<QueryBuilderFormModel> = signal(
     defaultQueryBuilderFormModel
   )
@@ -77,6 +80,7 @@ export class CvcQueryBuilderForm {
           filter(isNonNulled),
           catchError((err) => {
             console.error('Error fetching permalink query:', err)
+            this.onError(err)
             return EMPTY
           })
         )
@@ -134,7 +138,7 @@ export class CvcQueryBuilderForm {
         // Update parent search page (which might need to change the tab),
         // and triggers effect to generate this endpoint's field configuration
         this.searchEndpoint.update(
-          () => searchEndpoint as QueryBuilderSearchEndpoint
+          () => searchEndpoint as AdvancedSearchEndpoint
         )
         // emit permalink to parent search page so it can append permalinkId to URL
         this.permalinkId.update(() => permalinkId)
@@ -164,19 +168,45 @@ export class CvcQueryBuilderForm {
     gql
       .fetch(model) // variables typed as any; runtime-checked by backend
       .pipe(
-        pluck('data', endpoint)
-        // ...
+        pluck('data', endpoint),
+        catchError((err) => {
+          console.error('Error on query:', err)
+          this.onError(err)
+          return EMPTY
+        }),
+        untilDestroyed(this)
       )
-      .subscribe(({ ids, permalinkId }) => {
-        this.resultIds.emit(ids)
+      .subscribe(({ resultIds, permalinkId, searchEndpoint }) => {
+        this.onResults(searchEndpoint, resultIds, permalinkId)
         this.permalinkId.update(() => permalinkId)
       })
   }
 
+  onResults(
+    endpoint: AdvancedSearchEndpoint,
+    resultIds: number[],
+    permalinkId?: string
+  ) {
+    const result: QueryBuilderResult = {
+      status: 'ok',
+      endpoint,
+      resultIds,
+      permalinkId,
+    }
+    this.searchResultsDISPLAY.set(result)
+    this.searchResults.emit(result)
+  }
+
+  onError(error: unknown) {
+    const result: QueryBuilderResult = {
+      status: 'network_error',
+      statusCode: 500,
+      message: error,
+    }
+  }
+
   onReset() {}
-  private searchEndpointToCardTitle(
-    endpoint: QueryBuilderSearchEndpoint
-  ): string {
+  private searchEndpointToCardTitle(endpoint: AdvancedSearchEndpoint): string {
     // Capitalize initial character
     const capitalized = endpoint.charAt(0).toUpperCase() + endpoint.slice(1)
     // Split on capital letters and join with space

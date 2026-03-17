@@ -49,10 +49,31 @@ export interface AdvancedSearchService {
   watch(variables?: any, options?: any): QueryRef<any, any>
 }
 
-// TODO: AdvSearchRecursiveFilterKey is an old type, refactor to use AdvancedSearchAttribute
-export type AdvancedSearchRecursiveFilterKey = AdvancedSearchAttribute
-
 export type QueryBuilderFormModel = {
   query: AdvancedSearchFilter
   createPermalink?: boolean
 }
+
+export type QueryBuilderResult =
+  | {
+      status: 'ok'
+      endpoint: AdvancedSearchEndpoint
+      resultIds: number[]
+      permalinkId?: string
+    }
+  | {
+      status: 'empty'
+      endpoint: AdvancedSearchEndpoint
+      permalinkId?: string
+    }
+  | {
+      status: 'query_error'
+      errors: Array<{ message: string; extensions?: Record<string, unknown> }>
+    }
+  | {
+      status: 'network_error'
+      statusCode?: number
+      message: any
+    }
+
+export type QueryBuilderResultStatus = QueryBuilderResult['status']

@@ -19,9 +19,9 @@
     nzXXl="12"
     class="query-form">
     <cvc-query-builder-form
-      [(searchEndpoint)]="searchEndpoint"
-      [(permalinkId)]="permalinkId"
-      (resultIds)="resultIds.set($event)">
+      [searchEndpoint]="searchEndpoint()"
+      [permalinkId]="permalinkId()"
+      (searchResults)="searchResults.set($event)">
     </cvc-query-builder-form>
   </nz-col>
 
@@ -30,61 +30,103 @@
     nzXs="24"
     nzXXl="12"
     class="query-results">
-    @let ids = resultIds();
-
-    @if (ids && ids.length > 0) {
-      @switch (searchEndpoint()) {
-        @case ('searchAssertions') {
-          <cvc-assertions-table [ids]="ids"></cvc-assertions-table>
+    @let result = searchResults();
+    @if (result) {
+      @if (result.status === 'ok') {
+        @let ids = result.resultIds;
+        @switch (result.endpoint) {
+          @case ('searchAssertions') {
+            <cvc-assertions-table [ids]="ids"></cvc-assertions-table>
+          }
+          @case ('searchEvidenceItems') {
+            <cvc-evidence-table [ids]="ids"></cvc-evidence-table>
+          }
+          @case ('searchDiseases') {
+            <cvc-diseases-table [ids]="ids"></cvc-diseases-table>
+          }
+          @case ('searchMolecularProfiles') {
+            <cvc-molecular-profiles-table
+              [ids]="ids"></cvc-molecular-profiles-table>
+          }
+          @case ('searchFeatures') {
+            <cvc-features-table [ids]="ids"></cvc-features-table>
+          }
+          @case ('searchVariants') {
+            <cvc-variants-table [ids]="ids"></cvc-variants-table>
+          }
+          @case ('searchUsers') {
+            <cvc-users-table [ids]="ids"></cvc-users-table>
+          }
+          @case ('searchVariantTypes') {
+            <cvc-variant-types-table [ids]="ids"></cvc-variant-types-table>
+          }
+          @case ('searchPhenotypes') {
+            <cvc-phenotypes-table [ids]="ids"></cvc-phenotypes-table>
+          }
+          @case ('searchSources') {
+            <cvc-sources-table [ids]="ids"></cvc-sources-table>
+          }
+          @case ('searchTherapies') {
+            <cvc-therapies-table [ids]="ids"></cvc-therapies-table>
+          }
+          @case ('searchRevisions') {
+            Revisions Ids: {{ ids | json }}
+            <!--          <cvc-revisions-table [ids]="ids"></cvc-revisions-table>-->
+          }
+          @default {
+            <p>No table specified for this search endpoint.</p>
+          }
         }
-        @case ('searchEvidenceItems') {
-          <cvc-evidence-table [ids]="ids"></cvc-evidence-table>
-        }
-        @case ('searchDiseases') {
-          <cvc-diseases-table [ids]="ids"></cvc-diseases-table>
-        }
-        @case ('searchMolecularProfiles') {
-          <cvc-molecular-profiles-table
-            [ids]="ids"></cvc-molecular-profiles-table>
-        }
-        @case ('searchFeatures') {
-          <cvc-features-table [ids]="ids"></cvc-features-table>
-        }
-        @case ('searchVariants') {
-          <cvc-variants-table [ids]="ids"></cvc-variants-table>
-        }
-        @case ('searchUsers') {
-          <cvc-users-table [ids]="ids"></cvc-users-table>
-        }
-        @case ('searchVariantTypes') {
-          <cvc-variant-types-table [ids]="ids"></cvc-variant-types-table>
-        }
-        @case ('searchPhenotypes') {
-          <cvc-phenotypes-table [ids]="ids"></cvc-phenotypes-table>
-        }
-        @case ('searchSources') {
-          <cvc-sources-table [ids]="ids"></cvc-sources-table>
-        }
-        @case ('searchTherapies') {
-          <cvc-therapies-table [ids]="ids"></cvc-therapies-table>
-        }
-        @case ('searchRevisions') {
-          Revisions Ids: {{ ids | json }}
-          <!--          <cvc-revisions-table [ids]="ids"></cvc-revisions-table>-->
-        }
-        @default {
-          <p>No table specified for this search endpoint.</p>
-        }
+      } @else {
+        <!-- null results & error notices -->
+        <div
+          [cvcAutoHeightDiv]="34"
+          cvcAutoHeightTarget="viewport"
+          style="border: 1px solid #f0f0f0; border-radius: 2px; padding: 50px">
+          @if (result.status === 'empty') {
+            <nz-empty [nzNotFoundContent]="notFoundContent"></nz-empty>
+            <ng-template #notFoundContent>
+              <span>
+                No results were found matching your query, try specifying wider
+                search parameters.
+              </span>
+            </ng-template>
+          }
+          @if (result.status === 'query_error') {
+            <nz-result
+              nzStatus="error"
+              nzTitle="Query Error"
+              nzSubTitle="The query returned an error.">
+              <div nz-result-extra>
+                <pre>{{ result.errors }}</pre>
+              </div>
+            </nz-result>
+          }
+          @if (result.status === 'network_error') {
+            <nz-result
+              nzStatus="error"
+              nzTitle="Network Error"
+              nzSubTitle="A server error occured while processing the query.">
+              <div nz-result-extra>
+                <pre>{{ result.statusCode }}</pre>
+                <pre>{{ result.message }}</pre>
+              </div>
+            </nz-result>
+          }
+        </div>
       }
     } @else {
+      <!-- initial search state, show instructions -->
+
       <div
         [cvcAutoHeightDiv]="34"
         cvcAutoHeightTarget="viewport"
         style="border: 1px solid #f0f0f0; border-radius: 2px; padding: 50px">
-        <nz-empty [nzNotFoundContent]="notFoundContent"></nz-empty>
-        <ng-template #notFoundContent>
-          <span>No results found.</span>
-        </ng-template>
+        <p>
+          Use the tabs to select the subject of your search, and add attribute
+          filters with the query builder to specify your CIViC search. Then
+          click search to execute your query.
+        </p>
       </div>
     }
   </nz-col>
