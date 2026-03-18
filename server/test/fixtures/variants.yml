@@ -22,3 +22,30 @@ v87e:
   feature: vhl
   type: 'Variants::GeneVariant'
   single_variant_molecular_profile: mp4
+
+eml4_alk_fusion_v:
+  name: Fusion
+  feature: eml4_alk_fusion
+  type: 'Variants::FusionVariant'
+  single_variant_molecular_profile: mp_fusion
+  vicc_compliant_name: "EML4(entrez:27436)::ALK(entrez:238)"
+
+msi_factor_v:
+  name: MSI High
+  feature: msi
+  type: 'Variants::FactorVariant'
+  single_variant_molecular_profile: mp_factor
+
+chr7_trisomy:
+  name: Trisomy
+  feature: chr7_region
+  type: 'Variants::RegionVariant'
+  single_variant_molecular_profile: mp_region
+  iscn_name: "+7"
+
+deprecated_variant:
+  name: Deprecated VHL Variant
+  feature: vhl
+  type: 'Variants::GeneVariant'
+  single_variant_molecular_profile: mp_variant_deprecated
+  deprecated: true
