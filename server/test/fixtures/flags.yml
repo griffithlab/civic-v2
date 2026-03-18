@@ -1,0 +1,11 @@
+open_flag:
+  flagging_user: curator
+  flaggable_type: EvidenceItem
+  flaggable_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei) %>
+  state: open
+
+resolved_flag:
+  flagging_user: curator
+  flaggable_type: EvidenceItem
+  flaggable_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+  state: resolved

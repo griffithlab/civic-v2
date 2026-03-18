@@ -1,0 +1,10 @@
+# Notification type column is NOT STI (inheritance_column = :_unused)
+# type enum: 0=subscribed_event, 1=mention
+curator_notification:
+  notified_user_id: <%= ActiveRecord::FixtureSet.identify(:curator) %>
+  originating_user_id: <%= ActiveRecord::FixtureSet.identify(:editor) %>
+  event: test_event
+  subscription: curator_subscription
+  seen: false
+  type: subscribed_event
+  description: "Test notification"

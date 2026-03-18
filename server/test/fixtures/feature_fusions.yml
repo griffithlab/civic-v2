@@ -1,0 +1,5 @@
+eml4_alk:
+  five_prime_gene: eml4
+  three_prime_gene: alk
+  five_prime_partner_status: known
+  three_prime_partner_status: known
