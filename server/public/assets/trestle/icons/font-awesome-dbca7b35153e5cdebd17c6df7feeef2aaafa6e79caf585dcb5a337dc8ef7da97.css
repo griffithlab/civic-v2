@@ -1,0 +1,32 @@
+/*!
+ * Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(/assets/trestle/fa-regular-400-03d55b4a74f51c28538c2945eedcd6ffa1a222aa47a8853d7fe0a6a8cb516882.woff2) format('woff2'),
+       url(/assets/trestle/fa-regular-400-fe09c56cb32efae62b9251bb7d14e66b4a1c93c0c7c908dd02e91f3167510e29.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url(/assets/trestle/fa-solid-900-6e6cec68e4df483294a7b5fcf552c34b51d008593e70e25d53d272e34992abf8.woff2) format('woff2'),
+       url(/assets/trestle/fa-solid-900-23135dfa15a4db7bf1e7bddb89eee659344f8420ca35831d90c6ecdbc5af35e0.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
+  src: url(/assets/trestle/fa-brands-400-98decb05d1800929787c86e15a826b7a77cb84d271856f3d3218eac7f7cbdf73.woff2) format('woff2'),
+       url(/assets/trestle/fa-brands-400-21b0a7bf064c401343b5557c6862345eb3d3c9e21b23c414d7036b21fa8d6ed2.ttf) format('truetype')
+}
