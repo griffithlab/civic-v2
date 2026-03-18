@@ -30,6 +30,7 @@ import { filter, switchMap } from 'rxjs/operators'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 import { AdvancedSearchRegistry } from './query-builder.service'
+import { ApolloError } from '@apollo/client/core'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   query: {
@@ -186,23 +187,35 @@ export class CvcQueryBuilderForm {
     endpoint: AdvancedSearchEndpoint,
     resultIds: number[],
     permalinkId?: string
-  ) {
-    const result: QueryBuilderResult = {
-      status: 'ok',
-      endpoint,
-      resultIds,
-      permalinkId,
+  ): void {
+    let result: QueryBuilderResult
+    if (resultIds.length === 0) {
+      result = {
+        status: 'empty',
+        endpoint,
+        permalinkId,
+      }
+    } else {
+      result = {
+        status: 'ok',
+        endpoint,
+        resultIds,
+        permalinkId,
+      }
     }
     this.searchResultsDISPLAY.set(result)
     this.searchResults.emit(result)
   }
 
-  onError(error: unknown) {
+  onError(error: ApolloError) {
+    // differentiate network errors (500, 401) from query errors (graphql errors with 200 status code)
+    console.error('Error on query:', error)
     const result: QueryBuilderResult = {
-      status: 'network_error',
-      statusCode: 500,
-      message: error,
+      status: 'error',
+      error,
     }
+    this.searchResultsDISPLAY.set(result)
+    this.searchResults.emit(result)
   }
 
   onReset() {}

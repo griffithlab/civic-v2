@@ -92,24 +92,51 @@
               </span>
             </ng-template>
           }
-          @if (result.status === 'query_error') {
+          @if (result.status === 'error') {
+            @let err = result.error;
             <nz-result
               nzStatus="error"
               nzTitle="Query Error"
-              nzSubTitle="The query returned an error.">
-              <div nz-result-extra>
-                <pre>{{ result.errors }}</pre>
-              </div>
-            </nz-result>
-          }
-          @if (result.status === 'network_error') {
-            <nz-result
-              nzStatus="error"
-              nzTitle="Network Error"
-              nzSubTitle="A server error occured while processing the query.">
-              <div nz-result-extra>
-                <pre>{{ result.statusCode }}</pre>
-                <pre>{{ result.message }}</pre>
+              [nzSubTitle]="err.message">
+              <div nz-result-extra style="text-align: left">
+                @if (err.networkError; as ne) {
+                  <p>
+                    <strong>Network Error:</strong>
+                    {{ $any(ne).status }} {{ $any(ne).statusText }}
+                  </p>
+                  @if ($any(ne).error?.errors?.length) {
+                    <p><strong>Server errors:</strong></p>
+                    @for (serverErr of $any(ne).error.errors; track $index) {
+                      <p>{{ serverErr.message }}</p>
+                    }
+                  }
+                }
+                @if (err.graphQLErrors?.length) {
+                  <p><strong>GraphQL errors:</strong></p>
+                  @for (gqlErr of err.graphQLErrors; track $index) {
+                    <p>{{ gqlErr.message }}</p>
+                    @if ($any(gqlErr.extensions)?.problems?.length) {
+                      @for (problem of $any(gqlErr.extensions).problems; track $index) {
+                        <p>
+                          <code>{{ problem.path?.join(' → ') }}</code>:
+                          {{ problem.explanation }}
+                        </p>
+                      }
+                    }
+                  }
+                }
+                @if (err.clientErrors?.length) {
+                  <p><strong>Client errors:</strong></p>
+                  @for (clientErr of err.clientErrors; track $index) {
+                    <p>{{ clientErr.message }}</p>
+                  }
+                }
+                @if (err.protocolErrors?.length) {
+                  <p><strong>Protocol errors:</strong></p>
+                  @for (protocolErr of err.protocolErrors; track $index) {
+                    <p>{{ protocolErr.message }}</p>
+                  }
+                }
               </div>
             </nz-result>
           }

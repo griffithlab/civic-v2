@@ -15,6 +15,7 @@ import {
 import { ADVANCED_SEARCH_ENDPOINTS } from './query-builder.registry'
 import { Observable } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
+import { ApolloError } from '@apollo/client/core'
 
 export type AdvancedSearchEndpoint = keyof typeof ADVANCED_SEARCH_ENDPOINTS
 
@@ -67,13 +68,8 @@ export type QueryBuilderResult =
       permalinkId?: string
     }
   | {
-      status: 'query_error'
-      errors: Array<{ message: string; extensions?: Record<string, unknown> }>
-    }
-  | {
-      status: 'network_error'
-      statusCode?: number
-      message: any
+      status: 'error'
+      error: ApolloError
     }
 
 export type QueryBuilderResultStatus = QueryBuilderResult['status']
