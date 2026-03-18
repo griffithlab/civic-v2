@@ -37,6 +37,7 @@ import { CvcPhenotypesTableModule } from '../../../components/phenotypes/phenoty
 import { CvcTherapiesTableModule } from '../../../components/therapies/therapies-table/therapies-table.module'
 import { CvcSourcesTableModule } from '../../../components/sources/sources-table/sources-table.module'
 import { NzResultComponent } from 'ng-zorro-antd/result'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -50,6 +51,7 @@ import { NzResultComponent } from 'ng-zorro-antd/result'
     NzGridModule,
     NzResizableModule,
     NzEmptyModule,
+    NzIconModule,
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
     CvcEvidenceTableModule,

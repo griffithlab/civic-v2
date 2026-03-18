@@ -98,7 +98,9 @@
               nzStatus="error"
               nzTitle="Query Error"
               [nzSubTitle]="err.message">
-              <div nz-result-extra style="text-align: left">
+              <div
+                nz-result-extra
+                style="text-align: left">
                 @if (err.networkError; as ne) {
                   <p>
                     <strong>Network Error:</strong>
@@ -116,9 +118,13 @@
                   @for (gqlErr of err.graphQLErrors; track $index) {
                     <p>{{ gqlErr.message }}</p>
                     @if ($any(gqlErr.extensions)?.problems?.length) {
-                      @for (problem of $any(gqlErr.extensions).problems; track $index) {
+                      @for (
+                        problem of $any(gqlErr.extensions).problems;
+                        track $index
+                      ) {
                         <p>
-                          <code>{{ problem.path?.join(' → ') }}</code>:
+                          <code>{{ problem.path?.join(' → ') }}</code
+                          >:
                           {{ problem.explanation }}
                         </p>
                       }
@@ -148,12 +154,54 @@
       <div
         [cvcAutoHeightDiv]="34"
         cvcAutoHeightTarget="viewport"
-        style="border: 1px solid #f0f0f0; border-radius: 2px; padding: 50px">
-        <p>
-          Use the tabs to select the subject of your search, and add attribute
-          filters with the query builder to specify your CIViC search. Then
-          click search to execute your query.
-        </p>
+        style="
+          border: 1px solid #f0f0f0;
+          border-radius: 2px;
+          padding: 25px 50px;
+        ">
+        <h2>CIViC Advanced Search</h2>
+        <div class="instructions-block">
+          <p>
+            Use Advanced Search to locate CIViC entities and artifacts by
+            specifying filters for the attributes relevant to your interest.
+          </p>
+          <h3>Instructions</h3>
+          <p>
+            Select the entity or artifact you wish to search using the tabs.
+            Note that on narrower displays, some tabs may be hidden. In this
+            case, you may select those tabs by scrolling the tabs horizontally,
+            or by clicking the
+            <span
+              style="
+                border: 1px solid #ccc;
+                border-radius: 2px;
+                padding: 2px 4px;
+              "
+              >...</span
+            >
+            overflow button and selecting from the dropdown menu.
+          </p>
+          <p>
+            Click the 'Add Filter' button to create an initial attribute filter.
+            Then use the 'Select Attribute' selector to choose an attribute you
+            wish to specify for your search. You may specify as many filters as
+            you wish but keep in mind that the narrower your search, the less
+            likely it will return results.
+          </p>
+          <p>
+            The <strong>Match</strong> toggle in the header switches between
+            <i>all</i> and <i>any</i> modes. With <i>all</i> selected, the
+            search will only return entities where all specified filters match.
+            With <i>any</i> selected, searches will return entities if any of
+            the specified filters match.
+          </p>
+          <p>
+            After you've specified your search, click the 'Search' button to
+            query the CIViC knowledgebase. Search results will appear in a
+            table. On wide screens, the table will appear adjacent to the query
+            builder. On narrower screens, the results table will appear beneath.
+          </p>
+        </div>
       </div>
     }
   </nz-col>
