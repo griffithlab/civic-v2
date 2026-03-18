@@ -110,7 +110,6 @@ group :development do
   gem "solargraph-rails"
 
   gem "dockerfile-rails", ">= 1.5"
-  gem "rails-schema"
 end
 
 group :test do
@@ -124,3 +123,5 @@ gem "csv", "~> 3.3"
 
 # rate limit cache
 gem "redis", "~> 5.4"
+
+gem "rails-schema"
