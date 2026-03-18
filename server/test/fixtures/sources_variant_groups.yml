@@ -1,0 +1,3 @@
+svg1:
+  variant_group_id: <%= ActiveRecord::FixtureSet.identify(:test_variant_group) %>
+  source_id: <%= ActiveRecord::FixtureSet.identify(:pubmed_source) %>
