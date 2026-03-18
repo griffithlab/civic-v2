@@ -113,7 +113,7 @@
                     }
                   }
                 }
-                @if (err.graphQLErrors?.length) {
+                @if (err.graphQLErrors.length) {
                   <p><strong>GraphQL errors:</strong></p>
                   @for (gqlErr of err.graphQLErrors; track $index) {
                     <p>{{ gqlErr.message }}</p>
@@ -131,13 +131,13 @@
                     }
                   }
                 }
-                @if (err.clientErrors?.length) {
+                @if (err.clientErrors.length) {
                   <p><strong>Client errors:</strong></p>
                   @for (clientErr of err.clientErrors; track $index) {
                     <p>{{ clientErr.message }}</p>
                   }
                 }
-                @if (err.protocolErrors?.length) {
+                @if (err.protocolErrors.length) {
                   <p><strong>Protocol errors:</strong></p>
                   @for (protocolErr of err.protocolErrors; track $index) {
                     <p>{{ protocolErr.message }}</p>

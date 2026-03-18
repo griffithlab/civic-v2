@@ -69,12 +69,18 @@ export class CvcQueryBuilderForm {
 
   getOriginalQueryGQL = inject(GetOriginalQueryGQL)
 
+  // flag to prevent permalink model from being overwritten
+  private permalinkSearchEndpoint?: string
+  // flag to prevent double-querying permalinkIds
+  private permalinkQueryId?: string
+
   // if permalinkId provided, fetch original query
   // NOTE: results are handled by permalink effect below
   private permalinkId$ = toObservable(this.permalinkId)
   permalinkQuery = toSignal(
     this.permalinkId$.pipe(
-      filter(isNonNulled), // Only fetch if permalinkId is not null/undefined
+      filter(isNonNulled),
+      filter((id) => id !== this.permalinkQueryId),
       switchMap((id) =>
         this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
           pluck('data', 'searchByPermalink'),
@@ -88,9 +94,6 @@ export class CvcQueryBuilderForm {
       )
     )
   )
-
-  // flag to prevent permalink model from being overwritten
-  private permalinkSearchEndpoint?: string
 
   constructor() {
     // when search endpoint changes, always switch fields first
@@ -130,21 +133,26 @@ export class CvcQueryBuilderForm {
 
     // handle permalink query results: emit result IDs, update form model
     effect(() => {
-      const query = this.permalinkQuery()
-      if (query) {
-        const { searchEndpoint, formQuery, permalinkId, resultIds } = query
+      const result = this.permalinkQuery()
+      if (result) {
+        const { searchEndpoint, formQuery, permalinkId, resultIds } = result
         // Set permalink endpoint flag so that the searchEndpoint effect logic
         // won't overwrite the model returned from the permalink query
         this.permalinkSearchEndpoint = searchEndpoint
         // Update parent search page (which might need to change the tab),
         // and triggers effect to generate this endpoint's field configuration
-        this.searchEndpoint.update(
-          () => searchEndpoint as AdvancedSearchEndpoint
-        )
+        // this.searchEndpoint.update(
+        //   () => searchEndpoint as AdvancedSearchEndpoint
+        // )
         // emit permalink to parent search page so it can append permalinkId to URL
-        this.permalinkId.update(() => permalinkId)
+        // this.permalinkId.update(() => permalinkId)
         // emit resultIds to parent search page for display in results table
-        this.resultIds.emit([...resultIds])
+        // this.resultIds.emit([...resultIds])
+        this.onResults(
+          searchEndpoint as AdvancedSearchEndpoint,
+          resultIds,
+          permalinkId
+        )
         if (formQuery) {
           this.formModel.update((value) => {
             return {
@@ -203,6 +211,8 @@ export class CvcQueryBuilderForm {
         permalinkId,
       }
     }
+    // set permalink id flag to prevent double-query
+    this.permalinkQueryId = permalinkId
     this.searchResultsDISPLAY.set(result)
     this.searchResults.emit(result)
   }

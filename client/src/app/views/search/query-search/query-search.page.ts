@@ -73,7 +73,6 @@ export class QuerySearchPage {
   permalinkId = model<Maybe<string>>()
 
   searchResults = signal<Maybe<QueryBuilderResult>>(undefined)
-  // update tab index when searchEndpoint changes
   selectedTabIndex: WritableSignal<number> = signal(0)
 
   tabs = queryBuilderTabs
@@ -85,10 +84,12 @@ export class QuerySearchPage {
     // update tabs and route when searchEndpoint changes
     effect(() => {
       const newEndpoint = this.searchEndpoint()
-      this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(newEndpoint))
       const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
-      if (newEndpoint === currentEndpoint) return
+      this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(newEndpoint))
+      // reset results on tab change
       this.searchResults.set(undefined)
+      if (newEndpoint === currentEndpoint) return
+      //update route w/ new endpoint
       this.router.navigate(['../', newEndpoint], {
         relativeTo: this.route,
         queryParams: {
@@ -104,6 +105,8 @@ export class QuerySearchPage {
     effect(() => {
       const permalinkId = this.permalinkId()
       if (!permalinkId) return
+      const currentPermalinkId = this.route.snapshot.paramMap.get('permalinkId')
+      if (permalinkId === currentPermalinkId) return
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: {
@@ -113,6 +116,14 @@ export class QuerySearchPage {
         replaceUrl: true,
         skipLocationChange: false,
       })
+    })
+    // update searchEndpoint and permalinkId from searchResults
+    effect(() => {
+      const result = this.searchResults()
+      if (!result) return
+      if (result.status === 'error') return
+      this.searchEndpoint.set(result.endpoint)
+      this.permalinkId.set(result.permalinkId)
     })
   }
   onTabIndexChange(index: number) {
