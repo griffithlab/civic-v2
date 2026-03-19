@@ -14,7 +14,6 @@ import { UntypedFormGroup } from '@angular/forms'
 import {
   BooleanOperator,
   GetOriginalQueryGQL,
-  Maybe,
 } from '@app/generated/civic.apollo'
 import {
   AdvancedSearchEndpoint,
@@ -53,7 +52,6 @@ export class CvcQueryBuilderForm {
   resultIds = output<number[]>()
 
   searchResults = output<QueryBuilderResult>()
-  searchResultsDISPLAY = signal<Maybe<QueryBuilderResult>>(undefined)
   formModel: WritableSignal<QueryBuilderFormModel> = signal(
     defaultQueryBuilderFormModel
   )
@@ -213,18 +211,15 @@ export class CvcQueryBuilderForm {
     }
     // set permalink id flag to prevent double-query
     this.permalinkQueryId = permalinkId
-    this.searchResultsDISPLAY.set(result)
     this.searchResults.emit(result)
   }
 
   onError(error: ApolloError) {
-    // differentiate network errors (500, 401) from query errors (graphql errors with 200 status code)
     console.error('Error on query:', error)
     const result: QueryBuilderResult = {
       status: 'error',
       error,
     }
-    this.searchResultsDISPLAY.set(result)
     this.searchResults.emit(result)
   }
 

@@ -10,7 +10,7 @@
         (ngModelChange)="onKeyChange($event)"
         [nzOptionOverflowSize]="props.optionOverflowSize || 12"
         [nzOptionHeightPx]="28"
-        nzPlaceHolder="Select Filter"
+        nzPlaceHolder="Select Attribute"
         class="filter-select">
         @for (option of filterSelectOptions(); track option.value) {
           <nz-option
