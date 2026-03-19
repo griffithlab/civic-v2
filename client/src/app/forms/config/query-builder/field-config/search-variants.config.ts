@@ -24,11 +24,6 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
-          key: 'variantType',
-          props: { label: 'Variant Type' },
-          fieldGroup: INPUT_FIELD_CONFIG['VariantTypeSearchFilter'],
-        },
-        {
           key: 'isDeprecated',
           props: { label: 'Is Deprecated' },
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
@@ -76,6 +71,11 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
         ),
         ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
         ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
+        ...getQueryFieldConfig(
+          'variantType',
+          'searchVariantTypes',
+          'Variant Types'
+        ),
       ]),
       ...getStructFieldConfig('coordinates', 'Coordinates'),
     ])
