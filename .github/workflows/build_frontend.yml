@@ -45,9 +45,6 @@ jobs:
 
       - run: bundle exec rails assets:precompile
         working-directory: ./server
-
-      - run: bundle exec rails webpacker:compile
-        working-directory: ./server
         env:
           RAILS_ENV: production
           SECRET_KEY_BASE_DUMMY: 1
