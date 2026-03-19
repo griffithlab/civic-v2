@@ -138,6 +138,9 @@
           </td>
           <td nzLeft nzBreakWord>
             @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
+              @if (revision.subject.__typename === 'ExonCoordinate' ) {
+                {{ revision.subject.coordinateType | enumToTitle }}
+              }
               {{ revision.fieldDisplayName }}{{ isLast? '' : ', ' }}<br/>
             }
           </td>
@@ -152,7 +155,7 @@
               @for (revision of revisionSetDetails[0].revisions; track revision ) {
                 <div style="padding-left: 30px; background-color: #ffffff">
                   <cvc-activity-revision
-                  [cvcActivityRevision]="castToRevision(revision)"></cvc-activity-revision>
+                  [cvcActivityRevision]="castToRevisionActivityDetailFragment(revision)"></cvc-activity-revision>
                 </div>
               }
             }

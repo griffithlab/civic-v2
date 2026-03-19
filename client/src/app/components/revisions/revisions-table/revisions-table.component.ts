@@ -22,11 +22,11 @@ import {
   Maybe,
   PageInfo,
   RevisionSet,
-  Revision,
   ViewerFieldsFragment,
   ActivitySubjectInput,
   RevisionFragment,
   RevisionSetBrowseFieldsFragment,
+  RevisionActivityDetailFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -285,7 +285,7 @@ export class CvcRevisionsTableComponent implements OnInit {
     }
   }
   
-  castToRevision(revision: any): Revision {
-    return revision as Revision
+  castToRevisionActivityDetailFragment(revision: any): RevisionActivityDetailFragment {
+    return revision as RevisionActivityDetailFragment
   }
 }
