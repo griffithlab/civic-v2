@@ -36,42 +36,63 @@
         @let ids = result.resultIds;
         @switch (result.endpoint) {
           @case ('searchAssertions') {
-            <cvc-assertions-table [ids]="ids"></cvc-assertions-table>
+            <cvc-assertions-table
+              [ids]="ids"
+              cvcTitle="Matching Assertions"></cvc-assertions-table>
           }
           @case ('searchEvidenceItems') {
-            <cvc-evidence-table [ids]="ids"></cvc-evidence-table>
+            <cvc-evidence-table
+              [ids]="ids"
+              cvcTitle="Matching Evidence Items"></cvc-evidence-table>
           }
           @case ('searchDiseases') {
-            <cvc-diseases-table [ids]="ids"></cvc-diseases-table>
+            <cvc-diseases-table
+              [ids]="ids"
+              cvcTitle="Matching Diseases"></cvc-diseases-table>
           }
           @case ('searchMolecularProfiles') {
             <cvc-molecular-profiles-table
-              [ids]="ids"></cvc-molecular-profiles-table>
+              [ids]="ids"
+              cvcTitle="Matching Molecular Profiles"></cvc-molecular-profiles-table>
           }
           @case ('searchFeatures') {
-            <cvc-features-table [ids]="ids"></cvc-features-table>
+            <cvc-features-table
+              [ids]="ids"
+              cvcTitle="Matching Features"></cvc-features-table>
           }
           @case ('searchVariants') {
-            <cvc-variants-table [ids]="ids"></cvc-variants-table>
+            <cvc-variants-table
+              [ids]="ids"
+              cvcTitle="Matching Variants"></cvc-variants-table>
           }
           @case ('searchUsers') {
-            <cvc-users-table [ids]="ids"></cvc-users-table>
+            <cvc-users-table
+              [ids]="ids"
+              cvcTitle="Matching Users"></cvc-users-table>
           }
           @case ('searchVariantTypes') {
-            <cvc-variant-types-table [ids]="ids"></cvc-variant-types-table>
+            <cvc-variant-types-table
+              [ids]="ids"
+              cvcTitle="Matching Variant Types"></cvc-variant-types-table>
           }
           @case ('searchPhenotypes') {
-            <cvc-phenotypes-table [ids]="ids"></cvc-phenotypes-table>
+            <cvc-phenotypes-table
+              [ids]="ids"
+              cvcTitle="Matching Phenotypes"></cvc-phenotypes-table>
           }
           @case ('searchSources') {
-            <cvc-sources-table [ids]="ids"></cvc-sources-table>
+            <cvc-sources-table
+              [ids]="ids"
+              cvcTitle="Matching Sources"></cvc-sources-table>
           }
           @case ('searchTherapies') {
-            <cvc-therapies-table [ids]="ids"></cvc-therapies-table>
+            <cvc-therapies-table
+              [ids]="ids"
+              cvcTitle="Matching Therapies"></cvc-therapies-table>
           }
           @case ('searchRevisions') {
             Revisions Ids: {{ ids | json }}
-            <!--          <cvc-revisions-table [ids]="ids"></cvc-revisions-table>-->
+            <!--          <cvc-revisions-table [ids]="ids" cvcTitle="Matching Revisions"></cvc-revisions-table>-->
           }
           @default {
             <p>No table specified for this search endpoint.</p>
