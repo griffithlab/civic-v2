@@ -22,11 +22,11 @@ import {
   QueryBuilderResult,
 } from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { catchError, EMPTY } from 'rxjs'
+import { catchError, EMPTY, tap } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
 import { filter, switchMap } from 'rxjs/operators'
-import { toObservable, toSignal } from '@angular/core/rxjs-interop'
+import { toObservable } from '@angular/core/rxjs-interop'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 import { AdvancedSearchRegistry } from './query-builder.service'
 import { ApolloError } from '@apollo/client/core'
@@ -69,36 +69,19 @@ export class CvcQueryBuilderForm {
 
   // flag to prevent permalink model from being overwritten
   private permalinkSearchEndpoint?: string
-  // flag to prevent double-querying permalinkIds
-  private permalinkQueryId?: string
 
   // if permalinkId provided, fetch original query
-  // NOTE: results are handled by permalink effect below
-  private permalinkId$ = toObservable(this.permalinkId)
-  permalinkQuery = toSignal(
-    this.permalinkId$.pipe(
-      filter(isNonNulled),
-      filter((id) => id !== this.permalinkQueryId),
-      switchMap((id) =>
-        this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
-          pluck('data', 'searchByPermalink'),
-          filter(isNonNulled),
-          catchError((err) => {
-            console.error('Error fetching permalink query:', err)
-            this.onError(err)
-            return EMPTY
-          })
-        )
-      )
-    )
+  private permalinkId$ = toObservable(this.permalinkId).pipe(
+    tap((id) => console.log('permalinkId$:', id))
   )
 
   constructor() {
-    // when search endpoint changes, always switch fields first
+    // EFFECT: when search endpoint changes, always switch fields first
     // then reset the model to the default, but do NOT overwrite
     // a model that was just loaded from a permalink
     effect(() => {
       const endpoint = this.searchEndpoint()
+      console.log('form searchEndpoint effect:', endpoint)
       this.options = {
         ...this.options,
         formState: {
@@ -110,7 +93,7 @@ export class CvcQueryBuilderForm {
         },
       }
 
-      // update root builder card field config
+      // update root field config
       this.fields = getQueryFieldConfig(
         'query',
         endpoint,
@@ -124,12 +107,25 @@ export class CvcQueryBuilderForm {
       }
     })
 
-    // handle permalink query results: emit result IDs, update form model
-    effect(() => {
-      const result = this.permalinkQuery()
-      if (result) {
+    // SUBSCRIPTION: handle permalink query results: emit result IDs, update form model
+    this.permalinkId$
+      .pipe(
+        filter(isNonNulled),
+        switchMap((id) => {
+          return this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
+            pluck('data', 'searchByPermalink'),
+            filter(isNonNulled),
+            catchError((err) => {
+              console.error('Error fetching permalink query:', err)
+              this.onError(err)
+              return EMPTY
+            })
+          )
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe((result) => {
         const { searchEndpoint, formQuery, permalinkId, resultIds } = result
-        // Set permalink endpoint flag so the searchEndpoint effect won't overwrite the model if quick-search.page needs to change the searchEndpoint route
         this.permalinkSearchEndpoint = searchEndpoint
         this.onResults(
           searchEndpoint as AdvancedSearchEndpoint,
@@ -148,8 +144,7 @@ export class CvcQueryBuilderForm {
         } else {
           console.error('searchByPermalink results did not include a formModel')
         }
-      }
-    })
+      })
   }
 
   onSubmit() {
@@ -162,7 +157,6 @@ export class CvcQueryBuilderForm {
       .pipe(
         pluck('data', endpoint),
         catchError((err) => {
-          console.error('Error on query:', err)
           this.onError(err)
           return EMPTY
         }),
@@ -194,13 +188,10 @@ export class CvcQueryBuilderForm {
         permalinkId,
       }
     }
-    // set permalink id flag to prevent double-query
-    this.permalinkQueryId = permalinkId
     this.searchResults.emit(result)
   }
 
   onError(error: ApolloError) {
-    console.error('Error on query:', error)
     const result: QueryBuilderResult = {
       status: 'error',
       error,
@@ -224,6 +215,7 @@ export class CvcQueryBuilderForm {
       this.options.resetModel()
     }
   }
+
   private searchEndpointToCardTitle(endpoint: AdvancedSearchEndpoint): string {
     const capitalized = endpoint.charAt(0).toUpperCase() + endpoint.slice(1)
     return capitalized.replace(/([A-Z])/g, ' $1').trim()

@@ -73,8 +73,6 @@ export type QueryBuilderResult =
     }
   | {
       status: 'reset'
-      endpoint?: AdvancedSearchEndpoint
-      permalinkId?: string
     }
 
 export type QueryBuilderResultStatus = QueryBuilderResult['status']

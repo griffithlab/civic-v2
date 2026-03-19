@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, effect, inject, model, signal, WritableSignal, } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  model,
+  signal,
+  WritableSignal,
+} from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
@@ -10,7 +18,10 @@ import {
   getTabIndexFromSearchEndpoint,
   queryBuilderTabs,
 } from '@app/views/search/query-search/query-search.functions'
-import { AdvancedSearchEndpoint, QueryBuilderResult, } from '@app/forms/config/query-builder/query-builder.types'
+import {
+  AdvancedSearchEndpoint,
+  QueryBuilderResult,
+} from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzResizableModule } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
@@ -18,14 +29,10 @@ import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-ta
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { CvcAssertionsTableModule } from '../../../components/assertions/assertions-table/assertions-table.module'
 import { CvcFeaturesTableModule } from '../../../components/features/features-table/features-table.module'
-import {
-  CvcMolecularProfilesTableModule
-} from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
+import { CvcMolecularProfilesTableModule } from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
 import { CvcVariantsTableModule } from '../../../components/variants/variants-table/variants-table.module'
 import { CvcUsersTableModule } from '../../../components/users/users-table/users-table.module'
-import {
-  CvcVariantTypesTableModule
-} from '../../../components/variant-types/variant-types-table/variant-types-table.module'
+import { CvcVariantTypesTableModule } from '../../../components/variant-types/variant-types-table/variant-types-table.module'
 import { CvcPhenotypesTableModule } from '../../../components/phenotypes/phenotypes-table/phenotypes-table.module'
 import { CvcTherapiesTableModule } from '../../../components/therapies/therapies-table/therapies-table.module'
 import { CvcSourcesTableModule } from '../../../components/sources/sources-table/sources-table.module'
@@ -75,11 +82,10 @@ export class QuerySearchPage {
   private previousEndpoint?: AdvancedSearchEndpoint
 
   constructor() {
-    // sync route with searchEndpoint and permalinkId
+    // EFFECT: sync route with searchEndpoint and permalinkId
     effect(() => {
       const endpoint = this.searchEndpoint()
       const permalinkId = this.permalinkId()
-      console.log('page endpoint, permalinkId effect:', endpoint, permalinkId)
       // always sync tab index
       this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(endpoint))
 
@@ -107,10 +113,10 @@ export class QuerySearchPage {
         replaceUrl: false,
       })
     })
-    // update searchEndpoint and permalinkId from searchResults
+
+    // EFFECT: update searchEndpoint and permalinkId from searchResults
     effect(() => {
       const result = this.searchResults()
-      console.log('page searchResults effect:', result)
       if (!result) return
       if (result.status === 'error') return
       if (result.status === 'reset') {
@@ -122,7 +128,9 @@ export class QuerySearchPage {
     })
   }
   onTabIndexChange(index: number) {
-    this.searchEndpoint.set(getSearchEndpointFromTabIndex(index))
+    const newEndpoint = getSearchEndpointFromTabIndex(index)
+    if (newEndpoint === this.searchEndpoint()) return
+    this.searchEndpoint.set(newEndpoint)
     this.permalinkId.set(undefined)
   }
 }
