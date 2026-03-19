@@ -3,7 +3,7 @@ import { STRUCT_FIELD_CONFIG } from '../input-config/search-struct.config'
 import { withSmallSize } from './field-config-helpers'
 
 const STRUCT_OPTIONS: Record<string, FormlyFieldConfig[]> = {
-  coordinates: STRUCT_FIELD_CONFIG['CoodinateSearchStruct'],
+  coordinates: STRUCT_FIELD_CONFIG['CoordinateSearchStruct'],
 }
 
 export function getStructOptions(struct: string): FormlyFieldConfig[] {

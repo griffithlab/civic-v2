@@ -30,5 +30,5 @@ const COORDINATE_SEARCH_STRUCT = [
 ]
 
 export const STRUCT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
-  CoodinateSearchStruct: COORDINATE_SEARCH_STRUCT,
+  CoordinateSearchStruct: COORDINATE_SEARCH_STRUCT,
 }
