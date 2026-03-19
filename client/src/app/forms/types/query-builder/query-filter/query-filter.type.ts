@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, signal, WritableSignal } from '@angular/core'
+import { Component, OnInit, signal, WritableSignal } from '@angular/core'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
 
 export type QueryFilterSelectOption = { label: string; value: string }
@@ -10,7 +10,7 @@ export type QueryFilterSelectOption = { label: string; value: string }
 })
 export class CvcQueryFilterField
   extends FieldType<FieldTypeConfig>
-  implements AfterViewInit
+  implements OnInit
 {
   // This signal just holds the <select> options
   filterSelectOptions: WritableSignal<QueryFilterSelectOption[]> = signal([])
@@ -23,8 +23,7 @@ export class CvcQueryFilterField
       this.options.checkExpressions(this.field)
     }
   }
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     if (this.props.options) {
       this.filterSelectOptions.set(
         this.props.options as QueryFilterSelectOption[]
