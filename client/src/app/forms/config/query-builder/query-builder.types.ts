@@ -71,5 +71,10 @@ export type QueryBuilderResult =
       status: 'error'
       error: ApolloError
     }
+  | {
+      status: 'reset'
+      endpoint?: AdvancedSearchEndpoint
+      permalinkId?: string
+    }
 
 export type QueryBuilderResultStatus = QueryBuilderResult['status']

@@ -35,9 +35,9 @@ export class CvcQueryBuilderCardWrapper
     return this.field.fieldGroup?.find((f) => f.key === 'subFilters')
   }
 
-  onResetForm() {
-    if (this.options?.resetModel) {
-      this.options.resetModel()
+  onClearForm() {
+    if (this.options?.formState.clearForm) {
+      this.options.formState.clearForm()
     }
   }
 

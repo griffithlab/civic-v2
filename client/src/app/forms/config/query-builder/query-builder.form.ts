@@ -106,7 +106,7 @@ export class CvcQueryBuilderForm {
           formLayout: 'inline',
           searchEndpoint: endpoint,
           submitQuery: this.onSubmit.bind(this),
-          resetForm: this.onReset.bind(this),
+          clearForm: this.onClearForm.bind(this),
         },
       }
 
@@ -118,13 +118,8 @@ export class CvcQueryBuilderForm {
       )
       // only reset model if this change did not originate from a permalink
       if (endpoint !== this.permalinkSearchEndpoint) {
-        this.formModel.set(structuredClone(defaultQueryBuilderFormModel))
-        if (this.options.resetModel && this.options.updateInitialValue) {
-          this.options.updateInitialValue(
-            structuredClone(defaultQueryBuilderFormModel)
-          )
-          this.options.resetModel()
-        }
+        this.resetModel()
+        // unset the permalink endpoint flag
         this.permalinkSearchEndpoint = undefined
       }
     })
@@ -134,18 +129,8 @@ export class CvcQueryBuilderForm {
       const result = this.permalinkQuery()
       if (result) {
         const { searchEndpoint, formQuery, permalinkId, resultIds } = result
-        // Set permalink endpoint flag so that the searchEndpoint effect logic
-        // won't overwrite the model returned from the permalink query
+        // Set permalink endpoint flag so the searchEndpoint effect won't overwrite the model if quick-search.page needs to change the searchEndpoint route
         this.permalinkSearchEndpoint = searchEndpoint
-        // Update parent search page (which might need to change the tab),
-        // and triggers effect to generate this endpoint's field configuration
-        // this.searchEndpoint.update(
-        //   () => searchEndpoint as AdvancedSearchEndpoint
-        // )
-        // emit permalink to parent search page so it can append permalinkId to URL
-        // this.permalinkId.update(() => permalinkId)
-        // emit resultIds to parent search page for display in results table
-        // this.resultIds.emit([...resultIds])
         this.onResults(
           searchEndpoint as AdvancedSearchEndpoint,
           resultIds,
@@ -173,7 +158,7 @@ export class CvcQueryBuilderForm {
     const gql = this.formGQL()
 
     gql
-      .fetch(model) // variables typed as any; runtime-checked by backend
+      .fetch(model)
       .pipe(
         pluck('data', endpoint),
         catchError((err) => {
@@ -223,11 +208,24 @@ export class CvcQueryBuilderForm {
     this.searchResults.emit(result)
   }
 
-  onReset() {}
+  onClearForm() {
+    this.resetModel()
+    this.searchResults.emit({
+      status: 'reset',
+    })
+  }
+
+  private resetModel() {
+    this.formModel.set(structuredClone(defaultQueryBuilderFormModel))
+    if (this.options.resetModel && this.options.updateInitialValue) {
+      this.options.updateInitialValue(
+        structuredClone(defaultQueryBuilderFormModel)
+      )
+      this.options.resetModel()
+    }
+  }
   private searchEndpointToCardTitle(endpoint: AdvancedSearchEndpoint): string {
-    // Capitalize initial character
     const capitalized = endpoint.charAt(0).toUpperCase() + endpoint.slice(1)
-    // Split on capital letters and join with space
     return capitalized.replace(/([A-Z])/g, ' $1').trim()
   }
 }

@@ -104,8 +104,7 @@ export class QuerySearchPage {
     // update route with permalinkId when provided
     effect(() => {
       const permalinkId = this.permalinkId()
-      if (!permalinkId) return
-      const currentPermalinkId = this.route.snapshot.paramMap.get('permalinkId')
+      const currentPermalinkId = this.route.snapshot.queryParams.permalinkId
       if (permalinkId === currentPermalinkId) return
       this.router.navigate([], {
         relativeTo: this.route,
@@ -122,6 +121,10 @@ export class QuerySearchPage {
       const result = this.searchResults()
       if (!result) return
       if (result.status === 'error') return
+      if (result.status === 'reset') {
+        this.permalinkId.update(() => undefined)
+        return
+      }
       this.searchEndpoint.set(result.endpoint)
       this.permalinkId.set(result.permalinkId)
     })
