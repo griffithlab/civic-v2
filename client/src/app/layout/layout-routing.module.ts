@@ -17,7 +17,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('@app/views/search/search.module').then((m) => m.SearchModule),
         data: {
-          breadcrumb: 'Search',
+          breadcrumb: 'Advanced Search',
         },
       },
       // Primary Views
