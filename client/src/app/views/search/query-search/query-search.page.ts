@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  model,
-  signal,
-  WritableSignal,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, effect, inject, model, signal, WritableSignal, } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
@@ -18,10 +10,7 @@ import {
   getTabIndexFromSearchEndpoint,
   queryBuilderTabs,
 } from '@app/views/search/query-search/query-search.functions'
-import {
-  AdvancedSearchEndpoint,
-  QueryBuilderResult,
-} from '@app/forms/config/query-builder/query-builder.types'
+import { AdvancedSearchEndpoint, QueryBuilderResult, } from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzResizableModule } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '../../../components/evidence/evidence-table/evidence-table.module'
@@ -29,10 +18,14 @@ import { CvcDiseasesTableModule } from '../../../components/diseases/diseases-ta
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { CvcAssertionsTableModule } from '../../../components/assertions/assertions-table/assertions-table.module'
 import { CvcFeaturesTableModule } from '../../../components/features/features-table/features-table.module'
-import { CvcMolecularProfilesTableModule } from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
+import {
+  CvcMolecularProfilesTableModule
+} from '../../../components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
 import { CvcVariantsTableModule } from '../../../components/variants/variants-table/variants-table.module'
 import { CvcUsersTableModule } from '../../../components/users/users-table/users-table.module'
-import { CvcVariantTypesTableModule } from '../../../components/variant-types/variant-types-table/variant-types-table.module'
+import {
+  CvcVariantTypesTableModule
+} from '../../../components/variant-types/variant-types-table/variant-types-table.module'
 import { CvcPhenotypesTableModule } from '../../../components/phenotypes/phenotypes-table/phenotypes-table.module'
 import { CvcTherapiesTableModule } from '../../../components/therapies/therapies-table/therapies-table.module'
 import { CvcSourcesTableModule } from '../../../components/sources/sources-table/sources-table.module'
@@ -79,46 +72,45 @@ export class QuerySearchPage {
 
   private router = inject(Router)
   private route = inject(ActivatedRoute)
+  private previousEndpoint?: AdvancedSearchEndpoint
 
   constructor() {
-    // update tabs and route when searchEndpoint changes
+    // sync route with searchEndpoint and permalinkId
     effect(() => {
-      const newEndpoint = this.searchEndpoint()
-      const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
-      this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(newEndpoint))
-      // reset results on tab change
-      this.searchResults.set(undefined)
-      if (newEndpoint === currentEndpoint) return
-      //update route w/ new endpoint
-      this.router.navigate(['../', newEndpoint], {
-        relativeTo: this.route,
-        queryParams: {
-          ...this.route.snapshot.queryParams,
-          permalinkId: this.permalinkId(),
-        },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-        skipLocationChange: false,
-      })
-    })
-    // update route with permalinkId when provided
-    effect(() => {
+      const endpoint = this.searchEndpoint()
       const permalinkId = this.permalinkId()
-      const currentPermalinkId = this.route.snapshot.queryParams.permalinkId
-      if (permalinkId === currentPermalinkId) return
-      this.router.navigate([], {
+      console.log('page endpoint, permalinkId effect:', endpoint, permalinkId)
+      // always sync tab index
+      this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(endpoint))
+
+      // reset results when endpoint changes
+      if (endpoint !== this.previousEndpoint) {
+        this.searchResults.set(undefined)
+        this.previousEndpoint = endpoint
+      }
+
+      // only navigate if something actually changed
+      const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
+      const currentPermalinkId =
+        this.route.snapshot.queryParams['permalinkId'] ?? undefined
+
+      const endpointChanged = endpoint !== currentEndpoint
+      const permalinkChanged = permalinkId !== currentPermalinkId
+
+      if (!endpointChanged && !permalinkChanged) return
+
+      const commands = endpointChanged ? ['../', endpoint] : []
+      this.router.navigate(commands, {
         relativeTo: this.route,
-        queryParams: {
-          permalinkId,
-        },
+        queryParams: { permalinkId },
         queryParamsHandling: 'merge',
-        replaceUrl: true,
-        skipLocationChange: false,
+        replaceUrl: false,
       })
     })
     // update searchEndpoint and permalinkId from searchResults
     effect(() => {
       const result = this.searchResults()
+      console.log('page searchResults effect:', result)
       if (!result) return
       if (result.status === 'error') return
       if (result.status === 'reset') {
