@@ -17,7 +17,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '3.3'
+          ruby-version: '4'
           working-directory: ./server
 
       - name: Scan for security vulnerabilities
@@ -33,7 +33,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: '4'
           working-directory: ./server
           bundler-cache: true
 
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: 'Checkout code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 'Setup elasticsearch'
         uses: ankane/setup-elasticsearch@v1
@@ -65,7 +65,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '3.3'
+          ruby-version: '4'
           working-directory: ./server
 
       - name: Setup DB
@@ -89,12 +89,12 @@ jobs:
 
     steps:
       - name: 'Checkout code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
 
       - run: npm install -g yarn
         working-directory: ./client

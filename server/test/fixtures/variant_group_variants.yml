@@ -1,0 +1,7 @@
+vgv1:
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600e) %>
+  variant_group_id: <%= ActiveRecord::FixtureSet.identify(:test_variant_group) %>
+
+vgv2:
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600k) %>
+  variant_group_id: <%= ActiveRecord::FixtureSet.identify(:test_variant_group) %>
