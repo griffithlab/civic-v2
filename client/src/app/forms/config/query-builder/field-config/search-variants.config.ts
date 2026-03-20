@@ -8,10 +8,20 @@ import {
 } from './functions/field-config-helpers'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
 import { getStructFieldConfig } from './functions/get-struct-field-config'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export const searchVariantsFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByLabel([
+  withHideExpression([
+    // place specific entity select at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Select Variant' },
+        fieldGroup: SELECT_FIELD_CONFIG['VariantIdSelect'],
+      },
+    ]),
+    // other fields sorted alphabetically
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'name',
@@ -36,11 +46,6 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
         {
           key: 'openRevisionCount',
           props: { label: 'Open Revision Count' },
-          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
-        },
-        {
-          key: 'id',
-          props: { label: 'ID' },
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
@@ -78,5 +83,5 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
         ),
       ]),
       ...getStructFieldConfig('coordinates', 'Coordinates'),
-    ])
-  )
+    ]),
+  ])
