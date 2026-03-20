@@ -49,7 +49,7 @@
         <th>Revision Subject</th>
         <th>Submitter</th>
         <th>Organization</th>
-        <th>Revision Fields</th>
+        <th nzWidth="350px">Revision Fields</th>
       </tr>
       <tr class="filter-row">
         <th nzLeft></th>
@@ -138,10 +138,12 @@
           </td>
           <td nzLeft nzBreakWord>
             @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
+              {{ revision.fieldDisplayName }}
               @if (revision.subject.__typename === 'ExonCoordinate' ) {
-                {{ revision.subject.coordinateType | enumToTitle }}
-              }
-              {{ revision.fieldDisplayName }}{{ isLast? '' : ', ' }}<br/>
+                <span nz-typography nzType="secondary">
+                  ({{ revision.subject.coordinateType | enumToTitle }})
+                </span>
+              }{{ isLast? '' : ', ' }}<br/>
             }
           </td>
         </tr>
