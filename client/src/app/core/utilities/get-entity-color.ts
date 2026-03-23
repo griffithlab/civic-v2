@@ -27,7 +27,6 @@ export const EntityColors = new Map<string, string>([
   ['Flag', '#e24759'],
   //['Approval', '#C0C0C0'],
   ['Approval', '#EFBF04'],
-  ['VcepApproval', '#EFBF04'],
   ['Queue', '#666699'],
   ['Revision', '#f0673a'],
 

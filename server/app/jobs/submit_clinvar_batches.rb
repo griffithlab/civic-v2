@@ -6,13 +6,14 @@ class SubmitClinvarBatches < ApplicationJob
       FileUtils.mkdir_p(output_dir)
     end
 
-    api_keys = get_keys_for_submit
-    api_keys.each do |key|
-      batch_name = generate_batch_name(key.organization_id)
+    orgs_ready_for_submit = get_orgs_ready_for_submit
+
+    orgs_ready_for_submit.each do |org|
+      batch_name = generate_batch_name(org.id)
       json_filename = json_filename_for_batch(batch_name)
-      if create_gks_json_for_organization(key.organization_id, json_filename)
+      if create_gks_json_for_organization(org.id, json_filename)
         generated_gks = JSON.parse(File.read(json_filename))
-        batch = import_clinvar_this_batch(batch_name, json_filename, key)
+        batch = import_clinvar_this_batch(batch_name, json_filename, org)
         generated_gks.dig("clinical_impact_submission").each do |submission|
           if curie = submission.dig("local_key")
             assertion_id = Integer(curie.split(":")).last
@@ -29,14 +30,11 @@ class SubmitClinvarBatches < ApplicationJob
   end
 
   private
-  def get_keys_for_submit
-    possible_keys = ClinvarApiKey.where(active: true)
-    possible_keys.select do |key|
-      submittable_endorsements = Endorsement.where(organization_id: key.organization_id, status: "active").select do |e|
-        e.ready_for_clinvar_submission?
-      end
-      submittable_endorsements.size > 0
-    end
+  def get_orgs_ready_for_submit
+    Approval.eager_load(:organization).where(status: "active")
+      .select { |a| a.ready_for_clinvar_submission? }
+      .map { |a| a.organization }
+      .uniq
   end
 
   def create_gks_json_for_organization(organization_id, json_filename)
@@ -56,15 +54,14 @@ class SubmitClinvarBatches < ApplicationJob
     File.exist?(json_filename)
   end
 
-  def import_clinvar_this_batch(batch_name, json_filename, api_key)
-    clinvar_this = ClinvarThis.new(api_key, batch_name, json_filename)
+  def import_clinvar_this_batch(batch_name, json_filename, organization)
+    clinvar_this = ClinvarThis.new(organization.clinvar_api_key, batch_name, json_filename)
     clinvar_this.auth
     clinvar_this.import_batch
     clinvar_this.submit_batch
 
     ClinvarBatchSubmission.create!(
-      clinvar_api_key: api_key,
-      organization_id: api_key.organization_id,
+      organization_id: organization.id,
       status: "new",
       batch_name: batch_name,
       submitted_at: DateTime.now

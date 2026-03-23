@@ -1,5 +1,6 @@
 class ClinvarThis
   attr_reader :api_key, :batch_name, :json_file
+
   def initialize(api_key, batch_name, json_file)
     @api_key = api_key
     @batch_name = batch_name
@@ -7,7 +8,7 @@ class ClinvarThis
   end
 
   def auth
-    exec_cmd("config", "set", "auth-token", api_key.api_key)
+    exec_cmd("config", "set", "auth-token", api_key)
   end
 
   def import_batch
