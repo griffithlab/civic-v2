@@ -18,6 +18,8 @@ class Organization < ActiveRecord::Base
     ->() { order("created_at DESC").limit(1) },
     class_name: "Event", foreign_key: :organization_id
 
+  has_many :approvals
+
   validate :no_approving_users
 
   encrypts :clinvar_api_key

@@ -30,7 +30,7 @@ class Approval < ApplicationRecord
 
     existing_batch_entry = ClinvarBatchEntry.joins(:clinvar_batch_submission).where(
       clinvar_batch_submissions: { organization_id: self.organization_id },
-      asssertion_id: self.assertion_id
+      assertion_id: self.assertion_id
     ).exists?
 
     if existing_batch_entry
