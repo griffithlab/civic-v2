@@ -1,7 +1,7 @@
 module Variants
   class GeneVariant < Variant
-    # TODO remove?
-    belongs_to :gene, class_name: "Features::Gene", optional: true
+    has_one :gene, through: :feature,
+      source: :feature_instance, source_type: "Features::Gene"
 
     has_one :coordinates,
       ->() { where(coordinate_type: "Gene Variant Coordinate") },
@@ -13,12 +13,6 @@ module Variants
        "Gene Variant Coordinate",
       ]
     end
-
-    # TODO not used in V2, delete when Fusions added?
-    # belongs_to :secondary_gene, class_name: 'Features::Gene', optional: true
-
-    # TODO remove after backfill/when columns removed
-    enum :reference_build, [ :GRCh38, :GRCh37, :NCBI36 ]
 
     def unique_editable_fields
       [

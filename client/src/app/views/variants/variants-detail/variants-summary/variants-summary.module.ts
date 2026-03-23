@@ -5,6 +5,7 @@ import { CvcFactorVariantSummaryComponent } from '@app/components/variants/facto
 import { PushPipe } from '@ngrx/component'
 import { CommonModule } from '@angular/common'
 import { CvcFusionVariantSummaryComponent } from '@app/components/variants/fusion-variant-summary/fusion-variant-summary.page'
+import { CvcRegionVariantSummaryComponent } from '@app/components/variants/region-variant-summary/region-variant-summary.page'
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -14,6 +15,7 @@ import { CvcFusionVariantSummaryComponent } from '@app/components/variants/fusio
     CvcGeneVariantSummaryComponent,
     CvcFactorVariantSummaryComponent,
     CvcFusionVariantSummaryComponent,
+    CvcRegionVariantSummaryComponent,
   ],
   exports: [VariantsSummaryPage],
 })

@@ -21,6 +21,7 @@ import { GenesSummaryModule } from '@app/components/genes/genes-summary/genes-su
 import { FactorSummaryComponent } from '@app/components/factors/factor-summary/factor-summary.page'
 import { FusionSummaryComponent } from '@app/components/fusions/fusion-summary/fusion-summary.page'
 import { CvcFusionsMenuModule } from '@app/components/fusions/fusions-menu/fusions-menu.module'
+import { RegionsSummaryModule } from '@app/components/regions/regions-summary/regions-summary.module'
 
 @NgModule({
   declarations: [FeaturesSummaryPage],
@@ -47,6 +48,7 @@ import { CvcFusionsMenuModule } from '@app/components/fusions/fusions-menu/fusio
     GenesSummaryModule,
     FactorSummaryComponent,
     FusionSummaryComponent,
+    RegionsSummaryModule,
     CvcFusionsMenuModule,
   ],
   exports: [FeaturesSummaryPage],

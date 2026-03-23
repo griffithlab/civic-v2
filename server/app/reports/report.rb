@@ -28,7 +28,8 @@ class Report
   def self.inputs
     # format input_name: :type
     # supported primitive types :text, :date, :boolean, :int
-    # or you can provide an array of objects and a select will be rendered
+    # or you can provide an array of objects that respond to `name` and `id` and a select will be rendered
+    # finally, you can provide an array of string values to render a simple select
     {}
   end
 

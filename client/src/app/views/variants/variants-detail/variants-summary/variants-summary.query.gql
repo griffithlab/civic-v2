@@ -77,6 +77,9 @@ fragment VariantSummaryFields on VariantInterface {
   ... on FusionVariant {
     ... FusionVariantSummaryFields
   }
+  ... on RegionVariant {
+    ... RegionVariantSummaryFields
+  }
 }
 
 
@@ -85,6 +88,10 @@ fragment FactorVariantSummaryFields on FactorVariant {
   ncitDetails {
     ... NcitDetails
   }
+}
+
+fragment RegionVariantSummaryFields on RegionVariant {
+  iscnName
 }
 
 fragment GeneVariantSummaryFields on GeneVariant {

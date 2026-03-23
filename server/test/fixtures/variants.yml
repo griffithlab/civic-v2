@@ -1,7 +1,6 @@
 v600e:
   name: V600E
   feature: braf
-  gene_id: 1
   type: 'Variants::GeneVariant'
   single_variant_molecular_profile: mp1
   allele_registry_id: CAFOO
@@ -9,20 +8,44 @@ v600e:
 v600k:
   name: V600K
   feature: braf
-  gene_id: 1
   type: 'Variants::GeneVariant'
   single_variant_molecular_profile: mp2
 
 w88:
   name: W88*
   feature: vhl
-  gene_id: 2
   type: 'Variants::GeneVariant'
   single_variant_molecular_profile: mp3
 
 v87e:
   name: V87E (c.260T>A)
   feature: vhl
-  gene_id: 2
   type: 'Variants::GeneVariant'
   single_variant_molecular_profile: mp4
+
+eml4_alk_fusion_v:
+  name: Fusion
+  feature: eml4_alk_fusion
+  type: 'Variants::FusionVariant'
+  single_variant_molecular_profile: mp_fusion
+  vicc_compliant_name: "EML4(entrez:27436)::ALK(entrez:238)"
+
+msi_factor_v:
+  name: MSI High
+  feature: msi
+  type: 'Variants::FactorVariant'
+  single_variant_molecular_profile: mp_factor
+
+chr7_trisomy:
+  name: Trisomy
+  feature: chr7_region
+  type: 'Variants::RegionVariant'
+  single_variant_molecular_profile: mp_region
+  iscn_name: "+7"
+
+deprecated_variant:
+  name: Deprecated VHL Variant
+  feature: vhl
+  type: 'Variants::GeneVariant'
+  single_variant_molecular_profile: mp_variant_deprecated
+  deprecated: true

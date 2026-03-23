@@ -1,7 +1,9 @@
 <%# locals: (form:, name:, type:) %>
 <div class="form-group">
   <%= form.label name, class: "control-label" %>
-  <% if type.is_a?(Array) %>
+  <% if type.is_a?(Array) && type.first&.is_a?(String) %>
+    <%= form.select name, type %>
+  <% elsif type.is_a?(Array) %>
     <%= form.collection_select name, type, :id, :name %>
   <% elsif type == :text %>
     <%= form.text_field name, required: true %>

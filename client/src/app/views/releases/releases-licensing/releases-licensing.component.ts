@@ -5,7 +5,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CommonModule } from '@angular/common'
-import { PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
@@ -19,7 +18,6 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
   styleUrl: 'releases-licensing.component.less',
   imports: [
     CommonModule,
-    PushPipe,
     NzButtonModule,
     NzPageHeaderModule,
     NzGridModule,

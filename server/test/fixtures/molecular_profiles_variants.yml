@@ -1,0 +1,50 @@
+# HABTM join table: molecular_profiles <-> variants
+# No model class, so use raw _id columns with fixture identifiers
+mp1_v600e:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp1) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600e) %>
+
+mp2_v600k:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp2) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600k) %>
+
+mp3_w88:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp3) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:w88) %>
+
+mp4_v87e:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp4) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v87e) %>
+
+mp_fusion_v:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_fusion) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:eml4_alk_fusion_v) %>
+
+mp_factor_v:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_factor) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:msi_factor_v) %>
+
+mp_region_v:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_region) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:chr7_trisomy) %>
+
+# Complex MP (multi-variant)
+mp_complex_v600e:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_complex) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600e) %>
+
+mp_complex_v600k:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_complex) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600k) %>
+
+mp_complex_deprecated_v600e:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_complex_deprecated) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600e) %>
+
+mp_complex_deprecated_v600k:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_complex_deprecated) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:v600k) %>
+
+mp_variant_deprecated_variant:
+  molecular_profile_id: <%= ActiveRecord::FixtureSet.identify(:mp_variant_deprecated) %>
+  variant_id: <%= ActiveRecord::FixtureSet.identify(:deprecated_variant) %>
