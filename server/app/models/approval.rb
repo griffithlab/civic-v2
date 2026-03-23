@@ -22,4 +22,21 @@ class Approval < ApplicationRecord
   has_one :approval_activity, through: :approval_activity_link, source: :activity
 
   enum :status, Constants::APPROVAL_STATUSES
+
+  def ready_for_clinvar_submission?
+    return false unless self.status == "active"
+    return false unless self.organization.clinvar_api_key.present?
+    return false unless self.organization.can_endorse?
+
+    existing_batch_entry = ClinvarBatchEntry.joins(:clinvar_batch_submission).where(
+      clinvar_batch_submissions: { organization_id: self.organization_id },
+      asssertion_id: self.assertion_id
+    ).exists?
+
+    if existing_batch_entry
+      return  false
+    end
+
+    true
+  end
 end
