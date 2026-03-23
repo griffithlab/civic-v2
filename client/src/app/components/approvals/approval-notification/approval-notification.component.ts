@@ -63,8 +63,5 @@ export class CvcApprovalNotificationComponent {
 
   color = computed(() =>
     getEntityColor('Approval')
-    //getEntityColor(this.isApprovedVcep() ? 'VcepApproval' : 'Approval')
   )
-
-  //alertType = computed(() => (this.isApprovedVcep() ? 'warning' : 'info'))
 }
