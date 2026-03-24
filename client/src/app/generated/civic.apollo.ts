@@ -10024,6 +10024,97 @@ export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
 
 export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
 
+export type EntityCacheDiseaseQueryVariables = Exact<{
+  diseaseId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheDiseaseQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheVariantQueryVariables = Exact<{
+  variantId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheVariantQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheFeatureQueryVariables = Exact<{
+  featureId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheFeatureQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheTherapyQueryVariables = Exact<{
+  therapyId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
+
+export type EntityCachePhenotypeQueryVariables = Exact<{
+  phenotypeId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCachePhenotypeQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheSourceQueryVariables = Exact<{
+  sourceId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheSourceQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheMolecularProfileQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheMolecularProfileQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheVariantTypeQueryVariables = Exact<{
+  variantTypeId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheVariantTypeQuery = { __typename: 'Query', variantType?: { __typename: 'VariantType', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheAssertionQueryVariables = Exact<{
+  assertionId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheAssertionQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheEvidenceItemQueryVariables = Exact<{
+  evidenceItemId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheEvidenceItemQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheUserQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheUserQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined } | undefined };
+
+export type EntityCacheRevisionQueryVariables = Exact<{
+  revisionId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheRevisionQuery = { __typename: 'Query', revision?: { __typename: 'Revision', id: number, name: string, link: string } | undefined };
+
+export type EntityCacheCommentQueryVariables = Exact<{
+  commentId: Scalars['Int']['input'];
+}>;
+
+
+export type EntityCacheCommentQuery = { __typename: 'Query', comment?: { __typename: 'Comment', id: number, name: string, link: string } | undefined };
+
 export type GetOriginalQueryQueryVariables = Exact<{
   permalinkId: Scalars['String']['input'];
 }>;
@@ -18069,6 +18160,265 @@ export const SuggestMolecularProfileRevisionDocument = gql`
   })
   export class SuggestMolecularProfileRevisionGQL extends Apollo.Mutation<SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables> {
     document = SuggestMolecularProfileRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheDiseaseDocument = gql`
+    query EntityCacheDisease($diseaseId: Int!) {
+  disease(id: $diseaseId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheDiseaseGQL extends Apollo.Query<EntityCacheDiseaseQuery, EntityCacheDiseaseQueryVariables> {
+    document = EntityCacheDiseaseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheVariantDocument = gql`
+    query EntityCacheVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheVariantGQL extends Apollo.Query<EntityCacheVariantQuery, EntityCacheVariantQueryVariables> {
+    document = EntityCacheVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheFeatureDocument = gql`
+    query EntityCacheFeature($featureId: Int!) {
+  feature(id: $featureId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheFeatureGQL extends Apollo.Query<EntityCacheFeatureQuery, EntityCacheFeatureQueryVariables> {
+    document = EntityCacheFeatureDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheTherapyDocument = gql`
+    query EntityCacheTherapy($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheTherapyGQL extends Apollo.Query<EntityCacheTherapyQuery, EntityCacheTherapyQueryVariables> {
+    document = EntityCacheTherapyDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCachePhenotypeDocument = gql`
+    query EntityCachePhenotype($phenotypeId: Int!) {
+  phenotype(id: $phenotypeId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCachePhenotypeGQL extends Apollo.Query<EntityCachePhenotypeQuery, EntityCachePhenotypeQueryVariables> {
+    document = EntityCachePhenotypeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheSourceDocument = gql`
+    query EntityCacheSource($sourceId: Int!) {
+  source(id: $sourceId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheSourceGQL extends Apollo.Query<EntityCacheSourceQuery, EntityCacheSourceQueryVariables> {
+    document = EntityCacheSourceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheMolecularProfileDocument = gql`
+    query EntityCacheMolecularProfile($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheMolecularProfileGQL extends Apollo.Query<EntityCacheMolecularProfileQuery, EntityCacheMolecularProfileQueryVariables> {
+    document = EntityCacheMolecularProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheVariantTypeDocument = gql`
+    query EntityCacheVariantType($variantTypeId: Int!) {
+  variantType(id: $variantTypeId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheVariantTypeGQL extends Apollo.Query<EntityCacheVariantTypeQuery, EntityCacheVariantTypeQueryVariables> {
+    document = EntityCacheVariantTypeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheAssertionDocument = gql`
+    query EntityCacheAssertion($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheAssertionGQL extends Apollo.Query<EntityCacheAssertionQuery, EntityCacheAssertionQueryVariables> {
+    document = EntityCacheAssertionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheEvidenceItemDocument = gql`
+    query EntityCacheEvidenceItem($evidenceItemId: Int!) {
+  evidenceItem(id: $evidenceItemId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheEvidenceItemGQL extends Apollo.Query<EntityCacheEvidenceItemQuery, EntityCacheEvidenceItemQueryVariables> {
+    document = EntityCacheEvidenceItemDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheUserDocument = gql`
+    query EntityCacheUser($userId: Int!) {
+  user(id: $userId) {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheUserGQL extends Apollo.Query<EntityCacheUserQuery, EntityCacheUserQueryVariables> {
+    document = EntityCacheUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheRevisionDocument = gql`
+    query EntityCacheRevision($revisionId: Int!) {
+  revision(id: $revisionId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheRevisionGQL extends Apollo.Query<EntityCacheRevisionQuery, EntityCacheRevisionQueryVariables> {
+    document = EntityCacheRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityCacheCommentDocument = gql`
+    query EntityCacheComment($commentId: Int!) {
+  comment(id: $commentId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityCacheCommentGQL extends Apollo.Query<EntityCacheCommentQuery, EntityCacheCommentQueryVariables> {
+    document = EntityCacheCommentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

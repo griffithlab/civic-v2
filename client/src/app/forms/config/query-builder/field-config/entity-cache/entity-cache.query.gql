@@ -1,0 +1,102 @@
+query EntityCacheDisease($diseaseId: Int!) {
+  disease(id: $diseaseId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheFeature($featureId: Int!) {
+  feature(id: $featureId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheTherapy($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCachePhenotype($phenotypeId: Int!) {
+  phenotype(id: $phenotypeId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheSource($sourceId: Int!) {
+  source(id: $sourceId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheMolecularProfile($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheVariantType($variantTypeId: Int!) {
+  variantType(id: $variantTypeId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheAssertion($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheEvidenceItem($evidenceItemId: Int!) {
+  evidenceItem(id: $evidenceItemId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheUser($userId: Int!) {
+  user(id: $userId) {
+    id
+    name
+  }
+}
+
+query EntityCacheRevision($revisionId: Int!) {
+  revision(id: $revisionId) {
+    id
+    name
+    link
+  }
+}
+
+query EntityCacheComment($commentId: Int!) {
+  comment(id: $commentId) {
+    id
+    name
+    link
+  }
+}
