@@ -17,10 +17,18 @@ class SubmitClinvarBatches < ApplicationJob
         generated_gks.dig("clinical_impact_submission").each do |submission|
           if curie = submission.dig("local_key")
             assertion_id = Integer(curie.split(":")).last
+            approval = Approval.find_by(status: "active", organization_id: org.id, assertion_id: assertion_id)
+
+            if approval.blank?
+              raise "No Approval Found for Org: #{org.id} and Assertion: #{assertion_id}"
+            end
+
             ClinvarBatchEntry.create!(
               clinvar_batch: batch,
               assertion_id: assertion_id,
-              status: "new",
+              approval_id: approval.id,
+              approval_last_reviewed: approval.last_reviewed,
+              status: "submitted",
               date_last_evaluated: submission.dig("clinical_impact_classification", "date_last_evaluated").to_datetime
             )
           end
@@ -54,25 +62,31 @@ class SubmitClinvarBatches < ApplicationJob
     File.exist?(json_filename)
   end
 
-  def import_clinvar_this_batch(batch_name, json_filename, organization)
-    clinvar_this = ClinvarThis.new(organization.clinvar_api_key, batch_name, json_filename)
+  def import_clinvar_this_batch(batch_name, gks_json_filename, organization)
+    clinvar_this = ClinvarThis.new(organization.clinvar_api_key, batch_name)
     clinvar_this.auth
-    clinvar_this.import_batch
-    clinvar_this.submit_batch
+    clinvar_this.import_batch(gks_json_filename)
+    response_json = clinvar_this.submit_batch
 
-    ClinvarBatchSubmission.create!(
-      organization_id: organization.id,
-      status: "new",
-      batch_name: batch_name,
-      submitted_at: DateTime.now
-    )
+    submission_id = response_json.dig("id")
+    if submission_id.present?
+      ClinvarBatchSubmission.create!(
+        organization_id: organization.id,
+        status: "submitted",
+        batch_name: batch_name,
+        submitted_at: DateTime.now,
+        submission_id: submission_id
+      )
+    else
+      raise StandardError.new("Unable to find Submission Id for ClinVar batch #{batch_name}")
+    end
   ensure
     clinvar_this.cleanup
   end
 
   def generate_batch_name(organization_id)
     timestamp = DateTime.now.strftime("%Y-%m-%d")
-    "#{timestamp}-org-#{organization_id}"
+    "#{timestamp}-civic-org-#{organization_id}"
   end
 
   def json_filename_for_batch(batch_name)

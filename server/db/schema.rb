@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_12_153150) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_24_182504) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -135,6 +135,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_153150) do
 
   create_table "approvals", force: :cascade do |t|
     t.bigint "assertion_id", null: false
+    t.text "clinvar_accession"
     t.datetime "created_at", null: false
     t.datetime "last_reviewed", precision: nil, null: false
     t.bigint "organization_id", null: false
@@ -142,6 +143,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_153150) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["assertion_id"], name: "index_approvals_on_assertion_id"
+    t.index ["clinvar_accession"], name: "index_approvals_on_clinvar_accession"
     t.index ["organization_id"], name: "index_approvals_on_organization_id"
     t.index ["user_id"], name: "index_approvals_on_user_id"
   end
@@ -318,28 +320,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_153150) do
     t.index ["source_id"], name: "index_clinical_trials_sources_on_source_id"
   end
 
-  create_table "clinvar_accessions", force: :cascade do |t|
-    t.bigint "assertion_id", null: false
-    t.string "clinvar_accession"
-    t.integer "clinvar_star_rating"
-    t.datetime "created_at", null: false
-    t.bigint "organization_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assertion_id"], name: "index_clinvar_accessions_on_assertion_id"
-    t.index ["clinvar_accession"], name: "index_clinvar_accessions_on_clinvar_accession", unique: true
-    t.index ["organization_id"], name: "index_clinvar_accessions_on_organization_id"
-  end
-
   create_table "clinvar_batch_entries", force: :cascade do |t|
+    t.datetime "approval_last_reviewed", null: false
+    t.bigint "approvals_id"
     t.bigint "assertion_id", null: false
-    t.string "clinvar_accession"
     t.bigint "clinvar_batch_submission_id", null: false
     t.datetime "created_at", null: false
     t.jsonb "errors"
     t.string "status"
     t.datetime "updated_at", null: false
+    t.index ["approvals_id"], name: "index_clinvar_batch_entries_on_approvals_id"
     t.index ["assertion_id"], name: "index_clinvar_batch_entries_on_assertion_id"
-    t.index ["clinvar_accession"], name: "index_clinvar_batch_entries_on_clinvar_accession"
     t.index ["clinvar_batch_submission_id"], name: "index_clinvar_entries_on_batch_submission_id"
     t.index ["status"], name: "index_clinvar_batch_entries_on_status"
   end
@@ -348,6 +339,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_153150) do
     t.datetime "created_at", null: false
     t.bigint "organization_id", null: false
     t.string "status"
+    t.text "submission_id", null: false
     t.datetime "submitted_at"
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_clinvar_batch_submissions_on_organization_id"
@@ -1199,8 +1191,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_153150) do
   add_foreign_key "authors_sources", "sources"
   add_foreign_key "badge_claims", "badges"
   add_foreign_key "badge_claims", "users"
-  add_foreign_key "clinvar_accessions", "assertions"
-  add_foreign_key "clinvar_accessions", "organizations"
   add_foreign_key "clinvar_batch_entries", "assertions"
   add_foreign_key "clinvar_batch_entries", "clinvar_batch_submissions"
   add_foreign_key "clinvar_batch_submissions", "organizations"
