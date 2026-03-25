@@ -321,21 +321,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_182504) do
   end
 
   create_table "clinvar_batch_entries", force: :cascade do |t|
+    t.bigint "approval_id"
     t.datetime "approval_last_reviewed", null: false
-    t.bigint "approvals_id"
     t.bigint "assertion_id", null: false
     t.bigint "clinvar_batch_submission_id", null: false
     t.datetime "created_at", null: false
-    t.jsonb "errors"
     t.string "status"
+    t.jsonb "submission_errors"
     t.datetime "updated_at", null: false
-    t.index ["approvals_id"], name: "index_clinvar_batch_entries_on_approvals_id"
+    t.index ["approval_id"], name: "index_clinvar_batch_entries_on_approval_id"
+    t.index ["assertion_id", "clinvar_batch_submission_id"], name: "idx_on_assertion_id_clinvar_batch_submission_id_01447a5164", unique: true
     t.index ["assertion_id"], name: "index_clinvar_batch_entries_on_assertion_id"
     t.index ["clinvar_batch_submission_id"], name: "index_clinvar_entries_on_batch_submission_id"
     t.index ["status"], name: "index_clinvar_batch_entries_on_status"
   end
 
   create_table "clinvar_batch_submissions", force: :cascade do |t|
+    t.text "batch_name", null: false
     t.datetime "created_at", null: false
     t.bigint "organization_id", null: false
     t.string "status"

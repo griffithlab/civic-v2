@@ -7,21 +7,22 @@ class ClinvarThis
   end
 
   def auth
-    exec_cmd("config", "set", "auth-token", api_key)
+    exec_cmd("config", "set", "auth_token", api_key)
   end
 
   def import_batch(gks_json_file)
-    exec_cmd("batch", "import", "--name", batch_name, gks_json_file)
+    # TODO - a global metadata flag will not work once we have a mixture of 37 and 38 curated
+    exec_cmd("batch", "import", "--name", batch_name, "-m submitted_assembly=GRCh37", gks_json_file)
   end
 
   def submit_batch
-    (stdout, _) = exec_cmd("batch", "submit", batch_name)
-    extract_json_response(stdout, /Writing out response to/)
+    (_, stderr) = exec_cmd("batch", "submit", "--use-testing", batch_name)
+    extract_json_response(stderr, /Writing out server response to/)
   end
 
   def get_batch_status
-    (stdout, _) = exec_cmd("batch", "retrieve", batch_name)
-    extract_json_response(stdout, /Writing out server response to/)
+    (_, stderr) = exec_cmd("batch", "retrieve", "--use-testing", batch_name)
+    extract_json_response(stderr, /Writing out response to/)
   end
 
   def cleanup

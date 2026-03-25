@@ -14,11 +14,13 @@ class CheckClinvarSubmissionStatus < ApplicationJob
   end
 
   def create_clinvar_client_for_batch(batch)
-    ClinvarThis.new(batch.organization.clinvar_api_key, batch.batch_name)
+    client = ClinvarThis.new(batch.organization.clinvar_api_key, batch.batch_name)
+    client.auth
+    client
   end
 
   def process_batch(batch, status_response)
-    status = status_response.dig("actions")&.first&.dig("status")
+    status = status_response.dig("status", "actions")&.first&.dig("status")
 
     case status
     when "submitted"
@@ -43,24 +45,27 @@ class CheckClinvarSubmissionStatus < ApplicationJob
 
   def process_results(batch, status_response, batch_status)
     result_file = status_response
-      .dig("actions")&.first&.dig("responses")&.first&.dig("files")&.first
+      .dig("status", "actions")&.first&.dig("responses")&.first&.dig("files")&.first&.dig("url")
 
     if result_file.blank?
-      raise StandardError.new("Cannot file result file for Batch #{batch.id}. #{status_response}")
+      raise StandardError.new("Cannot find result file for Batch #{batch.id}. #{status_response}")
     end
 
     results = retrieve_clinvar_json(result_file)
 
     results["submissions"].each do |submission|
-      assertion_curie = submission.dig("identifiers", "localKey")
+      assertion_curie = submission.dig("identifiers", "clinvarLocalKey")
       assertion_id = Integer(assertion_curie.split(":").last)
 
       # find the batch entry corresponding to the submission
       batch_entry = ClinvarBatchEntry.find_by(
-        status: [ "submitted", "processing" ],
-        clinvar_batch: batch,
+        clinvar_batch_submission: batch,
         assertion_id: assertion_id
       )
+
+      if batch_entry.blank?
+        raise StandardError.new("Batch entry not found for #{batch.name} and assertion #{assertion_id}")
+      end
 
       if submission["processingStatus"] == "Success"
         clinvar_accession = submission.dig("identifiers", "clinvarAccession")
@@ -75,7 +80,7 @@ class CheckClinvarSubmissionStatus < ApplicationJob
         batch_entry.status = "success"
         batch_entry.save!
       elsif submission["processingStatus"] == "Error"
-        batch_entry.errors = submission.dig("errors")
+        batch_entry.submission_errors = submission.dig("errors")
         batch_entry.status = "error"
         batch_entry.save!
       else

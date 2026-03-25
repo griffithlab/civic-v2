@@ -14,9 +14,9 @@ class SubmitClinvarBatches < ApplicationJob
       if create_gks_json_for_organization(org.id, json_filename)
         generated_gks = JSON.parse(File.read(json_filename))
         batch = import_clinvar_this_batch(batch_name, json_filename, org)
-        generated_gks.dig("clinical_impact_submission").each do |submission|
-          if curie = submission.dig("local_key")
-            assertion_id = Integer(curie.split(":")).last
+        generated_gks.dig("gks_records").each do |submission|
+          if curie = submission.dig("id")
+            assertion_id = Integer(curie.split(":").last)
             approval = Approval.find_by(status: "active", organization_id: org.id, assertion_id: assertion_id)
 
             if approval.blank?
@@ -24,12 +24,11 @@ class SubmitClinvarBatches < ApplicationJob
             end
 
             ClinvarBatchEntry.create!(
-              clinvar_batch: batch,
+              clinvar_batch_submission: batch,
               assertion_id: assertion_id,
               approval_id: approval.id,
               approval_last_reviewed: approval.last_reviewed,
               status: "submitted",
-              date_last_evaluated: submission.dig("clinical_impact_classification", "date_last_evaluated").to_datetime
             )
           end
         end
@@ -52,7 +51,7 @@ class SubmitClinvarBatches < ApplicationJob
         "--output-json",
         json_filename,
         "--organization-id",
-        organization_id
+        organization_id.to_s
     )
 
     if !status.success?
@@ -85,14 +84,13 @@ class SubmitClinvarBatches < ApplicationJob
   end
 
   def generate_batch_name(organization_id)
-    timestamp = DateTime.now.strftime("%Y-%m-%d")
-    "#{timestamp}-civic-org-#{organization_id}"
+    "#{DateTime.now.to_i}-civic-org-#{organization_id}"
   end
 
   def json_filename_for_batch(batch_name)
     File.join(
       output_dir,
-      "#{batch_name}-gks.json"
+      "#{batch_name}-gks-aac_2017.json"
     )
   end
 

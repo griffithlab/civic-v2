@@ -38,9 +38,15 @@ class Approval < ApplicationRecord
       # and it already was successfully submitted or is pending
       return false
     elsif existing_batch_entries.all? { |be| be.approval_last_reviewed < self.last_reviewed }
-      # previous submissions exist (error or success) but the approval has been re-reviewed since then
-      # TODO: do we need to validate that anything else has actually changed? or is merely updating the last reviewed timestamp in clinvar fine?
-      return true
+      # if any previous submissions succeeded, return false for now. updates are unsupported
+      # TODO: support updated submissions once civicpy does
+      if existing_batch_entries.any? { |be| be.status == "success" }
+        return false
+      else
+        # previous failed submissions exist but the approval has been re-reviewed since then
+        # TODO: do we need to validate that anything else has actually changed? or is merely updating the last reviewed timestamp in clinvar fine?
+        return true
+      end
     else
       # TODO are there any other cases we need to cover?
       return true
