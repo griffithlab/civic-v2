@@ -1,0 +1,18 @@
+<% content_for :title, "New Chat" %>
+
+<div class="flex-1 flex flex-col items-center justify-center p-8">
+  <div class="w-full max-w-xl">
+    <%# Logo / welcome %>
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 rounded-full bg-civic-purple flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v7.5A2.25 2.25 0 0118.75 15H15l-3.75 3.75L7.5 15H5.25A2.25 2.25 0 013 12.75v-7.5z" />
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-800">CIViC Curation Chat</h1>
+      <p class="text-gray-500 mt-2">Start a new conversation with the CIViC curation assistant</p>
+    </div>
+
+    <%= render "chats/chats/form", chat: @chat %>
+  </div>
+</div>

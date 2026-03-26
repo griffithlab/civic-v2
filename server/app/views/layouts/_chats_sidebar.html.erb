@@ -1,0 +1,23 @@
+<%= turbo_stream_from "chats" %>
+
+<aside class="w-72 bg-civic-sidebar text-white flex flex-col h-full shrink-0">
+  <%# Header / New Chat %>
+  <div class="p-4 border-b border-slate-600">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-lg font-semibold tracking-tight"><a href="<%= new_chats_chat_path %>">CIViC Curation Chat</a></h1>
+    </div>
+    <%= link_to new_chats_chat_path, class: "flex items-center gap-2 w-full px-3 py-2.5 rounded-lg bg-civic-purple hover:bg-civic-purple-dark text-white text-sm font-medium transition-colors" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      New Chat
+    <% end %>
+  </div>
+
+  <%# Chat list %>
+  <nav class="flex-1 overflow-y-auto p-3 space-y-1">
+    <% current_user.chats.order(created_at: :desc).each do |chat| %>
+      <%= render "chats/chats/sidebar_chat", chat: chat, current_chat: @chat %>
+    <% end %>
+  </nav>
+</aside>
