@@ -1,9 +1,19 @@
-<%= link_to chats_chat_path(chat), id: "index_chat_#{chat.id}", class: "block bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:border-civic-purple hover:shadow-md transition-all" do %>
+<% chat_prefix = chat.mcp? ? "MCP" : "Curation" %>
+<%= link_to chats_chat_path(chat),
+      id: "index_chat_#{chat.id}",
+      title: "#{chat_prefix}: #{chat.display_name}",
+      class: "block bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:border-civic-purple hover:shadow-md transition-all" do %>
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center">
-        <%= render "chats/shared/icons/chat_bubble", css: "h-5 w-5 text-civic-purple" %>
-      </div>
+      <% if chat.mcp? %>
+        <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
+          <%= render "chats/shared/icons/mcp_logo", css: "h-5 w-5 text-amber-400" %>
+        </div>
+      <% else %>
+        <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center">
+          <%= render "chats/shared/icons/chat_bubble", css: "h-5 w-5 text-civic-purple" %>
+        </div>
+      <% end %>
       <div>
         <div class="font-medium text-gray-800"><%= chat.display_name %></div>
         <div class="text-sm text-gray-500"><%= chat.messages.count %> messages</div>

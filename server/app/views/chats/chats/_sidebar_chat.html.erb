@@ -1,13 +1,15 @@
 <div class="group relative">
+  <% chat_prefix = chat.mcp? ? "MCP" : "Curation" %>
+  <% chat_tooltip = "#{chat_prefix}: #{chat.display_name}" %>
   <%= link_to chats_chat_path(chat),
         id: "sidebar_chat_#{chat.id}",
-        title: chat.mcp? ? "MCP Chat" : "Curation Chat",
+        title: chat_tooltip,
         class: "block px-3 py-2.5 rounded-lg text-sm transition-colors #{chat.id == current_chat&.id ? 'bg-slate-600 text-white' : 'text-slate-300 hover:bg-civic-sidebar-hover hover:text-white'}" do %>
     <div class="flex items-center gap-2">
       <% if chat.mcp? %>
-        <%= render "chats/shared/icons/mcp_logo", css: "h-4 w-4 shrink-0 text-amber-400", title: "MCP Chat" %>
+        <%= render "chats/shared/icons/mcp_logo", css: "h-4 w-4 shrink-0 text-amber-400" %>
       <% else %>
-        <%= render "chats/shared/icons/chat_bubble", css: "h-4 w-4 shrink-0 text-slate-400", title: "Curation Chat" %>
+        <%= render "chats/shared/icons/chat_bubble", css: "h-4 w-4 shrink-0 text-slate-400" %>
       <% end %>
       <div class="truncate pr-6">
         <div class="truncate font-medium"><%= chat.display_name %></div>
