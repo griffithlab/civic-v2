@@ -5,11 +5,21 @@ import {
   withHideExpression,
   withStatic,
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export const searchDiseasesDefaultKey = 'name'
 export const searchDiseasesFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByKey([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Disease' },
+        fieldGroup: SELECT_FIELD_CONFIG['DiseaseIdSelect'],
+      },
+    ]),
+    // other fields sorted alphabetically
+    ...sortByKey([
       ...withStatic([
         {
           key: 'name',
@@ -26,11 +36,6 @@ export const searchDiseasesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
-          key: 'id',
-          props: { label: 'ID' },
-          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
-        },
-        {
           key: 'doid',
           props: { label: 'Disease Ontology ID' },
           fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
@@ -41,5 +46,5 @@ export const searchDiseasesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
         },
       ]),
-    ])
-  )
+    ]),
+  ])

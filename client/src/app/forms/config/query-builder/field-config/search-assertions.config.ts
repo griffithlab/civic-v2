@@ -7,10 +7,20 @@ import {
 } from './functions/field-config-helpers'
 import { INPUT_FIELD_CONFIG } from './input-config/search-input.config'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByLabel([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Select Assertion' },
+        fieldGroup: SELECT_FIELD_CONFIG['AssertionIdSelect'],
+      },
+    ]),
+    // other fields sorted alphabetically
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'ampLevel',
@@ -46,11 +56,6 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
           key: 'fdaCompanionTest',
           props: { label: 'FDA Companion Test' },
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
-        },
-        {
-          key: 'id',
-          props: { label: 'ID' },
-          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
           key: 'isFlagged',
@@ -101,5 +106,5 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
         ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
         ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
       ]),
-    ])
-  )
+    ]),
+  ])

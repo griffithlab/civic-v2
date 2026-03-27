@@ -3,7 +3,6 @@ import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config
 import {
   sortByLabel,
   withHideExpression,
-  withPrecache,
   withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
@@ -13,19 +12,14 @@ import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export const searchVariantsFieldOptions: FormlyFieldConfig[] =
   withHideExpression([
-    // place specific entity select at top of options
-    ...withStatic(
-      withPrecache(
-        [
-          {
-            key: 'id',
-            props: { label: 'Select Variant' },
-            fieldGroup: SELECT_FIELD_CONFIG['VariantIdSelect'],
-          },
-        ],
-        'cacheVariant'
-      )
-    ),
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Variant' },
+        fieldGroup: SELECT_FIELD_CONFIG['VariantIdSelect'],
+      },
+    ]),
     // other fields sorted alphabetically
     ...sortByLabel([
       ...withStatic([
