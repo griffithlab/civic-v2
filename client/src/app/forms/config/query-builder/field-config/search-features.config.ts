@@ -18,6 +18,7 @@ import {
   withStatic,
 } from './functions/field-config-helpers'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type FeatureSearchFilterREF = {
   alias?: InputMaybe<StringSearchInput>
@@ -43,8 +44,17 @@ export type FeatureSearchFilterREF = {
 }
 export const searchFeaturesDefaultKey = 'alias'
 export const searchFeaturesFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByLabel([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Feature' },
+        fieldGroup: SELECT_FIELD_CONFIG['FeatureIdSelect'],
+      },
+    ]),
+    // other fields sorted alphabetically
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'alias',
@@ -131,5 +141,5 @@ export const searchFeaturesFieldOptions: FormlyFieldConfig[] =
           'Deprecating User'
         ),
       ]),
-    ])
-  )
+    ]),
+  ])

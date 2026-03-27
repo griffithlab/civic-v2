@@ -6,7 +6,9 @@
     <nz-select
       [disabled]="!props.canChangeFeatureType"
       [(ngModel)]="selectedFeatureType"
-    (ngModelChange)="onFeatureType$.next($event); formControl.setValue(undefined)">
+      (ngModelChange)="
+        onFeatureType$.next($event); formControl.setValue(undefined)
+      ">
       <nz-option
         nzValue="GENE"
         nzLabel="Gene"></nz-option>
@@ -61,7 +63,7 @@
               [nzTooltipTitle]="result.featureAliases.join(', ')"
               [innerHtml]="
                 result.featureAliases.join(', ')
-                  | highlightTypeahead : searchString
+                  | highlightTypeahead: searchString
               "></span
           ></em>
         </ng-container>
@@ -79,7 +81,7 @@
   let-selected>
   <div class="ant-select-selection-item-content">
     <cvc-entity-tag
-      [cvcCacheId]="'Feature:' + selected.nzValue"
+      [cvcCacheId]="selected.nzTitle + ':' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
@@ -91,25 +93,25 @@
   let-searchStr
   let-model="model">
   @if (selectedFeatureType == 'FUSION') {
-  <nz-space nzDirection="vertical">
-    <span
-      *nzSpaceItem
-      nz-typography
-      >{{searchStr}} does not match any existing Fusions</span
-    >
-    <button
-      *nzSpaceItem
-      nz-button
-      nzType="primary"
-      (click)="createFusionModal()">
-      Open Fusion Builder
-    </button>
-  </nz-space>
+    <nz-space nzDirection="vertical">
+      <span
+        *nzSpaceItem
+        nz-typography
+        >{{ searchStr }} does not match any existing Fusions</span
+      >
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        (click)="createFusionModal()">
+        Open Fusion Builder
+      </button>
+    </nz-space>
   } @else {
-  <cvc-feature-quick-add-form
-    [cvcSearchString]="searchStr"
-    [cvcFeatureType]="onFeatureType$ | ngrxPush"
-    (cvcOnCreate)="onSelectOrCreate($event)">
-  </cvc-feature-quick-add-form>
+    <cvc-feature-quick-add-form
+      [cvcSearchString]="searchStr"
+      [cvcFeatureType]="onFeatureType$ | ngrxPush"
+      (cvcOnCreate)="onSelectOrCreate($event)">
+    </cvc-feature-quick-add-form>
   }
 </ng-template>
