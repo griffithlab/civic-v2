@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title><%= content_for(:title) || "CIViC Curation Chat" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="CIViC Curation Chat">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              civic: {
+                purple: '#7b4ea0',
+                'purple-light': '#f3eef8',
+                'purple-dark': '#5c3a7e',
+                blue: '#4a6fa5',
+                sidebar: '#2d1f3d',
+                'sidebar-hover': '#3d2d52',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <%= stylesheet_link_tag "chats", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full bg-gray-50 text-gray-900 antialiased">
+    <div class="flex h-full">
+      <% if content_for?(:hide_sidebar) %>
+        <main class="flex-1 flex flex-col h-full overflow-hidden">
+          <%= render "chats/shared/flash" %>
+          <%= yield %>
+        </main>
+      <% else %>
+        <%# Sidebar %>
+        <%= render "layouts/chats_sidebar" %>
+
+        <%# Main content %>
+        <main class="flex-1 flex flex-col h-full overflow-hidden">
+          <%= render "chats/shared/flash" %>
+          <%= yield %>
+        </main>
+      <% end %>
+    </div>
+  </body>
+</html>

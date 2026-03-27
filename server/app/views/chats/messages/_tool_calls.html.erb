@@ -1,0 +1,13 @@
+<div class="space-y-2 mb-3">
+  <% message.tool_calls.each do |tool_call| %>
+    <details class="tool-call-details rounded-xl border-l-4 border-civic-purple bg-purple-50 overflow-hidden shadow-sm" open>
+      <summary class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-purple-100/50 transition-colors">
+        <%= render "chats/shared/icons/gear", css: "h-4 w-4 text-civic-purple shrink-0" %>
+        <span class="text-sm font-bold text-civic-purple uppercase tracking-wide">Tool Call</span>
+      </summary>
+      <div class="px-4 py-3 font-mono text-sm text-gray-800 bg-purple-50/80">
+        <span class="text-blue-700"><%= tool_call.name %></span>(<%= tool_call.arguments.map { |k, v| "#{k}: #{v.inspect}" }.join(", ") %>)
+      </div>
+    </details>
+  <% end %>
+</div>

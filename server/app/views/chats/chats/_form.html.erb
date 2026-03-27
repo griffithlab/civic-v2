@@ -1,0 +1,32 @@
+<% chat_type = local_assigns.fetch(:chat_type, "curation") %>
+<% placeholder = chat_type == "mcp" ? "What would you like to ask the MCP?" : "What would you like to discuss?" %>
+
+<%= form_with(model: chat, scope: :chat, url: chats_root_path, class: "space-y-5") do |form| %>
+  <% if chat.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
+      <h2 class="font-semibold mb-1"><%= pluralize(chat.errors.count, "error") %> prohibited this chat from being saved:</h2>
+      <ul class="list-disc list-inside">
+        <% chat.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :chat_type, value: chat_type %>
+
+  <div>
+    <%= form.text_field :prompt,
+        class: "w-full px-4 py-3 rounded-xl border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-civic-purple focus:border-transparent text-gray-800 placeholder-gray-400 transition-shadow",
+        placeholder: placeholder,
+        autocomplete: "off",
+        autofocus: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Start Chat",
+        class: "w-full px-6 py-3 rounded-xl bg-civic-purple hover:bg-civic-purple-dark text-white font-semibold shadow-sm transition-colors cursor-pointer" %>
+  </div>
+
+  <%= render "chats/shared/disclaimer" %>
+<% end %>

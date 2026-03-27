@@ -1,0 +1,10 @@
+<% if flash[:notice] %>
+  <div class="px-4 py-2.5 bg-green-50 border-b border-green-200 text-green-800 text-sm flex items-center justify-between">
+    <span><%= flash[:notice] %></span>
+  </div>
+<% end %>
+<% if flash[:alert] %>
+  <div class="px-4 py-2.5 bg-red-50 border-b border-red-200 text-red-800 text-sm flex items-center justify-between">
+    <span><%= flash[:alert] %></span>
+  </div>
+<% end %>

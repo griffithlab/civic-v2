@@ -51,6 +51,9 @@ Rails.application.configure do
   config.active_job.queue_adapter  = :sidekiq
   # config.active_job.queue_name_prefix = "civic2_production"
 
+  config.action_cable.url = "wss://civicdb.org/cable"
+  config.action_cable.allowed_request_origins = [ "https://civicdb.org" ]
+
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
