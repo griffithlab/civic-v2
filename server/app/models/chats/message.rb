@@ -16,7 +16,7 @@ module Chats
     end
 
     def broadcast_append_chunk(content)
-      broadcast_append_to "chats_chat_#{chat_id}",
+      broadcast_append_to chat.user, chat,
         target: "message_#{id}_content",
         partial: "chats/messages/content",
         locals: { content: content }
@@ -24,17 +24,17 @@ module Chats
 
     def broadcast_message_append
       if role == "assistant"
-        broadcast_remove_to "chats_chat_#{chat_id}", target: "typing_placeholder"
+        broadcast_remove_to chat.user, chat, target: "typing_placeholder"
       end
 
-      broadcast_append_to "chats_chat_#{chat_id}",
+      broadcast_append_to chat.user, chat,
         target: "messages",
         partial: "chats/messages/message",
         locals: { message: self }
     end
 
     def broadcast_message_replace
-      broadcast_replace_to "chats_chat_#{chat_id}",
+      broadcast_replace_to chat.user, chat,
         target: "message_#{id}",
         partial: "chats/messages/message",
         locals: { message: self }

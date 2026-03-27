@@ -18,31 +18,31 @@ module Chats
     private
 
     def broadcast_name_update(chat)
-      # Broadcast sidebar and header updates via the chat-specific stream
+      # Broadcast sidebar and header updates via the user-scoped chat stream
       Turbo::StreamsChannel.broadcast_replace_to(
-        "chats_chat_#{chat.id}",
+        chat.user, chat,
         target: "sidebar_chat_#{chat.id}",
         partial: "chats/chats/sidebar_chat",
         locals: { chat: chat, current_chat: chat },
       )
 
       Turbo::StreamsChannel.broadcast_replace_to(
-        "chats_chat_#{chat.id}",
+        chat.user, chat,
         target: "chat_header_name",
         partial: "chats/chats/header_name",
         locals: { chat: chat },
       )
 
-      # Broadcast sidebar and index updates via the chats stream
+      # Broadcast sidebar and index updates via the user-scoped chats stream
       Turbo::StreamsChannel.broadcast_replace_to(
-        "chats",
+        chat.user, "chats",
         target: "sidebar_chat_#{chat.id}",
         partial: "chats/chats/sidebar_chat",
         locals: { chat: chat, current_chat: nil },
       )
 
       Turbo::StreamsChannel.broadcast_replace_to(
-        "chats",
+        chat.user, "chats",
         target: "index_chat_#{chat.id}",
         partial: "chats/chats/index_chat",
         locals: { chat: chat },

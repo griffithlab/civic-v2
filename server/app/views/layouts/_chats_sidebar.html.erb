@@ -1,4 +1,4 @@
-<%= turbo_stream_from "chats" %>
+<%= turbo_stream_from current_user, "chats" %>
 
 <aside class="w-72 bg-civic-sidebar text-white flex flex-col h-full shrink-0">
   <%# Header / New Chat %>

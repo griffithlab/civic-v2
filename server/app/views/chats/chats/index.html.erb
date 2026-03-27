@@ -1,6 +1,6 @@
 <% content_for :title, "Chats" %>
 
-<%= turbo_stream_from "chats" %>
+<%= turbo_stream_from current_user, "chats" %>
 
 <div class="flex-1 flex flex-col items-center justify-center p-8">
   <% if @chats.any? %>
