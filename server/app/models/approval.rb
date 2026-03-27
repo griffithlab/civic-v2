@@ -27,6 +27,7 @@ class Approval < ApplicationRecord
     return false unless self.status == "active"
     return false unless self.organization.clinvar_api_key.present?
     return false unless self.organization.can_approve?
+    return false unless self.assertion.evidence_items.all? { |eid| eid.status == "accepted" }
 
     existing_batch_entries = ClinvarBatchEntry.where(approval_id: self.id)
 
