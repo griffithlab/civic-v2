@@ -22,7 +22,7 @@ import {
   QueryBuilderResult,
 } from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { catchError, EMPTY, tap } from 'rxjs'
+import { catchError, EMPTY } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
 import { filter, switchMap } from 'rxjs/operators'
@@ -61,23 +61,22 @@ export class CvcQueryBuilderForm {
   private entityCacheRegistry = inject(EntityCacheRegistry)
   private apollo = inject(Apollo)
 
+  // keep formGQL updated with searchEndpoint's query service
   formGQL = computed<AdvancedSearchService>(() => {
     const endpoint = this.searchEndpoint()
     return this.advancedSearch.getService(endpoint)
   })
   form: UntypedFormGroup = new UntypedFormGroup({})
   fields: FormlyFieldConfig[] = []
-  options: FormlyFormOptions = { formState: { formLayout: 'inline' } }
+  options: FormlyFormOptions = { formState: { formLayout: 'horizontal' } }
 
   getOriginalQueryGQL = inject(GetOriginalQueryGQL)
 
   // flag to prevent permalink model from being overwritten
   private permalinkSearchEndpoint?: string
 
-  // if permalinkId provided, fetch original query
-  private permalinkId$ = toObservable(this.permalinkId).pipe(
-    tap((id) => console.log('permalinkId$:', id))
-  )
+  // convert permalinkId signal to observable for use in subscription
+  private permalinkId$ = toObservable(this.permalinkId)
 
   constructor() {
     // EFFECT: when search endpoint changes, always switch fields first
@@ -90,7 +89,6 @@ export class CvcQueryBuilderForm {
         ...this.options,
         formState: {
           ...this.options.formState,
-          formLayout: 'inline',
           searchEndpoint: endpoint,
           submitQuery: this.onSubmit.bind(this),
           clearForm: this.onClearForm.bind(this),
