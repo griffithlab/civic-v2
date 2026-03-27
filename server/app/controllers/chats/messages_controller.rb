@@ -5,7 +5,8 @@ module Chats
     def create
       return unless content.present?
 
-      response_job_class.perform_later(@chat.id, content)
+      @message = @chat.messages.create!(role: :user, content: content)
+      response_job_class.perform_later(@chat.id)
 
       respond_to do |format|
         format.turbo_stream

@@ -23,6 +23,10 @@ module Chats
     end
 
     def broadcast_message_append
+      if role == "assistant"
+        broadcast_remove_to "chats_chat_#{chat_id}", target: "typing_placeholder"
+      end
+
       broadcast_append_to "chats_chat_#{chat_id}",
         target: "messages",
         partial: "chats/messages/message",

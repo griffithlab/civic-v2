@@ -24,8 +24,12 @@
 <%# Messages area - scrollable %>
 <div class="flex-1 overflow-y-auto messages-container" data-controller="scroll">
   <div id="messages" class="max-w-4xl mx-auto px-4 py-6 space-y-6">
-    <% @chat.messages.where.not(id: nil).each do |message| %>
+    <% messages = @chat.messages.where.not(id: nil) %>
+    <% messages.each do |message| %>
       <%= render message %>
+    <% end %>
+    <% if messages.any? && messages.last.role == "user" %>
+      <%= render "chats/messages/typing_indicator" %>
     <% end %>
   </div>
 </div>
@@ -34,5 +38,6 @@
 <div class="shrink-0 border-t border-gray-200 bg-white">
   <div class="max-w-4xl mx-auto px-4 py-4">
     <%= render "chats/messages/form", chat: @chat, message: @message %>
+    <%= render "chats/shared/disclaimer" %>
   </div>
 </div>

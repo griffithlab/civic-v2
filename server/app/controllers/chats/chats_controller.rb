@@ -16,7 +16,8 @@ module Chats
       return unless prompt.present?
 
       @chat = current_user.chats.create!(model: selected_model, chat_type: chat_type)
-      response_job_class.perform_later(@chat.id, prompt)
+      @chat.messages.create!(role: :user, content: prompt)
+      response_job_class.perform_later(@chat.id)
       Chats::ChatNameJob.perform_later(@chat.id, prompt)
 
       redirect_to chats_chat_path(@chat)
