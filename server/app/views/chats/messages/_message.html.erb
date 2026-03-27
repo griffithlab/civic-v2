@@ -13,9 +13,7 @@
       </div>
       <%# User avatar %>
       <div class="w-9 h-9 rounded-full bg-civic-blue flex items-center justify-center shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-          <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
-        </svg>
+        <%= render "chats/shared/icons/user", css: "h-5 w-5 text-white" %>
       </div>
     </div>
 
@@ -24,9 +22,7 @@
     <div class="flex items-start gap-3">
       <%# Assistant avatar %>
       <div class="w-9 h-9 rounded-full bg-civic-purple flex items-center justify-center shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M3 5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v7.5A2.25 2.25 0 0118.75 15H15l-3.75 3.75L7.5 15H5.25A2.25 2.25 0 013 12.75v-7.5z" />
-        </svg>
+        <%= render "chats/shared/icons/chat_bubble_solid", css: "h-5 w-5 text-white" %>
       </div>
       <div class="max-w-3xl flex-1">
         <div class="flex items-center gap-2 mb-1">
@@ -52,19 +48,13 @@
               <hr class="my-4 border-gray-200">
               <div class="sources-section">
                 <div class="flex items-center gap-2 mb-3 text-gray-600">
-                  <%# Book icon %>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                  </svg>
+                  <%= render "chats/shared/icons/book", css: "h-4 w-4" %>
                   <span class="text-sm font-medium">Sources</span>
                 </div>
                 <ol class="space-y-2 list-none pl-0">
                   <% content_raw["sources_cited"].each_with_index do |source, index| %>
                     <li class="flex items-start gap-2">
-                      <%# External link icon %>
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                      </svg>
+                      <%= render "chats/shared/icons/external_link", css: "h-4 w-4 text-gray-400 mt-0.5 shrink-0" %>
                       <a href="<%= source["link"] %>" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 hover:underline leading-snug">
                         <%= source["title"] %>
                       </a>
@@ -93,9 +83,7 @@
     <div class="flex items-start gap-3">
       <%# Tool avatar %>
       <div class="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-          <path fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 00-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 00-2.282.819l-.922 1.597a1.875 1.875 0 00.432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 000 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 00-.432 2.385l.922 1.597a1.875 1.875 0 002.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 002.28-.819l.923-1.597a1.875 1.875 0 00-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clip-rule="evenodd" />
-        </svg>
+        <%= render "chats/shared/icons/gear", css: "h-5 w-5 text-white" %>
       </div>
       <div class="max-w-3xl flex-1">
         <div class="flex items-center gap-2 mb-1">
@@ -105,9 +93,7 @@
         <details class="tool-call-details bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <summary class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer">
             <div class="flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-amber-500" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 00-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 00-2.282.819l-.922 1.597a1.875 1.875 0 00.432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 000 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 00-.432 2.385l.922 1.597a1.875 1.875 0 002.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 002.28-.819l.923-1.597a1.875 1.875 0 00-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clip-rule="evenodd" />
-              </svg>
+              <%= render "chats/shared/icons/gear", css: "h-4 w-4 text-amber-500" %>
               <span class="text-sm font-medium text-amber-600">Tool Result</span>
             </div>
             <span class="text-xs text-gray-400">Click to expand</span>

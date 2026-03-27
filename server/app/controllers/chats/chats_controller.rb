@@ -19,7 +19,7 @@ module Chats
       response_job_class.perform_later(@chat.id, prompt)
       Chats::ChatNameJob.perform_later(@chat.id, prompt)
 
-      redirect_to chats_chat_path(@chat), notice: "Chat was successfully created."
+      redirect_to chats_chat_path(@chat)
     end
 
     def show

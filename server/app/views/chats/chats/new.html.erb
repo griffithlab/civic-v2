@@ -16,17 +16,11 @@
     <div class="text-center mb-8">
       <% if @chat_type == "mcp" %>
         <div class="w-16 h-16 rounded-full bg-amber-500 flex items-center justify-center mx-auto mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="10 15 170 185" stroke="currentColor">
-            <path d="M25 97.8528L92.8823 29.9706C102.255 20.598 117.451 20.598 126.823 29.9706V29.9706C136.196 39.3431 136.196 54.5391 126.823 63.9117L75.5581 115.177" stroke-width="12" stroke-linecap="round"/>
-            <path d="M76.2653 114.47L126.823 63.9117C136.196 54.5391 151.392 54.5391 160.765 63.9117L161.118 64.2652C170.491 73.6378 170.491 88.8338 161.118 98.2063L99.7248 159.6C96.6006 162.724 96.6006 167.789 99.7248 170.913L112.331 183.52" stroke-width="12" stroke-linecap="round"/>
-            <path d="M109.853 46.9411L59.6482 97.1457C50.2757 106.518 50.2757 121.714 59.6482 131.087V131.087C69.0208 140.459 84.2168 140.459 93.5894 131.087L143.794 80.8822" stroke-width="12" stroke-linecap="round"/>
-          </svg>
+          <%= render "chats/shared/icons/mcp_logo", css: "h-8 w-8 text-white" %>
         </div>
       <% else %>
         <div class="w-16 h-16 rounded-full bg-civic-purple flex items-center justify-center mx-auto mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v7.5A2.25 2.25 0 0118.75 15H15l-3.75 3.75L7.5 15H5.25A2.25 2.25 0 013 12.75v-7.5z" />
-          </svg>
+          <%= render "chats/shared/icons/chat_bubble_solid", css: "h-8 w-8 text-white" %>
         </div>
       <% end %>
       <h1 class="text-2xl font-bold text-gray-800"><%= heading %></h1>
@@ -37,17 +31,11 @@
     <div class="flex justify-center mb-6">
       <div class="inline-flex rounded-lg bg-gray-100 p-1">
         <%= link_to curation_chat_path, class: "flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition-colors #{@chat_type == 'curation' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'}" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-          </svg>
+          <%= render "chats/shared/icons/chat_bubble", css: "h-4 w-4" %>
           Curation
         <% end %>
         <%= link_to mcp_chat_path, class: "flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition-colors #{@chat_type == 'mcp' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'}" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="10 15 170 185" stroke="currentColor">
-            <path d="M25 97.8528L92.8823 29.9706C102.255 20.598 117.451 20.598 126.823 29.9706V29.9706C136.196 39.3431 136.196 54.5391 126.823 63.9117L75.5581 115.177" stroke-width="12" stroke-linecap="round"/>
-            <path d="M76.2653 114.47L126.823 63.9117C136.196 54.5391 151.392 54.5391 160.765 63.9117L161.118 64.2652C170.491 73.6378 170.491 88.8338 161.118 98.2063L99.7248 159.6C96.6006 162.724 96.6006 167.789 99.7248 170.913L112.331 183.52" stroke-width="12" stroke-linecap="round"/>
-            <path d="M109.853 46.9411L59.6482 97.1457C50.2757 106.518 50.2757 121.714 59.6482 131.087V131.087C69.0208 140.459 84.2168 140.459 93.5894 131.087L143.794 80.8822" stroke-width="12" stroke-linecap="round"/>
-          </svg>
+          <%= render "chats/shared/icons/mcp_logo", css: "h-4 w-4" %>
           MCP
         <% end %>
       </div>
