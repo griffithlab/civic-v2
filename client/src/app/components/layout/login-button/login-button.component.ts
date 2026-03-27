@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 export class CvcLoginButtonComponent implements OnInit {
   authVisible: boolean
   redirectUrl: string | undefined
+  signInMessage: string | undefined
 
   constructor(
     private route: ActivatedRoute,
@@ -23,6 +24,7 @@ export class CvcLoginButtonComponent implements OnInit {
     if (params.get('sign_in') === 'true') {
       this.authVisible = true
       this.redirectUrl = params.get('redirect') ?? undefined
+      this.signInMessage = params.get('message') ?? undefined
     }
   }
 
@@ -38,7 +40,7 @@ export class CvcLoginButtonComponent implements OnInit {
   private cleanQueryParams(): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { sign_in: null, redirect: null },
+      queryParams: { sign_in: null, redirect: null, message: null },
       queryParamsHandling: 'merge',
     })
   }

@@ -11,6 +11,13 @@
   [nzFooter]="loginModalFooter"
   (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
+    <nz-alert
+      *ngIf="signInMessage"
+      nzType="info"
+      [nzMessage]="signInMessage"
+      nzShowIcon
+      style="margin-bottom: 16px">
+    </nz-alert>
     <p nzType="secondary">
       Click on one of the OAuth providers below to sign into CIViC. If you do
       not not have a CIViC account, one will be created for you based upon the
