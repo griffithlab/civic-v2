@@ -118,14 +118,17 @@
 }
 
 /* Tool call details styling */
-details.tool-call-details > summary {
+details.tool-call-details > summary,
+details.new-chat-dropdown > summary {
   cursor: pointer;
   list-style: none;
 }
-details.tool-call-details > summary::-webkit-details-marker {
+details.tool-call-details > summary::-webkit-details-marker,
+details.new-chat-dropdown > summary::-webkit-details-marker {
   display: none;
 }
-details.tool-call-details > summary::marker {
+details.tool-call-details > summary::marker,
+details.new-chat-dropdown > summary::marker {
   display: none;
   content: "";
 }

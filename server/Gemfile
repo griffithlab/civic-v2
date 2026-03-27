@@ -130,3 +130,5 @@ gem "neighbor", "~> 0.6.0"
 gem "pdf-reader", "~> 2.15"
 gem "turbo-rails"
 gem "stimulus-rails"
+
+gem "ruby_llm-mcp", "~> 0.5.1"

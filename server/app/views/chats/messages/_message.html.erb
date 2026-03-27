@@ -38,7 +38,7 @@
         <% end %>
         <% if message.content.present? %>
           <div class="bg-civic-purple-light rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm border border-purple-200">
-            <div id="message_<%= message.id %>_content" class="message-content whitespace-pre-wrap leading-relaxed text-gray-800"><%= message.content %></div>
+            <div id="message_<%= message.id %>_content" class="message-content leading-relaxed text-gray-800"><%= Kramdown::Document.new(message.content).to_html.html_safe %></div>
           </div>
         <% elsif message.content_raw.present? %>
           <% content_raw = message.content_raw.is_a?(String) ? JSON.parse(message.content_raw) : message.content_raw %>

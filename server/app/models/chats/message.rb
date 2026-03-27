@@ -7,7 +7,9 @@ module Chats
                     tool_call_class: "Chats::ToolCall",
                     model_class: "Chats::Model"
     has_many_attached :attachments
-    broadcasts_to ->(message) { "chats_chat_#{message.chat_id}" }
+
+    after_create_commit :broadcast_message_append
+    after_update_commit :broadcast_message_replace
 
     def to_partial_path
       "chats/messages/message"
@@ -18,6 +20,20 @@ module Chats
         target: "message_#{id}_content",
         partial: "chats/messages/content",
         locals: { content: content }
+    end
+
+    def broadcast_message_append
+      broadcast_append_to "chats_chat_#{chat_id}",
+        target: "messages",
+        partial: "chats/messages/message",
+        locals: { message: self }
+    end
+
+    def broadcast_message_replace
+      broadcast_replace_to "chats_chat_#{chat_id}",
+        target: "message_#{id}",
+        partial: "chats/messages/message",
+        locals: { message: self }
     end
 
     private

@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   get "/api/graphiql" => "graphiql#show"
 
+  get "/curation-chat", to: "chats/chats#new", defaults: { chat_type: "curation" }, as: :curation_chat
+  get "/mcp-chat", to: "chats/chats#new", defaults: { chat_type: "mcp" }, as: :mcp_chat
+
   namespace :chats, path: "chats" do
     root to: "chats#index"
     resources :chats, path: "" do

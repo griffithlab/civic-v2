@@ -10,6 +10,12 @@ module Chats
       Do not include a "sources cited" section at the end of the answer text. Just provide it in the separate object key according to the schema.
     DOC
 
+    MCP_INSTRUCTIONS = <<~DOC
+    You are to answer questions about the Clinical Interpretation of Variants in Cancer by relying on the CIViC knowledgebase.
+    Anything else is out of scope and you should not answer.
+    Return all answers formatted as Markdown.
+    DOC
+
     PDF_INSTRUCTIONS = <<~DOC
       Attached is a PDF of an academic paper. Please extract the title of the manuscript.
     DOC

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_24_182504) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -297,11 +297,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_182504) do
   end
 
   create_table "chats_chats", force: :cascade do |t|
+    t.string "chat_type", default: "curation", null: false
     t.datetime "created_at", null: false
     t.bigint "model_id"
     t.string "name"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.index ["chat_type"], name: "index_chats_chats_on_chat_type"
     t.index ["model_id"], name: "index_chats_chats_on_model_id"
     t.index ["user_id"], name: "index_chats_chats_on_user_id"
   end

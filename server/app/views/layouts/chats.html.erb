@@ -43,6 +43,7 @@
     <div class="flex h-full">
       <% if content_for?(:hide_sidebar) %>
         <main class="flex-1 flex flex-col h-full overflow-hidden">
+          <%= render "chats/shared/flash" %>
           <%= yield %>
         </main>
       <% else %>
@@ -51,6 +52,7 @@
 
         <%# Main content %>
         <main class="flex-1 flex flex-col h-full overflow-hidden">
+          <%= render "chats/shared/flash" %>
           <%= yield %>
         </main>
       <% end %>

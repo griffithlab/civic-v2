@@ -5,7 +5,7 @@ module Chats
     def create
       return unless content.present?
 
-      Chats::ChatResponseJob.perform_later(@chat.id, content)
+      response_job_class.perform_later(@chat.id, content)
 
       respond_to do |format|
         format.turbo_stream
@@ -21,6 +21,15 @@ module Chats
 
     def content
       params[:message][:content]
+    end
+
+    def response_job_class
+      case @chat.chat_type
+      when "mcp"
+        Chats::McpChatResponseJob
+      else
+        Chats::ChatResponseJob
+      end
     end
   end
 end

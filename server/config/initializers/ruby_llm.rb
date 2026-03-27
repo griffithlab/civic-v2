@@ -1,6 +1,6 @@
 RubyLLM.configure do |config|
   config.openai_api_key = ENV["OPENAI_API_KEY"] || Rails.application.credentials.dig(:openai_api_key)
-  config.default_model = "gpt-5-mini"
+  config.default_model = "gpt-5.4"
   config.default_embedding_model = "text-embedding-3-large"
   config.use_new_acts_as = true
 end
