@@ -10,10 +10,11 @@ import {
   StringSearchInput,
 } from '@generated/civic.apollo'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withStatic,
 } from './functions/field-config-helpers'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type SourceSearchFilterREF = {
   abstract?: InputMaybe<StringSearchInput>
@@ -29,8 +30,16 @@ export type SourceSearchFilterREF = {
 }
 export const searchSourcesDefaultKey = 'journal'
 export const searchSourcesFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByKey([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Source' },
+        fieldGroup: SELECT_FIELD_CONFIG['SourceIdSelect'],
+      },
+    ]),
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'abstract',
@@ -46,11 +55,6 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
           key: 'citationId',
           props: { label: 'Citation ID' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
-        },
-        {
-          key: 'id',
-          props: { label: 'ID' },
-          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
           key: 'isRetracted',
@@ -73,5 +77,5 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
       ]),
-    ])
-  )
+    ]),
+  ])

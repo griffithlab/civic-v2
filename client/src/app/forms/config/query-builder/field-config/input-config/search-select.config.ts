@@ -78,6 +78,7 @@ const SOURCE_ID_SELECT = [
     wrappers: [],
     props: {
       placeholder: 'Select a Source',
+      showAddEntity: false,
     },
   },
 ]
