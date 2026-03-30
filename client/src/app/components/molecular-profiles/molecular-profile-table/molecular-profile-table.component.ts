@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -51,7 +53,7 @@ export interface MolecularProfileTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcMolecularProfilesTableComponent implements OnInit {
+export class CvcMolecularProfilesTableComponent implements OnInit, OnChanges {
   @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
@@ -214,6 +216,12 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   // virtual scroll helpers

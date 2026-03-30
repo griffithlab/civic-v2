@@ -2,7 +2,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -49,7 +51,7 @@ export interface PhenotypesTableUserFilters {
   styleUrls: ['./phenotypes-table.component.less'],
   standalone: false,
 })
-export class CvcPhenotypesTableComponent implements OnInit {
+export class CvcPhenotypesTableComponent implements OnInit, OnChanges {
   @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
@@ -201,6 +203,12 @@ export class CvcPhenotypesTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   trackByIndex(

@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -55,7 +57,7 @@ export interface BrowseFeaturesTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcFeaturesTableComponent implements OnInit {
+export class CvcFeaturesTableComponent implements OnInit, OnChanges {
   @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
@@ -220,6 +222,12 @@ export class CvcFeaturesTableComponent implements OnInit {
 
   onModelUpdated(_: Maybe<string>) {
     this.debouncedQuery.next()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   // virtual scroll helpers

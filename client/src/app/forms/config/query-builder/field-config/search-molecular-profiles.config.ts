@@ -9,8 +9,17 @@ import {
 import { getQueryFieldConfig } from './functions/get-query-field-config'
 
 export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByLabel([
+  withHideExpression([
+    // TODO: MP select is unsuitable for adv search filter placement due to its complexity. A simplified mp-select will need to be created.
+    // place 'specific entity' filter (selects specific id) at top of options
+    // ...withStatic([
+    //   {
+    //     key: 'id',
+    //     props: { label: 'Specific Molecular Profile' },
+    //     fieldGroup: SELECT_FIELD_CONFIG['MolecularProfileIdSelect'],
+    //   },
+    // ]),
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'alias',
@@ -62,5 +71,5 @@ export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
         ),
         ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
       ]),
-    ])
-  )
+    ]),
+  ])

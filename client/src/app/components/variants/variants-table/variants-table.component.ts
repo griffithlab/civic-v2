@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -55,7 +57,7 @@ export interface VariantTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcVariantsTableComponent implements OnInit {
+export class CvcVariantsTableComponent implements OnInit, OnChanges {
   @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() variantTypeId: Maybe<number>
@@ -237,6 +239,12 @@ export class CvcVariantsTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
+  }
+
   // virtual scroll helpers
   trackByIndex(
     _: number,
@@ -249,4 +257,5 @@ export class CvcVariantsTableComponent implements OnInit {
     this.hasNoVariantTypeInput = value[0]
     this.filterChange$.next()
   }
+
 }

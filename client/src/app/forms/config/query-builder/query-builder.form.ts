@@ -51,7 +51,6 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
 export class CvcQueryBuilderForm {
   searchEndpoint = model.required<AdvancedSearchEndpoint>()
   permalinkId = model<string>()
-  resultIds = output<number[]>()
 
   searchResults = output<QueryBuilderResult>()
   formModel: WritableSignal<QueryBuilderFormModel> = signal(

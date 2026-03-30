@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -57,7 +59,7 @@ export interface SourcesTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcSourcesTableComponent implements OnInit {
+export class CvcSourcesTableComponent implements OnInit, OnChanges {
   @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() clinicalTrialId: Maybe<number>
@@ -219,6 +221,12 @@ export class CvcSourcesTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   trackByIndex(
