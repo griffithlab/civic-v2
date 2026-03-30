@@ -218,6 +218,7 @@ export class CvcVariantsTableComponent implements OnInit, OnChanges {
 
   // fetch a new set of records
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
         ids: this.ids,

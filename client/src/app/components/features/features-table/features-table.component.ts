@@ -205,6 +205,7 @@ export class CvcFeaturesTableComponent implements OnInit, OnChanges {
   } // ngOnInit()
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
         featureName: this.nameInput,

@@ -62,8 +62,6 @@ export class CvcVariantTypesTableComponent implements OnInit, OnChanges {
     if (f) Object.assign(this, f)
   }
 
-  data$?: Observable<ApolloQueryResult<VariantTypesBrowseQuery>>
-
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
   sortChange$: Subject<SortDirectionEvent>
@@ -191,6 +189,7 @@ export class CvcVariantTypesTableComponent implements OnInit, OnChanges {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
         ids: this.ids,

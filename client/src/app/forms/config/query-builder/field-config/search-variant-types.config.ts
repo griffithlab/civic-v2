@@ -1,15 +1,24 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withStatic,
 } from './functions/field-config-helpers'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export const searchVariantTypesDefaultKey = 'name'
 export const searchVariantTypesFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByKey([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Variant Type' },
+        fieldGroup: SELECT_FIELD_CONFIG['VariantTypeIdSelect'],
+      },
+    ]),
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'name',
@@ -26,15 +35,10 @@ export const searchVariantTypesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
-          key: 'id',
-          props: { label: 'ID' },
-          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
-        },
-        {
           key: 'soid',
           props: { label: 'Sequence Ontology ID' },
           fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
         },
       ]),
-    ])
-  )
+    ]),
+  ])
