@@ -20,23 +20,25 @@
       (cvcOnModelChange)="props.change && props.change(field, $event)">
     </cvc-entity-select>
   </nz-col>
-  <nz-col nzFlex="50px">
-    <button
-      type="button"
-      nz-button
-      nzBlock
-      class="manager-button"
-    (click)="onShowMgrClick$.next()">
-      <span
-        nz-icon
-        [ngClass]="{
-          show: (showMgr$ | ngrxPush),
-          hide: !(showMgr$ | ngrxPush)
-        }"
-        [nzType]="'caret-right'"></span>
-      Manager
-    </button>
-  </nz-col>
+  @if (props.showManager) {
+    <nz-col nzFlex="50px">
+      <button
+        type="button"
+        nz-button
+        nzBlock
+        class="manager-button"
+        (click)="onShowMgrClick$.next()">
+        <span
+          nz-icon
+          [ngClass]="{
+            show: (showMgr$ | ngrxPush),
+            hide: !(showMgr$ | ngrxPush),
+          }"
+          [nzType]="'caret-right'"></span>
+        Manager
+      </button>
+    </nz-col>
+  }
   <nz-col
     nzSpan="24"
     class="manager-drawer"
@@ -44,8 +46,9 @@
     <cvc-evidence-manager
       [cvcSelectedIds]="onEid$ | ngrxPush"
       (cvcSelectedIdsChange)="onPopulate$.next($event)"
-      [cvcTableSettings]="tableSettingsChange$ | ngrxPush"
-      ></cvc-evidence-manager>
+      [cvcTableSettings]="
+        tableSettingsChange$ | ngrxPush
+      "></cvc-evidence-manager>
   </nz-col>
 </nz-row>
 <!-- select option templates -->

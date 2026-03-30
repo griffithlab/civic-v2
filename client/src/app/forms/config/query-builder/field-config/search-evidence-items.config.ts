@@ -30,6 +30,7 @@ import {
   TherapySearchFilter,
   UserSearchFilter,
 } from '@generated/civic.apollo'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type EvidenceItemSearchFilterREF = {
   assertion?: InputMaybe<AssertionSearchFilter>
@@ -58,8 +59,16 @@ export type EvidenceItemSearchFilterREF = {
 }
 
 export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByLabel([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Evidence Item' },
+        fieldGroup: SELECT_FIELD_CONFIG['EvidenceItemIdSelect'],
+      },
+    ]),
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'description',
@@ -85,11 +94,6 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           key: 'evidenceType',
           props: { label: 'Evidence Type' },
           fieldGroup: INPUT_FIELD_CONFIG['EvidenceTypeTypeSearchInput'],
-        },
-        {
-          key: 'id',
-          props: { label: 'ID' },
-          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },
         {
           key: 'isFlagged',
@@ -142,5 +146,5 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
         ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
         ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
       ]),
-    ])
-  )
+    ]),
+  ])

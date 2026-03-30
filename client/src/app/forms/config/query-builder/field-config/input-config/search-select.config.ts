@@ -90,6 +90,8 @@ const EVIDENCE_ITEM_ID_SELECT = [
     wrappers: [],
     props: {
       placeholder: 'Select an Evidence Item',
+      showManager: false,
+      isMultiSelect: false,
     },
   },
 ]
