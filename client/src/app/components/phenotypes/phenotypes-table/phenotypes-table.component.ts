@@ -194,6 +194,7 @@ export class CvcPhenotypesTableComponent implements OnInit, OnChanges {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
         ids: this.ids,
