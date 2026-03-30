@@ -1,6 +1,6 @@
 module Chats
   class ChatsController < BaseController
-    before_action :set_chat, only: [ :show, :destroy ]
+    before_action :set_chat, only: [ :show, :update, :destroy ]
 
     def index
       @chats = current_user.chats.order(created_at: :desc)
@@ -27,6 +27,12 @@ module Chats
       @message = @chat.messages.build
     end
 
+    def update
+      @chat.update!(chat_params)
+      @chat.broadcast_name_update
+      head :ok
+    end
+
     def destroy
       @chat.destroy!
       redirect_to new_chats_chat_path, notice: "Chat deleted."
@@ -36,6 +42,10 @@ module Chats
 
     def set_chat
       @chat = current_user.chats.find(params[:id])
+    end
+
+    def chat_params
+      params.require(:chat).permit(:name)
     end
 
     def selected_model

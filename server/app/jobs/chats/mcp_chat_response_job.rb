@@ -4,7 +4,7 @@ module Chats
       chat = Chats::Chat.find(chat_id)
       RubyLLM::MCP.establish_connection do |clients|
         chat.with_instructions(Constants::MCP_INSTRUCTIONS)
-          .with_tools(*clients.first.tools)
+          .with_tools(*clients[:civic].tools)
           .complete { |_chunk| }
       end
     end
