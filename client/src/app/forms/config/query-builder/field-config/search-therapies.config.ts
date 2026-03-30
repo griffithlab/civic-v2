@@ -10,10 +10,11 @@ import {
   TherapySearchFilter,
 } from '@generated/civic.apollo'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withStatic,
 } from './functions/field-config-helpers'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type TherapySearchFilterREF = {
   booleanOperator?: InputMaybe<BooleanOperator>
@@ -24,16 +25,39 @@ export type TherapySearchFilterREF = {
   subFilters?: InputMaybe<Array<TherapySearchFilter>>
   therapyAliases?: InputMaybe<StringSearchInput>
 }
-export const searchTherapiesDefaultKey = 'name'
 export const searchTherapiesFieldOptions: FormlyFieldConfig[] =
-  withHideExpression(
-    sortByKey([
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Therapy' },
+        fieldGroup: SELECT_FIELD_CONFIG['TherapyIdSelect'],
+      },
+    ]),
+    // other fields sorted alphabetically
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'name',
           props: { label: 'Name' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
+        {
+          key: 'therapyAliases',
+          props: { label: 'Alias' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'deprecated',
+          props: { label: 'Deprecation Status' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
+          key: 'ncitId',
+          props: { label: 'NCIT ID' },
+          fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
+        },
       ]),
-    ])
-  )
+    ]),
+  ])

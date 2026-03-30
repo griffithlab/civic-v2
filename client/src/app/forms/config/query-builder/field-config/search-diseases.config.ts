@@ -1,7 +1,7 @@
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withStatic,
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
@@ -19,7 +19,7 @@ export const searchDiseasesFieldOptions: FormlyFieldConfig[] =
       },
     ]),
     // other fields sorted alphabetically
-    ...sortByKey([
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'name',
