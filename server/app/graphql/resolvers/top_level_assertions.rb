@@ -67,7 +67,8 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
                   models: [ MolecularProfile ],
                   fields: [ "name" ],
                   match: :word_start
-                )
+    ).where(name: { ilike: "%#{value}%" })
+
     ids = results.hits.map { |x| x["_id"] }
     scope.joins(:molecular_profile).where(molecular_profiles: { id: ids })
   end

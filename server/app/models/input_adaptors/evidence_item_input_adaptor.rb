@@ -47,11 +47,11 @@ class InputAdaptors::EvidenceItemInputAdaptor
       errors << "Provided source id: #{fields.source_id} is not found."
     end
 
-    if fields.disease_id && !Disease.find(fields.disease_id)
+    if fields.disease_id && !Disease.find_by(id: fields.disease_id)
       errors << "Provided disease id: #{fields.disease_id} is not found."
     end
 
-    mp = MolecularProfile.find(fields.molecular_profile_id)
+    mp = MolecularProfile.find_by(id: fields.molecular_profile_id)
     if !mp
       errors << "Provided molecular profile id: #{fields.molecular_profile_id} is not found."
     elsif mp.deprecated

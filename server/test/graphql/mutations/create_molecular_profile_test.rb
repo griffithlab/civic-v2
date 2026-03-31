@@ -17,7 +17,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
   end
 
   test "single variant mp" do
-    response = Civic2Schema.execute(@query_string, context: { current_user: users(:curator) })
+    response = execute_mutation(@query_string, user: users(:curator))
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)
@@ -26,8 +26,8 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
   end
 
   test "must be logged in" do
-    response = Civic2Schema.execute(@query_string)
-    assert_equal(response["errors"][0]["message"], "You must log in to perform this mutation.")
+    response = execute_mutation(@query_string)
+    assert_graphql_error(response, /must log in/i)
   end
 
   test "complex mp" do
@@ -61,7 +61,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     }
     GRAPHQL
 
-    response = Civic2Schema.execute(query_string, context: { current_user: users(:curator) })
+    response = execute_mutation(query_string, user: users(:curator))
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)
@@ -101,7 +101,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     GRAPHQL
 
 
-    response = Civic2Schema.execute(query_string, context: { current_user: users(:curator) })
+    response = execute_mutation(query_string, user: users(:curator))
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)

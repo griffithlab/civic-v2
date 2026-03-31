@@ -7,26 +7,7 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- summary, description block -->
         <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzLayout="vertical"
-            nzSize="small"
-            nzBordered="true"
-            [nzColumn]="1">
-            <nz-descriptions-item nzTitle="Summary">
-              <p nz-typography>{{ assertion.summary }}</p>
-            </nz-descriptions-item>
-
-            <nz-descriptions-item nzTitle="Description">
-              <p
-                nz-typography
-                class="summary-block"
-                nzEllipsis
-                nzExpandable
-                [nzEllipsisRows]="6">
-                {{ assertion.description }}
-              </p>
-            </nz-descriptions-item>
-          </nz-descriptions>
+          <cvc-entity-description [cvcEntity]="assertion"></cvc-entity-description>
         </nz-col>
 
         <!-- assertion attributes block -->
@@ -202,15 +183,38 @@
       <!-- right col layout row -->
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: approvals block -->
-        @for (
-          approval of assertion.activeApprovals.nodes.concat(
-            assertion.requiresReviewApprovals.nodes
-          );
-          track approval.id
+        @if (
+          assertion.activeApprovals.nodes.length > 0 ||
+          assertion.requiresReviewApprovals.nodes.length > 0
         ) {
           <nz-col [nzSpan]="24">
-            <cvc-approval-notification
-              [cvcApproval]="approval"></cvc-approval-notification>
+            <nz-descriptions
+              nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+              <nz-descriptions-item [nzTitle]="approvalTitle">
+                @for (
+                  approval of assertion.activeApprovals.nodes.concat(
+                    assertion.requiresReviewApprovals.nodes
+                  );
+                  track approval.id
+                ) {
+                  <cvc-approval-notification
+                    [cvcApproval]="approval"></cvc-approval-notification>
+                }
+              </nz-descriptions-item>
+              <ng-template #approvalTitle>
+                <span style="color: {{ this.color() }}">
+                  <i
+                    nz-icon
+                    nzType="safety-certificate"
+                    nzTheme="fill">
+                  </i>
+                </span>
+                Approvals
+              </ng-template>
+            </nz-descriptions>
           </nz-col>
         }
         <!-- BLOCK: status, curation events block -->

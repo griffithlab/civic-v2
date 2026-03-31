@@ -96,12 +96,11 @@ Trestle.configure do |config|
      stylesheet_link_tag "actiontext"
    end
 
-
    config.hook(:javascripts) do
-    javascript_include_tag("activestorage", "data-turbo-track": "reload")
-    javascript_include_tag("actiontext", "data-turbo-track": "reload")
-    javascript_include_tag("trix", "data-turbo-track": "reload")
-    javascript_pack_tag("application")
+     safe_join([
+       javascript_include_tag("trix", "data-turbo-track": "reload"),
+       javascript_include_tag("actiontext", "data-turbo-track": "reload"),
+     ], "\n")
    end
 
   # Toggle whether Turbolinks is enabled within the admin.

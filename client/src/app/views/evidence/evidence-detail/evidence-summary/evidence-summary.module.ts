@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router'
+import { FormsModule } from '@angular/forms';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module'
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
@@ -28,6 +29,7 @@ import { EvidenceSummaryPage } from './evidence-summary.page'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component';
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -36,6 +38,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     RouterModule,
     LetDirective,
     PushPipe,
+    FormsModule,
     NzGridModule,
     NzSpaceModule,
     NzTypographyModule,
@@ -61,6 +64,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
     CvcCommentBodyModule,
+    CvcEntityDescription,
   ],
 })
 export class EvidenceSummaryModule {}

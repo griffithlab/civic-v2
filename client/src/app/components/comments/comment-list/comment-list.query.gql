@@ -159,6 +159,22 @@ fragment parsedCommentFragment on CommentBodySegment {
     }
     __typename
   }
+  ... on CommentTagSegmentDeprecated {
+    entityId
+    displayName
+    tagType
+    deprecated
+    link
+    revisionSetId
+    feature {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
+    __typename
+  }
   ... on CommentTextSegment {
     text
   }
