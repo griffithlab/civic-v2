@@ -1,5 +1,5 @@
 <% chat_type = local_assigns.fetch(:chat_type, "curation") %>
-<% placeholder = chat_type == "mcp" ? "What would you like to ask the MCP?" : "What would you like to discuss?" %>
+<% placeholder = chat_type == "mcp" ? "Ask about variants, evidence, or clinical interpretations..." : "Ask about curation procedures or best practices..." %>
 
 <%= form_with(model: chat, scope: :chat, url: chats_root_path, class: "space-y-5") do |form| %>
   <% if chat.errors.any? %>

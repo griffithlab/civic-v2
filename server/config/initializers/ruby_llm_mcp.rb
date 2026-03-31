@@ -11,14 +11,8 @@ RubyLLM::MCP.configure do |config|
   # Pool timeout in seconds
   config.pool_timeout = 5
 
-  # Enable complex parameter support for various providers
-  config.support_complex_parameters!
-
   # Path to MCPs configuration file
   config.config_path = Rails.root.join("config", "mcps.yml")
-
-  # Launch MCPs (:automatic, :manual)
-  config.launch_control = :automatic
 
   # Configure roots for file system access
   # config.roots = [

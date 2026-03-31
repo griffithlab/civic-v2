@@ -3,21 +3,50 @@
 <% content_for :title, "Chat" %>
 
 <%# Header bar %>
-<div class="flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-white shrink-0">
+<div class="flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-white shrink-0"
+     data-controller="inline-edit" data-inline-edit-url-value="<%= chats_chat_path(@chat) %>">
   <div class="flex items-center gap-3">
-    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
       <%= render "chats/shared/icons/beaker", css: "h-4 w-4 text-civic-purple" %>
     </div>
     <div>
-      <h1 class="font-semibold text-gray-800"><%= render "chats/chats/header_name", chat: @chat %></h1>
+      <h1 class="font-semibold text-gray-800">
+        <span data-inline-edit-target="display"><%= render "chats/chats/header_name", chat: @chat %></span>
+        <span data-inline-edit-target="form" class="hidden">
+          <input type="text"
+                 data-inline-edit-target="input"
+                 data-action="keydown->inline-edit#keydown blur->inline-edit#save"
+                 class="bg-gray-100 text-gray-800 text-sm font-semibold rounded px-2 py-1 border border-gray-300 focus:border-civic-purple focus:outline-none focus:ring-1 focus:ring-civic-purple" />
+        </span>
+      </h1>
     </div>
   </div>
-  <%= button_to chats_chat_path(@chat), method: :delete,
-        data: { turbo_confirm: "Are you sure you want to delete this chat?" },
-        class: "p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors",
-        title: "Delete chat" do %>
-    <%= render "chats/shared/icons/trash", css: "h-5 w-5" %>
-  <% end %>
+
+  <%# Chat options popover %>
+  <div class="relative" data-controller="popover">
+    <button type="button"
+            data-action="click->popover#toggle"
+            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            title="Chat options">
+      <%= render "chats/shared/icons/ellipsis_vertical", css: "h-5 w-5" %>
+    </button>
+
+    <div data-popover-target="menu"
+         class="hidden absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+      <button type="button"
+              data-action="click->inline-edit#activate click->popover#close"
+              class="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+        <%= render "chats/shared/icons/pencil", css: "h-4 w-4" %>
+        Rename
+      </button>
+      <%= button_to chats_chat_path(@chat), method: :delete,
+            data: { turbo_confirm: "Are you sure you want to delete this chat?" },
+            class: "w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors" do %>
+        <%= render "chats/shared/icons/trash", css: "h-4 w-4" %>
+        Delete
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <%# Messages area - scrollable %>
