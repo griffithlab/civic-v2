@@ -73,6 +73,8 @@ export class CvcQueryBuilderForm {
 
   // flag to prevent permalink model from being overwritten
   private permalinkSearchEndpoint?: string
+  // flag to skip permalink restoration after a fresh search submit
+  private skipPermalinkRestore = false
 
   // convert permalinkId signal to observable for use in subscription
   private permalinkId$ = toObservable(this.permalinkId)
@@ -114,6 +116,13 @@ export class CvcQueryBuilderForm {
     this.permalinkId$
       .pipe(
         filter(isNonNulled),
+        filter(() => {
+          if (this.skipPermalinkRestore) {
+            this.skipPermalinkRestore = false
+            return false
+          }
+          return true
+        }),
         switchMap((id) => {
           return this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
             pluck('data', 'searchByPermalink'),
@@ -151,6 +160,7 @@ export class CvcQueryBuilderForm {
   }
 
   onSubmit() {
+    this.skipPermalinkRestore = true
     const model = this.form.value
     const endpoint = this.searchEndpoint()
     const gql = this.formGQL()
@@ -167,7 +177,6 @@ export class CvcQueryBuilderForm {
       )
       .subscribe(({ resultIds, permalinkId, searchEndpoint }) => {
         this.onResults(searchEndpoint, resultIds, permalinkId)
-        this.permalinkId.update(() => permalinkId)
       })
   }
 
