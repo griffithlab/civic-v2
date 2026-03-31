@@ -207,7 +207,6 @@ GEM
     ffi (1.17.4-arm-linux-gnu)
     ffi (1.17.4-arm-linux-musl)
     ffi (1.17.4-arm64-darwin)
-    ffi (1.17.4-x86_64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi (1.17.4-x86_64-linux-musl)
     fugit (1.12.1)
@@ -246,7 +245,7 @@ GEM
     jaro_winkler (1.7.0)
     jmespath (1.6.2)
     json (2.19.3)
-    json-schema (6.2.0)
+    json-schema (5.1.0)
       addressable (~> 2.8)
     json_schemer (2.5.0)
       bigdecimal
@@ -330,8 +329,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.2-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.2-x86_64-darwin)
-      racc (~> 1.4)
     nokogiri (1.19.2-x86_64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.2-x86_64-linux-musl)
@@ -384,7 +381,6 @@ GEM
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
     pg (1.6.3-arm64-darwin)
-    pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
     pp (0.6.3)
@@ -658,8 +654,7 @@ PLATFORMS
   aarch64-linux-musl
   arm-linux-gnu
   arm-linux-musl
-  arm64-darwin
-  x86_64-darwin
+  arm64-darwin-25
   x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
