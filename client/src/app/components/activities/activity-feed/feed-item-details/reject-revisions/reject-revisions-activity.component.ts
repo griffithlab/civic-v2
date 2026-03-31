@@ -6,7 +6,7 @@ import {
 } from '@angular/core'
 import {
   RejectRevisionsActivityDetailFragment,
-  Revision,
+  RevisionActivityDetailFragment,
 } from '@app/generated/civic.apollo'
 import { CvcActivityRevision } from '../shared/activity-revision/activity-revision.component'
 
@@ -23,5 +23,5 @@ export class CvcRejectRevisionsActivity {
   })
   // coerce revisions to Revision[] >:(
   // otherwise revision detail components complain about missing fields
-  revisions = computed(() => this.activity().revisions as Revision[])
+  revisions = computed(() => this.activity().revisions as RevisionActivityDetailFragment[])
 }
