@@ -45,6 +45,7 @@ export class CvcPlainTagOverflowComponent implements OnChanges {
     this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
     this.hiddenTags = this.tags?.slice(this.maxDisplayCount)
     this.hiddenCount = this.hiddenTags?.length
+    this.matchedHiddenCount = 0
 
     if (this.matchingText) {
       if (this.hiddenTags) {

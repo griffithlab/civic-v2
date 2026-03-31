@@ -2006,7 +2006,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'region' | 'regionVariantNamesForFeatureId' | 'regions' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchAssertions' | 'searchByPermalink' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchPhenotypes' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'region' | 'regionVariantNamesForFeatureId' | 'regions' | 'remoteCitation' | 'revision' | 'revisionSets' | 'revisions' | 'search' | 'searchAssertions' | 'searchByPermalink' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchPhenotypes' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2074,6 +2074,7 @@ export type QueryFieldPolicy = {
 	regions?: FieldPolicy<any> | FieldReadFunction<any>,
 	remoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionSets?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	search?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2238,7 +2239,7 @@ export type ResolveFlagPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevisionKeySpecifier = ('acceptanceActivity' | 'comments' | 'createdAt' | 'creationActivity' | 'currentValue' | 'events' | 'fieldName' | 'id' | 'lastCommentEvent' | 'link' | 'linkoutData' | 'name' | 'rejectionActivity' | 'resolutionActivity' | 'revisionSetId' | 'status' | 'subject' | 'suggestedValue' | 'supersedingActivity' | 'updatedAt' | RevisionKeySpecifier)[];
+export type RevisionKeySpecifier = ('acceptanceActivity' | 'comments' | 'createdAt' | 'creationActivity' | 'currentValue' | 'events' | 'fieldDisplayName' | 'fieldName' | 'id' | 'lastCommentEvent' | 'link' | 'linkoutData' | 'name' | 'rejectionActivity' | 'resolutionActivity' | 'revisionSetId' | 'status' | 'subject' | 'suggestedValue' | 'supersedingActivity' | 'updatedAt' | RevisionKeySpecifier)[];
 export type RevisionFieldPolicy = {
 	acceptanceActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2246,6 +2247,7 @@ export type RevisionFieldPolicy = {
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	currentValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	fieldDisplayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	fieldName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2285,9 +2287,10 @@ export type RevisionResultFieldPolicy = {
 	newlyCreated?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionSetId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevisionSetKeySpecifier = ('createdAt' | 'displayName' | 'events' | 'id' | 'link' | 'name' | 'revisions' | 'updatedAt' | RevisionSetKeySpecifier)[];
+export type RevisionSetKeySpecifier = ('createdAt' | 'creationActivity' | 'displayName' | 'events' | 'id' | 'link' | 'name' | 'revisions' | 'updatedAt' | RevisionSetKeySpecifier)[];
 export type RevisionSetFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2295,6 +2298,19 @@ export type RevisionSetFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RevisionSetConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | RevisionSetConnectionKeySpecifier)[];
+export type RevisionSetConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RevisionSetEdgeKeySpecifier = ('cursor' | 'node' | RevisionSetEdgeKeySpecifier)[];
+export type RevisionSetEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RevokeApiKeyPayloadKeySpecifier = ('clientMutationId' | 'success' | RevokeApiKeyPayloadKeySpecifier)[];
 export type RevokeApiKeyPayloadFieldPolicy = {
@@ -3742,6 +3758,14 @@ export type StrictTypedTypePolicies = {
 	RevisionSet?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RevisionSetKeySpecifier | (() => undefined | RevisionSetKeySpecifier),
 		fields?: RevisionSetFieldPolicy,
+	},
+	RevisionSetConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevisionSetConnectionKeySpecifier | (() => undefined | RevisionSetConnectionKeySpecifier),
+		fields?: RevisionSetConnectionFieldPolicy,
+	},
+	RevisionSetEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevisionSetEdgeKeySpecifier | (() => undefined | RevisionSetEdgeKeySpecifier),
+		fields?: RevisionSetEdgeFieldPolicy,
 	},
 	RevokeApiKeyPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RevokeApiKeyPayloadKeySpecifier | (() => undefined | RevokeApiKeyPayloadKeySpecifier),

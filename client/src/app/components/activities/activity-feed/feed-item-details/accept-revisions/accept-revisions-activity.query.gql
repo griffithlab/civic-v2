@@ -3,16 +3,7 @@ fragment AcceptRevisionsActivityDetail on AcceptRevisionsActivity {
     ...parsedCommentFragment
   }
   revisions {
-    id
-    name
-    status
-    currentValue
-    suggestedValue
-    fieldName
-    link
-    linkoutData {
-      ...revisionLinkoutData
-    }
+    ...RevisionActivityDetail
   }
   supersededRevisions {
     id

@@ -2,7 +2,7 @@
   <span
     *ngFor="let tag of displayedTags"
     [ngClass]="{
-      'matched-tag': matchingText && tag.toLowerCase().includes(matchingText)
+      'matched-tag': matchingText && tag.toLowerCase().includes(matchingText.toLowerCase())
     }">
     <nz-tag>{{ tag }}</nz-tag>
   </span>
@@ -28,7 +28,7 @@
           *ngFor="let tag of hiddenTags"
           [ngClass]="{
             'matched-tag':
-              matchingText && tag.toLowerCase().includes(matchingText)
+              matchingText && tag.toLowerCase().includes(matchingText.toLowerCase())
           }">
           <nz-tag>{{ tag }}</nz-tag>
         </div>
