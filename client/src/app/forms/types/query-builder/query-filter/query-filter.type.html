@@ -27,11 +27,15 @@
     @if (props.selectedKey === null) {
       <div
         class="filter-prompt"
-        [ngClass]="{ isRootFilter: isRootFilter }">
+        [ngClass]="{ isRootFilter: isRootFilter, 'filter-error': showError }">
         <nz-icon
           nzType="arrow-left"
           nzTheme="outline" />
-        Select an attribute filter.
+        @if (showError) {
+          Select an attribute or remove this filter.
+        } @else {
+          Select an attribute filter.
+        }
       </div>
     } @else {
       @for (childField of field.fieldGroup; track childField.key) {

@@ -3,6 +3,22 @@ import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from './get-select-options'
 import { getFieldOptions } from './get-field-options'
 import { BooleanOperator } from '@generated/civic.apollo'
+import { AbstractControl } from '@angular/forms'
+
+const filterCompleteValidator = {
+  expression: (c: AbstractControl): boolean => {
+    const value = c.value
+    if (
+      !value ||
+      typeof value !== 'object' ||
+      Object.keys(value).length === 0
+    ) {
+      return false
+    }
+    return true
+  },
+  message: 'Select an attribute or remove this filter.',
+}
 
 export function getQueryFieldConfig(
   key: 'query' | string = 'query',
@@ -42,6 +58,9 @@ export function getQueryFieldConfig(
               return {
                 type: 'query-filter',
                 resetOnHide: true,
+                validators: {
+                  filterComplete: filterCompleteValidator,
+                },
                 props: {
                   options: getFieldOptions(
                     field.props!.filterEndpoint,
@@ -101,6 +120,9 @@ export function getQueryFieldConfig(
               return {
                 type: 'query-filter',
                 resetOnHide: true,
+                validators: {
+                  filterComplete: filterCompleteValidator,
+                },
                 props: {
                   isRootFilter: false,
                   options: getFieldOptions(
