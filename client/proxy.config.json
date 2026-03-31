@@ -34,5 +34,21 @@
   "/jobs/*": {
     "target": "http://localhost:3000",
     "secure": false
+  },
+  "/mcp-chat": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/mcp-chat/*": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/curation-chat": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/curation-chat/*": {
+    "target": "http://localhost:3000",
+    "secure": false
   }
 }

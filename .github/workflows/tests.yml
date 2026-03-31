@@ -17,7 +17,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '4'
+          ruby-version: '4.0.1'
           working-directory: ./server
 
       - name: Scan for security vulnerabilities
@@ -33,7 +33,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '4'
+          ruby-version: '4.0.1'
           working-directory: ./server
           bundler-cache: true
 
@@ -46,7 +46,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     services:
         postgres:
-          image: postgres:13
+          image: pgvector/pgvector:pg18
           env:
             POSTGRES_USER: postgres
             POSTGRES_DB: civic_test
@@ -65,7 +65,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '4'
+          ruby-version: '4.0.1'
           working-directory: ./server
 
       - name: Setup DB

@@ -123,4 +123,13 @@ gem "csv", "~> 3.3"
 # rate limit cache
 gem "redis", "~> 5.4"
 
+# LLM chat
+gem "ruby_llm", "~> 1.12"
+gem "ruby_llm-schema", "~> 0.3.0"
+gem "neighbor", "~> 0.6.0"
+gem "pdf-reader", "~> 2.15"
+gem "turbo-rails"
+gem "stimulus-rails"
+
+gem "ruby_llm-mcp"
 gem "rails-schema"

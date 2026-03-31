@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
 
   has_many :comment_mentions, foreign_key: :user_id, class_name: "UserMention"
 
+  has_many :chats, class_name: "Chats::Chat"
+
   enum :area_of_expertise, [ "Patient Advocate", "Clinical Scientist", "Research Scientist" ]
   enum :role, [ "curator", "editor", "admin" ]
 
