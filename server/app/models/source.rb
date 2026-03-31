@@ -1,4 +1,6 @@
 class Source < ActiveRecord::Base
+  validates_with DeprecationValidator
+
   include ModeratedField
   include Subscribable
   include WithTimepointCounts
@@ -11,7 +13,8 @@ class Source < ActiveRecord::Base
   has_and_belongs_to_many :molecular_profiles
   has_many :authors_sources
   has_many :authors, through: :authors_sources
-  has_many :variant_groups
+  has_many :sources_variant_groups, class_name: "SourceVariantGroup"
+  has_many :variant_groups, through: :sources_variant_groups
 
   enum :source_type, [ "PubMed", "ASCO", "ASH" ]
 

@@ -44,7 +44,19 @@
 
         <!-- variant count-->
         <nz-descriptions-item nzTitle="Variants">
-          {{ feature.variants.totalCount }}
+          {{ feature.stats.variantCount }}
+        </nz-descriptions-item>
+        <!-- mp count-->
+        <nz-descriptions-item nzTitle="Molecular Profiles">
+          {{ feature.stats.molecularProfileCount }}
+        </nz-descriptions-item>
+        <!-- evidence count-->
+        <nz-descriptions-item nzTitle="Evidence Items">
+          {{ feature.stats.evidenceItemCount }}
+        </nz-descriptions-item>
+        <!-- assertion count-->
+        <nz-descriptions-item nzTitle="Assertions">
+          {{ feature.stats.assertionCount }}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>

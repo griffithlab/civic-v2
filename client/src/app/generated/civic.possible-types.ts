@@ -31,6 +31,7 @@
     ],
     "CommentBodySegment": [
       "CommentTagSegment",
+      "CommentTagSegmentDeprecated",
       "CommentTagSegmentFlagged",
       "CommentTagSegmentFlaggedAndDeprecated",
       "CommentTagSegmentFlaggedAndWithStatus",
@@ -155,6 +156,10 @@
       "GeneVariant",
       "RegionVariant",
       "Variant"
+    ],
+    "WithDescription": [
+      "Assertion",
+      "EvidenceItem"
     ],
     "WithRevisions": [
       "Assertion",

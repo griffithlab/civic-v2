@@ -1,0 +1,7 @@
+<%= turbo_stream.append "messages" do %>
+  <%= render "chats/messages/typing_indicator" %>
+<% end %>
+
+<%= turbo_stream.replace "new_message" do %>
+  <%= render "chats/messages/form", chat: @chat, message: @chat.messages.build %>
+<% end %>

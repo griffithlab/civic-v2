@@ -21,12 +21,12 @@ jobs:
         with:
           working-directory: ./server
           bundler-cache: true
-          ruby-version: '3.3'
+          ruby-version: '4.0.1'
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
 
       - run: npm install -g yarn
         working-directory: ./client
@@ -42,11 +42,13 @@ jobs:
 
       - run: bundle exec rails assets:precompile
         working-directory: ./server
-
-      - run: bundle exec rails webpacker:compile
-        working-directory: ./server
         env:
           RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: 1
+
+      - run: bundle exec rake rails_schema:generate
+        working-directory: ./server
+        env:
           SECRET_KEY_BASE_DUMMY: 1
 
       - if: ${{ inputs.branch == 'staging' }}

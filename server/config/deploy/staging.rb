@@ -1,7 +1,7 @@
 server "34.209.114.226", user: "ubuntu", roles: %w[web db app]
 
 set :branch, "staging"
-set :rbenv_ruby, "3.3.0"
+set :rbenv_ruby, "4.0.1"
 
 set :rails_env, "staging"
 

@@ -21,6 +21,21 @@ Rails.application.routes.draw do
 
   get "/api/graphiql" => "graphiql#show"
 
+  get "/curation-chat", to: "chats/chats#new", defaults: { chat_type: "curation" }, as: :curation_chat
+  get "/mcp-chat", to: "chats/chats#new", defaults: { chat_type: "mcp" }, as: :mcp_chat
+
+  namespace :chats, path: "chats" do
+    root to: "chats#index"
+    resources :chats, path: "" do
+      resources :messages, only: [ :create ]
+    end
+    resources :models, only: [ :index, :show ] do
+      collection do
+        post :refresh
+      end
+    end
+  end
+
   require "sidekiq/web"
   require "sidekiq/cron/web"
   mount Sidekiq::Web, at: "/jobs", constraints: UserLoggedInConstraint.new
