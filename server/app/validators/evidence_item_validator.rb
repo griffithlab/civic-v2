@@ -55,6 +55,10 @@ class EvidenceItemValidator < ActiveModel::Validator
     if record.source.retraction_nature == "Retraction"
       record.errors.add :source_id, "Source has been marked as retracted by Retraction Watch."
     end
+
+    if record.source.deprecated
+      record.errors.add :source_id, "Source has been deprecated"
+    end
   end
 
   def valid_types
