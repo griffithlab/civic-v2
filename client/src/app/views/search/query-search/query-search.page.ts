@@ -7,7 +7,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { EvidenceStatusFilter, Maybe } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
@@ -76,6 +76,9 @@ export class QuerySearchPage {
   selectedTabIndex: WritableSignal<number> = signal(0)
 
   tabs = queryBuilderTabs
+
+  // Make enum available in template
+  EvidenceStatusFilter = EvidenceStatusFilter
 
   private router = inject(Router)
   private route = inject(ActivatedRoute)

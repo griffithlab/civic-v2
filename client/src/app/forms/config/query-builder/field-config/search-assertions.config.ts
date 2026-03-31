@@ -7,7 +7,6 @@ import {
 } from './functions/field-config-helpers'
 import { INPUT_FIELD_CONFIG } from './input-config/search-input.config'
 import { getQueryFieldConfig } from './functions/get-query-field-config'
-import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
   withHideExpression([
@@ -15,8 +14,8 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
     ...withStatic([
       {
         key: 'id',
-        props: { label: 'Select Assertion' },
-        fieldGroup: SELECT_FIELD_CONFIG['AssertionIdSelect'],
+        props: { label: 'Assertion ID' },
+        fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
       },
     ]),
     // other fields sorted alphabetically
