@@ -36,12 +36,12 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
         {
           key: 'isDeprecated',
           props: { label: 'Is Deprecated' },
-          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+          fieldGroup: INPUT_FIELD_CONFIG['DeprecatedSearchInput'],
         },
         {
           key: 'isFlagged',
           props: { label: 'Is Flagged' },
-          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+          fieldGroup: INPUT_FIELD_CONFIG['FlaggedSearchInput'],
         },
         {
           key: 'openRevisionCount',

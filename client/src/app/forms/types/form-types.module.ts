@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
 import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
+import { CvcBaseBooleanRadioModule } from './base/boolean-radio/boolean-radio.module'
 import { CvcBaseCheckboxModule } from './base/checkbox/checkbox.module'
 import { CvcBaseInputModule } from './base/input/input.module'
 import { CvcBaseSelectModule } from './base/select/select.module'
@@ -43,6 +44,7 @@ import { CvcStructFilterModule } from './query-builder/struct-filter/struct-filt
     CommonModule,
     CvcAcmgCodeSelectModule,
     CvcAmpCategorySelectModule,
+    CvcBaseBooleanRadioModule,
     CvcBaseCheckboxModule,
     CvcBaseInputModule,
     CvcBaseSelectModule,

@@ -10,12 +10,36 @@ import {
   VariantDeprecationReason,
 } from '@app/generated/civic.apollo'
 
-const BOOLEAN_INPUT = [
+const BOOLEAN_SEARCH_INPUT = [
   {
     key: 'value',
-    type: 'base-checkbox',
+    type: 'base-boolean-radio',
+    props: {
+      labels: { true: 'true', false: 'false' },
+    },
   },
 ]
+
+const DEPRECATED_SEARCH_INPUT = [
+  {
+    key: 'value',
+    type: 'base-boolean-radio',
+    props: {
+      labels: { true: 'is deprecated', false: 'is not deprecated' },
+    },
+  },
+]
+
+const FLAGGED_SEARCH_INPUT = [
+  {
+    key: 'value',
+    type: 'base-boolean-radio',
+    props: {
+      labels: { true: 'is flagged', false: 'is not flagged' },
+    },
+  },
+]
+
 const STRING_SEARCH_INPUT = [
   {
     key: 'operator',
@@ -489,31 +513,33 @@ const DNA_BASE_STRING_INPUT = [
 ]
 
 export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
-  FloatSearchInput: FLOAT_SEARCH_INPUT,
-  FeatureInstanceTypesSearchInput: FEATURE_INSTANCE_TYPES_SEARCH_INPUT,
-  FeatureDeprecationReasonTypeSearchInput:
-    FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
   AmpLevelTypeSearchInput: AMP_LEVEL_TYPE_SEARCH_INPUT,
   AssertionDirectionTypeSearchInput: ASSERTION_DIRECTION_TYPE_SEARCH_INPUT,
-  StringSearchInput: STRING_SEARCH_INPUT,
-  OntologyTermSearchInput: ONTOLOGY_TERM_INPUT,
-  IntSearchInput: INT_INPUT,
-  BooleanSearchInput: BOOLEAN_INPUT,
-  EvidenceStatusTypeSearchInput: EVIDENCE_STATUS_TYPE_SEARCH_INPUT,
-  EvidenceDirectionTypeSearchInput: EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT,
-  EvidenceLevelTypeSearchInput: EVIDENCE_LEVEL_TYPE_SEARCH_INPUT,
-  EvidenceTypeTypeSearchInput: EVIDENCE_TYPE_TYPE_SEARCH_INPUT,
-  AssertionTypeTypeSearchInput: ASSERTION_TYPE_TYPE_SEARCH_INPUT,
-  EvidenceSignificanceTypeSearchInput: EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT,
   AssertionSignificanceTypeSearchInput:
     ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT,
+  AssertionTypeTypeSearchInput: ASSERTION_TYPE_TYPE_SEARCH_INPUT,
+  BooleanSearchInput: BOOLEAN_SEARCH_INPUT,
+  ChromosomeTypeSearchInput: CHROMOSOME_TYPE_SEARCH_INPUT,
+  DeprecatedBooleanInput: DEPRECATED_SEARCH_INPUT,
+  DnaBaseStringInput: DNA_BASE_STRING_INPUT,
+  EvidenceDirectionTypeSearchInput: EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT,
+  EvidenceLevelTypeSearchInput: EVIDENCE_LEVEL_TYPE_SEARCH_INPUT,
+  EvidenceSignificanceTypeSearchInput: EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT,
+  EvidenceStatusTypeSearchInput: EVIDENCE_STATUS_TYPE_SEARCH_INPUT,
+  EvidenceTypeTypeSearchInput: EVIDENCE_TYPE_TYPE_SEARCH_INPUT,
+  FlaggedSearchInput: FLAGGED_SEARCH_INPUT,
+  FeatureDeprecationReasonTypeSearchInput:
+    FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
+  FeatureInstanceTypesSearchInput: FEATURE_INSTANCE_TYPES_SEARCH_INPUT,
+  FloatSearchInput: FLOAT_SEARCH_INPUT,
+  IntSearchInput: INT_INPUT,
+  ModeratedEntitiesTypeSearchInput: MODERATED_ENTITIES_TYPE_SEARCH_INPUT,
+  OntologyTermSearchInput: ONTOLOGY_TERM_INPUT,
+  RevisionStatusTypeSearchInput: REVISION_STATUS_TYPE_SEARCH_INPUT,
+  SourceSourceTypeSearchInput: SOURCE_SOURCE_TYPE_SEARCH_INPUT,
+  StringSearchInput: STRING_SEARCH_INPUT,
   TherapyInteractionTypeSearchInput: THERAPY_INTERACTION_TYPE_SEARCH_INPUT,
-  VariantOriginTypeSearchInput: VARIANT_ORIGIN_TYPE_SEARCH_INPUT,
   VariantDeprecationReasonTypeSearchInput:
     VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT,
-  ChromosomeTypeSearchInput: CHROMOSOME_TYPE_SEARCH_INPUT,
-  DnaBaseStringInput: DNA_BASE_STRING_INPUT,
-  SourceSourceTypeSearchInput: SOURCE_SOURCE_TYPE_SEARCH_INPUT,
-  RevisionStatusTypeSearchInput: REVISION_STATUS_TYPE_SEARCH_INPUT,
-  ModeratedEntitiesTypeSearchInput: MODERATED_ENTITIES_TYPE_SEARCH_INPUT,
+  VariantOriginTypeSearchInput: VARIANT_ORIGIN_TYPE_SEARCH_INPUT,
 }

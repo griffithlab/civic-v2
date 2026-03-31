@@ -59,7 +59,7 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
         {
           key: 'isFlagged',
           props: { label: 'Flagged Status' },
-          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+          fieldGroup: INPUT_FIELD_CONFIG['FlaggedSearchInput'],
         },
         {
           key: 'regulatoryApproval',
