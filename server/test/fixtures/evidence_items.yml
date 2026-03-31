@@ -1,0 +1,47 @@
+# Diagnostic / Positive / Supports - simplest valid combination
+# evidence_type: 0=Diagnostic, significance: 4=Positive, evidence_direction: 0=Supports
+# evidence_level: 1=B, variant_origin: 0=Somatic, rating: 3
+submitted_ei:
+  description: "A submitted diagnostic evidence item for testing."
+  disease: lung_cancer
+  source: pubmed_source
+  molecular_profile: mp1
+  status: submitted
+  evidence_type: 0
+  significance: 4
+  evidence_direction: 0
+  evidence_level: 1
+  variant_origin: 0
+  rating: 3
+  flagged: false
+  deleted: false
+
+accepted_ei:
+  description: "An accepted diagnostic evidence item for testing."
+  disease: lung_cancer
+  source: pubmed_source
+  molecular_profile: mp1
+  status: accepted
+  evidence_type: 0
+  significance: 4
+  evidence_direction: 0
+  evidence_level: 1
+  variant_origin: 0
+  rating: 4
+  flagged: false
+  deleted: false
+
+submitted_ei_by_editor:
+  description: "A submitted evidence item created by an editor for self-acceptance checks."
+  disease: lung_cancer
+  source: pubmed_source
+  molecular_profile: mp2
+  status: submitted
+  evidence_type: 0
+  significance: 4
+  evidence_direction: 0
+  evidence_level: 1
+  variant_origin: 0
+  rating: 3
+  flagged: false
+  deleted: false

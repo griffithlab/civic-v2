@@ -1,0 +1,14 @@
+v600e_coord:
+  variant: v600e
+  coordinate_type: "Gene Variant Coordinate"
+  record_state: stub
+
+eml4_alk_five_prime_coord:
+  variant: eml4_alk_fusion_v
+  coordinate_type: "Five Prime Fusion Coordinate"
+  record_state: stub
+
+eml4_alk_three_prime_coord:
+  variant: eml4_alk_fusion_v
+  coordinate_type: "Three Prime Fusion Coordinate"
+  record_state: stub
