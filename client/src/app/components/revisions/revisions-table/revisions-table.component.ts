@@ -45,6 +45,8 @@ import {
 import { pluck } from 'rxjs-etc/operators'
 import { ActivatedRoute } from '@angular/router'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { TagInfo } from '@app/components/shared/tag-overflow/tag-overflow.component'
+import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
 
 @UntilDestroy()
 @Component({
@@ -287,5 +289,16 @@ export class CvcRevisionsTableComponent implements OnInit {
   
   castToRevisionActivityDetailFragment(revision: any): RevisionActivityDetailFragment {
     return revision as RevisionActivityDetailFragment
+  }
+
+  revisionsToTagOverFlowInput(revisions: any[]): string[] {
+    return revisions.map(revision => {
+      if (revision.subject.__typename === 'ExonCoordinate' ) {
+        const coordinateType = new EnumToTitlePipe().transform(revision.subject.coordinateType)
+        return revision.fieldDisplayName + ' (' + coordinateType + ')'
+      } else {
+        return revision.fieldDisplayName
+      }
+    })
   }
 }

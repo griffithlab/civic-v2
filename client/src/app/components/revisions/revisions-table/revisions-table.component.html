@@ -136,15 +136,13 @@
               [enablePopover]="!isScrolling">
             </cvc-organization-tag>
           </td>
+          @let fieldNames = revisionsToTagOverFlowInput(revisionSet.revisions);
           <td nzLeft nzBreakWord>
-            @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
-              {{ revision.fieldDisplayName }}
-              @if (revision.subject.__typename === 'ExonCoordinate' ) {
-                <span nz-typography nzType="secondary">
-                  ({{ revision.subject.coordinateType | enumToTitle }})
-                </span>
-              }{{ isLast? '' : ', ' }}<br/>
-            }
+            <cvc-plain-tag-overflow
+              [tags]="fieldNames"
+              [maxDisplayCount]="1"
+              [matchingText]="fieldNameInput">
+            </cvc-plain-tag-overflow>
           </td>
         </tr>
         <tr [nzExpand]="expandSet.has(revisionSet.id)" style="background-color: #ffffff">
