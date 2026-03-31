@@ -17,7 +17,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '4'
+        ruby-version: '4.0.1'
 
     - name: Install Ruby dependencies
       run: gem install httparty
