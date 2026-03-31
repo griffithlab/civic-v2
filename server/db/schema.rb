@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< deprecate_sources
-ActiveRecord::Schema[8.0].define(version: 2026_03_04_201106) do
-=======
 ActiveRecord::Schema[8.0].define(version: 2026_03_09_175225) do
->>>>>>> main
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
