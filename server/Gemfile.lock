@@ -671,6 +671,7 @@ DEPENDENCIES
   audited (~> 5.3)
   aws-sdk-s3 (~> 1.208.0)
   bcrypt_pbkdf
+  benchmark (~> 0.5.0)
   bootsnap (>= 1.4.4)
   brakeman
   byebug

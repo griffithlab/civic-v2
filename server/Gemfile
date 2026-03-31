@@ -133,3 +133,5 @@ gem "stimulus-rails"
 
 gem "ruby_llm-mcp"
 gem "rails-schema"
+
+gem "benchmark", "~> 0.5.0"
