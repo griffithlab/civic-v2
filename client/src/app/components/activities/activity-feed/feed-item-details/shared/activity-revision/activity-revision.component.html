@@ -8,7 +8,14 @@
     <nz-col
       nzFlex="auto"
       class="revision-title">
-      <span class="name">{{ data.name }}</span>
+      <span class="name">
+        @let subject = revision().subject;
+        @if (subject.__typename === 'ExonCoordinate') {
+          {{ subject.coordinateType | enumToTitle }} {{ data.name }}
+        } @else {
+          {{ data.name }}
+        }
+      </span>
       <span class="id"> ({{ revision().name }})</span>
     </nz-col>
     <nz-col

@@ -129,6 +129,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   colSpan: 8,
                 },
               },
+            ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsive: { xs: 24, lg: 12, xl: 12, xxl: 6 },
+              },
+            },
+            fieldGroup: [
               <CvcNccnGuidelineSelectFieldOptions>{
                 key: 'nccnGuidelineId',
                 type: 'nccn-guideline-select',

@@ -10,3 +10,29 @@ mp3:
 mp4:
   name: MP4
   evidence_score: 101.2
+mp_fusion:
+  name: MP_FUSION
+  evidence_score: 5.0
+mp_factor:
+  name: MP_FACTOR
+  evidence_score: 3.0
+mp_region:
+  name: MP_REGION
+  evidence_score: 2.0
+mp_complex:
+  name: "BRAF V600E AND BRAF V600K"
+  evidence_score: 0.0
+mp_deprecated:
+  name: MP_DEPRECATED
+  evidence_score: 0.0
+  deprecated: true
+
+mp_complex_deprecated:
+  name: "BRAF V600E AND BRAF V600K DEPRECATED"
+  evidence_score: 0.0
+  deprecated: true
+
+mp_variant_deprecated:
+  name: MP_VARIANT_DEPRECATED
+  evidence_score: 0.0
+  deprecated: true
