@@ -9,6 +9,15 @@ fragment AssertionSummaryFields on Assertion {
   name
   summary
   description
+  descriptionReplaceEidWithSource
+  descriptionWithTags {
+    ...parsedCommentFragment
+  }
+  descriptionWithNames
+  descriptionWithTagsReplaceEidWithSource {
+    ...parsedCommentFragment
+  }
+  descriptionWithNamesReplaceEidWithSource
   status
   variantOrigin
   disease {

@@ -7,26 +7,7 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- summary, description block -->
         <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzLayout="vertical"
-            nzSize="small"
-            nzBordered="true"
-            [nzColumn]="1">
-            <nz-descriptions-item nzTitle="Summary">
-              <p nz-typography>{{ assertion.summary }}</p>
-            </nz-descriptions-item>
-
-            <nz-descriptions-item nzTitle="Description">
-              <p
-                nz-typography
-                class="summary-block"
-                nzEllipsis
-                nzExpandable
-                [nzEllipsisRows]="6">
-                {{ assertion.description }}
-              </p>
-            </nz-descriptions-item>
-          </nz-descriptions>
+          <cvc-entity-description [cvcEntity]="assertion"></cvc-entity-description>
         </nz-col>
 
         <!-- assertion attributes block -->

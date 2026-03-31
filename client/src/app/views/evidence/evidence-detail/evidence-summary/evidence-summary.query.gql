@@ -8,6 +8,15 @@ fragment EvidenceSummaryFields on EvidenceItem {
   id
   name
   description
+  descriptionReplaceEidWithSource
+  descriptionWithTags {
+    ...parsedCommentFragment
+  }
+  descriptionWithNames
+  descriptionWithTagsReplaceEidWithSource {
+    ...parsedCommentFragment
+  }
+  descriptionWithNamesReplaceEidWithSource
   status
   evidenceLevel
   evidenceType

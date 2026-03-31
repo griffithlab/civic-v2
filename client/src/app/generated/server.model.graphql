@@ -508,7 +508,7 @@ enum AreaOfExpertise {
   RESEARCH_SCIENTIST
 }
 
-type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
@@ -616,6 +616,11 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     sortBy: DateSort
   ): CommentConnection!
   description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
   disease: Disease
 
   """
@@ -2181,7 +2186,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentDeprecated | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -2263,6 +2268,16 @@ input CommentSearchFilter {
 }
 
 type CommentTagSegment {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  link: String!
+  revisionSetId: Int
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentDeprecated {
+  deprecated: Boolean!
   displayName: String!
   entityId: Int!
   feature: LinkableFeature
@@ -3499,7 +3514,7 @@ input EvidenceDirectionTypeSearchInput {
   value: EvidenceDirection!
 }
 
-type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
 
@@ -3553,6 +3568,11 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     sortBy: DateSort
   ): CommentConnection!
   description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
   disease: Disease
 
   """
@@ -13859,6 +13879,7 @@ enum TaggableEntity {
   MOLECULAR_PROFILE
   REVISION
   ROLE
+  SOURCE
   VARIANT
   VARIANT_GROUP
 }
@@ -15552,6 +15573,18 @@ enum VariantsSortColumns {
   featureName
   therapyName
   variantName
+}
+
+"""
+A CIViC entity that has a description field.
+"""
+interface WithDescription {
+  description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
 }
 
 """
