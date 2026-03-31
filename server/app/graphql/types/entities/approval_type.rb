@@ -33,7 +33,7 @@ module Types::Entities
     end
 
     def ready_for_clinvar_submission
-      false
+      object.ready_for_clinvar_submission?
     end
   end
 end

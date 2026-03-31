@@ -15,6 +15,7 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 import { AssertionState } from '@app/forms/states/assertion.state'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
@@ -35,6 +36,9 @@ export class AssertionsSummaryPage {
 
   subscribable: SubscribableInput
 
+  color = computed(() =>
+    getEntityColor('Approval')
+  )
   assertionDescriptionDisplayMode: string = 'raw';
   assertionDescriptionTagMode: string = 'eid';
 

@@ -6893,6 +6893,7 @@ type LeaderboardOrganization {
   hasApprovingSubgroups: Boolean!
   id: Int!
   isApprovedVcep: Boolean!
+  isClinvarSubmitter: Boolean!
   memberCount: Int!
   members(
     """
@@ -8680,6 +8681,7 @@ type Organization {
   hasApprovingSubgroups: Boolean!
   id: Int!
   isApprovedVcep: Boolean!
+  isClinvarSubmitter: Boolean!
   memberCount: Int!
   members(
     """

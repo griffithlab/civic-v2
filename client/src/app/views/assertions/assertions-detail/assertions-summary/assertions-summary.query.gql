@@ -116,6 +116,8 @@ fragment AssertionSummaryFields on Assertion {
       organization {
         id
         name
+        isApprovedVcep
+        isClinvarSubmitter
       }
       lastReviewed
     }
@@ -128,6 +130,8 @@ fragment AssertionSummaryFields on Assertion {
       organization {
         id
         name
+        isApprovedVcep
+        isClinvarSubmitter
       }
       lastReviewed
     }

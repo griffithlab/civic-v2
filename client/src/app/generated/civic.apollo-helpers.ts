@@ -1466,7 +1466,7 @@ export type GenerateApiKeyPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'canApprove' | 'description' | 'eventCount' | 'events' | 'hasApprovingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
+export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'canApprove' | 'description' | 'eventCount' | 'events' | 'hasApprovingSubgroups' | 'id' | 'isApprovedVcep' | 'isClinvarSubmitter' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
 export type LeaderboardOrganizationFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	canApprove?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1476,6 +1476,7 @@ export type LeaderboardOrganizationFieldPolicy = {
 	hasApprovingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isApprovedVcep?: FieldPolicy<any> | FieldReadFunction<any>,
+	isClinvarSubmitter?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	members?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1925,7 +1926,7 @@ export type ObjectFieldDiffFieldPolicy = {
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationKeySpecifier = ('canApprove' | 'description' | 'eventCount' | 'events' | 'hasApprovingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
+export type OrganizationKeySpecifier = ('canApprove' | 'description' | 'eventCount' | 'events' | 'hasApprovingSubgroups' | 'id' | 'isApprovedVcep' | 'isClinvarSubmitter' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
 	canApprove?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1934,6 +1935,7 @@ export type OrganizationFieldPolicy = {
 	hasApprovingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isApprovedVcep?: FieldPolicy<any> | FieldReadFunction<any>,
+	isClinvarSubmitter?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	members?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
