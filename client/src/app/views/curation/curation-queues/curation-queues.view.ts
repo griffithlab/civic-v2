@@ -26,6 +26,11 @@ export class CurationQueuesView {
         iconName: 'civic-assertion',
         tabLabel: 'Assertions Queue',
       },
+      {
+        routeName: 'pending-revisions',
+        iconName: 'civic-revision',
+        tabLabel: 'Revisions Queue',
+      },
     ]
   }
 }

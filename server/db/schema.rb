@@ -868,10 +868,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_182504) do
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_revisions_on_created_at"
     t.index ["field_name"], name: "index_revisions_on_field_name"
+    t.index ["revision_set_id", "status", "subject_type", "field_name"], name: "idx_on_revision_set_id_status_subject_type_field_na_c898002f78"
     t.index ["revisionset_id"], name: "index_revisions_on_revisionset_id"
     t.index ["status"], name: "index_revisions_on_status"
     t.index ["subject_id", "subject_type"], name: "index_revisions_on_subject_id_and_subject_type"
     t.index ["subject_type", "subject_id"], name: "index_v2_suggested_changes_on_subject"
+    t.index ["subject_type"], name: "index_revisions_on_subject_type"
     t.index ["updated_at"], name: "index_revisions_on_updated_at"
   end
 

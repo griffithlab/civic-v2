@@ -28,6 +28,7 @@ module Types
     field :events, resolver: Resolvers::TopLevelEvents
     field :comments, resolver: Resolvers::TopLevelComments
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
+    field :revisionSets, resolver: Resolvers::TopLevelRevisionSets
     field :notifications, resolver: Resolvers::Notifications do
       def authorized?(object, args, context)
         context[:current_user].present?

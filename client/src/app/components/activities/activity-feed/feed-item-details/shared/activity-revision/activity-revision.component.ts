@@ -11,10 +11,12 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import {
+  ExonCoordinate,
   LinkoutData,
   ModeratedFieldDiff,
   ObjectFieldDiff,
   Revision,
+  RevisionActivityDetailFragment,
   ScalarFieldDiff,
 } from '@app/generated/civic.apollo'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
@@ -52,7 +54,7 @@ type ColumnDefinition = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityRevision {
-  revision = input.required<Revision>({
+  revision = input.required<RevisionActivityDetailFragment>({
     alias: 'cvcActivityRevision',
   })
   title = computed(() => {
