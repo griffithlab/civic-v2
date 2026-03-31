@@ -10,6 +10,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 
 const wrapperConfig: ConfigOption = {
   wrappers: [
@@ -23,6 +24,7 @@ const wrapperConfig: ConfigOption = {
     CommonModule,
     ReactiveFormsModule,
     FormlyModule.forChild(wrapperConfig),
+    NzAlertModule,
     NzFormModule,
     NzGridModule,
     NzButtonModule,

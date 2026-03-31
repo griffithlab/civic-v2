@@ -27,14 +27,10 @@
 
     <nz-col
       nzSpan="12"
-      class="submit-note">
-      <!--      <label-->
-      <!--        nz-checkbox-->
-      <!--        class="ant-checkbox-rtl"-->
-      <!--        *ngIf="createPermalinkControl as ctrl"-->
-      <!--        [formControl]="ctrl">-->
-      <!--        Create search permalink-->
-      <!--      </label>-->
+      class="form-messages">
+      @if (isFormInvalid) {
+        <span class="error-msg">Please complete all filter values before searching.</span>
+      }
     </nz-col>
     <nz-col nzSpan="8">
       <button

@@ -26,6 +26,11 @@ export class CvcQueryBuilderCardWrapper
   implements OnInit, AfterViewInit
 {
   wrapperOptions: QueryBuilderCardOptions = { ...defaultWrapperOptions }
+  formSubmitted = false
+
+  get isFormInvalid(): boolean {
+    return this.formSubmitted && (this.field.formControl?.invalid ?? false)
+  }
 
   get operatorField(): FormlyFieldConfig | undefined {
     return this.field.fieldGroup?.find((f) => f.key === 'booleanOperator')
@@ -36,13 +41,16 @@ export class CvcQueryBuilderCardWrapper
   }
 
   onClearForm() {
+    this.formSubmitted = false
     if (this.options?.formState.clearForm) {
       this.options.formState.clearForm()
     }
   }
 
   onSubmitQuery() {
-    if (this.options.formState.submitQuery) {
+    this.formSubmitted = true
+    this.field.formControl?.markAllAsTouched()
+    if (this.field.formControl?.valid && this.options.formState.submitQuery) {
       this.options.formState.submitQuery()
     }
   }

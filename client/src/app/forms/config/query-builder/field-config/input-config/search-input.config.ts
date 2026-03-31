@@ -31,6 +31,7 @@ const STRING_SEARCH_INPUT = [
     type: 'base-input',
     defaultValue: '',
     props: {
+      required: true,
       placeholder: 'Enter search term',
     },
   },
@@ -48,6 +49,7 @@ const ONTOLOGY_TERM_INPUT = [
     key: 'value',
     type: 'base-input',
     props: {
+      required: true,
       placeholder: 'Enter search term',
     },
   },
@@ -65,6 +67,7 @@ const INT_INPUT = [
     key: 'value',
     type: 'base-integer',
     props: {
+      required: true,
       placeholder: 'Enter integer',
     },
   },
@@ -83,6 +86,7 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
     key: 'value',
     type: 'base-select',
     props: {
+      required: true,
       options: getSelectOptions('EvidenceItemStatusEnum'),
       placeholder: 'Select Status',
     },
@@ -103,6 +107,7 @@ const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('EvidenceItemDirectionEnum'),
       placeholder: 'Select Direction',
     },
@@ -123,6 +128,7 @@ const ASSERTION_DIRECTION_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('AssertionDirection'),
       placeholder: 'Select Direction',
     },
@@ -143,6 +149,7 @@ const AMP_LEVEL_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('AmpLevel'),
       placeholder: 'Select Level',
     },
@@ -163,6 +170,7 @@ const EVIDENCE_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('EvidenceSignificance'),
       placeholder: 'Select Significance',
       optionOverflowSize: 12,
@@ -184,6 +192,7 @@ const ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('AssertionSignificance'),
       placeholder: 'Select Significance',
       optionOverflowSize: 12,
@@ -205,6 +214,7 @@ const EVIDENCE_LEVEL_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('EvidenceLevel'),
       placeholder: 'Select Level',
     },
@@ -225,6 +235,7 @@ const EVIDENCE_TYPE_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('EvidenceType'),
       placeholder: 'Select Type',
     },
@@ -245,6 +256,7 @@ const VARIANT_ORIGIN_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('VariantOrigin'),
       placeholder: 'Select Type',
     },
@@ -265,6 +277,7 @@ const ASSERTION_TYPE_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('AssertionType'),
       placeholder: 'Select Type',
     },
@@ -285,6 +298,7 @@ const THERAPY_INTERACTION_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('TherapyInteraction'),
       placeholder: 'Select Interaction Type',
     },
@@ -305,6 +319,7 @@ const FEATURE_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('FeatureDeprecationReason'),
       placeholder: 'Select Deprecation Reason',
     },
@@ -325,6 +340,7 @@ const FEATURE_INSTANCE_TYPES_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('FeatureInstanceTypes'),
       placeholder: 'Select Feature Instance Type',
     },
@@ -344,6 +360,7 @@ const FLOAT_SEARCH_INPUT = [
     key: 'value',
     type: 'base-number',
     props: {
+      required: true,
       placeholder: 'Enter Number',
     },
   },
@@ -362,6 +379,7 @@ const VARIANT_DEPRECATION_REASON_TYPE_SEARCH_INPUT = [
     key: 'value',
     type: 'base-select',
     props: {
+      required: true,
       options: getSelectOptions('VariantDeprecationReason'),
       placeholder: 'Select Reason',
     },
@@ -381,6 +399,7 @@ const CHROMOSOME_TYPE_SEARCH_INPUT = [
     key: 'value',
     type: 'base-select',
     props: {
+      required: true,
       options: getSelectOptions('Chromosome'),
       placeholder: 'Select Chromosome',
     },
@@ -401,6 +420,7 @@ const SOURCE_SOURCE_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('SourceSource'),
       placeholder: 'Select Source Type',
     },
@@ -421,6 +441,7 @@ const REVISION_STATUS_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('RevisionStatus'),
       placeholder: 'Select Status',
     },
@@ -441,6 +462,7 @@ const MODERATED_ENTITIES_TYPE_SEARCH_INPUT = [
     type: 'base-select',
     defaultValue: undefined,
     props: {
+      required: true,
       options: getSelectOptions('ModeratedEntities'),
       placeholder: 'Select Entity Type',
     },
@@ -460,6 +482,7 @@ const DNA_BASE_STRING_INPUT = [
     key: 'value',
     type: 'base-input',
     props: {
+      required: true,
       placeholder: 'Enter Bases',
     },
   },

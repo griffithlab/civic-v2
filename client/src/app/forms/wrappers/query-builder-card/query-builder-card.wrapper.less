@@ -1,20 +1,11 @@
 :host {
   ::ng-deep nz-card.large-card > .ant-card-body {
-    // TODO: fix builder-card, subfilter-card, and
-    //  the query-subfilter.type 'Add Filter' button: button padding,
-    //  subfilter filter rows padding and nz-card's ant-card-body padding
-    //  interfere to cause nz-card body bottom padding to have an
-    //  inconsistent height. the 'large-card' and 'small-card' classes
-    //  are required, to prevent ng-deep from overriding child subfilter-card
-    //  classes. This is a mess, and needs to be refactored with a singular
-    //  query-card class that configures its styles etc. based on its root/child
-    //  position in the query/filter form hierarchy.
     padding-bottom: 4px;
   }
 }
 .form-actions {
   padding: 0 4px; // cancel nz-row's -4px side margins
-  .submit-note {
+  .form-messages {
     line-height: 28px;
     text-align: right;
   }

@@ -19,15 +19,17 @@ const ENTITY_SELECT_OPERATOR = {
     placeholder: 'Select an operator',
   },
 }
+
 const ASSERTION_ID_SELECT = [
   ENTITY_SELECT_OPERATOR,
   {
     key: 'value',
     type: 'assertion-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select an Assertion',
       requireFeature: false,
+      hideLabel: true,
     },
   },
 ]
@@ -37,10 +39,11 @@ const VARIANT_ID_SELECT = [
   {
     key: 'value',
     type: 'variant-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Variant',
       requireFeature: false,
+      hideLabel: true,
     },
   },
 ]
@@ -50,10 +53,11 @@ const DISEASE_ID_SELECT = [
   {
     key: 'value',
     type: 'disease-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Disease',
       requireFeature: false,
+      hideLabel: true,
     },
   },
 ]
@@ -63,9 +67,10 @@ const THERAPY_ID_SELECT = [
   {
     key: 'value',
     type: 'therapy-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Therapy',
+      hideLabel: true,
     },
   },
 ]
@@ -75,10 +80,11 @@ const SOURCE_ID_SELECT = [
   {
     key: 'value',
     type: 'source-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Source',
       showAddEntity: false,
+      hideLabel: true,
     },
   },
 ]
@@ -88,11 +94,12 @@ const EVIDENCE_ITEM_ID_SELECT = [
   {
     key: 'value',
     type: 'evidence-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select an Evidence Item',
       showManager: false,
       isMultiSelect: false,
+      hideLabel: true,
     },
   },
 ]
@@ -103,7 +110,9 @@ const MOLECULAR_PROFILE_ID_SELECT = [
     key: 'value',
     type: 'molecular-profile-select',
     props: {
+      required: true,
       placeholder: 'Select a Molecular Profile',
+      hideLabel: true,
     },
   },
 ]
@@ -113,9 +122,10 @@ const VARIANT_TYPE_ID_SELECT = [
   {
     key: 'value',
     type: 'variant-type-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Variant Type',
+      hideLabel: true,
     },
   },
 ]
@@ -125,9 +135,10 @@ const USER_ID_SELECT = [
   {
     key: 'value',
     type: 'user-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a User',
+      hideLabel: true,
     },
   },
 ]
@@ -137,9 +148,10 @@ const FEATURE_ID_SELECT = [
   {
     key: 'value',
     type: 'feature-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Feature',
+      hideLabel: true,
     },
   },
 ]
@@ -149,9 +161,10 @@ const PHENOTYPE_ID_SELECT = [
   {
     key: 'value',
     type: 'phenotype-select',
-    wrappers: [],
     props: {
+      required: true,
       placeholder: 'Select a Phenotype',
+      hideLabel: true,
     },
   },
 ]
