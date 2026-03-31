@@ -70,6 +70,9 @@ fragment RegionSummaryFields on Region {
       stop
     }
   }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
   creationActivity {
     user {
       id
@@ -105,6 +108,9 @@ fragment FusionSummaryFields on Fusion {
     sourceType
     deprecated
   }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
   fivePrimeGene {
     ... GeneBaseFields
   }
@@ -113,6 +119,27 @@ fragment FusionSummaryFields on Fusion {
   }
   fivePrimePartnerStatus
   threePrimePartnerStatus
+  fusionsKnownPartnerGenes {
+    gene {
+      ... GeneBaseFields
+    }
+    knownPartnerSpecificFusion {
+      id
+      name
+      link
+      deprecated
+      flagged
+      stats {
+        variantCount
+        molecularProfileCount
+        evidenceItemCount
+        assertionCount
+      }
+      clinicalSignificanceCounts {
+        ...ClinicalSignificanceCounts
+      }
+    }
+  }
   knownPartnerGenes {
     ... GeneBaseFields
   }
@@ -159,6 +186,9 @@ fragment GeneBaseFields on Gene {
 fragment GeneSummaryFields on Gene {
   ...GeneBaseFields
   myGeneInfoDetails
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
 }
 
 fragment FactorSummaryFields on Factor {
@@ -179,6 +209,12 @@ fragment FactorSummaryFields on Factor {
   }
   ncitDetails {
     ...NcitDetails
+  }
+  stats {
+    evidenceItemCount
+  }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
   }
   creationActivity {
     user {
@@ -209,4 +245,45 @@ fragment NcitDetails on NcitDetails {
       definition
       source
     }
+}
+
+fragment DetailedClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  disease {
+    id
+    name
+    link
+    deprecated
+  }
+  therapies{
+    id
+    name
+    link
+    deprecated
+  }
+  therapyInteractionType
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
+}
+
+fragment ClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
 }

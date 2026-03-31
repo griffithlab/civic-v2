@@ -115,6 +115,20 @@
       </ng-container>
     </nz-descriptions>
     <br />
+    <!-- clinical significance -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      nzBordered="true"
+      [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Clinical Significance">
+        <td>
+          <cvc-clinical-significance-counts
+            [cvcEntityName]="region.name"
+            [cvcClinicalSignificances]="region.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+        </td>
+      </nz-descriptions-item>
+    </nz-descriptions>
   </nz-col>
 </nz-row>
 <nz-row [nzGutter]="[8, 16]">
