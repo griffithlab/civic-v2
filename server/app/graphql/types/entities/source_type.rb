@@ -31,7 +31,7 @@ module Types::Entities
     field :deprecated, Boolean, null: false
 
     def deprecated
-      object&.retraction_nature == "Retraction"
+      object&.retraction_nature == "Retraction" || object.deprecated
     end
 
     def clinical_trials
