@@ -18,7 +18,19 @@ class Organization < ActiveRecord::Base
     ->() { order("created_at DESC").limit(1) },
     class_name: "Event", foreign_key: :organization_id
 
+  has_many :approvals
+
   validate :no_approving_users
+
+  encrypts :clinvar_api_key
+
+  def clinvar_api_key
+    super
+  rescue ActiveRecord::Encryption::Errors::Decryption,
+         ActiveRecord::Encryption::Errors::EncryptedContentIntegrity
+    raise if Rails.env.production?
+    nil
+  end
 
   # TODO: org membership helper methods
   # TODO: only allow one level of nesting

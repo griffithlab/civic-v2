@@ -3,6 +3,7 @@ module Types::Entities
     field :five_prime_gene, Types::Entities::GeneType, null: true
     field :three_prime_gene, Types::Entities::GeneType, null: true
     field :known_partner_genes, [ Types::Entities::GeneType ], null: false
+    field :fusions_known_partner_genes, [ Types::Entities::FusionKnownPartnerGeneType ], null: false
 
     field :five_prime_partner_status, Types::Fusion::FusionPartnerStatus, null: false
     field :three_prime_partner_status, Types::Fusion::FusionPartnerStatus, null: false
@@ -17,6 +18,10 @@ module Types::Entities
 
     def known_partner_genes
       Loaders::AssociationLoader.for(Features::Fusion, :known_partner_genes).load(object)
+    end
+
+    def fusions_known_partner_genes
+      Loaders::AssociationLoader.for(Features::Fusion, :fusions_known_partner_genes).load(object)
     end
   end
 end

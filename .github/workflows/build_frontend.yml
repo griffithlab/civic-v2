@@ -46,6 +46,11 @@ jobs:
           RAILS_ENV: production
           SECRET_KEY_BASE_DUMMY: 1
 
+      - run: bundle exec rake rails_schema:generate
+        working-directory: ./server
+        env:
+          SECRET_KEY_BASE_DUMMY: 1
+
       - if: ${{ inputs.branch == 'staging' }}
         run: mv -f lib/assets/favicon.staging.ico public/favicon.ico
         working-directory: ./server

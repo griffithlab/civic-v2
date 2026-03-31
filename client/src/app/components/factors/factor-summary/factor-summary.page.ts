@@ -18,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcNcitDetailsComponent } from '../ncit-details/ncit-details.component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
+import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
     selector: 'cvc-factor-summary',
@@ -37,6 +38,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
         CvcNcitDetailsComponent,
         CvcPipesModule,
         CvcUserTagModule,
+        CvcClinicalSignificanceCounts,
     ]
 })
 export class FactorSummaryComponent implements OnInit {

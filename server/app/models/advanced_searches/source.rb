@@ -19,6 +19,7 @@ module AdvancedSearches
         resolve_journal_filter(node),
         resolve_abstract_filter(node),
         resolve_title_filter(node),
+        resolve_deprecated_filter(node),
         resolve_is_retracted_filter(node),
       ]
     end
@@ -62,6 +63,14 @@ module AdvancedSearches
       end
 
       (clause, value) = node.citation_id.resolve_query_for_type("sources.citation_id")
+      base_query.where(clause, value)
+    end
+
+    def resolve_deprecated_filter(node)
+      if node.deprecated.nil?
+        return nil
+      end
+      clause, value = node.deprecated.resolve_query_for_type("sources.deprecated")
       base_query.where(clause, value)
     end
 

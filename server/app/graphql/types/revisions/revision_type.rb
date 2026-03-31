@@ -11,6 +11,7 @@ module Types::Revisions
     field :current_value, GraphQL::Types::JSON, null: true
     field :suggested_value, GraphQL::Types::JSON, null: true
     field :field_name, String, null: false
+    field :field_display_name, String, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :revision_set_id, Int, null: false
@@ -22,6 +23,13 @@ module Types::Revisions
     field :resolution_activity, Types::Interfaces::ActivityInterface, null: true
     field :subject, Types::Interfaces::EventSubject, null: false
 
+    def field_display_name
+      if object.field_name.ends_with?("_ids")
+        object.field_name.singularize.titleize.pluralize
+      else
+        object.field_name.titleize
+      end
+    end
     def comments
       Loaders::AssociationLoader.for(Revision, :comments).load(object)
     end
