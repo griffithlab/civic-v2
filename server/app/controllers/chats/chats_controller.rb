@@ -1,6 +1,6 @@
 module Chats
   class ChatsController < BaseController
-    before_action :set_chat, only: [ :show, :update, :destroy ]
+    before_action :set_chat, only: [ :show, :update, :destroy, :share, :unshare ]
 
     def index
       @chats = current_user.chats.order(created_at: :desc)
@@ -36,6 +36,22 @@ module Chats
     def destroy
       @chat.destroy!
       redirect_to new_chats_chat_path, notice: "Chat deleted."
+    end
+
+    def share
+      @chat.make_public!
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chats_chat_path(@chat), notice: "Chat shared." }
+      end
+    end
+
+    def unshare
+      @chat.make_private!
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chats_chat_path(@chat), notice: "Chat unshared." }
+      end
     end
 
     private

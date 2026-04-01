@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -299,12 +299,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
   create_table "chats_chats", force: :cascade do |t|
     t.string "chat_type", default: "curation", null: false
     t.datetime "created_at", null: false
+    t.boolean "is_public", default: false, null: false
     t.bigint "model_id"
     t.string "name"
+    t.string "public_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["chat_type"], name: "index_chats_chats_on_chat_type"
     t.index ["model_id"], name: "index_chats_chats_on_model_id"
+    t.index ["public_id"], name: "index_chats_chats_on_public_id", unique: true, where: "(public_id IS NOT NULL)"
     t.index ["user_id"], name: "index_chats_chats_on_user_id"
   end
 
@@ -1017,6 +1020,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
     t.text "citation"
     t.string "citation_id", null: false
     t.datetime "created_at", precision: nil
+    t.boolean "deprecated", default: false, null: false
     t.string "full_journal_title"
     t.boolean "fully_curated", default: false, null: false
     t.boolean "is_review"
@@ -1034,7 +1038,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
     t.string "study_type"
     t.text "title"
     t.datetime "updated_at", precision: nil
-    t.boolean "deprecated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
