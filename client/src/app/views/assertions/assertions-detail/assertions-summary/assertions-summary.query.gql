@@ -9,6 +9,15 @@ fragment AssertionSummaryFields on Assertion {
   name
   summary
   description
+  descriptionReplaceEidWithSource
+  descriptionWithTags {
+    ...parsedCommentFragment
+  }
+  descriptionWithNames
+  descriptionWithTagsReplaceEidWithSource {
+    ...parsedCommentFragment
+  }
+  descriptionWithNamesReplaceEidWithSource
   status
   variantOrigin
   disease {
@@ -107,6 +116,8 @@ fragment AssertionSummaryFields on Assertion {
       organization {
         id
         name
+        isApprovedVcep
+        isClinvarSubmitter
       }
       lastReviewed
     }
@@ -119,6 +130,8 @@ fragment AssertionSummaryFields on Assertion {
       organization {
         id
         name
+        isApprovedVcep
+        isClinvarSubmitter
       }
       lastReviewed
     }

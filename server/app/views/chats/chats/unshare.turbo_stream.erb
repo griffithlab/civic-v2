@@ -1,0 +1,15 @@
+<%# Replace both header and sidebar menus with updated state (now showing Share instead of Copy Link + Unshare) %>
+<%= turbo_stream.replace "chat_menu_header_#{@chat.id}" do %>
+  <%= render "chats/chats/chat_menu", chat: @chat %>
+<% end %>
+
+<%= turbo_stream.replace "chat_menu_sidebar_#{@chat.id}" do %>
+  <%= render "chats/chats/sidebar_chat_menu", chat: @chat %>
+<% end %>
+
+<%# Remove any lingering share notification %>
+<%= turbo_stream.remove "share_notification" %>
+
+<%= turbo_stream.prepend "main_content" do %>
+  <%= render "chats/chats/share_notification", message: "Chat unshared. Shared links will no longer work." %>
+<% end %>

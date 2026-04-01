@@ -3,17 +3,7 @@ fragment SuggestRevisionSetActivityDetail on SuggestRevisionSetActivity {
     ...parsedCommentFragment
   }
   revisions {
-    id
-    name
-    status
-    currentValue
-    suggestedValue
-    fieldName
-    link
-    createdAt
-    linkoutData {
-      ...revisionLinkoutData
-    }
+    ...RevisionActivityDetail
   }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents

@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.3'
+        ruby-version: '4.0.1'
 
     - name: Install Ruby dependencies
       run: gem install httparty
@@ -26,7 +26,7 @@ jobs:
       run: ruby examples/fetch_variant_links.rb
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.13'
 

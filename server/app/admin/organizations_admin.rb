@@ -53,6 +53,8 @@ Trestle.resource(:organizations) do
 
     text_area :description
 
+    text_field :clinvar_api_key
+
     file_field :profile_image
   end
 

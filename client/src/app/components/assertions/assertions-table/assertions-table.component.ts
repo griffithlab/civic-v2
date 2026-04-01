@@ -21,9 +21,9 @@ import {
   AssertionsBrowseGQL,
   AssertionsBrowseQuery,
   AssertionsBrowseQueryVariables,
+  AssertionSignificance,
   AssertionSortColumns,
   EvidenceDirection,
-  EvidenceSignificance,
   EvidenceStatusFilter,
   EvidenceType,
   Maybe,
@@ -122,7 +122,7 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   summaryInput: Maybe<string>
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
-  SignificanceInput: Maybe<EvidenceSignificance>
+  SignificanceInput: Maybe<AssertionSignificance>
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
   statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
@@ -149,6 +149,33 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
         this.includeSubgroups =
           params.get('includeSubgroups') === 'true' ? true : false
       }
+      if (params.has('assertionType') && params.get('assertionType') != null) {
+        this.assertionTypeInput = params.get('assertionType') as EvidenceType
+      }
+      if (
+        params.has('assertionDirection') &&
+        params.get('assertionDirection') != null
+      ) {
+        this.assertionDirectionInput = params.get(
+          'assertionDirection'
+        ) as EvidenceDirection
+      }
+      if (params.has('significance') && params.get('significance') != null) {
+        this.SignificanceInput = params.get(
+          'significance'
+        ) as AssertionSignificance
+      }
+      if (
+        params.has('molecularProfileName') &&
+        params.get('molecularProfileName') != null
+      ) {
+        this.molecularProfileNameInput = params.get(
+          'molecularProfileName'
+        ) as string
+      }
+      if (params.has('diseaseName') && params.get('diseaseName') != null) {
+        this.diseaseNameInput = params.get('diseaseName') as string
+      }
     })
   }
 
@@ -157,6 +184,7 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
       first: this.initialPageSize,
       variantId: this.variantId,
       molecularProfileId: this.molecularProfileId,
+      molecularProfileName: this.molecularProfileNameInput,
       evidenceId: this.evidenceId,
       organizationId: this.organizationId ? [this.organizationId] : [],
       approvingOrganizationIds: this.approvingOrganizationId
@@ -168,6 +196,10 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
       diseaseId: this.diseaseId,
       therapyId: this.therapyId,
       status: this.status || EvidenceStatusFilter.NonRejected,
+      assertionType: this.assertionTypeInput,
+      assertionDirection: this.assertionDirectionInput,
+      significance: this.SignificanceInput,
+      diseaseName: this.diseaseNameInput,
       ids: this.ids,
     })
 

@@ -1,0 +1,45 @@
+new_revision:
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei) %>
+  status: new
+  field_name: description
+  current_value: '"Old description"'
+  suggested_value: '"New description"'
+  revision_set: rs1
+
+# Revision on accepted_ei (no submitter = curator bypass won't apply)
+curator_revision_on_accepted:
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+  status: new
+  field_name: description
+  current_value: '"Accepted old description"'
+  suggested_value: '"Accepted new description"'
+  revision_set: rs2
+
+accepted_revision:
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+  status: accepted
+  field_name: description
+  current_value: '"Accepted previous description"'
+  suggested_value: '"Accepted newer description"'
+  revision_set: rs2
+
+rejected_revision:
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+  status: rejected
+  field_name: description
+  current_value: '"Rejected previous description"'
+  suggested_value: '"Rejected newer description"'
+  revision_set: rs2
+
+editor_submitter_revision_on_accepted:
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+  status: new
+  field_name: description
+  current_value: '"Editor previous description"'
+  suggested_value: '"Editor newer description"'
+  revision_set: rs2

@@ -1,0 +1,22 @@
+# Links revisions to their creation activities (needed for revision.revisor)
+revision_activity_link:
+  activity: revision_suggest_activity
+  entity_type: Revision
+  entity_id: <%= ActiveRecord::FixtureSet.identify(:new_revision) %>
+
+# Links curator_revision_on_accepted to its creation activity
+curator_revision_activity_link:
+  activity: curator_revision_suggest_activity
+  entity_type: Revision
+  entity_id: <%= ActiveRecord::FixtureSet.identify(:curator_revision_on_accepted) %>
+
+# Links flag to its creation activity
+flag_activity_link:
+  activity: flag_create_activity
+  entity_type: Flag
+  entity_id: <%= ActiveRecord::FixtureSet.identify(:open_flag) %>
+
+editor_submitter_revision_activity_link:
+  activity: editor_submitter_revision_suggest_activity
+  entity_type: Revision
+  entity_id: <%= ActiveRecord::FixtureSet.identify(:editor_submitter_revision_on_accepted) %>

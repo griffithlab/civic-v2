@@ -510,7 +510,7 @@ enum AreaOfExpertise {
   RESEARCH_SCIENTIST
 }
 
-type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
@@ -618,6 +618,11 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     sortBy: DateSort
   ): CommentConnection!
   description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
   disease: Disease
 
   """
@@ -2062,6 +2067,17 @@ type ClingenCode {
   tooltip: String!
 }
 
+type ClinicalSignificanceCounts {
+  assertions: [Assertion!]!
+  count: Int!
+  direction: AssertionDirection!
+  disease: Disease
+  significance: AssertionSignificance!
+  therapies: [Therapy!]
+  therapyInteractionType: TherapyInteraction
+  type: AssertionType!
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -2183,7 +2199,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentDeprecated | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -2265,6 +2281,16 @@ input CommentSearchFilter {
 }
 
 type CommentTagSegment {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  link: String!
+  revisionSetId: Int
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentDeprecated {
+  deprecated: Boolean!
   displayName: String!
   entityId: Int!
   feature: LinkableFeature
@@ -3501,7 +3527,7 @@ input EvidenceDirectionTypeSearchInput {
   value: EvidenceDirection!
 }
 
-type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
 
@@ -3555,6 +3581,11 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     sortBy: DateSort
   ): CommentConnection!
   description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
   disease: Disease
 
   """
@@ -4090,6 +4121,8 @@ enum ExonCoordinateType {
 The Feature that a Variant can belong to
 """
 type Factor implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4144,6 +4177,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4287,6 +4321,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Gene variants.
@@ -4447,6 +4482,8 @@ input FactorFields {
 }
 
 type FactorVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4500,6 +4537,7 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4750,6 +4788,8 @@ type FdaCode {
 The Feature that a Variant can belong to
 """
 type Feature implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -4804,6 +4844,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -4945,6 +4986,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter variants.
@@ -5073,6 +5115,13 @@ input FeatureSearchFilter {
   subFilters: [FeatureSearchFilter!]
   threePrimePartnerEntrezId: IntSearchInput
   threePrimePartnerEntrezSymbol: StringSearchInput
+}
+
+type FeatureStats {
+  assertionCount: Int!
+  evidenceItemCount: Int!
+  molecularProfileCount: Int!
+  variantCount: Int!
 }
 
 input FeaturesSort {
@@ -5457,6 +5506,8 @@ enum FloatSearchOperator {
 The Feature that a Variant can belong to
 """
 type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -5511,6 +5562,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -5596,6 +5648,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     state: FlagState
   ): FlagConnection!
   fullName: String
+  fusionsKnownPartnerGenes: [FusionKnownPartnerGene!]!
   id: Int!
   knownPartnerGenes: [Gene!]!
   lastAcceptedRevisionEvent: Event
@@ -5655,6 +5708,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
   threePrimeGene: Gene
   threePrimePartnerStatus: FusionPartnerStatus!
 
@@ -5806,6 +5860,12 @@ input FusionFields {
   sourceIds: [Int!]!
 }
 
+type FusionKnownPartnerGene {
+  fusion: Fusion!
+  gene: Gene!
+  knownPartnerSpecificFusion: Fusion
+}
+
 """
 The fusion partner's status and gene ID (if applicable)
 """
@@ -5828,6 +5888,8 @@ enum FusionPartnerStatus {
 }
 
 type FusionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -5881,6 +5943,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -6097,6 +6160,8 @@ input FusionVariantInput {
 The Feature that a Variant can belong to
 """
 type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -6151,6 +6216,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
   entrezId: Int!
 
   """
@@ -6294,6 +6360,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Gene variants.
@@ -6435,6 +6502,7 @@ input GeneFields {
 
 type GeneVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
   alleleRegistryId: String
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
   clinvarIds: [String!]!
 
   """
@@ -6491,6 +6559,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -6875,6 +6944,7 @@ type LeaderboardOrganization {
   hasApprovingSubgroups: Boolean!
   id: Int!
   isApprovedVcep: Boolean!
+  isClinvarSubmitter: Boolean!
   memberCount: Int!
   members(
     """
@@ -8663,6 +8733,7 @@ type Organization {
   hasApprovingSubgroups: Boolean!
   id: Int!
   isApprovedVcep: Boolean!
+  isClinvarSubmitter: Boolean!
   memberCount: Int!
   members(
     """
@@ -9217,7 +9288,7 @@ type Query {
     """
     Filtering on the assertion's significance.
     """
-    significance: EvidenceSignificance
+    significance: AssertionSignificance
 
     """
     Columm and direction to sort evidence on.
@@ -10540,6 +10611,86 @@ type Query {
   revision(id: Int!): Revision
 
   """
+  List and filter revision sets.
+  """
+  revisionSets(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Exclude revision sets submitted by the user with the given CIViC ID
+    """
+    excludeRevisionsFromUserId: Int
+
+    """
+    Limit to revision sets that include revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Return the revision set with the given CIViC ID.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certian organization using the organization CIViC ID
+    """
+    organizationId: Int
+
+    """
+    Limit to revisions by a organization user using the organization name
+    """
+    organizationName: String
+
+    """
+    Limit to revisions by a certain user using the user CIViC ID
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions by a certain user using the user name
+    """
+    originatingUserName: String
+
+    """
+    Sort order for the revision sets. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revision sets that include revisions with a certain status
+    """
+    status: RevisionStatus
+
+    """
+    Limit to revision sets of a specific CIViC entity
+    """
+    subject: ModeratedInput
+
+    """
+    Limit to revision sets of a specific CIViC entity type
+    """
+    subjectType: ActivitySubjectInput
+  ): RevisionSetConnection!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -11078,6 +11229,8 @@ enum ReferenceBuild {
 The Feature that a Variant can belong to
 """
 type Region implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -11133,6 +11286,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
   deprecationActivity: DeprecateFeatureActivity
   deprecationReason: FeatureDeprecationReason
   description: String
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -11274,6 +11428,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+  stats: FeatureStats!
 
   """
   List and filter Region variants.
@@ -11419,6 +11574,8 @@ input RegionFields {
 }
 
 type RegionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -11472,6 +11629,7 @@ type RegionVariant implements Commentable & EventOriginObject & EventSubject & F
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -11915,6 +12073,7 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
+  fieldDisplayName: String!
   fieldName: String!
   id: Int!
   lastCommentEvent: Event
@@ -12033,6 +12192,7 @@ input RevisionSearchFilter {
 
 type RevisionSet implements EventSubject {
   createdAt: ISO8601DateTime!
+  creationActivity: SuggestRevisionSetActivity
   displayName: String!
 
   """
@@ -12072,6 +12232,51 @@ type RevisionSet implements EventSubject {
   name: String!
   revisions: [Revision!]!
   updatedAt: ISO8601DateTime!
+}
+
+"""
+The connection type for RevisionSet.
+"""
+type RevisionSetConnection {
+  """
+  A list of edges.
+  """
+  edges: [RevisionSetEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [RevisionSet!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type RevisionSetEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: RevisionSet
 }
 
 enum RevisionStatus {
@@ -13735,6 +13940,7 @@ enum TaggableEntity {
   MOLECULAR_PROFILE
   REVISION
   ROLE
+  SOURCE
   VARIANT
   VARIANT_GROUP
 }
@@ -14325,6 +14531,8 @@ type ValidationErrors {
 }
 
 type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -14378,6 +14586,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -15048,6 +15257,8 @@ enum VariantGroupsSortColumns {
 A taggable/linkable component of a molecular profile
 """
 interface VariantInterface implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  clinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
+
   """
   List and filter comments.
   """
@@ -15101,6 +15312,7 @@ interface VariantInterface implements Commentable & EventOriginObject & EventSub
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
+  detailedClinicalSignificanceCounts: [ClinicalSignificanceCounts!]!
 
   """
   List and filter events for an object
@@ -15428,6 +15640,18 @@ enum VariantsSortColumns {
   featureName
   therapyName
   variantName
+}
+
+"""
+A CIViC entity that has a description field.
+"""
+interface WithDescription {
+  description: String!
+  descriptionReplaceEidWithSource: String!
+  descriptionWithNames: String!
+  descriptionWithNamesReplaceEidWithSource: String!
+  descriptionWithTags: [CommentBodySegment!]!
+  descriptionWithTagsReplaceEidWithSource: [CommentBodySegment!]!
 }
 
 """

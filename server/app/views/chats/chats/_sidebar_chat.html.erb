@@ -1,0 +1,30 @@
+<div class="group relative" data-controller="inline-edit" data-inline-edit-url-value="<%= chats_chat_path(chat) %>">
+  <% chat_prefix = chat.mcp? ? "MCP" : "Curation" %>
+  <% chat_tooltip = "#{chat_prefix}: #{chat.display_name}" %>
+  <%= link_to chats_chat_path(chat),
+        id: "sidebar_chat_#{chat.id}",
+        title: chat_tooltip,
+        class: "block px-3 py-2.5 rounded-lg text-sm transition-colors #{chat.id == current_chat&.id ? 'bg-slate-600 text-white' : 'text-slate-300 hover:bg-civic-sidebar-hover hover:text-white'}" do %>
+    <div class="flex items-center gap-2">
+      <% if chat.mcp? %>
+        <%= render "chats/shared/icons/mcp_logo", css: "h-4 w-4 shrink-0 text-amber-400" %>
+      <% else %>
+        <%= render "chats/shared/icons/chat_bubble", css: "h-4 w-4 shrink-0 text-slate-400" %>
+      <% end %>
+      <div class="truncate pr-6">
+        <div class="truncate font-medium" data-inline-edit-target="display"><%= chat.display_name %></div>
+        <div class="hidden" data-inline-edit-target="form">
+          <input type="text"
+                 data-inline-edit-target="input"
+                 data-action="keydown->inline-edit#keydown blur->inline-edit#save"
+                 class="w-full bg-slate-700 text-white text-sm rounded px-1 py-0.5 border border-slate-500 focus:border-civic-purple focus:outline-none"
+                 onclick="event.preventDefault(); event.stopPropagation();" />
+        </div>
+        <div class="text-xs text-slate-400 truncate"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Popover menu %>
+  <%= render "chats/chats/sidebar_chat_menu", chat: chat %>
+</div>

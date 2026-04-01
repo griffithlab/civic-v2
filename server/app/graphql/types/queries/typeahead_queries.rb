@@ -164,7 +164,7 @@ module Types::Queries
       end
 
       def source_typeahead(citation_id:, source_type:)
-        Source.where(source_type: source_type)
+        Source.where(source_type: source_type, deprecated: false)
           .where("sources.citation_id LIKE ?", "#{citation_id}")
           .limit(10)
       end

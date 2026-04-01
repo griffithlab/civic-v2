@@ -1,0 +1,43 @@
+<%= turbo_stream_from current_user, "chats" %>
+
+<aside class="w-72 bg-civic-sidebar text-white flex flex-col h-full shrink-0">
+  <%# Header / New Chat %>
+  <div class="p-4 border-b border-slate-600">
+    <div class="flex items-center justify-center mb-4">
+      <a href="<%= new_chats_chat_path %>">
+        <img src="/assets/images/civic-logo_sidebar-expanded.png" alt="CIViC" class="h-12">
+      </a>
+    </div>
+    <details class="new-chat-dropdown relative">
+      <summary class="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg bg-civic-purple hover:bg-civic-purple-dark text-white text-sm font-medium transition-colors cursor-pointer">
+        <%= render "chats/shared/icons/plus", css: "h-4 w-4" %>
+        New Chat
+        <%= render "chats/shared/icons/chevron_down", css: "h-3 w-3 ml-auto opacity-60" %>
+      </summary>
+      <div class="absolute left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg border border-slate-600 overflow-hidden z-10">
+        <%= link_to curation_chat_path, class: "flex items-center gap-2 px-3 py-2.5 text-sm text-slate-200 hover:bg-civic-sidebar-hover hover:text-white transition-colors" do %>
+          <%= render "chats/shared/icons/chat_bubble", css: "h-4 w-4 shrink-0 text-slate-400" %>
+          Curation Chat
+        <% end %>
+        <%= link_to mcp_chat_path, class: "flex items-center gap-2 px-3 py-2.5 text-sm text-slate-200 hover:bg-civic-sidebar-hover hover:text-white transition-colors" do %>
+          <%= render "chats/shared/icons/mcp_logo", css: "h-4 w-4 shrink-0 text-amber-400" %>
+          MCP Chat
+        <% end %>
+      </div>
+    </details>
+  </div>
+
+  <div class="px-4 pt-3 pb-1">
+    <%= link_to chats_root_path, class: "flex items-center gap-2 text-xs text-slate-400 hover:text-white transition-colors" do %>
+      <%= render "chats/shared/icons/chat_bubble_solid", css: "h-3.5 w-3.5" %>
+      View All Chats
+    <% end %>
+  </div>
+
+  <%# Chat list %>
+  <nav class="flex-1 overflow-y-auto p-3 space-y-1">
+    <% current_user.chats.order(created_at: :desc).each do |chat| %>
+      <%= render "chats/chats/sidebar_chat", chat: chat, current_chat: @chat %>
+    <% end %>
+  </nav>
+</aside>

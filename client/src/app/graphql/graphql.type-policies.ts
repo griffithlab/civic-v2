@@ -182,6 +182,15 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'sortBy',
       ]),
       users: relayStylePagination(['userName', 'orgName', 'userRole']),
+      revisionSets: relayStylePagination([
+        'status',
+        'fieldName',
+        'originatingUserName',
+        'excludeRevisionsFromUserId',
+        'organizatioName',
+        'subjectType',
+        'id',
+      ])
     },
   },
   AdvancedSearchResult: CvcAdvancedSearchResultPolicy as any,

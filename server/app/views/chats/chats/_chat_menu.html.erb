@@ -1,0 +1,52 @@
+<%# Header popover menu for chat options (Rename, Share/Copy Link/Unshare, Delete) %>
+<%# Wrapped in a replaceable div so turbo streams can swap it after share/unshare %>
+<div id="chat_menu_header_<%= chat.id %>">
+  <div class="relative" data-controller="popover">
+    <button type="button"
+            data-action="click->popover#toggle"
+            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            title="Chat options">
+      <%= render "chats/shared/icons/ellipsis_vertical", css: "h-5 w-5" %>
+    </button>
+
+    <div data-popover-target="menu"
+         class="hidden absolute right-0 top-full mt-1 w-44 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+      <button type="button"
+              data-action="click->inline-edit#activate click->popover#close"
+              class="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+        <%= render "chats/shared/icons/pencil", css: "h-4 w-4" %>
+        Rename
+      </button>
+      <% if chat.shared? %>
+        <button type="button"
+                data-controller="clipboard"
+                data-clipboard-text-value="<%= shared_chat_url(chat.public_id) %>"
+                data-action="click->clipboard#copy click->popover#close"
+                class="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+          <%= render "chats/shared/icons/link", css: "h-4 w-4" %>
+          Copy Link
+        </button>
+        <%= button_to unshare_chats_chat_path(chat), method: :delete,
+              data: { turbo_confirm: "Remove public access to this chat? Existing shared links will stop working." },
+              class: "w-full flex items-center gap-2 px-3 py-2 text-sm text-amber-600 hover:bg-amber-50 transition-colors" do %>
+          <%= render "chats/shared/icons/no_share", css: "h-4 w-4" %>
+          Unshare
+        <% end %>
+      <% else %>
+        <%= button_to share_chats_chat_path(chat),
+              data: { turbo_confirm: "Make this chat publicly accessible? Anyone with the link will be able to view it." },
+              class: "w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors" do %>
+          <%= render "chats/shared/icons/share", css: "h-4 w-4" %>
+          Share
+        <% end %>
+      <% end %>
+      <div class="border-t border-gray-200 my-1"></div>
+      <%= button_to chats_chat_path(chat), method: :delete,
+            data: { turbo_confirm: "Are you sure you want to delete this chat?" },
+            class: "w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors" do %>
+        <%= render "chats/shared/icons/trash", css: "h-4 w-4" %>
+        Delete
+      <% end %>
+    </div>
+  </div>
+</div>

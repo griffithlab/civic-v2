@@ -9,7 +9,7 @@ query AssertionsBrowse(
   $ids: [Int!]
   $summary: String
   $assertionDirection: EvidenceDirection
-  $significance: EvidenceSignificance
+  $significance: AssertionSignificance
   $assertionType: EvidenceType
   $variantId: Int
   $molecularProfileId: Int

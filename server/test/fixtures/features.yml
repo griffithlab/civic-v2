@@ -8,8 +8,26 @@ vhl:
   full_name: von Hippel-Lindau tumor suppressor
   feature_instance: vhl (Features::Gene)
 
+alk:
+  name: ALK
+  full_name: ALK receptor tyrosine kinase
+  feature_instance: alk (Features::Gene)
+
+eml4:
+  name: EML4
+  full_name: EMAP like 4
+  feature_instance: eml4 (Features::Gene)
+
 msi:
   name: MSI
   full_name: Microsatellite Instability
   description: The description for the MSI factor
   feature_instance: msi (Features::Factor)
+
+eml4_alk_fusion:
+  name: "EML4::ALK"
+  feature_instance: eml4_alk (Features::Fusion)
+
+chr7_region:
+  name: "7"
+  feature_instance: chr7 (Features::Region)
