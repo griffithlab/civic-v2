@@ -560,7 +560,7 @@
         </nz-col>
       </nz-row>
     }
-    @if (endorsingOrganizationId) {
+    @if (approvingOrganizationId) {
       <nz-row>
         <nz-col nzSpan="2">
           <label
@@ -569,7 +569,7 @@
             (ngModelChange)="includeSubgroupsChanged()"></label>
         </nz-col>
         <nz-col nzSpan="22">
-          <span>Include assertions endorsed by child organizations</span>
+          <span>Include assertions approved by child organizations</span>
         </nz-col>
       </nz-row>
     }

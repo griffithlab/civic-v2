@@ -34,6 +34,6 @@ class ManeSelectTranscript
   end
 
   def cache_key(variant)
-    "mane_preferred_transcript_#{variant.id}_#{variant.hash}"
+    "mane_preferred_transcript_#{variant.id}_#{variant.allele_registry_id}"
   end
 end

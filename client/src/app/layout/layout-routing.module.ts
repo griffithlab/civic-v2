@@ -207,16 +207,16 @@ const routes: Routes = [
           breadcrumb: 'Pages',
         },
       },
-      {
-        path: 'forms',
-        loadChildren: () =>
-          import('@app/forms/test-pages/test-pages.module').then(
-            (m) => m.TestPagesModule
-          ),
-        data: {
-          breadcrumb: 'Forms Dev',
-        },
-      },
+      // {
+      //   path: 'forms',
+      //   loadChildren: () =>
+      //     import('@app/forms/test-pages/test-pages.module').then(
+      //       (m) => m.TestPagesModule
+      //     ),
+      //   data: {
+      //     breadcrumb: 'Forms Dev',
+      //   },
+      // },
     ],
   },
 ]

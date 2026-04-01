@@ -19,8 +19,12 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
     validate_user_logged_in
     validate_user_org(organization_id)
 
-    if Feature.find_by(id: feature_id).blank?
+    f = Feature.find_by(id: feature_id)
+    if f.blank?
       raise GraphQL::ExecutionError, "Feature with id #{feature_id} doesn't exist."
+    end
+    if f.feature_instance_type != "Features::Fusion"
+      raise GraphQL::ExecutionError, "Feature with id #{feature_id} is not a Fusion Feature."
     end
 
     coordinates.each do |_, variant_coords|

@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
   # has_many :badge_claims
   has_many :affiliations
   has_many :organizations, through: :affiliations
-  has_many :organizations_with_endorsement_privileges,
-    ->() { where("affiliations.can_endorse = 't'") },
+  has_many :organizations_with_approval_privileges,
+    ->() { where("affiliations.can_approve = 't'") },
     through: :affiliations,
     source: :organization
   has_many :api_keys, as: :bearer
@@ -160,12 +160,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def can_endorse_for_org?(organization_id: nil)
+  def can_approve_for_org?(organization_id: nil)
     if !can_act_for_org?(organization_id: organization_id)
       return false
     end
 
-    return self.organizations_with_endorsement_privileges
+    return self.organizations_with_approval_privileges
       .map(&:id)
       .include?(organization_id)
   end

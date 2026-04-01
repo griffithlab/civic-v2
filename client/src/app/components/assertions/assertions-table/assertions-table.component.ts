@@ -67,7 +67,7 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() endorsingOrganizationId: Maybe<number>
+  @Input() approvingOrganizationId: Maybe<number>
   @Input() ids: Maybe<number[]>
 
   // SOURCE STREAMS
@@ -159,8 +159,8 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
       molecularProfileId: this.molecularProfileId,
       evidenceId: this.evidenceId,
       organizationId: this.organizationId ? [this.organizationId] : [],
-      endorsingOrganizationIds: this.endorsingOrganizationId
-        ? [this.endorsingOrganizationId]
+      approvingOrganizationIds: this.approvingOrganizationId
+        ? [this.approvingOrganizationId]
         : [],
       includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       userId: this.userId,

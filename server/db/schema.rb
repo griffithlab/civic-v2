@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
+
+ActiveRecord::Schema[8.0].define(version: 2026_01_28_154154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "endorsement_status", ["active", "revoked", "requires_review"]
+  create_enum "approval_status", ["active", "revoked", "requires_review"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
@@ -114,7 +115,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.bigint "organization_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "can_endorse", default: false, null: false
+    t.boolean "can_approve", default: false, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
@@ -131,6 +132,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
     t.index ["revoked"], name: "index_api_keys_on_revoked"
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
+  end
+
+  create_table "approvals", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "assertion_id", null: false
+    t.enum "status", default: "active", null: false, enum_type: "approval_status"
+    t.datetime "last_reviewed", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_approvals_on_assertion_id"
+    t.index ["organization_id"], name: "index_approvals_on_organization_id"
+    t.index ["user_id"], name: "index_approvals_on_user_id"
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
@@ -478,19 +492,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["previous_node_id"], name: "index_edges_on_previous_node_id"
   end
 
-  create_table "endorsements", force: :cascade do |t|
-    t.bigint "organization_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "assertion_id", null: false
-    t.enum "status", default: "active", null: false, enum_type: "endorsement_status"
-    t.datetime "last_reviewed", precision: nil, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assertion_id"], name: "index_endorsements_on_assertion_id"
-    t.index ["organization_id"], name: "index_endorsements_on_organization_id"
-    t.index ["user_id"], name: "index_endorsements_on_user_id"
-  end
-
   create_table "entity_mentions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -663,6 +664,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
   end
 
+  create_table "fusions_known_partner_genes", force: :cascade do |t|
+    t.bigint "fusion_id"
+    t.bigint "gene_id"
+    t.index ["fusion_id", "gene_id"], name: "index_fusions_known_partner_genes_on_fusion_id_and_gene_id"
+    t.index ["fusion_id"], name: "index_fusions_known_partner_genes_on_fusion_id"
+    t.index ["gene_id", "fusion_id"], name: "index_fusions_known_partner_genes_on_gene_id_and_fusion_id"
+    t.index ["gene_id"], name: "index_fusions_known_partner_genes_on_gene_id"
+  end
+
   create_table "gene_aliases", id: :serial, force: :cascade do |t|
     t.string "name"
     t.index ["name"], name: "index_gene_aliases_on_name"
@@ -677,19 +687,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
 
   create_table "genes", id: :serial, force: :cascade do |t|
     t.integer "entrez_id", null: false
-    t.string "name", null: false
-    t.text "description", null: false
-    t.text "official_name", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.text "clinical_description"
-    t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
-    t.boolean "flagged", default: false, null: false
     t.text "uniprot_ids", default: [], array: true
-    t.index "char_length((name)::text)", name: "gene_name_size_idx"
-    t.index ["deleted"], name: "index_genes_on_deleted"
-    t.index ["name"], name: "index_genes_on_name"
   end
 
   create_table "genes_sources", id: false, force: :cascade do |t|
@@ -808,7 +808,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "most_recent_activity_timestamp", precision: nil
-    t.boolean "can_endorse", default: false, null: false
+    t.boolean "can_approve", default: false, null: false
     t.boolean "is_approved_vcep", default: false, null: false
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
@@ -993,6 +993,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     t.datetime "updated_at", precision: nil
     t.text "ncit_id"
     t.boolean "deprecated", default: false, null: false
+    t.text "description"
     t.index ["name"], name: "index_therapies_on_name"
     t.index ["ncit_id"], name: "index_therapies_on_ncit_id", unique: true
   end
@@ -1129,53 +1130,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   end
 
   create_table "variants", id: :serial, force: :cascade do |t|
-    t.integer "gene_id", null: false
     t.string "name", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
-    t.text "genome_build"
-    t.text "chromosome"
-    t.integer "start"
-    t.integer "stop"
-    t.text "reference_bases"
-    t.text "variant_bases"
-    t.text "representative_transcript"
-    t.text "chromosome2"
-    t.integer "start2"
-    t.integer "stop2"
     t.integer "reference_build"
     t.text "representative_transcript2"
     t.integer "ensembl_version"
-    t.integer "secondary_gene_id"
     t.text "allele_registry_id"
     t.boolean "flagged", default: false, null: false
     t.integer "single_variant_molecular_profile_id"
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
-    t.integer "deprecation_comment_id"
     t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
     t.string "vicc_compliant_name"
+<<<<<<< HEAD
+=======
+    t.string "iscn_name"
+>>>>>>> main
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
-    t.index ["chromosome"], name: "index_variants_on_chromosome"
-    t.index ["chromosome2"], name: "index_variants_on_chromosome2"
-    t.index ["deleted"], name: "index_variants_on_deleted"
     t.index ["feature_id"], name: "index_variants_on_feature_id"
+<<<<<<< HEAD
     t.index ["gene_id"], name: "index_variants_on_gene_id"
+=======
+    t.index ["iscn_name"], name: "index_variants_on_iscn_name"
+>>>>>>> main
     t.index ["name"], name: "index_variants_on_name"
-    t.index ["reference_bases"], name: "index_variants_on_reference_bases"
-    t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
     t.index ["single_variant_molecular_profile_id"], name: "index_variants_on_single_variant_molecular_profile_id"
-    t.index ["start"], name: "index_variants_on_start"
-    t.index ["start2"], name: "index_variants_on_start2"
-    t.index ["stop"], name: "index_variants_on_stop"
-    t.index ["stop2"], name: "index_variants_on_stop2"
-    t.index ["variant_bases"], name: "index_variants_on_variant_bases"
     t.index ["vicc_compliant_name"], name: "index_variants_on_vicc_compliant_name"
   end
 
@@ -1275,10 +1259,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   add_foreign_key "variant_coordinates", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
-  add_foreign_key "variants", "comments", column: "deprecation_comment_id"
   add_foreign_key "variants", "features"
-  add_foreign_key "variants", "genes"
-  add_foreign_key "variants", "genes", column: "secondary_gene_id"
   add_foreign_key "variants", "molecular_profiles", column: "single_variant_molecular_profile_id"
 
   create_view "evidence_items_by_statuses", sql_definition: <<-SQL
@@ -1338,6 +1319,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
        JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false) AND ((ei.status)::text <> 'rejected'::text))))
     GROUP BY mp.id;
   SQL
+<<<<<<< HEAD
   create_view "therapy_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT therapies.id,
       therapies.name,
@@ -1360,6 +1342,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   SQL
   add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
 
+=======
+>>>>>>> main
   create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT variant_groups.id,
       variant_groups.name,
@@ -1379,6 +1363,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
   SQL
   add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
 
+<<<<<<< HEAD
   create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT diseases.id,
       diseases.name,
@@ -1502,6 +1487,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_152951) do
     GROUP BY outer_genes.id, outer_genes.name, outer_genes.entrez_id;
   SQL
   add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
+=======
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
+      sources.publication_year,
+      sources.asco_presenter,
+      sources.journal,
+      sources.title,
+      sources.citation,
+      sources.open_access,
+      sources.retraction_nature,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT source_suggestions.id) AS source_suggestion_count
+     FROM ((((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+>>>>>>> main
 
   create_view "molecular_profile_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_mps.id,

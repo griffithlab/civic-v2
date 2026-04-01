@@ -24,7 +24,7 @@ query AssertionsBrowse(
   $diseaseId: Int
   $therapyId: Int
   $status: EvidenceStatusFilter
-  $endorsingOrganizationIds: [Int!]
+  $approvingOrganizationIds: [Int!]
 ) {
   assertions(
     first: $first
@@ -51,8 +51,8 @@ query AssertionsBrowse(
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
-    endorsingOrganizations: {
-      ids: $endorsingOrganizationIds
+    approvingOrganizations: {
+      ids: $approvingOrganizationIds
       includeSubgroups: $includeSubgroups
     }
   ) {

@@ -90,12 +90,12 @@ export class OrganizationsDetailComponent implements OnDestroy {
             ]
           }
 
-          if (org && (org.canEndorse || org.hasEndorsingSubgroups)) {
+          if (org && (org.canApprove || org.hasApprovingSubgroups)) {
             tabs = [
               ...tabs,
               {
-                routeName: 'endorsed-assertions',
-                tabLabel: 'Endorsed Assertions',
+                routeName: 'approved-assertions',
+                tabLabel: 'Approved Assertions',
                 iconName: 'safety-certificate',
               },
             ]

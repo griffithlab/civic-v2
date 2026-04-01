@@ -38,6 +38,7 @@ import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-s
 import { CvcBaseRadioFieldModule } from '@app/forms/types/base/radio/radio.module'
 import { CvcQueryFilterModule } from '@app/forms/types/query-builder/query-filter/query-filter.module'
 import { CvcStructFilterModule } from './query-builder/struct-filter/struct-filter.module'
+import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/region-variant-name-select.module'
 
 @NgModule({
   imports: [
@@ -80,6 +81,7 @@ import { CvcStructFilterModule } from './query-builder/struct-filter/struct-filt
     CvcQuerySubfiltersModule,
     CvcQueryFilterModule,
     CvcStructFilterModule,
+    CvcRegionVariantNameSelectModule,
   ],
 })
 export class CvcFormTypesModule {}

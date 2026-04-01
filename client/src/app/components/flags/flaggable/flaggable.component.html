@@ -4,7 +4,7 @@
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
-<ng-container *ngIf="endorsements === 0">
+<ng-container *ngIf="approvals === 0">
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
@@ -32,13 +32,12 @@
   </nz-ribbon>
 </ng-container>
 
-
-<ng-container *ngIf="endorsements">
+<ng-container *ngIf="approvals">
   <nz-ribbon
-    [nzText]="endorsementRibbonText"
+    [nzText]="approvalRibbonText"
     nzPlacement="start"
     nzColor="#EFBF04">
-    <ng-template #endorsementRibbonText>
+    <ng-template #approvalRibbonText>
       <i
         nz-icon
         nzType="safety-certificate"
@@ -46,11 +45,11 @@
         nz-tooltip
         nzTooltipPlacement="top"
         nzTooltipColor="#EFBF04"
-        [nzTooltipTitle]="endorsementRibbonTooltip"></i>
+        [nzTooltipTitle]="approvalRibbonTooltip"></i>
     </ng-template>
-    <ng-template #endorsementRibbonTooltip>
-      Endorsed by {{ endorsements }} 
-      @if (endorsements === 1) {
+    <ng-template #approvalRibbonTooltip>
+      Classification Approved by {{ approvals }}
+      @if (approvals === 1) {
         organization
       } @else {
         organizations

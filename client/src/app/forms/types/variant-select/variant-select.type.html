@@ -113,20 +113,39 @@
   let-searchStr
   let-model="model">
   @if (selectedFeatureType == 'FUSION') {
-    <nz-space nzDirection="vertical">
-      <span
-        *nzSpaceItem
-        nz-typography>
-        {{ searchStr }} does not match any existing Variants</span
-      >
-      <button
-        *nzSpaceItem
-        nz-button
-        nzType="primary"
-        (click)="createFusionVariantModal()">
-        Open Fusion Variant Builder
-      </button>
-    </nz-space>
+  <nz-space nzDirection="vertical">
+    <span
+      *nzSpaceItem
+      nz-typography>
+      {{searchStr}} does not match any existing Variants</span
+    >
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createFusionVariantModal()">
+      Open Fusion Variant Builder
+    </button>
+  </nz-space>
+  }@else if (selectedFeatureType == 'REGION') {
+  <nz-space nzDirection="vertical">
+    <ng-container *ngIf="result$ | ngrxPush as r">
+      @if (r.length == 0 && searchStr.length > 0){
+        <span
+          *nzSpaceItem
+          nz-typography
+          >{{searchStr}} does not match any existing Variants</span
+        >
+      }
+    </ng-container>
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createRegionVariantModal()">
+      Open Region Variant Builder
+    </button>
+  </nz-space>
   } @else {
     <cvc-variant-quick-add-form
       [cvcSearchString]="searchStr"

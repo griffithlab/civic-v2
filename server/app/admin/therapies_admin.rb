@@ -43,7 +43,11 @@ Trestle.resource(:therapies) do
       end
     end
 
-    col(sm: 6) { text_field :name }
+    col(sm: 6) do
+      row { text_field :name }
+    end
+
+    text_area :description
 
     divider
 

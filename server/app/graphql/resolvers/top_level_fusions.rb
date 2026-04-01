@@ -38,6 +38,7 @@ class Resolvers::TopLevelFusions < GraphQL::Schema::Resolver
   end
 
   option(:gene_partner_id, type: Int, description: "CIViC ID of one of the Gene partners") do |scope, value|
-    scope.where("fusions.five_prime_gene_id = ? OR fusions.three_prime_gene_id = ?", value, value)
+    known_fusion_ids = FusionsKnownPartnerGene.where(gene_id: value).pluck(:fusion_id)
+    scope.where("fusions.five_prime_gene_id = ? OR fusions.three_prime_gene_id = ? OR fusions.id = ?", value, value, known_fusion_ids)
   end
 end

@@ -1,0 +1,52 @@
+@if (isFlagged() || isApproved()) {
+  <!-- host entity has flags or approvals: wrap host component in nz-ribbon -->
+  <nz-ribbon
+    [nzText]="ribbonIcon"
+    nzPlacement="start"
+    [nzColor]="flaggedColor()">
+    <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
+  </nz-ribbon>
+} @else {
+  <!-- host has no flags, approvals to show: plain host content -->
+  <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
+}
+
+<!-- transcluded host component -->
+<ng-template #flaggedContent><ng-content></ng-content></ng-template>
+
+<!-- ribbon icon-->
+<ng-template #ribbonIcon>
+  <span
+    nz-tooltip
+    [nzTooltipTitle]="tooltipText"
+    [nzTooltipColor]="flaggedColor()"
+    nzTooltipPlacement="top">
+    <nz-space nzSize="small">
+      @if (isApproved()) {
+        <i
+          *nzSpaceItem
+          nz-icon
+          nzType="safety-certificate"
+          nzTheme="fill"></i>
+      }
+      @if (isFlagged()) {
+        <i
+          *nzSpaceItem
+          nz-icon
+          nzType="flag"
+          nzTheme="fill"></i>
+      }
+    </nz-space>
+  </span>
+</ng-template>
+
+<!-- ribbon text-->
+<ng-template #tooltipText>
+  @if (approvals() > 0 && flags() > 0) {
+    Approved and Flagged
+  } @else if (approvals() > 0) {
+    Approved
+  } @else if (flags() > 0) {
+    Flagged
+  }
+</ng-template>

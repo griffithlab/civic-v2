@@ -1,6 +1,6 @@
 module Activities
   class ModerateEvidenceItem < Base
-    attr_reader :evidence_item, :new_status, :endorsements
+    attr_reader :evidence_item, :new_status, :approvals
 
     def initialize(originating_user:, evidence_item:, organization_id: nil, new_status:, note: nil)
       super(organization_id: organization_id, user: originating_user)
@@ -34,19 +34,19 @@ module Activities
     end
 
     def after_actions
-      @endorsements = if new_status == "rejected"
-        evidence_item.assertions.flat_map { |a| a.endorsements.select { |e| e.active? || e.requires_review? } }
+      @approvals = if new_status == "rejected"
+        evidence_item.assertions.flat_map { |a| a.approvals.select { |e| e.active? || e.requires_review? } }
       else
         []
       end
-      endorsements.select { |e| e.active? }.each do |e|
+      approvals.select { |e| e.active? }.each do |e|
         e.status = "requires_review"
         e.save!
       end
     end
 
     def linked_entities
-      [ endorsements ]
+      [ approvals ]
     end
   end
 end

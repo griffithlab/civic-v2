@@ -1,0 +1,4 @@
+fragment ApproveAssertionActivityDetail on ApproveAssertionActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

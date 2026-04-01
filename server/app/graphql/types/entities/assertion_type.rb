@@ -29,13 +29,13 @@ module Types::Entities
     field :acmg_codes, [ Types::Entities::AcmgCodeType ], null: false
     field :clingen_codes, [ Types::Entities::ClingenCodeType ], null: false
     field :amp_level, Types::AmpLevelType, null: true
-    field :submission_event, Types::Entities::EventType, null: false
+    field :submission_event, Types::Entities::EventType, null: true
     field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
-    field :endorsements, resolver: Resolvers::Endorsements
+    field :approvals, resolver: Resolvers::Approvals
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -107,8 +107,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :rejection_event).load(object)
     end
 
-    def endorsements
-      Loaders::AssociationLoader.for(Assertion, :endorsements).load(object)
+    def approvals
+      Loaders::AssociationLoader.for(Assertion, :approvals).load(object)
     end
   end
 end

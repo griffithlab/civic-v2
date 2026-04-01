@@ -10,7 +10,7 @@ import { OrganizationsMembersComponent } from './organizations-members/organizat
 import { OrganizationsSourceSuggestionsComponent } from './organizations-source-suggestions/organizations-source-suggestions.component'
 
 import { OrganizationsComponent } from './organizations.component'
-import { OrganizationsEndorsedAssertionsComponent } from './organization-endorsed-assertions/organizations-endorsed-assertions.component'
+import { OrganizationsApprovedAssertionsComponent } from './organization-approved-assertions/organizations-approved-assertions.component'
 
 const routes: Routes = [
   {
@@ -59,10 +59,10 @@ const routes: Routes = [
             },
           },
           {
-            path: 'endorsed-assertions',
-            component: OrganizationsEndorsedAssertionsComponent,
+            path: 'approved-assertions',
+            component: OrganizationsApprovedAssertionsComponent,
             data: {
-              breadcrumb: 'Endorsed Assertions',
+              breadcrumb: 'Approved Assertions',
             },
           },
           {

@@ -19,7 +19,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'userId',
         'activityType',
         'subjectType',
-        'linkedEndorsementId',
+        'linkedApprovalId',
       ]),
       browseFeatures: relayStylePagination([
         'name',
@@ -174,6 +174,12 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'originatingUserId',
         'fieldName',
         'revisionsetId',
+      ]),
+      browseUsers: relayStylePagination([
+        'name',
+        'organization',
+        'role',
+        'sortBy',
       ]),
       users: relayStylePagination(['userName', 'orgName', 'userRole']),
     },

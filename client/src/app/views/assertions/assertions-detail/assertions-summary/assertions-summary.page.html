@@ -201,16 +201,16 @@
     <nz-col [nzSpan]="12">
       <!-- right col layout row -->
       <nz-row [nzGutter]="[8, 8]">
-        <!-- BLOCK: endorsements block -->
+        <!-- BLOCK: approvals block -->
         @for (
-          endorsement of assertion.activeEndorsements.nodes.concat(
-            assertion.requiresReviewEndorsements.nodes
+          approval of assertion.activeApprovals.nodes.concat(
+            assertion.requiresReviewApprovals.nodes
           );
-          track endorsement.id
+          track approval.id
         ) {
           <nz-col [nzSpan]="24">
-            <cvc-endorsement-notification
-              [cvcEndorsement]="endorsement"></cvc-endorsement-notification>
+            <cvc-approval-notification
+              [cvcApproval]="approval"></cvc-approval-notification>
           </nz-col>
         }
         <!-- BLOCK: status, curation events block -->
@@ -229,9 +229,7 @@
             <nz-descriptions-item [nzTitle]="submittedTitle">
               by
               <cvc-user-tag
-                [user]="
-                  assertion.submissionEvent!.originatingUser
-                "></cvc-user-tag>
+                [user]="assertion.submissionActivity.user"></cvc-user-tag>
               <nz-tag
                 nz-popover
                 [nzPopoverContent]="submissionCommentTemplate"
@@ -254,7 +252,7 @@
               <span
                 nz-typography
                 nzType="secondary">
-                ({{ assertion.submissionEvent.createdAt | timeAgo }})
+                ({{ assertion.submissionActivity.createdAt | timeAgo }})
               </span>
             </ng-template>
 

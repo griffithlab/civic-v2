@@ -17,6 +17,7 @@ export const EntityColors = new Map<string, string>([
   ['GeneVariant', '#74d34c'],
   ['FactorVariant', '#74d34c'],
   ['FusionVariant', '#74d34c'],
+  ['RegionVariant', '#74d34c'],
   ['VariantGroup', '#74d34c'],
   ['VariantType', '#74d34c'],
 
@@ -24,7 +25,7 @@ export const EntityColors = new Map<string, string>([
   ['Comment', '#44d8ef'],
   ['Event', '#ffdb00'],
   ['Flag', '#e24759'],
-  ['Endorsement', '#EFBF04'],
+  ['Approval', '#EFBF04'],
   ['Queue', '#666699'],
   ['Revision', '#f0673a'],
 

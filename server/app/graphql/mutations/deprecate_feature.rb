@@ -33,25 +33,17 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Feature with id #{feature_id} doesn't exist."
     end
 
-    if feature.deprecated
-      raise GraphQL::ExecutionError, "Feature is already deprecated."
-    end
-
     if feature.feature_instance_type == "Features::Gene"
       raise GraphQL::ExecutionError, "Gene Features may not be manually deprecated."
     end
 
-    mps_with_eids = []
-    feature.variants.includes(:molecular_profiles).flat_map(&:molecular_profiles).each do |mp|
-      if mp.evidence_items.where("evidence_items.status != 'rejected'").count > 0
-        mps_with_eids.append(mp.id)
-      end
-    end
-    if mps_with_eids.size > 0
-      raise GraphQL::ExecutionError, "Feature is linked to Variants that belong to Molecular Profiles with accepted or submitted Evidence Items: #{mps_with_eids.join(', ')}. Move their Evidence Items to a different Molecular Profile and try again."
-    end
+    (can_deprecate, error) = feature.can_deprecate?
 
-    return true
+    if can_deprecate
+      return true
+    else
+      raise GraphQL::ExecutionError, error
+    end
   end
 
   def authorized?(organization_id: nil, **kwargs)

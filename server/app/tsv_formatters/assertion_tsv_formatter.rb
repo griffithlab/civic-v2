@@ -1,10 +1,4 @@
 class AssertionTsvFormatter
-  def self.objects
-    Assertion.eager_load(:disease, :therapies, :phenotypes, :molecular_profile, :evidence_items)
-      .where(status: "accepted")
-  end
-
-
   def self.headers
     [
       "molecular_profile",
@@ -61,9 +55,5 @@ class AssertionTsvFormatter
       LinkAdaptors::MolecularProfile.new(a.molecular_profile).permalink_path(include_domain: true),
       a.flagged,
     ]
-  end
-
-  def self.file_name
-    "AssertionSummaries.tsv"
   end
 end

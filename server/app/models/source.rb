@@ -43,7 +43,7 @@ class Source < ActiveRecord::Base
     if source.source_type == "PubMed"
       "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
     elsif source.source_type == "ASCO"
-      "https://meetinglibrary.asco.org/record/#{source.citation_id}/abstract"
+      "https://www.asco.org/abstracts-presentations/#{source.citation_id}"
     elsif source.source_type == "ASH"
       "https://doi.org/#{source.citation_id}"
     end

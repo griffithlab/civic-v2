@@ -1,6 +1,6 @@
 module Activities
   class ResolveFlag < Base
-    attr_reader :resolving_user, :flag, :endorsements
+    attr_reader :resolving_user, :flag, :approvals
 
     def initialize(resolving_user:, flag:, organization_id: nil, note:)
       super(organization_id: organization_id, user: resolving_user, note: note)
@@ -31,11 +31,11 @@ module Activities
     end
 
     def after_actions
-      @endorsements = flag.open_activity.endorsements
+      @approvals = flag.open_activity.approvals
     end
 
     def linked_entities
-      [ flag, endorsements ]
+      [ flag, approvals ]
     end
   end
 end

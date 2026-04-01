@@ -8,6 +8,7 @@
   "possibleTypes": {
     "ActivityInterface": [
       "AcceptRevisionsActivity",
+      "ApproveAssertionActivity",
       "CommentActivity",
       "CreateComplexMolecularProfileActivity",
       "CreateFeatureActivity",
@@ -16,13 +17,12 @@
       "DeprecateComplexMolecularProfileActivity",
       "DeprecateFeatureActivity",
       "DeprecateVariantActivity",
-      "EndorseAssertionActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",
       "ModerateEvidenceItemActivity",
       "RejectRevisionsActivity",
       "ResolveFlagActivity",
-      "RevokeEndorsementActivity",
+      "RevokeApprovalActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity",
       "SuggestRevisionSetActivity",
@@ -49,6 +49,8 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
+      "RegionVariant",
       "Revision",
       "Source",
       "SourcePopover",
@@ -68,6 +70,8 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
+      "RegionVariant",
       "Revision",
       "SourceSuggestion",
       "Variant"
@@ -86,6 +90,8 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
+      "RegionVariant",
       "Revision",
       "RevisionSet",
       "Source",
@@ -98,7 +104,8 @@
     "FeatureInstance": [
       "Factor",
       "Fusion",
-      "Gene"
+      "Gene",
+      "Region"
     ],
     "Flaggable": [
       "Assertion",
@@ -112,6 +119,8 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
+      "RegionVariant",
       "Variant",
       "VariantGroup"
     ],
@@ -131,6 +140,8 @@
       "FusionVariant",
       "Gene",
       "GeneVariant",
+      "Region",
+      "RegionVariant",
       "Variant"
     ],
     "MolecularProfileSegment": [
@@ -142,6 +153,7 @@
       "FactorVariant",
       "FusionVariant",
       "GeneVariant",
+      "RegionVariant",
       "Variant"
     ],
     "WithRevisions": [
@@ -156,6 +168,8 @@
       "Gene",
       "GeneVariant",
       "MolecularProfile",
+      "Region",
+      "RegionVariant",
       "Variant",
       "VariantCoordinate",
       "VariantGroup"

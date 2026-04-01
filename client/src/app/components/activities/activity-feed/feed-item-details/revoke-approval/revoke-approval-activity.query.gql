@@ -1,0 +1,7 @@
+fragment RevokeApprovalActivityDetail on RevokeApprovalActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+}

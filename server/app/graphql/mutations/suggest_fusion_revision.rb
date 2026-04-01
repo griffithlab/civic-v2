@@ -58,6 +58,8 @@ class Mutations::SuggestFusionRevision < Mutations::MutationWithOrg
     updated_fusion = InputAdaptors::FusionInputAdaptor.new(
       fusion_input_object: fields,
     ).perform
+    updated_fusion.five_prime_partner_status = fusion.five_prime_partner_status
+    updated_fusion.three_prime_partner_status = fusion.three_prime_partner_status
     revised_objs = Activities::RevisedObjectPair.new(existing_obj: fusion, updated_obj: updated_fusion)
 
     cmd = Activities::SuggestRevisionSet.new(

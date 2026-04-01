@@ -1,0 +1,17 @@
+mutation SelectOrCreateRegionVariant($organizationId: Int, $featureId: Int!, $name: RegionVariantName!) {
+  createRegionVariant(input: {
+    organizationId: $organizationId,
+    featureId: $featureId,
+    name: $name
+  }) {
+    ...CreateRegionVariantFields
+  }
+}
+
+fragment CreateRegionVariantFields on CreateRegionVariantPayload {
+  clientMutationId
+  new
+  variant {
+    ...VariantSelectTypeaheadFields
+  }
+}

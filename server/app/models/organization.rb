@@ -2,8 +2,8 @@ class Organization < ActiveRecord::Base
   has_many :events
   has_many :affiliations
   has_many :users, through: :affiliations
-  has_many :users_with_endorsement_privileges,
-    ->() { where("affiliations.can_endorse = 't'") },
+  has_many :users_with_approval_privileges,
+    ->() { where("affiliations.can_approve = 't'") },
     through: :affiliations,
     source: :user
 
@@ -18,7 +18,7 @@ class Organization < ActiveRecord::Base
     ->() { order("created_at DESC").limit(1) },
     class_name: "Event", foreign_key: :organization_id
 
-  validate :no_endorsing_users
+  validate :no_approving_users
 
   # TODO: org membership helper methods
   # TODO: only allow one level of nesting
@@ -59,9 +59,9 @@ class Organization < ActiveRecord::Base
     return [ self.id ] + self.group_ids
   end
 
-  def no_endorsing_users
-    if !self.can_endorse? && self.users_with_endorsement_privileges.exists?
-      self.errors.add(:can_endorse, "cannot unset can_endorse while users still have endorsement permissions.")
+  def no_approving_users
+    if !self.can_approve? && self.users_with_approval_privileges.exists?
+      self.errors.add(:can_approve, "cannot unset can_approve while users still have approval permissions.")
     end
   end
 end

@@ -5,6 +5,6 @@ module Types::Fusion
     argument :partner_status, Types::Fusion::FusionPartnerStatus, required: true,
       description: "The status of the fusion partner"
     argument :gene_id, Int, required: false,
-      description: "The CIViC gene ID of the partner, if known"
+      description: "The CIViC ID of the Gene Feature that is the Fusion partner, if known"
   end
 end

@@ -1,1 +1,7 @@
-<pre>{{ activity() }}</pre>
+@for (note of activity().parsedNote; track note) {
+  <div class="comment-container">
+    @if (note.__typename == 'CommentTextSegment') {
+      {{ note.text }}
+    }
+  </div>
+}

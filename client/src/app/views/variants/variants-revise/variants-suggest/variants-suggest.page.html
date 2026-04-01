@@ -12,6 +12,10 @@
       <cvc-fusion-variant-revise-form [variantId]="variantId">
       </cvc-fusion-variant-revise-form>
     }
+    @case ('RegionVariant') {
+      <cvc-region-variant-revise-form [variantId]="variantId">
+      </cvc-region-variant-revise-form>
+    }
   }
 </ng-container>
 <ng-template #loadingVariant>Loading Variant...</ng-template>

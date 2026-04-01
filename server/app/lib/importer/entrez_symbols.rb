@@ -1,34 +1,29 @@
 require "csv"
+
 module Importer
   class EntrezSymbols
+    include EntrezHelpers
+
     attr_reader :file_path
+
     def initialize(file_path)
       @file_path = file_path
     end
 
     def import
+      CleanupEntrezSymbols.new.execute(file_path)
       import_symbols
     end
 
     private
     def import_symbols
       ActiveRecord::Base.transaction do
-        File.open(file_path, "r") do |file|
-          reader = Zlib::GzipReader.new(file, encoding: "iso-8859-1:UTF-8")
-          CSV.new(reader, col_sep: "\t", headers: true, liberal_parsing: true).each do |line|
-            next unless valid_line?(line)
-            process_line(line)
-          end
-          reader.close
+        process_gzipped_entrez_file(file_path) do |line|
+          next unless valid_line?(line)
+          process_line(line)
         end
       end
-    end
-
-    def valid_line?(line)
-      line["GeneID"].present? &&
-        line["Symbol_from_nomenclature_authority"].present? &&
-        line["Symbol_from_nomenclature_authority"].strip != "-" &&
-        line["#tax_id"] == "9606"
+      update_fusion_names
     end
 
     def process_line(line)
@@ -41,15 +36,16 @@ module Importer
           description: "",
           feature_instance: gene
         )
-        # TODO delete when we remove this column
-        gene.name = line["Symbol_from_nomenclature_authority"]
-        gene.save!
+        feature.save(validate: false)
+        gene.reload_feature
       else
         feature = gene.feature
         feature.name = line["Symbol_from_nomenclature_authority"]
         feature.full_name = line["description"]
-        feature.save!
+        feature.save(validate: false)
       end
+
+      gene.save(validate: false)
 
       if line["Synonyms"].present?
         synonyms = line["Synonyms"].split("|").map do |synonym|
@@ -67,8 +63,16 @@ module Importer
         feature.description = ""
       end
 
-      gene.save!
-      feature.save!
+      gene.save(validate: false)
+      feature.save(validate: false)
+    end
+
+    def update_fusion_names
+      # TODO change to point to Feature, not Instance
+      Features::Fusion.find_each do |fi|
+        fi.feature.name = fi.generate_name
+        fi.feature.save!
+      end
     end
   end
 end

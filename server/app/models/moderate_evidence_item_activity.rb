@@ -1,5 +1,5 @@
 class ModerateEvidenceItemActivity < Activity
-  has_many_linked :endorsements
+  has_many_linked :approvals
 
   def evidence_item
     self.subject

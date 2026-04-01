@@ -113,7 +113,8 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
                   fields: [ "name" ],
                   match: :word_start,
                   misspellings: { below: 1 }
-                )
+    ).where(name: { ilike: "%#{value}%" })
+
     ids = results.hits.map { |x| x["_id"] }
     scope.joins(:molecular_profile).where(molecular_profiles: { id: ids })
   end

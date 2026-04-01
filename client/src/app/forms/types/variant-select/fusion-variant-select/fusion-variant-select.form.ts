@@ -238,7 +238,7 @@ export class CvcFusionVariantSelectForm {
                       required: !fivePrimeDisabled,
                       disabled: fivePrimeDisabled,
                       tooltip:
-                        'The exon number counted from the 5’ end of the transcript.',
+                        "The exon number counted from the 5' end of the 5' partner transcript (the last exon of the 5' partner involved in the fusion transcript)",
                     },
                   },
                   {
@@ -317,7 +317,7 @@ export class CvcFusionVariantSelectForm {
                     props: {
                       label: "3' Start Exon",
                       tooltip:
-                        'The exon number counted from the 3’ end of the transcript.',
+                        "The exon number counted from the 5' end of the 3' partner transcript (the first exon of the 3' partner involved in the fusion transcript)",
                       required: !threePrimeDisabled,
                       disabled: threePrimeDisabled,
                     },

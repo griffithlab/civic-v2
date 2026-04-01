@@ -95,49 +95,63 @@
           nzTitle="Funding"
           style="width: 100%">
           <p>
-            Malachi Griffith was supported by the National Human Genome Research
-            Institute (NHGRI) of the National Institutes of Health (NIH) under
-            Award Number R00HG007940. Obi Lee Griffith was supported by the
-            National Cancer Institute of the NIH under Award Number K22CA188163.
-            The CIViC project is also supported by the NCI under Award Numbers
-            U24CA237719 to Obi Lee Griffith (with Malachi Griffith as co-PI),
-            including a funding supplement from the Childhood Cancer Data
-            Initiative (CCDI), and previously U01CA209936 (with Malachi Griffith
-            and Elaine R Mardis as co-PIs). CIViC is also supported by the
-            Washington University Institute of Clinical and Translational
-            Sciences grant UL1TR002345 from the National Center for Advancing
-            Translational Sciences (NCATS) of the National Institutes of Health
-            (NIH). CIViC is also supported by Children’s Discovery Institute
-            (CDI) of the St. Louis Children’s Hospital and Washington University
-            School of Medicine. This research benefited from the use of credits
-            from the National Institutes of Health (NIH) Cloud Credits Model
-            Pilot, a component of the NIH Big Data to Knowledge (BD2K) program.
-            Support for the VCF format and integration with Google BigQuery was
-            funded by Google. The content of this website is solely the
-            responsibility of the creators and does not necessarily represent
-            the official views of the National Institutes of Health or other
-            funding sources.
+            The CIViC project and ClinGen Somatic Cancer Biomedical
+            Knowledgebase are currently supported by the National Institutes of
+            Health (NIH) National Cancer Institute (NCI) under Award Numbers
+            U24CA305456, U24CA275783, and R50CA305824, including a funding
+            supplement from the NIH Office of Data Science Strategy (ODSS).
+            CIViC is also supported by the Washington University Institute of
+            Clinical and Translational Sciences grant UL1TR002345 from the
+            National Center for Advancing Translational Sciences (NCATS) of the
+            NIH. The content of this website is solely the responsibility of the
+            creators and does not necessarily represent the official views of
+            the NIH or other funding sources.
           </p>
-          <nz-table
-            #basicTable
-            [nzData]="funding"
-            [nzFrontPagination]="false"
-            [nzShowPagination]="false">
-            <thead>
-              <tr>
-                <th>Awardee</th>
-                <th>Awarding Organization</th>
-                <th>Award Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of basicTable.data">
-                <td>{{ data.awardee }}</td>
-                <td>{{ data.org }}</td>
-                <td>{{ data.award }}</td>
-              </tr>
-            </tbody>
-          </nz-table>
+          <h2>Current</h2>
+          @for (funding of currentFunding; track currentFunding) {
+            <nz-descriptions
+              [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }"
+              [nzTitle]="title"
+              nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true">
+              <nz-descriptions-item
+                nzTitle="Source"
+                nzSpan="2">
+                {{ funding.source }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                nzTitle="Description"
+                nzSpan="2">
+                {{ funding.description }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                nzTitle="Number"
+                nzSpan="1">
+                {{ funding.awardNumber }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                nzTitle="Timeframe"
+                nzSpan="1">
+                {{ funding.timeframe }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+            <ng-template #title>
+              <h3 style="color: #333; margin-bottom: 0">
+                <strong>Awardee:</strong> {{ funding.awardee }}
+              </h3>
+            </ng-template>
+          }
+          <br />
+          <h2>Past</h2>
+          <p>
+            Past funding details are available on the CIViC documentation
+            <a
+              href="https://civic.readthedocs.io/en/latest/about/acknowledgements.html#past"
+              target="_blank">
+              Acknowledgements page.
+            </a>
+          </p>
         </nz-card>
       </nz-col>
       <nz-col

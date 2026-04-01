@@ -29,8 +29,8 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
 
     # check that the gene(s) exist if specified
     [ five_prime_gene.gene_id, three_prime_gene.gene_id ].compact.each do |gene_id|
-      if Features::Gene.find(gene_id).nil?
-        raise GraphQL::ExecutionError, "Gene with CIViC ID #{gene_id} does not exist"
+      if Feature.find(gene_id).nil?
+        raise GraphQL::ExecutionError, "Gene Feature with CIViC ID #{gene_id} does not exist"
       end
     end
 
@@ -53,10 +53,13 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
   end
 
   def resolve(five_prime_gene:, three_prime_gene:, organization_id: nil)
+    five_prime_feature_instance = Feature.find_by(id: five_prime_gene.gene_id)&.feature_instance
+    three_prime_feature_instance = Feature.find_by(id: three_prime_gene.gene_id)&.feature_instance
+
     existing_feature_instance = Features::Fusion
       .find_by(
-        five_prime_gene_id: five_prime_gene.gene_id,
-        three_prime_gene_id: three_prime_gene.gene_id,
+        five_prime_gene_id: five_prime_feature_instance&.id,
+        three_prime_gene_id: three_prime_feature_instance&.id,
         five_prime_partner_status: five_prime_gene.partner_status,
         three_prime_partner_status: three_prime_gene.partner_status,
       )
@@ -69,8 +72,8 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
 
     else
       cmd = Activities::CreateFusionFeature.new(
-        five_prime_gene_id: five_prime_gene.gene_id,
-        three_prime_gene_id: three_prime_gene.gene_id,
+        five_prime_gene_id: five_prime_feature_instance&.id,
+        three_prime_gene_id: three_prime_feature_instance&.id,
         five_prime_partner_status: five_prime_gene.partner_status,
         three_prime_partner_status: three_prime_gene.partner_status,
         originating_user: context[:current_user],

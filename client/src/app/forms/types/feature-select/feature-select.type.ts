@@ -39,6 +39,10 @@ import {
   CvcFusionSelectForm,
   FusionSelectModalData,
 } from './fusion-select/fusion-select.form'
+import {
+  CvcRegionSelectForm,
+  RegionSelectModalData,
+} from './region-select/region-select.form'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -51,6 +55,7 @@ export interface CvcFeatureSelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
   description?: string
   extraType?: CvcFormFieldExtraType
+  alwaysShowCreate?: boolean
 }
 
 export interface CvcFeatureSelectFieldConfig
@@ -96,6 +101,7 @@ export class CvcFeatureSelectField
       featureType: FeatureInstanceTypes.Gene,
       canChangeFeatureType: true,
       hideFeatureTypeSelect: false,
+      alwaysShowCreate: false,
     },
   }
 
@@ -119,6 +125,9 @@ export class CvcFeatureSelectField
 
   ngAfterViewInit(): void {
     this.selectedFeatureType = this.props.featureType
+    this.onFeatureType$.pipe(untilDestroyed(this)).subscribe((ft) => {
+      this.props.alwaysShowCreate = ft == FeatureInstanceTypes.Region
+    })
     if (this.props.featureTypeCallback) {
       this.onFeatureType$
         .pipe(untilDestroyed(this))
@@ -189,9 +198,18 @@ export class CvcFeatureSelectField
     results: FeatureSelectTypeaheadFieldsFragment[]
   ): boolean {
     const searchName = s.toLowerCase()
-    return (
-      s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
-    )
+
+    // The compiler thinks this refers to the component but because of
+    // something in the mixin chain, it does not.
+    const mixin = this as any
+    if (mixin.cvcFormlyAttributes.props.alwaysShowCreate) {
+      return true
+    } else {
+      return (
+        s.length >= 3 &&
+        !results.some((v) => v.name.toLowerCase() === searchName)
+      )
+    }
   }
 
   onSelectOrCreate(feature: FeatureIdWithCreationStatus) {
@@ -201,7 +219,7 @@ export class CvcFeatureSelectField
     }
   }
 
-  onFusionSelected(featureId: number) {
+  onFeatureSelected(featureId: number) {
     this.onPopulate$.next(featureId)
     this.formControl.setValue(featureId)
   }
@@ -219,7 +237,25 @@ export class CvcFeatureSelectField
     modal.getContentComponent()
     modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
       if (result.featureId) {
-        this.onFusionSelected(result.featureId)
+        this.onFeatureSelected(result.featureId)
+      }
+    })
+  }
+
+  createRegionModal() {
+    const modal = this.modal.create<CvcRegionSelectForm, RegionSelectModalData>(
+      {
+        nzTitle: 'Add New Region Feature',
+        nzContent: CvcRegionSelectForm,
+        nzData: {},
+        nzFooter: null,
+      }
+    )
+
+    modal.getContentComponent()
+    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
+      if (result.featureId) {
+        this.onFeatureSelected(result.featureId)
       }
     })
   }

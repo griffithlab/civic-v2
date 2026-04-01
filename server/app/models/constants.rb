@@ -118,6 +118,7 @@ module Constants
     "Variants::GeneVariant" => "variants",
     "Variants::FactorVariant" => "variants",
     "Variants::FusionVariant" => "variants",
+    "Variants::RegionVariant" => "variants",
     "VariantGroup" => "variant-groups",
     "Source" => "sources",
     "MolecularProfile" => "molecular-profiles",
@@ -141,5 +142,5 @@ module Constants
 
   API_HMAC_KEY = ENV["CIVIC_API_HMAC_KEY"] || Rails.application.credentials.api_hmac_key
 
-  ENDORSEMENT_STATUSES =  { "active": "active", "revoked": "revoked", "requires_review": "requires_review" }
+  APPROVAL_STATUSES =  { "active": "active", "revoked": "revoked", "requires_review": "requires_review" }
 end
