@@ -24,9 +24,15 @@ Rails.application.routes.draw do
   get "/curation-chat", to: "chats/chats#new", defaults: { chat_type: "curation" }, as: :curation_chat
   get "/mcp-chat", to: "chats/chats#new", defaults: { chat_type: "mcp" }, as: :mcp_chat
 
+  get "/chats/shared/:public_id", to: "chats/shared_chats#show", as: :shared_chat
+
   namespace :chats, path: "chats" do
     root to: "chats#index"
     resources :chats, path: "" do
+      member do
+        post :share
+        delete :unshare
+      end
       resources :messages, only: [ :create ]
     end
     resources :models, only: [ :index, :show ] do
