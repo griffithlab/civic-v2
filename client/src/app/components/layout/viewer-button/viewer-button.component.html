@@ -139,7 +139,12 @@
               nz-menu-item
               nzMatchRouter
               [routerLink]="['/users', user.id]">
-              View Profile
+              <a>View Profile</a>
+            </li>
+            <li
+              nz-menu-item
+              href="/chats/new">
+              <a href="/chats/new">CIViC Chatbot</a>
             </li>
             <li
               *ngIf="user.organizations.length > 1"
