@@ -13,6 +13,7 @@ export class CvcQuerySubfiltersField extends FieldArrayType {
   }
 
   addRow(initialModel?: any) {
+    this.options.formState.showErrors = false
     super.add(undefined, initialModel)
   }
   removeRow(index: number) {

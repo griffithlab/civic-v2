@@ -41,6 +41,7 @@ export class CvcQueryFilterField
   }
 
   onKeyChange(newKey: string): void {
+    this.options.formState.showErrors = false
     this.props.selectedKey = newKey
     this.checkExpressions()
   }

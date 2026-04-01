@@ -67,7 +67,12 @@ export class CvcQueryBuilderForm {
   })
   form: UntypedFormGroup = new UntypedFormGroup({})
   fields: FormlyFieldConfig[] = []
-  options: FormlyFormOptions = { formState: { formLayout: 'horizontal' } }
+  options: FormlyFormOptions = {
+    formState: { formLayout: 'horizontal', showErrors: false },
+    showError: (field) => {
+      return !!(field.formControl?.invalid && field.options.formState?.showErrors)
+    },
+  }
 
   getOriginalQueryGQL = inject(GetOriginalQueryGQL)
 
@@ -91,6 +96,7 @@ export class CvcQueryBuilderForm {
         formState: {
           ...this.options.formState,
           searchEndpoint: endpoint,
+          showErrors: false,
           submitQuery: this.onSubmit.bind(this),
           clearForm: this.onClearForm.bind(this),
           entityCacheRegistry: this.entityCacheRegistry,

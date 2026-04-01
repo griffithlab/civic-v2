@@ -42,6 +42,7 @@ export class CvcQueryBuilderCardWrapper
 
   onClearForm() {
     this.formSubmitted = false
+    this.options.formState.showErrors = false
     if (this.options?.formState.clearForm) {
       this.options.formState.clearForm()
     }
@@ -49,6 +50,7 @@ export class CvcQueryBuilderCardWrapper
 
   onSubmitQuery() {
     this.formSubmitted = true
+    this.options.formState.showErrors = true
     this.field.formControl?.markAllAsTouched()
     if (this.field.formControl?.valid && this.options.formState.submitQuery) {
       this.options.formState.submitQuery()

@@ -520,7 +520,7 @@ export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
   AssertionTypeTypeSearchInput: ASSERTION_TYPE_TYPE_SEARCH_INPUT,
   BooleanSearchInput: BOOLEAN_SEARCH_INPUT,
   ChromosomeTypeSearchInput: CHROMOSOME_TYPE_SEARCH_INPUT,
-  DeprecatedBooleanInput: DEPRECATED_SEARCH_INPUT,
+  DeprecatedSearchInput: DEPRECATED_SEARCH_INPUT,
   DnaBaseStringInput: DNA_BASE_STRING_INPUT,
   EvidenceDirectionTypeSearchInput: EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT,
   EvidenceLevelTypeSearchInput: EVIDENCE_LEVEL_TYPE_SEARCH_INPUT,
