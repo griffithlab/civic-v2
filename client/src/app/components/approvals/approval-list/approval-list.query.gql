@@ -53,6 +53,7 @@ fragment approvalListNode on Approval {
     isApprovedVcep
     isClinvarSubmitter
   }
+  clinvarAccession
   user {
     id
     displayName

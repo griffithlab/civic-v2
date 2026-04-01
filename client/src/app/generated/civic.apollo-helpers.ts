@@ -92,10 +92,11 @@ export type ApiKeyFieldPolicy = {
 	reminder?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ApprovalKeySpecifier = ('approvalActivity' | 'assertion' | 'createdAt' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | ApprovalKeySpecifier)[];
+export type ApprovalKeySpecifier = ('approvalActivity' | 'assertion' | 'clinvarAccession' | 'createdAt' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | ApprovalKeySpecifier)[];
 export type ApprovalFieldPolicy = {
 	approvalActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarAccession?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,

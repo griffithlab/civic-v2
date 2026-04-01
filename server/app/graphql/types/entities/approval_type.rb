@@ -11,6 +11,7 @@ module Types::Entities
     field :approval_activity, Types::Activities::ApproveAssertionActivityType, null: false
     field :revocation_activity, Types::Activities::RevokeApprovalActivityType, null: true
     field :ready_for_clinvar_submission, Boolean, null: false
+    field :clinvar_accession, String, null: true
 
     def organization
       Loaders::AssociationLoader.for(Approval, :organization).load(object)
