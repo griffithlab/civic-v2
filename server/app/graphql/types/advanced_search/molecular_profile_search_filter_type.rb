@@ -4,6 +4,7 @@ module Types
       argument :sub_filters, [ Types::AdvancedSearch::MolecularProfileSearchFilterType ], required: false
       argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
+      argument :name, Types::AdvancedSearch::StringSearchInput, required: false
       argument :description, Types::AdvancedSearch::StringSearchInput, required: false
       argument :alias, Types::AdvancedSearch::StringSearchInput, required: false
       argument :open_revision_count, Types::AdvancedSearch::IntSearchInput, required: false

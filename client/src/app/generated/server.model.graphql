@@ -7792,6 +7792,7 @@ input MolecularProfileSearchFilter {
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
+  name: StringSearchInput
   openRevisionCount: IntSearchInput
   revisions: RevisionSearchFilter
   score: FloatSearchInput
@@ -12695,6 +12696,7 @@ input SourceSearchFilter {
   booleanOperator: BooleanOperator
   citation: StringSearchInput
   citationId: StringSearchInput
+  deprecated: BooleanSearchInput
   id: IntSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput

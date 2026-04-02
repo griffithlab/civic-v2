@@ -37998,6 +37998,18 @@
             "deprecationReason": null
           },
           {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringSearchInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "openRevisionCount",
             "description": null,
             "type": {
@@ -59409,6 +59421,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringSearchInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deprecated",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BooleanSearchInput",
               "ofType": null
             },
             "defaultValue": null,

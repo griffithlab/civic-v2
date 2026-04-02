@@ -27,12 +27,17 @@ export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
+          key: 'name',
+          props: { label: 'Name' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
           key: 'description',
           props: { label: 'Description' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
-          key: 'evidenceItemCount',
+          key: 'evidenceItemsCount',
           props: { label: 'Evidence Item Count' },
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
         },

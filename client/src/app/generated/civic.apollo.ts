@@ -4546,6 +4546,7 @@ export type MolecularProfileSearchFilter = {
   hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
   openRevisionCount?: InputMaybe<IntSearchInput>;
   revisions?: InputMaybe<RevisionSearchFilter>;
   score?: InputMaybe<FloatSearchInput>;
@@ -7374,6 +7375,7 @@ export type SourceSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   citation?: InputMaybe<StringSearchInput>;
   citationId?: InputMaybe<StringSearchInput>;
+  deprecated?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;
   journal?: InputMaybe<StringSearchInput>;
