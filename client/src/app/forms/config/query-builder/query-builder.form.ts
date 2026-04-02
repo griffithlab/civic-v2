@@ -29,7 +29,6 @@ import { filter, switchMap } from 'rxjs/operators'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 import { AdvancedSearchRegistry } from './query-builder.service'
-import { EntityCacheRegistry } from './field-config/entity-cache/entity-cache.registry'
 import { ApolloError } from '@apollo/client/core'
 import { Apollo } from 'apollo-angular'
 
@@ -57,7 +56,6 @@ export class CvcQueryBuilderForm {
     defaultQueryBuilderFormModel
   )
   private advancedSearch = inject(AdvancedSearchRegistry)
-  private entityCacheRegistry = inject(EntityCacheRegistry)
   private apollo = inject(Apollo)
 
   // keep formGQL updated with searchEndpoint's query service
@@ -99,7 +97,6 @@ export class CvcQueryBuilderForm {
           showErrors: false,
           submitQuery: this.onSubmit.bind(this),
           clearForm: this.onClearForm.bind(this),
-          entityCacheRegistry: this.entityCacheRegistry,
           apollo: this.apollo,
         },
       }
