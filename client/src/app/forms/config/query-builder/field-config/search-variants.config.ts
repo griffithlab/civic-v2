@@ -62,7 +62,6 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           'searchUsers',
           'Deprecating User'
         ),
-        ...getQueryFieldConfig('source', 'searchSources', 'Source'),
         ...getQueryFieldConfig('feature', 'searchFeatures', 'Feature'),
         ...getQueryFieldConfig(
           'molecularProfile',

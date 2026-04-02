@@ -101,11 +101,6 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['FlaggedSearchInput'],
         },
         {
-          key: 'name',
-          props: { label: 'Name' },
-          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
-        },
-        {
           key: 'openRevisionCount',
           props: { label: 'Open Revision Count' },
           fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],

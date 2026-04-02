@@ -97,11 +97,6 @@ export const searchFeaturesFieldOptions: FormlyFieldConfig[] =
       ...withRecursive([
         ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
         ...getQueryFieldConfig(
-          'modifyingUser',
-          'searchUsers',
-          'Modifying User'
-        ),
-        ...getQueryFieldConfig(
           'deprecatingUser',
           'searchUsers',
           'Deprecating User'
