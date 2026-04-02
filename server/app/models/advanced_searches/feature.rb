@@ -4,7 +4,6 @@ module AdvancedSearches
     include AdvancedSearches::Shared::Flagged
     include AdvancedSearches::Shared::Deprecated
     include AdvancedSearches::Shared::Description
-    include AdvancedSearches::Shared::Activities
 
     def base_query
       ::Feature.left_outer_joins(:feature_aliases)
@@ -32,8 +31,8 @@ module AdvancedSearches
         resolve_three_prime_partner_entrez_symbol(node),
         resolve_is_deprecated_filter(node),
         resolve_deprecation_reason_filter(node),
-        resolve_activity_user(node.creating_user, "CreateFeatureActivity"),
-        resolve_activity_user(node.deprecating_user, "DeprecateFeatureActivity"),
+        resolve_creating_user_filter(node),
+        resolve_deprecating_user_filter(node),
       ]
     end
 
@@ -122,6 +121,24 @@ module AdvancedSearches
         .where(clause, value)
         .pluck("features.id")
 
+      base_query.where(id: matching_ids)
+    end
+
+    def resolve_creating_user_filter(node)
+      return nil if node.creating_user.nil?
+      user_ids = AdvancedSearches::User.new(query: node.creating_user).results
+      matching_ids = ::Feature.joins(creation_activity: [:user])
+        .where(users: { id: user_ids })
+        .pluck(:id)
+      base_query.where(id: matching_ids)
+    end
+
+    def resolve_deprecating_user_filter(node)
+      return nil if node.deprecating_user.nil?
+      user_ids = AdvancedSearches::User.new(query: node.deprecating_user).results
+      matching_ids = ::Feature.joins(deprecation_activity: [:user])
+        .where(users: { id: user_ids })
+        .pluck(:id)
       base_query.where(id: matching_ids)
     end
 
