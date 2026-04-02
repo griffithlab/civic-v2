@@ -15,7 +15,7 @@
 <ng-template #approvalMessageTemplate>
   <p>
     Classification approved by
-    <strong>{{ this.isApprovedVcep() ? 'ClinGen Expert Panel ' : ' ' }}</strong>
+    <strong>{{ this.isApprovedVcep() ? 'ClinGen Somatic Expert Panel ' : ' ' }}</strong>
     <cvc-organization-tag [org]="approval().organization"></cvc-organization-tag>
     <span
       nz-typography
@@ -58,7 +58,8 @@
         </ng-template>
         <span>
           <nz-tag>
-            <a [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/16609/?term=' + approval().clinvarAccession">
+            @let unversionedAccession = (approval().clinvarAccession?.split('.') || [""])[0];
+            <a [href]="'https://www.ncbi.nlm.nih.gov/clinvar?term=' +  unversionedAccession + '%5BClinVar%20accession%5D'">
               {{ approval().clinvarAccession }}
             </a>
           </nz-tag>
