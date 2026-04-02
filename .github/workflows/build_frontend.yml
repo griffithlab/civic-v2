@@ -21,7 +21,7 @@ jobs:
         with:
           working-directory: ./server
           bundler-cache: true
-          ruby-version: '4'
+          ruby-version: '4.0.1'
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -47,6 +47,11 @@ jobs:
         working-directory: ./server
         env:
           RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: 1
+
+      - run: bundle exec rake rails_schema:generate
+        working-directory: ./server
+        env:
           SECRET_KEY_BASE_DUMMY: 1
 
       - if: ${{ inputs.branch == 'staging' }}

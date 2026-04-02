@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   signal,
   Signal,
   WritableSignal,
@@ -26,6 +27,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
+import { map } from 'rxjs/operators'
 
 type ApprovalCounts = {
   active: number
@@ -63,7 +65,7 @@ export class AssertionsDetailView {
     AssertionDetailQuery,
     AssertionDetailQueryVariables
   >
-  assertionId?: number
+  assertionId: Signal<number>
 
   // CONSTANTS
   SUBSCRIBABLE_ENTITY_TYPE = SubscribableEntities.Assertion
@@ -110,14 +112,23 @@ export class AssertionsDetailView {
      CONFIGURE QUERY & RESPONSE
      **************************/
     // get assertionId from route params
-    this.assertionId = +this.route.snapshot.params['assertionId']
+    this.assertionId = toSignal(
+      this.route.params.pipe(
+        map(params => +params['assertionId']),
+      ),
+      { requireSync: true }
+    );
 
     // save query reference for calling refetch() or fetchMore()
-    this.queryRef = this.gql.watch({ assertionId: this.assertionId })
+    this.queryRef = this.gql.watch({ assertionId: this.assertionId() })
 
     // provide valueChanges observable as response signal
     this.response = toSignal(this.queryRef.valueChanges, {
       initialValue: undefined,
+    })
+
+    effect(() => {
+        this.queryRef.refetch({assertionId: this.assertionId()})
     })
 
     // provide viewer$ observable as signal
@@ -252,7 +263,7 @@ export class AssertionsDetailView {
     if (revertEvent === true) {
       this.errors.set([])
       this.successMessage.set(
-        `Assertion AID${this.assertionId} reverted to Submitted status.`
+        `Assertion AID${this.assertionId()} reverted to Submitted status.`
       )
       this.queryRef.refetch()
     } else {

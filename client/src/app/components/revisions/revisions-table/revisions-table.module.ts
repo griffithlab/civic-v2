@@ -8,7 +8,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
-import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
+import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
@@ -83,7 +83,7 @@ import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.
     CvcTableCountsModule,
     CvcTableScrollModule,
     CvcTagListModule,
-    CvcTagOverflowModule,
+    CvcPlainTagOverflowModule,
     CvcUserTagModule,
     CvcOrganizationTagModule,
     CvcActivityRevision,

@@ -41,6 +41,11 @@ export class CvcEntityDescription {
     return containsCurieRegex.test(description)
   }
 
+  descriptionContainsEidCurie(description: string): boolean {
+    let containsEidCurieRegex: RegExp = /civic.eid:\d+/i;
+    return containsEidCurieRegex.test(description)
+  }
+
   tagsToText(segments: CommentSegment[]): string {
     return segments.map( (segment) => {
       if (segment.__typename == 'CommentTextSegment') {

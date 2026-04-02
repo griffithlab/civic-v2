@@ -22,11 +22,11 @@ import {
   Maybe,
   PageInfo,
   RevisionSet,
-  Revision,
   ViewerFieldsFragment,
   ActivitySubjectInput,
   RevisionFragment,
   RevisionSetBrowseFieldsFragment,
+  RevisionActivityDetailFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -45,6 +45,8 @@ import {
 import { pluck } from 'rxjs-etc/operators'
 import { ActivatedRoute } from '@angular/router'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { TagInfo } from '@app/components/shared/tag-overflow/tag-overflow.component'
+import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
 
 @UntilDestroy()
 @Component({
@@ -285,7 +287,18 @@ export class CvcRevisionsTableComponent implements OnInit {
     }
   }
   
-  castToRevision(revision: any): Revision {
-    return revision as Revision
+  castToRevisionActivityDetailFragment(revision: any): RevisionActivityDetailFragment {
+    return revision as RevisionActivityDetailFragment
+  }
+
+  revisionsToTagOverFlowInput(revisions: any[]): string[] {
+    return revisions.map(revision => {
+      if (revision.subject.__typename === 'ExonCoordinate' ) {
+        const coordinateType = new EnumToTitlePipe().transform(revision.subject.coordinateType)
+        return revision.fieldDisplayName + ' (' + coordinateType + ')'
+      } else {
+        return revision.fieldDisplayName
+      }
+    })
   }
 }

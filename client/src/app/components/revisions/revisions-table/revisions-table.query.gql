@@ -55,6 +55,11 @@ fragment RevisionSetBrowseFields on RevisionSet {
     linkoutData @include(if: $requestDetails) {
       ...revisionLinkoutData
     }
+    subject {
+      ... on ExonCoordinate {
+        coordinateType
+      }
+    }
   }
   creationActivity @skip(if: $requestDetails) {
     subject {

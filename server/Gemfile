@@ -133,3 +133,4 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 gem "ruby_llm-mcp"
+gem "rails-schema"

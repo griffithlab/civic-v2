@@ -1,4 +1,4 @@
-import { Component, computed, Input } from '@angular/core'
+import { Component, computed, effect, Input, signal, Signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   AssertionSummaryGQL,
@@ -11,11 +11,12 @@ import {
   EvidenceStatus,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
-import { startWith } from 'rxjs/operators'
+import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 import { AssertionState } from '@app/forms/states/assertion.state'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
     selector: 'cvc-assertion-summary',
@@ -40,22 +41,33 @@ export class AssertionsSummaryPage {
   color = computed(() =>
     getEntityColor('Approval')
   )
+  queryAssertionId: Signal<number>
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
-    var queryAssertionId: number
+
+
     if (this.assertionId) {
-      queryAssertionId = this.assertionId
+      this.queryAssertionId = signal(this.assertionId)
     } else {
-      queryAssertionId = +this.route.snapshot.params['assertionId']
+      this.queryAssertionId = toSignal(
+        this.route.params.pipe(
+          map(params => +params['assertionId']),
+        ),
+        { requireSync: true }
+      );
     }
 
-    if (queryAssertionId == undefined) {
+    if (this.queryAssertionId() == undefined) {
       throw new Error(
         'Must pass in an assertion ID as an input or via the route.'
       )
     }
 
-    this.queryRef = this.gql.watch({ assertionId: queryAssertionId })
+    this.queryRef = this.gql.watch({ assertionId: this.queryAssertionId() })
+
+    effect(() => {
+      this.queryRef.refetch({assertionId: this.queryAssertionId()})
+    })
 
     let observable = this.queryRef.valueChanges
 
@@ -65,7 +77,7 @@ export class AssertionsSummaryPage {
 
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,
-      id: queryAssertionId,
+      id: this.queryAssertionId(),
     }
   }
 }

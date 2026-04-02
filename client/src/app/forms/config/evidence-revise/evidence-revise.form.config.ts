@@ -147,7 +147,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'base-textarea',
                 props: {
                   tooltip:
-                    'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Reference other CIViC entities using curies: civic.eid:123 (Evidence Item), civic.aid:123 (Assertion), civic.fid:123 (Feature), civic.vid:123 (Variant), civic.mpid:123 (Molecular Profile), civic.vgid:123 (Variant Group), civic.sid:123 (Source)',
+                    'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Reference other CIViC entities using curies, e.g., civic.eid:123 (Evidence Item) or civic.aid:123 (Assertion).',
                   placeholder: 'Enter an Evidence Statement',
                   extraType: 'description',
                   description:

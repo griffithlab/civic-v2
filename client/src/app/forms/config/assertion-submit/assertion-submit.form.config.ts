@@ -129,6 +129,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   colSpan: 8,
                 },
               },
+            ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsive: { xs: 24, lg: 12, xl: 12, xxl: 6 },
+              },
+            },
+            fieldGroup: [
               <CvcNccnGuidelineSelectFieldOptions>{
                 key: 'nccnGuidelineId',
                 type: 'nccn-guideline-select',
@@ -196,7 +206,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 wrappers: ['form-field'],
                 props: {
                   tooltip:
-                    'A complete, original description of this Assertion. Limited to one paragraph. Reference other CIViC entities using curies: civic.eid:123 (Evidence Item), civic.aid:123 (Assertion), civic.fid:123 (Feature), civic.vid:123 (Variant), civic.mpid:123 (Molecular Profile), civic.vgid:123 (Variant Group), civic.sid:123 (Source)',
+                    'A complete, original description of this Assertion. Limited to one paragraph. Reference other CIViC entities using curies, e.g., civic.eid:123 (Evidence Item) or civic.aid:123 (Assertion).',
                   placeholder: 'Enter an Assertion Statement',
                   label: 'Assertion Statement',
                   required: true,

@@ -95,9 +95,9 @@
         nz-button
         nzTypy="default"
         nzSize="small"
-        [disabled]="!descriptionContainsCurie(entity.description)"
+        [disabled]="!descriptionContainsEidCurie(entity.description)"
         nz-tooltip
-        [nzTooltipTitle]="descriptionContainsCurie(entity.description) ? '' : 'Display settings unavailable. Description doesn\'t contain any curies'"
+        [nzTooltipTitle]="descriptionContainsEidCurie(entity.description) ? '' : 'Display settings unavailable. Description doesn\'t contain any Evidence curies'"
         nz-popover
         [nzPopoverContent]="settingsPopover"
         [nzPopoverTrigger]="'click'"

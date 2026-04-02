@@ -46,10 +46,10 @@
     <thead>
       <tr class="col-header-row">
         <th nzWidth="20px"></th>
-        <th nzWidth="200px">Revision Subject</th>
-        <th nzWidth="200px">Submitter</th>
-        <th nzWidth="300px">Organization</th>
-        <th>Revision Fields</th>
+        <th>Revision Subject</th>
+        <th>Submitter</th>
+        <th>Organization</th>
+        <th nzWidth="350px">Revision Fields</th>
       </tr>
       <tr class="filter-row">
         <th nzLeft></th>
@@ -136,10 +136,13 @@
               [enablePopover]="!isScrolling">
             </cvc-organization-tag>
           </td>
+          @let fieldNames = revisionsToTagOverFlowInput(revisionSet.revisions);
           <td nzLeft nzBreakWord>
-            @for (revision of revisionSet.revisions; track revision; let isLast = $last) {
-              {{ revision.fieldDisplayName }}{{ isLast? '' : ', ' }}
-            }
+            <cvc-plain-tag-overflow
+              [tags]="fieldNames"
+              [maxDisplayCount]="1"
+              [matchingText]="fieldNameInput">
+            </cvc-plain-tag-overflow>
           </td>
         </tr>
         <tr [nzExpand]="expandSet.has(revisionSet.id)" style="background-color: #ffffff">
@@ -152,7 +155,7 @@
               @for (revision of revisionSetDetails[0].revisions; track revision ) {
                 <div style="padding-left: 30px; background-color: #ffffff">
                   <cvc-activity-revision
-                  [cvcActivityRevision]="castToRevision(revision)"></cvc-activity-revision>
+                  [cvcActivityRevision]="castToRevisionActivityDetailFragment(revision)"></cvc-activity-revision>
                 </div>
               }
             }
@@ -203,6 +206,13 @@
           [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
       }
       @case ('FusionVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('RegionVariant') {
         <cvc-feature-variant-tag
           [variant]="subject"
           [feature]="subject.feature"

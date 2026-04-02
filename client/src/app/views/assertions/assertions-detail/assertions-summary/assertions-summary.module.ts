@@ -73,6 +73,8 @@ import { CvcEntityDescription } from '@app/components/shared/entity-description/
     CvcApprovalNotificationComponent,
     CvcEntityDescription,
     CvcCommentBodyModule,
+    CvcCommentBodyModule,
+    CvcEntityDescription,
   ],
   exports: [AssertionsSummaryPage],
 })

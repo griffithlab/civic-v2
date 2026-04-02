@@ -1032,6 +1032,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
     t.string "study_type"
     t.text "title"
     t.datetime "updated_at", precision: nil
+    t.boolean "deprecated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
