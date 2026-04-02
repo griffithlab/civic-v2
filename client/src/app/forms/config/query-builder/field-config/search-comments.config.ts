@@ -15,6 +15,11 @@ export const searchCommentsFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Comment Text' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
+        {
+          key: 'id',
+          props: { label: 'ID' },
+          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+        },
       ]),
     ])
   )

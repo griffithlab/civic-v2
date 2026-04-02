@@ -13,8 +13,7 @@ export const queryBuilderTabs: QuerySearchPageTab[] = [
   { label: 'Sources', searchEndpoint: 'searchSources' },
   { label: 'Variant Types', searchEndpoint: 'searchVariantTypes' },
   { label: 'Revisions', searchEndpoint: 'searchRevisions' },
-  // TODO: create comments table
-  //{ label: 'Comments', searchEndpoint: 'searchComments' },
+  { label: 'Comments', searchEndpoint: 'searchComments' },
   { label: 'Users', searchEndpoint: 'searchUsers' },
 ]
 

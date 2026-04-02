@@ -9597,6 +9597,21 @@ export type CommentPopoverQuery = { __typename: 'Query', comment?: { __typename:
 
 export type CommentPopoverFragment = { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, deleted: boolean, deletedAt?: any | undefined, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', flagged: boolean, status: EvidenceStatus, id: number, name: string, link: string } | { __typename: 'EvidenceItem', flagged: boolean, status: EvidenceStatus, id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'Feature', deprecated: boolean, flagged: boolean, id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Region', id: number, name: string, link: string } | { __typename: 'RegionVariant', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', deprecated: boolean, sourceType: SourceSource, id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', deprecated: boolean, flagged: boolean, id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
 
+export type CommentsBrowseQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+  sortBy?: InputMaybe<DateSort>;
+  originatingUserId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type CommentsBrowseQuery = { __typename: 'Query', comments: { __typename: 'CommentConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'CommentEdge', cursor: string, node?: { __typename: 'Comment', id: number, name: string, link: string, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor' } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion' } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene' } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Region' } | { __typename: 'RegionVariant' } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover' } | { __typename: 'Variant' } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined }> } };
+
+export type CommentBrowseFieldsFragment = { __typename: 'Comment', id: number, name: string, link: string, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor' } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion' } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene' } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Region' } | { __typename: 'RegionVariant' } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover' } | { __typename: 'Variant' } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
+
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int']['input'];
 }>;
@@ -12797,6 +12812,92 @@ export const CommentPopoverFragmentDoc = gql`
       status
     }
     __typename
+  }
+}
+    `;
+export const CommentBrowseFieldsFragmentDoc = gql`
+    fragment CommentBrowseFields on Comment {
+  id
+  name
+  link
+  comment
+  createdAt
+  commenter {
+    id
+    displayName
+    role
+  }
+  commentable {
+    ... on Assertion {
+      id
+      name
+      link
+    }
+    ... on EvidenceItem {
+      id
+      name
+      link
+    }
+    ... on Feature {
+      id
+      name
+      link
+    }
+    ... on Flag {
+      id
+      name
+      link
+    }
+    ... on GeneVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FusionVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on MolecularProfile {
+      id
+      name
+      link
+    }
+    ... on Revision {
+      id
+      name
+      link
+    }
+    ... on Source {
+      id
+      name
+      link
+    }
+    ... on VariantGroup {
+      id
+      name
+      link
+    }
   }
 }
     `;
@@ -16514,6 +16615,44 @@ export const CommentPopoverDocument = gql`
   })
   export class CommentPopoverGQL extends Apollo.Query<CommentPopoverQuery, CommentPopoverQueryVariables> {
     document = CommentPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CommentsBrowseDocument = gql`
+    query CommentsBrowse($first: Int, $last: Int, $before: String, $after: String, $ids: [Int!], $sortBy: DateSort, $originatingUserId: Int) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    ids: $ids
+    sortBy: $sortBy
+    originatingUserId: $originatingUserId
+  ) {
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...CommentBrowseFields
+      }
+    }
+  }
+}
+    ${CommentBrowseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentsBrowseGQL extends Apollo.Query<CommentsBrowseQuery, CommentsBrowseQueryVariables> {
+    document = CommentsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
