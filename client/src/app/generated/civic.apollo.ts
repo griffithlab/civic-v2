@@ -6261,6 +6261,7 @@ export type QueryRevisionSetsArgs = {
   fieldName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   organizationName?: InputMaybe<Scalars['String']['input']>;
@@ -9985,6 +9986,8 @@ export type RevisionsBrowseQueryVariables = Exact<{
   organizationName?: InputMaybe<Scalars['String']['input']>;
   subjectType?: InputMaybe<ActivitySubjectInput>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+  status?: InputMaybe<RevisionStatus>;
   requestDetails?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
@@ -17406,19 +17409,20 @@ export const RevisionsDocument = gql`
     }
   }
 export const RevisionsBrowseDocument = gql`
-    query RevisionsBrowse($first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserName: String, $excludeRevisionsFromUserId: Int, $organizationName: String, $subjectType: ActivitySubjectInput, $id: Int, $requestDetails: Boolean = false) {
+    query RevisionsBrowse($first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserName: String, $excludeRevisionsFromUserId: Int, $organizationName: String, $subjectType: ActivitySubjectInput, $id: Int, $ids: [Int!], $status: RevisionStatus, $requestDetails: Boolean = false) {
   revisionSets(
     first: $first
     last: $last
     before: $before
     after: $after
-    status: NEW
+    status: $status
     fieldName: $fieldName
     originatingUserName: $originatingUserName
     excludeRevisionsFromUserId: $excludeRevisionsFromUserId
     organizationName: $organizationName
     subjectType: $subjectType
     id: $id
+    ids: $ids
   ) {
     totalCount
     pageInfo {

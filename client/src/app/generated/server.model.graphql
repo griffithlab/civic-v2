@@ -10645,6 +10645,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int

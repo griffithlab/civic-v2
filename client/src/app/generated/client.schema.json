@@ -49812,6 +49812,26 @@
                 "deprecationReason": null
               },
               {
+                "name": "ids",
+                "description": "Filter by internal CIViC ids",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "last",
                 "description": "Returns the last _n_ elements from the list.",
                 "type": {
