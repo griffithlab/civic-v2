@@ -16,6 +16,7 @@ module Types
       argument :source, Types::AdvancedSearch::SourceSearchFilterType, required: false
       argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
       argument :deprecating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
     end
   end
 end

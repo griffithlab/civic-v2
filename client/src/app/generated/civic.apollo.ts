@@ -574,6 +574,7 @@ export type AssertionSearchFilter = {
   assertionDirection?: InputMaybe<AssertionDirectionTypeSearchInput>;
   assertionType?: InputMaybe<AssertionTypeTypeSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   disease?: InputMaybe<DiseaseSearchFilter>;
@@ -1454,6 +1455,7 @@ export type CommentEdge = {
 export type CommentSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<StringSearchInput>;
+  commenter?: InputMaybe<UserSearchFilter>;
   createdAt?: InputMaybe<DateSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   subFilters?: InputMaybe<Array<CommentSearchFilter>>;
@@ -3132,6 +3134,7 @@ export type FeatureInstanceTypesSearchInput = {
 export type FeatureSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<FeatureDeprecationReasonTypeSearchInput>;
@@ -4539,6 +4542,7 @@ export type MolecularProfileNamePreview = {
 export type MolecularProfileSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
@@ -7057,6 +7061,7 @@ export type RevisionResult = {
 
 export type RevisionSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   createdAt?: InputMaybe<DateSearchInput>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   fieldName?: InputMaybe<StringSearchInput>;
@@ -7375,6 +7380,7 @@ export type SourceSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   citation?: InputMaybe<StringSearchInput>;
   citationId?: InputMaybe<StringSearchInput>;
+  comment?: InputMaybe<CommentSearchFilter>;
   deprecated?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;

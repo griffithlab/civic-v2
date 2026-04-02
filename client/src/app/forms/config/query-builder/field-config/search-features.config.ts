@@ -101,6 +101,7 @@ export const searchFeaturesFieldOptions: FormlyFieldConfig[] =
           'searchUsers',
           'Deprecating User'
         ),
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ]),
   ])

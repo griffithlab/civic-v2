@@ -941,6 +941,7 @@ input AssertionSearchFilter {
   assertionDirection: AssertionDirectionTypeSearchInput
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
@@ -2275,6 +2276,7 @@ type CommentEdge {
 input CommentSearchFilter {
   booleanOperator: BooleanOperator
   comment: StringSearchInput
+  commenter: UserSearchFilter
   createdAt: DateSearchInput
   id: IntSearchInput
   subFilters: [CommentSearchFilter!]
@@ -5097,6 +5099,7 @@ input FeatureInstanceTypesSearchInput {
 input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   creatingUser: UserSearchFilter
   deprecatingUser: UserSearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
@@ -7785,6 +7788,7 @@ type MolecularProfileNamePreview {
 input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   creatingUser: UserSearchFilter
   deprecatingUser: UserSearchFilter
   description: StringSearchInput
@@ -12186,6 +12190,7 @@ type RevisionResult {
 
 input RevisionSearchFilter {
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   createdAt: DateSearchInput
   creatingUser: UserSearchFilter
   fieldName: StringSearchInput
@@ -12696,6 +12701,7 @@ input SourceSearchFilter {
   booleanOperator: BooleanOperator
   citation: StringSearchInput
   citationId: StringSearchInput
+  comment: CommentSearchFilter
   deprecated: BooleanSearchInput
   id: IntSearchInput
   isRetracted: BooleanSearchInput

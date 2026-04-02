@@ -28,6 +28,7 @@ module AdvancedSearches
         resolve_activity_user(node.creating_user, "CreateComplexMolecularProfileActivity"),
         resolve_activity_user(node.deprecating_user, "DeprecateComplexMolecularProfileActivity"),
         resolve_revisions_filter(node),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -133,6 +134,13 @@ module AdvancedSearches
       end
       (clause, value) = node.score.resolve_query_for_type("molecular_profiles.evidence_score")
       base_query.where(clause, value)
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      mp_ids = ::MolecularProfile.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: mp_ids)
     end
 
     def resolve_revisions_filter(node)

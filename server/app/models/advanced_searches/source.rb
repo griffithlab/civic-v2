@@ -21,6 +21,7 @@ module AdvancedSearches
         resolve_title_filter(node),
         resolve_deprecated_filter(node),
         resolve_is_retracted_filter(node),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -80,6 +81,13 @@ module AdvancedSearches
       end
       (clause, value) = node.is_retracted.resolve_query_for_type("sources.retracted")
       base_query.where(clause, value)
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      source_ids = ::Source.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: source_ids)
     end
 
     def resolve_journal_filter(node)

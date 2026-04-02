@@ -4701,6 +4701,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
@@ -11995,6 +12007,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "commenter",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -25799,6 +25823,18 @@
               "deprecationReason": null
             },
             {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "entrezId",
               "description": null,
               "type": {
@@ -37890,6 +37926,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "UserSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -56549,6 +56597,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
@@ -59245,6 +59305,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,

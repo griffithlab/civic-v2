@@ -24,6 +24,7 @@ module AdvancedSearches
         resolve_field_name_filter(node),
         resolve_activity_user(node.creating_user, "SuggestRevisionSetActivity"),
         resolve_activity_user(node.moderating_user, [ "AcceptRevisionsActivity",  "RejectRevisionsActivity" ]),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -43,6 +44,13 @@ module AdvancedSearches
       return nil if node.status.nil?
       clause, value = node.status.resolve_query_for_type("revisions.status")
       base_query.where(clause, value)
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      revision_ids = ::Revision.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: revision_ids)
     end
 
     def resolve_field_name_filter(node)

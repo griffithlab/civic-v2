@@ -4519,6 +4519,18 @@
             "deprecationReason": null
           },
           {
+            "name": "comment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CommentSearchFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "creatingUser",
             "description": null,
             "type": {
@@ -12066,6 +12078,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringSearchInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commenter",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserSearchFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -25809,6 +25833,18 @@
             "deprecationReason": null
           },
           {
+            "name": "comment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CommentSearchFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "creatingUser",
             "description": null,
             "type": {
@@ -37907,6 +37943,18 @@
             "type": {
               "kind": "ENUM",
               "name": "BooleanOperator",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "comment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CommentSearchFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -56695,6 +56743,18 @@
             "deprecationReason": null
           },
           {
+            "name": "comment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CommentSearchFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt",
             "description": null,
             "type": {
@@ -59421,6 +59481,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringSearchInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "comment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CommentSearchFilter",
               "ofType": null
             },
             "defaultValue": null,

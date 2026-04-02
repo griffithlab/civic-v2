@@ -33,6 +33,7 @@ module AdvancedSearches
         resolve_deprecation_reason_filter(node),
         resolve_creating_user_filter(node),
         resolve_deprecating_user_filter(node),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -122,6 +123,13 @@ module AdvancedSearches
         .pluck("features.id")
 
       base_query.where(id: matching_ids)
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      feature_ids = ::Feature.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: feature_ids)
     end
 
     def resolve_creating_user_filter(node)

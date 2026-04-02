@@ -64,6 +64,7 @@ export const searchRevisionsFieldOptions: FormlyFieldConfig[] =
           'searchUsers',
           'Moderating User'
         ),
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ])
   )

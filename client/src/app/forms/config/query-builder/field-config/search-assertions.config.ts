@@ -104,6 +104,7 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
         ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
         ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
         ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ]),
   ])

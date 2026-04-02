@@ -37,6 +37,7 @@ module AdvancedSearches
         resolve_activity_user(node.creating_user, "SubmitAsssertionActivity"),
         resolve_activity_user(node.moderating_user, "ModerateAsssertionActivity"),
         resolve_revisions_filter(node),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -130,6 +131,13 @@ module AdvancedSearches
     def resolve_variant_origin_filter(node)
       return nil if node.variant_origin.nil?
       node.variant_origin.resolve_query_for_activerecord_enum(base_query, "assertions.variant_origin")
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      assertion_ids = ::Assertion.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: assertion_ids)
     end
 
     def resolve_revisions_filter(node)

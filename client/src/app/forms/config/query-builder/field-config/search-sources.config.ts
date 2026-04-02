@@ -12,8 +12,10 @@ import {
 import {
   sortByLabel,
   withHideExpression,
+  withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
 import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type SourceSearchFilterREF = {
@@ -76,6 +78,9 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Title' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
+      ]),
+      ...withRecursive([
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ]),
   ])

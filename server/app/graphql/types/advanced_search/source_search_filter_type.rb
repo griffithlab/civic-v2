@@ -12,6 +12,7 @@ module Types
       argument :citation_id, Types::AdvancedSearch::StringSearchInput, required: false
       argument :title, Types::AdvancedSearch::StringSearchInput, required: false
       argument :is_retracted, Types::AdvancedSearch::BooleanSearchInput, required: false
+      argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
     end
   end
 end

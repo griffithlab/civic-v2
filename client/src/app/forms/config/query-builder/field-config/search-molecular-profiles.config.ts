@@ -75,6 +75,7 @@ export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
           'Deprecating User'
         ),
         ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ]),
   ])
