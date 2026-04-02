@@ -17,6 +17,7 @@ module AdvancedSearches
     def resolve_search_fields(node)
       [
         resolve_id_filter(node),
+        resolve_name_filter(node),
         resolve_assertion_type_filter(node),
         resolve_amp_level_filter(node),
         resolve_regulatory_approval_filter(node),
@@ -37,6 +38,12 @@ module AdvancedSearches
         resolve_activity_user(node.moderating_user, "ModerateAsssertionActivity"),
         resolve_revisions_filter(node),
       ]
+    end
+
+    def resolve_name_filter(node)
+      return nil if node.name.nil?
+      clause, value = node.name.resolve_query_for_type("CONCAT('AID', assertions.id::text)")
+      base_query.where(clause, value)
     end
 
     def resolve_assertion_type_filter(node)
