@@ -36,6 +36,7 @@ import { CvcVariantTypesTableModule } from '@app/components/variant-types/varian
 import { CvcPhenotypesTableModule } from '@app/components/phenotypes/phenotypes-table/phenotypes-table.module'
 import { CvcTherapiesTableModule } from '@app/components/therapies/therapies-table/therapies-table.module'
 import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module'
+import { CvcRevisionsTableModule } from '@app/components/revisions/revisions-table/revisions-table.module'
 import { NzResultComponent } from 'ng-zorro-antd/result'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 
@@ -65,6 +66,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     CvcPhenotypesTableModule,
     CvcTherapiesTableModule,
     CvcSourcesTableModule,
+    CvcRevisionsTableModule,
     NzResultComponent,
   ],
 })

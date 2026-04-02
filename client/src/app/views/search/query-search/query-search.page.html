@@ -92,8 +92,9 @@
               cvcTitle="Matching Therapies"></cvc-therapies-table>
           }
           @case ('searchRevisions') {
-            Revisions Ids: {{ ids | json }}
-            <!--          <cvc-revisions-table [ids]="ids" cvcTitle="Matching Revisions"></cvc-revisions-table>-->
+            <cvc-revisions-table
+              [ids]="ids"
+              cvcTitle="Matching Revisions"></cvc-revisions-table>
           }
           @default {
             <p>No table specified for this search endpoint.</p>
