@@ -9,10 +9,10 @@ export const queryBuilderTabs: QuerySearchPageTab[] = [
   { label: 'Variants', searchEndpoint: 'searchVariants' },
   { label: 'Diseases', searchEndpoint: 'searchDiseases' },
   { label: 'Therapies', searchEndpoint: 'searchTherapies' },
-  { label: 'Sources', searchEndpoint: 'searchSources' },
-  { label: 'Revisions', searchEndpoint: 'searchRevisions' },
   { label: 'Phenotypes', searchEndpoint: 'searchPhenotypes' },
+  { label: 'Sources', searchEndpoint: 'searchSources' },
   { label: 'Variant Types', searchEndpoint: 'searchVariantTypes' },
+  { label: 'Revisions', searchEndpoint: 'searchRevisions' },
   // TODO: create comments table
   //{ label: 'Comments', searchEndpoint: 'searchComments' },
   { label: 'Users', searchEndpoint: 'searchUsers' },
