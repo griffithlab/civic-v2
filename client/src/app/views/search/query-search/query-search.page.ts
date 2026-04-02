@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  ElementRef,
   inject,
   model,
   signal,
+  ViewChild,
   WritableSignal,
 } from '@angular/core'
 import { EvidenceStatusFilter, Maybe } from '@app/generated/civic.apollo'
@@ -23,7 +25,7 @@ import {
   QueryBuilderResult,
 } from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { NzResizableModule } from 'ng-zorro-antd/resizable'
+import { NzResizableModule, NzResizeEvent } from 'ng-zorro-antd/resizable'
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
 import { CvcDiseasesTableModule } from '@app/components/diseases/diseases-table/diseases-table.module'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
@@ -82,6 +84,11 @@ export class QuerySearchPage {
   // Make enum available in template
   EvidenceStatusFilter = EvidenceStatusFilter
 
+  // Resizable form panel width (percentage of container)
+  formWidthPercent = signal(50)
+
+  @ViewChild('panelContainer') panelContainer!: ElementRef<HTMLElement>
+
   private router = inject(Router)
   private route = inject(ActivatedRoute)
   private previousEndpoint?: AdvancedSearchEndpoint
@@ -137,5 +144,13 @@ export class QuerySearchPage {
     if (newEndpoint === this.searchEndpoint()) return
     this.searchEndpoint.set(newEndpoint)
     this.permalinkId.set(undefined)
+  }
+
+  onResize({ width }: NzResizeEvent): void {
+    if (width === undefined) return
+    const containerWidth = this.panelContainer.nativeElement.offsetWidth
+    if (containerWidth === 0) return
+    const percent = Math.round((width / containerWidth) * 100)
+    this.formWidthPercent.set(Math.max(20, Math.min(80, percent)))
   }
 }

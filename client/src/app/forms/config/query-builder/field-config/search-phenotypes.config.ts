@@ -1,7 +1,7 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withStatic,
 } from './functions/field-config-helpers'
@@ -18,7 +18,7 @@ export const searchPhenotypesFieldOptions: FormlyFieldConfig[] =
         fieldGroup: SELECT_FIELD_CONFIG['PhenotypeIdSelect'],
       },
     ]),
-    ...sortByKey([
+    ...sortByLabel([
       ...withStatic([
         {
           key: 'name',

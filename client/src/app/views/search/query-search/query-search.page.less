@@ -1,10 +1,74 @@
+@xxl-min: 1600px;
+
 :host {
+  .panel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    @media (min-width: @xxl-min) {
+      flex-direction: row;
+    }
+  }
+
   .query-form {
-    //padding-bottom: 4px;
+    position: relative;
+    min-width: 0;
+
+    @media (max-width: (@xxl-min - 1)) {
+      // Below XXl: full width, ignore resizable inline styles
+      width: 100% !important;
+    }
+
+    // ng-zorro resizable handle base styles (not included in compact theme)
+    ::ng-deep .nz-resizable-handle {
+      position: absolute;
+      z-index: 9;
+      user-select: none;
+    }
+
+    ::ng-deep .nz-resizable-handle-right {
+      top: 0;
+      right: -9px; // center in the 8px gap (half of gap + half of handle width)
+      width: 10px;
+      height: 100%;
+      cursor: ew-resize;
+    }
   }
+
   .query-results {
-    //padding-top: 4px;
+    flex: 1;
+    min-width: 0;
   }
+
+  // Resize handle - only visible at XXl+
+  nz-resize-handle[nzDirection='right'] {
+    display: none;
+
+    @media (min-width: @xxl-min) {
+      display: block;
+    }
+
+    .resize-handle-inner {
+      width: 3px;
+      height: 40px;
+      background-color: #d9d9d9;
+      border-radius: 2px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition:
+        background-color 0.2s,
+        height 0.2s;
+    }
+
+    &:hover .resize-handle-inner {
+      background-color: #1890ff;
+      height: 60px;
+    }
+  }
+
   .instructions-block {
     background-color: #f5f5f5;
     border-radius: 8px;

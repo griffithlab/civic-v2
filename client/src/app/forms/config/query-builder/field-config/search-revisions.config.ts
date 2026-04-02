@@ -1,6 +1,6 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import {
-  sortByKey,
+  sortByLabel,
   withHideExpression,
   withRecursive,
   withStatic,
@@ -34,7 +34,7 @@ export type RevisionSearchFilterREF = {
 export const searchRevisionsDefaultKey = 'fieldName'
 export const searchRevisionsFieldOptions: FormlyFieldConfig[] =
   withHideExpression(
-    sortByKey([
+    sortByLabel([
       ...withStatic([
         {
           key: 'fieldName',
@@ -54,16 +54,11 @@ export const searchRevisionsFieldOptions: FormlyFieldConfig[] =
         {
           key: 'subjectType',
           props: { label: 'Subject Type' },
-          fieldGroup:
-            INPUT_FIELD_CONFIG['ModeratedEntitiesTypeSearchInput'],
+          fieldGroup: INPUT_FIELD_CONFIG['ModeratedEntitiesTypeSearchInput'],
         },
       ]),
       ...withRecursive([
-        ...getQueryFieldConfig(
-          'creatingUser',
-          'searchUsers',
-          'Creating User'
-        ),
+        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
         ...getQueryFieldConfig(
           'moderatingUser',
           'searchUsers',

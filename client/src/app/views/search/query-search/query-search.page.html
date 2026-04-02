@@ -13,23 +13,30 @@
     </nz-tabs>
   </nz-col>
 
-  <!-- QUERY BUILDER FORM -->
-  <nz-col
-    nzXs="24"
-    nzXXl="12"
-    class="query-form">
-    <cvc-query-builder-form
-      [searchEndpoint]="searchEndpoint()"
-      [permalinkId]="permalinkId()"
-      (searchResults)="searchResults.set($event)">
-    </cvc-query-builder-form>
-  </nz-col>
-
-  <!-- RESULTS TABLE -->
-  <nz-col
-    nzXs="24"
-    nzXXl="12"
-    class="query-results">
+  <!-- QUERY BUILDER FORM + RESULTS -->
+  <nz-col nzSpan="24">
+    <div
+      class="panel-container"
+      #panelContainer>
+      <div
+        class="query-form"
+        nz-resizable
+        nzBounds="parent"
+        [nzMinWidth]="200"
+        (nzResize)="onResize($event)"
+        [style.width.%]="formWidthPercent()">
+        <nz-resize-handle
+          nzDirection="right"
+          nzCursorType="window">
+          <div class="resize-handle-inner"></div>
+        </nz-resize-handle>
+        <cvc-query-builder-form
+          [searchEndpoint]="searchEndpoint()"
+          [permalinkId]="permalinkId()"
+          (searchResults)="searchResults.set($event)">
+        </cvc-query-builder-form>
+      </div>
+      <div class="query-results">
     @let result = searchResults();
     @if (result) {
       @if (result.status === 'ok') {
@@ -179,6 +186,8 @@
       <!-- initial search state, show instructions -->
       <ng-container *ngTemplateOutlet="instructions"></ng-container>
     }
+      </div>
+    </div>
   </nz-col>
 </nz-row>
 
