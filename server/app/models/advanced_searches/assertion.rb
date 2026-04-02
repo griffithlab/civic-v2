@@ -51,7 +51,7 @@ module AdvancedSearches
 
     def resolve_regulatory_approval_filter(node)
       return nil if node.regulatory_approval.nil?
-      clause, value = node.regulatory_approval.resolve_query_for_type("assertions.regulatory_approval")
+      clause, value = node.regulatory_approval.resolve_query_for_type("assertions.fda_regulatory_approval")
       base_query.where(clause, value)
     end
 
