@@ -2,7 +2,9 @@
 <nz-row
   [nzGutter]="[4, 0]"
   class="filter-row">
-  <nz-col nzFlex="175px">
+  <nz-col
+    nzFlex="175px"
+    [ngClass]="{ 'anchor-col': isRootFilter }">
     <nz-form-control>
       <nz-select
         [ngModel]="props.selectedKey"
