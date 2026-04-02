@@ -3,6 +3,10 @@ module AdvancedSearches
     include AdvancedSearches::Shared::CreatedAt
     include AdvancedSearches::Shared::Activities
 
+    def results
+      process_node(query).distinct.pluck(:revision_set_id)
+    end
+
     def base_query
       ::Revision
     end
@@ -31,7 +35,7 @@ module AdvancedSearches
 
     def resolve_subject_id_filter(node)
       return nil if node.subject_id.nil?
-      clause, value = node.subject_id.resolve_query_for_type("revisions.subject_type")
+      clause, value = node.subject_id.resolve_query_for_type("revisions.subject_id")
       base_query.where(clause, value)
     end
 
