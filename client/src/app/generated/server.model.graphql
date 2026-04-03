@@ -618,7 +618,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   description: String!
   descriptionReplaceEidWithSource: String!
   descriptionWithNames: String!
@@ -2205,6 +2205,62 @@ Segment of a comment that can either be text or an object to be rendered as a ta
 union CommentBodySegment = CommentTagSegment | CommentTagSegmentDeprecated | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
 
 """
+The connection type for Comment.
+"""
+type CommentConnection {
+  """
+  A list of edges.
+  """
+  edges: [CommentEdge!]!
+
+  """
+  List of entities mentioned in this comment thread.
+  """
+  mentionedEntities: [CommentTagSegment!]!
+
+  """
+  List of roles mentioned in this comment thread
+  """
+  mentionedRoles: [CommentTagSegment!]!
+
+  """
+  List of users mentioned in this comment thread.
+  """
+  mentionedUsers: [User!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Comment!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+
+  """
+  When filtered on a subject, the total number of comments for that subject,
+  irregardless of other filters. Returns null when there is no subject.
+  """
+  unfilteredCountForSubject: Int
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
+}
+
+"""
 An edge in a connection.
 """
 type CommentEdge {
@@ -2335,7 +2391,7 @@ interface Commentable {
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   id: Int!
   lastCommentEvent: Event
   link: String!
@@ -2365,62 +2421,6 @@ input CommentableInput {
   ID of the entity to comment on.
   """
   id: Int!
-}
-
-"""
-The connection type for Comment.
-"""
-type CommentsConnection {
-  """
-  A list of edges.
-  """
-  edges: [CommentEdge!]!
-
-  """
-  List of entities mentioned in this comment thread.
-  """
-  mentionedEntities: [CommentTagSegment!]!
-
-  """
-  List of roles mentioned in this comment thread
-  """
-  mentionedRoles: [CommentTagSegment!]!
-
-  """
-  List of users mentioned in this comment thread.
-  """
-  mentionedUsers: [User!]!
-
-  """
-  A list of nodes.
-  """
-  nodes: [Comment!]!
-
-  """
-  Total number of pages, based on filtered count and pagesize.
-  """
-  pageCount: Int!
-
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  The total number of records in this filtered collection.
-  """
-  totalCount: Int!
-
-  """
-  When filtered on a subject, the total number of comments for that subject,
-  irregardless of other filters. Returns null when there is no subject.
-  """
-  unfilteredCountForSubject: Int
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 """
@@ -3650,7 +3650,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   description: String!
   descriptionReplaceEidWithSource: String!
   descriptionWithNames: String!
@@ -4242,7 +4242,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateFeatureActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateFeatureActivity
@@ -4603,7 +4603,7 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -4909,7 +4909,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateFeatureActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateFeatureActivity
@@ -5286,7 +5286,7 @@ type Flag implements Commentable & EventOriginObject & EventSubject {
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   createdAt: ISO8601DateTime!
 
   """
@@ -5628,7 +5628,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateFeatureActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateFeatureActivity
@@ -6010,7 +6010,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -6282,7 +6282,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateFeatureActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateFeatureActivity
@@ -6625,7 +6625,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   coordinates: VariantCoordinate
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
@@ -7538,7 +7538,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   complexMolecularProfileCreationActivity: CreateComplexMolecularProfileActivity
   complexMolecularProfileDeprecationActivity: DeprecateComplexMolecularProfileActivity
   deprecated: Boolean!
@@ -9940,7 +9940,7 @@ type Query {
     Limit to comments on a certain subject.
     """
     subject: CommentableInput
-  ): CommentsConnection!
+  ): CommentConnection!
   contributors(
     """
     The entity to to return contributors for
@@ -11375,7 +11375,7 @@ type Region implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateFeatureActivity
   cytogeneticRegions: [CytogeneticRegion!]
   deprecated: Boolean!
@@ -11720,7 +11720,7 @@ type RegionVariant implements Commentable & EventOriginObject & EventSubject & F
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -12132,7 +12132,7 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   createdAt: ISO8601DateTime!
   creationActivity: SuggestRevisionSetActivity
   currentValue: JSON
@@ -12564,7 +12564,7 @@ type Source implements Commentable & EventSubject {
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   deprecated: Boolean!
   displayType: String!
 
@@ -12744,7 +12744,7 @@ type SourcePopover implements Commentable & EventSubject {
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   deprecated: Boolean!
   displayType: String!
 
@@ -14703,7 +14703,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -15067,7 +15067,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   description: String!
 
   """
@@ -15429,7 +15429,7 @@ interface VariantInterface implements Commentable & EventOriginObject & EventSub
     Sort order for the comments. Defaults to most recent.
     """
     sortBy: DateSort
-  ): CommentsConnection!
+  ): CommentConnection!
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity

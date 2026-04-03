@@ -1,5 +1,6 @@
 module Types::Connections
   class CommentsConnection < Types::BaseConnection
+    graphql_name "CommentConnection"
     attr_reader :comment_subject
 
     description "Connection type for objects with comments including additional metadata."

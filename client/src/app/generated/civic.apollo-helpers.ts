@@ -651,6 +651,19 @@ export type CommentActivityFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CommentConnectionKeySpecifier = ('edges' | 'mentionedEntities' | 'mentionedRoles' | 'mentionedUsers' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'unfilteredCountForSubject' | 'uniqueCommenters' | CommentConnectionKeySpecifier)[];
+export type CommentConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	mentionedEntities?: FieldPolicy<any> | FieldReadFunction<any>,
+	mentionedRoles?: FieldPolicy<any> | FieldReadFunction<any>,
+	mentionedUsers?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	unfilteredCountForSubject?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueCommenters?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CommentEdgeKeySpecifier = ('cursor' | 'node' | CommentEdgeKeySpecifier)[];
 export type CommentEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -718,19 +731,6 @@ export type CommentableFieldPolicy = {
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type CommentsConnectionKeySpecifier = ('edges' | 'mentionedEntities' | 'mentionedRoles' | 'mentionedUsers' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'unfilteredCountForSubject' | 'uniqueCommenters' | CommentsConnectionKeySpecifier)[];
-export type CommentsConnectionFieldPolicy = {
-	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	mentionedEntities?: FieldPolicy<any> | FieldReadFunction<any>,
-	mentionedRoles?: FieldPolicy<any> | FieldReadFunction<any>,
-	mentionedUsers?: FieldPolicy<any> | FieldReadFunction<any>,
-	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	unfilteredCountForSubject?: FieldPolicy<any> | FieldReadFunction<any>,
-	uniqueCommenters?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ContributingUserKeySpecifier = ('lastActionDate' | 'totalActionCount' | 'uniqueActions' | 'user' | ContributingUserKeySpecifier)[];
 export type ContributingUserFieldPolicy = {
@@ -3284,6 +3284,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | CommentActivityKeySpecifier | (() => undefined | CommentActivityKeySpecifier),
 		fields?: CommentActivityFieldPolicy,
 	},
+	CommentConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentConnectionKeySpecifier | (() => undefined | CommentConnectionKeySpecifier),
+		fields?: CommentConnectionFieldPolicy,
+	},
 	CommentEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentEdgeKeySpecifier | (() => undefined | CommentEdgeKeySpecifier),
 		fields?: CommentEdgeFieldPolicy,
@@ -3315,10 +3319,6 @@ export type StrictTypedTypePolicies = {
 	Commentable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentableKeySpecifier | (() => undefined | CommentableKeySpecifier),
 		fields?: CommentableFieldPolicy,
-	},
-	CommentsConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | CommentsConnectionKeySpecifier | (() => undefined | CommentsConnectionKeySpecifier),
-		fields?: CommentsConnectionFieldPolicy,
 	},
 	ContributingUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ContributingUserKeySpecifier | (() => undefined | ContributingUserKeySpecifier),
