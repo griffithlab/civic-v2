@@ -1,0 +1,208 @@
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <nz-card
+    [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
+    <nz-card
+      [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+  <nz-table
+    #virtualTable
+    nzSize="small"
+    [nzData]="(row$ | ngrxPush) || []"
+    [nzLoading]="!(row$ | ngrxPush)"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '800px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
+      <tr class="col-header-row">
+        <th
+          nzWidth="125px"
+          nzLeft>
+          Comment
+        </th>
+        <th nzWidth="170px">Subject</th>
+        <th nzWidth="325px">Comment Text</th>
+        <th nzWidth="200px">Commenter</th>
+        <th
+          nzWidth="100px"
+          nzRight
+          [nzColumnKey]="sortColumns.Created"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nzSortOrder="descend">
+          Created
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template
+        nz-virtual-scroll
+        let-comment
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-comment-tag
+              [comment]="comment"
+              [enablePopover]="!isScrolling"></cvc-comment-tag>
+          </td>
+          <td>
+            <ng-container
+              *ngTemplateOutlet="
+                subject;
+                context: {
+                  $implicit: comment.commentable,
+                  isScrolling: isScrolling,
+                }
+              ">
+            </ng-container>
+          </td>
+          <td
+            class="overflow-ellipsis"
+            nz-tooltip
+            [nzTooltipTitle]="!isScrolling ? comment.comment : ''">
+            {{ comment.comment }}
+          </td>
+          <td>
+            <cvc-user-tag
+              [user]="comment.commenter"
+              [enablePopover]="!isScrolling">
+            </cvc-user-tag>
+          </td>
+          <td nzRight>
+            {{ comment.createdAt | timeAgo }}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<ng-template
+  #subject
+  let-subject
+  let-isScrolling="isScrolling">
+  @switch (subject.__typename) {
+    @case ('Assertion') {
+      <cvc-assertion-tag
+        [assertion]="subject"
+        [enablePopover]="!isScrolling"></cvc-assertion-tag>
+    }
+    @case ('EvidenceItem') {
+      <cvc-evidence-tag
+        [evidence]="subject"
+        [enablePopover]="!isScrolling"></cvc-evidence-tag>
+    }
+    @case ('Feature') {
+      <cvc-feature-tag
+        [feature]="subject"
+        [enablePopover]="!isScrolling"></cvc-feature-tag>
+    }
+    @case ('Flag') {
+      <cvc-flag-tag
+        [flag]="subject"
+        [enablePopover]="!isScrolling"></cvc-flag-tag>
+    }
+    @case ('GeneVariant') {
+      <cvc-feature-variant-tag
+        [variant]="subject"
+        [feature]="subject.feature"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+    }
+    @case ('FactorVariant') {
+      <cvc-feature-variant-tag
+        [variant]="subject"
+        [feature]="subject.feature"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+    }
+    @case ('FusionVariant') {
+      <cvc-feature-variant-tag
+        [variant]="subject"
+        [feature]="subject.feature"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+    }
+    @case ('MolecularProfile') {
+      <cvc-molecular-profile-tag
+        [molecularProfile]="subject"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
+    }
+    @case ('Revision') {
+      <cvc-revision-tag
+        [revision]="$any(subject)"
+        [enablePopover]="!isScrolling"></cvc-revision-tag>
+    }
+    @case ('Source') {
+      <cvc-source-tag
+        mode="concise"
+        [source]="$any(subject)"
+        [enablePopover]="!isScrolling"></cvc-source-tag>
+    }
+    @case ('VariantGroup') {
+      <cvc-variant-group-tag
+        [variantgroup]="subject"
+        [enablePopover]="!isScrolling"></cvc-variant-group-tag>
+    }
+    @default {
+      <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
+    }
+  }
+</ng-template>
+
+<ng-template #titleTemplate>
+  <ng-container *ngIf="cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
+  </ng-container>
+  <span class="table-info">
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+  </span>
+</ng-template>
+
+<!-- card's extra template -->
+<ng-template #extraTemplate>
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading...</span>
+  </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+</ng-template>

@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -19,15 +21,13 @@ import {
   AssertionsBrowseGQL,
   AssertionsBrowseQuery,
   AssertionsBrowseQueryVariables,
+  AssertionSignificance,
   AssertionSortColumns,
-  EvidenceSignificance,
   EvidenceDirection,
   EvidenceStatusFilter,
   EvidenceType,
   Maybe,
   PageInfo,
-  EvidenceLevel,
-  AssertionSignificance,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -39,7 +39,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeUntil,
   takeWhile,
   withLatestFrom,
@@ -55,7 +54,7 @@ import { ActivatedRoute } from '@angular/router'
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcAssertionsTableComponent implements OnInit {
+export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
@@ -69,6 +68,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() approvingOrganizationId: Maybe<number>
+  @Input() ids: Maybe<number[]>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -152,14 +152,26 @@ export class CvcAssertionsTableComponent implements OnInit {
       if (params.has('assertionType') && params.get('assertionType') != null) {
         this.assertionTypeInput = params.get('assertionType') as EvidenceType
       }
-      if (params.has('assertionDirection') && params.get('assertionDirection') != null) {
-        this.assertionDirectionInput = params.get('assertionDirection') as EvidenceDirection
+      if (
+        params.has('assertionDirection') &&
+        params.get('assertionDirection') != null
+      ) {
+        this.assertionDirectionInput = params.get(
+          'assertionDirection'
+        ) as EvidenceDirection
       }
       if (params.has('significance') && params.get('significance') != null) {
-        this.SignificanceInput = params.get('significance') as AssertionSignificance
+        this.SignificanceInput = params.get(
+          'significance'
+        ) as AssertionSignificance
       }
-      if (params.has('molecularProfileName') && params.get('molecularProfileName') != null) {
-        this.molecularProfileNameInput = params.get('molecularProfileName') as string
+      if (
+        params.has('molecularProfileName') &&
+        params.get('molecularProfileName') != null
+      ) {
+        this.molecularProfileNameInput = params.get(
+          'molecularProfileName'
+        ) as string
       }
       if (params.has('diseaseName') && params.get('diseaseName') != null) {
         this.diseaseNameInput = params.get('diseaseName') as string
@@ -188,6 +200,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       assertionDirection: this.assertionDirectionInput,
       significance: this.SignificanceInput,
       diseaseName: this.diseaseNameInput,
+      ids: this.ids,
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -280,6 +293,7 @@ export class CvcAssertionsTableComponent implements OnInit {
 
   // refetch results, replacing current rows
   refresh() {
+    if (!this.queryRef) return
     this.isLoading = true
     this.loadedPages = 1
     var aid: Maybe<number>
@@ -308,6 +322,7 @@ export class CvcAssertionsTableComponent implements OnInit {
         : undefined,
       significance: this.SignificanceInput ? this.SignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
+      ids: this.ids ? this.ids : undefined,
     })
   }
 
@@ -339,6 +354,11 @@ export class CvcAssertionsTableComponent implements OnInit {
     return data?.id
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
+  }
   ngOnDestroy() {
     this.queryParamsSub$.unsubscribe()
     this.destroy$.next()

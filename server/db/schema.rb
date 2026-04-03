@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -299,12 +299,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
   create_table "chats_chats", force: :cascade do |t|
     t.string "chat_type", default: "curation", null: false
     t.datetime "created_at", null: false
+    t.boolean "is_public", default: false, null: false
     t.bigint "model_id"
     t.string "name"
+    t.string "public_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["chat_type"], name: "index_chats_chats_on_chat_type"
     t.index ["model_id"], name: "index_chats_chats_on_model_id"
+    t.index ["public_id"], name: "index_chats_chats_on_public_id", unique: true, where: "(public_id IS NOT NULL)"
     t.index ["user_id"], name: "index_chats_chats_on_user_id"
   end
 
@@ -399,13 +402,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
     t.index ["source_id"], name: "index_clinical_trials_sources_on_source_id"
   end
 
+  create_table "clinvar_api_keys", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.text "api_key", null: false
+    t.datetime "created_at", null: false
+    t.text "note"
+    t.bigint "organization_id", null: false
+    t.integer "star_rating"
+    t.datetime "updated_at", null: false
+    t.index ["api_key"], name: "index_clinvar_api_keys_on_api_key", unique: true
+    t.index ["organization_id"], name: "index_clinvar_api_keys_on_organization_id"
+  end
+
   create_table "clinvar_batch_entries", force: :cascade do |t|
     t.bigint "approval_id"
     t.datetime "approval_last_reviewed", null: false
     t.bigint "assertion_id", null: false
     t.bigint "clinvar_batch_submission_id", null: false
     t.datetime "created_at", null: false
-    t.string "status"
+    t.datetime "date_last_evaluated", null: false
+    t.string "status", null: false
     t.jsonb "submission_errors"
     t.datetime "updated_at", null: false
     t.index ["approval_id"], name: "index_clinvar_batch_entries_on_approval_id"
@@ -417,12 +433,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
 
   create_table "clinvar_batch_submissions", force: :cascade do |t|
     t.text "batch_name", null: false
+    t.bigint "clinvar_api_key_id", null: false
     t.datetime "created_at", null: false
     t.bigint "organization_id", null: false
     t.string "status"
     t.text "submission_id", null: false
     t.datetime "submitted_at"
     t.datetime "updated_at", null: false
+    t.index ["clinvar_api_key_id"], name: "index_clinvar_batch_submissions_on_clinvar_api_key_id"
     t.index ["organization_id"], name: "index_clinvar_batch_submissions_on_organization_id"
     t.index ["status"], name: "index_clinvar_batch_submissions_on_status"
   end
@@ -1015,6 +1033,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
     t.text "citation"
     t.string "citation_id", null: false
     t.datetime "created_at", precision: nil
+    t.boolean "deprecated", default: false, null: false
     t.string "full_journal_title"
     t.boolean "fully_curated", default: false, null: false
     t.boolean "is_review"
@@ -1032,7 +1051,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
     t.string "study_type"
     t.text "title"
     t.datetime "updated_at", precision: nil
-    t.boolean "deprecated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
@@ -1279,8 +1297,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_181129) do
   add_foreign_key "chats_messages", "chats_models", column: "model_id"
   add_foreign_key "chats_messages", "chats_tool_calls", column: "tool_call_id"
   add_foreign_key "chats_tool_calls", "chats_messages", column: "message_id"
+  add_foreign_key "clinvar_api_keys", "organizations"
   add_foreign_key "clinvar_batch_entries", "assertions"
   add_foreign_key "clinvar_batch_entries", "clinvar_batch_submissions"
+  add_foreign_key "clinvar_batch_submissions", "clinvar_api_keys"
   add_foreign_key "clinvar_batch_submissions", "organizations"
   add_foreign_key "clinvar_submission_responses", "clinvar_batch_submissions"
   add_foreign_key "comments", "users"

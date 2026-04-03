@@ -6,6 +6,7 @@ module Types
       argument :comment, Types::AdvancedSearch::StringSearchInput, required: false
       argument :created_at, Types::AdvancedSearch::DateSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
+      argument :commenter, Types::AdvancedSearch::UserSearchFilterType, required: false
     end
   end
 end

@@ -1,5 +1,6 @@
 import { relayStylePagination } from '@apollo/client/utilities'
 import { StrictTypedTypePolicies } from '@app/generated/civic.apollo-helpers'
+import { CvcAdvancedSearchResultPolicy } from '@app/graphql/policies/advanced-search-result.policy'
 
 export const CvcTypePolicies: StrictTypedTypePolicies = {
   Gene: {
@@ -193,4 +194,5 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
       ])
     },
   },
+  AdvancedSearchResult: CvcAdvancedSearchResultPolicy as any,
 }

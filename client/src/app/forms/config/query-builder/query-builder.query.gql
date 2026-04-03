@@ -1,0 +1,101 @@
+query GetOriginalQuery($permalinkId: String!) {
+  searchByPermalink(permalinkId: $permalinkId) {
+    searchEndpoint
+    resultIds
+    originalQuery
+    originalVariables
+    permalinkId
+    searchEndpoint
+    formQuery @client
+  }
+}
+
+fragment QueryBuilderResponseFields on AdvancedSearchResult {
+  permalinkId
+  searchEndpoint
+  resultIds
+}
+
+query searchEvidenceItems(
+  $query: EvidenceItemSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchEvidenceItems(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchAssertions(
+  $query: AssertionSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchAssertions(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
+  searchDiseases(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchFeatures($query: FeatureSearchFilter!, $createPermalink: Boolean) {
+  searchFeatures(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchMolecularProfiles(
+  $query: MolecularProfileSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchMolecularProfiles(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchPhenotypes(
+  $query: PhenotypeSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchPhenotypes(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchSources($query: SourceSearchFilter!, $createPermalink: Boolean) {
+  searchSources(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchTherapies($query: TherapySearchFilter!, $createPermalink: Boolean) {
+  searchTherapies(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchUsers($query: UserSearchFilter!, $createPermalink: Boolean) {
+  searchUsers(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
+  searchVariants(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchComments($query: CommentSearchFilter!, $createPermalink: Boolean) {
+  searchComments(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchRevisions(
+  $query: RevisionSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchRevisions(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+query searchVariantTypes(
+  $query: VariantTypeSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchVariantTypes(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}

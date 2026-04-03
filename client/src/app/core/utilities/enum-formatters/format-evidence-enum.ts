@@ -1,22 +1,24 @@
 import {
-  AssertionSignificance,
+  AmpLevel,
   AssertionDirection,
+  AssertionSignificance,
   AssertionType,
-  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
+  EvidenceSignificance,
+  EvidenceStatus,
   EvidenceType,
+  ReferenceBuild,
   SourceSource,
   TherapyInteraction,
   VariantOrigin,
-  AmpLevel,
-  ReferenceBuild,
   RegionVariantName,
 } from '@app/generated/civic.apollo'
 
 export type InputEnum =
   | EvidenceSignificance
   | EvidenceDirection
+  | EvidenceStatus
   | EvidenceType
   | AssertionSignificance
   | AssertionDirection

@@ -1,0 +1,246 @@
+<nz-row [nzGutter]="[8, 4]">
+  <!-- TABS -->
+  <nz-col nzSpan="24">
+    <!--<p><b>Permalink Id:</b> {{ permalinkId() }}</p>-->
+    <nz-tabs
+      nzType="card"
+      nzSize="small"
+      (nzSelectedIndexChange)="onTabIndexChange($event)"
+      [nzSelectedIndex]="selectedTabIndex()">
+      @for (tab of tabs; track tab) {
+        <nz-tab [nzTitle]="tab.label"> </nz-tab>
+      }
+    </nz-tabs>
+  </nz-col>
+
+  <!-- QUERY BUILDER FORM + RESULTS -->
+  <nz-col nzSpan="24">
+    <div
+      class="panel-container"
+      #panelContainer>
+      <div
+        class="query-form"
+        nz-resizable
+        nzBounds="parent"
+        [nzMinWidth]="200"
+        (nzResize)="onResize($event)"
+        [style.width.%]="formWidthPercent()">
+        <nz-resize-handle
+          nzDirection="right"
+          nzCursorType="window">
+          <div class="resize-handle-inner"></div>
+        </nz-resize-handle>
+        <cvc-query-builder-form
+          [searchEndpoint]="searchEndpoint()"
+          [permalinkId]="permalinkId()"
+          (searchResults)="searchResults.set($event)">
+        </cvc-query-builder-form>
+      </div>
+      <div class="query-results">
+    @let result = searchResults();
+    @if (result) {
+      @if (result.status === 'ok') {
+        @let ids = result.resultIds;
+        @switch (result.endpoint) {
+          @case ('searchAssertions') {
+            <cvc-assertions-table
+              [ids]="ids"
+              [status]="EvidenceStatusFilter.All"
+              cvcTitle="Matching Assertions"></cvc-assertions-table>
+          }
+          @case ('searchEvidenceItems') {
+            <cvc-evidence-table
+              [ids]="ids"
+              cvcTitle="Matching Evidence Items"></cvc-evidence-table>
+          }
+          @case ('searchDiseases') {
+            <cvc-diseases-table
+              [ids]="ids"
+              cvcTitle="Matching Diseases"></cvc-diseases-table>
+          }
+          @case ('searchMolecularProfiles') {
+            <cvc-molecular-profiles-table
+              [ids]="ids"
+              cvcTitle="Matching Molecular Profiles"></cvc-molecular-profiles-table>
+          }
+          @case ('searchFeatures') {
+            <cvc-features-table
+              [ids]="ids"
+              cvcTitle="Matching Features"></cvc-features-table>
+          }
+          @case ('searchVariants') {
+            <cvc-variants-table
+              [ids]="ids"
+              cvcTitle="Matching Variants"></cvc-variants-table>
+          }
+          @case ('searchUsers') {
+            <cvc-users-table
+              [ids]="ids"
+              cvcTitle="Matching Users"></cvc-users-table>
+          }
+          @case ('searchVariantTypes') {
+            <cvc-variant-types-table
+              [ids]="ids"
+              cvcTitle="Matching Variant Types"></cvc-variant-types-table>
+          }
+          @case ('searchPhenotypes') {
+            <cvc-phenotypes-table
+              [ids]="ids"
+              cvcTitle="Matching Phenotypes"></cvc-phenotypes-table>
+          }
+          @case ('searchSources') {
+            <cvc-sources-table
+              [ids]="ids"
+              cvcTitle="Matching Sources"></cvc-sources-table>
+          }
+          @case ('searchTherapies') {
+            <cvc-therapies-table
+              [ids]="ids"
+              cvcTitle="Matching Therapies"></cvc-therapies-table>
+          }
+          @case ('searchRevisions') {
+            <cvc-revisions-table
+              [ids]="ids"
+              cvcTitle="Matching Revisions"></cvc-revisions-table>
+          }
+          @case ('searchComments') {
+            <cvc-comments-table
+              [ids]="ids"
+              cvcTitle="Matching Comments"></cvc-comments-table>
+          }
+          @default {
+            <p>No table specified for this search endpoint.</p>
+          }
+        }
+      } @else {
+        <!-- null results & error notices -->
+        <div
+          [cvcAutoHeightDiv]="34"
+          cvcAutoHeightTarget="viewport"
+          style="border: 1px solid #f0f0f0; border-radius: 2px; padding: 50px">
+          @if (result.status === 'empty') {
+            <nz-empty [nzNotFoundContent]="notFoundContent"></nz-empty>
+            <ng-template #notFoundContent>
+              <span>
+                No results were found matching your query, try specifying wider
+                search parameters.
+              </span>
+            </ng-template>
+          }
+          @if (result.status === 'reset') {
+            <!-- show instructions on reset -->
+            <ng-container *ngTemplateOutlet="instructions"></ng-container>
+          }
+          @if (result.status === 'error') {
+            @let err = result.error;
+            <nz-result
+              nzStatus="error"
+              nzTitle="Query Error"
+              [nzSubTitle]="err.message">
+              <div
+                nz-result-extra
+                style="text-align: left">
+                @if (err.networkError; as ne) {
+                  <p>
+                    <strong>Network Error:</strong>
+                    {{ $any(ne).status }} {{ $any(ne).statusText }}
+                  </p>
+                  @if ($any(ne).error?.errors?.length) {
+                    <p><strong>Server errors:</strong></p>
+                    @for (serverErr of $any(ne).error.errors; track $index) {
+                      <p>{{ serverErr.message }}</p>
+                    }
+                  }
+                }
+                @if (err.graphQLErrors.length) {
+                  <p><strong>GraphQL errors:</strong></p>
+                  @for (gqlErr of err.graphQLErrors; track $index) {
+                    <p>{{ gqlErr.message }}</p>
+                    @if ($any(gqlErr.extensions)?.problems?.length) {
+                      @for (
+                        problem of $any(gqlErr.extensions).problems;
+                        track $index
+                      ) {
+                        <p>
+                          <code>{{ problem.path?.join(' → ') }}</code
+                          >:
+                          {{ problem.explanation }}
+                        </p>
+                      }
+                    }
+                  }
+                }
+                @if (err.clientErrors.length) {
+                  <p><strong>Client errors:</strong></p>
+                  @for (clientErr of err.clientErrors; track $index) {
+                    <p>{{ clientErr.message }}</p>
+                  }
+                }
+                @if (err.protocolErrors.length) {
+                  <p><strong>Protocol errors:</strong></p>
+                  @for (protocolErr of err.protocolErrors; track $index) {
+                    <p>{{ protocolErr.message }}</p>
+                  }
+                }
+              </div>
+            </nz-result>
+          }
+        </div>
+      }
+    } @else {
+      <!-- initial search state, show instructions -->
+      <ng-container *ngTemplateOutlet="instructions"></ng-container>
+    }
+      </div>
+    </div>
+  </nz-col>
+</nz-row>
+
+<ng-template #instructions>
+  <!-- initial search state, show instructions -->
+
+  <div
+    [cvcAutoHeightDiv]="28"
+    cvcAutoHeightTarget="viewport"
+    style="border: 1px solid #f0f0f0; border-radius: 2px; padding: 25px 50px">
+    <h2>CIViC Advanced Search</h2>
+    <div class="instructions-block">
+      <p>
+        Use Advanced Search to locate CIViC entities and artifacts by specifying
+        filters for the attributes relevant to your interest.
+      </p>
+      <h3>Instructions</h3>
+      <p>
+        Select the entity or artifact you wish to search using the tabs. Note
+        that on narrower displays, some tabs may be hidden. In this case, you
+        may select those tabs by scrolling the tabs horizontally, or by clicking
+        the
+        <span
+          style="border: 1px solid #ccc; border-radius: 2px; padding: 2px 4px"
+          >...</span
+        >
+        overflow button and selecting from the dropdown menu.
+      </p>
+      <p>
+        Click the 'Add Filter' button to create an initial attribute filter.
+        Then use the 'Select Attribute' selector to choose an attribute you wish
+        to specify for your search. You may specify as many filters as you wish
+        but keep in mind that the narrower your search, the less likely it will
+        return results.
+      </p>
+      <p>
+        The <strong>Match</strong> toggle in the header switches between
+        <i>all</i> and <i>any</i> modes. With <i>all</i> selected, the search
+        will only return entities where all specified filters match. With
+        <i>any</i> selected, searches will return entities if any of the
+        specified filters match.
+      </p>
+      <p>
+        After you've specified your search, click the 'Search' button to query
+        the CIViC knowledgebase. Search results will appear in a table. On wide
+        screens, the table will appear adjacent to the query builder. On
+        narrower screens, the results table will appear beneath.
+      </p>
+    </div>
+  </div>
+</ng-template>

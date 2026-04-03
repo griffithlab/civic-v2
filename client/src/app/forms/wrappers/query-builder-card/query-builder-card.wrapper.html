@@ -1,0 +1,58 @@
+<nz-card
+  [nzTitle]="wrapperOptions.title"
+  [nzSize]="wrapperOptions.size ?? 'default'"
+  [nzExtra]="operatorSelector"
+  [nzActions]="[actionSearch]"
+  class="large-card">
+  @if (subFiltersField) {
+    <formly-field [field]="subFiltersField"></formly-field>
+  } @else {
+    <span style="color: red">No subfilters field found</span>
+  }
+</nz-card>
+<ng-template #actionSearch>
+  <nz-row
+    [nzGutter]="[8, 8]"
+    class="form-actions">
+    <nz-col nzSpan="4">
+      <button
+        nz-button
+        nzBlock
+        nzType="default"
+        nzSize="default"
+        (click)="onClearForm()">
+        Clear Query
+      </button>
+    </nz-col>
+
+    <nz-col
+      nzSpan="12"
+      class="form-messages">
+      @if (isFormInvalid) {
+        <span class="error-msg">Please complete all filter values before searching.</span>
+      }
+    </nz-col>
+    <nz-col nzSpan="8">
+      <button
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default"
+        (click)="onSubmitQuery()">
+        Search
+      </button>
+    </nz-col>
+  </nz-row>
+</ng-template>
+
+<ng-template #operatorSelector>
+  @if (operatorField) {
+    <nz-space nzSize="small">
+      <span *nzSpaceItem>Match</span>
+      <formly-field
+        *nzSpaceItem
+        [field]="operatorField"></formly-field>
+      <span *nzSpaceItem>of the following conditions</span>
+    </nz-space>
+  }
+</ng-template>

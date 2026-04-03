@@ -39,3 +39,6 @@ extensions:
           - typescript-apollo-client-helpers
         config:
           useTypeImports: true
+      ./src/app/generated/client.schema.json:
+        plugins:
+          - introspection

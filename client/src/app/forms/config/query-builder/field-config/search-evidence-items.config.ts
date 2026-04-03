@@ -1,0 +1,145 @@
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config/input-config/search-input.config'
+import {
+  sortByLabel,
+  withHideExpression,
+  withRecursive,
+  withStatic,
+} from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
+import {
+  AssertionSearchFilter,
+  BooleanOperator,
+  BooleanSearchInput,
+  CommentSearchFilter,
+  DiseaseSearchFilter,
+  EvidenceDirectionTypeSearchInput,
+  EvidenceItemSearchFilter,
+  EvidenceLevelTypeSearchInput,
+  EvidenceSignificanceTypeSearchInput,
+  EvidenceStatusTypeSearchInput,
+  EvidenceTypeTypeSearchInput,
+  InputMaybe,
+  IntSearchInput,
+  MolecularProfileSearchFilter,
+  PhenotypeSearchFilter,
+  RevisionSearchFilter,
+  SourceSearchFilter,
+  StringSearchInput,
+  TherapyInteractionTypeSearchInput,
+  TherapySearchFilter,
+  UserSearchFilter,
+} from '@generated/civic.apollo'
+import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
+
+export type EvidenceItemSearchFilterREF = {
+  assertion?: InputMaybe<AssertionSearchFilter>
+  booleanOperator?: InputMaybe<BooleanOperator>
+  comment?: InputMaybe<CommentSearchFilter>
+  creatingUser?: InputMaybe<UserSearchFilter>
+  description?: InputMaybe<StringSearchInput>
+  disease?: InputMaybe<DiseaseSearchFilter>
+  evidenceDirection?: InputMaybe<EvidenceDirectionTypeSearchInput>
+  evidenceLevel?: InputMaybe<EvidenceLevelTypeSearchInput>
+  evidenceRating?: InputMaybe<IntSearchInput>
+  evidenceType?: InputMaybe<EvidenceTypeTypeSearchInput>
+  id?: InputMaybe<IntSearchInput>
+  isFlagged?: InputMaybe<BooleanSearchInput>
+  moderatingUser?: InputMaybe<UserSearchFilter>
+  molecularProfile?: InputMaybe<MolecularProfileSearchFilter>
+  openRevisionCount?: InputMaybe<IntSearchInput>
+  phenotypes?: InputMaybe<PhenotypeSearchFilter>
+  revisions?: InputMaybe<RevisionSearchFilter>
+  significance?: InputMaybe<EvidenceSignificanceTypeSearchInput>
+  source?: InputMaybe<SourceSearchFilter>
+  status?: InputMaybe<EvidenceStatusTypeSearchInput>
+  subFilters?: InputMaybe<Array<EvidenceItemSearchFilter>>
+  therapies?: InputMaybe<TherapySearchFilter>
+  therapyInteractionType?: InputMaybe<TherapyInteractionTypeSearchInput>
+}
+
+export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
+  withHideExpression([
+    // place 'specific entity' filter (selects specific id) at top of options
+    ...withStatic([
+      {
+        key: 'id',
+        props: { label: 'Specific Evidence Item' },
+        fieldGroup: SELECT_FIELD_CONFIG['EvidenceItemIdSelect'],
+      },
+    ]),
+    ...sortByLabel([
+      ...withStatic([
+        {
+          key: 'description',
+          props: { label: 'Description' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'evidenceDirection',
+          props: { label: 'Evidence Direction' },
+          fieldGroup: INPUT_FIELD_CONFIG['EvidenceDirectionTypeSearchInput'],
+        },
+        {
+          key: 'evidenceRating',
+          props: { label: 'Evidence Rating' },
+          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+        },
+        {
+          key: 'evidenceLevel',
+          props: { label: 'Evidence Level' },
+          fieldGroup: INPUT_FIELD_CONFIG['EvidenceLevelTypeSearchInput'],
+        },
+        {
+          key: 'evidenceType',
+          props: { label: 'Evidence Type' },
+          fieldGroup: INPUT_FIELD_CONFIG['EvidenceTypeTypeSearchInput'],
+        },
+        {
+          key: 'isFlagged',
+          props: { label: 'Is Flagged' },
+          fieldGroup: INPUT_FIELD_CONFIG['FlaggedSearchInput'],
+        },
+        {
+          key: 'openRevisionCount',
+          props: { label: 'Open Revision Count' },
+          fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
+        },
+        {
+          key: 'status',
+          props: { label: 'Status' },
+          fieldGroup: INPUT_FIELD_CONFIG['EvidenceStatusTypeSearchInput'],
+        },
+        {
+          key: 'significance',
+          props: { label: 'Significance' },
+          fieldGroup: INPUT_FIELD_CONFIG['EvidenceSignificanceTypeSearchInput'],
+        },
+        {
+          key: 'therapyInteractionType',
+          props: { label: 'Therapy Interaction Type' },
+          fieldGroup: INPUT_FIELD_CONFIG['TherapyInteractionTypeSearchInput'],
+        },
+      ]),
+      ...withRecursive([
+        ...getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion'),
+        ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
+        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
+        ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
+        ...getQueryFieldConfig(
+          'molecularProfile',
+          'searchMolecularProfiles',
+          'Molecular Profile'
+        ),
+        ...getQueryFieldConfig(
+          'moderatingUser',
+          'searchUsers',
+          'Moderating User'
+        ),
+        ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
+        ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),
+        ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
+        ...getQueryFieldConfig('therapies', 'searchTherapies', 'Therapies'),
+      ]),
+    ]),
+  ])

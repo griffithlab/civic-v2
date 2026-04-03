@@ -256,6 +256,9 @@ export type AddTherapyPayload = {
 
 export type AdvancedSearchResult = {
   __typename: 'AdvancedSearchResult';
+  formQuery?: Maybe<Scalars['JSON']['output']>;
+  originalQuery: Scalars['JSON']['output'];
+  originalVariables?: Maybe<Scalars['JSON']['output']>;
   permalinkId?: Maybe<Scalars['String']['output']>;
   resultIds: Array<Scalars['Int']['output']>;
   searchEndpoint: Scalars['String']['output'];
@@ -573,6 +576,7 @@ export type AssertionSearchFilter = {
   assertionDirection?: InputMaybe<AssertionDirectionTypeSearchInput>;
   assertionType?: InputMaybe<AssertionTypeTypeSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   disease?: InputMaybe<DiseaseSearchFilter>;
@@ -1425,6 +1429,7 @@ export type CommentEdge = {
 export type CommentSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<StringSearchInput>;
+  commenter?: InputMaybe<UserSearchFilter>;
   createdAt?: InputMaybe<DateSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   subFilters?: InputMaybe<Array<CommentSearchFilter>>;
@@ -3176,6 +3181,7 @@ export type FeatureInstanceTypesSearchInput = {
 export type FeatureSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<FeatureDeprecationReasonTypeSearchInput>;
@@ -4584,6 +4590,7 @@ export type MolecularProfileNamePreview = {
 export type MolecularProfileSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
@@ -4591,7 +4598,9 @@ export type MolecularProfileSearchFilter = {
   hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
   openRevisionCount?: InputMaybe<IntSearchInput>;
+  revisions?: InputMaybe<RevisionSearchFilter>;
   score?: InputMaybe<FloatSearchInput>;
   source?: InputMaybe<SourceSearchFilter>;
   subFilters?: InputMaybe<Array<MolecularProfileSearchFilter>>;
@@ -5646,11 +5655,13 @@ export type Query = {
   search: Array<SearchResult>;
   searchAssertions: AdvancedSearchResult;
   searchByPermalink: AdvancedSearchResult;
+  searchComments: AdvancedSearchResult;
   searchDiseases: AdvancedSearchResult;
   searchEvidenceItems: AdvancedSearchResult;
   searchFeatures: AdvancedSearchResult;
   searchMolecularProfiles: AdvancedSearchResult;
   searchPhenotypes: AdvancedSearchResult;
+  searchRevisions: AdvancedSearchResult;
   searchSources: AdvancedSearchResult;
   searchTherapies: AdvancedSearchResult;
   searchUsers: AdvancedSearchResult;
@@ -6312,6 +6323,7 @@ export type QueryRevisionSetsArgs = {
   fieldName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   organizationName?: InputMaybe<Scalars['String']['input']>;
@@ -6358,6 +6370,12 @@ export type QuerySearchByPermalinkArgs = {
 };
 
 
+export type QuerySearchCommentsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: CommentSearchFilter;
+};
+
+
 export type QuerySearchDiseasesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
   query: DiseaseSearchFilter;
@@ -6385,6 +6403,12 @@ export type QuerySearchMolecularProfilesArgs = {
 export type QuerySearchPhenotypesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
   query: PhenotypeSearchFilter;
+};
+
+
+export type QuerySearchRevisionsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: RevisionSearchFilter;
 };
 
 
@@ -7094,6 +7118,7 @@ export type RevisionResult = {
 
 export type RevisionSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
+  comment?: InputMaybe<CommentSearchFilter>;
   createdAt?: InputMaybe<DateSearchInput>;
   creatingUser?: InputMaybe<UserSearchFilter>;
   fieldName?: InputMaybe<StringSearchInput>;
@@ -7436,6 +7461,8 @@ export type SourceSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   citation?: InputMaybe<StringSearchInput>;
   citationId?: InputMaybe<StringSearchInput>;
+  comment?: InputMaybe<CommentSearchFilter>;
+  deprecated?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;
   journal?: InputMaybe<StringSearchInput>;
@@ -8663,7 +8690,7 @@ export type UserSearchFilter = {
   name?: InputMaybe<StringSearchInput>;
   organizationId?: InputMaybe<IntSearchInput>;
   organizationName?: InputMaybe<StringSearchInput>;
-  subFilters?: InputMaybe<Array<CommentSearchFilter>>;
+  subFilters?: InputMaybe<Array<UserSearchFilter>>;
   username?: InputMaybe<StringSearchInput>;
 };
 
@@ -9563,6 +9590,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   diseaseName?: InputMaybe<Scalars['String']['input']>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   summary?: InputMaybe<Scalars['String']['input']>;
   assertionDirection?: InputMaybe<EvidenceDirection>;
   significance?: InputMaybe<AssertionSignificance>;
@@ -9664,6 +9692,21 @@ export type CommentPopoverQuery = { __typename: 'Query', comment?: { __typename:
 
 export type CommentPopoverFragment = { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, deleted: boolean, deletedAt?: any | undefined, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', flagged: boolean, status: EvidenceStatus, id: number, name: string, link: string } | { __typename: 'EvidenceItem', flagged: boolean, status: EvidenceStatus, id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'Feature', deprecated: boolean, flagged: boolean, id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Region', id: number, name: string, link: string } | { __typename: 'RegionVariant', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', deprecated: boolean, sourceType: SourceSource, id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', deprecated: boolean, flagged: boolean, id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
 
+export type CommentsBrowseQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+  sortBy?: InputMaybe<DateSort>;
+  originatingUserId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type CommentsBrowseQuery = { __typename: 'Query', comments: { __typename: 'CommentsConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'CommentEdge', cursor: string, node?: { __typename: 'Comment', id: number, name: string, link: string, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor' } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion' } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene' } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Region' } | { __typename: 'RegionVariant' } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover' } | { __typename: 'Variant' } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined }> } };
+
+export type CommentBrowseFieldsFragment = { __typename: 'Comment', id: number, name: string, link: string, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor' } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion' } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene' } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Region' } | { __typename: 'RegionVariant' } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover' } | { __typename: 'Variant' } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
+
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int']['input'];
 }>;
@@ -9671,7 +9714,7 @@ export type DiseasePopoverQueryVariables = Exact<{
 
 export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string, deprecated: boolean } | undefined };
 
-export type BrowseDiseasesQueryVariables = Exact<{
+export type DiseaseBrowseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -9679,12 +9722,13 @@ export type BrowseDiseasesQueryVariables = Exact<{
   sortBy?: InputMaybe<DiseasesSort>;
   name?: InputMaybe<Scalars['String']['input']>;
   doid?: InputMaybe<Scalars['String']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   diseaseAlias?: InputMaybe<Scalars['String']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> } | undefined }> } };
+export type DiseaseBrowseQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> } | undefined }> } };
 
 export type BrowseDiseaseRowFieldsFragment = { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> };
 
@@ -9742,6 +9786,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   diseaseName?: InputMaybe<Scalars['String']['input']>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   evidenceLevel?: InputMaybe<EvidenceLevel>;
   evidenceDirection?: InputMaybe<EvidenceDirection>;
@@ -9781,6 +9826,7 @@ export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename:
 export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' } | { __typename: 'Region' }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentsConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, stats: { __typename: 'FeatureStats', variantCount: number, molecularProfileCount: number, evidenceItemCount: number, assertionCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
   featureFullName?: InputMaybe<Scalars['String']['input']>;
   therapyName?: InputMaybe<Scalars['String']['input']>;
@@ -9861,6 +9907,7 @@ export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfi
 export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, molecularProfileAliases: Array<string>, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, assertions: { __typename: 'AssertionConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentsConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseMolecularProfilesQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
   variantName?: InputMaybe<Scalars['String']['input']>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
@@ -9974,6 +10021,7 @@ export type PhenotypePopoverQueryVariables = Exact<{
 export type PhenotypePopoverQuery = { __typename: 'Query', phenotypePopover?: { __typename: 'PhenotypePopover', id: number, name: string, url: string, hpoId: string, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string } | undefined };
 
 export type PhenotypesBrowseQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -10051,6 +10099,8 @@ export type RevisionsBrowseQueryVariables = Exact<{
   organizationName?: InputMaybe<Scalars['String']['input']>;
   subjectType?: InputMaybe<ActivitySubjectInput>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+  status?: InputMaybe<RevisionStatus>;
   requestDetails?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
@@ -10138,6 +10188,7 @@ export type SourcePopoverQuery = { __typename: 'Query', sourcePopover?: { __type
 export type SourcePopoverFragment = { __typename: 'SourcePopover', id: number, title?: string | undefined, fullJournalTitle?: string | undefined, evidenceItemCount: number, citation?: string | undefined, citationId: string, displayType: string, sourceUrl?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, retractionNature?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', id: number, nctId: string, link: string }> | undefined };
 
 export type BrowseSourcesQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -10166,6 +10217,7 @@ export type TherapyPopoverQueryVariables = Exact<{
 export type TherapyPopoverQuery = { __typename: 'Query', therapyPopover?: { __typename: 'TherapyPopover', id: number, name: string, therapyUrl?: string | undefined, ncitId?: string | undefined, therapyAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string, deprecated: boolean } | undefined };
 
 export type TherapiesBrowseQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -10245,6 +10297,7 @@ export type UsersBrowseQueryVariables = Exact<{
   orgName?: InputMaybe<OrganizationFilter>;
   userRole?: InputMaybe<UserRole>;
   sortBy?: InputMaybe<UsersSort>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
 }>;
 
 
@@ -10287,6 +10340,7 @@ export type VariantTypePopoverQuery = { __typename: 'Query', variantTypePopover?
 export type VariantTypePopoverFragment = { __typename: 'VariantTypePopover', id: number, name: string, url?: string | undefined, soid: string, variantCount: number };
 
 export type VariantTypesBrowseQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -10378,6 +10432,7 @@ type MenuVariant_Variant_Fragment = { __typename: 'Variant', id: number, name: s
 export type MenuVariantFragment = MenuVariant_FactorVariant_Fragment | MenuVariant_FusionVariant_Fragment | MenuVariant_GeneVariant_Fragment | MenuVariant_RegionVariant_Fragment | MenuVariant_Variant_Fragment;
 
 export type BrowseVariantsQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   variantName?: InputMaybe<Scalars['String']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
   diseaseName?: InputMaybe<Scalars['String']['input']>;
@@ -10780,6 +10835,119 @@ export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
 
 
 export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+
+export type GetOriginalQueryQueryVariables = Exact<{
+  permalinkId: Scalars['String']['input'];
+}>;
+
+
+export type GetOriginalQueryQuery = { __typename: 'Query', searchByPermalink: { __typename: 'AdvancedSearchResult', searchEndpoint: string, resultIds: Array<number>, originalQuery: any, originalVariables?: any | undefined, permalinkId?: string | undefined, formQuery?: any | undefined } };
+
+export type QueryBuilderResponseFieldsFragment = { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> };
+
+export type SearchEvidenceItemsQueryVariables = Exact<{
+  query: EvidenceItemSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchEvidenceItemsQuery = { __typename: 'Query', searchEvidenceItems: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchAssertionsQueryVariables = Exact<{
+  query: AssertionSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchAssertionsQuery = { __typename: 'Query', searchAssertions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchDiseasesQueryVariables = Exact<{
+  query: DiseaseSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchDiseasesQuery = { __typename: 'Query', searchDiseases: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchFeaturesQueryVariables = Exact<{
+  query: FeatureSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchFeaturesQuery = { __typename: 'Query', searchFeatures: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchMolecularProfilesQueryVariables = Exact<{
+  query: MolecularProfileSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchMolecularProfilesQuery = { __typename: 'Query', searchMolecularProfiles: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchPhenotypesQueryVariables = Exact<{
+  query: PhenotypeSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchPhenotypesQuery = { __typename: 'Query', searchPhenotypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchSourcesQueryVariables = Exact<{
+  query: SourceSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchSourcesQuery = { __typename: 'Query', searchSources: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchTherapiesQueryVariables = Exact<{
+  query: TherapySearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchTherapiesQuery = { __typename: 'Query', searchTherapies: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchUsersQueryVariables = Exact<{
+  query: UserSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchUsersQuery = { __typename: 'Query', searchUsers: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchVariantsQueryVariables = Exact<{
+  query: VariantSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchVariantsQuery = { __typename: 'Query', searchVariants: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchCommentsQueryVariables = Exact<{
+  query: CommentSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchCommentsQuery = { __typename: 'Query', searchComments: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchRevisionsQueryVariables = Exact<{
+  query: RevisionSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchRevisionsQuery = { __typename: 'Query', searchRevisions: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchVariantTypesQueryVariables = Exact<{
+  query: VariantTypeSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchVariantTypesQuery = { __typename: 'Query', searchVariantTypes: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type RegionRevisableFieldsQueryVariables = Exact<{
   featureId: Scalars['Int']['input'];
@@ -12681,6 +12849,92 @@ export const CommentPopoverFragmentDoc = gql`
   }
 }
     `;
+export const CommentBrowseFieldsFragmentDoc = gql`
+    fragment CommentBrowseFields on Comment {
+  id
+  name
+  link
+  comment
+  createdAt
+  commenter {
+    id
+    displayName
+    role
+  }
+  commentable {
+    ... on Assertion {
+      id
+      name
+      link
+    }
+    ... on EvidenceItem {
+      id
+      name
+      link
+    }
+    ... on Feature {
+      id
+      name
+      link
+    }
+    ... on Flag {
+      id
+      name
+      link
+    }
+    ... on GeneVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FusionVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on MolecularProfile {
+      id
+      name
+      link
+    }
+    ... on Revision {
+      id
+      name
+      link
+    }
+    ... on Source {
+      id
+      name
+      link
+    }
+    ... on VariantGroup {
+      id
+      name
+      link
+    }
+  }
+}
+    `;
 export const BrowseDiseaseRowFieldsFragmentDoc = gql`
     fragment BrowseDiseaseRowFields on BrowseDisease {
   id
@@ -14115,6 +14369,13 @@ export const RevisableMolecularProfileFieldsFragmentDoc = gql`
   }
   molecularProfileAliases
   isComplex
+}
+    `;
+export const QueryBuilderResponseFieldsFragmentDoc = gql`
+    fragment QueryBuilderResponseFields on AdvancedSearchResult {
+  permalinkId
+  searchEndpoint
+  resultIds
 }
     `;
 export const RevisableRegionFieldsFragmentDoc = gql`
@@ -16194,7 +16455,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: AssertionSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $approvingOrganizationIds: [Int!]) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $ids: [Int!], $summary: String, $assertionDirection: EvidenceDirection, $significance: AssertionSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $approvingOrganizationIds: [Int!]) {
   assertions(
     first: $first
     last: $last
@@ -16203,6 +16464,7 @@ export const AssertionsBrowseDocument = gql`
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     summary: $summary
     assertionDirection: $assertionDirection
     significance: $significance
@@ -16413,6 +16675,44 @@ export const CommentPopoverDocument = gql`
       super(apollo);
     }
   }
+export const CommentsBrowseDocument = gql`
+    query CommentsBrowse($first: Int, $last: Int, $before: String, $after: String, $ids: [Int!], $sortBy: DateSort, $originatingUserId: Int) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    ids: $ids
+    sortBy: $sortBy
+    originatingUserId: $originatingUserId
+  ) {
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...CommentBrowseFields
+      }
+    }
+  }
+}
+    ${CommentBrowseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentsBrowseGQL extends Apollo.Query<CommentsBrowseQuery, CommentsBrowseQueryVariables> {
+    document = CommentsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DiseasePopoverDocument = gql`
     query DiseasePopover($diseaseId: Int!) {
   diseasePopover(id: $diseaseId) {
@@ -16441,8 +16741,8 @@ export const DiseasePopoverDocument = gql`
       super(apollo);
     }
   }
-export const BrowseDiseasesDocument = gql`
-    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $diseaseAlias: String, $featureName: String) {
+export const DiseaseBrowseDocument = gql`
+    query DiseaseBrowse($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $ids: [Int!], $diseaseAlias: String, $featureName: String) {
   browseDiseases(
     first: $first
     last: $last
@@ -16451,6 +16751,7 @@ export const BrowseDiseasesDocument = gql`
     sortBy: $sortBy
     name: $name
     doid: $doid
+    ids: $ids
     diseaseAlias: $diseaseAlias
     featureName: $featureName
   ) {
@@ -16477,8 +16778,8 @@ export const BrowseDiseasesDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
-    document = BrowseDiseasesDocument;
+  export class DiseaseBrowseGQL extends Apollo.Query<DiseaseBrowseQuery, DiseaseBrowseQueryVariables> {
+    document = DiseaseBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -16561,7 +16862,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $linkedSourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $ids: [Int!], $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $linkedSourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -16570,6 +16871,7 @@ export const EvidenceBrowseDocument = gql`
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     description: $description
     evidenceLevel: $evidenceLevel
     evidenceDirection: $evidenceDirection
@@ -16638,8 +16940,9 @@ export const FeaturePopoverDocument = gql`
     }
   }
 export const BrowseFeaturesDocument = gql`
-    query BrowseFeatures($featureName: String, $featureFullName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseFeatures($ids: [Int!], $featureName: String, $featureFullName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseFeatures(
+    ids: $ids
     featureName: $featureName
     featureFullName: $featureFullName
     therapyName: $therapyName
@@ -16801,8 +17104,9 @@ export const MolecularProfilePopoverDocument = gql`
     }
   }
 export const BrowseMolecularProfilesDocument = gql`
-    query BrowseMolecularProfiles($molecularProfileName: String, $variantName: String, $variantId: Int, $featureName: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseMolecularProfiles($ids: [Int!], $molecularProfileName: String, $variantName: String, $variantId: Int, $featureName: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseMolecularProfiles(
+    ids: $ids
     molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId
@@ -17126,8 +17430,9 @@ export const PhenotypePopoverDocument = gql`
     }
   }
 export const PhenotypesBrowseDocument = gql`
-    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
+    query PhenotypesBrowse($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
   browsePhenotypes(
+    ids: $ids
     first: $first
     last: $last
     before: $before
@@ -17301,19 +17606,20 @@ export const RevisionsDocument = gql`
     }
   }
 export const RevisionsBrowseDocument = gql`
-    query RevisionsBrowse($first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserName: String, $excludeRevisionsFromUserId: Int, $organizationName: String, $subjectType: ActivitySubjectInput, $id: Int, $requestDetails: Boolean = false) {
+    query RevisionsBrowse($first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserName: String, $excludeRevisionsFromUserId: Int, $organizationName: String, $subjectType: ActivitySubjectInput, $id: Int, $ids: [Int!], $status: RevisionStatus, $requestDetails: Boolean = false) {
   revisionSets(
     first: $first
     last: $last
     before: $before
     after: $after
-    status: NEW
+    status: $status
     fieldName: $fieldName
     originatingUserName: $originatingUserName
     excludeRevisionsFromUserId: $excludeRevisionsFromUserId
     organizationName: $organizationName
     subjectType: $subjectType
     id: $id
+    ids: $ids
   ) {
     totalCount
     pageInfo {
@@ -17561,8 +17867,9 @@ export const SourcePopoverDocument = gql`
     }
   }
 export const BrowseSourcesDocument = gql`
-    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int, $openAccess: Boolean) {
+    query BrowseSources($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int, $openAccess: Boolean) {
   browseSources(
+    ids: $ids
     first: $first
     last: $last
     before: $before
@@ -17635,8 +17942,9 @@ export const TherapyPopoverDocument = gql`
     }
   }
 export const TherapiesBrowseDocument = gql`
-    query TherapiesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
+    query TherapiesBrowse($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
   browseTherapies(
+    ids: $ids
     first: $first
     last: $last
     before: $before
@@ -17853,8 +18161,9 @@ export const UserPopoverDocument = gql`
     }
   }
 export const UsersBrowseDocument = gql`
-    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort) {
+    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort, $ids: [Int!]) {
   browseUsers(
+    ids: $ids
     first: $first
     last: $last
     before: $before
@@ -17970,8 +18279,9 @@ export const VariantTypePopoverDocument = gql`
     }
   }
 export const VariantTypesBrowseDocument = gql`
-    query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
+    query VariantTypesBrowse($ids: [Int!], $first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
   variantTypes(
+    ids: $ids
     first: $first
     last: $last
     before: $before
@@ -18107,8 +18417,9 @@ export const VariantTypesForFeatureDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $variantCategory: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($ids: [Int!], $variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $variantCategory: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
+    ids: $ids
     variantName: $variantName
     featureName: $featureName
     diseaseName: $diseaseName
@@ -19227,6 +19538,264 @@ export const SuggestMolecularProfileRevisionDocument = gql`
   })
   export class SuggestMolecularProfileRevisionGQL extends Apollo.Mutation<SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables> {
     document = SuggestMolecularProfileRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetOriginalQueryDocument = gql`
+    query GetOriginalQuery($permalinkId: String!) {
+  searchByPermalink(permalinkId: $permalinkId) {
+    searchEndpoint
+    resultIds
+    originalQuery
+    originalVariables
+    permalinkId
+    searchEndpoint
+    formQuery @client
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetOriginalQueryGQL extends Apollo.Query<GetOriginalQueryQuery, GetOriginalQueryQueryVariables> {
+    document = GetOriginalQueryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchEvidenceItemsDocument = gql`
+    query searchEvidenceItems($query: EvidenceItemSearchFilter!, $createPermalink: Boolean) {
+  searchEvidenceItems(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchEvidenceItemsGQL extends Apollo.Query<SearchEvidenceItemsQuery, SearchEvidenceItemsQueryVariables> {
+    document = SearchEvidenceItemsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchAssertionsDocument = gql`
+    query searchAssertions($query: AssertionSearchFilter!, $createPermalink: Boolean) {
+  searchAssertions(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchAssertionsGQL extends Apollo.Query<SearchAssertionsQuery, SearchAssertionsQueryVariables> {
+    document = SearchAssertionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchDiseasesDocument = gql`
+    query searchDiseases($query: DiseaseSearchFilter!, $createPermalink: Boolean) {
+  searchDiseases(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchDiseasesGQL extends Apollo.Query<SearchDiseasesQuery, SearchDiseasesQueryVariables> {
+    document = SearchDiseasesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchFeaturesDocument = gql`
+    query searchFeatures($query: FeatureSearchFilter!, $createPermalink: Boolean) {
+  searchFeatures(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchFeaturesGQL extends Apollo.Query<SearchFeaturesQuery, SearchFeaturesQueryVariables> {
+    document = SearchFeaturesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchMolecularProfilesDocument = gql`
+    query searchMolecularProfiles($query: MolecularProfileSearchFilter!, $createPermalink: Boolean) {
+  searchMolecularProfiles(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchMolecularProfilesGQL extends Apollo.Query<SearchMolecularProfilesQuery, SearchMolecularProfilesQueryVariables> {
+    document = SearchMolecularProfilesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchPhenotypesDocument = gql`
+    query searchPhenotypes($query: PhenotypeSearchFilter!, $createPermalink: Boolean) {
+  searchPhenotypes(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchPhenotypesGQL extends Apollo.Query<SearchPhenotypesQuery, SearchPhenotypesQueryVariables> {
+    document = SearchPhenotypesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchSourcesDocument = gql`
+    query searchSources($query: SourceSearchFilter!, $createPermalink: Boolean) {
+  searchSources(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchSourcesGQL extends Apollo.Query<SearchSourcesQuery, SearchSourcesQueryVariables> {
+    document = SearchSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchTherapiesDocument = gql`
+    query searchTherapies($query: TherapySearchFilter!, $createPermalink: Boolean) {
+  searchTherapies(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchTherapiesGQL extends Apollo.Query<SearchTherapiesQuery, SearchTherapiesQueryVariables> {
+    document = SearchTherapiesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchUsersDocument = gql`
+    query searchUsers($query: UserSearchFilter!, $createPermalink: Boolean) {
+  searchUsers(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchUsersGQL extends Apollo.Query<SearchUsersQuery, SearchUsersQueryVariables> {
+    document = SearchUsersDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchVariantsDocument = gql`
+    query searchVariants($query: VariantSearchFilter!, $createPermalink: Boolean) {
+  searchVariants(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchVariantsGQL extends Apollo.Query<SearchVariantsQuery, SearchVariantsQueryVariables> {
+    document = SearchVariantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchCommentsDocument = gql`
+    query searchComments($query: CommentSearchFilter!, $createPermalink: Boolean) {
+  searchComments(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchCommentsGQL extends Apollo.Query<SearchCommentsQuery, SearchCommentsQueryVariables> {
+    document = SearchCommentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchRevisionsDocument = gql`
+    query searchRevisions($query: RevisionSearchFilter!, $createPermalink: Boolean) {
+  searchRevisions(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchRevisionsGQL extends Apollo.Query<SearchRevisionsQuery, SearchRevisionsQueryVariables> {
+    document = SearchRevisionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchVariantTypesDocument = gql`
+    query searchVariantTypes($query: VariantTypeSearchFilter!, $createPermalink: Boolean) {
+  searchVariantTypes(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchVariantTypesGQL extends Apollo.Query<SearchVariantTypesQuery, SearchVariantTypesQueryVariables> {
+    document = SearchVariantTypesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

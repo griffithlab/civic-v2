@@ -1,11 +1,26 @@
 <nz-radio-group
   [formControl]="formControl"
+  [formlyAttributes]="field"
+  [nzSize]="props.size"
   (ngModelChange)="props.change && props.change(field, $event)">
-  <label
-    nz-radio
-    *ngFor="let option of props.options | formlySelectOptions : field | async"
-    [nzValue]="option.value"
-    [nzDisabled]="option.disabled">
-    {{ option.label }}
-  </label>
+  @for (
+    option of props.options | formlySelectOptions: field | async;
+    track option.value
+  ) {
+    @if (props.type === 'radio') {
+      <label
+        nz-radio
+        [nzValue]="option.value"
+        [nzDisabled]="option.disabled">
+        {{ option.label }}
+      </label>
+    } @else {
+      <label
+        nz-radio-button
+        [nzValue]="option.value"
+        [nzDisabled]="option.disabled">
+        {{ option.label }}
+      </label>
+    }
+  }
 </nz-radio-group>

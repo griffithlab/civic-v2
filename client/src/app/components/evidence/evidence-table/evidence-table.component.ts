@@ -4,9 +4,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -19,11 +21,11 @@ import {
   EvidenceBrowseGQL,
   EvidenceBrowseQuery,
   EvidenceBrowseQueryVariables,
-  EvidenceSignificance,
   EvidenceDirection,
   EvidenceGridFieldsFragment,
   EvidenceItemConnection,
   EvidenceLevel,
+  EvidenceSignificance,
   EvidenceSortColumns,
   EvidenceStatusFilter,
   EvidenceType,
@@ -71,7 +73,7 @@ export interface EvidenceTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
+export class CvcEvidenceTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() cvcHeight: Maybe<string>
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
@@ -88,6 +90,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
   @Input() molecularProfileId: Maybe<number>
+  @Input() ids: Maybe<number[]>
   @Input() initialPageSize = 35
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
@@ -194,6 +197,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       variantOrigin: this.variantOriginInput
         ? this.variantOriginInput
         : undefined,
+      ids: this.ids,
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -286,6 +290,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     let eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
@@ -323,6 +328,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         molecularProfileName: this.molecularProfileNameInput
           ? this.molecularProfileNameInput
           : undefined,
+        ids: this.ids ? this.ids : undefined,
       })
       .then(() => this.scrollIndex$.next(0))
 
@@ -345,7 +351,11 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   ): Maybe<number> {
     return data?.id
   }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
+  }
   ngOnDestroy() {
     this.queryParamsSub$.unsubscribe()
   }

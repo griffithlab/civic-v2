@@ -1,0 +1,24 @@
+@import 'ng-zorro-antd/style/color/colors.less';
+@card-border-color: @blue-2;
+:host {
+  ::ng-deep nz-card {
+    border: 1px solid @card-border-color;
+    border-radius: 6px;
+    > .ant-card-head {
+      padding-left: 6px;
+      min-height: 28px;
+      border-bottom: 1px solid @card-border-color;
+      .ant-card-head-wrapper {
+        .ant-card-head-title {
+          line-height: 27px;
+          padding-top: 0;
+          padding-bottom: 0;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+  ::ng-deep nz-card > .ant-card-body {
+    padding: 8px;
+  }
+}

@@ -42,7 +42,7 @@
   <body class="h-full bg-gray-50 text-gray-900 antialiased">
     <div class="flex h-full">
       <% if content_for?(:hide_sidebar) %>
-        <main class="flex-1 flex flex-col h-full overflow-hidden">
+        <main id="main_content" class="flex-1 flex flex-col h-full overflow-hidden">
           <%= render "chats/shared/flash" %>
           <%= yield %>
         </main>
@@ -51,7 +51,7 @@
         <%= render "layouts/chats_sidebar" %>
 
         <%# Main content %>
-        <main class="flex-1 flex flex-col h-full overflow-hidden">
+        <main id="main_content" class="flex-1 flex flex-col h-full overflow-hidden">
           <%= render "chats/shared/flash" %>
           <%= yield %>
         </main>

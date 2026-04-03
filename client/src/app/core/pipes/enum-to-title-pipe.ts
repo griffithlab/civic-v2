@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-    name: 'enumToTitle',
-    pure: true,
-    standalone: false
+  name: 'enumToTitle',
+  pure: true,
+  standalone: false,
 })
 export class EnumToTitlePipe implements PipeTransform {
   transform(enum_text?: string): string {
@@ -14,7 +14,6 @@ export class EnumToTitlePipe implements PipeTransform {
       if (enum_text === 'NEGATIVE') {
         return '-'
       }
-
       if (enum_text === 'DESC') {
         return 'Descending'
       }
