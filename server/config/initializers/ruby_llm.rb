@@ -1,6 +1,12 @@
 RubyLLM.configure do |config|
+  config.bedrock_region = ENV.fetch("AWS_REGION", "us-west-2")
+  config.default_model = "us.anthropic.claude-sonnet-4-6"
+
+  # this will not work until https://github.com/crmne/ruby_llm/pull/677 is merged.
+  # fall back to openai embeddings for now
+  # config.default_embedding_model = "amazon.titan-embed-text-v2:0"
+
   config.openai_api_key = ENV["OPENAI_API_KEY"] || Rails.application.credentials.dig(:openai_api_key)
-  config.default_model = "gpt-5.4"
   config.default_embedding_model = "text-embedding-3-large"
   config.use_new_acts_as = true
 end
@@ -8,6 +14,7 @@ end
 # Eagerly load the model registry and verify the default model is available.
 # This guards against the lazy-loaded registry being empty in the Puma process.
 Rails.application.config.after_initialize do
+  BedrockCredentials.ensure_fresh! unless Rails.env.development? || Rails.env.test?
   registry_file = RubyLLM.config.model_registry_file
   registry = RubyLLM::Models.instance
 
