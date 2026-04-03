@@ -53,7 +53,7 @@ class InputAdaptors::AssertionInputAdaptor
     existing_eids.each do |eid|
       unless eid.valid?
         invalid_eid = true
-        errors << "EID#{eid.id} Invalid: #{eid.errors.values.join(", ")}"
+        errors << "EID#{eid.id} Invalid: #{eid.errors.messages.values.join(", ")}"
       end
     end
 
