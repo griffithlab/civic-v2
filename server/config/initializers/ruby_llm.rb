@@ -14,7 +14,6 @@ end
 # Eagerly load the model registry and verify the default model is available.
 # This guards against the lazy-loaded registry being empty in the Puma process.
 Rails.application.config.after_initialize do
-  # BedrockCredentials.ensure_fresh! unless Rails.env.development? || Rails.env.test?
   registry_file = RubyLLM.config.model_registry_file
   registry = RubyLLM::Models.instance
 
