@@ -45,8 +45,6 @@ class BedrockCredentials
   end
 
   def credential_provider
-    @credential_provider ||= Aws::CredentialProviderChain.new(
-      Aws::SharedConfig.new(config_enabled: true)
-    ).resolve
+    @credential_provider ||= Aws::CredentialProviderChain.new.resolve
   end
 end
