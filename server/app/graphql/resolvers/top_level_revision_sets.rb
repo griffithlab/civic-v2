@@ -50,7 +50,7 @@ class Resolvers::TopLevelRevisionSets < GraphQL::Schema::Resolver
     scope.joins(activities: [ :organization ]).where("organizations.name ILIKE ?", "%#{value}%").where("activities.type = ?", "SuggestRevisionSetActivity")
   end
 
-  option(:ids, type: [Int], description: "Filter by internal CIViC ids") do |scope, value|
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
     scope.where(id: value)
   end
 

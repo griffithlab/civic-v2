@@ -135,7 +135,7 @@ module AdvancedSearches
     def resolve_creating_user_filter(node)
       return nil if node.creating_user.nil?
       user_ids = AdvancedSearches::User.new(query: node.creating_user).results
-      matching_ids = ::Feature.joins(creation_activity: [:user])
+      matching_ids = ::Feature.joins(creation_activity: [ :user ])
         .where(users: { id: user_ids })
         .pluck(:id)
       base_query.where(id: matching_ids)
@@ -144,7 +144,7 @@ module AdvancedSearches
     def resolve_deprecating_user_filter(node)
       return nil if node.deprecating_user.nil?
       user_ids = AdvancedSearches::User.new(query: node.deprecating_user).results
-      matching_ids = ::Feature.joins(deprecation_activity: [:user])
+      matching_ids = ::Feature.joins(deprecation_activity: [ :user ])
         .where(users: { id: user_ids })
         .pluck(:id)
       base_query.where(id: matching_ids)

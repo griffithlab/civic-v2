@@ -42,16 +42,16 @@ module AdvancedSearches
       display_name_clause, display_name_value = node.name.resolve_query_for_type("CONCAT(features.name, ' ', variants.name)")
 
       matching_ids = ::MolecularProfile
-        .joins(variants: [:feature])
+        .joins(variants: [ :feature ])
         .where(display_name_clause, display_name_value)
         .or(
           ::MolecularProfile
-            .joins(variants: [:feature])
+            .joins(variants: [ :feature ])
             .where(feature_clause, feature_value)
         )
         .or(
           ::MolecularProfile
-            .joins(variants: [:feature])
+            .joins(variants: [ :feature ])
             .where(variant_clause, variant_value)
         )
         .distinct
