@@ -1,6 +1,6 @@
 <%= turbo_stream_from current_user, @chat %>
 
-<% content_for :title, "Chat" %>
+<% content_for :title, @chat.display_name %>
 
 <%# Header bar %>
 <div class="flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-white shrink-0"

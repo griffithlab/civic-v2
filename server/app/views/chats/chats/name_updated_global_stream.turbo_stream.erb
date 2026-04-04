@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "sidebar_chat_#{chat.id}" do %>
+  <%= render "chats/chats/sidebar_chat", chat: chat, current_chat: nil %>
+<% end %>
+
+<%= turbo_stream.replace "index_chat_#{chat.id}" do %>
+  <%= render "chats/chats/index_chat", chat: chat %>
+<% end %>
