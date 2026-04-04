@@ -6,6 +6,7 @@ class BedrockCredentials
   REFRESH_BUFFER = 5.minutes
 
   def self.ensure_fresh!
+    return unless Rails.application.config.using_bedrock
     instance.refresh_if_needed!
   end
 
