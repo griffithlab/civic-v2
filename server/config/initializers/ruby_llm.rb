@@ -1,13 +1,19 @@
 RubyLLM.configure do |config|
-  config.bedrock_region = ENV.fetch("AWS_REGION", "us-west-2")
-  config.default_model = "us.anthropic.claude-sonnet-4-6"
-
+  config.openai_api_key = ENV["OPENAI_API_KEY"] || Rails.application.credentials.dig(:openai_api_key)
+  config.default_embedding_model = "text-embedding-3-large"
   # this will not work until https://github.com/crmne/ruby_llm/pull/677 is merged.
   # fall back to openai embeddings for now
   # config.default_embedding_model = "amazon.titan-embed-text-v2:0"
 
-  config.openai_api_key = ENV["OPENAI_API_KEY"] || Rails.application.credentials.dig(:openai_api_key)
-  config.default_embedding_model = "text-embedding-3-large"
+  if Rails.env.production? || Rails.env.staging?
+    config.bedrock_region = ENV.fetch("AWS_REGION", "us-west-2")
+    config.default_model = "us.anthropic.claude-sonnet-4-6"
+    Rails.application.config.using_bedrock = true
+  else
+    Rails.application.config.using_bedrock = false
+    config.default_model = "gpt-5.4"
+  end
+
   config.use_new_acts_as = true
 end
 
@@ -18,14 +24,14 @@ Rails.application.config.after_initialize do
   registry = RubyLLM::Models.instance
 
   Rails.logger.info "[RubyLLM] Model registry file: #{registry_file}"
-  Rails.logger.info "[RubyLLM] File exists: #{File.exist?(registry_file)}"
-  Rails.logger.info "[RubyLLM] Models loaded: #{registry.all.size}"
+    Rails.logger.info "[RubyLLM] File exists: #{File.exist?(registry_file)}"
+    Rails.logger.info "[RubyLLM] Models loaded: #{registry.all.size}"
 
-  if registry.all.empty?
-    Rails.logger.warn "[RubyLLM] Model registry is empty! Attempting reload from JSON..."
-    registry.load_from_json!
-    Rails.logger.info "[RubyLLM] After reload: #{registry.all.size} models"
-  end
+    if registry.all.empty?
+      Rails.logger.warn "[RubyLLM] Model registry is empty! Attempting reload from JSON..."
+      registry.load_from_json!
+      Rails.logger.info "[RubyLLM] After reload: #{registry.all.size} models"
+    end
 
   default_model = RubyLLM.config.default_model
   match = registry.all.find { |m| m.id == default_model }
