@@ -9,6 +9,10 @@
 }
 
 /* Markdown-like prose styling for assistant message content */
+.message-content {
+  overflow-x: auto;
+}
+
 .message-content h1,
 .message-content h2,
 .message-content h3,
@@ -115,6 +119,32 @@
   border: none;
   border-top: 1px solid #e2e8f0;
   margin: 1em 0;
+}
+
+.message-content table {
+  width: 100%;
+  min-width: 36rem;
+  margin: 1em 0;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.message-content th,
+.message-content td {
+  padding: 0.5em 0.75em;
+  border: 1px solid #d1d5db;
+  vertical-align: top;
+  text-align: left;
+}
+
+.message-content th {
+  background: #ede9fe;
+  font-weight: 700;
+}
+
+.message-content tr:nth-child(even) td {
+  background: #fafafa;
 }
 
 /* Tool call details styling */
