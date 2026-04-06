@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   model,
+  OnInit,
   output,
   signal,
   WritableSignal,
@@ -47,7 +48,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcQueryBuilderForm {
+export class CvcQueryBuilderForm implements OnInit {
   searchEndpoint = model.required<AdvancedSearchEndpoint>()
   permalinkId = model<string>()
 
@@ -160,6 +161,20 @@ export class CvcQueryBuilderForm {
           console.error('searchByPermalink results did not include a formModel')
         }
       })
+  }
+
+  ngOnInit(): void {
+    // Eagerly initialize fields so formly's first render has the correct
+    // field tree rather than an empty array (avoids a double-build timing issue).
+    // The effect in the constructor also runs on init, but ngOnInit fires before
+    // the first change detection cycle in which formly reads `fields`, so this
+    // ensures the very first render has real fields.
+    const endpoint = this.searchEndpoint()
+    this.fields = getQueryFieldConfig(
+      'query',
+      endpoint,
+      this.searchEndpointToCardTitle(endpoint)
+    )
   }
 
   onSubmit() {
