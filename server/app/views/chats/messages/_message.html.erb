@@ -24,7 +24,7 @@
       <div class="w-9 h-9 rounded-full bg-civic-purple flex items-center justify-center shrink-0">
         <%= render "chats/shared/icons/chat_bubble_solid", css: "h-5 w-5 text-white" %>
       </div>
-      <div class="max-w-3xl flex-1">
+      <div class="max-w-3xl flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">
           <span class="text-sm font-semibold text-civic-purple">CIViC Bot</span>
           <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
@@ -85,7 +85,7 @@
       <div class="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center shrink-0">
         <%= render "chats/shared/icons/gear", css: "h-5 w-5 text-white" %>
       </div>
-      <div class="max-w-3xl flex-1">
+      <div class="max-w-3xl flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">
           <span class="text-sm font-semibold text-amber-600">Tool Result</span>
           <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>

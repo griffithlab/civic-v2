@@ -4,6 +4,7 @@
   <%= link_to chats_chat_path(chat),
         id: "sidebar_chat_#{chat.id}",
         title: chat_tooltip,
+        data: { action: "click->sidebar#closeFromNav" },
         class: "block px-3 py-2.5 rounded-lg text-sm transition-colors #{chat.id == current_chat&.id ? 'bg-slate-600 text-white' : 'text-slate-300 hover:bg-civic-sidebar-hover hover:text-white'}" do %>
     <div class="flex items-center gap-2">
       <% if chat.mcp? %>

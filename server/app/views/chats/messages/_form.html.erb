@@ -1,4 +1,4 @@
-<%= form_with(model: message, scope: :message, url: chats_chat_messages_path(chat), id: "new_message", class: "flex items-end gap-3") do |form| %>
+<%= form_with(model: message, scope: :message, url: chats_chat_messages_path(chat), id: "new_message", class: "flex items-end gap-2 sm:gap-3") do |form| %>
   <% if message.errors.any? %>
     <div class="text-red-600 text-sm mb-2">
       <% message.errors.each do |error| %>
@@ -16,5 +16,5 @@
   </div>
 
   <%= form.submit "Send",
-      class: "px-6 py-3 rounded-xl bg-civic-purple hover:bg-civic-purple-dark text-white font-medium shadow-sm transition-colors cursor-pointer" %>
+      class: "px-4 sm:px-6 py-3 rounded-xl bg-civic-purple hover:bg-civic-purple-dark text-white font-medium shadow-sm transition-colors cursor-pointer shrink-0" %>
 <% end %>
