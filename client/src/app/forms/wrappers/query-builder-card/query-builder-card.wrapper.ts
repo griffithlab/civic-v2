@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { FormArray } from '@angular/forms'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 
@@ -32,6 +33,11 @@ export class CvcQueryBuilderCardWrapper
     return this.formSubmitted && (this.field.formControl?.invalid ?? false)
   }
 
+  get hasNoFilters(): boolean {
+    const subFilters = this.subFiltersField?.formControl as FormArray | undefined
+    return !subFilters || subFilters.length === 0
+  }
+
   get operatorField(): FormlyFieldConfig | undefined {
     return this.field.fieldGroup?.find((f) => f.key === 'booleanOperator')
   }
@@ -52,6 +58,9 @@ export class CvcQueryBuilderCardWrapper
     this.formSubmitted = true
     this.options.formState.showErrors = true
     this.field.formControl?.markAllAsTouched()
+    if (this.hasNoFilters) {
+      return
+    }
     if (this.field.formControl?.valid && this.options.formState.submitQuery) {
       this.options.formState.submitQuery()
     }
