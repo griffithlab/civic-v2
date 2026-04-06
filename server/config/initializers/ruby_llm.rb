@@ -7,7 +7,7 @@ RubyLLM.configure do |config|
 
   if Rails.env.production? || Rails.env.staging?
     config.bedrock_region = ENV.fetch("AWS_REGION", "us-west-2")
-    config.default_model = "us.anthropic.claude-sonnet-4-6"
+    config.default_model = "global.anthropic.claude-sonnet-4-6"
     Rails.application.config.using_bedrock = true
   else
     Rails.application.config.using_bedrock = false
