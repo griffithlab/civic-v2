@@ -20,7 +20,7 @@ export function canPerformApprovalActions(viewer: Maybe<Viewer>): boolean {
     viewer !== undefined &&
     viewer.mostRecentOrg !== undefined &&
     viewer.signedIn &&
-    viewer.canModerate &&
+    !viewer.invalidCoi &&
     viewer.approvableOrgIds.length > 0
   )
 }
