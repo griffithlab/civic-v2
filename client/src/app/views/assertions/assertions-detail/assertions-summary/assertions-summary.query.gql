@@ -120,6 +120,7 @@ fragment AssertionSummaryFields on Assertion {
         isClinvarSubmitter
       }
       lastReviewed
+      clinvarAccession
     }
   }
   requiresReviewApprovals: approvals(status: REQUIRES_REVIEW) {
@@ -134,6 +135,7 @@ fragment AssertionSummaryFields on Assertion {
         isClinvarSubmitter
       }
       lastReviewed
+      clinvarAccession
     }
   }
 }

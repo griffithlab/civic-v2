@@ -194,15 +194,17 @@
               nzBordered="true"
               [nzColumn]="1">
               <nz-descriptions-item [nzTitle]="approvalTitle">
-                @for (
-                  approval of assertion.activeApprovals.nodes.concat(
-                    assertion.requiresReviewApprovals.nodes
-                  );
-                  track approval.id
-                ) {
-                  <cvc-approval-notification
-                    [cvcApproval]="approval"></cvc-approval-notification>
-                }
+                <nz-space nzDirection="vertical">
+                  @for (
+                    approval of assertion.activeApprovals.nodes.concat(
+                      assertion.requiresReviewApprovals.nodes
+                    );
+                    track approval.id
+                  ) {
+                    <cvc-approval-notification *nzSpaceItem
+                      [cvcApproval]="approval"></cvc-approval-notification>
+                  }
+                </nz-space>
               </nz-descriptions-item>
               <ng-template #approvalTitle>
                 <span style="color: {{ this.color() }}">
