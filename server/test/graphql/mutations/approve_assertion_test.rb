@@ -4,6 +4,7 @@ class ApproveAssertionTest < ActiveSupport::TestCase
   def setup
     @editor = users(:editor)
     @curator = users(:curator)
+    @no_coi_editor = users(:no_coi_editor)
     @org = organizations(:test_org)
     @accepted_assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:accepted_assertion))
     @unapproved_assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:accepted_unapproved_assertion))
@@ -81,5 +82,15 @@ class ApproveAssertionTest < ActiveSupport::TestCase
       user: @editor,
     )
     assert_graphql_error(response, /assertion with id .* does(n't| not) exist/i)
+  end
+
+  test "editor without COI statement cannot approve" do
+    Affiliation.create(user_id: @no_coi_editor.id, organization_id: @org.id, can_approve: true)
+    response = execute_mutation(
+      @query,
+      variables: { assertionId: @unapproved_assertion.id, orgId: @org.id },
+      user: @no_coi_editor,
+    )
+    assert_graphql_error(response, /must have a valid conflict of interest statement/i)
   end
 end

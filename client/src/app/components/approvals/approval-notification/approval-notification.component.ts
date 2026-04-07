@@ -8,9 +8,9 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { ApprovalStatus } from '@app/generated/civic.apollo'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { DatePipe } from '@angular/common'
-import { NzRateComponent } from 'ng-zorro-antd/rate'
 import { FormsModule } from '@angular/forms'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcTagGroupModule } from '@app/components/shared/tag-group/tag-group.module'
 
 export interface NotificationApproval {
   id: number
@@ -22,6 +22,7 @@ export interface NotificationApproval {
     isApprovedVcep: boolean
     isClinvarSubmitter: boolean
   }
+  clinvarAccession?: string
 }
 
 @Component({
@@ -32,11 +33,11 @@ export interface NotificationApproval {
     NzTypographyModule,
     NzIconModule,
     NzTagModule,
-    NzRateComponent,
     NzToolTipModule,
     CvcOrganizationTagModule,
     DatePipe,
     CvcPipesModule,
+    CvcTagGroupModule,
   ],
   templateUrl: './approval-notification.component.html',
   styleUrl: './approval-notification.component.less',

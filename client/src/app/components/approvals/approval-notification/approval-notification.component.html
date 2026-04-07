@@ -2,11 +2,7 @@
   nzType="warning"
   [nzMessage]="approvalMessageTemplate"
   [nzIcon]="approvalIconTemplate"
-  [nzAction]="
-    approval().status === 'REQUIRES_REVIEW'
-      ? underReviewNotice
-      : approvalActionTemplate
-  "></nz-alert>
+  ></nz-alert>
 <ng-template #approvalIconTemplate>
   <span style="color: {{ this.color() }}; font-size: 24px">
     <i
@@ -17,38 +13,58 @@
   </span>
 </ng-template>
 <ng-template #approvalMessageTemplate>
-  @if (showStars()) {
+  <p>
+    Classification approved by
+    <strong>{{ this.isApprovedVcep() ? 'ClinGen Somatic Expert Panel ' : ' ' }}</strong>
+    <cvc-organization-tag [org]="approval().organization"></cvc-organization-tag>
     <span
-      nz-tooltip
-      [nzTooltipTitle]="starTooltip">
-      <nz-rate
-        [nzCount]="starRating()"
-        nzDisabled
-        [ngModel]="starRating()" />
+      nz-typography
+      nzType="secondary">
+      @if (approval().status === 'REQUIRES_REVIEW') {
+        <nz-tag nzColor="blue">
+          <i
+            nz-icon
+            nzType="info-circle"
+            nzTheme="fill">
+          </i>
+          Under review
+        </nz-tag>
+      } @else {
+        on {{ approval().lastReviewed | date: 'mediumDate' }}
+      }
     </span>
-    <ng-template #starTooltip>
-      {{ approval().organization.name }} is a {{ starRating() }} star ClinVar
-      submitter.
-    </ng-template>
+  </p>
+  @if (approval().clinvarAccession) {
+    <p>
+      Clinvar Entry
+      <cvc-tag-group>
+        <span
+          nz-tooltip
+          [nzTooltipTitle]="starTooltip">
+          <nz-tag>
+            @for (i of [].constructor(starRating()); track $index) {
+              <i
+                nz-icon
+                nzType="star"
+                style="color: {{ this.color() }}"
+                nzTheme="fill">
+              </i>
+            }
+          </nz-tag>
+        </span>
+        <ng-template #starTooltip>
+          {{ approval().organization.name }} is a {{ starRating() }} star ClinVar
+          submitter.
+        </ng-template>
+        <span>
+          <nz-tag>
+            @let unversionedAccession = (approval().clinvarAccession?.split('.') || [""])[0];
+            <a [href]="'https://www.ncbi.nlm.nih.gov/clinvar?term=' +  unversionedAccession + '%5BClinVar%20accession%5D'">
+              {{ approval().clinvarAccession }}
+            </a>
+          </nz-tag>
+        </span>
+      </cvc-tag-group>
+    </p>
   }
-  Classification approved by
-  <strong>{{ this.isApprovedVcep() ? 'ClinGen Expert Panel ' : ' ' }}</strong>
-  <cvc-organization-tag [org]="approval().organization"></cvc-organization-tag>
-</ng-template>
-<ng-template #approvalActionTemplate>
-  <span
-    nz-typography
-    nzType="secondary">
-    ({{ approval().lastReviewed | date: 'mediumDate' }})
-  </span>
-</ng-template>
-<ng-template #underReviewNotice>
-  <nz-tag nzColor="blue">
-    <i
-      nz-icon
-      nzType="info-circle"
-      nzTheme="fill">
-    </i>
-    Under review
-  </nz-tag>
 </ng-template>
