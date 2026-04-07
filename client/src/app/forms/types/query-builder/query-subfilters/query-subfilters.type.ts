@@ -12,6 +12,10 @@ export class CvcQuerySubfiltersField extends FieldArrayType {
     super()
   }
 
+  get isEmpty(): boolean {
+    return !Array.isArray(this.model) || this.model.length === 0
+  }
+
   addRow(initialModel?: any) {
     this.options.formState.showErrors = false
     super.add(undefined, initialModel)

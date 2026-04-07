@@ -28,7 +28,9 @@
     <nz-col
       nzSpan="12"
       class="form-messages">
-      @if (isFormInvalid) {
+      @if (formSubmitted && hasNoFilters) {
+        <span class="error-msg">Add at least one filter before searching.</span>
+      } @else if (isFormInvalid) {
         <span class="error-msg">Please complete all filter values before searching.</span>
       }
     </nz-col>
