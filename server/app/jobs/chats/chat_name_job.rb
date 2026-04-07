@@ -4,7 +4,7 @@ module Chats
       chat = Chats::Chat.find(chat_id)
 
       model = if Rails.application.config.using_bedrock
-        "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+        "global.anthropic.claude-haiku-4-5-20251001-v1:0"
       else
         "gpt-4o-mini"
       end

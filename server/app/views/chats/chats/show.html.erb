@@ -3,9 +3,16 @@
 <% content_for :title, @chat.display_name %>
 
 <%# Header bar %>
-<div class="flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-white shrink-0"
+<div class="flex items-center justify-between px-3 sm:px-6 py-3 border-b border-gray-200 bg-white shrink-0"
      data-controller="inline-edit" data-inline-edit-url-value="<%= chats_chat_path(@chat) %>">
   <div class="flex items-center gap-3">
+    <button type="button"
+            class="lg:hidden p-2 -ml-1 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+            data-action="click->sidebar#toggle"
+            title="Open chats menu"
+            aria-label="Open chats menu">
+      <%= render "chats/shared/icons/menu", css: "h-5 w-5" %>
+    </button>
     <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
       <%= render "chats/shared/icons/beaker", css: "h-4 w-4 text-civic-purple" %>
     </div>
@@ -28,7 +35,7 @@
 
 <%# Messages area - scrollable %>
 <div class="flex-1 overflow-y-auto messages-container" data-controller="scroll">
-  <div id="messages" class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+  <div id="messages" class="max-w-4xl mx-auto px-3 sm:px-4 py-6 space-y-6">
     <% messages = @chat.messages.where.not(id: nil) %>
     <% messages.each do |message| %>
       <%= render message %>
@@ -41,7 +48,7 @@
 
 <%# Input area - fixed at bottom %>
 <div class="shrink-0 border-t border-gray-200 bg-white">
-  <div class="max-w-4xl mx-auto px-4 py-4">
+  <div class="max-w-4xl mx-auto px-3 sm:px-4 py-4">
     <%= render "chats/messages/form", chat: @chat, message: @message %>
     <%= render "chats/shared/disclaimer" %>
   </div>
