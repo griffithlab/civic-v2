@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_175036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -18,10 +18,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "approval_status", ["active", "revoked", "requires_review"]
+  create_enum "assertion_types", ["Diagnostic", "Prognostic", "Predictive", "Predisposing", "Oncogenic"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
   create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
+  create_enum "specification_types", ["amp_tiers", "clingen_codes", "acmg_codes"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -1050,6 +1052,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
     t.integer "source_id", null: false
     t.datetime "updated_at", precision: nil
     t.integer "variant_group_id", null: false
+  end
+
+  create_table "specification_criteria", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "criterium", null: false
+    t.text "description", null: false
+    t.bigint "specification_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["specification_id"], name: "index_specification_criteria_on_specification_id"
+  end
+
+  create_table "specifications", force: :cascade do |t|
+    t.enum "assertion_type", null: false, enum_type: "assertion_types"
+    t.datetime "created_at", null: false
+    t.text "name", null: false
+    t.bigint "organization_id"
+    t.date "published_on", null: false
+    t.integer "sop_pubmed_id"
+    t.enum "specification_type", null: false, enum_type: "specification_types"
+    t.text "specification_url", null: false
+    t.datetime "updated_at", null: false
+    t.text "version", null: false
+    t.index ["organization_id"], name: "index_specifications_on_organization_id"
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
