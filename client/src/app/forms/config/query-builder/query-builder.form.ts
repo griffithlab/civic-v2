@@ -69,7 +69,9 @@ export class CvcQueryBuilderForm implements OnInit {
   options: FormlyFormOptions = {
     formState: { formLayout: 'horizontal', showErrors: false },
     showError: (field) => {
-      return !!(field.formControl?.invalid && field.options.formState?.showErrors)
+      return !!(
+        field.formControl?.invalid && field.options.formState?.showErrors
+      )
     },
   }
 
