@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@app/*": [
-        "app/*"
-      ]
+      "@app/*": ["app/*"],
+      "@forms/*": ["app/forms/*"],
+      "@generated/*": ["app/generated/*"]
     },
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
@@ -21,11 +21,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "lib": [
-      "es2019",
-      "dom",
-      "esnext.asynciterable"
-    ],
+    "lib": ["es2019", "dom", "esnext.asynciterable"],
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": false
   },

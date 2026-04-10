@@ -3,7 +3,7 @@ import { BaseState } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
-import { BehaviorSubject, filter, map, Observable } from 'rxjs'
+import { BehaviorSubject, filter, map, Observable, tap } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 
 export type BaseFieldValue = Maybe<
@@ -42,7 +42,6 @@ export function BaseFieldType<
       this.onModelChange$ = this.field.options.fieldChanges.pipe(
         filter((c) => c.field.id === this.field.id), // filter out other fields
         pluck('value')
-        // tag(`${this.field.key} base-field onModelChange$`)
       )
 
       // update state if field has been prepopulated w/ query param or

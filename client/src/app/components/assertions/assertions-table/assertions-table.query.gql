@@ -6,6 +6,7 @@ query AssertionsBrowse(
   $diseaseName: String
   $therapyName: String
   $id: Int
+  $ids: [Int!]
   $summary: String
   $assertionDirection: EvidenceDirection
   $significance: AssertionSignificance
@@ -33,6 +34,7 @@ query AssertionsBrowse(
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     summary: $summary
     assertionDirection: $assertionDirection
     significance: $significance

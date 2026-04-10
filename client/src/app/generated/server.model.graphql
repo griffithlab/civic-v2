@@ -358,6 +358,8 @@ type AddTherapyPayload {
 }
 
 type AdvancedSearchResult {
+  originalQuery: JSON!
+  originalVariables: JSON
   permalinkId: String
   resultIds: [Int!]!
   searchEndpoint: String!
@@ -940,6 +942,7 @@ input AssertionSearchFilter {
   assertionDirection: AssertionDirectionTypeSearchInput
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
@@ -2274,6 +2277,7 @@ type CommentEdge {
 input CommentSearchFilter {
   booleanOperator: BooleanOperator
   comment: StringSearchInput
+  commenter: UserSearchFilter
   createdAt: DateSearchInput
   id: IntSearchInput
   subFilters: [CommentSearchFilter!]
@@ -5096,6 +5100,7 @@ input FeatureInstanceTypesSearchInput {
 input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   creatingUser: UserSearchFilter
   deprecatingUser: UserSearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
@@ -7784,6 +7789,7 @@ type MolecularProfileNamePreview {
 input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   creatingUser: UserSearchFilter
   deprecatingUser: UserSearchFilter
   description: StringSearchInput
@@ -7791,7 +7797,9 @@ input MolecularProfileSearchFilter {
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
+  name: StringSearchInput
   openRevisionCount: IntSearchInput
+  revisions: RevisionSearchFilter
   score: FloatSearchInput
   source: SourceSearchFilter
   subFilters: [MolecularProfileSearchFilter!]
@@ -10643,6 +10651,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10770,11 +10783,13 @@ type Query {
   ): [SearchResult!]!
   searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
+  searchComments(createPermalink: Boolean = false, query: CommentSearchFilter!): AdvancedSearchResult!
   searchDiseases(createPermalink: Boolean = false, query: DiseaseSearchFilter!): AdvancedSearchResult!
   searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
   searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
+  searchRevisions(createPermalink: Boolean = false, query: RevisionSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
   searchTherapies(createPermalink: Boolean = false, query: TherapySearchFilter!): AdvancedSearchResult!
   searchUsers(createPermalink: Boolean = false, query: UserSearchFilter!): AdvancedSearchResult!
@@ -12176,6 +12191,7 @@ type RevisionResult {
 
 input RevisionSearchFilter {
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   createdAt: DateSearchInput
   creatingUser: UserSearchFilter
   fieldName: StringSearchInput
@@ -12686,6 +12702,8 @@ input SourceSearchFilter {
   booleanOperator: BooleanOperator
   citation: StringSearchInput
   citationId: StringSearchInput
+  comment: CommentSearchFilter
+  deprecated: BooleanSearchInput
   id: IntSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput
@@ -14496,7 +14514,7 @@ input UserSearchFilter {
   name: StringSearchInput
   organizationId: IntSearchInput
   organizationName: StringSearchInput
-  subFilters: [CommentSearchFilter!]
+  subFilters: [UserSearchFilter!]
   username: StringSearchInput
 }
 

@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -20,9 +22,9 @@ import {
   BrowseVariantsQueryVariables,
   Maybe,
   PageInfo,
-  VariantsSortColumns,
-  VariantCategories,
   SortDirection,
+  VariantCategories,
+  VariantsSortColumns,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -55,7 +57,8 @@ export interface VariantTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcVariantsTableComponent implements OnInit {
+export class CvcVariantsTableComponent implements OnInit, OnChanges {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() variantTypeId: Maybe<number>
   @Input() variantGroupId: Maybe<number>
@@ -124,6 +127,7 @@ export class CvcVariantsTableComponent implements OnInit {
       variantGroupId: this.variantGroupId,
       hasNoVariantType: this.hasNoVariantTypeInput,
       variantCategory: this.variantCategoryInput,
+      ids: this.ids,
       sortBy: {
         column: VariantsSortColumns.EvidenceItemCount,
         direction: SortDirection.Desc,
@@ -214,8 +218,10 @@ export class CvcVariantsTableComponent implements OnInit {
 
   // fetch a new set of records
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
+        ids: this.ids,
         diseaseName: this.diseaseNameInput,
         therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
@@ -234,6 +240,12 @@ export class CvcVariantsTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
+  }
+
   // virtual scroll helpers
   trackByIndex(
     _: number,
@@ -246,4 +258,5 @@ export class CvcVariantsTableComponent implements OnInit {
     this.hasNoVariantTypeInput = value[0]
     this.filterChange$.next()
   }
+
 }

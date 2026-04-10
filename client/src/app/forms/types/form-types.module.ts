@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
 import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
+import { CvcBaseBooleanRadioModule } from './base/boolean-radio/boolean-radio.module'
 import { CvcBaseCheckboxModule } from './base/checkbox/checkbox.module'
 import { CvcBaseInputModule } from './base/input/input.module'
 import { CvcBaseSelectModule } from './base/select/select.module'
@@ -32,6 +33,11 @@ import { CvcTagInputModule } from './tag-input/tag-input.module'
 import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
+import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search-button.module'
+import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-subfilters/query-subfilters.module'
+import { CvcBaseRadioFieldModule } from '@app/forms/types/base/radio/radio.module'
+import { CvcQueryFilterModule } from '@app/forms/types/query-builder/query-filter/query-filter.module'
+import { CvcStructFilterModule } from './query-builder/struct-filter/struct-filter.module'
 import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/region-variant-name-select.module'
 
 @NgModule({
@@ -39,10 +45,12 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CommonModule,
     CvcAcmgCodeSelectModule,
     CvcAmpCategorySelectModule,
+    CvcBaseBooleanRadioModule,
     CvcBaseCheckboxModule,
     CvcBaseInputModule,
     CvcBaseSelectModule,
     CvcBaseTextareaFieldModule,
+    CvcBaseRadioFieldModule,
     CvcCancelButtonModule,
     CvcClingenCodeSelectModule,
     CvcClinvarInputFieldModule,
@@ -69,6 +77,10 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcTherapySelectModule,
     CvcVariantSelectModule,
     CvcVariantTypeSelectModule,
+    CvcSearchButtonTypeModule,
+    CvcQuerySubfiltersModule,
+    CvcQueryFilterModule,
+    CvcStructFilterModule,
     CvcRegionVariantNameSelectModule,
   ],
 })
