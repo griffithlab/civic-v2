@@ -49,7 +49,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcQueryBuilderForm implements OnInit {
-  searchEndpoint = model.required<AdvancedSearchEndpoint>()
+  searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<string>()
 
   searchResults = output<QueryBuilderResult>()
@@ -91,7 +91,6 @@ export class CvcQueryBuilderForm implements OnInit {
     // a model that was just loaded from a permalink
     effect(() => {
       const endpoint = this.searchEndpoint()
-      console.log('form searchEndpoint effect:', endpoint)
       this.options = {
         ...this.options,
         formState: {
