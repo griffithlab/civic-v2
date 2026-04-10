@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_175036) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_153713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -208,6 +208,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_175036) do
     t.integer "phenotype_id", null: false
     t.index ["assertion_id", "phenotype_id"], name: "index_assertions_phenotypes_on_assertion_id_and_phenotype_id"
     t.index ["phenotype_id"], name: "index_assertions_phenotypes_on_phenotype_id"
+  end
+
+  create_table "assertions_specification_criteria", force: :cascade do |t|
+    t.bigint "assertion_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "specification_criterium_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_assertions_specification_criteria_on_assertion_id"
+    t.index ["specification_criterium_id"], name: "idx_on_specification_criterium_id_07ea5d3345"
   end
 
   create_table "assertions_therapies", id: false, force: :cascade do |t|

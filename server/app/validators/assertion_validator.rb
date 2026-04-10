@@ -25,7 +25,7 @@ class AssertionValidator < ActiveModel::Validator
 
     if validator[:therapy]
       if record.therapy_ids.blank?
-        record.errors.add :therapy_ids, "Therapy required for #{record.evidence_type} evidence type"
+        record.errors.add :therapy_ids, "Therapy required for #{record.assertion_type} assertion type"
       else
         deprecated_therapies = record.therapies.select { |t| t.deprecated }
         if deprecated_therapies.count > 0
@@ -44,30 +44,29 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :therapy_interaction_type, "Therapy interaction type cannot be set unless multiple therapys are specified."
     end
 
-    if !validator[:acmg_codes] && record.acmg_code_ids.size > 0
-      record.errors.add :acmg_code_ids, "Assertions of type #{record.assertion_type} may not have ACMG codes attached."
+    record.specification_criteria.each do |criterium|
+      if criterium.specification.assertion_type != record.assertion_type
+        record.errors.add(:specification, "Assertions of type #{record.assertion_type} may not have #{criterium.specification.name} classifications attached.")
+      end
     end
 
-    if !validator[:clingen_codes] && record.clingen_code_ids.size > 0
-      record.errors.add :acmg_code_ids, "Assertions of type #{record.assertion_type} may not have ClinGen/CGC/VICC codes attached."
-    end
-
-    if !validator[:amp_level] && record.amp_level.present?
-      record.errors.add :amp_level, "Assertions of type #{record.assertion_type} may not have an AMP/ASCO/CAP level attached."
+    utilized_specifications = record.specification_criteria.map(&:specification)
+    if utilized_specifications.uniq.size > 1
+      record.errors.add(:specification, "All classifications must come from the same specification. #{utilized_specifications.map(&:name).join(",")} found.")
     end
 
     if !validator[:allow_regulatory_approval] && !record.fda_regulatory_approval.nil?
       record.errors.add :fda_regulatory_approval, "Assertions without a therapy cannot specify FDA regulatory approval."
     end
 
-    if record.nccn_guideline_version
-      if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
-        record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
-      end
-      if !record.nccn_guideline
-        record.errors.add :nccn_guideline, "NCCN guideline is required when a NCCN guideline version is set."
-      end
-    end
+    # if record.nccn_guideline_version
+    #   if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
+    #     record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
+    #   end
+    #   if !record.nccn_guideline
+    #     record.errors.add :nccn_guideline, "NCCN guideline is required when a NCCN guideline version is set."
+    #   end
+    # end
 
     if record.nccn_guideline && !record.nccn_guideline_version
       record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."
@@ -85,9 +84,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: true,
-        acmg_codes: false,
-        amp_level: true,
-        clingen_codes: false,
         allow_regulatory_approval: true,
       },
      "Diagnostic" => {
@@ -95,9 +91,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: false,
-        acmg_codes: false,
-        amp_level: true,
-        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      "Prognostic" => {
@@ -105,9 +98,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: false,
-        acmg_codes: false,
-        amp_level: true,
-        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      "Predisposing" => {
@@ -115,9 +105,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports" ],
         disease: true,
         therapy: false,
-        acmg_codes: true,
-        amp_level: false,
-        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      "Oncogenic" => {
@@ -125,9 +112,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports" ],
         disease: true,
         therapy: false,
-        acmg_codes: false,
-        amp_level: false,
-        clingen_codes: true,
         allow_regulatory_approval: false,
       },
     }
