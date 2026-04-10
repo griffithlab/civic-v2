@@ -17,6 +17,12 @@ export class CvcQuerySubfiltersField extends FieldArrayType {
   }
 
   addRow(initialModel?: any) {
+    // console.log(
+    //   'options._viewContainerRef:',
+    //   (this.options as any)._viewContainerRef
+    // )
+    // console.log('options._injector:', (this.options as any)._injector)
+
     this.options.formState.showErrors = false
     super.add(undefined, initialModel)
   }

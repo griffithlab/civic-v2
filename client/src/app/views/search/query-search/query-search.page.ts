@@ -75,7 +75,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
   ],
 })
 export class QuerySearchPage {
-  searchEndpoint = model.required<AdvancedSearchEndpoint>()
+  searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<Maybe<string>>()
 
   searchResults = signal<Maybe<QueryBuilderResult>>(undefined)
@@ -103,11 +103,20 @@ export class QuerySearchPage {
       // always sync tab index
       this.selectedTabIndex.set(getTabIndexFromSearchEndpoint(endpoint))
 
-      // reset results when endpoint changes
+      // reset results when endpoint changes, but not when the change
+      // was driven by a permalink resolution (permalinkId is set)
       if (endpoint !== this.previousEndpoint) {
-        this.searchResults.set(undefined)
+        if (!permalinkId) {
+          this.searchResults.set(undefined)
+        }
         this.previousEndpoint = endpoint
       }
+
+      // if on the bare permalink route (no searchEndpoint in paramMap),
+      // skip navigation until the permalink resolves and we have results
+      const routeHasSearchEndpoint =
+        this.route.snapshot.paramMap.has('searchEndpoint')
+      if (!routeHasSearchEndpoint && !this.searchResults()) return
 
       // only navigate if something actually changed
       const currentEndpoint = this.route.snapshot.paramMap.get('searchEndpoint')
@@ -124,7 +133,8 @@ export class QuerySearchPage {
         relativeTo: this.route,
         queryParams: { permalinkId },
         queryParamsHandling: 'merge',
-        replaceUrl: false,
+        // replace the bare UUID URL so it doesn't pollute browser history
+        replaceUrl: !routeHasSearchEndpoint,
       })
     })
 
