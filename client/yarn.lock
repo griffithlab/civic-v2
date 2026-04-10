@@ -4218,27 +4218,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngx-formly/core@npm:7.0.1":
-  version: 7.0.1
-  resolution: "@ngx-formly/core@npm:7.0.1"
+"@ngx-formly/core@npm:7.0.0":
+  version: 7.0.0
+  resolution: "@ngx-formly/core@npm:7.0.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     "@angular/forms": ">=13.2.0"
     rxjs: ^6.5.3 || ^7.0.0
-  checksum: 10c0/206f10300799e43b5bb22fbf69b282a0eca8e096184c40f55f91ba822bcc6e50b64aa23a7608a5f665cf9f733003340ce74f554691506bafba50d674bd973a67
+  checksum: 10c0/94a60ec2505dcb297ab972bf62854067c9db61c33493bef0d3de004cdc2607c4132eaa8c0a667b447f6eff280cacb47838f798fdd5a166823fcc3e332b31ae83
   languageName: node
   linkType: hard
 
-"@ngx-formly/ng-zorro-antd@npm:7.0.1":
-  version: 7.0.1
-  resolution: "@ngx-formly/ng-zorro-antd@npm:7.0.1"
+"@ngx-formly/ng-zorro-antd@npm:7.0.0":
+  version: 7.0.0
+  resolution: "@ngx-formly/ng-zorro-antd@npm:7.0.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@ngx-formly/core": 7.0.1
+    "@ngx-formly/core": 7.0.0
     ng-zorro-antd: ">=16.0.0"
-  checksum: 10c0/c0916897e6a6d0bf5ea374a269ef3405ae05fff6d0481b4d01c0d82dab19870c579eefdf2746b951e233eaba7d886349c537eae32e1ec81aabb821c922908aba
+  checksum: 10c0/39b76330f1d12a1e49d96e5aaea534e345a42f8fe08d33a051acbe0c6754c70b59914fe357d8f9da4d57a35f2501826e98b2876fc06d85617cca6381b1348554
   languageName: node
   linkType: hard
 
@@ -9968,8 +9968,8 @@ __metadata:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
     "@ngneat/until-destroy": "npm:^10.0.0"
     "@ngrx/component": "npm:^20.1.0"
-    "@ngx-formly/core": "npm:7.0.1"
-    "@ngx-formly/ng-zorro-antd": "npm:7.0.1"
+    "@ngx-formly/core": "npm:7.0.0"
+    "@ngx-formly/ng-zorro-antd": "npm:7.0.0"
     "@parcel/watcher": "npm:^2.4.1"
     "@types/node": "npm:^20.14.12"
     "@typescript-eslint/eslint-plugin": "npm:7.11.0"
