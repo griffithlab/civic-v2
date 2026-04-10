@@ -21,7 +21,7 @@
                  class="w-full bg-slate-700 text-white text-sm rounded px-1 py-0.5 border border-slate-500 focus:border-civic-purple focus:outline-none"
                  onclick="event.preventDefault(); event.stopPropagation();" />
         </div>
-        <div class="text-xs text-slate-400 truncate"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></div>
+        <time class="text-xs text-slate-400 truncate block" datetime="<%= chat.created_at.iso8601 %>" data-controller="local-time" data-local-time-format-value="datetime"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></time>
       </div>
     </div>
   <% end %>
