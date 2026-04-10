@@ -9636,7 +9636,7 @@ __metadata:
     rxjs: "npm:^7.8.1"
     rxjs-etc: "npm:^10.6.2"
     svg-to-ts: "npm:^12.0.0"
-    svgo: "npm:^3.0.2"
+    svgo: "npm:^3.3.3"
     ts-enum-util: "npm:^4.0.2"
     ts-mixin-extended: "npm:^1.1.1"
     ts-node: "npm:~10.9.1"
@@ -12563,7 +12563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svgo@npm:^3.0.2":
+"svgo@npm:^3.0.2, svgo@npm:^3.3.3":
   version: 3.3.3
   resolution: "svgo@npm:3.3.3"
   dependencies:
