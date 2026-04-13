@@ -72,8 +72,6 @@ export type AcmgCode = {
   code: Scalars['String']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  name: Scalars['String']['output'];
-  tooltip: Scalars['String']['output'];
 };
 
 /** An activity done by a curator or editor */
@@ -1297,8 +1295,6 @@ export type ClingenCode = {
   description: Scalars['String']['output'];
   exclusive: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
-  name: Scalars['String']['output'];
-  tooltip: Scalars['String']['output'];
 };
 
 export type ClinicalSignificanceCounts = {
@@ -10496,9 +10492,9 @@ export type AssertionRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
+export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
 
-export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
+export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
 
 export type SuggestAssertionRevisionMutationVariables = Exact<{
   input: SuggestAssertionRevisionInput;
@@ -10779,32 +10775,32 @@ export type AcmgCodeSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, name: string, description: string, tooltip: string }> };
+export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string }> };
 
 export type AcmgCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'AcmgCode', id: number, code: string, name: string, description: string, tooltip: string } | undefined };
+export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string } | undefined };
 
-export type AcmgCodeSelectTypeaheadFieldsFragment = { __typename: 'AcmgCode', id: number, code: string, name: string, description: string, tooltip: string };
+export type AcmgCodeSelectTypeaheadFieldsFragment = { __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string };
 
 export type ClingenCodeSelectTypeaheadQueryVariables = Exact<{
   code: Scalars['String']['input'];
 }>;
 
 
-export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean }> };
+export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string }> };
 
 export type ClingenCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean } | undefined };
+export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string } | undefined };
 
-export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean };
+export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string };
 
 export type CytogeneticRegionSelectTypeaheadQueryVariables = Exact<{
   queryTerm: Scalars['String']['input'];
@@ -13717,17 +13713,17 @@ export const RevisableAssertionFieldsFragmentDoc = gql`
   ampLevel
   acmgCodes {
     id
-    name
+    name: code
     code
     description
-    tooltip
+    tooltip: description
   }
   clingenCodes {
     id
     code
     description
-    name
-    tooltip
+    name: code
+    tooltip: description
     exclusive
   }
   nccnGuideline {
@@ -14080,18 +14076,18 @@ export const AcmgCodeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
   code
-  name
+  name: code
   description
-  tooltip
+  tooltip: description
 }
     `;
 export const ClingenCodeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
   id
   code
-  name
+  name: code
   description
-  tooltip
+  tooltip: description
   exclusive
 }
     `;

@@ -19,13 +19,11 @@ export type AcceptRevisionsPayloadFieldPolicy = {
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	supersededRevisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AcmgCodeKeySpecifier = ('code' | 'description' | 'id' | 'name' | 'tooltip' | AcmgCodeKeySpecifier)[];
+export type AcmgCodeKeySpecifier = ('code' | 'description' | 'id' | AcmgCodeKeySpecifier)[];
 export type AcmgCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	tooltip?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ActivityInterfaceKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | ActivityInterfaceKeySpecifier)[];
 export type ActivityInterfaceFieldPolicy = {
@@ -581,14 +579,12 @@ export type CivicTimepointStatsFieldPolicy = {
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ClingenCodeKeySpecifier = ('code' | 'description' | 'exclusive' | 'id' | 'name' | 'tooltip' | ClingenCodeKeySpecifier)[];
+export type ClingenCodeKeySpecifier = ('code' | 'description' | 'exclusive' | 'id' | ClingenCodeKeySpecifier)[];
 export type ClingenCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	exclusive?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	tooltip?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ClinicalSignificanceCountsKeySpecifier = ('assertions' | 'count' | 'direction' | 'disease' | 'significance' | 'therapies' | 'therapyInteractionType' | 'type' | ClinicalSignificanceCountsKeySpecifier)[];
 export type ClinicalSignificanceCountsFieldPolicy = {

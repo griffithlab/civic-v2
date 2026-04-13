@@ -13,7 +13,7 @@ query AcmgCodeSelectTag($id: Int!) {
 fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
   code
-  name
+  name: code
   description
-  tooltip
+  tooltip: description
 }

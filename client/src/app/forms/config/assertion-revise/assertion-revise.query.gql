@@ -39,17 +39,17 @@ fragment RevisableAssertionFields on Assertion {
   ampLevel
   acmgCodes {
     id
-    name
+    name: code
     code
     description
-    tooltip
+    tooltip: description
   }
   clingenCodes {
     id
     code
     description
-    name
-    tooltip
+    name: code
+    tooltip: description
     exclusive
   }
   nccnGuideline {

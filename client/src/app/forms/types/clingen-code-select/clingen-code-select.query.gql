@@ -13,8 +13,8 @@ query ClingenCodeSelectTag($id: Int!) {
 fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
   id
   code
-  name
+  name: code
   description
-  tooltip
+  tooltip: description
   exclusive
 }
