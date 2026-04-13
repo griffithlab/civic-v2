@@ -18,6 +18,7 @@ class Assertion < ActiveRecord::Base
   has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
   has_many :approvals
   has_and_belongs_to_many :specification_criteria
+  has_many :specifications, through: :specification_criteria
 
   enum :amp_level, Constants::AMP_LEVELS
   enum :assertion_type, Constants::ASSERTION_TYPES, suffix: true

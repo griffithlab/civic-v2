@@ -69,8 +69,6 @@ type AcmgCode {
   code: String!
   description: String!
   id: Int!
-  name: String!
-  tooltip: String!
 }
 
 """
@@ -2062,8 +2060,6 @@ type ClingenCode {
   description: String!
   exclusive: Boolean!
   id: Int!
-  name: String!
-  tooltip: String!
 }
 
 type ClinicalSignificanceCounts {

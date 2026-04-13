@@ -50,11 +50,17 @@ module Types::Entities
     end
 
     def acmg_codes
-      Loaders::AssociationLoader.for(Assertion, :acmg_codes).load(object)
+      load_codes(code_type: "acmg_codes")
     end
 
     def clingen_codes
-      Loaders::AssociationLoader.for(Assertion, :clingen_codes).load(object)
+      load_codes(code_type: "clingen_codes")
+    end
+
+    def amp_level
+      load_codes(code_type: "amp_tiers").then do |al|
+        al.map(&:criterium).first
+      end
     end
 
     def molecular_profile
@@ -109,6 +115,17 @@ module Types::Entities
 
     def approvals
       Loaders::AssociationLoader.for(Assertion, :approvals).load(object)
+    end
+
+    private
+    def load_codes(code_type:)
+      Loaders::AssociationLoader.for(Assertion, :specification_criteria).load(object).then do |all_criteria|
+        # load all specifications eagerly for this assertion so we dont create a query per iteration
+        Specification.where(specification_criterium: all_criteria)
+        all_criteria.select do |sc|
+          sc.specification.specification_type == code_type
+        end
+      end
     end
   end
 end

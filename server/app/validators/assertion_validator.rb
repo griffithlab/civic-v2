@@ -55,18 +55,26 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add(:specification, "All classifications must come from the same specification. #{utilized_specifications.map(&:name).join(",")} found.")
     end
 
+    utilized_amp_tiers = utilized_specifications
+      .map(&:specification_type)
+      .tally["amp_tiers"]
+
+    if utilized_amp_tiers.present? && utilized_amp_tiers.size > 1
+      record.errors.add(:specification, "Only one AMP Tier can be assigned to an Assertion.")
+    end
+
     if !validator[:allow_regulatory_approval] && !record.fda_regulatory_approval.nil?
       record.errors.add :fda_regulatory_approval, "Assertions without a therapy cannot specify FDA regulatory approval."
     end
 
-    # if record.nccn_guideline_version
-    #   if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
-    #     record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
-    #   end
-    #   if !record.nccn_guideline
-    #     record.errors.add :nccn_guideline, "NCCN guideline is required when a NCCN guideline version is set."
-    #   end
-    # end
+    if record.nccn_guideline_version
+      if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
+        record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
+      end
+      if !record.nccn_guideline
+        record.errors.add :nccn_guideline, "NCCN guideline is required when a NCCN guideline version is set."
+      end
+    end
 
     if record.nccn_guideline && !record.nccn_guideline_version
       record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."

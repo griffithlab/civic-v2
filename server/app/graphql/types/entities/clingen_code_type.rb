@@ -3,16 +3,14 @@ module Types::Entities
     field :id, Int, null: false
     field :code, String, null: false
     field :description, String, null: false
-    field :name, String, null: false
-    field :tooltip, String, null: false
     field :exclusive, Boolean, null: false
 
-    def tooltip
-      object.description
+    def exclusive
+      code == "N/A"
     end
 
-    def exclusive
-      object.code == "N/A"
+    def code
+      object.criterium
     end
   end
 end
