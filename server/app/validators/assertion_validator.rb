@@ -59,7 +59,7 @@ class AssertionValidator < ActiveModel::Validator
       .map(&:specification_type)
       .tally["amp_tiers"]
 
-    if utilized_amp_tiers.present? && utilized_amp_tiers.size > 1
+    if utilized_amp_tiers.present? && utilized_amp_tiers > 1
       record.errors.add(:specification, "Only one AMP Tier can be assigned to an Assertion.")
     end
 
