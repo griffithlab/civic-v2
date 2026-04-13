@@ -3,5 +3,9 @@ module Types::Entities
     field :id, Int, null: false
     field :code, String, null: false
     field :description, String, null: false
+
+    def code
+      object.criterium
+    end
   end
 end
