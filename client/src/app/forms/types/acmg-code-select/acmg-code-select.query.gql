@@ -1,19 +1,20 @@
 query AcmgCodeSelectTypeahead($code: String!) {
   acmgCodesTypeahead(queryTerm: $code) {
-    ...AcmgCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
 
 query AcmgCodeSelectTag($id: Int!) {
   acmgCode(id: $id) {
-    ...AcmgCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
 
-fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
+fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {
   id
-  code
-  name: code
+  code: criterium
+  name: criterium
   description
   tooltip: description
+  exclusive
 }

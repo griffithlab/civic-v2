@@ -1,20 +1,11 @@
 query ClingenCodeSelectTypeahead($code: String!) {
   clingenCodesTypeahead(queryTerm: $code) {
-    ...ClingenCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
 
 query ClingenCodeSelectTag($id: Int!) {
   clingenCode(id: $id) {
-    ...ClingenCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
-}
-
-fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
-  id
-  code
-  name: code
-  description
-  tooltip: description
-  exclusive
 }

@@ -2523,6 +2523,13 @@ export type SourceSuggestionValuesFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SpecificationCriteriumKeySpecifier = ('criterium' | 'description' | 'exclusive' | 'id' | SpecificationCriteriumKeySpecifier)[];
+export type SpecificationCriteriumFieldPolicy = {
+	criterium?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	exclusive?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type StatsKeySpecifier = ('acceptedAssertions' | 'acceptedEvidenceItems' | 'appliedRevisions' | 'comments' | 'revisions' | 'submittedAssertions' | 'submittedEvidenceItems' | 'suggestedSources' | StatsKeySpecifier)[];
 export type StatsFieldPolicy = {
 	acceptedAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3889,6 +3896,10 @@ export type StrictTypedTypePolicies = {
 	SourceSuggestionValues?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceSuggestionValuesKeySpecifier | (() => undefined | SourceSuggestionValuesKeySpecifier),
 		fields?: SourceSuggestionValuesFieldPolicy,
+	},
+	SpecificationCriterium?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SpecificationCriteriumKeySpecifier | (() => undefined | SpecificationCriteriumKeySpecifier),
+		fields?: SpecificationCriteriumFieldPolicy,
 	},
 	Stats?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | StatsKeySpecifier | (() => undefined | StatsKeySpecifier),

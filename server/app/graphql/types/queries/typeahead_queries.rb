@@ -48,12 +48,12 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :acmg_codes_typeahead, [ Types::Entities::AcmgCodeType ], null: false do
+      klass.field :acmg_codes_typeahead, [ Types::Entities::SpecificationCriteriumType ], null: false do
         description "Retrieve ACMG Code options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :clingen_codes_typeahead, [ Types::Entities::ClingenCodeType ], null: false do
+      klass.field :clingen_codes_typeahead, [ Types::Entities::SpecificationCriteriumType ], null: false do
         description "Retrieve Clingen Code options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
       end
@@ -190,15 +190,18 @@ module Types::Queries
       end
 
       def acmg_codes_typeahead(query_term:)
-        AcmgCode.where("code ILIKE ?", "#{query_term}%")
-          .order(:code)
+        SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
+          .joins(:specification)
+          .where("specifications.specification_type = 'acmg_codes'")
+          .order(:criterium)
           .limit(20)
       end
 
       def clingen_codes_typeahead(query_term:)
-        ClingenCode.where("code ILIKE ?", "#{query_term}%")
-          .or(ClingenCode.where("description ILIKE ?", "%#{query_term}%"))
-          .order(:code)
+        SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
+          .joins(:specification)
+          .where("specifications.specification_type = 'clingen_codes'")
+          .order(:criterium)
           .limit(20)
       end
 

@@ -18,11 +18,11 @@ import {
   AcmgCodeSelectTagGQL,
   AcmgCodeSelectTagQuery,
   AcmgCodeSelectTagQueryVariables,
-  AcmgCodeSelectTypeaheadFieldsFragment,
   AcmgCodeSelectTypeaheadGQL,
   AcmgCodeSelectTypeaheadQuery,
   AcmgCodeSelectTypeaheadQueryVariables,
   Maybe,
+  SpecificationCriteriumSelectTypeaheadFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -77,7 +77,7 @@ const AcmgCodeSelectMixin = mixin(
   EntitySelectField<
     AcmgCodeSelectTypeaheadQuery,
     AcmgCodeSelectTypeaheadQueryVariables,
-    AcmgCodeSelectTypeaheadFieldsFragment,
+    SpecificationCriteriumSelectTypeaheadFieldsFragment,
     AcmgCodeSelectTagQuery,
     AcmgCodeSelectTagQueryVariables,
     Maybe<number | number[]>
@@ -239,7 +239,7 @@ export class CvcAcmgCodeSelectField
 
   getTagQueryResultsFn(
     r: ApolloQueryResult<AcmgCodeSelectTagQuery>
-  ): Maybe<AcmgCodeSelectTypeaheadFieldsFragment> {
+  ): Maybe<SpecificationCriteriumSelectTypeaheadFieldsFragment> {
     return r.data.acmgCode
   }
 
@@ -248,17 +248,17 @@ export class CvcAcmgCodeSelectField
   }
 
   getSelectedItemOptionFn(
-    acmgCode: AcmgCodeSelectTypeaheadFieldsFragment
+    acmgCode: SpecificationCriteriumSelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
     return { value: acmgCode.id, label: acmgCode.code }
   }
 
   getSelectOptionsFn(
-    results: AcmgCodeSelectTypeaheadFieldsFragment[],
+    results: SpecificationCriteriumSelectTypeaheadFieldsFragment[],
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (acmgCode: AcmgCodeSelectTypeaheadFieldsFragment, index: number) => {
+      (acmgCode: SpecificationCriteriumSelectTypeaheadFieldsFragment, index: number) => {
         console.log(acmgCode)
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || acmgCode.code,

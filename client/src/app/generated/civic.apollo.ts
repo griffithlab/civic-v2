@@ -5464,9 +5464,9 @@ export enum PhenotypeSortColumns {
 export type Query = {
   __typename: 'Query';
   /** Find an ACMG code by CIViC ID */
-  acmgCode?: Maybe<AcmgCode>;
+  acmgCode?: Maybe<SpecificationCriterium>;
   /** Retrieve ACMG Code options as a typeahead */
-  acmgCodesTypeahead: Array<AcmgCode>;
+  acmgCodesTypeahead: Array<SpecificationCriterium>;
   /** List and filter activities */
   activities: ActivityInterfaceConnection;
   /** Find a CIViC activity record by CIViC ID */
@@ -5490,9 +5490,9 @@ export type Query = {
   browseVariantGroups: BrowseVariantGroupConnection;
   browseVariants: BrowseVariantConnection;
   /** Find a ClinGen code by CIViC ID */
-  clingenCode?: Maybe<ClingenCode>;
+  clingenCode?: Maybe<SpecificationCriterium>;
   /** Retrieve Clingen Code options as a typeahead */
-  clingenCodesTypeahead: Array<ClingenCode>;
+  clingenCodesTypeahead: Array<SpecificationCriterium>;
   /** Find a clinical trial by CIViC ID */
   clinicalTrial?: Maybe<ClinicalTrial>;
   /** List and filter Clinical Trials from ClinicalTrials.gov. */
@@ -7483,6 +7483,14 @@ export enum SourcesSortColumns {
   SuggestionCount = 'SUGGESTION_COUNT',
   Year = 'YEAR'
 }
+
+export type SpecificationCriterium = {
+  __typename: 'SpecificationCriterium';
+  criterium: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  exclusive: Scalars['Boolean']['output'];
+  id: Scalars['Int']['output'];
+};
 
 export type Stats = {
   __typename: 'Stats';
@@ -10775,32 +10783,30 @@ export type AcmgCodeSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string }> };
+export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
 
 export type AcmgCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string } | undefined };
+export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
 
-export type AcmgCodeSelectTypeaheadFieldsFragment = { __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string };
+export type SpecificationCriteriumSelectTypeaheadFieldsFragment = { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string };
 
 export type ClingenCodeSelectTypeaheadQueryVariables = Exact<{
   code: Scalars['String']['input'];
 }>;
 
 
-export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string }> };
+export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
 
 export type ClingenCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string } | undefined };
-
-export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, description: string, exclusive: boolean, name: string, tooltip: string };
+export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
 
 export type CytogeneticRegionSelectTypeaheadQueryVariables = Exact<{
   queryTerm: Scalars['String']['input'];
@@ -14072,20 +14078,11 @@ export const SubmittableVariantGroupFieldsFragmentDoc = gql`
   }
 }
     `;
-export const AcmgCodeSelectTypeaheadFieldsFragmentDoc = gql`
-    fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
+export const SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {
   id
-  code
-  name: code
-  description
-  tooltip: description
-}
-    `;
-export const ClingenCodeSelectTypeaheadFieldsFragmentDoc = gql`
-    fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
-  id
-  code
-  name: code
+  code: criterium
+  name: criterium
   description
   tooltip: description
   exclusive
@@ -19331,10 +19328,10 @@ export const EntityTagsTestDocument = gql`
 export const AcmgCodeSelectTypeaheadDocument = gql`
     query AcmgCodeSelectTypeahead($code: String!) {
   acmgCodesTypeahead(queryTerm: $code) {
-    ...AcmgCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
-    ${AcmgCodeSelectTypeaheadFieldsFragmentDoc}`;
+    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -19349,10 +19346,10 @@ export const AcmgCodeSelectTypeaheadDocument = gql`
 export const AcmgCodeSelectTagDocument = gql`
     query AcmgCodeSelectTag($id: Int!) {
   acmgCode(id: $id) {
-    ...AcmgCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
-    ${AcmgCodeSelectTypeaheadFieldsFragmentDoc}`;
+    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -19367,10 +19364,10 @@ export const AcmgCodeSelectTagDocument = gql`
 export const ClingenCodeSelectTypeaheadDocument = gql`
     query ClingenCodeSelectTypeahead($code: String!) {
   clingenCodesTypeahead(queryTerm: $code) {
-    ...ClingenCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
-    ${ClingenCodeSelectTypeaheadFieldsFragmentDoc}`;
+    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -19385,10 +19382,10 @@ export const ClingenCodeSelectTypeaheadDocument = gql`
 export const ClingenCodeSelectTagDocument = gql`
     query ClingenCodeSelectTag($id: Int!) {
   clingenCode(id: $id) {
-    ...ClingenCodeSelectTypeaheadFields
+    ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
-    ${ClingenCodeSelectTypeaheadFieldsFragmentDoc}`;
+    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

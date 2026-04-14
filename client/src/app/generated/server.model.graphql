@@ -9063,12 +9063,12 @@ type Query {
   """
   Find an ACMG code by CIViC ID
   """
-  acmgCode(id: Int!): AcmgCode
+  acmgCode(id: Int!): SpecificationCriterium
 
   """
   Retrieve ACMG Code options as a typeahead
   """
-  acmgCodesTypeahead(queryTerm: String!): [AcmgCode!]!
+  acmgCodesTypeahead(queryTerm: String!): [SpecificationCriterium!]!
 
   """
   List and filter activities
@@ -9723,12 +9723,12 @@ type Query {
   """
   Find a ClinGen code by CIViC ID
   """
-  clingenCode(id: Int!): ClingenCode
+  clingenCode(id: Int!): SpecificationCriterium
 
   """
   Retrieve Clingen Code options as a typeahead
   """
-  clingenCodesTypeahead(queryTerm: String!): [ClingenCode!]!
+  clingenCodesTypeahead(queryTerm: String!): [SpecificationCriterium!]!
 
   """
   Find a clinical trial by CIViC ID
@@ -12865,6 +12865,13 @@ enum SourcesSortColumns {
   SOURCE_TYPE
   SUGGESTION_COUNT
   YEAR
+}
+
+type SpecificationCriterium {
+  criterium: String!
+  description: String!
+  exclusive: Boolean!
+  id: Int!
 }
 
 type Stats {

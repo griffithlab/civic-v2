@@ -153,12 +153,12 @@ module Types
       argument :id, Int, required: true
     end
 
-    field :acmg_code, Types::Entities::AcmgCodeType, null: true do
+    field :acmg_code, Types::Entities::SpecificationCriteriumType, null: true do
       description "Find an ACMG code by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :clingen_code, Types::Entities::ClingenCodeType, null: true do
+    field :clingen_code, Types::Entities::SpecificationCriteriumType, null: true do
       description "Find a ClinGen code by CIViC ID"
       argument :id, Int, required: true
     end
@@ -377,11 +377,11 @@ module Types
     end
 
     def acmg_code(id:)
-      AcmgCode.find(id)
+      SpecificationCriterium.joins(:specification).find_by(id: id, specification: {specification_type: 'acmg_codes'}) 
     end
 
     def clingen_code(id:)
-      ClingenCode.find(id)
+      SpecificationCriterium.joins(:specification).find_by(id: id, specification: {specification_type: 'clingen_codes'}) 
     end
 
     def nccn_guideline(id:)

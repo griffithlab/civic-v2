@@ -18,11 +18,11 @@ import {
   ClingenCodeSelectTagGQL,
   ClingenCodeSelectTagQuery,
   ClingenCodeSelectTagQueryVariables,
-  ClingenCodeSelectTypeaheadFieldsFragment,
   ClingenCodeSelectTypeaheadGQL,
   ClingenCodeSelectTypeaheadQuery,
   ClingenCodeSelectTypeaheadQueryVariables,
   Maybe,
+  SpecificationCriteriumSelectTypeaheadFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -77,7 +77,7 @@ const ClingenCodeSelectMixin = mixin(
   EntitySelectField<
     ClingenCodeSelectTypeaheadQuery,
     ClingenCodeSelectTypeaheadQueryVariables,
-    ClingenCodeSelectTypeaheadFieldsFragment,
+    SpecificationCriteriumSelectTypeaheadFieldsFragment,
     ClingenCodeSelectTagQuery,
     ClingenCodeSelectTagQueryVariables,
     Maybe<number | number[]>
@@ -275,7 +275,7 @@ export class CvcClingenCodeSelectField
 
   getTagQueryResultsFn(
     r: ApolloQueryResult<ClingenCodeSelectTagQuery>
-  ): Maybe<ClingenCodeSelectTypeaheadFieldsFragment> {
+  ): Maybe<SpecificationCriteriumSelectTypeaheadFieldsFragment> {
     return r.data.clingenCode
   }
 
@@ -284,18 +284,18 @@ export class CvcClingenCodeSelectField
   }
 
   getSelectedItemOptionFn(
-    clingenCode: ClingenCodeSelectTypeaheadFieldsFragment
+    clingenCode: SpecificationCriteriumSelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
     return { value: clingenCode.id, label: clingenCode.code }
   }
 
   getSelectOptionsFn(
-    results: ClingenCodeSelectTypeaheadFieldsFragment[],
+    results: SpecificationCriteriumSelectTypeaheadFieldsFragment[],
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
       (
-        clingenCode: ClingenCodeSelectTypeaheadFieldsFragment,
+        clingenCode: SpecificationCriteriumSelectTypeaheadFieldsFragment,
         index: number
       ) => {
         return <NzSelectOptionInterface>{
