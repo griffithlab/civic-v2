@@ -16,6 +16,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** An ISO 8601-encoded date */
+  ISO8601Date: { input: any; output: any; }
   /** An ISO 8601-encoded datetime */
   ISO8601DateTime: { input: any; output: any; }
   /** Represents untyped JSON */
@@ -5596,6 +5598,8 @@ export type Query = {
   specificationCriterium?: Maybe<SpecificationCriterium>;
   /** Retrieve Criteria Options For a Specification and Query */
   specificationCriteriumTypeahead: Array<SpecificationCriterium>;
+  /** Find specifications based on org and assertion type */
+  specifications: Array<Specification>;
   /** Get the active subscription for the entity and logged in user, if any */
   subscriptionForEntity?: Maybe<Subscription>;
   /** List and filter Therapies from the NCI Thesaurus. */
@@ -6406,7 +6410,13 @@ export type QuerySpecificationCriteriumArgs = {
 
 export type QuerySpecificationCriteriumTypeaheadArgs = {
   queryTerm: Scalars['String']['input'];
-  specificationId: Scalars['Int']['input'];
+  specificationId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QuerySpecificationsArgs = {
+  assertionType: AssertionType;
+  organizationId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -7483,6 +7493,21 @@ export enum SourcesSortColumns {
   Year = 'YEAR'
 }
 
+export type Specification = {
+  __typename: 'Specification';
+  assertionType: AssertionType;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  organization?: Maybe<Organization>;
+  organizationId?: Maybe<Scalars['Int']['output']>;
+  publishedOn: Scalars['ISO8601Date']['output'];
+  sopPubmedId: Scalars['Int']['output'];
+  specificationCriterium: Array<SpecificationCriterium>;
+  specificationType: SpecificationType;
+  specificationUrl: Scalars['String']['output'];
+  version: Scalars['String']['output'];
+};
+
 export type SpecificationCriterium = {
   __typename: 'SpecificationCriterium';
   criterium: Scalars['String']['output'];
@@ -7490,6 +7515,12 @@ export type SpecificationCriterium = {
   exclusive: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
 };
+
+export enum SpecificationType {
+  AcmgCodes = 'ACMG_CODES',
+  AmpTiers = 'AMP_TIERS',
+  ClingenCodes = 'CLINGEN_CODES'
+}
 
 export type Stats = {
   __typename: 'Stats';
@@ -10795,6 +10826,7 @@ export type SpecificationCriteriumSelectTypeaheadFieldsFragment = { __typename: 
 
 export type SpecificationCriteriumSelectTypeaheadQueryVariables = Exact<{
   code: Scalars['String']['input'];
+  specification?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -10806,6 +10838,16 @@ export type SpecificationCriteriumSelectTagQueryVariables = Exact<{
 
 
 export type SpecificationCriteriumSelectTagQuery = { __typename: 'Query', specificationCriterium?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
+
+export type ValidSpecificationsQueryVariables = Exact<{
+  orgId?: InputMaybe<Scalars['Int']['input']>;
+  assertionType: AssertionType;
+}>;
+
+
+export type ValidSpecificationsQuery = { __typename: 'Query', specifications: Array<{ __typename: 'Specification', id: number, name: string, version: string }> };
+
+export type SpecificationSelectFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string };
 
 export type ClingenCodeSelectTypeaheadQueryVariables = Exact<{
   code: Scalars['String']['input'];
@@ -14105,6 +14147,13 @@ export const SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc = gql`
   description
   tooltip: description
   exclusive
+}
+    `;
+export const SpecificationSelectFieldsFragmentDoc = gql`
+    fragment SpecificationSelectFields on Specification {
+  id
+  name
+  version
 }
     `;
 export const CytogeneticRegionSelectTypeaheadFieldsFragmentDoc = gql`
@@ -19381,8 +19430,11 @@ export const AcmgCodeSelectTagDocument = gql`
     }
   }
 export const SpecificationCriteriumSelectTypeaheadDocument = gql`
-    query SpecificationCriteriumSelectTypeahead($code: String!) {
-  specificationCriteriumTypeahead(queryTerm: $code, specificationId: 4) {
+    query SpecificationCriteriumSelectTypeahead($code: String!, $specification: Int) {
+  specificationCriteriumTypeahead(
+    queryTerm: $code
+    specificationId: $specification
+  ) {
     ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
@@ -19411,6 +19463,24 @@ export const SpecificationCriteriumSelectTagDocument = gql`
   })
   export class SpecificationCriteriumSelectTagGQL extends Apollo.Query<SpecificationCriteriumSelectTagQuery, SpecificationCriteriumSelectTagQueryVariables> {
     document = SpecificationCriteriumSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidSpecificationsDocument = gql`
+    query ValidSpecifications($orgId: Int, $assertionType: AssertionType!) {
+  specifications(organizationId: $orgId, assertionType: $assertionType) {
+    ...SpecificationSelectFields
+  }
+}
+    ${SpecificationSelectFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidSpecificationsGQL extends Apollo.Query<ValidSpecificationsQuery, ValidSpecificationsQueryVariables> {
+    document = ValidSpecificationsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

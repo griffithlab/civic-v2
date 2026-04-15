@@ -1,6 +1,6 @@
 import { assertionReviseFormInitialModel } from '@app/forms/models/assertion-revise.model'
 import { CvcAcmgCodeSelectFieldOptions } from '@app/forms/types/acmg-code-select/acmg-code-select.type'
-import { CvcAmpCategorySelectFieldOptions } from '@app/forms/types/amp-category-select/amp-category-select.type'
+import { SpecificationSelectFieldOptions } from '@app/forms/types/amp-category-select/amp-category-select.type'
 import { CvcClingenCodeSelectFieldOptions } from '@app/forms/types/clingen-code-select/clingen-code-select.type'
 import { CvcFdaCompanionTestCheckboxFieldOptions } from '@app/forms/types/fda-companion-test-checkbox/fda-companion-test-checkbox.type'
 import { CvcFdaRegulatoryApprovalCheckboxFieldOptions } from '@app/forms/types/fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.type'

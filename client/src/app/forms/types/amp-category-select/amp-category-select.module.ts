@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
@@ -23,7 +23,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-  CvcAmpCategorySelectField, CvcAmpCategorySelectFieldOptions,
+  CvcAmpCategorySelectField, SpecificationSelectFieldOptions,
 } from './amp-category-select.type'
 
 const typeConfig: ConfigOption = {
@@ -34,7 +34,7 @@ const typeConfig: ConfigOption = {
       component: CvcAmpCategorySelectField,
       defaultOptions: {
         props: {
-          label: 'AMP/ASCO/CAP Category'
+          label: 'Specification Criteria'
         }
       }
     },
@@ -42,10 +42,10 @@ const typeConfig: ConfigOption = {
       name: 'amp-category-multi-select',
       wrappers: ['form-field'],
       component: CvcAmpCategorySelectField,
-      defaultOptions: <CvcAmpCategorySelectFieldOptions>{
+      defaultOptions: <SpecificationSelectFieldOptions>{
         props: {
           isMultiSelect: true,
-          label: 'AMP/ASCO/CAP Categories'
+          label: 'Specification Criteria'
         },
       },
     },
@@ -56,6 +56,7 @@ const typeConfig: ConfigOption = {
   declarations: [CvcAmpCategorySelectField],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     LetDirective, PushPipe,
     FormlyModule.forChild(typeConfig),

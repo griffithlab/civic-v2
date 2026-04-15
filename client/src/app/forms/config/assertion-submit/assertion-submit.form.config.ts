@@ -108,26 +108,19 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'phenotype-multi-select',
                 props: {},
               },
+            ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 18,
+              },
+            },
+            fieldGroup: [
               {
                 key: 'ampCategoryId',
                 type: 'amp-category-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
-              {
-                key: 'acmgCodeIds',
-                type: 'acmg-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
-              {
-                key: 'clingenCodeIds',
-                type: 'clingen-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
               },
             ],
           },

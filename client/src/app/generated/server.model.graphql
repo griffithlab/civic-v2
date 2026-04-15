@@ -10855,7 +10855,7 @@ type Query {
   """
   Retrieve Criteria Options For a Specification and Query
   """
-  specificationCriteriumTypeahead(queryTerm: String!, specificationId: Int!): [SpecificationCriterium!]!
+  specificationCriteriumTypeahead(queryTerm: String!, specificationId: Int): [SpecificationCriterium!]!
 
   """
   Find specifications based on org and assertion type

@@ -61,7 +61,7 @@ module Types::Queries
       klass.field :specification_criterium_typeahead, [ Types::Entities::SpecificationCriteriumType ], null: false do
         description "Retrieve Criteria Options For a Specification and Query"
         argument :query_term, GraphQL::Types::String, required: true
-        argument :specification_id, GraphQL::Types::Int, required: true
+        argument :specification_id, GraphQL::Types::Int, required: false
       end
 
       klass.field :nccn_guidelines_typeahead, [ Types::Entities::NccnGuidelineType ], null: false do
@@ -211,11 +211,17 @@ module Types::Queries
           .limit(20)
       end
 
-      def specification_criterium_typeahead(query_term:, specification_id:)
-        SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
-          .where(specification_id: specification_id)
-          .order(:criterium)
-          .limit(20)
+      def specification_criterium_typeahead(query_term:, specification_id: nil)
+        if specification_id
+          SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
+            .where(specification_id: specification_id)
+            .order(:criterium)
+            .limit(20)
+        else
+          SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
+            .order(:criterium)
+            .limit(20)
+        end
       end
 
       def nccn_guidelines_typeahead(query_term:)

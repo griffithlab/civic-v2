@@ -399,9 +399,14 @@ module Types
       SpecificationCriterium.find_by(id: id)
     end
 
-    def specifications(assertion_type:, organization_id:)
-      Specification.where(assertion_type: assertion_type, organization_id: [ organization_id, nil ])
-        .order("specifications.organization_id ASC NULLS LAST")
+    def specifications(assertion_type:, organization_id: nil)
+      if organization_id
+        Specification.where(assertion_type: assertion_type, organization_id: [ organization_id, nil ])
+          .order("specifications.organization_id ASC NULLS LAST")
+      else
+        Specification.where(assertion_type: assertion_type)
+          .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+      end
     end
 
     def nccn_guideline(id:)

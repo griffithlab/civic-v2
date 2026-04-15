@@ -1,23 +1,21 @@
 <nz-row
   [nzGutter]="[6, 6]"
   class="select-layout">
-  <nz-col nzFlex="80px">
+  <nz-col nzSpan="8">
     <nz-select
       nzSize="default"
       nzBlock
+      [disabled]="!entityType()"
+      [(ngModel)]="selectedSpecificationId"
       [nzOptionHeightPx]="28">
-      <nz-option
-        nzValue="PUBMED"
-        nzLabel="PubMed"></nz-option>
-      <nz-option
-        nzValue="ASCO"
-        nzLabel="ASCO"></nz-option>
-      <nz-option
-        nzValue="ASH"
-        nzLabel="ASH"></nz-option>
+      @for (spec of this.validSpecifications(); track spec.id) {
+        <nz-option
+          [nzValue]="spec.id"
+          [nzLabel]="spec.name"></nz-option>
+      }
     </nz-select>
   </nz-col>
-  <nz-col>
+  <nz-col nzSpan="16">
     <cvc-entity-select
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
@@ -28,7 +26,7 @@
       [cvcResults]="result$ | ngrxPush"
       [cvcOptions]="selectOption$ | ngrxPush"
       [cvcShowError]="showError"
-      [cvcDisabled]="onRequiresAmpLevel$ && !(onRequiresAmpLevel$ | ngrxPush)"
+      [cvcDisabled]="!selectedSpecificationId"
       [cvcLoading]="isLoading$ | ngrxPush"
       (cvcOnSearch)="onSearch$.next($event)"
       (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"

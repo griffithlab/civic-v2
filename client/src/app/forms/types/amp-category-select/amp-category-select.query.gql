@@ -1,5 +1,5 @@
-query SpecificationCriteriumSelectTypeahead($code: String!) {
-  specificationCriteriumTypeahead(queryTerm: $code, specificationId: 4) {
+query SpecificationCriteriumSelectTypeahead($code: String!, $specification: Int) {
+  specificationCriteriumTypeahead(queryTerm: $code, specificationId: $specification) {
     ...SpecificationCriteriumSelectTypeaheadFields
   }
 }
@@ -8,6 +8,18 @@ query specificationCriteriumSelectTag($id: Int!) {
   specificationCriterium(id: $id) {
     ...SpecificationCriteriumSelectTypeaheadFields
   }
+}
+
+query ValidSpecifications($orgId: Int, $assertionType: AssertionType!) {
+  specifications(organizationId: $orgId, assertionType: $assertionType) {
+    ...SpecificationSelectFields
+  }
+}
+
+fragment SpecificationSelectFields on Specification {
+  id
+  name
+  version
 }
 
 fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {

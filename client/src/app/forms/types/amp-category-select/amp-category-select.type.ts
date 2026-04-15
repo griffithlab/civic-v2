@@ -5,15 +5,17 @@ import {
   Component,
   computed,
   QueryList,
+  effect,
+  signal,
   Signal,
   TemplateRef,
   Type,
   ViewChildren,
+  WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
@@ -27,6 +29,9 @@ import {
   SpecificationCriteriumSelectTypeaheadQueryVariables,
   Maybe,
   SpecificationCriteriumSelectTypeaheadFieldsFragment,
+  AssertionType,
+  ValidSpecificationsGQL,
+  SpecificationSelectFieldsFragment
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -37,17 +42,12 @@ import {
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  Subject,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
-export type CvcAmpCategorySelectFieldOptions = Partial<
+export type SpecificationSelectFieldOptions = Partial<
   FieldTypeConfig<CvcAmpCategorySelectFieldProps>
 >
-// TODO: finish implementing updated props interface w/ labels, placeholders groups,
-// and multiMax limits, multiDefault placeholder
 export interface CvcAmpCategorySelectFieldProps extends FormlyFieldProps {
   // entity names, singular & plural
   entityName: CvcSelectEntityName
@@ -99,22 +99,23 @@ export class CvcAmpCategorySelectField
   extends AmpCategorySelectMixin
   implements AfterViewInit
 {
-  // STATE SOURCE STREAMS
-  onEntityType$?: Subject<Maybe<EntityType>>
-  onRequiresAmpLevel$?: BehaviorSubject<boolean>
 
   placeholder$: BehaviorSubject<Maybe<string>>
 
   // FieldTypeConfig defaults
-  defaultOptions: CvcAmpCategorySelectFieldOptions = {
+  defaultOptions: SpecificationSelectFieldOptions = {
     props: {
-      entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
+      entityName: { singular: 'Specification Criteria', plural: 'Specification Criteria' },
+      disabled: true,
+      label: "Specification Criteria",
       isMultiSelect: false,
       requireType: true,
-      tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
-      placeholder: 'Search AMP/ASCO/CAP Categories',
-      requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
-        `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
+      extraType: 'description',
+      description: '',
+      tooltip: 'Specification Criteria Depend on the Type of Assertion being curated.',
+      placeholder: 'Search Criteria',
+      requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+        `Select an ${entityName} Type To Search Specification Criteria`,
     },
   }
 
@@ -124,17 +125,136 @@ export class CvcAmpCategorySelectField
   stateEntityName?: string
 
   viewer: Signal<Maybe<Viewer>>
+  entityType: WritableSignal<Maybe<EntityType>> = signal(undefined)
   selectedOrgId: Signal<Maybe<number>> = computed(() => this.viewer()?.mostRecentOrg?.id)
+  formProps: Signal<SpecificationSelectFieldOptions> = signal(this.defaultOptions)
+  validSpecifications: WritableSignal<Maybe<SpecificationSelectFieldsFragment[]>> = signal([])
+  selectedSpecificationId?: number
+
+  formOptions = new Map<EntityType, SpecificationSelectFieldOptions>()
 
   constructor(
     private taq: SpecificationCriteriumSelectTypeaheadGQL,
     private tq: SpecificationCriteriumSelectTagGQL,
+    private vsq: ValidSpecificationsGQL,
     private viewerService: ViewerService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
     this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.viewer = toSignal(this.viewerService.viewer$)
+
+    this.formOptions.set(AssertionType.Predisposing, {
+      props: {
+      entityName: { singular: 'ACMG/AMP Code', plural: 'ACMG/AMP Codes' },
+      label: "Specification Criteria: ACMG/AMP Code(s)",
+      isMultiSelect: true,
+      requireType: true,
+      required: true,
+      disabled: false,
+      tooltip:
+        'If applicable, please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP.',
+      placeholder: 'Search ACMG/AMP Codes',
+      requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+        `Select an ${entityName} Type to search associated ACMG Code(s)`,
+      }
+    })
+    this.formOptions.set(AssertionType.Diagnostic, {
+      props: {
+        entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
+        label: "Specification Criteria: AMP/ASCO/CAP Category",
+        isMultiSelect: false,
+        requireType: true,
+        required: true,
+        disabled: false,
+        tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
+        placeholder: 'Search AMP/ASCO/CAP Categories',
+        requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+          `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
+      },
+    })
+    this.formOptions.set(AssertionType.Prognostic, {
+      props: {
+        entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
+        label: "Specification Criteria: AMP/ASCO/CAP Category",
+        isMultiSelect: false,
+        requireType: true,
+        required: true,
+        disabled: false,
+        tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
+        placeholder: 'Search AMP/ASCO/CAP Categories',
+        requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+          `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
+      },
+    })
+    this.formOptions.set(AssertionType.Predictive, {
+      props: {
+        entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
+        label: "Specification Criteria: AMP/ASCO/CAP Category",
+        isMultiSelect: false,
+        requireType: true,
+        required: true,
+        disabled: false,
+        tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
+        placeholder: 'Search AMP/ASCO/CAP Categories',
+        requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+          `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
+      },
+    })
+    this.formOptions.set(AssertionType.Oncogenic, {
+      props: {
+        entityName: {
+          singular: 'ClinGen/CGC/VICC Code',
+          plural: 'ClinGen/CGC/VICC Codes',
+        },
+        label: "Specification Criteria: ClinGen/CGC/VICC Code(s)",
+        isMultiSelect: true,
+        requireType: true,
+        required: true,
+        disabled: false,
+        tooltip:
+          'If applicable, please provide evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity).',
+        placeholder: 'Search ClinGen/CGC/VICC Codes',
+        requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+          `Select an ${entityName} Type to search associated ClinGen Code(s)`,
+      },
+    })
+
+    effect(() => {
+      const selectedType = this.entityType()
+      this.resetField()
+      if (selectedType) {
+        const newConfig = this.formOptions.get(selectedType)
+        if (newConfig) {
+          Object.assign(this.props, newConfig.props)
+        } else {
+          Object.assign(this.props, this.defaultOptions.props)
+        }
+      } else {
+        Object.assign(this.props, this.defaultOptions.props)
+      }
+    })
+
+    effect(() => {
+      const selectedType = this.entityType()
+      const selectedOrgId = this.selectedOrgId()
+      this.selectedSpecificationId = undefined
+
+      if (selectedType) {
+        this.vsq.fetch({
+          orgId: selectedOrgId,
+          assertionType: selectedType as AssertionType
+        }).pipe(untilDestroyed(this)).subscribe(
+          (res) => {
+            if(res.data) {
+              this.validSpecifications.set(res.data.specifications)
+            }
+          }
+        )
+      } else {
+        this.validSpecifications.set([])
+      }
+    })
   }
 
   ngAfterViewInit(): void {
@@ -160,16 +280,7 @@ export class CvcAmpCategorySelectField
   configureStateConnections(): void {
     if (!this.state) return
     this.stateEntityName = this.state.entityName
-    // connect to onRequiresAmpLevel$
-    if (!this.state.requires.requiresAmpLevel$) {
-      console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresAmpLevels$ subject to attach.`
-      )
-    } else {
-      this.onRequiresAmpLevel$ = this.state.requires.requiresAmpLevel$
-    }
 
-    // connect onEntityType$
     if (this.props.requireType) {
       const etName = `${this.stateEntityName.toLowerCase()}Type$`
       if (!this.state.fields[etName]) {
@@ -177,66 +288,21 @@ export class CvcAmpCategorySelectField
           `${this.field.id} requireType is true, however form state does not provide Subject ${etName}.`
         )
       } else {
-        this.onEntityType$ = this.state.fields[etName]
-        // this.onEntityType$.pipe(tag(`${this.field.id} onEntityType$`)).subscribe()
+        this.state.fields[etName].pipe(untilDestroyed(this)).subscribe(
+          (selectedType : EntityType) => {
+            this.entityType.set(selectedType)
+          }
+        )
       }
     }
   }
 
   configurePlaceholders(): void {
     this.placeholder$.next(this.props.placeholders)
-    if (!this.onRequiresAmpLevel$ || !this.onEntityType$) return
-    // update field placeholders & required status on state input events
-    combineLatest([this.onRequiresAmpLevel$, this.onEntityType$])
-      .pipe(distinctUntilChanged(), untilDestroyed(this))
-      .subscribe(
-        ([requiresAmpLevel, entityType]: [boolean, Maybe<EntityType>]) => {
-          // ACMG Codes are not associated with this entity type
-          if (!requiresAmpLevel && entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no ACMG Code required, entity type specified
-            this.props.description = `${formatEvidenceEnum(entityType)} ${
-              this.state!.entityName
-            } does not include associated AMP/ASCO/CAP Categories`
-            this.props.extraType = 'prompt'
-            this.resetField()
-            this.cdr.markForCheck()
-          }
-          // if type required, toggle field required property off and show a 'Select Type..' prompt
-          else if (this.props.requireType && !entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no ACMG Code required, entity type not specified
-            this.props.description = this.props.requireTypePromptFn(
-              this.state!.entityName,
-              this.props.isMultiSelect
-            )
-            this.props.extraType = 'prompt'
-          }
-          // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder
-          // (state will only return true from requiresAmpLevel$ if entityType provided)
-          else if (requiresAmpLevel) {
-            this.props.required = true
-            this.props.disabled = false
-            ;(this.props.description =
-              'Please provide the AMP/ASCO/CAP <a href="https://pubmed.ncbi.nlm.nih.gov/27993330/" target="_blank">somatic variant classification</a>.'),
-              (this.props.extraType = 'description')
-          }
-          // field currently has a value, but state indicates no ACMG Code is required, or no type is
-          // provided && type is required, so reset field
-          else if (
-            (!requiresAmpLevel && this.formControl.value) ||
-            (this.props.requireType && !entityType && this.formControl.value)
-          ) {
-            this.resetField()
-          }
-        }
-      )
   }
 
   getTypeaheadVarsFn(str: string): SpecificationCriteriumSelectTypeaheadQueryVariables {
-    return { code: str }
+    return { code: str, specification: this.selectedSpecificationId }
   }
 
   getTypeaheadResultsFn(r: ApolloQueryResult<SpecificationCriteriumSelectTypeaheadQuery>) {
