@@ -109,7 +109,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 props: {},
               },
               {
-                key: 'ampLevel',
+                key: 'ampCategoryId',
                 type: 'amp-category-select',
                 props: {
                   colSpan: 8,

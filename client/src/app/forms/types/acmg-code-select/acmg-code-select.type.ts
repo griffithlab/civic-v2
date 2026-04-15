@@ -259,7 +259,6 @@ export class CvcAcmgCodeSelectField
   ): NzSelectOptionInterface[] {
     return results.map(
       (acmgCode: SpecificationCriteriumSelectTypeaheadFieldsFragment, index: number) => {
-        console.log(acmgCode)
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || acmgCode.code,
           value: acmgCode.id,

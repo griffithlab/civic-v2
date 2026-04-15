@@ -1,5 +1,4 @@
 import {
-  AmpLevel,
   AssertionSignificance,
   AssertionDirection,
   AssertionType,
@@ -11,7 +10,7 @@ export type AssertionFields = {
   /** List of CIViC IDs for the ACMG/AMP codes associated with this Assertion */
   acmgCodeIds?: number[]
   /** The AMP/ASCO/CAP Category for this assertion. */
-  ampLevel?: AmpLevel
+  ampCategoryId?: number
   /** The evidence direction for this Assertion. */
   assertionDirection?: AssertionDirection
   /** The Type of the Assertion */

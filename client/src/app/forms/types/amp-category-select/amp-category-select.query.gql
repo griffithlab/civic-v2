@@ -1,0 +1,20 @@
+query SpecificationCriteriumSelectTypeahead($code: String!) {
+  specificationCriteriumTypeahead(queryTerm: $code, specificationId: 4) {
+    ...SpecificationCriteriumSelectTypeaheadFields
+  }
+}
+
+query specificationCriteriumSelectTag($id: Int!) {
+  specificationCriterium(id: $id) {
+    ...SpecificationCriteriumSelectTypeaheadFields
+  }
+}
+
+fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {
+  id
+  code: criterium
+  name: criterium
+  description
+  tooltip: description
+  exclusive
+}

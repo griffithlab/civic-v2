@@ -36,7 +36,13 @@ fragment RevisableAssertionFields on Assertion {
     hpoId
     name
   }
-  ampLevel
+  ampCategory {
+    id
+    name: criterium
+    criterium
+    description
+    tooltip: description
+  }
   acmgCodes {
     id
     name: code

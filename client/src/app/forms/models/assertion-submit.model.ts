@@ -9,7 +9,7 @@ export const assertionSubmitFieldsDefaults: AssertionFields = {
   // gene, variant drug, included for initial input type development
   molecularProfileId: undefined,
   acmgCodeIds: [],
-  ampLevel: undefined,
+  ampCategoryId: undefined,
   assertionDirection: undefined,
   assertionType: undefined,
   clingenCodeIds: [],

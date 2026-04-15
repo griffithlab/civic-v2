@@ -163,6 +163,17 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :specification_criterium, Types::Entities::SpecificationCriteriumType, null: true do
+      description "Find a Specification Criterum code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :specifications, [ Types::Entities::SpecificationType ], null: false do
+      description "Find specifications based on org and assertion type"
+      argument :assertion_type, Types::AssertionTypeType, required: true
+      argument :organization_id, Int, required: false
+    end
+
     field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
       description "Find a NCCN Guideline by CIViC ID"
       argument :id, Int, required: true
@@ -377,11 +388,20 @@ module Types
     end
 
     def acmg_code(id:)
-      SpecificationCriterium.joins(:specification).find_by(id: id, specification: {specification_type: 'acmg_codes'}) 
+      SpecificationCriterium.joins(:specification).find_by(id: id, specification: { specification_type: "acmg_codes" })
     end
 
     def clingen_code(id:)
-      SpecificationCriterium.joins(:specification).find_by(id: id, specification: {specification_type: 'clingen_codes'}) 
+      SpecificationCriterium.joins(:specification).find_by(id: id, specification: { specification_type: "clingen_codes" })
+    end
+
+    def specification_criterium(id:)
+      SpecificationCriterium.find_by(id: id)
+    end
+
+    def specifications(assertion_type:, organization_id:)
+      Specification.where(assertion_type: assertion_type, organization_id: [ organization_id, nil ])
+        .order("specifications.organization_id ASC NULLS LAST")
     end
 
     def nccn_guideline(id:)

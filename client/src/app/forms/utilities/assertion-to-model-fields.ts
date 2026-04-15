@@ -7,7 +7,7 @@ import { AssertionSubmitModel } from "../models/assertion-submit.model";
 export function assertionToModelFields(a: RevisableAssertionFieldsFragment): AssertionFields {
   return {
     acmgCodeIds: a.acmgCodes.map(c => c.id),
-    ampLevel: a.ampLevel,
+    ampCategoryId: a.ampCategory?.id,
     assertionDirection: a.assertionDirection,
     assertionType: a.assertionType,
     clingenCodeIds: a.clingenCodes.map(c => c.id),
@@ -43,13 +43,23 @@ export function assertionFormModelToInput(model: AssertionSubmitModel): Maybe<Su
   if(requiredFields.find((f) => f === undefined)) {
     return undefined
   } else {
+
+    let criteriumIds: number[] = []
+    if (fields.acmgCodeIds) {
+      criteriumIds = criteriumIds.concat(fields.acmgCodeIds)
+    }
+    if (fields.clingenCodeIds) {
+      criteriumIds = criteriumIds.concat(fields.clingenCodeIds)
+    }
+    if (fields.ampCategoryId) {
+      criteriumIds = criteriumIds.concat([fields.ampCategoryId])
+    }
+
     return {
       fields: {
-        acmgCodeIds: fields.acmgCodeIds  || [],
-        ampLevel: fmt.toNullableInput(fields.ampLevel),
+        specificationCriteriumIds: criteriumIds,
         assertionDirection: fields.assertionDirection!,
         assertionType: fields.assertionType!,
-        clingenCodeIds: fields.clingenCodeIds || [],
         significance: fields.significance!,
         description: fmt.toNullableString(fields.description),
         diseaseId: fmt.toNullableInput(fields.diseaseId),

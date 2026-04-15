@@ -58,6 +58,12 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
+      klass.field :specification_criterium_typeahead, [ Types::Entities::SpecificationCriteriumType ], null: false do
+        description "Retrieve Criteria Options For a Specification and Query"
+        argument :query_term, GraphQL::Types::String, required: true
+        argument :specification_id, GraphQL::Types::Int, required: true
+      end
+
       klass.field :nccn_guidelines_typeahead, [ Types::Entities::NccnGuidelineType ], null: false do
         description "Retrieve NCCN Guideline options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
@@ -201,6 +207,13 @@ module Types::Queries
         SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
           .joins(:specification)
           .where("specifications.specification_type = 'clingen_codes'")
+          .order(:criterium)
+          .limit(20)
+      end
+
+      def specification_criterium_typeahead(query_term:, specification_id:)
+        SpecificationCriterium.where("criterium ILIKE ?", "#{query_term}%")
+          .where(specification_id: specification_id)
           .order(:criterium)
           .limit(20)
       end

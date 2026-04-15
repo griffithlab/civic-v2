@@ -6,7 +6,6 @@ import {
   MolecularProfile,
   VariantOrigin,
   TherapyInteraction,
-  AmpLevel,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
@@ -33,7 +32,7 @@ export type AssertionFields = {
   nccnGuidelineId$: BehaviorSubject<Maybe<number>>
   fdaRegulatoryApproval$: BehaviorSubject<Maybe<boolean>>
   fdaCompanionTest$: BehaviorSubject<Maybe<boolean>>
-  ampLevel$: BehaviorSubject<Maybe<AmpLevel>>
+  ampCategoryId$: BehaviorSubject<Maybe<number>>
   acmgCodeIds$: BehaviorSubject<Maybe<number[]>>
   clingenCodeIds$: BehaviorSubject<Maybe<number[]>>
   nccnGuidelineVersion$: BehaviorSubject<Maybe<string>>
@@ -90,7 +89,7 @@ class AssertionState extends BaseState {
       nccnGuidelineId$: new BehaviorSubject(def.nccnGuidelineId),
       fdaRegulatoryApproval$: new BehaviorSubject(def.fdaRegulatoryApproval),
       fdaCompanionTest$: new BehaviorSubject(def.fdaCompanionTest),
-      ampLevel$: new BehaviorSubject<Maybe<AmpLevel>>(def.ampLevel),
+      ampCategoryId$: new BehaviorSubject<Maybe<number>>(def.ampCategoryId),
       acmgCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.acmgCodeIds),
       clingenCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.clingenCodeIds),
       nccnGuidelineVersion$: new BehaviorSubject<Maybe<string>>(

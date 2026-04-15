@@ -23,18 +23,14 @@ module Types::Revisions
       description: "List of IDs of CIViC Therapy entries for this Assertion. An empty list indicates none."
     argument :therapy_interaction_type, Types::NullableValueInputType.for(Types::TherapyInteractionType), required: true,
       description: "Therapy interaction type for cases where more than one therapy ID is provided."
-    argument :amp_level, Types::NullableValueInputType.for(Types::AmpLevelType), required: true,
-      description: "The AMP/ASCO/CAP Category for this assertion."
+    argument :specification_criterium_ids, [ Int ], required: true,
+      description: "The CIViC Specification Criterium IDs for this Assertion"
     argument :evidence_item_ids, [ Int ], required: true,
       description: "IDs of evidence items that are included in this Assertion."
     argument :nccn_guideline_id, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,
       description: "The internal CIViC ID of the NCCN guideline associated with this Assertion"
     argument :nccn_guideline_version, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "The version of the NCCN Guideline specified"
-    argument :acmg_code_ids, [ Int ], required: true,
-      description: "List of CIViC IDs for the ACMG/AMP codes associated with this Assertion"
-    argument :clingen_code_ids, [ Int ], required: true,
-      description: "List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion"
     argument :fda_companion_test, Types::NullableValueInputType.for(GraphQL::Types::Boolean), required: true,
       description: "Is an FDA companion test available that pertains to this Assertion."
     argument :fda_regulatory_approval, Types::NullableValueInputType.for(GraphQL::Types::Boolean), required: true,

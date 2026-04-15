@@ -29,6 +29,7 @@ module Types::Entities
     field :acmg_codes, [ Types::Entities::AcmgCodeType ], null: false
     field :clingen_codes, [ Types::Entities::ClingenCodeType ], null: false
     field :amp_level, Types::AmpLevelType, null: true
+    field :amp_category, Types::Entities::SpecificationCriteriumType, null: true
     field :submission_event, Types::Entities::EventType, null: true
     field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
@@ -61,6 +62,10 @@ module Types::Entities
       load_codes(code_type: "amp_tiers").then do |al|
         al.map(&:criterium).first
       end
+    end
+
+    def amp_category
+      load_codes(code_type: "amp_tiers").first
     end
 
     def molecular_profile

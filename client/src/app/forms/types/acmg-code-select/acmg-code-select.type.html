@@ -15,7 +15,6 @@
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 
-
 <!--  <nz-select
   [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [nzCustomTemplate]="selectedTemplate"
@@ -35,9 +34,7 @@
 <ng-container *ngrxLet="onSearch$ as searchString">
   <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
     <ng-template #optionTemplates>
-        <nz-tag
-          nz-tooltip
-        >{{ result.code }}</nz-tag>
+      <nz-tag nz-tooltip>{{ result.code }}</nz-tag>
       <span
         nz-typography
         nzType="secondary">
@@ -45,8 +42,10 @@
           <em>
             <span
               nz-typography
-              nzType="secondary">{{result.description}}</span
-          ></em>
+              nzType="secondary"
+              >{{ result.description }}</span
+            ></em
+          >
         </ng-container>
       </span>
     </ng-template>
@@ -63,7 +62,7 @@
     <cvc-entity-tag
       [cvcDisableLink]="true"
       [cvcHasTooltip]="true"
-      [cvcCacheId]="'AcmgCode:' + selected.nzValue"
+      [cvcCacheId]="'SpecificationCriterium:' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>

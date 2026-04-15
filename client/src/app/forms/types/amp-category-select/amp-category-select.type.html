@@ -1,33 +1,80 @@
-<cvc-enum-select
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcPlaceholder]="placeholder$ | ngrxPush"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"></cvc-enum-select>
-<ng-container *ngFor="let enum of ampCategoryEnum$ | ngrxPush; index as i">
-  <ng-template #optionTemplates>
-    <nz-tag>
-      <strong>{{ enum | formatAmp: 'verbose' }}</strong>
-    </nz-tag>
-    <span nz-typography nzType="secondary">{{ descriptionForCategory(enum) }}</span>
-  </ng-template>
-</ng-container>
+<nz-row
+  [nzGutter]="[6, 6]"
+  class="select-layout">
+  <nz-col nzFlex="80px">
+    <nz-select
+      nzSize="default"
+      nzBlock
+      [nzOptionHeightPx]="28">
+      <nz-option
+        nzValue="PUBMED"
+        nzLabel="PubMed"></nz-option>
+      <nz-option
+        nzValue="ASCO"
+        nzLabel="ASCO"></nz-option>
+      <nz-option
+        nzValue="ASH"
+        nzLabel="ASH"></nz-option>
+    </nz-select>
+  </nz-col>
+  <nz-col>
+    <cvc-entity-select
+      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+      [cvcCustomTemplate]="selectedTemplate"
+      [cvcFormControl]="formControl"
+      [cvcFormlyAttributes]="field"
+      [cvcEntityName]="props.entityName"
+      [cvcPlaceholder]="placeholder$ | ngrxPush"
+      [cvcResults]="result$ | ngrxPush"
+      [cvcOptions]="selectOption$ | ngrxPush"
+      [cvcShowError]="showError"
+      [cvcDisabled]="onRequiresAmpLevel$ && !(onRequiresAmpLevel$ | ngrxPush)"
+      [cvcLoading]="isLoading$ | ngrxPush"
+      (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"
+      (cvcOnModelChange)="props.change && props.change(field, $event)">
+    </cvc-entity-select>
 
-<ng-template
-  #selectedTemplate
-  let-selected>
-  <div class="ant-select-selection-item-content">
-    <nz-tag
-      *ngIf="!props.isMultiSelect"
-      nzMode="closeable"
-      (nzOnClose)="onTagClose$.next($event)">
-      <strong>{{ selected.nzValue | formatAmp: 'verbose' }}</strong>
-    </nz-tag>
-    <ng-container *ngIf="props.isMultiSelect">
-      {{ selected.nzValue | formatAmp: 'verbose' }}
-     </ng-container>
-  </div>
-</ng-template>
+    <!-- select option templates -->
+    <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
+    <ng-container *ngrxLet="onSearch$ as searchString">
+      <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+        <ng-template #optionTemplates>
+          <nz-tag nz-tooltip>{{ result.code }}</nz-tag>
+          <span
+            nz-typography
+            nzType="secondary">
+            <ng-container *ngIf="result.description">
+              <em>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >{{ result.description }}</span
+                ></em
+              >
+            </ng-container>
+          </span>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <!-- selected option item template -->
+    <!-- displays entity tag, specifying context and mode depending on
+    if field is multi-select or single -->
+    <ng-template
+      #selectedTemplate
+      let-selected>
+      <div class="ant-select-selection-item-content">
+        <cvc-entity-tag
+          [cvcDisableLink]="true"
+          [cvcHasTooltip]="true"
+          [cvcCacheId]="'SpecificationCriterium:' + selected.nzValue"
+          [cvcContext]="
+            props.isMultiSelect ? 'multi-select-item' : 'select-item'
+          "
+          [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+          (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+      </div>
+    </ng-template>
+  </nz-col>
+</nz-row>
