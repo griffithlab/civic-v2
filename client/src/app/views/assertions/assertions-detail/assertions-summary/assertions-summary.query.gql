@@ -52,15 +52,14 @@ fragment AssertionSummaryFields on Assertion {
     link
   }
   therapyInteractionType
-  ampLevel
-  acmgCodes {
-    code
+  specificationCriteria {
+    id
+    criterium
     description
   }
-  clingenCodes {
+  specification {
     id
-    code
-    description
+    name
   }
   nccnGuideline {
     id

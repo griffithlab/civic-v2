@@ -174,6 +174,11 @@ module Types
       argument :organization_id, Int, required: false
     end
 
+    field :specification, Types::Entities::SpecificationType, null: false do
+      description "Find specification by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
       description "Find a NCCN Guideline by CIViC ID"
       argument :id, Int, required: true
@@ -407,6 +412,10 @@ module Types
         Specification.where(assertion_type: assertion_type)
           .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
       end
+    end
+
+    def specification(id:)
+      Specification.find_by(id: id)
     end
 
     def nccn_guideline(id:)

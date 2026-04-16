@@ -1,0 +1,19 @@
+query SpecificationPopover($specificationId: Int!) {
+  specification(id: $specificationId) {
+    ... SpecificationPopover
+  }
+}
+
+fragment SpecificationPopover on Specification {
+    id
+    name
+    specificationUrl
+    version
+    publishedOn
+    sopPubmedId
+    organization {
+      id
+      name
+      url
+    }
+}

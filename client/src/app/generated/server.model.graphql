@@ -770,6 +770,8 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     status: RevisionStatus
   ): RevisionConnection!
   significance: AssertionSignificance!
+  specification: Specification
+  specificationCriteria: [SpecificationCriterium!]!
   status: EvidenceStatus!
   submissionActivity: SubmitAssertionActivity!
   submissionEvent: Event
@@ -10846,6 +10848,11 @@ type Query {
     """
     last: Int
   ): SourceConnection!
+
+  """
+  Find specification by CIViC ID
+  """
+  specification(id: Int!): Specification!
 
   """
   Find a Specification Criterum code by CIViC ID

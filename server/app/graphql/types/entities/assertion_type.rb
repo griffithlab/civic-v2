@@ -37,6 +37,8 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
+    field :specification_criteria, [ Types::Entities::SpecificationCriteriumType ], null: false
+    field :specification, Types::Entities::SpecificationType, null: true
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -120,6 +122,16 @@ module Types::Entities
 
     def approvals
       Loaders::AssociationLoader.for(Assertion, :approvals).load(object)
+    end
+
+    def specification_criteria
+      Loaders::AssociationLoader.for(Assertion, :specification_criteria).load(object)
+    end
+
+    def specification
+      Loaders::AssociationLoader.for(Assertion, :specifications).load(object).then do |specs|
+        specs.first
+      end
     end
 
     private

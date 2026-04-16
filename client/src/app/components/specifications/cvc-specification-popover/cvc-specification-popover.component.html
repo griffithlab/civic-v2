@@ -1,0 +1,67 @@
+@if (this.specification) {
+  @let spec = this.specification();
+  @if (spec) {
+    <div id="popover-content">
+      <nz-card
+        [nzTitle]="cardTitle"
+        nzBordered="false"
+        id="card-content"
+        [nzExtra]="linkout">
+        <ng-template #cardTitle>
+          {{ spec.name | truncate: 50 }}
+        </ng-template>
+        <ng-template #linkout>
+          <cvc-link-tag
+            [href]="spec.specificationUrl"
+            tooltip="View Specification Document">
+            Document
+          </cvc-link-tag>
+        </ng-template>
+      </nz-card>
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+        <nz-descriptions-item
+          nzTitle="Name"
+          nzSpan="2">
+          {{ spec.name }}
+        </nz-descriptions-item>
+        <nz-descriptions-item
+          nzTitle="SOP Publication"
+          nzSpan="2">
+          <cvc-link-tag
+            href="https://pubmed.ncbi.nlm.nih.gov/{{ spec.sopPubmedId }}"
+            tooltip="View SOP on PubMed">
+            {{ spec.sopPubmedId }}
+          </cvc-link-tag>
+        </nz-descriptions-item>
+        <nz-descriptions-item
+          nzTitle="Version"
+          nzSpan="2">
+          {{ spec.version }}
+          <span
+            nz-typography
+            nzType="secondary"
+            >(Published {{ spec.publishedOn }})</span
+          >
+        </nz-descriptions-item>
+        <nz-descriptions-item
+          nzTitle="Publishing Organization"
+          nzSpan="2">
+          @if (spec.organization) {
+            <cvc-organization-tag
+              [org]="spec.organization"
+              [enablePopover]="false"></cvc-organization-tag>
+          } @else {
+            <span
+              nz-typography
+              nzType="secondary">
+              None
+            </span>
+          }
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  }
+}
