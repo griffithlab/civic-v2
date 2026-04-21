@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_153713) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_20_174602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -1067,6 +1067,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_153713) do
     t.datetime "created_at", null: false
     t.text "criterium", null: false
     t.text "description", null: false
+    t.integer "point_value"
     t.bigint "specification_id", null: false
     t.datetime "updated_at", null: false
     t.index ["specification_id"], name: "index_specification_criteria_on_specification_id"
