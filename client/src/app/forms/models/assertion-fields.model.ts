@@ -7,17 +7,12 @@ import {
 } from '@app/generated/civic.apollo'
 
 export type AssertionFields = {
-  /** List of CIViC IDs for the ACMG/AMP codes associated with this Assertion */
-  acmgCodeIds?: number[]
-  /** The AMP/ASCO/CAP Category for this assertion. */
-  ampCategoryId?: number
+  specificationCriteriumIds?: number[]
   /** The evidence direction for this Assertion. */
   assertionDirection?: AssertionDirection
   /** The Type of the Assertion */
   assertionType?: AssertionType
   /** List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion */
-  clingenCodeIds?: number[]
-  /** The Clinical Significance of the Assertion */
   significance?: AssertionSignificance
   /** A detailed description of the Assertion including practice guidelines and approved tests. */
   description?: string

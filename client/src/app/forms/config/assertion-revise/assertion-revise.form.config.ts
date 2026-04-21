@@ -1,7 +1,4 @@
 import { assertionReviseFormInitialModel } from '@app/forms/models/assertion-revise.model'
-import { CvcAcmgCodeSelectFieldOptions } from '@app/forms/types/acmg-code-select/acmg-code-select.type'
-import { SpecificationSelectFieldOptions } from '@app/forms/types/amp-category-select/amp-category-select.type'
-import { CvcClingenCodeSelectFieldOptions } from '@app/forms/types/clingen-code-select/clingen-code-select.type'
 import { CvcFdaCompanionTestCheckboxFieldOptions } from '@app/forms/types/fda-companion-test-checkbox/fda-companion-test-checkbox.type'
 import { CvcFdaRegulatoryApprovalCheckboxFieldOptions } from '@app/forms/types/fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms/types/interaction-select/interaction-select.type'
@@ -112,20 +109,19 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'phenotype-multi-select',
                 props: {},
               },
-              {
-                key: 'ampCategoryId',
-                type: 'amp-category-select',
-                props: {},
+            ]
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 18,
               },
+            },
+            fieldGroup: [
               {
-                key: 'acmgCodeIds',
-                type: 'acmg-code-multi-select',
-                props: {},
-              },
-              {
-                key: 'clingenCodeIds',
-                type: 'clingen-code-multi-select',
-                props: {},
+                key: 'specificationCriteriumIds',
+                type: 'specification-criteria-select',
               },
             ],
           },

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
@@ -23,29 +23,29 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-  CvcClingenCodeSelectField, CvcClingenCodeSelectFieldOptions,
-} from './clingen-code-select.type'
+  CvcSpecificationCriteriaSelectField, SpecificationSelectFieldOptions,
+} from './specification-criteria-select.type'
 
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'clingen-code-select',
+      name: 'specification-criteria-select',
       wrappers: ['form-field'],
-      component: CvcClingenCodeSelectField,
+      component: CvcSpecificationCriteriaSelectField,
       defaultOptions: {
         props: {
-          label: 'ClinGen/CGC/VICC Code'
+          label: 'Specification Criteria'
         }
       }
     },
     {
-      name: 'clingen-code-multi-select',
+      name: 'amp-category-multi-select',
       wrappers: ['form-field'],
-      component: CvcClingenCodeSelectField,
-      defaultOptions: <CvcClingenCodeSelectFieldOptions>{
+      component: CvcSpecificationCriteriaSelectField,
+      defaultOptions: <SpecificationSelectFieldOptions>{
         props: {
           isMultiSelect: true,
-          label: 'ClinGen/CGC/VICC Code(s)'
+          label: 'Specification Criteria'
         },
       },
     },
@@ -53,9 +53,10 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcClingenCodeSelectField],
+  declarations: [CvcSpecificationCriteriaSelectField],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     LetDirective, PushPipe,
     FormlyModule.forChild(typeConfig),
@@ -79,6 +80,6 @@ const typeConfig: ConfigOption = {
     CvcEntityTagModule,
     CvcStringTagModule,
   ],
-  exports: [CvcClingenCodeSelectField],
+  exports: [CvcSpecificationCriteriaSelectField],
 })
-export class CvcClingenCodeSelectModule {}
+export class CvcSpecificationCriteriaSelectModule {}

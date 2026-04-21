@@ -36,27 +36,12 @@ fragment RevisableAssertionFields on Assertion {
     hpoId
     name
   }
-  ampCategory {
+  specificationCriteria {
     id
-    name: criterium
     criterium
     description
     tooltip: description
-  }
-  acmgCodes {
-    id
-    name: code
-    code
-    description
-    tooltip: description
-  }
-  clingenCodes {
-    id
-    code
-    description
-    name: code
-    tooltip: description
-    exclusive
+    name: criterium
   }
   nccnGuideline {
     id

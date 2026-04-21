@@ -119,8 +119,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
             fieldGroup: [
               {
-                key: 'ampCategoryId',
-                type: 'amp-category-select',
+                key: 'specificationCriteriumIds',
+                type: 'specification-criteria-select',
               },
             ],
           },

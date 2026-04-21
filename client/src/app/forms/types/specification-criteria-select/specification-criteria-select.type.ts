@@ -46,9 +46,9 @@ import {
 import mixin from 'ts-mixin-extended'
 
 export type SpecificationSelectFieldOptions = Partial<
-  FieldTypeConfig<CvcAmpCategorySelectFieldProps>
+  FieldTypeConfig<CvcSpecificationCriteriaSelectFieldProps>
 >
-export interface CvcAmpCategorySelectFieldProps extends FormlyFieldProps {
+export interface CvcSpecificationCriteriaSelectFieldProps extends FormlyFieldProps {
   // entity names, singular & plural
   entityName: CvcSelectEntityName
   // if true, field is a multi-select & its model value should be an array
@@ -65,17 +65,17 @@ export interface CvcAmpCategorySelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcAmpCategorySelectFieldConfig
-  extends FormlyFieldConfig<CvcAmpCategorySelectFieldProps> {
+export interface CvcSpecificationCriteriaSelectFieldConfig
+  extends FormlyFieldConfig<CvcSpecificationCriteriaSelectFieldProps> {
   type:
-    | 'amp-category-select'
-    | 'amp-category-multi-select'
-    | Type<CvcAmpCategorySelectField>
+    | 'specification-criteria-select'
+    | 'specification-criteria-multi-select'
+    | Type<CvcSpecificationCriteriaSelectField>
 }
 
-const AmpCategorySelectMixin = mixin(
+const SpecificationCriteriaSelectMixin = mixin(
   BaseFieldType<
-    FieldTypeConfig<CvcAmpCategorySelectFieldProps>,
+    FieldTypeConfig<CvcSpecificationCriteriaSelectFieldProps>,
     Maybe<number | number[]>
   >(),
   EntitySelectField<
@@ -89,14 +89,14 @@ const AmpCategorySelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-amp-category-select',
-  templateUrl: './amp-category-select.type.html',
-  styleUrls: ['./amp-category-select.type.less'],
+  selector: 'cvc-specification-criteria-select',
+  templateUrl: './specification-criteria-select.type.html',
+  styleUrls: ['./specification-criteria-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcAmpCategorySelectField
-  extends AmpCategorySelectMixin
+export class CvcSpecificationCriteriaSelectField
+  extends SpecificationCriteriaSelectMixin
   implements AfterViewInit
 {
 

@@ -32,9 +32,6 @@ export type AssertionFields = {
   nccnGuidelineId$: BehaviorSubject<Maybe<number>>
   fdaRegulatoryApproval$: BehaviorSubject<Maybe<boolean>>
   fdaCompanionTest$: BehaviorSubject<Maybe<boolean>>
-  ampCategoryId$: BehaviorSubject<Maybe<number>>
-  acmgCodeIds$: BehaviorSubject<Maybe<number[]>>
-  clingenCodeIds$: BehaviorSubject<Maybe<number[]>>
   nccnGuidelineVersion$: BehaviorSubject<Maybe<string>>
   description$: BehaviorSubject<Maybe<string>>
   comment$: BehaviorSubject<Maybe<string>>
@@ -89,9 +86,6 @@ class AssertionState extends BaseState {
       nccnGuidelineId$: new BehaviorSubject(def.nccnGuidelineId),
       fdaRegulatoryApproval$: new BehaviorSubject(def.fdaRegulatoryApproval),
       fdaCompanionTest$: new BehaviorSubject(def.fdaCompanionTest),
-      ampCategoryId$: new BehaviorSubject<Maybe<number>>(def.ampCategoryId),
-      acmgCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.acmgCodeIds),
-      clingenCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.clingenCodeIds),
       nccnGuidelineVersion$: new BehaviorSubject<Maybe<string>>(
         def.nccnGuidelineVersion
       ),
@@ -124,9 +118,6 @@ class AssertionState extends BaseState {
       requiresDisease$: new BehaviorSubject<boolean>(false),
       requiresTherapy$: new BehaviorSubject<boolean>(false),
       requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
-      requiresClingenCodes$: new BehaviorSubject<boolean>(false),
-      requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
-      requiresAmpLevel$: new BehaviorSubject<boolean>(false),
       allowsFdaApproval$: new BehaviorSubject<boolean>(false),
     }
 
@@ -148,9 +139,6 @@ class AssertionState extends BaseState {
 
         this.requires.requiresDisease$.next(this.requiresDisease(at))
         this.requires.requiresTherapy$.next(this.requiresTherapy(at))
-        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
-        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
-        this.requires.requiresAmpLevel$.next(this.requiresAmpLevel(at))
         this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
       })
 
@@ -179,9 +167,6 @@ class AssertionState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: true,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: true,
       allowsFdaApproval: true,
     })
 
@@ -197,9 +182,6 @@ class AssertionState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: true,
       allowsFdaApproval: false,
     })
 
@@ -216,9 +198,6 @@ class AssertionState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: true,
       allowsFdaApproval: false,
     })
 
@@ -234,9 +213,6 @@ class AssertionState extends BaseState {
       entityDirection: [AssertionDirection.Supports],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: true,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
 
@@ -252,9 +228,6 @@ class AssertionState extends BaseState {
       entityDirection: [AssertionDirection.Supports],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: true,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
   }

@@ -28,9 +28,6 @@ export type ValidEntity = {
   entityDirection: EntityDirection[]
   requiresDisease: boolean
   requiresTherapy: boolean
-  requiresAcmgCodes: boolean
-  requiresAmpLevel: boolean
-  requiresClingenCodes: boolean
   allowsFdaApproval: boolean
 }
 
@@ -61,17 +58,11 @@ export interface IEntityState {
   isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
   requiresTherapy: (et: EntityType) => boolean
   requiresDisease: (et: EntityType) => boolean
-  requiresAcmgCodes: (et: EntityType) => boolean
-  requiresAmpLevel: (et: EntityType) => boolean
-  requiresClingenCodes: (et: EntityType) => boolean
   allowsFdaApproval: (et: EntityType) => boolean
 
   typeOption$: Subject<EntityType[]>
   requiresTherapy$: Subject<boolean>
   requiresDisease$: Subject<boolean>
-  requiresAcmgCode$: Subject<boolean>
-  requiresAmpLevel$: Subject<boolean>
-  requiresClingenCode$: Subject<boolean>
   allowsFdaApproval$: Subject<boolean>
 }
 
@@ -90,9 +81,6 @@ class BaseState implements IEntityState {
   typeOption$ = new Subject<EntityType[]>()
   requiresTherapy$ = new Subject<boolean>()
   requiresDisease$ = new Subject<boolean>()
-  requiresAcmgCode$ = new Subject<boolean>()
-  requiresAmpLevel$ = new Subject<boolean>()
-  requiresClingenCode$ = new Subject<boolean>()
   allowsFdaApproval$ = new Subject<boolean>()
 
   constructor(en: EntityName) {
@@ -157,21 +145,6 @@ class BaseState implements IEntityState {
   requiresDisease = (et: EntityType): boolean => {
     const state = this.validStates.get(et)
     return state !== undefined ? state.requiresDisease : true
-  }
-
-  requiresAcmgCodes = (at: EntityType): boolean => {
-    const state = this.validStates.get(at)
-    return state !== undefined ? state.requiresAcmgCodes : true
-  }
-
-  requiresAmpLevel = (at: EntityType): boolean => {
-    const state = this.validStates.get(at)
-    return state !== undefined ? state.requiresAmpLevel : true
-  }
-
-  requiresClingenCodes = (et: EntityType): boolean => {
-    const state = this.validStates.get(et)
-    return state !== undefined ? state.requiresClingenCodes : true
   }
 
   allowsFdaApproval = (et: EntityType): boolean => {

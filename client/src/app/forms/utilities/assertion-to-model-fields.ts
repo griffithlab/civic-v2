@@ -6,11 +6,9 @@ import { AssertionSubmitModel } from "../models/assertion-submit.model";
 
 export function assertionToModelFields(a: RevisableAssertionFieldsFragment): AssertionFields {
   return {
-    acmgCodeIds: a.acmgCodes.map(c => c.id),
-    ampCategoryId: a.ampCategory?.id,
+    specificationCriteriumIds: a.specificationCriteria.map(s => s.id),
     assertionDirection: a.assertionDirection,
     assertionType: a.assertionType,
-    clingenCodeIds: a.clingenCodes.map(c => c.id),
     significance: a.significance,
     description: a.description,
     diseaseId: a.disease?.id,
@@ -44,20 +42,9 @@ export function assertionFormModelToInput(model: AssertionSubmitModel): Maybe<Su
     return undefined
   } else {
 
-    let criteriumIds: number[] = []
-    if (fields.acmgCodeIds) {
-      criteriumIds = criteriumIds.concat(fields.acmgCodeIds)
-    }
-    if (fields.clingenCodeIds) {
-      criteriumIds = criteriumIds.concat(fields.clingenCodeIds)
-    }
-    if (fields.ampCategoryId) {
-      criteriumIds = criteriumIds.concat([fields.ampCategoryId])
-    }
-
     return {
       fields: {
-        specificationCriteriumIds: criteriumIds,
+        specificationCriteriumIds: fields.specificationCriteriumIds || [],
         assertionDirection: fields.assertionDirection!,
         assertionType: fields.assertionType!,
         significance: fields.significance!,
