@@ -53,7 +53,7 @@ class CheckClinvarSubmissionStatus < ApplicationJob
 
     results = retrieve_clinvar_json(result_file)
 
-    #Update the release status of the batch
+    # Update the release status of the batch
     if results["batchReleaseStatus"] == "Released"
       batch.release_status = "released"
       batch.save!

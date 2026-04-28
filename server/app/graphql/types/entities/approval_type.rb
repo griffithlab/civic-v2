@@ -47,9 +47,9 @@ module Types::Entities
             Loaders::AssociationLoader
               .for(ClinvarBatchEntry, :clinvar_batch_submission)
               .load(entry)
-              .then { |batch| batch&.release_status }
+              .then { |batch| batch&.release_status },
           ]).then do |relase_statuses|
-            release_statuses.any?{ |s| s == "released" }
+            release_statuses.any? { |s| s == "released" }
           end
         end
       end
