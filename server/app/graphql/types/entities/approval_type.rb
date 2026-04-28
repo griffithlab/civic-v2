@@ -12,6 +12,7 @@ module Types::Entities
     field :revocation_activity, Types::Activities::RevokeApprovalActivityType, null: true
     field :ready_for_clinvar_submission, Boolean, null: false
     field :clinvar_accession, String, null: true
+    field :clinvar_accession_visible, Boolean, null: true
 
     def organization
       Loaders::AssociationLoader.for(Approval, :organization).load(object)
@@ -35,6 +36,23 @@ module Types::Entities
 
     def ready_for_clinvar_submission
       object.ready_for_clinvar_submission?
+    end
+
+    def clinvar_accession_visible
+      Loaders::AssociationLoader.for(Approval, :clinvar_batch_entries).load(object).then do |entries|
+        if entries.blank?
+          true
+        else
+          Promise.all([
+            Loaders::AssociationLoader
+              .for(ClinvarBatchEntry, :clinvar_batch_submission)
+              .load(entry)
+              .then { |batch| batch&.release_status }
+          ]).then do |relase_statuses|
+            release_statuses.any?{ |s| s == "released" }
+          end
+        end
+      end
     end
   end
 end
