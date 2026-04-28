@@ -19,6 +19,6 @@
         <div class="text-sm text-gray-500"><%= chat.messages.count %> messages</div>
       </div>
     </div>
-    <div class="text-sm text-gray-400"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></div>
+    <time class="text-sm text-gray-400" datetime="<%= chat.created_at.iso8601 %>" data-controller="local-time" data-local-time-format-value="datetime"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></time>
   </div>
 <% end %>

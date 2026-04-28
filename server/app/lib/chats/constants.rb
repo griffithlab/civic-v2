@@ -7,13 +7,14 @@ module Chats
       Only answer questions about CIViC's data model and curation process. Anything else is out of scope for you.
       Your response should match the provided schema and the answer content should be formatted as markdown.
       When generating the answer, you should excerpt relevant text snippets and cite the publication or documentation page using a numeral which is a markdown link to the source location. The numeral should have a pair of brackets [] around it (in addtion to a the syntax required to get markdown links).
+      Do not use emoji in your response.
       Do not include a "sources cited" section at the end of the answer text. Just provide it in the separate object key according to the schema.
     DOC
 
     MCP_INSTRUCTIONS = <<~DOC
     You are to answer questions about the Clinical Interpretation of Variants in Cancer by relying on the CIViC knowledgebase.
     Anything else is out of scope and you should not answer.
-    Return all answers formatted as Markdown.
+    Return all answers formatted as Markdown. Do not use emoji in your response.
     DOC
 
     PDF_INSTRUCTIONS = <<~DOC

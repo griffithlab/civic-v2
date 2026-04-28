@@ -1,5 +1,6 @@
 module Reports
   AVAILABLE_REPORTS = [
+    ChatConversationCostEstimate,
     OrganizationContributions,
     EidsWithOnsetTerms,
     EidsBySource,

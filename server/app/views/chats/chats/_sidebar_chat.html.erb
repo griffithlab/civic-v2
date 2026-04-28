@@ -4,6 +4,7 @@
   <%= link_to chats_chat_path(chat),
         id: "sidebar_chat_#{chat.id}",
         title: chat_tooltip,
+        data: { action: "click->sidebar#closeFromNav" },
         class: "block px-3 py-2.5 rounded-lg text-sm transition-colors #{chat.id == current_chat&.id ? 'bg-slate-600 text-white' : 'text-slate-300 hover:bg-civic-sidebar-hover hover:text-white'}" do %>
     <div class="flex items-center gap-2">
       <% if chat.mcp? %>
@@ -20,7 +21,7 @@
                  class="w-full bg-slate-700 text-white text-sm rounded px-1 py-0.5 border border-slate-500 focus:border-civic-purple focus:outline-none"
                  onclick="event.preventDefault(); event.stopPropagation();" />
         </div>
-        <div class="text-xs text-slate-400 truncate"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></div>
+        <time class="text-xs text-slate-400 truncate block" datetime="<%= chat.created_at.iso8601 %>" data-controller="local-time" data-local-time-format-value="datetime"><%= chat.created_at.strftime("%b %d, %I:%M %p") %></time>
       </div>
     </div>
   <% end %>
