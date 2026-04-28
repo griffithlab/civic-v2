@@ -54,6 +54,7 @@ fragment approvalListNode on Approval {
     isClinvarSubmitter
   }
   clinvarAccession
+  clinvarAccessionVisible
   user {
     id
     displayName
