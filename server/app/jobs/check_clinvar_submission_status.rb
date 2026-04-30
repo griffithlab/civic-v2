@@ -10,7 +10,7 @@ class CheckClinvarSubmissionStatus < ApplicationJob
   private
   def batches_to_check
     ClinvarBatchSubmission.eager_load(:organization)
-      .where(status: [ "submitted", "processing" ])
+      .where(relase_status: "not released")
   end
 
   def create_clinvar_client_for_batch(batch)
@@ -52,6 +52,12 @@ class CheckClinvarSubmissionStatus < ApplicationJob
     end
 
     results = retrieve_clinvar_json(result_file)
+
+    # Update the release status of the batch
+    if results["batchReleaseStatus"] == "Released"
+      batch.release_status = "released"
+      batch.save!
+    end
 
     results["submissions"].each do |submission|
       assertion_curie = submission.dig("identifiers", "clinvarLocalKey")

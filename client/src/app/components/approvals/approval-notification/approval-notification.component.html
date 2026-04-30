@@ -34,7 +34,7 @@
       }
     </span>
   </p>
-  @if (approval().clinvarAccession) {
+  @if (approval().clinvarAccessionVisible) {
     <p>
       Clinvar Entry
       <cvc-tag-group>
@@ -59,7 +59,7 @@
         <span>
           <nz-tag>
             @let unversionedAccession = (approval().clinvarAccession?.split('.') || [""])[0];
-            <a [href]="'https://www.ncbi.nlm.nih.gov/clinvar?term=' +  unversionedAccession + '%5BClinVar%20accession%5D'">
+            <a [href]="'https://www.ncbi.nlm.nih.gov/clinvar?term=' +  unversionedAccession + '%5BClinVar%20accession%5D'" target="_blank">
               {{ approval().clinvarAccession }}
             </a>
           </nz-tag>
