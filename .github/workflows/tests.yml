@@ -6,15 +6,47 @@ on:
     branches: [ main, staging]
 
 jobs:
+  scan_ruby:
+    name: Brakeman
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: '4.0.1'
+          working-directory: ./server
+
+      - name: Scan for security vulnerabilities
+        working-directory: ./server
+        run: bin/brakeman --no-pager
+  lint:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0.1'
+          working-directory: ./server
+          bundler-cache: true
+
+      - name: Lint code
+        working-directory: ./server
+        run: bin/rubocop -f github
+
   backend_tests:
     name: Backend Tests
     runs-on: 'ubuntu-latest'
-    strategy:
-      matrix:
-        ruby: ['3.0']
     services:
         postgres:
-          image: postgres:13
+          image: pgvector/pgvector:pg18
           env:
             POSTGRES_USER: postgres
             POSTGRES_DB: civic_test
@@ -24,13 +56,16 @@ jobs:
 
     steps:
       - name: 'Checkout code'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: 'Setup elasticsearch'
+        uses: ankane/setup-elasticsearch@v1
 
       - name: 'Setup Ruby'
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: '4.0.1'
           working-directory: ./server
 
       - name: Setup DB
@@ -44,6 +79,7 @@ jobs:
         env:
           CI_BUILD: true
           RAILS_ENV: test
+          CIVIC_API_HMAC_KEY: fakeKeyForTests
         run: bundle exec rails test
         working-directory: ./server
 
@@ -53,12 +89,12 @@ jobs:
 
     steps:
       - name: 'Checkout code'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 24
 
       - run: npm install -g yarn
         working-directory: ./client

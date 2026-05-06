@@ -8,12 +8,12 @@ module Database
     def self.prepare_command_with_db_credentials(command, overrides = {})
       no_flag = overrides.delete(:no_database_flag)
       db_config = Rails.configuration.database_configuration[Rails.env].merge(overrides)
-      host     = db_config['host']
-      database = db_config['database']
-      username = db_config['username']
-      password = db_config['password']
+      host     = db_config["host"]
+      database = db_config["database"]
+      username = db_config["username"]
+      password = db_config["password"]
 
-      command_items = [command, "-h #{host}"]
+      command_items = [ command, "-h #{host}" ]
       unless username.blank?
         command_items << "-U #{username}"
       end
@@ -27,12 +27,11 @@ module Database
         command_items << "-d #{database}"
       end
 
-      command_items.join(' ')
+      command_items.join(" ")
     end
 
     def self.command(*args)
-      raise 'Not Implemented!'
+      raise "Not Implemented!"
     end
   end
 end
-

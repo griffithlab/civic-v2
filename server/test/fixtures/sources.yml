@@ -1,0 +1,6 @@
+pubmed_source:
+  citation_id: "12345678"
+  source_type: 0
+  title: "A test publication"
+  citation: "Test Author et al. A test publication. Test Journal. 2024."
+  fully_curated: true

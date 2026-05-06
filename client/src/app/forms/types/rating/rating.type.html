@@ -1,0 +1,12 @@
+<input
+  type="hidden"
+  [formControl]="formControl"
+  [formlyAttributes]="field" />
+
+<div class="rate-block">
+  <nz-rate
+    [ngModel]="formControl.value"
+    [nzCount]="props.count"
+    [nzTooltips]="props.hoverText"
+    (ngModelChange)="rating$.next($event)"></nz-rate>
+</div>

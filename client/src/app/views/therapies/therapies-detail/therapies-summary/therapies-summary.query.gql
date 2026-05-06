@@ -1,0 +1,40 @@
+query TherapiesSummary($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    ...TherapiesSummaryFields
+  }
+}
+
+fragment TherapiesSummaryFields on Therapy {
+  id
+  name
+  description
+  ncitId
+  therapyUrl
+  therapyAliases
+  link
+  myChemInfo {
+    ...MyChemInfoFields
+  }
+}
+
+fragment MyChemInfoFields on MyChemInfo {
+    chebiId
+    chebiDefinition
+    fdaEpcCodes {
+      code
+      description
+    }
+    fdaMoaCodes {
+      code
+      description
+    }
+    firstApproval
+    chemblMoleculeType
+    chemblId
+    pubchemCid
+    pharmgkbId
+    rxnorm
+    inchikey
+    drugbankId
+    indications
+}

@@ -1,0 +1,12 @@
+<form
+  nz-form
+  nzLayout="vertical"
+  [formGroup]="form">
+  <formly-form
+    [form]="form"
+    [fields]="fields"
+    [model]="model"
+    style="width: 100%"
+    (modelChange)="model = $event">
+  </formly-form>
+</form>

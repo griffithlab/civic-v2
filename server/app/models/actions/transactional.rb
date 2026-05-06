@@ -1,5 +1,9 @@
 module Actions
   module Transactional
+    def events
+      @events ||= []
+    end
+
     def errors
       @errors ||= []
     end
@@ -23,7 +27,7 @@ module Actions
     end
 
     def execute
-      raise 'Implement in class'
+      raise "Implement in class"
     end
   end
 end

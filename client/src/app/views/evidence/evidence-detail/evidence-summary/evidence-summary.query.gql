@@ -1,6 +1,4 @@
-query EvidenceSummary(
-  $evidenceId: Int!
-) {
+query EvidenceSummary($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
     ...EvidenceSummaryFields
   }
@@ -10,22 +8,33 @@ fragment EvidenceSummaryFields on EvidenceItem {
   id
   name
   description
+  descriptionReplaceEidWithSource
+  descriptionWithTags {
+    ...parsedCommentFragment
+  }
+  descriptionWithNames
+  descriptionWithTagsReplaceEidWithSource {
+    ...parsedCommentFragment
+  }
+  descriptionWithNamesReplaceEidWithSource
   status
   evidenceLevel
   evidenceType
   evidenceDirection
-  clinicalSignificance
+  significance
   variantOrigin
-  drugs {
+  therapies {
     id
     name
     link
+    deprecated
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id
@@ -46,6 +55,8 @@ fragment EvidenceSummaryFields on EvidenceItem {
       id
       link
     }
+    retractionNature
+    deprecated
   }
   evidenceRating
   molecularProfile {
@@ -55,6 +66,8 @@ fragment EvidenceSummaryFields on EvidenceItem {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
+    flagged
   }
   flags(state: OPEN) {
     totalCount
@@ -64,6 +77,18 @@ fragment EvidenceSummaryFields on EvidenceItem {
   }
   comments {
     totalCount
+  }
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      displayName
+      profileImagePath(size: 32)
+      id
+      role
+    }
   }
   acceptanceEvent {
     createdAt

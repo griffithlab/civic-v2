@@ -1,4 +1,5 @@
 Trestle.resource(:events) do
+  remove_action :destroy
   menu do
     item :events, icon: "fab fa-elementor"
   end

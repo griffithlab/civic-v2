@@ -1,5 +1,5 @@
-require 'tempfile'
-require 'open-uri'
+require "tempfile"
+require "open-uri"
 
 class UpdateNciThesaurus < ApplicationJob
   attr_reader :ncit_file
@@ -15,7 +15,7 @@ class UpdateNciThesaurus < ApplicationJob
   end
 
   def create_tempfile
-    @ncit_file = Tempfile.new('ncit_download', File.join(Rails.root, 'tmp'))
+    @ncit_file = Tempfile.new("ncit_download", File.join(Rails.root, "tmp"))
   end
 
   def download_file
@@ -34,7 +34,6 @@ class UpdateNciThesaurus < ApplicationJob
   end
 
   def latest_ncit_path
-    "https://stars.renci.org/var/NCIt/ncit.obo"
+    "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/Thesaurus.FLAT.zip"
   end
 end
-

@@ -1,0 +1,13 @@
+test_org:
+  name: "Test Organization"
+  url: "https://example.org"
+  description: "An organization for testing"
+  can_approve: true
+  is_approved_vcep: false
+
+other_org:
+  name: "Other Organization"
+  url: "https://other.org"
+  description: "Another organization"
+  can_approve: false
+  is_approved_vcep: false

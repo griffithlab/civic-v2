@@ -1,11 +1,16 @@
 class Flag < ActiveRecord::Base
+  include Subscribable
   include Commentable
+  include WithActivities
 
-  belongs_to :flaggable, polymorphic: true
-  belongs_to :flagging_user, class_name: 'User'
-  belongs_to :resolving_user, class_name: 'User', required: false
+  belongs_to :flaggable, polymorphic: true, validate: false
+  belongs_to :flagging_user, class_name: "User"
+  belongs_to :resolving_user, class_name: "User", required: false
 
-  validates :state, inclusion: ['open', 'resolved']
+  has_activity :open_activity, activity_type: "FlagEntityActivity"
+  has_activity :resolution_activity, activity_type: "ResolveFlagActivity"
+
+  validates :state, inclusion: [ "open", "resolved" ]
 
   def name
     "FID#{self.id}"

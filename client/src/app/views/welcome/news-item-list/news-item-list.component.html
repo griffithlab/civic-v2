@@ -1,0 +1,38 @@
+@if (loading()) {
+  <nz-row [nzGutter]="[8, 16]">
+    <nz-col nzSpan="24">
+      <nz-card>
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+} @else {
+  <nz-row [nzGutter]="[8, 16]">
+    @for (item of newsItems(); track item.title) {
+      <nz-col nzSpan="24">
+        <nz-card
+          nzSize="small"
+          [nzTitle]="newsTitle"
+          [nzExtra]="newsDate">
+          <span
+            class="news-post"
+            [innerHtml]="item.contentHtml"></span>
+        </nz-card>
+
+        <!-- title -->
+        <ng-template #newsTitle>
+          {{ item.title }}
+        </ng-template>
+
+        <!-- date -->
+        <ng-template #newsDate>
+          <span
+            nz-typography
+            nzType="secondary">
+            {{ item.publishedAt | date }}
+          </span>
+        </ng-template>
+      </nz-col>
+    }
+  </nz-row>
+}

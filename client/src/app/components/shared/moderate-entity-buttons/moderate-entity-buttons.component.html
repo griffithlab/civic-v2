@@ -1,27 +1,51 @@
-<div class="center">
-  <nz-spin [nzSpinning]="this.isSubmitting">
-    <cvc-org-selector-btn-group *ngIf="!this.rejectOnly"
-      [(selectedOrg)]="this.mostRecentOrg">
-      <button cvcOrgSelectorBtn
-        nzType="primary"
-        nzSize="large"
-        nz-button
-        (click)="this.moderate(this.evidenceStatuses.Accepted)">
-        Accept {{ this.entityType }}
-      </button>
-    </cvc-org-selector-btn-group>
-    &nbsp;
-    <cvc-org-selector-btn-group nzDanger
+<ng-container *ngrxLet="viewer$ as viewer">
+  <nz-spin [nzSpinning]="isSubmitting">
+    <button
+      *ngIf="viewer.canModerate"
       nzType="primary"
-      [(selectedOrg)]="this.mostRecentOrg">
-      <button cvcOrgSelectorBtn
-        nzDanger
-        nzType="primary"
-        nzSize="large"
-        nz-button
-        (click)="this.moderate(this.evidenceStatuses.Rejected)">
-        Reject {{ this.entityType }}
-      </button>
-    </cvc-org-selector-btn-group>
+      nzSize="large"
+      nz-button
+      (click)="moderate(evidenceStatuses.Accepted)"
+      nz-tooltip
+      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+      Accept {{ entityTypeDisplay }}
+    </button>
+    &nbsp;
+    <button
+      nzDanger
+      nzType="primary"
+      nzSize="large"
+      nz-button
+      (click)="moderate(evidenceStatuses.Rejected)"
+      nz-tooltip
+      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+      Reject {{ entityTypeDisplay }}
+    </button>
   </nz-spin>
-</div>
+</ng-container>
+
+<ng-template
+  #confirmModal
+  let-data>
+  <nz-space nzDirection="vertical">
+    @if (data.organization) {
+      <span
+        *nzSpaceItem
+        nz-typography>
+        You will be {{ data.action.toLowerCase() }}ing this
+        {{ entityTypeDisplay }} on behalf of
+        <strong> {{ data.organization }}</strong> .</span
+      >
+    }
+    @if (data.action == 'Reject') {
+      <textarea
+        *nzSpaceItem
+        [(ngModel)]="confirmationComment"
+        nz-input
+        rows="4"
+        placeholder="Please provide a reason for rejection."></textarea>
+    }
+  </nz-space>
+</ng-template>

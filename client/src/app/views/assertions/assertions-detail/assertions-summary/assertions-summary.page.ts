@@ -1,16 +1,28 @@
-import { Component, Input } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { AssertionSummaryGQL, Maybe, AssertionSummaryQuery, AssertionSummaryQueryVariables, AssertionSummaryFieldsFragment, SubscribableInput, SubscribableEntities, AssertionType } from "@app/generated/civic.apollo";
-import { QueryRef } from "apollo-angular";
-import { pluck, startWith } from "rxjs/operators";
-import { Observable } from "rxjs";
-import { AssertionState } from "@app/forms/config/states/assertion.state";
-import { tag } from "rxjs-spy/cjs/operators";
+import { Component, computed, effect, Input, signal, Signal } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  AssertionSummaryGQL,
+  Maybe,
+  AssertionSummaryQuery,
+  AssertionSummaryQueryVariables,
+  AssertionSummaryFieldsFragment,
+  SubscribableInput,
+  SubscribableEntities,
+  EvidenceStatus,
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { map, startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { Observable } from 'rxjs'
+import { AssertionState } from '@app/forms/states/assertion.state'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
-  selector: 'cvc-assertion-summary',
-  templateUrl: './assertions-summary.page.html',
-  styleUrls: ['./assertions-summary.page.less']
+    selector: 'cvc-assertion-summary',
+    templateUrl: './assertions-summary.page.html',
+    styleUrls: ['./assertions-summary.page.less'],
+    standalone: false
 })
 export class AssertionsSummaryPage {
   @Input() assertionId: Maybe<number>
@@ -20,40 +32,53 @@ export class AssertionsSummaryPage {
   assertion$: Observable<Maybe<AssertionSummaryFieldsFragment>>
 
   assertionRules = new AssertionState()
+  statusValues = EvidenceStatus
 
   subscribable: SubscribableInput
 
-  constructor(
-    private gql: AssertionSummaryGQL,
-    private route: ActivatedRoute) {
+  color = computed(() =>
+    getEntityColor('Approval')
+  )
+  assertionDescriptionDisplayMode: string = 'raw';
+  assertionDescriptionTagMode: string = 'eid';
 
-    var queryAssertionId: number
+  queryAssertionId: Signal<number>
+
+  constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
+
+
     if (this.assertionId) {
-      queryAssertionId = this.assertionId
-    } else  {
-      queryAssertionId = +this.route.snapshot.params['assertionId'];
+      this.queryAssertionId = signal(this.assertionId)
+    } else {
+      this.queryAssertionId = toSignal(
+        this.route.params.pipe(
+          map(params => +params['assertionId']),
+        ),
+        { requireSync: true }
+      );
     }
 
-    if (queryAssertionId == undefined) {
-      throw new Error("Must pass in an assertion ID as an input or via the route.")
+    if (this.queryAssertionId() == undefined) {
+      throw new Error(
+        'Must pass in an assertion ID as an input or via the route.'
+      )
     }
 
-    this.queryRef = this.gql.watch({assertionId: queryAssertionId});
+    this.queryRef = this.gql.watch({ assertionId: this.queryAssertionId() })
+
+    effect(() => {
+      this.queryRef.refetch({assertionId: this.queryAssertionId()})
+    })
 
     let observable = this.queryRef.valueChanges
 
-    this.loading$ = observable.pipe(
-      pluck('loading'),
-      startWith(true)
-    )
+    this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-    this.assertion$ = observable.pipe(
-      pluck('data', 'assertion')
-    )
+    this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,
-      id: queryAssertionId
+      id: this.queryAssertionId(),
     }
   }
 }

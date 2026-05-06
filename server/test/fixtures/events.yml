@@ -1,0 +1,31 @@
+test_event:
+  action: submitted
+  description: "Test event"
+  originating_user: curator
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei) %>
+  activity: test_activity
+
+assertion_submit_event:
+  action: assertion submitted
+  description: "Assertion submission event"
+  originating_user: curator
+  subject_type: Assertion
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion) %>
+  activity: assertion_submit_activity
+
+submitted_ei_by_editor_event:
+  action: submitted
+  description: "Submitted evidence item by editor"
+  originating_user: editor_submitter
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei_by_editor) %>
+  activity: submitted_ei_by_editor_activity
+
+submitted_assertion_by_editor_event:
+  action: assertion submitted
+  description: "Submitted assertion by editor"
+  originating_user: editor_submitter
+  subject_type: Assertion
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion_by_editor) %>
+  activity: submitted_assertion_by_editor_activity

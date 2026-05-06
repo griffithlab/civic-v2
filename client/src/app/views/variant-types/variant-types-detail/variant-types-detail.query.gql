@@ -1,7 +1,5 @@
-query VariantTypeDetail(
-  $variantTypeId: Int!
-){
-  variantType(id: $variantTypeId){
+query VariantTypeDetail($variantTypeId: Int!) {
+  variantType(id: $variantTypeId) {
     id
     name
     soid

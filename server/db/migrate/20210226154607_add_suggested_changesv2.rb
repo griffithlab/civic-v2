@@ -9,7 +9,7 @@ class AddSuggestedChangesv2 < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :v2_suggested_changes, [:subject_id, :subject_type]
+    add_index :v2_suggested_changes, [ :subject_id, :subject_type ]
     add_index :v2_suggested_changes, :created_at
     add_index :v2_suggested_changes, :updated_at
     add_index :v2_suggested_changes, :status

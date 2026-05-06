@@ -1,6 +1,6 @@
 Trestle.resource(:evidence_items) do
   collection do
-    EvidenceItem.eager_load(:flags, variant: [:gene]).order(id: :asc)
+    EvidenceItem.eager_load(:flags, molecular_profile: { variants: [ :feature ] }).order(id: :asc)
   end
 
   remove_action :destroy
@@ -11,16 +11,17 @@ Trestle.resource(:evidence_items) do
   end
 
   scope :all
-  scope :accepted, -> { EvidenceItem.where(status: 'accepted') }, default: true
-  scope :submitted, -> { EvidenceItem.where(status: 'submitted') }
-  scope :rejected, -> { EvidenceItem.where(status: 'rejected') }
+  scope :accepted, -> { EvidenceItem.where(status: "accepted") }, default: true
+  scope :submitted, -> { EvidenceItem.where(status: "submitted") }
+  scope :rejected, -> { EvidenceItem.where(status: "rejected") }
   scope :flagged, -> { EvidenceItem.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
   table do
     column :id
-    column :gene
-    column :variant
+    column :molecular_profile do |evidence_item|
+      evidence_item.molecular_profile.display_name
+    end
     column :description
     column :evidence_type do |evidence_item|
       status_tag(evidence_item.evidence_type)
@@ -36,30 +37,21 @@ Trestle.resource(:evidence_items) do
     tab :evidence_item do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) do
-          static_field :gene do
-            link_to evidence_item.gene.name, GenesAdmin.instance_path(evidence_item.gene)
-          end
-        end
+        col(sm: 1) { evidence_item.molecular_profile.display_name }
         col(sm: 2) do
-          static_field :variant do
-            link_to evidence_item.variant.name, VariantsAdmin.instance_path(evidence_item.variant)
-          end
-        end
-        col(sm: 2) do
-          variant_origins = EvidenceItem.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
+          variant_origins = EvidenceItem.variant_origins.keys.map { |variant_origin| [ variant_origin, variant_origin ] }
           select :variant_origin, variant_origins
         end
         col(sm: 2) do
-          evidence_levels = EvidenceItem.evidence_levels.keys.map { |evidence_level| [evidence_level, evidence_level] }
+          evidence_levels = EvidenceItem.evidence_levels.keys.map { |evidence_level| [ evidence_level, evidence_level ] }
           select :evidence_level, evidence_levels
         end
         col(sm: 1) do
-          evidence_ratings = [[1,1],[2,2],[3,3],[4,4],[5,5]]
+          evidence_ratings = [ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ], [ 4, 4 ], [ 5, 5 ] ]
           select :rating, evidence_ratings
         end
         col(sm: 2) do
-          evidence_statuses = ["suggested", "accepted", "rejected", "deleted"]
+          evidence_statuses = [ "suggested", "accepted", "rejected", "deleted" ]
           select :status, evidence_statuses
         end
         if evidence_item.flagged
@@ -73,16 +65,16 @@ Trestle.resource(:evidence_items) do
 
       row do
         col(sm: 5) do
-          evidence_types = EvidenceItem.evidence_types.keys.map { |evidence_type| [evidence_type, evidence_type] }
+          evidence_types = EvidenceItem.evidence_types.keys.map { |evidence_type| [ evidence_type, evidence_type ] }
           select :evidence_type, evidence_types
         end
         col(sm: 2) do
-          evidence_directions = EvidenceItem.evidence_directions.keys.map { |evidence_direction| [evidence_direction, evidence_direction] }
+          evidence_directions = EvidenceItem.evidence_directions.keys.map { |evidence_direction| [ evidence_direction, evidence_direction ] }
           select :evidence_direction, evidence_directions
         end
         col(sm: 5) do
-          clinical_significances = EvidenceItem.clinical_significances.keys.map { |clinical_significance| [clinical_significance, clinical_significance] }
-          select :clinical_significance, clinical_significances
+          significances = EvidenceItem.significances.keys.map { |significance| [ significance, significance ] }
+          select :significance, significances
         end
       end
 
@@ -92,18 +84,18 @@ Trestle.resource(:evidence_items) do
 
       row do
         col(sm: 10) do
-          select :drug_ids, Drug.order(:name), { label: "Drugs" }, multiple: true
+          select :therapy_ids, Therapy.order(:name), { label: "Therapies" }, multiple: true
         end
         col(sm: 2) do
-          drug_interaction_types = EvidenceItem.drug_interaction_types.keys.map { |interaction_type| [interaction_type, interaction_type] }
-          drug_interaction_types << ["None", nil]
-          select :drug_interaction_type, drug_interaction_types
+          therapy_interaction_types = EvidenceItem.therapy_interaction_types.keys.map { |interaction_type| [ interaction_type, interaction_type ] }
+          therapy_interaction_types << [ "None", nil ]
+          select :therapy_interaction_type, therapy_interaction_types
         end
       end
 
       select :phenotype_ids, Phenotype.order(:hpo_class), { label: "Phenotypes" }, multiple: true
 
-      collection_select :source_id, Source.order(:description), :id, :display_name
+      collection_select :source_id, Source.order(:citation), :id, :display_name
 
       divider
 
@@ -126,7 +118,7 @@ Trestle.resource(:evidence_items) do
       end
     end
 
-    tab :flags, badge: evidence_item.flags.where(state: 'open').exists? do
+    tab :flags, badge: evidence_item.flags.where(state: "open").exists? do
       table evidence_item.flags do
         column :id do |flag|
           link_to flag.id, FlagsAdmin.instance_path(flag)
@@ -141,7 +133,7 @@ Trestle.resource(:evidence_items) do
       end
     end
 
-    tab :revisions, badge: evidence_item.revisions.where(status: 'new').exists? do
+    tab :revisions, badge: evidence_item.revisions.where(status: "new").exists? do
       table evidence_item.revisions do
         column :id do |revision|
           link_to revision.id, RevisionsAdmin.instance_path(revision)
@@ -149,7 +141,7 @@ Trestle.resource(:evidence_items) do
         column :field_name
         column :current_value
         column :suggested_value
-        column :revisionset_id
+        column :revision_set_id
         column :status
         column :revisor do |revision|
           revision.revisor.username

@@ -1,10 +1,10 @@
 query SubscriptionForEntity($subscribable: SubscribableInput!) {
   subscriptionForEntity(subscribable: $subscribable) {
-    ... subscriptionId
+    ...subscriptionId
   }
 }
 
-  fragment subscriptionId on Subscription {
-    id
-    __typename
-  }
+fragment subscriptionId on Subscription {
+  id
+  __typename
+}

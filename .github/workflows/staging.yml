@@ -5,11 +5,11 @@ on:
     branches: [staging]
 jobs: 
   build-staging:
-    uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@main
+    uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@staging
     with: 
       branch: staging
   deploy-staging:
-    uses: griffithlab/civic-v2/.github/workflows/deploy.yml@main
+    uses: griffithlab/civic-v2/.github/workflows/deploy.yml@staging
     needs: build-staging
     with:
       environment: staging

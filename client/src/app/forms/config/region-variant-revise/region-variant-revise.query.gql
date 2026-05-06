@@ -1,0 +1,31 @@
+query RegionVariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    ... on RegionVariant  {
+      ...RevisableRegionVariantFields
+    }
+  }
+}
+
+fragment RevisableRegionVariantFields on RegionVariant {
+  variantAliases
+  variantTypes {
+    id
+    name
+    soid
+  }
+}
+
+mutation SuggestRegionVariantRevision($input: SuggestRegionVariantRevisionInput!) {
+  suggestRegionVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+    }
+    results {
+      id
+      fieldName
+      newlyCreated
+    }
+  }
+}

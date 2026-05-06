@@ -4,7 +4,6 @@ query FlagPopover($flagId: Int!) {
   }
 }
 
-
 fragment flagPopover on Flag {
   id
   name
@@ -18,9 +17,31 @@ fragment flagPopover on Flag {
     id
     link
     name
+    ...on VariantInterface {
+      deprecated
+      feature {
+        id
+        name
+        link
+        deprecated
+        flagged
+      }
+    }
+    ... on Feature {
+      deprecated
+    }
+    ... on EvidenceItem {
+      status
+    }
+    ... on Assertion {
+      status
+    }
+    flagged
   }
   createdAt
-  openComment {
-    comment
+  openActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
 }

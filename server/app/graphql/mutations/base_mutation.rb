@@ -10,6 +10,5 @@ module Mutations
         raise GraphQL::ExecutionError, "You must log in to perform this mutation."
       end
     end
-
   end
 end

@@ -1,0 +1,26 @@
+query EvidenceSelectTypeahead($eid: Int!) {
+  evidenceItems(id: $eid) {
+    nodes {
+      ...EvidenceSelectTypeaheadFields
+    }
+  }
+}
+
+query EvidenceSelectTag($eid: Int!) {
+  evidenceItem(id: $eid) {
+    ...EvidenceSelectTypeaheadFields
+  }
+}
+
+fragment EvidenceSelectTypeaheadFields on EvidenceItem {
+  id
+  name
+  link
+  evidenceType
+  evidenceDirection
+  evidenceLevel
+  evidenceRating
+  significance
+  variantOrigin
+  status
+}

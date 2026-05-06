@@ -1,12 +1,12 @@
 module Types::Revisions
   class ModeratedInput < Types::BaseInputObject
-    description 'Entity to moderate.'
+    description "Entity to moderate."
 
     argument :id, Int, required: true,
-      description: 'ID of moderated entity.'
+      description: "ID of moderated entity."
 
     argument :entity_type, Types::Revisions::ModeratedEntitiesType, required: true,
-      description: 'Type of moderated entity.'
+      description: "Type of moderated entity."
 
     def prepare
       entity_type.constantize.find(id)

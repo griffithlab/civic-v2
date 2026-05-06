@@ -1,3 +1,5 @@
+@import 'themes/overrides/descriptions-overrides.less';
+
 .alert-container {
   position: absolute;
   z-index: 100;
@@ -9,4 +11,12 @@
   height: 100%;
   z-index: 0;
   overflow-y: auto;
+}
+
+// NOTE: this fixes a regression in ng-zorro v19 causing
+// dropdowns to be detached from nz-select elements.
+// See: https://github.com/NG-ZORRO/ng-zorro-antd/issues/9401
+::ng-deep .ant-select-dropdown,
+.ant-dropdown {
+  position: initial !important;
 }

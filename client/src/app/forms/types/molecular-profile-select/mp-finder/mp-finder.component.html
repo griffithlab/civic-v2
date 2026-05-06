@@ -1,0 +1,12 @@
+<form
+  nz-form
+  [formGroup]="form"
+  [nzLayout]="finderState.formLayout">
+  <formly-form
+    [form]="form"
+    [fields]="config"
+    [model]="model"
+    [options]="options"
+    (modelChange)="modelChange($event)">
+  </formly-form>
+</form>

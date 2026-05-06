@@ -1,0 +1,10 @@
+mutation UpdateCoi($input: UpdateCoiInput!) {
+  updateCoi(input: $input) {
+    coiStatement {
+      coiPresent
+      coiStatus
+      createdAt
+      id
+    }
+  }
+}

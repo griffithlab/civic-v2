@@ -1,0 +1,52 @@
+# Activity type is STI; use a generic one
+test_activity:
+  type: SubmitEvidenceItemActivity
+  user: curator
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei) %>
+
+# Assertion submission activity
+assertion_submit_activity:
+  type: SubmitAssertionActivity
+  user: curator
+  subject_type: Assertion
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion) %>
+
+# Revision creation activity (for revision.revisor)
+revision_suggest_activity:
+  type: SuggestRevisionSetActivity
+  user: curator
+  subject_type: Revision
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:new_revision) %>
+
+# Flag creation activity
+flag_create_activity:
+  type: FlagEntityActivity
+  user: curator
+  subject_type: Flag
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:open_flag) %>
+
+# Revision creation activity for curator_revision_on_accepted (for revisor=curator)
+curator_revision_suggest_activity:
+  type: SuggestRevisionSetActivity
+  user: curator
+  subject_type: Revision
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:curator_revision_on_accepted) %>
+
+submitted_ei_by_editor_activity:
+  type: SubmitEvidenceItemActivity
+  user: editor_submitter
+  subject_type: EvidenceItem
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei_by_editor) %>
+
+submitted_assertion_by_editor_activity:
+  type: SubmitAssertionActivity
+  user: editor_submitter
+  subject_type: Assertion
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion_by_editor) %>
+
+editor_submitter_revision_suggest_activity:
+  type: SuggestRevisionSetActivity
+  user: editor_submitter
+  subject_type: Revision
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:editor_submitter_revision_on_accepted) %>

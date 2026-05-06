@@ -8,9 +8,9 @@ Trestle.resource(:flags) do
   end
 
   scope :all
-  scope :open, -> { Flag.where(state: 'open') }, default: true
+  scope :open, -> { Flag.where(state: "open") }, default: true
 
-  # Customize the table columns shown on the index view.
+   # Customize the table columns shown on the index view.
    table do
      column :id
      column :flaggable

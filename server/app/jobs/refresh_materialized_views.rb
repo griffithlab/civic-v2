@@ -1,31 +1,36 @@
 class RefreshMaterializedViews < ApplicationJob
-
   def perform(kwargs)
-    views = kwargs.with_indifferent_access['views']
-    to_refresh = if views == 'all'
+    views = kwargs.with_indifferent_access["views"]
+    to_refresh = if views == "all"
                    [
-                     DiseaseBrowseTableRow,
-                     GeneBrowseTableRow,
-                     SourceBrowseTableRow,
-                     VariantBrowseTableRow,
-                     VariantGroupBrowseTableRow,
-                     MolecularProfileBrowseTableRow
+                     MaterializedViews::DiseaseBrowseTableRow,
+                     MaterializedViews::TherapyBrowseTableRow,
+                     MaterializedViews::FeatureBrowseTableRow,
+                     MaterializedViews::SourceBrowseTableRow,
+                     MaterializedViews::VariantBrowseTableRow,
+                     MaterializedViews::VariantGroupBrowseTableRow,
+                     MaterializedViews::MolecularProfileBrowseTableRow,
+                     MaterializedViews::UserBrowseTableRow,
+                     MaterializedViews::OrganizationBrowseTableRow,
                    ]
-                 elsif views == 'gene_only'
+    elsif views == "features_only"
                    [
-                     GeneBrowseTableRow
+                     MaterializedViews::FeatureBrowseTableRow,
                    ]
-                 elsif views == 'except_genes'
+    elsif views == "except_features"
                    [
-                     DiseaseBrowseTableRow,
-                     SourceBrowseTableRow,
-                     VariantBrowseTableRow,
-                     VariantGroupBrowseTableRow,
-                     MolecularProfileBrowseTableRow
+                     MaterializedViews::DiseaseBrowseTableRow,
+                     MaterializedViews::TherapyBrowseTableRow,
+                     MaterializedViews::SourceBrowseTableRow,
+                     MaterializedViews::VariantBrowseTableRow,
+                     MaterializedViews::VariantGroupBrowseTableRow,
+                     MaterializedViews::MolecularProfileBrowseTableRow,
+                     MaterializedViews::UserBrowseTableRow,
+                     MaterializedViews::OrganizationBrowseTableRow,
                    ]
-                 else
+    else
                    []
-                 end
+    end
 
     to_refresh.each { |klass| klass.refresh }
   end

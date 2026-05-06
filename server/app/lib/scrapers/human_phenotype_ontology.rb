@@ -4,20 +4,21 @@ module Scrapers
       resp = Util.make_get_request(url())
       extract_class_name_from_response_for_hpo_id(resp, hpo_id)
     rescue
-      ''
+      ""
     end
 
-    def self.scrape_all()
+    def self.scrape_all
       resp = Util.make_get_request(url())
       xml = Nokogiri::XML(resp)
       i = 0
       xml.xpath("//owl:Class[@rdf:about]").each do |row|
-        about = row.attributes['about'].value
-        if about.starts_with?('http://purl.obolibrary.org/obo/HP_')
+        about = row.attributes["about"].value
+        if about.starts_with?("http://purl.obolibrary.org/obo/HP_")
           hpo_id = about[/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]*)/, 1]
-          hpo_id = hpo_id.sub('_', ':')
-          name = row.at_xpath('rdfs:label').text
-          Phenotype.create(hpo_id: hpo_id, hpo_class: name)
+          hpo_id = hpo_id.sub("_", ":")
+          name = row.at_xpath("rdfs:label")&.text
+          desc = row.at_xpath("obo:IAO_0000115")&.text
+          Phenotype.create(hpo_id: hpo_id, hpo_class: name, description: desc)
           i = i+  1
         end
       end
@@ -25,15 +26,17 @@ module Scrapers
     end
 
     def self.update
+      parents = {}
       resp = Util.make_get_request(url())
       xml = Nokogiri::XML(resp)
       xml.xpath("//owl:Class[@rdf:about]").each do |row|
-        about = row.attributes['about'].value
-        if about.starts_with?('http://purl.obolibrary.org/obo/HP_')
+        about = row.attributes["about"].value
+        if about.starts_with?("http://purl.obolibrary.org/obo/HP_")
           hpo_id = about[/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]*)/, 1]
-          hpo_id = hpo_id.sub('_', ':')
-          name = row.at_xpath('rdfs:label').text
-          if !row.at_xpath('owl:deprecated').nil? && row.at_xpath('owl:deprecated').text == 'true'
+          hpo_id = hpo_id.sub("_", ":")
+          name = row.at_xpath("rdfs:label")&.text
+          desc = row.at_xpath("obo:IAO_0000115")&.text
+          if !row.at_xpath("owl:deprecated").nil? && row.at_xpath("owl:deprecated").text == "true"
             p = Phenotype.find_by(hpo_id: hpo_id)
             if !p.nil?
               if p.evidence_items.count == 0 && p.assertions.count == 0
@@ -41,21 +44,55 @@ module Scrapers
               else
                 civicbot_user = User.find(385)
                 (p.evidence_items + p.assertions).each do |obj|
-                  if obj.flags.select{|f| f.state == 'open' && f.comments.select{|c| c.text =~ /deprecated HPO term/ && c.user_id == 385}.count > 0}.count == 0
-                    Actions::FlagEntity.new(
+                  if obj.flags.select { |f| f.state == "open" && f.open_activity.note =~ /deprecated HPO term/ && f.open_activity.user_id == 385 }.count == 0
+                    Activities::FlagEntity.new(
                       flagging_user: civicbot_user,
                       flaggable: obj,
                       organization_id: nil,
-                      comment: "This entity uses a deprecated HPO term \"#{name}\" (#{hpo_id})"
+                      note: "This entity uses a deprecated HPO term \"#{name}\" (#{hpo_id})"
                     ).perform
                   end
                 end
               end
             end
           else
-            p = Phenotype.where(hpo_id: hpo_id).first_or_create
+            p = Phenotype.where(hpo_id: hpo_id).first_or_create!
             p.hpo_class = name
-            p.save
+            p.description = desc
+            parents[hpo_id] = extract_parent_hpo_ids_from_row(row)
+            p.save!
+          end
+        end
+      end
+      create_graph(parents)
+    end
+
+    def self.extract_parent_hpo_ids_from_row(row)
+      parent_ids = []
+
+      # Find all rdfs:subClassOf elements with rdf:resource attributes (direct parent references)
+      row.xpath("rdfs:subClassOf[@rdf:resource]").each do |sub_class_element|
+        resource_uri = sub_class_element.attributes["resource"]&.value
+
+        # Extract HPO IDs from URIs that match the HPO pattern
+        if resource_uri && resource_uri.match(/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]+)/)
+          hpo_id = $1.sub("_", ":")  # Convert HP_0000001 to HP:0000001
+          parent_ids << hpo_id
+        end
+      end
+
+      parent_ids.uniq
+    end
+
+    def self.create_graph(parents)
+      parents.each do |elem_hpo, parent_hpos|
+        parent_hpos.each do |parent_hpo|
+          parent = Phenotype.find_by(hpo_id: parent_hpo)
+          child = Phenotype.find_by(hpo_id: elem_hpo)
+          if parent.present? && child.present?
+            parent.add_child_term(child, relationship: "is_a")
+          else
+            raise StandardError.new("Unexpected unknown HPO ID: #{parent_hpo} or #{elem_hpo}")
           end
         end
       end
@@ -63,15 +100,14 @@ module Scrapers
 
     private
     def self.url
-      "https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/hp.owl"
+      "https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/hp-base.owl"
     end
 
     def self.extract_class_name_from_response_for_hpo_id(resp, hpo_id)
       xml = Nokogiri::XML(resp)
-      hpo_id = hpo_id.sub(':', '_')
+      hpo_id = hpo_id.sub(":", "_")
       node = xml.at_xpath("//owl:Class[@rdf:about=\"http://purl.obolibrary.org/obo/#{hpo_id}\"]")
-      node.at_xpath('rdfs:label').text
+      node.at_xpath("rdfs:label").text
     end
   end
 end
-

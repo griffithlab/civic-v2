@@ -7,10 +7,10 @@ class VariantAlias < ActiveRecord::Base
   end
 
   def self.get_or_create_by_name(name)
-    if found = self.where('lower(name) = ?', name.downcase).first
+    if found = self.where("lower(name) = ?", name.downcase).first
       found
     else
-      self.create!(name: name.upcase)
+      self.create!(name: name)
     end
   end
 end

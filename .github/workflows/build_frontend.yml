@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch }}
 
@@ -21,35 +21,43 @@ jobs:
         with:
           working-directory: ./server
           bundler-cache: true
-          ruby-version: '3.0'
+          ruby-version: '4.0.1'
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 24
 
       - run: npm install -g yarn
         working-directory: ./client
 
-      - run: yarn install
+      - run: yarn install --frozen-lockfile
         working-directory: ./client
 
       - run: rm -f public/*.js
         working-directory: ./server
 
-      - run: yarn build --prod
+      - run: yarn build
         working-directory: ./client
 
       - run: bundle exec rails assets:precompile
         working-directory: ./server
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: 1
+
+      - run: bundle exec rake rails_schema:generate
+        working-directory: ./server
+        env:
+          SECRET_KEY_BASE_DUMMY: 1
 
       - if: ${{ inputs.branch == 'staging' }}
         run: mv -f lib/assets/favicon.staging.ico public/favicon.ico
         working-directory: ./server
 
       - name: Commit and push build
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v9
         with:
           add: server/public/*
-          branch: ${{ inputs.branch }}
+          push: origin ${{ inputs.branch }}
           message: Automated frontend build

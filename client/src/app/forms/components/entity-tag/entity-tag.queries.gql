@@ -1,0 +1,32 @@
+query LinkableGene($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    name
+    link
+  }
+}
+
+query LinkableVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+}
+
+query LinkableTherapy($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+}
+
+query LinkableFeature($featureId: Int!) {
+  feature(id: $featureId) {
+    id
+    name
+    link
+    featureType
+  }
+}

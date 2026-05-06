@@ -1,0 +1,5 @@
+none_found:
+  clinvar_id: "NONE FOUND"
+
+not_applicable:
+  clinvar_id: "N/A"

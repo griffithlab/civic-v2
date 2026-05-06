@@ -1,0 +1,35 @@
+query FactorRevisableFields($featureId: Int!) {
+  feature(id: $featureId) {
+    ...RevisableFactorFields
+  }
+}
+
+fragment RevisableFactorFields on Feature {
+  id
+  name
+  fullName
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  featureAliases
+  featureInstance {
+    ... on Factor {
+      ncitId
+    }
+  }
+}
+
+mutation SuggestFactorRevision($input: SuggestFactorRevisionInput!) {
+  suggestFactorRevision(input: $input) {
+    clientMutationId
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}

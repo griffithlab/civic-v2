@@ -1,32 +1,51 @@
-query AssertionDetail(
-  $assertionId: Int!
-) {
+query AssertionDetail($assertionId: Int!) {
   assertion(id: $assertionId) {
-      ...AssertionDetailFields
+    ...AssertionDetailFields
   }
 }
 
 fragment AssertionDetailFields on Assertion {
+  id
+  name
+  status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
+  molecularProfile {
     id
     name
-    status
-    submissionEvent {
-      originatingUser {
-        id
-      }
+    link
+    deprecated
+    flagged
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  approvals {
+    totalCount
+    nodes {
+      ...approvalListNode
     }
-    molecularProfile {
-      id
-      name
-      link
+  }
+  ...assertionSubmissionActivity
+}
+
+fragment assertionSubmissionActivity on Assertion {
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
     }
-    flags(state: OPEN) {
-      totalCount
+    user {
+      ...commenterFields
     }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
-} 
+  }
+}

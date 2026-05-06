@@ -10,13 +10,19 @@ UpdateAlleleRegistryIds:
   queue: default
   class: UpdateAlleleRegistryIds
 
-RefreshGeneView:
+FlagDuplicateAlleleRegistryIds:
+  cron: '0 0 * * 1'
+  description: Check for duplicated allele registry IDs and flag Variants using them
+  queue: default
+  class: FlagDuplicateAlleleRegistryIds
+
+RefreshFeatureView:
   cron: '0 */2 * * *'
-  description: Refresh the gene browse table view (every two hours)
+  description: Refresh the feature browse table view (every two hours)
   queue: default
   class: RefreshMaterializedViews
   args:
-    views: genes_only
+    views: features_only
 
 RefreshBrowseViews:
   cron: '*/10 * * * *'
@@ -24,7 +30,7 @@ RefreshBrowseViews:
   queue: default
   class: RefreshMaterializedViews
   args:
-    views: except_genes
+    views: except_features
 
 GenerateMonthlyTsvs:
   cron: '20 0 1 * *'
@@ -121,3 +127,15 @@ CreateNightlyCivicpyCachePkl:
   description: Create nightly CIViCpy cache
   queue: default
   class: CreateNightlyCivicpyCachePkl
+
+FindRetractedSources:
+  cron: '0 0 * * *'
+  description: Check whether sources have been retracted
+  queue: default
+  class: FindRetractedSources
+
+GenerateNightlyUniprotFile:
+  cron: '0 3 * * *'
+  description: Update the nightly Uniprot id to gene mapping file
+  queue: default
+  class: GenerateNightlyUniprotFile

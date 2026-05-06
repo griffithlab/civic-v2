@@ -1,0 +1,48 @@
+<%= turbo_stream_from current_user, @chat %>
+
+<% content_for :title, "Chat" %>
+
+<%# Header bar %>
+<div class="flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-white shrink-0"
+     data-controller="inline-edit" data-inline-edit-url-value="<%= chats_chat_path(@chat) %>">
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+      <%= render "chats/shared/icons/beaker", css: "h-4 w-4 text-civic-purple" %>
+    </div>
+    <div>
+      <h1 class="font-semibold text-gray-800">
+        <span data-inline-edit-target="display"><%= render "chats/chats/header_name", chat: @chat %></span>
+        <span data-inline-edit-target="form" class="hidden">
+          <input type="text"
+                 data-inline-edit-target="input"
+                 data-action="keydown->inline-edit#keydown blur->inline-edit#save"
+                 class="bg-gray-100 text-gray-800 text-sm font-semibold rounded px-2 py-1 border border-gray-300 focus:border-civic-purple focus:outline-none focus:ring-1 focus:ring-civic-purple" />
+        </span>
+      </h1>
+    </div>
+  </div>
+
+  <%# Chat options popover %>
+  <%= render "chats/chats/chat_menu", chat: @chat %>
+</div>
+
+<%# Messages area - scrollable %>
+<div class="flex-1 overflow-y-auto messages-container" data-controller="scroll">
+  <div id="messages" class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+    <% messages = @chat.messages.where.not(id: nil) %>
+    <% messages.each do |message| %>
+      <%= render message %>
+    <% end %>
+    <% if messages.any? && messages.last.role == "user" %>
+      <%= render "chats/messages/typing_indicator" %>
+    <% end %>
+  </div>
+</div>
+
+<%# Input area - fixed at bottom %>
+<div class="shrink-0 border-t border-gray-200 bg-white">
+  <div class="max-w-4xl mx-auto px-4 py-4">
+    <%= render "chats/messages/form", chat: @chat, message: @message %>
+    <%= render "chats/shared/disclaimer" %>
+  </div>
+</div>

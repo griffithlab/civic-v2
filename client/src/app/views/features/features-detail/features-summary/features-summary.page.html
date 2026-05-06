@@ -1,0 +1,56 @@
+<ng-container *ngIf="feature$ | ngrxPush as feature">
+  <nz-row [nzGutter]="[8, 16]">
+    @switch (feature.featureInstance.__typename) {
+      @case ('Gene') {
+        <span>
+          <cvc-genes-summary
+            [featureId]="feature.id"
+            [gene]="feature.featureInstance"></cvc-genes-summary>
+        </span>
+      }
+      @case ('Factor') {
+        <span>
+          <cvc-factor-summary
+            [featureId]="feature.id"
+            [factor]="feature.featureInstance"></cvc-factor-summary>
+        </span>
+      }
+      @case ('Fusion') {
+        <cvc-fusion-summary
+          [featureId]="feature.id"
+          [fusion]="feature.featureInstance"></cvc-fusion-summary>
+      }
+      @case ('Region') {
+        <span style="width: 100%">
+        <cvc-region-summary
+          [featureId]="feature.id"
+          [region]="feature.featureInstance"></cvc-region-summary>
+        </span>
+      }
+    }
+
+    <!-- variant menu row -->
+    <nz-col [nzSpan]="24">
+      <nz-tabs nzType="card">
+        <nz-tab nzTitle="Molecular Profiles">
+          <ng-template nz-tab>
+            <cvc-molecular-profile-menu
+              [featureId]="feature.id"></cvc-molecular-profile-menu>
+          </ng-template>
+        </nz-tab>
+        <nz-tab nzTitle="Variants">
+          <ng-template nz-tab>
+            <cvc-variant-menu [feature]="feature"></cvc-variant-menu>
+          </ng-template>
+        </nz-tab>
+        @if (feature.featureInstance.__typename == 'Gene') {
+          <nz-tab nzTitle="Fusions">
+            <ng-template nz-tab>
+              <cvc-fusions-menu [geneId]="feature.id"></cvc-fusions-menu>
+            </ng-template>
+          </nz-tab>
+        }
+      </nz-tabs>
+    </nz-col>
+  </nz-row>
+</ng-container>

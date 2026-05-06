@@ -1,0 +1,31 @@
+query GeneRevisableFields($featureId: Int!) {
+  feature(id: $featureId) {
+    ...RevisableGeneFields
+  }
+}
+
+fragment RevisableGeneFields on Feature {
+  id
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  featureInstance {
+    ... on Gene {
+      description
+    }
+  }
+}
+
+mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+  suggestGeneRevision(input: $input) {
+    clientMutationId
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}

@@ -1,0 +1,22 @@
+query MolecularProfileSelectTypeahead($name: String!, $geneId: Int) {
+  molecularProfiles(name: $name, geneId: $geneId, first: 25) {
+    nodes {
+      ...MolecularProfileSelectTypeaheadFields
+    }
+  }
+}
+
+query MolecularProfileSelectTag($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    ...MolecularProfileSelectTypeaheadFields
+  }
+}
+
+fragment MolecularProfileSelectTypeaheadFields on MolecularProfile {
+  id
+  name
+  link
+  molecularProfileAliases
+  deprecated
+  flagged
+}

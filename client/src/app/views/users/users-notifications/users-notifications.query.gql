@@ -1,20 +1,20 @@
 query UserNotifications(
-    $first: Int,
-    $last: Int,
-    $before: String,
-    $after: String,
-    $notificationReason: NotificationReason
-    $subscriptionId: Int
-    $originatingObject: SubscribableInput
-    $eventType: EventAction
-    $originatingUserId: Int
-    $organizationId: Int
-    $includeRead: Boolean   
-){
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $notificationReason: NotificationReason
+  $subscriptionId: Int
+  $originatingObject: SubscribableInput
+  $eventType: EventAction
+  $originatingUserId: Int
+  $organizationId: Int
+  $includeRead: Boolean
+) {
   notifications(
-    first: $first,
-    last: $last,
-    before: $before,
+    first: $first
+    last: $last
+    before: $before
     after: $after
     notificationReason: $notificationReason
     subscriptionId: $subscriptionId
@@ -22,94 +22,94 @@ query UserNotifications(
     eventType: $eventType
     originatingUserId: $originatingUserId
     organizationId: $organizationId
-    includeRead: $includeRead  
-  ){
+    includeRead: $includeRead
+  ) {
     pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        hasPreviousPage
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
     }
     notificationSubjects {
-        ...notificationFeedSubjects
+      ...notificationFeedSubjects
     }
     originatingUsers {
-        ...notificationOriginatingUsers
+      ...notificationOriginatingUsers
     }
     organizations {
-        ...notificationOrganization
+      ...notificationOrganization
     }
     eventTypes
     edges {
-        node {
-            ...notificationNode
-        }
+      node {
+        ...notificationNode
+      }
     }
   }
 }
 
 fragment notificationOrganization on Organization {
-    id
-    name
+  id
+  name
 }
 
 fragment notificationOriginatingUsers on User {
-    id
-    displayName
+  id
+  displayName
 }
 
 fragment notificationFeedSubjects on EventSubjectWithCount {
-        subject {
-            id
-            __typename
-            name
-        }
-        occuranceCount
+  subject {
+    id
+    __typename
+    name
+  }
+  occuranceCount
 }
 
 fragment notificationNode on Notification {
+  id
+  type
+  event {
+    ...eventFeedNode
+  }
+  seen
+  subscription {
     id
-    type
-    event {
-        ...eventFeedNode
+    subscribable {
+      id
+      name
+      __typename
     }
-    seen
-    subscription {
-        id
-        subscribable {
-            id
-            name
-            __typename
-        }
-    }
+  }
 }
 
 mutation UpdateNotificationStatus($input: UpdateNotificationStatusInput!) {
-    updateNotificationStatus(input: $input) {
-        notifications {
-            ...notificationNode
-        }
+  updateNotificationStatus(input: $input) {
+    notifications {
+      ...notificationNode
     }
+  }
 }
 
 mutation Unsubscribe($input: UnsubscribeInput!) {
-    unsubscribe(input: $input) {
-        unsubscribedEntities {
-            ...subscribable
-        }
+  unsubscribe(input: $input) {
+    unsubscribedEntities {
+      ...subscribable
     }
+  }
 }
 
 mutation Subscribe($input: SubscribeInput!) {
-    subscribe(input: $input) {
-        subscriptions {
-            id
-        }
+  subscribe(input: $input) {
+    subscriptions {
+      id
     }
+  }
 }
 
 fragment subscribable on Subscribable {
-    id
-    entityType
-    __typename
+  id
+  entityType
+  __typename
 }

@@ -1,0 +1,18 @@
+<nz-select
+  [class.ng-dirty]="cvcShowError"
+  [formControl]="cvcFormControl"
+  [formlyAttributes]="cvcFormlyAttributes"
+  [nzMode]="cvcSelectMode"
+  [nzPlaceHolder]="
+    cvcPlaceholder ? cvcPlaceholder : 'Select Value'
+  "
+  [nzOptions]="cvcOptions ? cvcOptions : []"
+  [nzCustomTemplate]="cvcCustomTemplate ? cvcCustomTemplate : null"
+  [nzOptionHeightPx]="30"
+  [nzDisabled]="cvcDisabled"
+  [nzAllowClear]="cvcAllowClear"
+  (nzFocus)="cvcOnFocus.next()"
+  (ngModelChange)="
+    cvcModelChange && cvcModelChange(cvcFormlyAttributes, $event)
+  ">
+</nz-select>

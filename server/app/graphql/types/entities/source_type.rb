@@ -16,27 +16,42 @@ module Types::Entities
     field :publication_day, Int, null: true
     field :journal, String, null: true
     field :full_journal_title, String, null: true
-    field :clinical_trials, [Types::Entities::ClinicalTrialType], null: true
+    field :clinical_trials, [ Types::Entities::ClinicalTrialType ], null: true
     field :abstract, String, null: true
     field :publication_date, String, null: true
     field :pmc_id, String, null: true
     field :author_string, String, null: true
     field :display_type, String, null: false
+    field :open_access, Boolean, null: false
+    field :fully_curated, Boolean, null: false
+    field :retracted, Boolean, null: false
+    field :retraction_nature, String, null: true
+    field :retraction_date, GraphQL::Types::ISO8601DateTime, null: true
+    field :retraction_reasons, String, null: true
+    field :deprecated, Boolean, null: false
+
+    def deprecated
+      object&.retraction_nature == "Retraction" || object.deprecated
+    end
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
     end
 
     def name
-      if object.title
-        object.title
+      if object.citation
+        return "#{object.source_type}: #{object.citation}"
       else
-        "SID#{object.id}"
+        return "#{object.source_type}: #{object.id}"
       end
     end
 
     def link
       "/sources/#{object.id}"
+    end
+
+    def open_access
+      !!object.open_access
     end
 
     def publication_date
@@ -54,24 +69,24 @@ module Types::Entities
     end
 
     def full_journal_title
-      if object.source_type == 'ASCO'
-        'Journal of Clinical Oncology'
+      if object.source_type == "ASCO"
+        "Journal of Clinical Oncology"
       else
         object.full_journal_title
       end
     end
 
     def author_string
-      if object.source_type == 'PubMed' || object.source_type == 'ASH'
+      if object.source_type == "PubMed" || object.source_type == "ASH"
         Loaders::AssociationLoader.for(Source, :authors_sources).load(object).then do |authors_sources|
           Promise.all(authors_sources.map { |as| Loaders::AssociationLoader.for(AuthorsSource, :author).load(as) }).then do |authors|
             authors_sources.sort_by { |as| as.author_position }
               .map { |as| "#{as.author.fore_name} #{as.author.last_name}" }
               .reject { |a| a.blank? }
-              .join(', ')
+              .join(", ")
           end
         end
-      elsif object.source_type == 'ASCO'
+      elsif object.source_type == "ASCO"
         object.asco_presenter
       else
         raise StandardError.new("Unexpected source type  #{object.source_type}")

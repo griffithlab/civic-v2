@@ -1,26 +1,53 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
-  # include SearchObject for GraphQL
   include SearchObject.module(:graphql)
-
+  include Resolvers::Shared::SearchHelpers
 
   type Types::BrowseTables::BrowseMolecularProfileType.connection_type, null: false
 
   scope do
-    MolecularProfileBrowseTableRow
+    MaterializedViews::MolecularProfileBrowseTableRow
       .all
-      .order('evidence_score DESC')
+      .order("evidence_score DESC, id ASC")
   end
 
-  option(:variant_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('variants'), "#{value}%") }
-  option(:entrez_symbol, type: String)  { |scope, value| scope.where(json_name_query_for_column('genes'), "#{value}%") }
-  option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
-  option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
-  option(:molecular_profile_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
-  option(:variant_id, type: Int) do |scope, value| 
-    scope.where(id: MolecularProfile.joins(:variants).where(variants: { id: value }).select('molecular_profiles.id')) 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
+  option(:molecular_profile_name, type: String) do |scope, value|
+    results = Searchkick.search(
+                  value,
+                  models: [ MolecularProfile ],
+                  fields: [ "name" ],
+                  match: :word_start,
+                  misspellings: { below: 1 }
+    ).where(name: { ilike: "%#{value}%" })
+
+    ids = results.hits.map { |x| x["_id"] }
+
+    scope.where(id: ids)
+  end
+
+  option(:variant_name, type: String)  do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, "variants"), "#{value}%")
+      .or(scope.where(json_name_query_for_column(scope.table_name, "features"), "#{value}"))
+  end
+
+  option(:feature_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, "features"), "#{value}%")
+  end
+  option(:disease_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, "diseases"), "%#{value}%")
+  end
+  option(:therapy_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, "therapies"), "%#{value}%")
+  end
+  option(:molecular_profile_alias, type: String) { |scope, value| scope.where(array_query_for_column("alias_names"), "%#{value}%") }
+  option(:variant_id, type: Int) do |scope, value|
+    scope.where(id: MolecularProfile.joins(:variants).where(variants: { id: value }).select("molecular_profiles.id"))
   end
 
   option :sort_by, type: Types::BrowseTables::MolecularProfilesSortType do |scope, value|
@@ -29,48 +56,10 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
       scope.reorder "evidence_item_count #{value.direction}"
     when "assertionCount"
       scope.reorder "assertion_count #{value.direction}"
-    when "evidenceScore"
+    when "molecularProfileScore"
       scope.reorder "evidence_score #{value.direction}"
+    when "variantCount"
+      scope.reorder "variant_count #{value.direction}"
     end
-  end
-
-  def json_name_query_for_column(col)
-    raise 'Must supply a column name' if col.nil?
-    "molecular_profile_browse_table_rows.id IN (select mp.id FROM molecular_profile_browse_table_rows mp, json_array_elements(mp.#{col}) d where d->>'name' ILIKE ?)"
-  end
-
-  def array_query_for_column(col)
-    raise 'Must supply a column name' if col.nil?
-    "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(name) where name ILIKE ?)"
-  end
-
-  def self.table_headers
-    [
-      'id',
-      'name',
-      'aliases',
-      'genes',
-      'variants',
-      'diseases',
-      'drugs',
-      'evidence_score',
-      'evidence_count',
-      'assertion_count'
-    ]
-  end
-
-  def self.to_row(object:)
-    [
-      object.id,
-      object.display_name,
-      ArrayWrapper.wrap(object.alias_names.compact),
-      ArrayWrapper.wrap(object.genes, field_name: 'name'),
-      ArrayWrapper.wrap(object.variants, field_name: 'name'),
-      ArrayWrapper.wrap(object.diseases, field_name: 'name'),
-      ArrayWrapper.wrap(object.drugs, field_name: 'name'),
-      object.evidence_score,
-      object.evidence_item_count,
-      object.assertion_count
-    ]
   end
 end

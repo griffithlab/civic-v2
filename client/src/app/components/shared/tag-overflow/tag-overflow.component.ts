@@ -1,41 +1,73 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { Maybe } from "@app/generated/civic.apollo";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
-export type SupportedPileupTags = 'drug' | 'disease' | 'gene' | 'organization' | 'variant'
+export type SupportedPileupTags =
+  | 'therapy'
+  | 'disease'
+  | 'gene'
+  | 'feature'
+  | 'organization'
+  | 'variant'
+  | 'variant-type'
+  | 'variant-feature'
 
 export type TagInfo = {
   id: number
   name: string
   link: string
+  matchText?: string
+}
+
+function populateMatchText(input: Maybe<TagInfo[]>): Maybe<TagInfo[]> {
+  return input?.map((t) => {
+    if (!t.matchText) {
+      return {
+        ...t,
+        matchText: t.name,
+      }
+    } else {
+      return t
+    }
+  })
 }
 
 @Component({
-  selector: 'cvc-tag-overflow',
-  templateUrl: './tag-overflow.component.html',
-  styleUrls: ['./tag-overflow.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'cvc-tag-overflow',
+    templateUrl: './tag-overflow.component.html',
+    styleUrls: ['./tag-overflow.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcTagOverflowComponent implements OnChanges {
-  @Input() tags: Maybe<TagInfo[]>;
+  @Input({ transform: populateMatchText }) tags: Maybe<TagInfo[]>
   @Input() maxDisplayCount: number = 2
   @Input() matchingText?: string
   @Input() tagType: Maybe<SupportedPileupTags>
-  @Input() thisOne = false;
+  @Input() thisOne = false
+  @Input() enablePopover?: boolean = true
 
   displayedTags?: TagInfo[]
   hiddenTags?: TagInfo[]
   hiddenCount?: number
   matchedHiddenCount: number = 0
-  constructor(private cdr: ChangeDetectorRef) { }
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnChanges(_: SimpleChanges): void {
     // if (this.thisOne) console.log(changes);
-
     // displayedTags: this.displayedTags,
     // hiddenTags: this.hiddenTags,
     // hiddenCount: this.hiddenCount,
     // matchingText: this.matchingText
-
-    this.calculateDisplayedTags();
+    this.calculateDisplayedTags()
   }
 
   calculateDisplayedTags() {
@@ -46,19 +78,18 @@ export class CvcTagOverflowComponent implements OnChanges {
     if (this.matchingText) {
       this.matchedHiddenCount = 0
       if (this.hiddenTags) {
-        let text = this.matchingText.toLowerCase();
-        this.hiddenTags.forEach(t => {
-          if (t.name.toLowerCase().includes(text)) {
+        let text = this.matchingText.toLowerCase()
+        this.hiddenTags.forEach((t) => {
+          if (t.matchText!.toLowerCase().includes(text)) {
             this.matchedHiddenCount += 1
           }
-        });
-
+        })
       }
     } else {
-      this.matchedHiddenCount = 0;
+      this.matchedHiddenCount = 0
     }
 
-    this.cdr.detectChanges();
+    this.cdr.detectChanges()
   }
 
   // removed the template (click) emitter for onOverflowClicked, since

@@ -12,18 +12,20 @@ fragment evidencePopover on EvidenceItem {
   evidenceLevel
   evidenceType
   evidenceDirection
-  clinicalSignificance
+  significance
   variantOrigin
-  drugs {
+  therapies {
     id
     name
     link
+    deprecated
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id
@@ -36,6 +38,7 @@ fragment evidencePopover on EvidenceItem {
     name
     link
     deprecated
+    flagged
     parsedName {
       ...MolecularProfileParsedName
     }
@@ -46,6 +49,12 @@ fragment evidencePopover on EvidenceItem {
     sourceType
     displayType
     link
+    deprecated
+    clinicalTrials {
+      nctId
+      id
+      link
+    }
   }
   flags(state: OPEN) {
     totalCount

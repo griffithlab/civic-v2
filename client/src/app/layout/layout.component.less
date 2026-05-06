@@ -1,5 +1,5 @@
-@import "themes/global-variables.less";
-@import "ng-zorro-antd/style/color/colors.less";
+@import 'themes/global-variables.less';
+@import 'ng-zorro-antd/style/color/colors.less';
 
 :host {
   display: flex;
@@ -41,14 +41,20 @@ nz-sider {
 
 .sidebar-menu {
   margin-top: -20px; // removes gap caused by home link's empty menu-group title
-  ::ng-deep .ant-menu-item-group-title {
-    padding-bottom: 0;
+  ::ng-deep .ant-menu-title-content {
+    .anticon {
+      margin-right: 4px;
+    }
   }
   &.is-collapsed {
     // adjusts menu for collapsed state
     margin-top: -8px;
     ::ng-deep .ant-menu-item-group-title {
       text-align: center;
+    }
+    // hide menu label when collapsed
+    ::ng-deep .ant-menu-title-content a span {
+      display: none;
     }
   }
 }
@@ -98,9 +104,14 @@ nz-sider {
   line-height: @app-header-height;
   padding: @app-header-padding;
   position: fixed;
-  width: calc(~"100% - @{app-sidebar-width}");
+  width: calc(~'100vw - @{app-sidebar-width}');
   z-index: 10;
   color: @geekblue-2;
+  transition: all 0.2s;
+  &.is-collapsed {
+    transition: all 0.2s;
+    width: calc(~'100vw - @{app-sidebar-collapsed-width}');
+  }
 }
 
 .header-trigger {

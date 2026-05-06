@@ -1,67 +1,85 @@
 <div id="popover-content">
   <ng-container *ngIf="flag$ | ngrxPush as f">
-    <nz-card [nzTitle]="cardTitle"
+    <nz-card
+      [nzTitle]="cardTitle"
       [nzExtra]="subject"
       nzBordered="false"
       id="card-content">
-
       <ng-template #cardTitle>
         <nz-space class="flag-card-title">
           <span *nzSpaceItem>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               nzType="civic-flag"
               [nzTwotoneColor]="'Flag' | entityColor"></i>
-                    FID{{ f.id }}
+            FID{{ f.id }}
           </span>
-          <cvc-status-tag [status]="f.state"
+          <cvc-status-tag
+            [status]="f.state"
             *nzSpaceItem></cvc-status-tag>
         </nz-space>
       </ng-template>
 
       <ng-template #subject>
-        <ng-container [ngSwitch]="f.flaggable.__typename">
-          <cvc-gene-tag *ngSwitchCase="'Gene'"
-            [enablePopover]="false"
-            [gene]="f.flaggable"></cvc-gene-tag>
-          <cvc-assertion-tag *ngSwitchCase="'Assertion'"
-            [enablePopover]="false"
-            [assertion]="f.flaggable"></cvc-assertion-tag>
-          <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'"
-            [enablePopover]="false"
-            [evidence]="f.flaggable"></cvc-evidence-tag>
-          <cvc-variant-tag *ngSwitchCase="'Variant'"
-            [enablePopover]="false"
-            [variant]="f.flaggable"></cvc-variant-tag>
-          <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'"
-            [enablePopover]="false"
-            [variantgroup]="f.flaggable"></cvc-variant-group-tag>
-          <span *ngSwitchDefault>{{ f.flaggable.name }}</span>
-        </ng-container>
+        @switch (f.flaggable.__typename) {
+          @case ('Feature') {
+            <cvc-feature-tag
+              [enablePopover]="false"
+              [feature]="f.flaggable"></cvc-feature-tag>
+          }
+          @case ('Assertion') {
+            <cvc-assertion-tag
+              [enablePopover]="false"
+              [assertion]="f.flaggable"></cvc-assertion-tag>
+          }
+          @case ('EvidenceItem') {
+            <cvc-evidence-tag
+              [enablePopover]="false"
+              [evidence]="f.flaggable"></cvc-evidence-tag>
+          }
+          @case ('Variant') {
+            <cvc-feature-variant-tag
+              [enablePopover]="false"
+              [variant]="f.flaggable"></cvc-feature-variant-tag>
+          }
+          @case ('VariantGroup') {
+            <cvc-variant-group-tag
+              [enablePopover]="false"
+              [variantgroup]="f.flaggable"></cvc-variant-group-tag>
+          }
+          @default {
+            <span *ngSwitchDefault>{{ f.flaggable.name }}</span>
+          }
+        }
       </ng-template>
 
-      <nz-space nzDirection="vertical"
+      <nz-space
+        nzDirection="vertical"
         style="width: 100%">
-        <nz-descriptions *nzSpaceItem
+        <nz-descriptions
+          *nzSpaceItem
           nzBordered
           [nzColumn]="1"
           nzSize="small">
           <nz-descriptions-item nzTitle="Flagging User">
-            <cvc-user-tag [enablePopover]="false"
+            <cvc-user-tag
+              [enablePopover]="false"
               [user]="f.flaggingUser"></cvc-user-tag>
           </nz-descriptions-item>
           <nz-descriptions-item nzTitle="Flagging Date">
-            {{ f.createdAt | timeago }}
+            {{ f.createdAt | timeAgo }}
           </nz-descriptions-item>
         </nz-descriptions>
 
-        <nz-descriptions *nzSpaceItem
+        <nz-descriptions
+          *nzSpaceItem
           nzBordered
           [nzColumn]="1"
           nzSize="small"
           nzLayout="vertical">
           <nz-descriptions-item nzTitle="Comment">
-            {{f.openComment.comment}}
+            <cvc-comment-body [commentBodySegments]="f.openActivity.parsedNote"></cvc-comment-body>
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-space>

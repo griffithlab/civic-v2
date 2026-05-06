@@ -1,0 +1,19 @@
+query UserFilterSearch($name: String) {
+  browseUsers(name: $name) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      node {
+        id
+        displayName
+        name
+        username
+        role
+      }
+    }
+  }
+}

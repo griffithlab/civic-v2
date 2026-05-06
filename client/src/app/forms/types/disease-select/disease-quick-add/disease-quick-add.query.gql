@@ -1,0 +1,12 @@
+mutation QuickAddDisease($name: String!, $doid: String) {
+  addDisease(input: { name: $name, doid: $doid }) {
+    ...QuickAddDiseaseFields
+  }
+}
+
+fragment QuickAddDiseaseFields on AddDiseasePayload {
+  new
+  disease {
+    ...DiseaseSelectTypeaheadFields
+  }
+}

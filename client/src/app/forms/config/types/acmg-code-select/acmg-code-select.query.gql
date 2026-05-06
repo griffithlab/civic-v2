@@ -1,7 +1,0 @@
-query AcmgCodeTypeahead($code: String!) {
-  acmgCodesTypeahead(queryTerm:  $code){
-    id
-    code
-    description
-  }
-}

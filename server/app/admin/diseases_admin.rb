@@ -1,16 +1,41 @@
 Trestle.resource(:diseases) do
+  remove_action :destroy
+
+  collection do
+    Disease.eager_load(:disease_aliases)
+  end
+
   menu do
     item :diseases, icon: "fa fa-disease"
   end
 
+  search do |q|
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("diseases.doid ILIKE ? OR diseases.name ILIKE ? OR disease_aliases.name ILIKE ? OR diseases.id = ?", "%#{q}%", "%#{q}%", "%#{q}%", query_id)
+      else
+        collection.where("diseases.doid ILIKE ? OR diseases.name ILIKE ? OR disease_aliases.name ILIKE ?", "%#{q}%", "%#{q}%", "%#{q}%")
+      end
+    else
+      collection
+    end
+  end
+
   scope :all, default: true
   scope :without_doid, -> { Disease.where(doid: nil) }
+  scope :deprecated, -> { Disease.where(deprecated: true) }
+  scope :not_deprecated, -> { Disease.where(deprecated: false) }
 
   # Customize the table columns shown on the index view.
   table do
     column :id
     column :doid
     column :name
+    column :aliases do |disease|
+      disease.disease_aliases.map(&:name).join(", ")
+    end
+    column :deprecated
   end
 
   # Customize the form fields shown on the new/edit views.
@@ -18,6 +43,11 @@ Trestle.resource(:diseases) do
     row do
       col(sm: 2) { static_field :id }
       col(sm: 2) { text_field :doid }
+      col(sm: 2) do
+        form_group :deprecated, label: false do
+          check_box :deprecated
+        end
+      end
     end
 
     row do

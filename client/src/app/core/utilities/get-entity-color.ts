@@ -7,12 +7,17 @@ export const EntityColors = new Map<string, string>([
   ['Disease', '#e62f76'],
   ['Event', '#1db8a9'],
   ['EvidenceItem', '#2a63b6'],
-  ['Gene', '#07aff0'],
-  ['Intervention', '#ac3996'],
+  ['Feature', '#07aff0'],
   ['MolecularProfile', '#33b358'],
+  ['NccnGuideline', '#49566D'],
   ['Phenotype', '#1db8a9'],
   ['Source', '#f9ba45'],
+  ['Therapy', '#ac3996'],
   ['Variant', '#74d34c'],
+  ['GeneVariant', '#74d34c'],
+  ['FactorVariant', '#74d34c'],
+  ['FusionVariant', '#74d34c'],
+  ['RegionVariant', '#74d34c'],
   ['VariantGroup', '#74d34c'],
   ['VariantType', '#74d34c'],
 
@@ -20,6 +25,8 @@ export const EntityColors = new Map<string, string>([
   ['Comment', '#44d8ef'],
   ['Event', '#ffdb00'],
   ['Flag', '#e24759'],
+  //['Approval', '#C0C0C0'],
+  ['Approval', '#EFBF04'],
   ['Queue', '#666699'],
   ['Revision', '#f0673a'],
 
@@ -32,14 +39,14 @@ export const EntityColors = new Map<string, string>([
   // entity state colors
   ['Rejected', '#BBBBBB'],
 
-  ['Greyscale', '#999999']
+  ['Greyscale', '#999999'],
 ])
 
 export function getEntityColor(entity: string): string {
   let color = '#AAAAAA' // default color
   if (entity) {
     const c = EntityColors.get(entity)
-    if(c) color = c
+    if (c) color = c
   }
   return color
 }

@@ -1,4 +1,4 @@
-query OrganizationsBrowse (
+query OrganizationsBrowse(
   $first: Int
   $last: Int
   $before: String
@@ -7,7 +7,7 @@ query OrganizationsBrowse (
   $orgName: String
   $sortBy: OrganizationSort
 ) {
-  organizations(
+  browseOrganizations(
     first: $first
     last: $last
     before: $before
@@ -32,21 +32,19 @@ query OrganizationsBrowse (
   }
 }
 
-fragment OrganizationBrowseTableRowFields on Organization {
+fragment OrganizationBrowseTableRowFields on BrowseOrganization {
   id
   name
   description
-  # profileImagePath(size: 256) @include(if: $cardView)
   url
   memberCount
-  eventCount
-  subGroups {
-    name
+  activityCount
+  mostRecentActivityTimestamp
+  childOrganizations {
     id
+    name
   }
-  mostRecentEvent {
-    createdAt
-  }
+  # profileImagePath(size: 256) @include(if: $cardView)
   # orgStatsHash @include(if: $cardView) {
   #   comments
   #   revisions

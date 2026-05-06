@@ -1,34 +1,46 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AssertionsSummaryPage } from './assertions-summary.page';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
-import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
-import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
-import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
-import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
-import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module';
-import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
-import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { AssertionsSummaryPage } from './assertions-summary.page'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module'
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
+import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
+import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { RouterModule } from '@angular/router'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
+import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
+import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetDirective,
+    PushPipe,
+    RouterModule,
     NzGridModule,
     NzSpaceModule,
     NzGridModule,
@@ -38,19 +50,30 @@ import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-prof
     NzIconModule,
     NzDescriptionsModule,
     NzToolTipModule,
+    NzPopoverModule,
+    NzAvatarModule,
+    NzCardModule,
+    NzAlertModule,
+    NzRadioModule,
+    FormsModule,
+    CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,
     CvcUserTagModule,
     CvcTagListModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcEvidenceTableModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
     CvcAttributeTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    CvcCommentBodyModule,
+    CvcOrganizationTagModule,
+    CvcApprovalNotificationComponent,
+    CvcCommentBodyModule,
+    CvcEntityDescription,
   ],
-  exports: [AssertionsSummaryPage]
+  exports: [AssertionsSummaryPage],
 })
-export class AssertionsSummaryModule { }
+export class AssertionsSummaryModule {}

@@ -1,75 +1,80 @@
+require "csv"
+require "zip"
+
 module Importer
   class NciThesaurusMirror
-    attr_reader :parser, :version
+    attr_reader :parser, :version, :parents
 
     def initialize(path, version = Time.now.utc.iso8601)
-      @parser = Obo::Parser.new(path)
+      zip_file = Zip::File.open(path)
+      entry = zip_file.glob("*.txt").first
+      csv_text = entry.get_input_stream.read
+      @parser = CSV.parse(
+        csv_text,
+        col_sep: "\t",
+        liberal_parsing: true,
+        headers: [ "code", "concept_iri", "parents", "synonyms", "definition", "display_name", "concept_status", "semantic_type", "concept_in_subset" ],
+      )
       @version = version
+      @parents = {}
     end
 
     def import
-      parser.elements.each do |elem|
+      parser.each do |elem|
         if valid_entry?(elem)
           create_object_from_entry(elem)
+          store_parent(elem)
         end
       end
+      create_graph
     end
 
     def valid_entry?(entry)
-      semantic_types = semantic_types(entry)
-      obsolete_concepts = obsolete_concepts(entry)
-      (entry['id'].present? && entry['name'].present? && entry.respond_to?(:name) && entry.name == 'Term' &&
-        (semantic_types & valid_semantic_types).length > 0 &&
-        (obsolete_concepts & ['Obsolete_Concept']).length == 0)
-    end
-
-    def semantic_types(entry)
-      matcher = /^NCIT:P106 "(?<semantic_type>.+)"/
-      entry['property_value'].map { |s| s.match(matcher) }.compact.map { |s| s[:semantic_type] }
+      entry["concept_status"].nil? && entry["semantic_type"].split("|").any? do |t|
+        valid_semantic_types.include?(t)
+      end
     end
 
     def valid_semantic_types
-      ['Pharmacologic Substance', 'Pharmacological Substance', 'Clinical Drug', 'Therapeutic or Preventive Procedure', 'Hazardous or Poisonous Substance']
-    end
-
-    def obsolete_concepts(entry)
-      matcher = /^NCIT:P310 "(?<obsolete_concept>.+)"/
-      entry['property_value'].map { |s| s.match(matcher) }.compact.map { |s| s[:obsolete_concept] }
+      [ "Pharmacologic Substance", "Pharmacological Substance", "Clinical Drug", "Therapeutic or Preventive Procedure", "Hazardous or Poisonous Substance" ]
     end
 
     def create_object_from_entry(entry)
-      name = Drug.capitalize_name(entry['name'])
-      ncit_id = entry['id'].sub('NCIT:', '')
-      drug = ::Drug.where(ncit_id: ncit_id).first_or_initialize
-      drug.name = name
-      synonyms = process_synonyms(entry['synonym']).uniq
+      synonyms = entry["synonyms"].split("|").map { |s| Therapy.capitalize_name(s) }
+      name = synonyms.shift()
+      ncit_id = entry["code"]
+      therapy = ::Therapy.where(ncit_id: ncit_id).first_or_initialize
+      therapy.name = name
+      therapy.description = entry["definition"]
       synonyms.each do |syn|
-        drug_alias = ::DrugAlias.where(name: syn).first_or_create
-        if !drug.drug_aliases.map{|a| a.name.downcase}.include?(syn.downcase) && !(syn.downcase == drug.name.downcase)
-          drug.drug_aliases << drug_alias
+        therapy_alias = ::TherapyAlias.where(name: syn).first_or_create
+        if !therapy.therapy_aliases.map { |a| a.name.downcase }.include?(syn.downcase) && !(syn.downcase == therapy.name.downcase)
+          therapy.therapy_aliases << therapy_alias
         end
       end
-      drug.save
+      therapy.save
     end
 
-    def process_synonyms(synonym_element)
-      vals = if synonym_element.blank?
-        []
-      elsif synonym_element.is_a?(String)
-        [extract_synonym(synonym_element)]
-      elsif synonym_element.is_a?(Array)
-        synonym_element.map { |s| extract_synonym(s) }
+    def store_parent(elem)
+      if elem["parents"].present?
+        parents[elem["code"]] = elem["parents"]
+          .split("|")
+          .map(&:strip)
       end
-      vals.compact
     end
 
-    def extract_synonym(value)
-      if match_data = value.match(/^"(?<name>.+)" EXACT \[.*\]/)
-        Drug.capitalize_name(match_data[:name])
-      else
-        nil
+    def create_graph
+      parents.each do |elem_ncit, parent_ncits|
+        parent_ncits.each do |parent_ncit|
+          parent = Therapy.find_by(ncit_id: parent_ncit)
+          child = Therapy.find_by(ncit_id: elem_ncit)
+          if parent.present? && child.present?
+            parent.add_child_term(child, relationship: "is_a")
+          else
+            Rails.logger.warn("Unexpected unknown NCIt: #{elem_ncit} or #{parent_ncit}")
+          end
+        end
       end
     end
   end
 end
-

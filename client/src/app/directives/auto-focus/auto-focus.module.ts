@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcAutofocusDirective } from '../auto-focus/auto-focus.directive';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcAutofocusDirective } from '../auto-focus/auto-focus.directive'
 
 @NgModule({
   declarations: [CvcAutofocusDirective],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [CvcAutofocusDirective],
 })
-export class CvcAutofocusModule { }
+export class CvcAutofocusModule {}

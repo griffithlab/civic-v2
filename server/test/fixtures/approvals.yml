@@ -1,0 +1,7 @@
+# Approval for testing revoke_approval
+active_approval:
+  assertion_id: <%= ActiveRecord::FixtureSet.identify(:accepted_assertion) %>
+  organization: test_org
+  user: editor
+  status: active
+  last_reviewed: 2024-01-01 00:00:00

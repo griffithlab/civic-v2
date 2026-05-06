@@ -2,10 +2,9 @@ class Resolvers::Contributors < GraphQL::Schema::Resolver
   type Types::ContributingUsersSummary, null: false
 
   argument :subscribable, Types::Subscribable::SubscribableInput, required: true,
-    description: 'The entity to to return contributors for'
+    description: "The entity to to return contributors for"
 
-  def resolve(subscribable: )
-
+  def resolve(subscribable:)
     relevant_events = Event.includes(:originating_user)
       .where(subject: subscribable)
 
@@ -24,9 +23,8 @@ class Resolvers::Contributors < GraphQL::Schema::Resolver
 
     {
       curators: generate_user_list(curation_users),
-      editors: generate_user_list(editorial_users)
+      editors: generate_user_list(editorial_users),
     }
-
   end
 
   private
@@ -34,9 +32,9 @@ class Resolvers::Contributors < GraphQL::Schema::Resolver
     users.map do |user, events|
       {
         user: user,
-        unique_actions: events.map(&:action).tally.map{|action, count| {'action': action, 'count': count} },
+        unique_actions: events.map(&:action).tally.map { |action, count| { 'action': action, 'count': count } },
         last_action_date: events.map(&:created_at).max,
-        total_action_count: events.count
+        total_action_count: events.count,
       }
     end
   end
@@ -47,14 +45,14 @@ class Resolvers::Contributors < GraphQL::Schema::Resolver
 
   def editorial_events
     @editorial_events ||= [
-      'revision rejected',
-      'revision accepted',
-      'flag resolved',
-      'assertion accepted',
-      'assertion rejected',
-      'reverted',
-      'accepted',
-      'rejected'
+      "revision rejected",
+      "revision accepted",
+      "flag resolved",
+      "assertion accepted",
+      "assertion rejected",
+      "reverted",
+      "accepted",
+      "rejected",
     ]
   end
 end

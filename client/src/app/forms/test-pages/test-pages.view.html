@@ -1,0 +1,40 @@
+<cvc-section-navigation> </cvc-section-navigation>
+<nz-page-header class="site-page-header">
+  <nz-page-header-title cvcFlaggableOptions>
+    Form Dev Pages
+  </nz-page-header-title>
+  <nz-page-header-content>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <nz-row id="section-tabs">
+          <nz-col nzSpan="24">
+            <nz-tabs
+              nzLinkRouter
+              nzType="card"
+              nzSize="small"
+              [nzSelectedIndex]="selectedTabIndex ?? null">
+              <nz-tab *ngFor="let tab of tabs">
+                <a
+                  *nzTabLink
+                  nz-tab-link
+                  [routerLink]="tab.routeName">
+                  <span
+                    nz-icon
+                    [nzType]="tab.iconName"></span>
+                  {{ tab.tabLabel }}
+                </a>
+              </nz-tab>
+            </nz-tabs>
+          </nz-col>
+        </nz-row>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>

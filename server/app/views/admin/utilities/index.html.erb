@@ -1,0 +1,17 @@
+<%= content_for(:title, "Utilities") %>
+<%= render "header" %>
+
+<div class="main-content-area">
+  <div class="utilities">
+  </div>
+  <div class="main-content-container">
+    <div class="main-content">
+      <%= table(@utilities) do
+        column :name do |util|
+          link_to util.name, "/admin/utilities/#{util.name}"
+        end
+        column :description, truncate: false
+      end %>
+    </div>
+  </div>
+</div>

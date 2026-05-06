@@ -1,0 +1,30 @@
+query FeatureDetail($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureDetailFields
+  }
+}
+
+fragment FeatureDetailFields on Feature {
+  id
+  name
+  fullName
+  deprecated
+  deprecationReason
+  deprecationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
+  featureInstance {
+    __typename
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+   revisions(status: NEW) {
+     totalCount
+   }
+   comments {
+     totalCount
+   }
+}

@@ -6,13 +6,13 @@ query CivicStats {
     diseases {
       ...TimepointCount
     }
-    drugs {
+    therapies {
       ...TimepointCount
     }
     evidenceItems {
       ...TimepointCount
     }
-    genes {
+    features {
       ...TimepointCount
     }
     revisions {

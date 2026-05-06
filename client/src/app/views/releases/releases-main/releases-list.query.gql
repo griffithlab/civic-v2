@@ -5,37 +5,45 @@ query DataReleases {
 }
 
 fragment Release on DataRelease {
-    name
-    geneTsv {
-      filename
-      path
-    }
-    variantTsv {
-      filename
-      path
-    }
-    variantGroupTsv {
-      filename
-      path
-    }
-    evidenceTsv {
-      filename
-      path
-    }
-    molecularProfileTsv {
-      filename
-      path
-    }
-    assertionTsv {
-      filename
-      path
-    }
-    acceptedVariantsVcf {
-      filename
-      path
-    }
-    acceptedAndSubmittedVariantsVcf {
-      filename
-      path
-    }
+  name
+  featureTsv {
+    filename
+    path
+  }
+  variantTsv {
+    filename
+    path
+  }
+  variantGroupTsv {
+    filename
+    path
+  }
+  acceptedEvidenceTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedEvidenceTsv {
+    filename
+    path
+  }
+  molecularProfileTsv {
+    filename
+    path
+  }
+  acceptedAssertionTsv {
+    filename
+    path
+  }
+  acceptedAndSubmittedAssertionTsv {
+    filename
+    path
+  }
+  acceptedVariantsVcf {
+    filename
+    path
+  }
+  acceptedAndSubmittedVariantsVcf {
+    filename
+    path
+  }
 }

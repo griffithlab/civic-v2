@@ -1,0 +1,38 @@
+name: Get Variants for MP
+description: Query for Molecular Profiles by name, pulling back their variants. Retrieve different fields based on underlying Variant type
+order: 4
+query: |
+  {
+    molecularProfiles(name: "MSI") {
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        name
+        evidenceCountsByStatus {
+          acceptedCount
+          submittedCount
+        }
+        molecularProfileAliases
+        variants {
+          id
+          name
+          link
+          ... on FactorVariant {
+            ncitId
+          }
+          ... on GeneVariant {
+            alleleRegistryId
+          }
+          feature {
+            id
+            name
+            link
+          }
+        }
+      }
+    }
+  }
+

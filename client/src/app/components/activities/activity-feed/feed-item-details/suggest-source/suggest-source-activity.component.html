@@ -1,0 +1,47 @@
+@for (note of activity().parsedNote; track note) {
+  <div class="comment-container">
+    @if (note.__typename == 'CommentTextSegment') {
+      {{ note.text }}
+    }
+  </div>
+}
+<div class="fields-container">
+  <nz-descriptions
+    nzBordered
+    [nzSize]="'small'"
+    nzLayout="vertical">
+    <nz-descriptions-item nzTitle="Status">
+      @if (activity().sourceSuggestion.status) {
+        <nz-tag>{{ activity().sourceSuggestion.status }}</nz-tag>
+      } @else {
+        <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+      }
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Source">
+      @if (activity().sourceSuggestion.source?.name) {
+        <nz-tag>{{ activity().sourceSuggestion.source!.name }}</nz-tag>
+      } @else {
+        <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+      }
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Molecular Profile">
+      @if (activity().sourceSuggestion.molecularProfile?.name) {
+        <nz-tag>{{
+          activity().sourceSuggestion.molecularProfile!.name
+        }}</nz-tag>
+      } @else {
+        <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+      }
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Disease">
+      @if (activity().sourceSuggestion.disease?.name) {
+        <nz-tag>{{ activity().sourceSuggestion.disease!.name }}</nz-tag>
+      } @else {
+        <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+      }
+    </nz-descriptions-item>
+  </nz-descriptions>
+</div>

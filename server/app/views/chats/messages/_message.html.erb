@@ -1,0 +1,112 @@
+<div id="message_<%= message.id %>" class="message">
+  <% if message.role == 'user' %>
+    <%# User message - right aligned blue bubble %>
+    <div class="flex justify-end items-start gap-3">
+      <div class="max-w-2xl">
+        <div class="flex items-center justify-end gap-2 mb-1">
+          <span class="text-sm font-semibold text-civic-blue">You</span>
+          <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
+        </div>
+        <div class="bg-civic-blue text-white rounded-2xl rounded-tr-sm px-5 py-3 shadow-sm">
+          <div id="message_<%= message.id %>_content" class="whitespace-pre-wrap leading-relaxed"><%= message.content %></div>
+        </div>
+      </div>
+      <%# User avatar %>
+      <div class="w-9 h-9 rounded-full bg-civic-blue flex items-center justify-center shrink-0">
+        <%= render "chats/shared/icons/user", css: "h-5 w-5 text-white" %>
+      </div>
+    </div>
+
+  <% elsif message.role == 'assistant' %>
+    <%# Assistant message - left aligned with purple icon %>
+    <div class="flex items-start gap-3">
+      <%# Assistant avatar %>
+      <div class="w-9 h-9 rounded-full bg-civic-purple flex items-center justify-center shrink-0">
+        <%= render "chats/shared/icons/chat_bubble_solid", css: "h-5 w-5 text-white" %>
+      </div>
+      <div class="max-w-3xl flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-sm font-semibold text-civic-purple">CIViC Bot</span>
+          <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
+        </div>
+        <% if message.tool_call? %>
+          <%= render "chats/messages/tool_calls", message: message %>
+        <% end %>
+        <% if message.content.present? %>
+          <div class="bg-civic-purple-light rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm border border-purple-200">
+            <div id="message_<%= message.id %>_content" class="message-content leading-relaxed text-gray-800"><%= Kramdown::Document.new(message.content).to_html.html_safe %></div>
+          </div>
+        <% elsif message.content_raw.present? %>
+          <% content_raw = message.content_raw.is_a?(String) ? JSON.parse(message.content_raw) : message.content_raw %>
+          <div class="bg-civic-purple-light rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm border border-purple-200">
+            <div id="message_<%= message.id %>_content" class="message-content leading-relaxed text-gray-800">
+              <% answer_text = content_raw["answer_text"] || "" %>
+              <%= Kramdown::Document.new(answer_text).to_html.html_safe %>
+            </div>
+
+            <% if content_raw["sources_cited"].present? %>
+              <hr class="my-4 border-gray-200">
+              <div class="sources-section">
+                <div class="flex items-center gap-2 mb-3 text-gray-600">
+                  <%= render "chats/shared/icons/book", css: "h-4 w-4" %>
+                  <span class="text-sm font-medium">Sources</span>
+                </div>
+                <ol class="space-y-2 list-none pl-0">
+                  <% content_raw["sources_cited"].each_with_index do |source, index| %>
+                    <li class="flex items-start gap-2">
+                      <%= render "chats/shared/icons/external_link", css: "h-4 w-4 text-gray-400 mt-0.5 shrink-0" %>
+                      <a href="<%= source["link"] %>" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 hover:underline leading-snug">
+                        <%= source["title"] %>
+                      </a>
+                    </li>
+                  <% end %>
+                </ol>
+              </div>
+            <% end %>
+          </div>
+        <% elsif !message.tool_call? %>
+          <div class="bg-civic-purple-light rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm border border-purple-200">
+            <div id="message_<%= message.id %>_content" class="message-content leading-relaxed text-gray-800">
+              <div class="flex items-center gap-1.5 py-1">
+                <span class="typing-dot w-2 h-2 rounded-full bg-purple-400 inline-block"></span>
+                <span class="typing-dot w-2 h-2 rounded-full bg-purple-400 inline-block"></span>
+                <span class="typing-dot w-2 h-2 rounded-full bg-purple-400 inline-block"></span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+  <% elsif message.role == 'tool' %>
+    <%# Tool result message - collapsible, orange accent %>
+    <div class="flex items-start gap-3">
+      <%# Tool avatar %>
+      <div class="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center shrink-0">
+        <%= render "chats/shared/icons/gear", css: "h-5 w-5 text-white" %>
+      </div>
+      <div class="max-w-3xl flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-sm font-semibold text-amber-600">Tool Result</span>
+          <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
+        </div>
+        <details class="tool-call-details bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <summary class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer">
+            <div class="flex items-center gap-2">
+              <%= render "chats/shared/icons/gear", css: "h-4 w-4 text-amber-500" %>
+              <span class="text-sm font-medium text-amber-600">Tool Result</span>
+            </div>
+            <span class="text-xs text-gray-400">Click to expand</span>
+          </summary>
+          <div class="px-4 py-3 border-t border-gray-100 bg-gray-50">
+            <div id="message_<%= message.id %>_content" class="text-sm text-gray-700 whitespace-pre-wrap font-mono">
+              <code>
+                <%= JSON.pretty_generate(JSON.parse(message.content)) %>
+              </code>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  <% end %>
+</div>

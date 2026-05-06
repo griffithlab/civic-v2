@@ -1,10 +1,11 @@
 Trestle.resource(:revisions) do
+  remove_action :destroy
   menu do
     item :revisions, icon: "fa fa-edit"
   end
 
   scope :all
-  scope :new, -> { Revision.where(status: 'new') }, default: true
+  scope :new, -> { Revision.where(status: "new") }, default: true
 
   # Customize the table columns shown on the index view.
   table do

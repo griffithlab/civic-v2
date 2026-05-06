@@ -13,19 +13,19 @@ class BackfillOriginatingObject < ActiveRecord::Migration[6.1]
             e.originating_object_id = comment_id
             e.save
           end
-        elsif ['flagged', 'flag resolved'].include? e.action
+        elsif [ 'flagged', 'flag resolved' ].include? e.action
           flag_id = params['flag']['id']
           e.originating_object_type = 'Flag'
           e.originating_object_id = flag_id
           e.save
-        elsif ['revision suggested', 'revision rejected', 'revision accepted'].include? e.action
+        elsif [ 'revision suggested', 'revision rejected', 'revision accepted' ].include? e.action
           if params.include? 'suggested_change'
             revision_id = params['suggested_change']['id']
             e.originating_object_type = 'Revision'
             e.originating_object_id = revision_id
             e.save
           end
-        elsif ['accepted', 'submitted', 'rejected', 'assertion accepted', 'assertion submitted', 'assertion rejected', 'publication suggested'].include? e.action
+        elsif [ 'accepted', 'submitted', 'rejected', 'assertion accepted', 'assertion submitted', 'assertion rejected', 'publication suggested' ].include? e.action
           e.originating_object = e.subject
           e.save
         end
@@ -34,6 +34,5 @@ class BackfillOriginatingObject < ActiveRecord::Migration[6.1]
   end
 
   def down
-
   end
 end

@@ -6,7 +6,7 @@ module Types::Revisions
     field :diff_value, Types::Revisions::ModeratedFieldDiffType, null: false
 
     def self.from_revision(r)
-      if r.field_name.ends_with?('_id') || r.field_name.ends_with?('_ids')
+      if (r.field_name.ends_with?("_id") || r.field_name.ends_with?("_ids")) && ! non_object_fields.include?(r.field_name)
         current_set = Set.new(Array(r.current_value))
         suggested_set = Set.new(Array(r.suggested_value))
         {
@@ -18,19 +18,19 @@ module Types::Revisions
             added_objects: value_for_set(r, set: suggested_set - current_set),
             removed_objects: value_for_set(r, set: current_set - suggested_set),
             kept_objects: value_for_set(r, set: current_set & suggested_set),
-            suggested_objects: value_for_set(r, set: suggested_set)
-          } }
+            suggested_objects: value_for_set(r, set: suggested_set),
+          } },
         }
       else
-        diff = Diffy::SplitDiff.new(r.current_value, r.suggested_value, :format => :html )
+        diff = Diffy::SplitDiff.new(r.current_value, r.suggested_value, format: :html)
         {
           name: revision_display_name(r),
           current_value: { value: r.current_value },
           suggested_value: { value: r.suggested_value },
           diff_value: {
             left: diff.left,
-            right: diff.right
-          }
+            right: diff.right,
+          },
         }
       end
     end
@@ -58,7 +58,7 @@ module Types::Revisions
     end
 
     def self.display_name(name)
-      if name.ends_with?('_ids')
+      if name.ends_with?("_ids")
         name.singularize.titleize.pluralize
       else
         name.titleize
@@ -75,18 +75,32 @@ module Types::Revisions
     end
 
     def self.value_for_set(r, set:)
-      field_class = revision_display_name(r)
-        .singularize
-        .gsub(' ', '')
-        .constantize
+      field_class = if r.field_name == "known_partner_gene_ids"
+                      Features::Gene
+      else
+                      revision_display_name(r)
+                        .singularize
+                        .gsub(" ", "")
+                        .constantize
+      end
       values = field_class.where(id: set).map do |obj|
+        deprecated = if obj.respond_to?(:deprecated)
+          obj.deprecated
+        elsif obj.respond_to?(:retraction_nature)
+          obj.retraction_nature == "Retraction"
+        else
+          nil
+        end
         {
           id: obj.id,
           entity_type: obj.class.to_s,
           display_name: obj.display_name,
           display_type: obj.respond_to?(:display_type) ? obj.display_type : nil,
           link: obj.respond_to?(:link) ? obj.link : "",
-          deleted: false
+          feature: obj.respond_to?(:feature) ? obj.feature : nil,
+          deleted: false,
+          deprecated: deprecated,
+          flagged: obj.respond_to?(:flagged) ? obj.flagged : nil,
         }
       end
 
@@ -100,13 +114,22 @@ module Types::Revisions
               display_name: nil,
               display_type: nil,
               link: nil,
-              deleted: true
+              deprecated: nil,
+              feature: nil,
+              deleted: true,
+              flagged: nil,
             }
           end
         end
       end
 
       return values
+    end
+
+    def self.non_object_fields
+      @nof ||= [
+        "ncit_id",
+      ]
     end
   end
 end

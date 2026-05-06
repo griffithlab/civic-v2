@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'app-variant-groups',
-  templateUrl: './variant-groups.view.html',
-  styleUrls: ['./variant-groups.view.less']
+    selector: 'app-variant-groups',
+    templateUrl: './variant-groups.view.html',
+    standalone: false
 })
 export class VariantGroupsView implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

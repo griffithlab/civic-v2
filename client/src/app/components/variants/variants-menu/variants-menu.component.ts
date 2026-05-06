@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core'
 import {
   VariantsMenuGQL,
   Maybe,
@@ -8,104 +8,136 @@ import {
   PageInfo,
   VariantMenuSortColumns,
   SortDirection,
-  VariantConnection
-} from "@app/generated/civic.apollo";
-import { map, debounceTime, pluck, distinctUntilChanged, filter } from 'rxjs/operators'
-import { Observable, Observer, Subject } from 'rxjs';
-import { Apollo, QueryRef } from "apollo-angular";
-import { ApolloQueryResult } from "@apollo/client/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { isNonNulled } from "rxjs-etc";
-import { tag } from "rxjs-spy/cjs/operators";
+  MenuVariantTypeFragment,
+  VariantTypesForFeatureGQL,
+} from '@app/generated/civic.apollo'
+import { map, debounceTime, filter, startWith } from 'rxjs/operators'
+import { Observable, Subject } from 'rxjs'
+import { QueryRef } from 'apollo-angular'
+import { ApolloQueryResult } from '@apollo/client/core'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { isNonNulled } from 'rxjs-etc'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { LinkableFeature } from '@app/components/features/feature-tag/feature-tag.component'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-variant-menu',
-  templateUrl: './variants-menu.component.html',
-  styleUrls: ['./variants-menu.component.less'],
+    selector: 'cvc-variant-menu',
+    templateUrl: './variants-menu.component.html',
+    styleUrls: ['./variants-menu.component.less'],
+    standalone: false
 })
 export class CvcVariantsMenuComponent implements OnInit {
-  @Input() geneId?: number;
-  @Input() geneName?: string;
+  @Input() feature?: LinkableFeature
+  featureId?: number
 
-  menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
-  totalVariants$?: Observable<number>;
-  queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
-  pageInfo$?: Observable<PageInfo>;
+  menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>
+  menuVariantTypes$?: Observable<Maybe<MenuVariantTypeFragment>[]>
+  totalVariants$?: Observable<number>
+  queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>
+  pageInfo$?: Observable<PageInfo>
+  loading$?: Observable<boolean>
 
   sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
-  variantNameFilter: Maybe<string>;
+  variantNameFilter: Maybe<string>
+  variantTypeFilter: Maybe<MenuVariantTypeFragment[]> = []
+  hasNoVariantType: boolean = false
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<VariantsMenuQuery>>
-  connection$!: Observable<VariantConnection>
   private initialQueryVars!: VariantsMenuQueryVariables
-  private pageSize = 50;
+  pageSize = 50
 
+  iconColor = getEntityColor('VariantType')
 
-  constructor(private gql: VariantsMenuGQL) { }
+  constructor(
+    private gql: VariantsMenuGQL,
+    private variantTypeGql: VariantTypesForFeatureGQL
+  ) {}
 
   ngOnInit() {
-    if (this.geneId === undefined) {
-      throw new Error('Must pass a gene id into variant menu component.');
+    if (this.feature === undefined) {
+      throw new Error('Must pass a feature into variant menu component.')
     }
 
+    this.featureId = this.feature.id
+
     this.initialQueryVars = {
-      geneId: this.geneId,
+      featureId: this.featureId,
       first: this.pageSize,
-    };
+    }
 
-    this.queryRef$ = this.gql.watch(this.initialQueryVars);
-    this.result$ = this.queryRef$.valueChanges;
+    this.queryRef$ = this.gql.watch(this.initialQueryVars)
+    this.result$ = this.queryRef$.valueChanges
 
-    this.connection$ = this.result$
-      .pipe(map(r => r.data?.variants),
-        filter(isNonNulled)) as Observable<VariantConnection>;
+    this.loading$ = this.result$.pipe(
+      map(({ data, loading }) => loading && !data),
+      filter(isNonNulled),
+      startWith(true)
+    )
 
-    this.pageInfo$ = this.connection$
-      .pipe(map(c => c.pageInfo),
-        filter(isNonNulled));
+    const connection$ = this.result$.pipe(
+      map((r) => r.data?.variants),
+      filter(isNonNulled)
+    )
 
-    this.menuVariants$ = this.connection$
-      .pipe(map(c => c.edges.map((e) => e.node),
-        filter(isNonNulled)));
+    this.pageInfo$ = connection$.pipe(
+      map((c) => c.pageInfo),
+      filter(isNonNulled)
+    )
 
-    this.totalVariants$ = this.connection$
-      .pipe(map(c => c.totalCount));
+    this.menuVariants$ = connection$.pipe(
+      map((c) => c.edges.map((e) => e.node), filter(isNonNulled))
+    )
+
+    this.totalVariants$ = connection$.pipe(map((c) => c.totalCount))
 
     this.debouncedQuery
-      .pipe(debounceTime(500),
-        untilDestroyed(this))
-      .subscribe((_) => this.refresh());
+      .pipe(debounceTime(500), untilDestroyed(this))
+      .subscribe((_) => this.refresh())
+
+    this.menuVariantTypes$ = this.variantTypeGql
+      .watch({ featureId: this.featureId })
+      .valueChanges.pipe(
+        map((c) => c.data?.variantTypes.edges?.map((e) => e.node)),
+        filter(isNonNulled)
+      )
   }
 
   onModelUpdated() {
-    this.debouncedQuery.next();
+    this.debouncedQuery.next()
   }
 
   onVariantSortOrderChanged(col: VariantMenuSortColumns) {
-    let dir = col == VariantMenuSortColumns.CoordinateEnd ? SortDirection.Desc : SortDirection.Asc
+    let dir =
+      col == VariantMenuSortColumns.CoordinateEnd
+        ? SortDirection.Desc
+        : SortDirection.Asc
     this.queryRef$.refetch({
+      first: this.pageSize,
       sortBy: {
         column: col,
-        direction: dir
-      }
-    });
+        direction: dir,
+      },
+    })
   }
 
-
   refresh() {
-    if (this.geneId === undefined) {
-      throw new Error('Must pass a gene id into variant menu component.');
+    if (this.featureId === undefined) {
+      throw new Error('Must pass a feature id into variant menu component.')
     }
+
     this.queryRef$.refetch({
-      geneId: this.geneId,
+      featureId: this.featureId,
       variantName: this.variantNameFilter,
+      hasNoVariantType: this.hasNoVariantType,
+      variantTypeIds: this.variantTypeFilter?.map((vt) => vt.id),
+      first: this.pageSize,
       sortBy: {
         column: this.sortBy,
-        direction: SortDirection.Asc
-      }
-    });
+        direction: SortDirection.Asc,
+      },
+    })
   }
 
   fetchMore(endCursor: string) {
@@ -114,6 +146,6 @@ export class CvcVariantsMenuComponent implements OnInit {
         first: this.pageSize,
         after: endCursor,
       },
-    });
+    })
   }
 }

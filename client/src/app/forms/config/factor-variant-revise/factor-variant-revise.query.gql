@@ -1,0 +1,37 @@
+query FactorVariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    ... on FactorVariant  {
+      ...RevisableFactorVariantFields
+    }
+  }
+}
+
+fragment RevisableFactorVariantFields on FactorVariant {
+  name
+  feature {
+    id
+    name
+  }
+  variantAliases
+  variantTypes {
+    id
+    name
+    soid
+  }
+  ncitId
+}
+
+mutation SuggestFactorVariantRevision($input: SuggestFactorVariantRevisionInput!) {
+  suggestFactorVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+    }
+    results {
+      id
+      fieldName
+      newlyCreated
+    }
+  }
+}

@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcTabNavigationComponent } from './tab-navigation.component';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { RouterModule } from '@angular/router';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcTabNavigationComponent } from './tab-navigation.component'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { RouterModule } from '@angular/router'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
 
 @NgModule({
   declarations: [CvcTabNavigationComponent],
@@ -17,8 +17,9 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzGridModule,
     NzIconModule,
     NzBadgeModule,
-    ReactiveComponentModule,
+    LetDirective,
+    PushPipe,
   ],
-  exports: [CvcTabNavigationComponent]
+  exports: [CvcTabNavigationComponent],
 })
-export class CvcTabNavigationModule { }
+export class CvcTabNavigationModule {}

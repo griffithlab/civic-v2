@@ -1,0 +1,54 @@
+<nz-card>
+  <nz-space nzDirection="vertical">
+    <nz-alert
+      *ngIf="success"
+      nzBanner
+      nzMessage="Status Updated"
+      nzType="success"
+      nzCloseable
+      (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+    <cvc-form-errors-alert
+      *ngIf="errorMessages.length"
+      [errors]="errorMessages">
+    </cvc-form-errors-alert>
+    <textarea
+      *nzSpaceItem
+      rows="4"
+      nz-input
+      [(ngModel)]="reason"></textarea>
+    <nz-select
+      *nzSpaceItem
+      nzPlaceHolder="New Status"
+      [(ngModel)]="newStatus"
+      required="true">
+      <nz-option
+        *ngIf="currentStatus == 'NEW'"
+        nzValue="CURATED"
+        nzLabel="Curated"></nz-option>
+      <nz-option
+        *ngIf="currentStatus != 'NEW'"
+        nzValue="NEW"
+        nzLabel="New"></nz-option>
+      <nz-option
+        *ngIf="currentStatus == 'NEW'"
+        nzValue="REJECTED"
+        nzLabel="Rejected"></nz-option>
+    </nz-select>
+    <nz-spin
+      *nzSpaceItem
+      nzTip="Submitting"
+      [nzSpinning]="loading">
+      <cvc-form-buttons>
+        <button
+          type="submit"
+          nz-button
+          (click)="updateSourceSuggestionStatus()"
+          nzType="primary"
+          nzSize="small"
+          [disabled]="loading">
+          Update Source Suggestion status
+        </button>
+      </cvc-form-buttons>
+    </nz-spin>
+  </nz-space>
+</nz-card>

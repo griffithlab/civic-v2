@@ -17,11 +17,14 @@ fragment EvidenceDetailFields on EvidenceItem {
     id
     name
     link
+    deprecated
+    flagged
   }
   assertions {
     id
     name
     link
+    flagged
   }
   flags(state: OPEN) {
     totalCount
@@ -31,5 +34,18 @@ fragment EvidenceDetailFields on EvidenceItem {
   }
   comments {
     totalCount
+  }
+  ...evidenceSubmissionActivity
+}
+
+fragment evidenceSubmissionActivity on EvidenceItem {
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      ...commenterFields
+    }
   }
 }

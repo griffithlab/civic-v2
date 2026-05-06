@@ -10,18 +10,25 @@ module Types
     include Types::Queries::PopoverQueries
     include Types::Queries::TypeaheadQueries
     include Types::Queries::DataReleaseQuery
+    include Types::Queries::LeaderboardQueries
+    include Types::Queries::AdvancedSearchQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
-    field :browseGenes, resolver: Resolvers::BrowseGenes
+    field :browseFeatures, resolver: Resolvers::BrowseFeatures
     field :browseVariants, resolver: Resolvers::BrowseVariants
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
+    field :browseTherapies, resolver: Resolvers::BrowseTherapies
+    field :browsePhenotypes, resolver: Resolvers::BrowsePhenotypes
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
+    field :browseOrganizations, resolver: Resolvers::BrowseOrganizations
+    field :browseUsers, resolver: Resolvers::BrowseUsers
     field :events, resolver: Resolvers::TopLevelEvents
-    field :phenotypes, resolver: Resolvers::Phenotypes
+    field :comments, resolver: Resolvers::TopLevelComments
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
+    field :revisionSets, resolver: Resolvers::TopLevelRevisionSets
     field :notifications, resolver: Resolvers::Notifications do
       def authorized?(object, args, context)
         context[:current_user].present?
@@ -29,7 +36,7 @@ module Types
     end
 
     field :subscription_for_entity, Types::Subscribable::SubscriptionType, null: true do
-      description 'Get the active subscription for the entity and logged in user, if any'
+      description "Get the active subscription for the entity and logged in user, if any"
       argument :subscribable,  Types::Subscribable::SubscribableInput, required: true
       def authorized?(object, args, context)
         context[:current_user].present?
@@ -38,24 +45,55 @@ module Types
 
     field :contributors, resolver: Resolvers::Contributors
 
-    field :search, resolver: Resolvers::Quicksearch
+    unless Rails.env.headless?
+      field :search, resolver: Resolvers::Quicksearch
+    end
+
+    field :news_items, [ Types::NewsItemType ], null: false
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :drug, Types::Entities::DrugType, null: true do
-      description "Find a drug by CIViC ID"
+    field :therapy, Types::Entities::TherapyType, null: true do
+      description "Find a therapy by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :gene, Types::Entities::GeneType, null: true do
-      description "Find a gene by CIViC ID"
+      description "Find a single gene by CIViC ID or Entrez symbol"
+      argument :id, Int, required: false
+      argument :entrez_symbol, String, required: false
+    end
+
+    field :factor, Types::Entities::FactorType, null: true do
+      description "Find a single factor by CIViC ID or NCIt ID"
+      argument :id, Int, required: false
+      argument :ncit_id, String, required: false
+    end
+
+    field :fusion, Types::Entities::FusionType, null: true do
+      description "Find a single fusion by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :variant, Types::Entities::VariantType, null: true do
+    field :region, Types::Entities::RegionType, null: true do
+      description "Find a single region by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :feature, Types::Entities::FeatureType, null: true do
+      description "Find a single feature by CIViC ID"
+      argument :id, Int, required: false
+    end
+
+    field :cytogenetic_region, Types::Entities::CytogeneticRegionType, null: true do
+      description "Find a single cytogenetic entry by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :variant, Types::Interfaces::VariantInterface, null: true do
       description "Find a variant by CIViC ID"
       argument :id, Int, required: true
     end
@@ -81,58 +119,69 @@ module Types
     end
 
     field :organization, Types::Entities::OrganizationType, null: true do
-      description 'Find an organization by CIViC ID'
+      description "Find an organization by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :phenotype, Types::Entities::PhenotypeType, null: true do
-      description 'Find a phenotype by CIViC ID'
+      description "Find a phenotype by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :variant_type, Types::Entities::VariantTypeType, null: true do
-      description 'Find a variant type by CIViC ID'
+      description "Find a variant type by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :clinical_trial, Types::Entities::ClinicalTrialType, null: true do
-      description 'Find a clinical trial by CIViC ID'
+      description "Find a clinical trial by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :flag, Types::Entities::FlagType, null: true do
-      description 'Find a flag by CIViC ID'
+      description "Find a flag by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :comment, Types::Entities::CommentType, null: true do
-      description 'Find a comment by CIViC ID'
+      description "Find a comment by CIViC ID"
       argument :id, Int, required: true
     end
 
     field :revision, Types::Revisions::RevisionType, null: true do
-      description 'Find a revision by CIViC ID'
+      description "Find a revision by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :countries, [Types::Entities::CountryType], null: false do
-      description 'Fetch a list of countries for user profiles.'
+    field :acmg_code, Types::Entities::AcmgCodeType, null: true do
+      description "Find an ACMG code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :clingen_code, Types::Entities::ClingenCodeType, null: true do
+      description "Find a ClinGen code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
+      description "Find a NCCN Guideline by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :countries, [ Types::Entities::CountryType ], null: false do
+      description "Fetch a list of countries for user profiles."
+    end
+
+    field :activity, Types::Interfaces::ActivityInterface, null: true do
+      description "Find a CIViC activity record by CIViC ID"
+      argument :id, Int, required: true
     end
 
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
-    field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
-      argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
-      argument :create_permalink, Boolean, required: false, default_value: false
-    end
 
-    field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
-      argument :permalink_id, String, required: true
-    end
-
-    field :comments, resolver: Resolvers::TopLevelComments
-    field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
+    field :preview_comment_text, [ Types::Commentable::CommentBodySegment ], null: false do
       argument :comment_text, String, required: true
     end
 
@@ -142,11 +191,15 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
-    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
+    field :fusions, resolver: Resolvers::TopLevelFusions
+    field :factors, resolver: Resolvers::TopLevelFactors
+    field :regions, resolver: Resolvers::TopLevelRegions
+    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
-    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles, max_page_size: 300
+    field :sources, resolver: Resolvers::TopLevelSources
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -156,73 +209,124 @@ module Types
 
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
-    field :drugs, resolver: Resolvers::TopLevelDrugs
+    field :diseases, resolver: Resolvers::TopLevelDiseases
+
+    field :therapies, resolver: Resolvers::TopLevelTherapies
+
+    field :phenotypes, resolver: Resolvers::TopLevelPhenotypes
 
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
-    def molecular_profile(id: )
+    field :activities, resolver: Resolvers::Activities
+
+    field :approvals, resolver: Resolvers::TopLevelApprovals
+
+    field :region_variant_names_for_feature_id, [ Types::Region::RegionVariantNameType ], null: true do
+      description "Find all CIViC region variant names valid for a given CIViC (region) feature ID"
+      argument :feature_id, Int, required: true
+    end
+
+    def molecular_profile(id:)
       ::MolecularProfile.find_by(id: id)
     end
 
-    def disease(id: )
+    def disease(id:)
       Disease.find_by(id: id)
     end
 
-    def drug(id: )
-      Drug.find_by(id: id)
+    def therapy(id:)
+      Therapy.find_by(id: id)
     end
 
-    def gene(id: )
-      Gene.find_by(id: id)
+    def gene(id: :unspecified, entrez_symbol: :unspecified)
+      if (id == :unspecified && entrez_symbol == :unspecified) || (id != :unspecified && entrez_symbol != :unspecified)
+        raise GraphQL::ExecutionError.new("Must specify exactly one of id or entrezSymbol")
+      end
+      if id != :unspecified
+        Feature.find_by(feature_instance_type: "Features::Gene", id: id)&.feature_instance
+      else
+        Feature.find_by(feature_instance_type: "Features::Gene", name: entrez_symbol)&.feature_instance
+      end
     end
 
-    def variant(id: )
+    def factor(id: :unspecified, ncit_id: :unspecified)
+      if (id == :unspecified && ncit_id == :unspecified) || (id != :unspecified && ncit_id != :unspecified)
+        raise GraphQL::ExecutionError.new("Must specify exactly one of id or ncitId")
+      end
+      if id != :unspecified
+        Feature.find_by(feature_instance_type: "Features::Factor", id: id)&.feature_instance
+      else
+        Features::Factor.find_by(ncit_id: ncit_id)
+      end
+    end
+
+    def fusion(id:)
+      Feature.find_by(feature_instance_type: "Features::Fusion", id: id)&.feature_instance
+    end
+
+    def region(id:)
+      Feature.find_by(feature_instance_type: "Features::Region", id: id)&.feature_instance
+    end
+
+    def feature(id:)
+      Feature.find_by(id: id)
+    end
+
+    def cytogenetic_region(id:)
+      CytogeneticRegion.find_by(id: id)
+    end
+
+    def variant(id:)
       Variant.find_by(id: id)
     end
 
-    def variant_group(id: )
+    def variant_group(id:)
       VariantGroup.find_by(id: id)
     end
 
-    def assertion(id: )
+    def assertion(id:)
       Assertion.find_by(id: id)
     end
 
-    def source(id: )
+    def source(id:)
       Source.find_by(id: id)
     end
 
-    def organization(id: )
+    def organization(id:)
       Organization.find_by(id: id)
     end
 
-    def phenotype(id: )
+    def phenotype(id:)
       Phenotype.find_by(id: id)
     end
 
-    def variant_type(id: )
+    def variant_type(id:)
       VariantType.find_by(id: id)
     end
 
-    def clinical_trial(id: )
+    def clinical_trial(id:)
       ClinicalTrial.find_by(id: id)
     end
 
-    def flag(id: )
+    def flag(id:)
       Flag.find_by(id: id)
     end
 
-    def comment(id: )
+    def comment(id:)
       Comment.find_by(id: id)
     end
 
-    def revision(id: )
+    def revision(id:)
       Revision.find_by(id: id)
     end
 
-    def subscription_for_entity(subscribable: )
+    def activity(id:)
+      Activity.find_by(id: id)
+    end
+
+    def subscription_for_entity(subscribable:)
       if subscribable
         Subscription.find_by(
           user: context[:current_user],
@@ -233,50 +337,16 @@ module Types
       end
     end
 
-    def search_genes(query:, create_permalink:)
-      permalink = if create_permalink
-                    ::AdvancedSearch.where(
-                      params: context.query.query_string,
-                      search_type: 'searchGenes'
-                    ).first_or_create
-                      .token
-                  else
-                    nil
-                  end
-
-      {
-        result_ids: ::AdvancedSearches::Gene.new(query: query).results,
-        permalink_id: permalink,
-        search_endpoint: 'searchGenes'
-      }
-    end
-
-    def search_by_permalink(permalink_id:)
-      saved_search = ::AdvancedSearch.find_by(token: permalink_id)
-
-      if saved_search.nil?
-        raise GraphQL::ExecutionError.new("Saved search with id #{permalink_id} not found.")
-      end
-
-      result = Civic2Schema.execute(saved_search.params, context: context)
-      formatted_hash = result.to_h.dig('data', saved_search.search_type)
-      {
-        permalink_id: formatted_hash['permalinkId'],
-        result_ids: formatted_hash['resultIds'],
-        search_endpoint: saved_search.search_type
-      }
-    end
-
     def preview_comment_text(comment_text:)
       Actions::FormatCommentText.get_segments(text: comment_text)
     end
 
     def preview_molecular_profile_name(structure: nil)
-      if structure.nil? 
+      if structure.nil?
         return {
           segments: [],
           existing_molecular_profile: nil,
-          deprecated_variants: []
+          deprecated_variants: [],
         }
       end
 
@@ -286,14 +356,14 @@ module Types
         return {
           segments: [],
           existing_molecular_profile: nil,
-          deprecated_variants: deprecated_variants
+          deprecated_variants: deprecated_variants,
         }
       else
         variants = Variant.where(id: variant_ids)
 
         if variants.size !=  variant_ids.size
           missing = variant_ids - variants.map(&:id)
-          raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+          raise GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
         end
 
         name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
@@ -301,10 +371,21 @@ module Types
         return {
           segments: ::MolecularProfile.new(name: name).segments,
           existing_molecular_profile: ::MolecularProfile.find_by(name: name),
-          deprecated_variants: []
+          deprecated_variants: [],
         }
       end
+    end
 
+    def acmg_code(id:)
+      AcmgCode.find(id)
+    end
+
+    def clingen_code(id:)
+      ClingenCode.find(id)
+    end
+
+    def nccn_guideline(id:)
+      NccnGuideline.find(id)
     end
 
     def countries
@@ -315,6 +396,14 @@ module Types
       Rails.cache.fetch("homepage_timepoint_stats", expires_in: 10.minutes) do
         CivicStats.homepage_stats
       end
+    end
+
+    def news_items
+      NewsItem.where(published: true).order("published_at desc")
+    end
+
+    def region_variant_names_for_feature_id(feature_id:)
+      Feature.find_by(id: feature_id, feature_instance_type: "Features::Region").feature_instance.valid_variant_names()
     end
   end
 end

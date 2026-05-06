@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Navigate to the server dir
+cd server || exit 1
+
+# Run rubocop
+./bin/rubocop -a
+RESULT=$?
+
+# Navigate back to the root directory
+cd - || exit 1
+
+# Exit with the result of RuboCop
+exit $RESULT

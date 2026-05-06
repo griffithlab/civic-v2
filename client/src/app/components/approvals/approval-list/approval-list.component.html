@@ -1,0 +1,74 @@
+@let vwr = viewer();
+@let entity = assertion();
+@if ((vwr | canPerformApprovalActions) && (vwr | currentOrgCanApprove)) {
+  <nz-alert
+    nzType="info"
+    [nzMessage]="approvalMessage"
+    nzShowIcon
+    style="margin-bottom: 12px"></nz-alert>
+  <ng-template #approvalMessage>
+    Your approval actions will be executed under the authority granted to you by
+    <strong>{{ vwr?.mostRecentOrg?.name }}.</strong>
+  </ng-template>
+}
+@let listData = approvals();
+<nz-list
+  [nzDataSource]="listData"
+  [nzRenderItem]="approval"
+  [nzNoResult]="noResult"
+  nzSize="small"
+  nzItemLayout="vertical">
+  <ng-template #noResult>
+    <nz-empty
+      [nzNotFoundContent]="emptyContent"
+      [nzNotFoundFooter]="emptyFooter">
+    </nz-empty>
+    <ng-template #emptyContent>
+      <span
+        nz-typography
+        nzType="secondary">
+        <strong>{{ assertion()?.name }}</strong> is unapproved
+      </span>
+    </ng-template>
+    <ng-template #emptyFooter>
+      @if (vwr | canPerformApprovalActions) {
+        @let entity = assertion();
+        @if (entity) {
+          <cvc-approve-assertion-button
+            mode="approve"
+            [assertionId]="entity.id"
+            [disabled]="!(vwr | canCreateApproval: entity)"
+            [tooltipText]="vwr | approvalActionTooltip: 'create' : entity">
+          </cvc-approve-assertion-button>
+        }
+      }
+    </ng-template>
+  </ng-template>
+  <!-- APPROVAL ITEM TEMPLATE -->
+  <ng-template
+    #approval
+    let-approval
+    let-index="index">
+    @if (approval.status !== listData[index - 1]?.status) {
+      @switch (approval.status) {
+        @case ('ACTIVE') {
+          <!-- no divider for active approvals -->
+        }
+        @case ('REQUIRES_REVIEW') {
+          <nz-divider
+            nzText="Approvals Under Review"
+            nzOrientation="left"></nz-divider>
+        }
+        @case ('REVOKED') {
+          <nz-divider
+            nzText="Revoked Approvals"
+            nzOrientation="left"></nz-divider>
+        }
+      }
+    }
+
+    <cvc-approval-item
+      [cvcApproval]="approval"
+      [cvcAssertion]="entity!"></cvc-approval-item>
+  </ng-template>
+</nz-list>

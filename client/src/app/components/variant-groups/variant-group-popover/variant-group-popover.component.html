@@ -1,38 +1,66 @@
 <div id="popover-content">
   <ng-container *ngIf="variantGroup$ | ngrxPush as variantGroup">
-    <nz-card [nzTitle]="cardTitle"
+    <nz-card
+      [nzTitle]="cardTitle"
       nzBordered="false"
-      id="card-content">
+      id="card-content"
+      [nzExtra]="cardExtra">
+      <!-- popover title -->
       <ng-template #cardTitle>
-        <i nz-icon
+        <i
+          nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'VariantGroup' | entityColor"
-          nzType="civic-variantgroup"></i> {{ variantGroup.name }}
+          nzType="civic-variantgroup"></i>
+        {{ variantGroup.name }}
       </ng-template>
 
-      {{variantGroup.description}}
+      <!-- revision, comment, flag counts -->
+      <ng-template #cardExtra>
+        <cvc-entity-child-counts
+          [cvcEntity]="variantGroup"
+          cvcRoute="variant-groups"></cvc-entity-child-counts>
+      </ng-template>
 
-      <nz-descriptions nzSize="small"
+      <nz-descriptions
+        nzLayout="vertical"
+        nzBordered
+        nzSize="small"
+        [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Description">
+          @if (variantGroup.description) {
+            {{ variantGroup.description }}
+          } @else {
+            <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+          }
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-descriptions
+        nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
-
         <!-- Variants -->
-        <nz-descriptions-item nzTitle="Variants"
+        <nz-descriptions-item
+          nzTitle="Variants"
           nzSpan="2"
           *ngIf="variantGroup.variants.edges.length > 0">
           <cvc-tag-list>
-            <cvc-variant-tag *ngFor="let variant of variantGroup.variants.edges"
+            <cvc-feature-variant-tag
+              *ngFor="let variant of variantGroup.variants.edges"
               [enablePopover]="false"
-              [variant]="variant.node"></cvc-variant-tag>
+              [variant]="variant.node!"></cvc-feature-variant-tag>
           </cvc-tag-list>
         </nz-descriptions-item>
 
         <!-- Source -->
-        <nz-descriptions-item nzTitle="Sources"
+        <nz-descriptions-item
+          nzTitle="Sources"
           nzSpan="2"
           *ngIf="variantGroup.sources.length > 0">
           <cvc-tag-list>
-            <cvc-source-tag *ngFor="let source of variantGroup.sources"
+            <cvc-source-tag
+              *ngFor="let source of variantGroup.sources"
               [enablePopover]="false"
               [source]="source"></cvc-source-tag>
           </cvc-tag-list>

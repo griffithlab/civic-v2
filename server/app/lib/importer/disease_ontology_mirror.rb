@@ -1,42 +1,51 @@
 module Importer
   class DiseaseOntologyMirror
-    attr_reader :parser, :version, :unprocessed_doids
+    attr_reader :parser, :version, :unprocessed_doids, :parents
 
     def initialize(path, version = Time.now.utc.iso8601)
       @parser = Obo::Parser.new(path)
       @version = version
       @unprocessed_doids = Disease.where.not(doid: nil).pluck(:doid)
+      @parents = {}
     end
 
     def import
       parser.elements.each do |elem|
         next unless valid_entry?(elem)
+        store_parent(elem)
         create_object_from_entry(elem)
       end
+      create_graph
       delete_unprocessed_diseases
     end
 
     private
     def valid_entry?(entry)
-      entry['id'].present? && entry['name'].present? && entry.respond_to?(:name) && entry.name == 'Term'
+      entry["id"].present? && entry["name"].present? && entry.respond_to?(:name) && entry.name == "Term"
+    end
+
+    def store_parent(elem)
+      if elem["is_a"].present?
+        parents[elem["id"]] = Array(elem["is_a"])
+      end
     end
 
     def create_object_from_entry(entry)
-      display_name = Disease.capitalize_name(entry['name'])
-      name = entry['name']
-      doid = parse_doid(entry['id'])
-      synonyms = process_synonyms(entry['synonym'])
-      disease = if ( d = ::Disease.find_by(doid: doid) )
+      display_name = Disease.capitalize_name(entry["name"])
+      name = entry["name"]
+      doid = parse_doid(entry["id"])
+      synonyms = process_synonyms(entry["synonym"])
+      disease = if (d = ::Disease.find_by(doid: doid))
                   d
-                elsif ( d = ::Disease.find_by(name: name) )
+      elsif (d = ::Disease.find_by(name: name))
                   d
-                else ( d = ::Disease.where(doid: doid).first_or_initialize)
+      else (d = ::Disease.where(doid: doid).first_or_initialize)
                   d
-                end
+      end
       disease.name = name
       disease.doid = doid
       disease.display_name = display_name
-      disease.save
+      disease.save!
       assign_synonyms(disease, synonyms)
       unprocessed_doids.delete(disease.doid)
     end
@@ -45,7 +54,7 @@ module Importer
       vals = if synonym_element.blank?
         []
       elsif synonym_element.is_a?(String)
-        [extract_synonym(synonym_element)]
+        [ extract_synonym(synonym_element) ]
       elsif synonym_element.is_a?(Array)
         synonym_element.map { |s| extract_synonym(s) }
       end
@@ -61,7 +70,7 @@ module Importer
     end
 
     def parse_doid(doid)
-      doid.gsub('DOID:', '')
+      doid.gsub("DOID:", "")
     end
 
     def assign_synonyms(disease, synonyms)
@@ -71,46 +80,60 @@ module Importer
         current_aliases << disease_alias
         disease.disease_aliases = current_aliases.uniq
       end
-      removed_aliases = disease.disease_aliases.map{|a| a.name} - synonyms
+      removed_aliases = disease.disease_aliases.map { |a| a.name } - synonyms
       removed_aliases.each do |a|
         alias_to_remove = DiseaseAlias.find_by(name: a)
         disease.disease_aliases.delete(alias_to_remove)
       end
     end
 
+    def create_graph
+      parents.each do |elem_doid, parent_doid|
+        parent_doid.each do |parent_doid|
+          parent = Disease.find_by(doid: parse_doid(parent_doid))
+          child = Disease.find_by(doid: parse_doid(elem_doid))
+          if parent.present? && child.present?
+            parent.add_child_term(child, relationship: "is_a")
+          else
+            raise StandardError.new("Unexpected unknown DOID: #{parent_doid} or #{elem_doid}")
+          end
+        end
+      end
+    end
+
     def delete_unprocessed_diseases
-      #sanity check for the DOID api, bail early if we cant find "cancer"
+      # sanity check for the DOID api, bail early if we can't find "cancer"
       uri = URI(url_from_doid(162))
       resp = Net::HTTP.get_response(uri)
-      if resp.code != '200'
+      if resp.code != "200"
         raise StandardError.new('Cannot find DOID entry for "cancer" is there an issue with the API?')
       end
 
       unprocessed_doids.each do |doid|
         d = Disease.find_by(doid: doid)
-        if d.evidence_items.count == 0 && d.assertions.count == 0 && d.source_suggestions.count == 0
+        if is_disease_with_no_relations?(d)
           d.disease_aliases.clear
           d.delete
         else
           uri = URI(url_from_doid(d.doid))
           resp = Net::HTTP.get_response(uri)
-          if resp.code == '200'
-            #DOID exists but isn't in the cancer slim file
-            if ['3852', '8432', '0060474', '3883', '14175', '3012', '0111503', '13481', '3205', '0111359', '0080894', '0111278'].include? d.doid
-              #Non-cancer diseases don't belong in the cancer slim file and
-              #need to be updated using the data returned by the API
+          if resp.code == "200"
+            # DOID exists but isn't in the cancer slim file
+            if [ "3852", "8432", "0060474", "3883", "14175", "3012", "0111503", "13481", "3205", "0111359", "0080894", "0111278", "0060060" ].include? d.doid
+              # Non-cancer diseases don't belong in the cancer slim file and
+              # need to be updated using the data returned by the API
               metadata = JSON.parse(resp.body)
-              d.display_name = Disease.capitalize_name(metadata['name'])
-              d.name = metadata['name']
-              synonyms = process_synonyms(metadata['synonym'])
+              d.display_name = Disease.capitalize_name(metadata["name"])
+              d.name = metadata["name"]
+              synonyms = process_synonyms(metadata["synonym"])
               assign_synonyms(d, synonyms)
             else
               text =  "This entity uses a DO term that is not in the cancer slim file \"#{d.name}\" (DOID:#{d.doid})"
               add_flags(d, text)
             end
           else
-            if resp.code == '500'
-              #DOID is obsolete
+            if resp.code == "500"
+              # DOID is obsolete
               text = "This entity uses a deprecated DO term \"#{d.name}\" (DOID:#{d.doid})"
               add_flags(d, text)
             else
@@ -120,18 +143,32 @@ module Importer
         end
       end
       Disease.where(doid: nil).each do |d|
-        if d.evidence_items.count == 0 && d.assertions.count == 0 && d.source_suggestions.count == 0
+        if is_disease_with_no_relations?(d)
           d.disease_aliases.clear
           d.delete
-        elsif ['Solid Tumor', 'Ventricular Dysfunction', 'Acute Mountain Sickness', 'Glioma', 'Low Bone Mineral Density'].include? d.name
+        elsif [ "Solid Tumor", "Ventricular Dysfunction", "Acute Mountain Sickness", "Glioma", "Low Bone Mineral Density" ].include? d.name
           next
         else
-          #Disease needs to have its DOID backfilled or needs to be added to
-          #the DO to being with
+          # Disease needs to have its DOID backfilled or needs to be added to
+          # the DO to being with
           text = "This entity uses a disease term without an associated DOID \"#{d.name}\""
           add_flags(d, text)
         end
       end
+    end
+
+    def is_disease_with_no_relations?(d)
+       d.evidence_items.count == 0 &&
+       d.assertions.count == 0 &&
+       d.source_suggestions.count == 0 &&
+       revisions_count(d) == 0
+    end
+
+    def revisions_count(disease)
+      Revision.where(field_name: "disease_id")
+        .where(current_value: disease.id)
+        .or(Revision.where(field_name: "disease_id").where(suggested_value: disease.id))
+        .count
     end
 
     def url_from_doid(doid)
@@ -141,12 +178,12 @@ module Importer
     def add_flags(disease, text)
       civicbot_user = User.find(385)
       (disease.evidence_items + disease.assertions).each do |obj|
-        if obj.flags.select{|f| f.state == 'open' && f.comments.select{|c| c.comment == text && c.user_id == 385}.count > 0}.count == 0
-          Actions::FlagEntity.new(
+        if obj.flags.select { |f| f.state == "open" && f.open_activity.note == text && f.open_activity.user_id == 385 }.count == 0
+          Activities::FlagEntity.new(
             flagging_user: civicbot_user,
             flaggable: obj,
             organization_id: nil,
-            comment: text
+            note: text
           ).perform
         end
       end

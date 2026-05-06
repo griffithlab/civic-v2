@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'cvc-pages',
-  templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.less']
+    selector: 'cvc-pages',
+    templateUrl: './pages.component.html',
+    standalone: false
 })
 export class PagesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

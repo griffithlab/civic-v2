@@ -1,10 +1,11 @@
 query BrowseMolecularProfiles(
+  $molecularProfileName: String
   $variantName: String
   $variantId: Int
-  $entrezSymbol: String
+  $featureName: String
   $diseaseName: String
-  $drugName: String
-  $molecularProfileAlias: String,
+  $therapyName: String
+  $molecularProfileAlias: String
   $sortBy: MolecularProfilesSort
   $first: Int
   $last: Int
@@ -12,11 +13,12 @@ query BrowseMolecularProfiles(
   $after: String
 ) {
   browseMolecularProfiles(
+    molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId
-    entrezSymbol: $entrezSymbol
+    featureName: $featureName
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     molecularProfileAlias: $molecularProfileAlias
     sortBy: $sortBy
     first: $first
@@ -36,6 +38,7 @@ query BrowseMolecularProfiles(
         ...BrowseMolecularProfilesFields
       }
     }
+    lastUpdated
     filteredCount
     pageCount
   }
@@ -45,30 +48,35 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
   id
   name
   evidenceItemCount
-  evidenceScore
+  molecularProfileScore
   assertionCount
+  variantCount
   aliases {
     name
-  }
-  genes {
-    id
-    name
-    link
   }
   variants {
     id
     name
     link
+    matchText
+    feature {
+      id
+      link
+      name
+    }
   }
-  drugs {
+  therapies {
     id
     name
     link
+    deprecated
   }
   diseases {
     id
     name
     link
+    deprecated
   }
   link
+  deprecated
 }

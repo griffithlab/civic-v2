@@ -1,15 +1,15 @@
 module Types::Connections
   class FlagsConnection < Types::BaseConnection
-    description 'Connection type for objects with flagsincluding additional metadata.'
+    description "Connection type for objects with flagsincluding additional metadata."
 
-    field :unique_flagging_users, [Types::Entities::UserType], null: false,
-      description: 'List of all users that have flagged this entity.'
+    field :unique_flagging_users, [ Types::Entities::UserType ], null: false,
+      description: "List of all users that have flagged this entity."
 
-    field :unique_resolving_users, [Types::Entities::UserType], null: true,
-      description: 'List of all users that have resolved a flag on this entity.'
+    field :unique_resolving_users, [ Types::Entities::UserType ], null: true,
+      description: "List of all users that have resolved a flag on this entity."
 
     field :unfiltered_count_for_subject, Int, null: true,
-      description: 'When filtered on a subject, the total number of flags for that subject, irregardless of other filters. Returns null when there is no subject.'
+      description: "When filtered on a subject, the total number of flags for that subject, irregardless of other filters. Returns null when there is no subject."
 
     def unique_flagging_users
       if flaggable
@@ -19,7 +19,7 @@ module Types::Connections
       end
 
       User.where(id:
-        Event.where(action: 'flagged', subject: subject)
+        Event.where(action: "flagged", subject: subject)
           .select(:originating_user_id)
       ).distinct
     end
@@ -32,7 +32,7 @@ module Types::Connections
       end
 
       User.where(id:
-        Event.where(action: 'flag resolved', subject: subject)
+        Event.where(action: "flag resolved", subject: subject)
           .select(:originating_user_id)
       ).distinct
     end

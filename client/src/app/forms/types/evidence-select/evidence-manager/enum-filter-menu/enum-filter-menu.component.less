@@ -1,0 +1,23 @@
+@import 'themes/default.less';
+
+:host {
+  ::ng-deep ul {
+    li {
+      &:hover {
+        background-color: @primary-1;
+      }
+      &.ant-dropdown-menu-item-selected {
+        background-color: @primary-6;
+        &:active {
+          background-color: @primary-7;
+        }
+      }
+    }
+  }
+  // #cdk-overlay-0
+  //   > div
+  //   > cvc-enum-filter-menu
+  //   > ul
+  //   > li.ant-dropdown-menu-item.ng-star-inserted.ant-dropdown-menu-item-selected;
+}
+// selected-bg: @primary-one

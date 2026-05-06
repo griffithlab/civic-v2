@@ -1,0 +1,4 @@
+lung_cancer:
+  display_name: "Lung Non-small Cell Carcinoma"
+  name: "lung non-small cell carcinoma"
+  doid: "3908"

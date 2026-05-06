@@ -1,41 +1,46 @@
 import {
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
-  DrugInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
   SourceSource,
+  TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
+  AmpLevel,
+  ReferenceBuild,
+  RegionVariantName,
+} from '@app/generated/civic.apollo'
 
 export type InputEnum =
-  | EvidenceClinicalSignificance
+  | EvidenceSignificance
   | EvidenceDirection
   | EvidenceType
-  | AssertionClinicalSignificance
+  | AssertionSignificance
   | AssertionDirection
   | AssertionType
   | VariantOrigin
   | SourceSource
   | EvidenceLevel
-  | DrugInteraction;
+  | TherapyInteraction
+  | AmpLevel
+  | ReferenceBuild
+  | RegionVariantName
 
 export function formatEvidenceEnum(value: InputEnum): string {
+  if (typeof value === 'number' || typeof value === 'boolean') return value
   let str: string[]
   if (value === 'NA') {
-    str = ['N/A']
+    str = ['Not Applicable']
   } else if (value === 'SENSITIVITYRESPONSE') {
     str = ['Sensitivity', '/', 'Response']
   } else {
-    str = value.toLowerCase()
-      .replace(/_/g, ' ')
-      .split(' ');
+    str = value.toLowerCase().replace(/_/g, ' ').split(' ')
     for (var i = 0; i < str.length; i++) {
-      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)
     }
   }
-  return str.join(' ');
+  return str.join(' ')
 }

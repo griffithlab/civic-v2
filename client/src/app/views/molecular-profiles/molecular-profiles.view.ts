@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-  selector: 'app-molecular-profiles',
-  templateUrl: './molecular-profiles.view.html',
-  styleUrls: ['./molecular-profiles.view.less']
+    selector: 'app-molecular-profiles',
+    templateUrl: './molecular-profiles.view.html',
+    standalone: false
 })
 export class MolecularProfilesView {
-  constructor() { }
+  constructor() {}
 }
-

@@ -8,7 +8,7 @@ module Types::Entities
     field :organization, Types::Entities::OrganizationType, null: true
     field :action, Types::Events::EventActionType, null: false
     field :subject, Types::Interfaces::EventSubject, null: true
-    #TODO - can this ever be null?
+    # TODO - can this ever be null?
     field :originating_object, Types::Interfaces::EventOriginObject, null: true
 
     def originating_user
@@ -17,6 +17,10 @@ module Types::Entities
 
     def organization
       Loaders::RecordLoader.for(Organization).load(object.organization_id)
+    end
+
+    def subject
+      Loaders::AssociationLoader.for(Event, :subject).load(object)
     end
   end
 end

@@ -1,0 +1,20 @@
+query DiseaseSelectTypeahead($name: String!) {
+  diseaseTypeahead(queryTerm: $name) {
+    ...DiseaseSelectTypeaheadFields
+  }
+}
+
+query DiseaseSelectTag($id: Int!) {
+  disease(id: $id) {
+    ...DiseaseSelectTypeaheadFields
+  }
+}
+
+fragment DiseaseSelectTypeaheadFields on Disease {
+  id
+  name
+  link
+  displayName
+  doid
+  diseaseAliases
+}

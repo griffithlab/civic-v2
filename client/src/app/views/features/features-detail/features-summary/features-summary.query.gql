@@ -1,0 +1,289 @@
+query FeaturesSummary($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSummaryFields
+  }
+}
+
+fragment FeatureSummaryFields on Feature{
+  id
+  name
+  fullName
+  link
+  deprecated
+  flagged
+  featureInstance {
+    __typename
+    ... on Gene {
+      ... GeneSummaryFields
+    }
+    ... on Factor {
+      ... FactorSummaryFields
+    }
+    ... on Fusion {
+      ... FusionSummaryFields
+    }
+    ... on Region {
+      ... RegionSummaryFields
+    }
+  }
+  # lastSubmittedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+  # lastAcceptedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+}
+
+fragment RegionSummaryFields on Region {
+  id
+  name
+  description
+  featureAliases
+  deprecated
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+    deprecated
+  }
+  cytogeneticRegions {
+    name
+    chromosome
+    band
+    cytogeneticCoordinates {
+      referenceBuild
+      chromosome
+      start
+      stop
+    }
+  }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+
+}
+
+fragment FusionSummaryFields on Fusion {
+  id
+  description
+  featureAliases
+  name
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+    deprecated
+  }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
+  fivePrimeGene {
+    ... GeneBaseFields
+  }
+  threePrimeGene {
+    ... GeneBaseFields
+  }
+  fivePrimePartnerStatus
+  threePrimePartnerStatus
+  fusionsKnownPartnerGenes {
+    gene {
+      ... GeneBaseFields
+    }
+    knownPartnerSpecificFusion {
+      id
+      name
+      link
+      deprecated
+      flagged
+      stats {
+        variantCount
+        molecularProfileCount
+        evidenceItemCount
+        assertionCount
+      }
+      clinicalSignificanceCounts {
+        ...ClinicalSignificanceCounts
+      }
+    }
+  }
+  knownPartnerGenes {
+    ... GeneBaseFields
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+}
+
+fragment GeneBaseFields on Gene {
+  id
+  description
+  featureAliases
+  entrezId
+  deprecated
+  flagged
+  name
+  link
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+    deprecated
+  }
+}
+
+fragment GeneSummaryFields on Gene {
+  ...GeneBaseFields
+  myGeneInfoDetails
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
+}
+
+fragment FactorSummaryFields on Factor {
+  id
+  name
+  description
+  featureAliases
+  ncitId
+  deprecated
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+    deprecated
+  }
+  ncitDetails {
+    ...NcitDetails
+  }
+  stats {
+    evidenceItemCount
+  }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+}
+
+fragment NcitDetails on NcitDetails {
+    synonyms {
+      name
+      source
+    }
+    definitions {
+      definition
+      source
+    }
+}
+
+fragment DetailedClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  disease {
+    id
+    name
+    link
+    deprecated
+  }
+  therapies{
+    id
+    name
+    link
+    deprecated
+  }
+  therapyInteractionType
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
+}
+
+fragment ClinicalSignificanceCounts on ClinicalSignificanceCounts {
+  type
+  direction
+  significance
+  assertions {
+    id
+    name
+    link
+    status
+    flagged
+  }
+  count
+}

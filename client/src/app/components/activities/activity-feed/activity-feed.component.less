@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.results-message {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.feed-container {
+  // pull container flush to nz-card body edges
+  margin-top: -11px;
+  margin-bottom: -12px;
+  margin-left: -12px;
+  margin-right: -12px;
+  border-bottom-left-radius: 2px;
+  overflow: hidden;
+  &.feed-border {
+    border-right: 1px solid #f0f0f0;
+    margin-right: inherit;
+  }
+}
+
+.feed-layers {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // messages layer
+  .messages {
+    z-index: 10;
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    // Pass pointer events through to lower layers
+    pointer-events: none;
+    // Accept pointer events in child elements
+    * {
+      pointer-events: auto;
+    }
+  }
+
+  // scroller layer
+  .scroller {
+    z-index: 0;
+    position: relative;
+    display: block;
+    padding: 0 12px;
+  }
+}

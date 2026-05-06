@@ -1,15 +1,15 @@
 module Types::Subscribable
   class SubscribableQueryInput < Types::BaseInputObject
-    description 'Entity to subscribe to.'
+    description "Entity to subscribe to."
 
     argument :id, Int, required: true,
-      description: 'ID of subscribable entity.'
+      description: "ID of subscribable entity."
 
     argument :entity_type, Types::Subscribable::SubscribableEntitiesType, required: true,
-      description: 'Type of subscribable entity.'
+      description: "Type of subscribable entity."
 
     argument :include_children, Boolean, required: false, default_value: false,
-      description: 'Include child entities of the requested subscribable'
+      description: "Include child entities of the requested subscribable"
 
     def prepare
       subscribable = entity_type.constantize.find(id)

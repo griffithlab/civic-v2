@@ -7,7 +7,7 @@ query Revisions(
   $fieldName: String
   $originatingUserId: Int
   $resolvingUserId: Int
-  $revisionsetId: String
+  $revisionSetId: Int
   $status: RevisionStatus
 ) {
   revisions(
@@ -20,7 +20,7 @@ query Revisions(
     resolvingUserId: $resolvingUserId
     subject: $subject
     status: $status
-    revisionsetId: $revisionsetId
+    revisionSetId: $revisionSetId
   ) {
     totalCount
     unfilteredCountForSubject
@@ -54,13 +54,44 @@ query Revisions(
 
 fragment revision on Revision {
   id
-  revisionsetId
+  revisionSetId
   createdAt
-  resolvedAt
   fieldName
   currentValue
   suggestedValue
   linkoutData {
+    ...revisionLinkoutData
+  }
+  creationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    organization {
+      id
+      name
+    }
+  }
+  resolutionActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
+  status
+}
+
+fragment revisionLinkoutData on LinkoutData {
     name
     diffValue {
       ... on ObjectFieldDiff {
@@ -71,6 +102,15 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          flagged
+          feature {
+            link
+            id
+            name
+            deprecated
+            flagged
+          }
         }
         addedObjects {
           id
@@ -79,6 +119,15 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          flagged
+          feature {
+            link
+            id
+            name
+            deprecated
+            flagged
+          }
         }
         removedObjects {
           id
@@ -87,6 +136,15 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          flagged
+          feature {
+            link
+            id
+            name
+            deprecated
+            flagged
+          }
         }
         keptObjects {
           id
@@ -95,6 +153,15 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          flagged
+          feature {
+            link
+            id
+            name
+            deprecated
+            flagged
+          }
         }
         suggestedObjects {
           id
@@ -103,6 +170,15 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          flagged
+          feature {
+            link
+            id
+            name
+            deprecated
+            flagged
+          }
         }
       }
       ... on ScalarFieldDiff {
@@ -110,56 +186,5 @@ fragment revision on Revision {
         right
       }
     }
-  }
-  revisor {
-    id
-    displayName
-    role
-  }
-  resolver {
-    id
-    displayName
-    role
-  }
-  creationComment {
-    parsedComment {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        link
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
-    }
-  }
-  resolutionComment {
-    parsedComment {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        link
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
-    }
-  }
-  status
+
 }

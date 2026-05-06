@@ -1,0 +1,37 @@
+<nz-row [nzGutter]="[8,8]">
+  <nz-col
+    nzSpan="24"
+    *ngIf="props.showExistenceOptions">
+    <nz-radio-group
+      [ngModel]="existenceModel$ | ngrxPush"
+      (ngModelChange)="existenceChange$.next($event)"
+      nzName="existence">
+      <label
+        *ngFor="let option of selectOptions"
+        nz-radio-button
+        [nzValue]="option.value"
+        nz-tooltip
+        [nzTooltipTitle]="option.tooltip">
+        {{ option.label }}
+      </label>
+    </nz-radio-group>
+  </nz-col>
+  <nz-col
+    nzSpan="24"
+    *ngIf="showTagSelect$ | ngrxPush">
+    <nz-select
+      nzMode="tags"
+      nzPlaceHolder="Enter ClinVar IDs"
+      nzAllowClear
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+      nzDropdownClassName="hide-dropdown"
+      (ngModelChange)="onValueChange$.next($event)">
+      <nz-option
+        *ngFor="let item of formControl.value"
+        [nzLabel]="item"
+        [nzValue]="item"
+        [nzHide]="true"></nz-option>
+    </nz-select>
+  </nz-col>
+</nz-row>

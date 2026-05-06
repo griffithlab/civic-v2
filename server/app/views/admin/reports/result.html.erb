@@ -1,0 +1,32 @@
+<%= content_for(:title, @report.name) %>
+<%= render "header" %>
+
+<div class="main-content-area">
+  <div class="utilities">
+      Results:
+  </div>
+  <div class="main-content-container">
+    <div class="main-content">
+      <div class="table-container">
+        <table class="trestle-table">
+          <thead>
+            <tr>
+              <% @headers.each do |header| %>
+                <th><%= header %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @data.each do |row| %>
+              <tr>
+                <% row.each do |col| %>
+                  <td><%= col %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,36 +1,31 @@
 class AssertionTsvFormatter
-  def self.objects
-    Assertion.eager_load(:disease, :drugs, :phenotypes, :molecular_profile, :evidence_items)
-      .where(status: 'accepted')
-  end
-
-
   def self.headers
     [
-      'molecular_profile',
-      'molecular_profile_id',
-      'disease',
-      'doid',
-      'phenotypes',
-      'drugs',
-      'assertion_type',
-      'assertion_direction',
-      'clinical_significance',
-      'acmg_codes',
-      'amp_category',
-      'nccn_guideline',
-      'nccn_guideline_version',
-      'regulatory_approval',
-      'fda_companion_test',
-      'assertion_summary',
-      'assertion_description',
-      'assertion_id',
-      'evidence_item_ids',
-      'last_review_date',
-      'assertion_civic_url',
-      'evidence_items_civic_url',
-      'molecular_profile_civic_url',
-      'is_flagged'
+      "molecular_profile",
+      "molecular_profile_id",
+      "disease",
+      "doid",
+      "phenotypes",
+      "therapies",
+      "assertion_type",
+      "assertion_direction",
+      "significance",
+      "acmg_codes",
+      "amp_category",
+      "clingen_codes",
+      "nccn_guideline",
+      "nccn_guideline_version",
+      "regulatory_approval",
+      "fda_companion_test",
+      "assertion_summary",
+      "assertion_description",
+      "assertion_id",
+      "evidence_item_ids",
+      "last_review_date",
+      "assertion_civic_url",
+      "evidence_items_civic_url",
+      "molecular_profile_civic_url",
+      "is_flagged",
     ]
   end
 
@@ -40,13 +35,14 @@ class AssertionTsvFormatter
       a.molecular_profile.id,
       a.disease.name,
       a.disease.doid,
-      a.phenotypes.map(&:hpo_class).join(','),
-      a.drugs.map(&:name).join(','),
-      a.evidence_type,
-      a.evidence_direction,
-      a.clinical_significance,
-      a.acmg_codes.map(&:code).join(','),
+      a.phenotypes.map(&:hpo_class).join(","),
+      a.therapies.map(&:name).join(","),
+      a.assertion_type,
+      a.assertion_direction,
+      a.significance,
+      a.acmg_codes.map(&:code).join(","),
       a.amp_level,
+      a.clingen_codes.map(&:code).join(","),
       (a.nccn_guideline.nil? ? nil : a.nccn_guideline.name),
       a.nccn_guideline_version,
       a.fda_regulatory_approval,
@@ -54,17 +50,12 @@ class AssertionTsvFormatter
       a.summary,
       a.description.squish,
       a.id,
-      a.evidence_items.map(&:id).join(','),
+      a.evidence_items.map(&:id).join(","),
       a.updated_at,
       LinkAdaptors::Assertion.new(a).permalink_path(include_domain: true),
-      a.evidence_items.map{|ei| LinkAdaptors::EvidenceItem.new(ei).permalink_path(include_domain: true)}.join(','),
-      LinkAdaptors::Assertion.new(a).permalink_path(include_domain: true),
+      a.evidence_items.map { |ei| LinkAdaptors::EvidenceItem.new(ei).permalink_path(include_domain: true) }.join(","),
       LinkAdaptors::MolecularProfile.new(a.molecular_profile).permalink_path(include_domain: true),
-      a.flagged
+      a.flagged,
     ]
-  end
-
-  def self.file_name
-    'AssertionSummaries.tsv'
   end
 end

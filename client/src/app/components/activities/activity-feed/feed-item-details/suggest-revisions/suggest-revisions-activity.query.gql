@@ -1,0 +1,10 @@
+fragment SuggestRevisionSetActivityDetail on SuggestRevisionSetActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  revisions {
+    ...RevisionActivityDetail
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

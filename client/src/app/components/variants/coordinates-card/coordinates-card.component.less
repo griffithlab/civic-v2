@@ -1,9 +1,13 @@
 // @import "themes/overrides/descriptions-overrides.less";
 
+
 nz-card:first-of-type ::ng-deep {
+  .ant-tabs-tab-btn {
+    padding-left: 5px;
+  }
   .ant-card-body {
     // remove card body padding
-    padding: 0;
+    padding: 0px;
     // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
     margin-top: 1px;
   }

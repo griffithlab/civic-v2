@@ -8,15 +8,38 @@ fragment MolecularProfileDetailFields on MolecularProfile {
   id
   name
   deprecated
+  deprecationReason
+  complexMolecularProfileDeprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   deprecatedVariants {
     deprecationReason
-    deprecationComment {
-      ...commentListNode
+    deprecationActivity {
+      parsedNote {
+        ...parsedCommentFragment
+      }
     }
     id
     deprecated
+    flagged
     name
     link
+    feature {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
   }
   molecularProfileAliases
   flags(state: OPEN) {
@@ -27,5 +50,8 @@ fragment MolecularProfileDetailFields on MolecularProfile {
   }
   comments {
     totalCount
+  }
+  variants {
+    id
   }
 }

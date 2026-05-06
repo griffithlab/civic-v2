@@ -9,9 +9,10 @@ fragment assertionPopover on Assertion {
   name
   status
   summary
+  description
   assertionType
   assertionDirection
-  clinicalSignificance
+  significance
   variantOrigin
   ampLevel
   acmgCodes {
@@ -26,20 +27,21 @@ fragment assertionPopover on Assertion {
     id
     name
   }
+  nccnGuidelineVersion
   regulatoryApproval
-  regulatoryApprovalLastUpdated
   fdaCompanionTest
-  fdaCompanionTestLastUpdated
-  drugs {
+  therapies {
     id
     name
     link
+    deprecated
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id
@@ -53,6 +55,8 @@ fragment assertionPopover on Assertion {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
+    flagged
   }
   flags(state: OPEN) {
     totalCount
@@ -62,5 +66,11 @@ fragment assertionPopover on Assertion {
   }
   comments {
     totalCount
+  }
+  approvals(status: ACTIVE) {
+    totalCount
+    nodes {
+      ...approvalListNode
+    }
   }
 }

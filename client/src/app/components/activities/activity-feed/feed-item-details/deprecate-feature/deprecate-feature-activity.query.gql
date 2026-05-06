@@ -1,0 +1,21 @@
+fragment DeprecateFeatureActivityDetail on DeprecateFeatureActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  molecularProfiles {
+    id
+    name
+    link
+    deprecated
+    flagged
+  }
+  variants {
+    id
+    name
+    link
+    deprecated
+    flagged
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

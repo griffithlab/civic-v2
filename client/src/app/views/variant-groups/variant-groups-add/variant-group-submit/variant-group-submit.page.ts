@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'cvc-variant-groups-submit-page',
-  templateUrl: './variant-group-submit.page.html',
-  styleUrls: ['./variant-group-submit.page.less']
+    selector: 'cvc-variant-groups-submit-page',
+    templateUrl: './variant-group-submit.page.html',
+    standalone: false
 })
 export class VariantGroupSubmitPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

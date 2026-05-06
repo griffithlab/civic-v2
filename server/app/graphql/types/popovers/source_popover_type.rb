@@ -6,10 +6,9 @@ module Types::Popovers
       Source.where(id: object.id)
         .joins(:evidence_items)
         .where("evidence_items.status != 'rejected'")
-        .select('evidence_items.id')
+        .select("evidence_items.id")
         .distinct
         .count
     end
   end
 end
-

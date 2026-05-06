@@ -1,0 +1,6 @@
+# type column is STI discriminator
+curator_subscription:
+  user: curator
+  subscribable_type: EvidenceItem
+  subscribable_id: <%= ActiveRecord::FixtureSet.identify(:submitted_ei) %>
+  type: OnSiteSubscription

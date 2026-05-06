@@ -6,8 +6,9 @@ query BrowseDiseases(
   $sortBy: DiseasesSort
   $name: String
   $doid: String
-  $geneNames: String
-){
+  $diseaseAlias: String
+  $featureName: String
+) {
   browseDiseases(
     first: $first
     last: $last
@@ -16,7 +17,8 @@ query BrowseDiseases(
     sortBy: $sortBy
     name: $name
     doid: $doid
-    geneNames: $geneNames
+    diseaseAlias: $diseaseAlias
+    featureName: $featureName
   ) {
     pageInfo {
       endCursor
@@ -24,13 +26,14 @@ query BrowseDiseases(
       hasPreviousPage
       startCursor
     }
+    lastUpdated
     totalCount
     filteredCount
     pageCount
     edges {
       cursor
       node {
-        ... BrowseDiseaseRowFields
+        ...BrowseDiseaseRowFields
       }
     }
   }
@@ -41,10 +44,16 @@ fragment BrowseDiseaseRowFields on BrowseDisease {
   name
   doid
   diseaseUrl
-  geneNames
+  features {
+    id
+    name
+    link
+  }
   assertionCount
   evidenceItemCount
   variantCount
-  geneCount
+  featureCount
   link
+  deprecated
+  diseaseAliases
 }

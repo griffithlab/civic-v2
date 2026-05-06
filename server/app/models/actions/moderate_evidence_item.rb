@@ -1,7 +1,6 @@
 module Actions
   class ModerateEvidenceItem
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
 
     attr_reader :evidence_item, :originating_user, :organization_id, :new_status
 
@@ -26,23 +25,27 @@ module Actions
       end
 
       evidence_item.status = new_status
-      evidence_item.save!
+      if new_status == "rejected"
+        evidence_item.save(validate: false)
+      else
+        evidence_item.save!
+      end
       evidence_item.subscribe_user(originating_user)
     end
 
     def create_event
-      action = if new_status == 'submitted'
-                 'reverted'
-               else
+      action = if new_status == "submitted"
+                 "reverted"
+      else
                  new_status
-               end
+      end
 
 
-      Event.create!(
+      events << Event.new(
         action: action,
         originating_user: originating_user,
         subject: evidence_item,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: evidence_item
       )
     end

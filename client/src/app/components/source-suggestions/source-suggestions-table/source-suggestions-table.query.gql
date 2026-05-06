@@ -56,11 +56,13 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     id
     name
     link
+    deprecated
   }
   disease {
     id
     name
     link
+    deprecated
   }
   source {
     link
@@ -70,6 +72,7 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     sourceType
     sourceUrl
     displayType
+    deprecated
   }
   user {
     id
@@ -77,13 +80,24 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     role
     profileImagePath(size: 32)
   }
-  initialComment
+  creationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
+  lastStatusUpdateActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   status
   reason
   createdAt
 }
 
-mutation UpdateSourceSuggestionStatus($input: UpdateSourceSuggestionStatusInput!) {
+mutation UpdateSourceSuggestionStatus(
+  $input: UpdateSourceSuggestionStatusInput!
+) {
   updateSourceSuggestionStatus(input: $input) {
     sourceSuggestion {
       id

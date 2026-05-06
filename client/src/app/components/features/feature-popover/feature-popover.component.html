@@ -1,0 +1,64 @@
+<div id="popover-content">
+  <ng-container *ngIf="feature$ | ngrxPush as feature">
+    <nz-card
+      [nzTitle]="cardTitle"
+      nzBordered="false"
+      id="card-content"
+      [nzExtra]="cardExtra">
+      <!-- popover title -->
+      <ng-template #cardTitle>
+        <i
+          nz-icon
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Feature' | entityColor"
+          nzType="civic-feature"></i>
+        {{ feature.featureInstance.__typename }} - {{ feature.name }}
+      </ng-template>
+      <!-- revision, comment, flag counts -->
+      <ng-template #cardExtra>
+        <cvc-entity-child-counts
+          [cvcEntity]="feature"
+          cvcRoute="features"></cvc-entity-child-counts>
+      </ng-template>
+
+      <!-- summary & description -->
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+        <nz-descriptions-item
+          *ngIf="feature.fullName"
+          nzSpan="2"
+          nzTitle="Full Name">
+          {{ feature.fullName }}
+        </nz-descriptions-item>
+        <!-- aliases -->
+        <nz-descriptions-item
+          nzTitle="Aliases"
+          nzSpan="2"
+          *ngIf="feature.featureAliases.length > 0">
+          <nz-tag *ngFor="let alias of feature.featureAliases">{{
+            alias
+          }}</nz-tag>
+        </nz-descriptions-item>
+
+        <!-- variant count-->
+        <nz-descriptions-item nzTitle="Variants">
+          {{ feature.stats.variantCount }}
+        </nz-descriptions-item>
+        <!-- mp count-->
+        <nz-descriptions-item nzTitle="Molecular Profiles">
+          {{ feature.stats.molecularProfileCount }}
+        </nz-descriptions-item>
+        <!-- evidence count-->
+        <nz-descriptions-item nzTitle="Evidence Items">
+          {{ feature.stats.evidenceItemCount }}
+        </nz-descriptions-item>
+        <!-- assertion count-->
+        <nz-descriptions-item nzTitle="Assertions">
+          {{ feature.stats.assertionCount }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </nz-card>
+  </ng-container>
+</div>

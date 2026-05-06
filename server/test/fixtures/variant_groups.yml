@@ -1,0 +1,5 @@
+test_variant_group:
+  name: "BRAF Variants"
+  description: "A group of BRAF variants for testing."
+  deleted: false
+  flagged: false

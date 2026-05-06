@@ -1,0 +1,14 @@
+<div class="comment-container">
+  @if (activity().comment.deleted) {
+    <span
+      nz-typography
+      nzType="secondary">
+      <i> This comment has been deleted. </i>
+    </span>
+  } @else {
+    <cvc-comment-body
+      [commentBodySegments]="
+        activity().comment.parsedComment
+      "></cvc-comment-body>
+  }
+</div>

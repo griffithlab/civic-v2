@@ -1,0 +1,24 @@
+curator_test_org:
+  user: curator
+  organization: test_org
+  can_approve: false
+
+editor_test_org:
+  user: editor
+  organization: test_org
+  can_approve: true
+
+editor_submitter_test_org:
+  user: editor_submitter
+  organization: test_org
+  can_approve: false
+
+other_curator_test_org:
+  user: other_curator
+  organization: test_org
+  can_approve: false
+
+no_coi_editor_test_org:
+  user: no_coi_editor
+  organization: test_org
+  can_approve: false

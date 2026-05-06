@@ -11,11 +11,11 @@ module LinkAdaptors
     end
 
     def display_name
-      raise StandardError.new('implement in subclass')
+      raise StandardError.new("implement in subclass")
     end
 
     def base_path
-      raise StandardError.new('implement in subclass')
+      raise StandardError.new("implement in subclass")
     end
 
     def path(opts = {})
@@ -33,7 +33,7 @@ module LinkAdaptors
         auto_permalink
       end
     end
-    
+
     def auto_permalink
       "/links/#{self.class.name.demodulize.underscore.pluralize}/#{obj.id}"
     end

@@ -1,5 +1,5 @@
 class VariantType < ActiveRecord::Base
-  acts_as_nested_set
+  include Graph::HasGraphStructure
 
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :pipeline_types
@@ -14,17 +14,5 @@ class VariantType < ActiveRecord::Base
 
   def link
     Rails.application.routes.url_helpers.url_for("/variant-types/#{self.id}")
-  end
-
-  def relationship_with(other)
-    if self == other
-      :is
-    elsif self.is_descendant_of?(other)
-      :child
-    elsif self.is_ancestor_of?(other)
-      :parent
-    else
-      :none
-    end
   end
 end

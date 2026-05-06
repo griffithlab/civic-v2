@@ -1,7 +1,6 @@
-
 query MolecularProfileSummary($mpId: Int!) {
   molecularProfile(id: $mpId) {
-      ...MolecularProfileSummaryFields
+    ...MolecularProfileSummaryFields
   }
 }
 
@@ -10,11 +9,13 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
   name
   description
   molecularProfileAliases
-  evidenceScore
+  molecularProfileScore
   sources {
     id
     citation
     link
+    sourceType
+    deprecated
   }
   variants {
     ...VariantMolecularProfileCardFields
@@ -22,59 +23,99 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
   parsedName {
     ...MolecularProfileParsedName
   }
+  complexMolecularProfileCreationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  variantDeprecationActivity{
+    createdAt
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  complexMolecularProfileDeprecationActivity{
+    createdAt
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
 }
 
 fragment MolecularProfileParsedName on MolecularProfileSegment {
-    __typename
-    ... on MolecularProfileTextSegment {
-      text
-    }
-    ... on Gene {
-      id
-      name
-      link
-    }
-    ... on Variant {
-      id
-      name
-      link
-      deprecated
-    }
+  __typename
+  ... on MolecularProfileTextSegment {
+    text
+  }
+  ... on Feature {
+    id
+    name
+    link
+    deprecated
+    flagged
+  }
+  ... on Variant {
+    id
+    name
+    link
+    deprecated
+    flagged
+  }
 }
 
-
-fragment VariantMolecularProfileCardFields on Variant {
+fragment VariantMolecularProfileCardFields on VariantInterface {
   id
   name
-  gene {
+  link
+  deprecated
+  flagged
+  feature {
+    id
+    name
+    link
+    deprecated
+    flagged
+  }
+  molecularProfiles(first: 3) {
+    totalCount
+    nodes {
       id
-      name
       link
+      name
+      deprecated
+      flagged
+    }
+  }
+  ... on GeneVariant {
+    ... GeneVariantSummaryFields
+  }
+  ... on FactorVariant {
+    ... FactorVariantSummaryFields
+  }
+  ... on FusionVariant {
+    ... FusionVariantSummaryFields
+  }
+  ... on RegionVariant {
+    ... RegionVariantSummaryFields
   }
   variantAliases
-  clinvarIds
-  alleleRegistryId
   variantTypes {
-      id
-      link
-      soid
-      name
+    id
+    link
+    soid
+    name
   }
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
-  }
-  secondaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
-  }
-  referenceBases
-  variantBases
-  hgvsDescriptions
 }

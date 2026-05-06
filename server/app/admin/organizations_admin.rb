@@ -1,6 +1,23 @@
 Trestle.resource(:organizations) do
+  controller do
+    include ActiveStorage::SetCurrent
+  end
+
   menu do
     item :organizations, icon: "fa fa-users"
+  end
+
+  search do |q|
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("name ILIKE ? OR id = ?", "%#{q}%", query_id)
+      else
+        collection.where("name ILIKE ?", "%#{q}%")
+      end
+    else
+      collection
+    end
   end
 
   # Customize the table columns shown on the index view.
@@ -17,17 +34,26 @@ Trestle.resource(:organizations) do
       col(sm: 2) do
         if organization.profile_image.attached?
           form_group :profile_image, label: false do
-            link_to image_tag(organization.profile_image.variant(resize_to_limit: [128, 128]).processed.url), organization.profile_image.variant(resize_to_limit: [128, 128]).processed.url
+            link_to image_tag(organization.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url), organization.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url
           end
         end
       end
     end
 
-    select :parent_id, [nil] + Organization.all
+    row do
+      col { check_box :can_approve, label: "Organization Allowed to Approve Assertions" }
+    end
+    row do
+      col { check_box :is_approved_vcep, label: "This Organization is a ClinGen Approved VCEP" }
+    end
+
+    select :parent_id, [ nil ] + Organization.all
 
     url_field :url
 
     text_area :description
+
+    text_field :clinvar_api_key
 
     file_field :profile_image
   end

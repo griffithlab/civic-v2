@@ -1,17 +1,49 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
-import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
-import { ApolloQueryResult } from "@apollo/client/core";
-import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
-import { BrowseVariantGroupConnection, BrowseVariantGroupRowFieldsFragment, BrowseVariantGroupsGQL, BrowseVariantGroupsQuery, Maybe, PageInfo, QueryBrowseVariantGroupsArgs, VariantGroupsSortColumns } from "@app/generated/civic.apollo";
-import { QueryRef } from "apollo-angular";
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeWhile, withLatestFrom } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+} from '@angular/core'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { ApolloQueryResult } from '@apollo/client/core'
+import {
+  buildSortParams,
+  SortDirectionEvent,
+} from '@app/core/utilities/datatable-helpers'
+import {
+  BrowseVariantGroupConnection,
+  BrowseVariantGroupRowFieldsFragment,
+  BrowseVariantGroupsGQL,
+  BrowseVariantGroupsQuery,
+  Maybe,
+  PageInfo,
+  QueryBrowseVariantGroupsArgs,
+  SortDirection,
+  VariantGroupsSortColumns,
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  skip,
+  take,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 export interface VariantGroupTableUserFilters {
   nameInput?: Maybe<string>
-  geneNameInput?: Maybe<string>
+  featureNameInput?: Maybe<string>
   variantNameInput?: Maybe<string>
 }
 
@@ -20,7 +52,8 @@ export interface VariantGroupTableUserFilters {
   selector: 'cvc-variant-groups-table',
   templateUrl: './variant-groups-table.component.html',
   styleUrls: ['./variant-groups-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantGroupsTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -39,7 +72,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   filterChange$: Subject<void>
 
   // INTERMEDIATE STREAMS
-  queryRef!: QueryRef<BrowseVariantGroupsQuery, QueryBrowseVariantGroupsArgs>;
+  queryRef!: QueryRef<BrowseVariantGroupsQuery, QueryBrowseVariantGroupsArgs>
   result$!: Observable<ApolloQueryResult<BrowseVariantGroupsQuery>>
   connection$!: Observable<BrowseVariantGroupConnection>
 
@@ -57,12 +90,15 @@ export class CvcVariantGroupsTableComponent implements OnInit {
 
   //filters
   nameInput: Maybe<string>
-  geneNameInput: Maybe<string>
+  featureNameInput: Maybe<string>
   variantNameInput: Maybe<string>
 
   sortColumns = VariantGroupsSortColumns
 
-  constructor(private gql: BrowseVariantGroupsGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: BrowseVariantGroupsGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -71,55 +107,69 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.initialPageSize })
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      sortBy: {
+        column: this.sortColumns.VariantCount,
+        direction: SortDirection.Desc,
+      },
+    })
 
     this.result$ = this.queryRef.valueChanges
 
     // toggles table overlay 'Loading...' spinner
-    this.initialLoading$ = this.result$
-      .pipe(pluck('loading'),
-        distinctUntilChanged(),
-        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
+    this.initialLoading$ = this.result$.pipe(
+      pluck('loading'),
+      distinctUntilChanged(),
+      takeWhile((l) => l !== false, true)
+    ) // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
-    this.moreLoading$ = this.result$
-      .pipe(pluck('loading'),
-        distinctUntilChanged(),
-        skip(2)); // skip 1st true/false sequence
+    this.moreLoading$ = this.result$.pipe(
+      pluck('loading'),
+      distinctUntilChanged(),
+      skip(2)
+    ) // skip 1st true/false sequence
 
-    this.connection$ = this.result$
-      .pipe(pluck('data', 'browseVariantGroups'),
-        filter(isNonNulled)) as Observable<BrowseVariantGroupConnection>;
+    this.connection$ = this.result$.pipe(
+      pluck('data', 'browseVariantGroups'),
+      filter(isNonNulled)
+    ) as Observable<BrowseVariantGroupConnection>
 
     // entity row nodes
-    this.row$ = this.connection$
-      .pipe(pluck('edges'),
-        filter(isNonNulled),
-        map((edges) => edges.map((e) => e.node)));
+    this.row$ = this.connection$.pipe(
+      pluck('edges'),
+      filter(isNonNulled),
+      map((edges) => edges.map((e) => e.node))
+    )
 
     // provided to table-scroll directive for fetchMore queries
-    this.pageInfo$ = this.connection$
-      .pipe(pluck('pageInfo'),
-        filter(isNonNulled));
+    this.pageInfo$ = this.connection$.pipe(
+      pluck('pageInfo'),
+      filter(isNonNulled)
+    )
 
     // refetch when column sort changes
     this.sortChange$
       .pipe(untilDestroyed(this))
       .subscribe((e: SortDirectionEvent) => {
-        this.queryRef.refetch({ sortBy: buildSortParams(e) });
-      });
+        this.queryRef.refetch({ sortBy: buildSortParams(e) })
+      })
 
     // refresh when filters change
     this.filterChange$
-      .pipe(debounceTime(500),
-        untilDestroyed(this))
-      .subscribe(() => { this.refresh() })
+      .pipe(debounceTime(500), untilDestroyed(this))
+      .subscribe(() => {
+        this.refresh()
+      })
 
     // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
-      .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+      .pipe(
+        map((e: ScrollEvent) => (e === 'stop' ? false : true)),
         distinctUntilChanged(),
-        untilDestroyed(this))
+        untilDestroyed(this)
+      )
       .subscribe((e) => {
         this.isScrolling = e
         this.cdr.detectChanges()
@@ -127,37 +177,41 @@ export class CvcVariantGroupsTableComponent implements OnInit {
 
     // emit event from noMoreRow$ if hasNextPage false
     this.scrollEvent$
-      .pipe(filter((e) => e === 'bottom'),
+      .pipe(
+        filter((e) => e === 'bottom'),
         withLatestFrom(this.pageInfo$),
         map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
-        untilDestroyed(this))
+        untilDestroyed(this)
+      )
       .subscribe((pageInfo: PageInfo) => {
         if (!pageInfo.hasNextPage) {
-          this.noMoreRows$.next(true);
+          this.noMoreRows$.next(true)
           this.cdr.detectChanges()
 
           // need to send a followup 'false' here or else
           // ng won't interpret subsequent 'true' events as changes
-          setInterval(() => this.noMoreRows$.next(false));
+          setInterval(() => this.noMoreRows$.next(false))
         }
-      });
-
+      })
   } // ngOnInit
 
   refresh() {
     this.queryRef
       .refetch({
         name: this.nameInput,
-        geneNames: this.geneNameInput,
-        variantNames: this.variantNameInput
+        featureNames: this.featureNameInput,
+        variantNames: this.variantNameInput,
       })
-      .then(() => this.scrollIndex$.next(0));
+      .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: BrowseVariantGroupRowFieldsFragment): number {
-    return data.id;
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseVariantGroupRowFieldsFragment>
+  ): Maybe<number> {
+    return data?.id
   }
 }

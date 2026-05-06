@@ -1,21 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PagesAboutPage } from './pages-about.page';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { PagesAboutPage } from './pages-about.page'
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 
 @NgModule({
   declarations: [PagesAboutPage],
   imports: [
     CommonModule,
     NzPageHeaderModule,
+    NzDescriptionsModule,
     NzGridModule,
     NzSpaceModule,
     NzCardModule,
-    NzTableModule
-  ]
+    NzTableModule,
+  ],
 })
-export class PagesAboutModule { }
+export class PagesAboutModule {}

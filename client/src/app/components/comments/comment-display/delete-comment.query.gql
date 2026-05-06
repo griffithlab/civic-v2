@@ -1,0 +1,7 @@
+mutation DeleteComment($input: DeleteCommentInput!) {
+  deleteComment(input: $input) {
+    comment {
+      ...commentListNode
+    }
+  }
+}

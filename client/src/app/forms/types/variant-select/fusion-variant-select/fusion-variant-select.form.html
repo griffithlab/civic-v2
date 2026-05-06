@@ -1,0 +1,13 @@
+<form
+  nz-form
+  [nzLayout]="layout"
+  (ngSubmit)="submitFusion(model)"
+  [formGroup]="form">
+  <formly-form
+    [form]="form"
+    [fields]="config"
+    [model]="model"
+    [options]="options"
+    (modelChange)="modelChange($event)">
+  </formly-form>
+</form>

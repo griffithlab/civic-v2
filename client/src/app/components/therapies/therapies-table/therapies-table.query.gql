@@ -1,0 +1,48 @@
+query TherapiesBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $name: String
+  $ncitId: String
+  $therapyAlias: String,
+  $sortBy: TherapySort
+) {
+  browseTherapies(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    ncitId: $ncitId
+    therapyAlias: $therapyAlias
+    sortBy: $sortBy
+  ) {
+    totalCount
+    filteredCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...TherapyBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment TherapyBrowseTableRowFields on BrowseTherapy {
+  id
+  name
+  ncitId
+  therapyUrl
+  assertionCount
+  evidenceCount
+  link
+  deprecated
+  therapyAliases
+}

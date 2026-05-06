@@ -1,14 +1,33 @@
 curator:
-  username: curator
-  name: curator
+  username: testcurator
+  name: Test Curator
   role: curator
 
 editor:
-  username: editor
-  name: editor
+  username: testeditor
+  name: Test Editor
+  email: testeditor@example.com
   role: editor
 
 admin:
-  username: admin
-  name: admin
+  username: testadmin
+  name: Test Admin
   role: admin
+
+editor_submitter:
+  username: editorsubmitter
+  name: Editor Submitter
+  email: editorsubmitter@example.com
+  role: editor
+
+other_curator:
+  username: othercurator
+  name: Other Curator
+  email: othercurator@example.com
+  role: curator
+
+no_coi_editor:
+  username: nocoieditor
+  name: No COI Editor
+  email: nocoieditor@example.com
+  role: editor

@@ -1,7 +1,7 @@
-import { TypePolicies } from '@apollo/client/cache';
-import { relayStylePagination } from '@apollo/client/utilities';
+import { relayStylePagination } from '@apollo/client/utilities'
+import { StrictTypedTypePolicies } from '@app/generated/civic.apollo-helpers'
 
-export const CvcTypePolicies: TypePolicies = {
+export const CvcTypePolicies: StrictTypedTypePolicies = {
   Gene: {
     fields: {
       comments: relayStylePagination(),
@@ -12,33 +12,44 @@ export const CvcTypePolicies: TypePolicies = {
   },
   Query: {
     fields: {
-      browseGenes: relayStylePagination([
-        'entrezSymbol',
-        'drugName',
-        'geneAlias',
+      activities: relayStylePagination([
+        'subject',
+        'organizationId',
+        'userId',
+        'activityType',
+        'subjectType',
+        'linkedApprovalId',
+      ]),
+      browseFeatures: relayStylePagination([
+        'name',
+        'featureType',
+        'therapyName',
+        'featureAlias',
         'diseaseName',
       ]),
       browseVariants: relayStylePagination([
         'variantName',
         'entrezSymbol',
         'diseaseName',
-        'drugName',
+        'therapayName',
         'variantTypeId',
-        'variantGroupId'
+        'variantGroupId',
+        'variantCategory',
       ]),
       browseMolecularProfiles: relayStylePagination([
         'variantName',
         'entrezSymbol',
         'diseaseName',
-        'drugName',
+        'therapyName',
+        'molecularProfileScore',
         'molecularProfileAlias',
-        'variantId'
+        'variantId',
       ]),
       browseVariantGroups: relayStylePagination([
         'name',
         'geneNames',
         'variantNames',
-        'variantId'
+        'variantId',
       ]),
       browseSources: relayStylePagination([
         'name',
@@ -48,7 +59,8 @@ export const CvcTypePolicies: TypePolicies = {
         'author',
         'journal',
         'clinicalTrialId',
-        'id'
+        'id',
+        'openAccess',
       ]),
       sourceSuggestions: relayStylePagination([
         'sourceType',
@@ -60,33 +72,35 @@ export const CvcTypePolicies: TypePolicies = {
         'submitter',
         'citation',
         'status',
-        'submitterId'
-      ]), 
-      browseDiseases: relayStylePagination(['name', 'doid', 'geneNames', 'id']),
+        'submitterId',
+      ]),
+      browseTherapies: relayStylePagination([
+        'name',
+        'ncitId',
+        'therapyAlias',
+        'sortBy',
+      ]),
       events: relayStylePagination([
         'subject',
         'organizationId',
         'originatingUserId',
         'eventType',
       ]),
-      variants: relayStylePagination([
-        'geneId',
-        'name',
-      ]),
+      variants: relayStylePagination(['featureId', 'name']),
       molecularProfiles: relayStylePagination([
-        'geneId',
+        'featureId',
         'name',
         'evidenceStatusFilter',
       ]),
       comments: relayStylePagination(['originatingUserId', 'subject']),
       evidenceItems: relayStylePagination([
         'diseaseName',
-        'drugName',
+        'therapayName',
         'id',
         'description',
         'evidenceLevel',
         'evidenceDirection',
-        'clinicalSignificance',
+        'significance',
         'evidenceType',
         'evidenceRating',
         'variantOrigin',
@@ -97,21 +111,21 @@ export const CvcTypePolicies: TypePolicies = {
         'userId',
         'phenotypeId',
         'diseaseId',
-        'drugId',
+        'therapayId',
         'sourceId',
         'geneSymbol',
         'variantName',
         'status',
-        'clinicalTrialId'
+        'clinicalTrialId',
       ]),
       assertions: relayStylePagination([
         'diseaseName',
-        'drugName',
+        'therapayName',
         'id',
         'name',
         'summary',
         'assertionDirection',
-        'clinicalSignificance',
+        'significance',
         'assertionType',
         'variantId',
         'molecularProfileId',
@@ -123,8 +137,8 @@ export const CvcTypePolicies: TypePolicies = {
         'userId',
         'phenotypeId',
         'diseaseId',
-        'drugId',
-        'status'
+        'therapayId',
+        'status',
       ]),
       organizations: relayStylePagination(['name', 'id']),
       flags: relayStylePagination([
@@ -133,9 +147,16 @@ export const CvcTypePolicies: TypePolicies = {
         'resolvingUserId',
         'state',
       ]),
-      phenotypes: relayStylePagination(['hpoId', 'name', 'id']),
+      browsePhenotypes: relayStylePagination(['hpoId', 'name', 'sortBy']),
       variantTypes: relayStylePagination(['soid', 'name', 'id']),
-      drugs: relayStylePagination(['ncitId', 'name', 'id']),
+      browseDiseases: relayStylePagination([
+        'name',
+        'doid',
+        'diseaseAlias',
+        'featureName',
+        'sortBy',
+      ]),
+      therapies: relayStylePagination(['ncitId', 'name', 'id']),
       clinicalTrials: relayStylePagination(['nctId', 'name', 'id']),
       notifications: relayStylePagination([
         'notificationReason',
@@ -144,20 +165,31 @@ export const CvcTypePolicies: TypePolicies = {
         'eventType',
         'originatingUserId',
         'organizationId',
-        'includeRead'
+        'includeRead',
       ]),
       revisions: relayStylePagination([
         'subject',
         'status',
         'originatingUserId',
         'fieldName',
-        'revisionsetId'
+        'revisionsetId',
       ]),
-      users: relayStylePagination([
-        'userName',
-        'orgName',
-        'userRole'
+      browseUsers: relayStylePagination([
+        'name',
+        'organization',
+        'role',
+        'sortBy',
       ]),
+      users: relayStylePagination(['userName', 'orgName', 'userRole']),
+      revisionSets: relayStylePagination([
+        'status',
+        'fieldName',
+        'originatingUserName',
+        'excludeRevisionsFromUserId',
+        'organizatioName',
+        'subjectType',
+        'id',
+      ])
     },
   },
-};
+}

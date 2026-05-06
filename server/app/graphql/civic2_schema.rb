@@ -1,7 +1,9 @@
 class Civic2Schema < GraphQL::Schema
-  default_max_page_size 50
+  default_max_page_size 100
   mutation(Types::MutationType)
   query(Types::QueryType)
+
+  trace_with GoogleAnalyticsTracer, mode: :analytics
 
   use GraphQL::Batch
 

@@ -1,0 +1,12 @@
+mutation QuickAddTherapy($name: String!, $ncitId: String) {
+  addTherapy(input: { name: $name, ncitId: $ncitId }) {
+    ...QuickAddTherapyFields
+  }
+}
+
+fragment QuickAddTherapyFields on AddTherapyPayload {
+  new
+  therapy {
+    ...TherapySelectTypeaheadFields
+  }
+}

@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
   # include SearchObject for GraphQL
@@ -9,12 +9,16 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
 
   scope { SourceSuggestion.joins(:source).eager_load(:source).all }
 
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:source_type, type: Types::SourceSourceType) do |scope, value|
     scope.eager_load(:source).where("sources.source_type = ?", Source.source_types[value])
   end
 
   option(:citation_id, type: Int) do |scope, value|
-    scope.eager_load(:source).where('sources.citation_id::text LIKE ?', "#{value}%")
+    scope.eager_load(:source).where("sources.citation_id::text LIKE ?", "#{value}%")
   end
 
   option(:source_id, type: Int) do |scope, value|
@@ -22,27 +26,27 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
   end
 
   option(:molecular_profile_name, type: String) do |scope, value|
-    scope.joins(:molecular_profile).where('molecular_profiles.name ILIKE ?', "#{value}%")
+    scope.joins(:molecular_profile).where("molecular_profiles.name ILIKE ?", "#{value}%")
   end
 
   option(:disease_name, type: String) do |scope, value|
-    scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
+    scope.joins(:disease).where("diseases.name ILIKE ?", "%#{value}%")
   end
 
   option(:comment, type: String) do |scope, value|
-    scope.where('source_suggestions.initial_comment ILIKE ?', "%#{value}%")
+    scope.where("source_suggestions.initial_comment ILIKE ?", "%#{value}%")
   end
 
   option(:submitter, type: String) do |scope, value|
-    scope.eager_load(:user).where('users.username ILIKE ?', "#{value}%")
+    scope.eager_load(:user).where("users.username ILIKE ?", "#{value}%")
   end
 
   option(:submitter_id, type: Int) do |scope, value|
-    scope.joins(:user).where('users.id = ?', value)
+    scope.joins(:user).where("users.id = ?", value)
   end
 
   option(:citation, type: String) do |scope, value|
-    scope.eager_load(:source).where('sources.description ILIKE ?', "%#{value}%")
+    scope.eager_load(:source).where("sources.description ILIKE ?", "%#{value}%")
   end
 
   option(:status, type: Types::SourceSuggestionStatusType) do |scope, value|
@@ -66,4 +70,3 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
     end
   end
 end
-

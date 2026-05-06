@@ -1,10 +1,56 @@
-<nz-comment [nzAuthor]="comment.commenter.displayName" [nzDatetime]="comment.createdAt | timeago">
-    <nz-avatar *ngIf="comment.commenter.profileImagePath; else noAvatar" nz-comment-avatar
-        [nzSrc]="comment.commenter.profileImagePath"></nz-avatar>
-    <ng-template #noAvatar>
-        <nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar>
-    </ng-template>
-    <nz-comment-content>
-        <cvc-comment-body [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
-    </nz-comment-content>
+@let viewer = viewer$ | ngrxPush;
+
+<nz-comment
+  *ngrxLet="comment() as comment"
+  [nzAuthor]="comment.commenter.displayName"
+  [nzDatetime]="comment.createdAt | timeAgo">
+  <nz-avatar
+    *ngIf="comment.commenter.profileImagePath; else noAvatar"
+    nz-comment-avatar
+    [nzSrc]="comment.commenter.profileImagePath"></nz-avatar>
+  <ng-template #noAvatar>
+    <nz-avatar
+      nz-comment-avatar
+      nzIcon="civic:curator"></nz-avatar>
+  </ng-template>
+  @if (
+    viewer &&
+    viewer.signedIn &&
+    viewer.user?.id == comment.commenter.id &&
+    comment.id &&
+    !comment.deleted &&
+    canDelete()
+  ) {
+    <nz-comment-action>
+      <span
+        nz-tooltip
+        nz-popconfirm
+        nzPopconfirmPlacement="right"
+        nzPopconfirmTitle="Delete This Comment?"
+        (nzOnConfirm)="deleteComment(comment.id, viewer.mostRecentOrg?.id)"
+        nzTooltipTitle="Delete"
+        nz-icon
+        nzType="delete"></span>
+    </nz-comment-action>
+  }
+  <nz-comment-content>
+    @if (comment.deleted) {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i> This comment has been deleted. </i>
+      </span>
+    } @else {
+      @if (comment.parsedComment.length == 0) {
+        <span
+          nz-typography
+          nzType="secondary">
+          <i>No Comment Provided</i>
+        </span>
+      } @else {
+        <cvc-comment-body
+          [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
+      }
+    }
+  </nz-comment-content>
 </nz-comment>

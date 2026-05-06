@@ -1,0 +1,34 @@
+<ul nz-menu>
+  <li
+    nz-menu-item
+    *ngFor="let filter of cvcFilterOptions"
+    [nzSelected]="cvcOption?.value === filter.value"
+    (click)="
+      cvcOptionChange.next({
+        key: cvcColumnKey,
+        value: filter.value
+      })
+    ">
+    <cvc-attribute-tag
+      [cvcFullWidth]="true"
+      cvcContext="menu-item"
+      [cvcChecked]="cvcOption?.value === filter.value"
+      [cvcAttrValue]="filter.value"></cvc-attribute-tag>
+  </li>
+
+  <li style="padding: 3px">
+    <button
+      nz-button
+      nzType="default"
+      nzBlock
+      nzSize="small"
+      (click)="cvcOptionChange.next({ key: cvcColumnKey, value: null })"
+      [disabled]="cvcOption?.value === null">
+      <span
+        nz-icon
+        nzType="retweet"
+        nzTheme="outline"></span>
+      Reset
+    </button>
+  </li>
+</ul>

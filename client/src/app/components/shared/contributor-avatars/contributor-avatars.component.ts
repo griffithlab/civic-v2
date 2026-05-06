@@ -1,23 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'
 import {
   ContributorAvatarsGQL,
   ContributorFieldsFragment,
   Maybe,
   SubscribableInput,
-} from '@app/generated/civic.apollo';
-import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+} from '@app/generated/civic.apollo'
+import { Observable } from 'rxjs'
+import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'cvc-contributor-avatars',
-  templateUrl: './contributor-avatars.component.html',
-  styleUrls: ['./contributor-avatars.component.less'],
+    selector: 'cvc-contributor-avatars',
+    templateUrl: './contributor-avatars.component.html',
+    styleUrls: ['./contributor-avatars.component.less'],
+    standalone: false
 })
 export class CvcContributorAvatarsComponent implements OnInit {
-  @Input() subscribable: Maybe<SubscribableInput>;
+  @Input() subscribable: Maybe<SubscribableInput>
 
-  curators$?: Observable<Maybe<ContributorFieldsFragment[]>>;
-  editors$?: Observable<Maybe<ContributorFieldsFragment[]>>;
+  curators$?: Observable<Maybe<ContributorFieldsFragment[]>>
+  editors$?: Observable<Maybe<ContributorFieldsFragment[]>>
 
   constructor(private gql: ContributorAvatarsGQL) {}
 
@@ -25,15 +26,15 @@ export class CvcContributorAvatarsComponent implements OnInit {
     if (this.subscribable === undefined) {
       throw new Error(
         'Must pass a subscribable into ContributorAvatars component.'
-      );
+      )
     }
 
     let observable = this.gql.watch({
       subscribable: this.subscribable,
-    }).valueChanges;
+    }).valueChanges
 
-    this.curators$ = observable.pipe(pluck('data', 'contributors', 'curators'));
+    this.curators$ = observable.pipe(pluck('data', 'contributors', 'curators'))
 
-    this.editors$ = observable.pipe(pluck('data', 'contributors', 'editors'));
+    this.editors$ = observable.pipe(pluck('data', 'contributors', 'editors'))
   }
 }

@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'variant-types-home',
-  templateUrl: './variant-types-home.page.html',
-  styleUrls: ['./variant-types-home.page.less']
+    selector: 'variant-types-home',
+    templateUrl: './variant-types-home.page.html',
+    styleUrls: ['./variant-types-home.page.less'],
+    standalone: false
 })
 export class VariantTypesHomePage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

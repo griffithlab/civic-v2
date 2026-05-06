@@ -1,0 +1,13 @@
+mutation QuickAddFeature($name: String!, $organizationId: Int, $featureType: CreateableFeatureTypes!) {
+  createFeature(input: { name: $name,  organizationId: $organizationId, featureType: $featureType }) {
+    ...QuickAddFeatureFields
+  }
+}
+
+fragment QuickAddFeatureFields on CreateFeaturePayload {
+  clientMutationId
+  new
+  feature {
+    ...FeatureSummaryFields
+  }
+}

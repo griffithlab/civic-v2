@@ -1,13 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { VariantsSuggestPage } from './variants-suggest.page';
-import { CvcVariantReviseFormModule } from '@app/forms/variant-revise/variant-revise.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { VariantsSuggestPage } from './variants-suggest.page'
+import { CvcGeneVariantReviseFormModule } from '@app/forms/config/gene-variant-revise/gene-variant-revise.form.module'
+import { CvcFactorVariantReviseFormModule } from '@app/forms/config/factor-variant-revise/factor-variant-revise.form.module'
+import { CvcFusionVariantReviseFormModule } from '@app/forms/config/fusion-variant-revise/fusion-variant-revise.form.module'
+import { CvcRegionVariantReviseFormModule } from '@app/forms/config/region-variant-revise/region-variant-revise.form.module'
 
 @NgModule({
   declarations: [VariantsSuggestPage],
   imports: [
     CommonModule,
-    CvcVariantReviseFormModule,
-  ]
+    CvcGeneVariantReviseFormModule,
+    CvcFactorVariantReviseFormModule,
+    CvcFusionVariantReviseFormModule,
+    CvcRegionVariantReviseFormModule
+  ],
 })
-export class VariantsSuggestModule { }
+export class VariantsSuggestModule {}

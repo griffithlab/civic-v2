@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SourceSuggestionsComponent } from './source-suggestions.component';
-import { SourceSuggestionsHomePage } from './source-suggestions-home/source-suggestions-home.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { SourceSuggestionsComponent } from './source-suggestions.component'
+import { SourceSuggestionsHomePage } from './source-suggestions-home/source-suggestions-home.page'
 
 const routes: Routes = [
   {
@@ -11,21 +11,21 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'home',
         component: SourceSuggestionsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
-    ]
-  }
-];
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SourceSuggestionsRoutingModule { }
+export class SourceSuggestionsRoutingModule {}

@@ -1,8 +1,9 @@
 module Types::BrowseTables
   class VariantsSortColumns < Types::BaseEnum
-    value "entrezSymbol"
+    value "featureName"
     value "variantName"
     value "diseaseName"
-    value "drugName"
+    value "therapyName"
+    value "evidenceItemCount"
   end
 end

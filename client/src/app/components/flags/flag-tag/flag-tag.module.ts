@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcFlagTagComponent } from './flag-tag.component';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { RouterModule } from '@angular/router';
-import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { CvcFlagPopoverModule } from '../flag-popover/flag-popover.module';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcFlagTagComponent } from './flag-tag.component'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { RouterModule } from '@angular/router'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcFlagPopoverModule } from '../flag-popover/flag-popover.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 
 @NgModule({
   declarations: [CvcFlagTagComponent],
@@ -17,8 +17,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzIconModule,
     NzPopoverModule,
     CvcPipesModule,
-    CvcFlagPopoverModule
+    CvcFlagPopoverModule,
   ],
-  exports: [CvcFlagTagComponent]
+  exports: [CvcFlagTagComponent],
 })
-export class CvcFlagTagModule { }
+export class CvcFlagTagModule {}

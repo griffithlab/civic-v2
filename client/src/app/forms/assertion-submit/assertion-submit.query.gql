@@ -1,8 +1,0 @@
-mutation SubmitAssertion($input: SubmitAssertionInput!) {
-  submitAssertion(input: $input) {
-    clientMutationId
-    assertion {
-      id
-    }
-  }
-}

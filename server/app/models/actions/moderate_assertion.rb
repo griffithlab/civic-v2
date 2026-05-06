@@ -1,7 +1,6 @@
 module Actions
   class ModerateAssertion
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
 
     attr_reader :assertion, :originating_user, :organization_id, :new_status
 
@@ -30,21 +29,20 @@ module Actions
     end
 
     def create_event
-      action = if new_status == 'submitted'
-                 'assertion reverted'
-               else
+      action = if new_status == "submitted"
+                 "assertion reverted"
+      else
                  "assertion #{new_status}"
-               end
+      end
 
 
-      Event.create!(
+      events << Event.new(
         action: action,
         originating_user: originating_user,
         subject: assertion,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: assertion
       )
     end
-
   end
 end

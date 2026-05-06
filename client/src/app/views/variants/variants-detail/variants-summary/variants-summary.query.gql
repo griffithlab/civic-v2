@@ -4,48 +4,24 @@ query VariantSummary($variantId: Int!) {
   }
 }
 
-fragment VariantSummaryFields on Variant {
+fragment VariantSummaryFields on VariantInterface {
   id
   name
-  description
-  gene {
+  feature {
+    __typename
     id
     name
     link
-  }
-  sources {
-    id
-    citation
-    sourceUrl
-    displayType
-    sourceType
+    deprecated
+    flagged
   }
   variantAliases
-  alleleRegistryId
   variantTypes {
     id
     link
     soid
     name
   }
-  hgvsDescriptions
-  clinvarIds
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
   flags(state: OPEN) {
     totalCount
   }
@@ -54,9 +30,6 @@ fragment VariantSummaryFields on Variant {
   }
   comments {
     totalCount
-  }
-  myVariantInfo {
-    ...MyVariantInfoFields
   }
   lastSubmittedRevisionEvent {
     originatingUser {
@@ -74,6 +47,109 @@ fragment VariantSummaryFields on Variant {
       profileImagePath(size: 32)
     }
   }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
+  detailedClinicalSignificanceCounts {
+    ...DetailedClinicalSignificanceCounts
+  }
+  ... on GeneVariant {
+    ... GeneVariantSummaryFields
+  }
+  ... on FactorVariant {
+    ... FactorVariantSummaryFields
+  }
+  ... on FusionVariant {
+    ... FusionVariantSummaryFields
+  }
+  ... on RegionVariant {
+    ... RegionVariantSummaryFields
+  }
+}
+
+
+fragment FactorVariantSummaryFields on FactorVariant {
+  ncitId
+  ncitDetails {
+    ... NcitDetails
+  }
+}
+
+fragment RegionVariantSummaryFields on RegionVariant {
+  iscnName
+}
+
+fragment GeneVariantSummaryFields on GeneVariant {
+  alleleRegistryId
+  openCravatUrl
+  maneSelectTranscript
+  hgvsDescriptions
+  clinvarIds
+  coordinates {
+    ...CoordinateFields
+  }
+  myVariantInfo {
+    ...MyVariantInfoFields
+  }
+  openCravatAnnotations
+}
+
+fragment FusionVariantSummaryFields on FusionVariant {
+  viccCompliantName
+  fusion {
+    fivePrimePartnerStatus
+    fivePrimeGene {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
+    threePrimePartnerStatus
+    threePrimeGene {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
+  }
+  fivePrimeCoordinates {
+    ...CoordinateFields
+  }
+  threePrimeCoordinates {
+    ...CoordinateFields
+  }
+  fivePrimeStartExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  fivePrimeEndExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  threePrimeStartExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  threePrimeEndExonCoordinates {
+    ...ExonCoordinateFields
+  }
 }
 
 fragment MyVariantInfoFields on MyVariantInfo {
@@ -81,6 +157,7 @@ fragment MyVariantInfoFields on MyVariantInfo {
   caddConsequence
   caddDetail
   caddScore
+  caddPhred
   clinvarClinicalSignificance
   clinvarHgvsCoding
   clinvarHgvsGenomic

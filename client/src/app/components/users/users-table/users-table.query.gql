@@ -7,8 +7,8 @@ query UsersBrowse(
   $orgName: OrganizationFilter
   $userRole: UserRole
   $sortBy: UsersSort
-){
-  users(
+) {
+  browseUsers(
     first: $first
     last: $last
     before: $before
@@ -34,18 +34,18 @@ query UsersBrowse(
   }
 }
 
-fragment UserBrowseTableRowFields on User {
+fragment UserBrowseTableRowFields on BrowseUser {
   id
   name
   displayName
+  username
   organizations {
     id
     name
   }
   role
-  statsHash {
-    submittedEvidenceItems
-    revisions
-  }
-  mostRecentActionTimestamp
+  evidenceCount
+  revisionCount
+  profileImagePath(size: 64)
+  mostRecentActivityTimestamp
 }

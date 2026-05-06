@@ -1,8 +1,8 @@
-#Copied from https://github.com/pganalyze/graphql-batch-example under MIT license and modified
+# Copied from https://github.com/pganalyze/graphql-batch-example under MIT license and modified
 
 module Loaders
   class PolymorphicWindowLoader < GraphQL::Batch::Loader
-    attr_reader :loaded_model, :relation_name, 
+    attr_reader :loaded_model, :relation_name,
       :limit, :order_col, :order_dir,
       :related_model, :merge, :foreign_key
 
@@ -10,7 +10,7 @@ module Loaders
       # avoiding including the `merge` lambda in loader key
       # each lambda is unique which defeats the purpose of
       # grouping queries together
-      [self].concat(group_args.slice(0, 5))
+      [ self ].concat(group_args.slice(0, 5))
     end
 
     def initialize(loaded_model, relation_name, related_model, limit:, order_col: :id, order_dir: :asc, merge: nil)

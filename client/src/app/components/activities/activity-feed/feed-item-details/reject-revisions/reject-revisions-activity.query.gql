@@ -1,0 +1,11 @@
+fragment RejectRevisionsActivityDetail on RejectRevisionsActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  revisions {
+    ...RevisionActivityDetail
+  }
+
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

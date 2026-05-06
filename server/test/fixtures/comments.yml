@@ -1,0 +1,6 @@
+curator_comment:
+  title: ""
+  comment: "This is a test comment with sufficient length."
+  commentable_type: EvidenceItem
+  commentable: submitted_ei (EvidenceItem)
+  user: curator

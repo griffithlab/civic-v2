@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'cgi'
 require "uri"
 require 'digest/sha1'
 
@@ -18,7 +19,7 @@ def createUrl2(hostPath, params, login, password)
   # build url
   urlSuffix = "?#{params2.join('&')}"
   hostPathCoded = hostPath.split('/')
-  hostPathCoded[0].sub!(/:\d+$/,'')   # remove port number
+  hostPathCoded[0].sub!(/:\d+$/, '')   # remove port number
   hostPathCoded = hostPathCoded.join('/')
   urlCoded = "http://" + hostPathCoded + urlSuffix
   url      = "http://" + hostPath      + urlSuffix
@@ -80,9 +81,9 @@ method = "PUT" if method == "PUTP"
 
 url = nil
 if login.nil?
-  url = createUrl(host_path,params)
+  url = createUrl(host_path, params)
 else
-  url = createUrl2(host_path,params,login,password)	
+  url = createUrl2(host_path, params, login, password)
 end
 
 $stderr.puts "url=#{url}"
@@ -97,4 +98,3 @@ out = `#{cmd}`
 $stderr.puts "----------------------------------------------------------------"
 
 puts "#{out}"
-

@@ -1,0 +1,19 @@
+query previewComment($commentText: String!) {
+  previewCommentText(commentText: $commentText) {
+    ...parsedCommentFragment
+  }
+}
+
+query userTypeahead($queryTerm: String!) {
+  userTypeahead(queryTerm: $queryTerm) {
+    username
+  }
+}
+
+query entityTypeahead($queryTerm: String!) {
+  entityTypeahead(queryTerm: $queryTerm) {
+    entityId
+    tagType
+    displayName
+  }
+}

@@ -1,28 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ModeratedEntities } from '@app/generated/civic.apollo';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
+import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-assertions-revisions',
-  templateUrl: './assertions-revisions.page.html',
-  styleUrls: ['./assertions-revisions.page.less']
+    selector: 'cvc-assertions-revisions',
+    templateUrl: './assertions-revisions.page.html',
+    standalone: false
 })
 export class AssertionsRevisionsPage implements OnInit {
-  aid!: number
-  entityType!: ModeratedEntities
+  subject!: ModeratedInput
 
   routeSub: Subscription
 
-  constructor(
-    private route: ActivatedRoute
-  ) {
+  constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.aid = +params.assertionId;
-      this.entityType = ModeratedEntities['Assertion']
-    });
+      this.subject = {
+        id: +params.assertionId,
+        entityType: ModeratedEntities['Assertion'],
+      }
+    })
   }
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

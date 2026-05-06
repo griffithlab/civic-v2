@@ -1,0 +1,43 @@
+<nz-select
+  nzPlaceHolder="Select User"
+  nzMode="multiple"
+  nzAllowClear
+  [(ngModel)]="cvcUserId"
+  (nzOnSearch)="onSearch$.next($event)"
+  [nzCustomTemplate]="userLabel"
+  [nzNotFoundContent]="notFound"
+  [nzOptionOverflowSize]="12"
+  [nzOptionHeightPx]="28">
+  <nz-option
+    *ngFor="let user of filteredUsers()"
+    nzCustomContent
+    [nzLabel]="user.displayName"
+    [nzValue]="user.id">
+    <ng-container
+      *ngTemplateOutlet="
+        userLabel;
+        context: {
+          $implicit: {
+            nzLabel: user.displayName ?? user.name ?? user.username,
+            nzValue: user.id,
+          },
+        }
+      ">
+    </ng-container>
+  </nz-option>
+</nz-select>
+
+<ng-template
+  #userLabel
+  let-selected>
+  <span
+    nz-icon
+    [nzType]="'civic-curator'"
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Curator' | entityColor"></span>
+  {{ selected.nzLabel }}
+</ng-template>
+
+<ng-template #notFound>
+  <span>No users found matching "{{ onSearch() }}"</span>
+</ng-template>

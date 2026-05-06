@@ -1,47 +1,56 @@
 class Resolvers::Quicksearch < GraphQL::Schema::Resolver
-  type [Types::Quicksearch::SearchResult], null: false
+  type [ Types::Quicksearch::SearchResult ], null: false
 
-  argument :query, String, required: true, description: 'The term to query for'
-  argument :types, [Types::Quicksearch::SearchableEntities], required: false,
-    description: 'The types of objects to search. Omitting this value searches all.'
+  argument :query, String, required: true, description: "The term to query for"
+  argument :types, [ Types::Quicksearch::SearchableEntities ], required: false,
+    description: "The types of objects to search. Omitting this value searches all."
   argument :highlight_matches, Boolean, required: false,
-    description: 'Should matches come back highlighted'
+    description: "Should matches come back highlighted"
 
   def resolve(query:, types: nil, highlight_matches: false)
     query_targets = if types.blank?
                       [
-                       Gene, 
+                       Feature,
                        Variant,
                        EvidenceItem,
                        Assertion,
-                       VariantGroup, 
-                       Revision, 
-                       MolecularProfile
+                       VariantGroup,
+                       Revision,
+                       MolecularProfile,
+                       Therapy,
+                       Disease,
                       ]
-                    else
+    else
                       types
-                    end
+    end
 
     tag = if highlight_matches
-            { tag: '<strong>' }
-          else
-            { tag: '' }
-          end
+            { tag: "<strong>" }
+    else
+            { tag: "" }
+    end
 
     results = Searchkick.search(
                   query,
                   models: query_targets,
                   highlight: tag,
                   limit: 10,
-                  fields: ['id^10', 'name', 'aliases', 'gene']
-                ).with_highlights(multiple: true)
+                  fields: [
+                    { "id^10" => :word },
+                    { "ncit_id" => :word },
+                    { "doid" => :word },
+                    { "name^10" => :word },
+                    { "aliases" => :word_start },
+                    { "feature" => :word },
+                    { "feature_type" => :word },
+                  ]).with_highlights(multiple: true)
 
     results.map do |res, highlights|
       {
         id: res.id,
         name: format_name(res.name, highlights),
-        result_type: res.class,
-        matching_text: format_highlights(highlights)
+        result_type: res.class.base_class,
+        matching_text: format_highlights(highlights),
       }
     end
   end
@@ -59,10 +68,10 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   def format_highlights(highlights)
     rows = highlights.map do |field_name, matches|
       next if field_name == :name
-      name = field_name.to_s.titleize
-      match_string = matches.join(', ')
+    name = field_name.to_s.split(".").first&.titleize
+      match_string = matches.join(", ")
       "#{name}: #{match_string}"
     end
-    rows.compact.join('<br/>')
+    rows.compact.join("<br/>")
   end
 end

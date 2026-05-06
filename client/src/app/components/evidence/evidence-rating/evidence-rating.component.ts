@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Maybe } from "@app/generated/civic.apollo";
+import { Component, Input, OnInit } from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-evidence-rating',
-  templateUrl: './evidence-rating.component.html',
-  styleUrls: ['./evidence-rating.component.less']
+    selector: 'cvc-evidence-rating',
+    templateUrl: './evidence-rating.component.html',
+    standalone: false
 })
 export class CvcEvidenceRatingComponent implements OnInit {
   @Input() starRating: Maybe<number>

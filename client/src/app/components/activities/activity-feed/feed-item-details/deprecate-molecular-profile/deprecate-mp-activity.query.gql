@@ -1,0 +1,7 @@
+fragment DeprecateComplexMolecularProfileActivityDetail on DeprecateComplexMolecularProfileActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

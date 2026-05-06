@@ -1,0 +1,67 @@
+# Diagnostic / Positive / Supports - simplest valid combination
+# assertion_type: 0=Diagnostic, significance: 4=Positive, assertion_direction: 0=Supports
+# variant_origin: 0=Somatic
+submitted_assertion:
+  description: "A submitted diagnostic assertion for testing."
+  summary: "This is a test assertion summary."
+  disease: lung_cancer
+  molecular_profile: mp1
+  status: submitted
+  assertion_type: 0
+  significance: 4
+  assertion_direction: 0
+  variant_origin: 0
+  flagged: false
+  deleted: false
+
+accepted_assertion:
+  description: "An accepted diagnostic assertion for testing."
+  summary: "This is an accepted test assertion summary."
+  disease: lung_cancer
+  molecular_profile: mp1
+  status: accepted
+  assertion_type: 0
+  significance: 4
+  assertion_direction: 0
+  variant_origin: 0
+  flagged: false
+  deleted: false
+
+accepted_unapproved_assertion:
+  description: "An accepted assertion without an approval."
+  summary: "This is an accepted assertion without approvals."
+  disease: lung_cancer
+  molecular_profile: mp2
+  status: accepted
+  assertion_type: 0
+  significance: 4
+  assertion_direction: 0
+  variant_origin: 0
+  flagged: false
+  deleted: false
+
+submitted_assertion_by_editor:
+  description: "A submitted assertion created by an editor for self-acceptance checks."
+  summary: "Submitted by editor fixture."
+  disease: lung_cancer
+  molecular_profile: mp2
+  status: submitted
+  assertion_type: 0
+  significance: 4
+  assertion_direction: 0
+  variant_origin: 0
+  flagged: false
+  deleted: false
+
+flagged_assertion:
+  description: "An accepted flagged assertion for testing."
+  summary: "This is a flagged accepted assertion."
+  disease: lung_cancer
+  molecular_profile: mp1
+  status: accepted
+  assertion_type: 0
+  significance: 4
+  assertion_direction: 0
+  variant_origin: 0
+  flagged: true
+  deleted: false

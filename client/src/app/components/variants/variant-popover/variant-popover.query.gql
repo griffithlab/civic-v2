@@ -1,22 +1,28 @@
-query VariantPopover($variantId: Int!){
+query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
-    ... variantPopoverFields
+    ...variantPopoverFields
   }
 }
 
-fragment variantPopoverFields on Variant {
+fragment variantPopoverFields on VariantInterface {
   id
   name
-  description
   variantAliases
-  alleleRegistryId
-  evidenceItems {
-    totalCount
+  ... on GeneVariant {
+    alleleRegistryId
   }
-  gene {
+  ... on FusionVariant {
+    viccCompliantName
+  }
+  feature {
     id
     name
     link
+    deprecated
+    flagged
+  }
+  molecularProfiles {
+    totalCount
   }
   revisions(status: NEW) {
     totalCount

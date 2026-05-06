@@ -4,21 +4,51 @@ query RevisionPopover($revisionId: Int!) {
   }
 }
 
-
 fragment revisionPopover on Revision {
   id
   name
   link
   status
-  revisor {
-    id
-    displayName
-    role
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
   subject {
     id
     link
     name
+    ... on VariantInterface {
+      deprecated
+      flagged
+      feature {
+        id
+        name
+        link
+        deprecated
+        flagged
+      }
+    }
+    ... on Feature {
+      deprecated
+      flagged
+    }
+    ... on Assertion {
+      flagged
+      status
+    }
+    ... on EvidenceItem {
+      flagged
+      status
+    }
+    ... on VariantGroup {
+      flagged
+    }
   }
   createdAt
   linkoutData {

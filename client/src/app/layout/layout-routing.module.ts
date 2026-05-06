@@ -1,14 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-import { LayoutComponent } from '@app/layout/layout.component';
+import { LayoutComponent } from '@app/layout/layout.component'
 
 const routes: Routes = [
   // Redirects
-  { path: '',
-    pathMatch: 'full',
-    redirectTo: '/welcome'
-  },
+  { path: '', pathMatch: 'full', redirectTo: '/welcome' },
 
   // Main Layout
   {
@@ -16,122 +13,208 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       // Primary Views
-      { path: 'assertions',
-        loadChildren: () => import('@app/views/assertions/assertions.module').then(m => m.AssertionsModule),
+      {
+        path: 'assertions',
+        loadChildren: () =>
+          import('@app/views/assertions/assertions.module').then(
+            (m) => m.AssertionsModule
+          ),
         data: {
-          breadcrumb: 'Assertions'
-        }
+          breadcrumb: 'Assertions',
+        },
       },
-      { path: 'molecular-profiles',
-        loadChildren: () => import('@app/views/molecular-profiles/molecular-profiles.module').then(m => m.MolecularProfilesModule ),
+      {
+        path: 'molecular-profiles',
+        loadChildren: () =>
+          import(
+            '@app/views/molecular-profiles/molecular-profiles.module'
+          ).then((m) => m.MolecularProfilesModule),
         data: {
-          breadcrumb: 'Molecular Profiles'
-        }
+          breadcrumb: 'Molecular Profiles',
+        },
       },
-      { path: 'clinical-trials' ,
-        loadChildren: () => import('@app/views/clinical-trials/clinical-trials.module').then(m => m.ClinicalTrialsModule),
+      {
+        path: 'clinical-trials',
+        loadChildren: () =>
+          import('@app/views/clinical-trials/clinical-trials.module').then(
+            (m) => m.ClinicalTrialsModule
+          ),
         data: {
-          breadcrumb: 'Clinical Trials'
-        }
+          breadcrumb: 'Clinical Trials',
+        },
       },
-      { path: 'diseases',
-        loadChildren: () => import('@app/views/diseases/diseases.module').then(m => m.DiseasesModule),
+      {
+        path: 'diseases',
+        loadChildren: () =>
+          import('@app/views/diseases/diseases.module').then(
+            (m) => m.DiseasesModule
+          ),
         data: {
-          breadcrumb: 'Diseases'
-        }
+          breadcrumb: 'Diseases',
+        },
       },
-      { path: 'drugs',
-        loadChildren: () => import('@app/views/drugs/drugs.module').then(m => m.DrugsModule),
+      {
+        path: 'therapies',
+        loadChildren: () =>
+          import('@app/views/therapies/therapies.module').then(
+            (m) => m.TherapiesModule
+          ),
         data: {
-          breadcrumb: 'Drugs'
-        }
+          breadcrumb: 'Therapies',
+        },
       },
-      { path: 'evidence',
-        loadChildren: () => import('@app/views/evidence/evidence.module').then(m => m.EvidenceModule),
+      {
+        path: 'evidence',
+        loadChildren: () =>
+          import('@app/views/evidence/evidence.module').then(
+            (m) => m.EvidenceModule
+          ),
         data: {
-          breadcrumb: 'Evidence'
-        }
+          breadcrumb: 'Evidence',
+        },
       },
       {
         path: 'genes',
-        loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule),
+        redirectTo: 'features',
         data: {
-          breadcrumb: 'Genes'
-        }
+          breadcrumb: 'Features',
+        },
       },
-      { path: 'organizations',
-        loadChildren: () => import('@app/views/organizations/organizations.module').then(m => m.OrganizationsModule),
+
+      {
+        path: 'features',
+        loadChildren: () =>
+          import('@app/views/features/features.module').then(
+            (m) => m.FeaturesModule
+          ),
         data: {
-          breadcrumb: 'Organizations'
-        }
+          breadcrumb: 'Features',
+        },
       },
-      { path: 'phenotypes',
-        loadChildren: () => import('@app/views/phenotypes/phenotypes.module').then(m => m.PhenotypesModule),
+      {
+        path: 'organizations',
+        loadChildren: () =>
+          import('@app/views/organizations/organizations.module').then(
+            (m) => m.OrganizationsModule
+          ),
         data: {
-          breadcrumb: 'Phenotypes'
-        }
+          breadcrumb: 'Organizations',
+        },
       },
-      { path: 'sources',
-        loadChildren: () => import('@app/views/sources/sources.module').then(m => m.SourcesModule),
+      {
+        path: 'phenotypes',
+        loadChildren: () =>
+          import('@app/views/phenotypes/phenotypes.module').then(
+            (m) => m.PhenotypesModule
+          ),
         data: {
-          breadcrumb: 'Sources'
-        }
+          breadcrumb: 'Phenotypes',
+        },
       },
-      { path: 'curation',
-        loadChildren: () => import('@app/views/curation/curation.module').then(m => m.CurationModule),
+      {
+        path: 'sources',
+        loadChildren: () =>
+          import('@app/views/sources/sources.module').then(
+            (m) => m.SourcesModule
+          ),
         data: {
-          breadcrumb: 'Curation'
-        }
+          breadcrumb: 'Sources',
+        },
       },
-      { path: 'users',
-        loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule),
+      {
+        path: 'curation',
+        loadChildren: () =>
+          import('@app/views/curation/curation.module').then(
+            (m) => m.CurationModule
+          ),
         data: {
-          breadcrumb: 'Contributors'
-        }
+          breadcrumb: 'Curation',
+        },
       },
-      { path: 'variant-groups',
-        loadChildren: () => import('@app/views/variant-groups/variant-groups.module').then(m => m.VariantGroupsModule),
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('@app/views/users/users.module').then((m) => m.UsersModule),
         data: {
-          breadcrumb: 'Variant Groups'
-        }},
-      { path: 'variants',
-        loadChildren: () => import('@app/views/variants/variants.module').then(m => m.VariantsModule),
-        data: {
-          breadcrumb: 'Variants'
-        }
+          breadcrumb: 'Contributors',
+        },
       },
-      { path: 'variant-types',
-        loadChildren: () => import('@app/views/variant-types/variant-types.module').then(m => m.VariantTypesModule),
+      {
+        path: 'variant-groups',
+        loadChildren: () =>
+          import('@app/views/variant-groups/variant-groups.module').then(
+            (m) => m.VariantGroupsModule
+          ),
         data: {
-          breadcrumb: 'Variant Types'
-        }
+          breadcrumb: 'Variant Groups',
+        },
+      },
+      {
+        path: 'variants',
+        loadChildren: () =>
+          import('@app/views/variants/variants.module').then(
+            (m) => m.VariantsModule
+          ),
+        data: {
+          breadcrumb: 'Variants',
+        },
+      },
+      {
+        path: 'variant-types',
+        loadChildren: () =>
+          import('@app/views/variant-types/variant-types.module').then(
+            (m) => m.VariantTypesModule
+          ),
+        data: {
+          breadcrumb: 'Variant Types',
+        },
       },
 
       // Other App Views
-      { path: 'welcome',
-        loadChildren: () => import('@app/views/welcome/welcome.module').then(m => m.WelcomeModule),
+      {
+        path: 'welcome',
+        loadChildren: () =>
+          import('@app/views/welcome/welcome.module').then(
+            (m) => m.WelcomeModule
+          ),
         data: {
-          breadcrumb: 'Welcome to CIViC'
-        }
+          breadcrumb: 'Welcome to CIViC',
+        },
       },
-      { path: 'releases',
-        loadChildren: () => import('@app/views/releases/releases.module').then(m => m.ReleasesModule),
+      {
+        path: 'releases',
+        loadChildren: () =>
+          import('@app/views/releases/releases.module').then(
+            (m) => m.ReleasesModule
+          ),
         data: {
-          breadcrumb: 'Releases'
-        }
+          breadcrumb: 'Releases',
+        },
       },
-      { path: 'pages',
-        loadChildren: () => import('@app/views/pages/pages.module').then(m => m.PagesModule),
+      {
+        path: 'pages',
+        loadChildren: () =>
+          import('@app/views/pages/pages.module').then((m) => m.PagesModule),
         data: {
-          breadcrumb: 'Pages'
-        }
+          breadcrumb: 'Pages',
+        },
       },
-    ]
+      // {
+      //   path: 'forms',
+      //   loadChildren: () =>
+      //     import('@app/forms/test-pages/test-pages.module').then(
+      //       (m) => m.TestPagesModule
+      //     ),
+      //   data: {
+      //     breadcrumb: 'Forms Dev',
+      //   },
+      // },
+    ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class LayoutRoutingModule { }
+export class LayoutRoutingModule {}

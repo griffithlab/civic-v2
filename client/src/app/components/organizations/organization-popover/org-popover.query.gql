@@ -1,4 +1,4 @@
-query OrgPopover ($orgId: Int!) {
+query OrgPopover($orgId: Int!) {
   organization(id: $orgId) {
     ...orgPopover
   }

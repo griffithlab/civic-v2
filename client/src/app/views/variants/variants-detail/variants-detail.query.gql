@@ -1,30 +1,38 @@
-query VariantDetail(
-  $variantId: Int!
-) {
+query VariantDetail($variantId: Int!) {
   variant(id: $variantId) {
     ...VariantDetailFields
   }
 }
 
-fragment VariantDetailFields on Variant {
+fragment VariantDetailFields on VariantInterface {
   id
   name
   deprecated
   deprecationReason
-  deprecationComment {
-    ...commentListNode
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
-  gene {
+  feature {
     id
     name
+    link
+    deprecated
+    flagged
   }
   variantAliases
   flags(state: OPEN) {
     totalCount
   }
-  revisions(status: NEW) {
-    totalCount
-  }
+  openRevisionCount
   comments {
     totalCount
   }

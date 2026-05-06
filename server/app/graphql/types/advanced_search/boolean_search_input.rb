@@ -3,7 +3,7 @@ module Types::AdvancedSearch
     argument :value, Boolean, required: true
 
     def resolve_query_for_type(column_name)
-      ["#{column_name} = ?", value]
+      [ "#{column_name} = ?", value ]
     end
   end
 end

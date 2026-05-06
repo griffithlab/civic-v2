@@ -2,7 +2,7 @@ module Types::Interfaces
   module EventSubject
     include Types::BaseInterface
 
-    description 'The subject of an event log event.'
+    description "The subject of an event log event."
 
     field :id, Int, null: false
     field :name, String, null: false
@@ -13,10 +13,20 @@ module Types::Interfaces
     definition_methods do
       def resolve_type(object, context)
         case object
-        when Gene
-          Types::Entities::GeneType
-        when Variant
-          Types::Entities::VariantType
+        when Feature
+          Types::Entities::FeatureType
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
+        when Variants::FusionVariant
+          Types::Variants::FusionVariantType
+        when Variants::RegionVariant
+          Types::Variants::RegionVariantType
+        when VariantCoordinate
+          Types::Entities::VariantCoordinateType
+        when ExonCoordinate
+          Types::Entities::ExonCoordinateType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion
@@ -31,6 +41,12 @@ module Types::Interfaces
           Types::Entities::VariantGroupType
         when MolecularProfile
           Types::Entities::MolecularProfileType
+        when Flag
+          Types::Entities::FlagType
+        when RevisionSet
+          Types::Entities::RevisionSetType
+        when Comment
+          Types::Entities::CommentType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

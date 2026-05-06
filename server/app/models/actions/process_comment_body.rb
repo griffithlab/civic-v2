@@ -14,14 +14,14 @@ module Actions
     private
     def handle_mentions
       cmd = Actions::ExtractMentions.new(comment.comment).perform
-      #TODO save valid mentioned users/references/ in the db
+      # TODO save valid mentioned users/references/ in the db
       mentioned_users = cmd.mentioned_users
-      #TODO notify mentioned users/roles/orgs
+      # TODO notify mentioned users/roles/orgs
     end
 
     def handle_references
       cmd = Actions::ExtractReferences.new(comment.comment).perform
-      #TODO save valid mentioned entities in the db
+      # TODO save valid mentioned entities in the db
       referenced_entities = cmd.referenced_entities
     end
   end

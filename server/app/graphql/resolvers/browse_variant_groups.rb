@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
   # include SearchObject for GraphQL
@@ -7,14 +7,18 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseVariantGroupType.connection_type, null: false
 
-  scope { VariantGroupBrowseTableRow.all }
+  scope { MaterializedViews::VariantGroupBrowseTableRow.all }
 
-  option(:name, type: String) do |scope, value|
-    scope.where('name ILIKE ?', "%#{value}%")
+  option(:ids, type: [ Int ], description: "Filter by internal CIViC ids") do |scope, value|
+    scope.where(id: value)
   end
 
-  option(:gene_names, type: String) do |scope, value|
-    scope.where("array_to_string(gene_names, '|') ILIKE ?", "%#{value}%")
+  option(:name, type: String) do |scope, value|
+    scope.where("name ILIKE ?", "%#{value}%")
+  end
+
+  option(:feature_names, type: String) do |scope, value|
+    scope.where("array_to_string(feature_names, '|') ILIKE ?", "%#{value}%")
   end
 
   option(:variant_names, type: String) do |scope, value|
@@ -36,4 +40,3 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
     end
   end
 end
-

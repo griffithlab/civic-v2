@@ -1,5 +1,5 @@
 class Mutations::SubmitAssertion< Mutations::MutationWithOrg
-  description 'Propose adding a new Assertion to the CIViC database.'
+  description "Propose adding a new Assertion to the CIViC database."
 
   argument :fields, Types::Revisions::AssertionFields, required: true,
     description: <<~DOC.strip
@@ -8,10 +8,10 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
 
   argument :comment, String, required: false,
     validates: { length: { minimum: 10 } },
-    description: 'Text describing any further context or details about your proposed Assertion. Will be attached as a comment.'
+    description: "Text describing any further context or details about your proposed Assertion. Will be attached as a comment."
 
   field :assertion, Types::Entities::AssertionType, null: false,
-    description: 'The newly created Assertion'
+    description: "The newly created Assertion"
 
 
   def ready?(organization_id: nil, fields:, **kwargs)
@@ -22,7 +22,7 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
       .check_input_for_errors(assertion_input_object: fields)
 
     if input_errors.any?
-      raise GraphQL::ExecutionError, input_errors.join('|')
+      raise GraphQL::ExecutionError, input_errors.join("|")
     end
 
     return true
@@ -37,11 +37,11 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
     assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
 
 
-    cmd = Actions::SubmitAssertion.new(
+    cmd = Activities::SubmitAssertion.new(
       assertion: assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 
@@ -50,12 +50,7 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
         assertion: assertion,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end
-
-
-
-
-

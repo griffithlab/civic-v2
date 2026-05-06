@@ -1,0 +1,5 @@
+new_suggestion:
+  source: pubmed_source
+  user: curator
+  initial_comment: "This source is relevant to the molecular profile."
+  status: new

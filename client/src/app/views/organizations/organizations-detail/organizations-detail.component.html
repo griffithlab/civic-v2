@@ -3,17 +3,167 @@
   </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
-
-    <!-- content -->
     <nz-page-header-content>
-      <div class="detail-content">
-        <cvc-organization-card [organization]="organization"
-          [inCard]="false"></cvc-organization-card>
-      </div>
-      <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"></cvc-tab-navigation>
-      <div class="content">
-        <router-outlet></router-outlet>
-      </div>
+      <nz-row
+        [nzGutter]="[8, 8]"
+        class="profile-content">
+        <!-- avatar column -->
+        <nz-col nzFlex="0 1 128px">
+          <nz-space
+            nzDirection="vertical"
+            style="width: 100%">
+            <cvc-organization-avatar
+              [organization]="organization"
+              [size]="128"
+              shape="square"
+              *nzSpaceItem></cvc-organization-avatar>
+
+            <div
+              class="org-pseudo-tag"
+              *nzSpaceItem>
+              <i
+                nz-icon
+                nzType="civic-organization"
+                nzTheme="twotone"
+                [nzTwotoneColor]="'Organization' | entityColor"></i>
+              <span nz-typography>
+                <strong> {{ organization.name }}</strong>
+              </span>
+            </div>
+            <ng-container *ngIf="organization.url">
+              <a
+                *nzSpaceItem
+                [href]="organization.url"
+                target="_blank"
+                nz-button
+                nzBlock
+                nzType="link">
+                <span
+                  nz-icon
+                  nzType="link"></span>
+                Visit Website
+              </a>
+            </ng-container>
+          </nz-space>
+        </nz-col>
+
+        <!-- bio, organizations, COI column -->
+        <nz-col nzFlex="1 1 400px">
+          <nz-space
+            nzDirection="vertical"
+            style="width: 100%">
+            <nz-descriptions
+              nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="4"
+              *nzSpaceItem>
+              <nz-descriptions-item
+                [nzTitle]="'About ' + organization.name"
+                nzSpan="4">
+                <ng-container
+                  *ngIf="organization.description; else noDescription">
+                  {{ organization.description }}
+                </ng-container>
+                <ng-template #noDescription>
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>No description provided.</i>
+                  </span>
+                </ng-template>
+              </nz-descriptions-item>
+
+              <nz-descriptions-item
+                [nzSpan]="4"
+                [nzTitle]="
+                  'Child Organization' +
+                  (organization.subGroups.length !== 1 ? 's' : '')
+                ">
+                <cvc-tag-list
+                  *ngIf="organization.subGroups.length > 0; else noSubGroups">
+                  <ng-container *ngFor="let suborg of organization.subGroups">
+                    <cvc-organization-tag [org]="suborg"></cvc-organization-tag>
+                  </ng-container>
+                </cvc-tag-list>
+                <ng-template #noSubGroups>
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>
+                      This organization does not include any child
+                      organizations.
+                    </i>
+                  </span>
+                </ng-template>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space>
+        </nz-col>
+
+        <!-- stats column -->
+        <nz-col nzFlex="0 1 150px">
+          <nz-descriptions
+            nzSize="small"
+            nzLayout="vertical"
+            nzBordered="true">
+            <nz-descriptions-item [nzTitle]="activitiesTitle">
+              <cvc-stats-card
+                [cvcStats]="organization.orgStatsHash"
+                [cvcSubGroupStats]="organization.orgAndSuborgsStatsHash"
+                [cvcRanks]="organization.ranks"></cvc-stats-card>
+            </nz-descriptions-item>
+            <ng-template #activitiesTitle>
+              <div
+                style="white-space: nowrap"
+                nz-popover
+                nzPopoverTitle="How Activity Rankings are Calculated"
+                [nzPopoverContent]="rankingCalculations"
+                nzPopoverPlacement="leftTop">
+                Ranked Activities
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i
+                    nz-icon
+                    nzType="info-circle"
+                    nzTheme="outline"></i>
+                </span>
+              </div>
+
+              <ng-template #rankingCalculations>
+                <div class="calculation-info">
+                  <p>
+                    <strong>Comments:</strong> Total number of Comments posted
+                    by the Curator.
+                  </p>
+                  <p>
+                    <strong>Revisions:</strong> Total number of Revisions
+                    suggested by the Curator.
+                  </p>
+                  <p>
+                    <strong>Submissions:</strong> Total number of Evidence Items
+                    and Assertions submitted by the Curator.
+                  </p>
+                  <p>
+                    <strong>Moderations:</strong> Total number of editorial
+                    actions made by the Curator. This includes accepting and
+                    rejecting Revisions, Evidence, and Assertions.
+                  </p>
+                </div>
+              </ng-template>
+            </ng-template>
+          </nz-descriptions>
+        </nz-col>
+      </nz-row>
+      <nz-row style="margin-top: 16px">
+        <nz-col nzSpan="24">
+          <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
+          <div class="content">
+            <router-outlet></router-outlet>
+          </div>
+        </nz-col>
+      </nz-row>
     </nz-page-header-content>
   </nz-page-header>
 </ng-container>

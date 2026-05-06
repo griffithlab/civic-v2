@@ -2,40 +2,34 @@ class Actions::AcceptRevisions
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :revisions, :accepting_user, :organization_id, :subject, :superseded_revisions, :comment
+  attr_reader :revisions, :accepting_user, :organization_id, :subject, :superseded_revisions
 
-  def initialize(revisions:, accepting_user:, organization_id: nil, comment: nil)
+  def initialize(revisions:, accepting_user:, organization_id: nil)
     @revisions = revisions
     @accepting_user = accepting_user
     @organization_id = organization_id
     @subject = revisions.first.subject
-    @comment = comment
   end
 
   def execute
-    revisions.each{|r| r.lock!}
+    revisions.each { |r| r.lock! }
     subject.lock!
 
-    revisions.each do |revision|
-      subject.send("#{revision.field_name}=", revision.suggested_value)
+    receiver = if subject.is_a?(Feature)
+                 subject.feature_instance
+    else
+                 subject
     end
-    subject.save!
+    revisions.each do |revision|
+      receiver.send("#{revision.field_name}=", revision.suggested_value)
+    end
+    receiver.save!
 
     revisions.each do |revision|
-      revision.status = 'accepted'
+      revision.status = "accepted"
       revision.save!
       supersede_conflicting_revisions(revision)
       create_event(revision)
-      unless comment.nil?
-        cmd = Actions::AddComment.new(
-          title: "",
-          body: comment,
-          commenter: accepting_user,
-          commentable: revision,
-          organization_id: organization_id
-        )
-        cmd.perform
-      end
     end
 
     subject.on_revision_accepted
@@ -45,13 +39,13 @@ class Actions::AcceptRevisions
     @superseded_revisions = Revision.where(
       subject: revision.subject,
       field_name: revision.field_name,
-      status: 'new'
+      status: "new"
     )
     superseded_revisions.each do |sc|
-      sc.status = 'superseded'
+      sc.status = "superseded"
       sc.save!
-      Event.create!(
-        action: 'revision superseded',
+      events << Event.new(
+        action: "revision superseded",
         originating_user: accepting_user,
         subject: subject,
         originating_object: sc,
@@ -61,8 +55,8 @@ class Actions::AcceptRevisions
   end
 
   def create_event(revision)
-    Event.create!(
-      action: 'revision accepted',
+    events << Event.new(
+      action: "revision accepted",
       originating_user: accepting_user,
       subject: subject,
       originating_object: revision,

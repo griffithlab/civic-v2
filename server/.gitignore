@@ -47,3 +47,5 @@ yarn-debug.log*
 /config/credentials/staging.key
 
 /config/credentials/test.key
+
+.DS_Store

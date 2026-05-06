@@ -1,0 +1,28 @@
+@import 'themes/overrides/card-table.overrides.less';
+
+tr.data-row td:first-of-type {
+  padding-left: 6px;
+  cvc-entity-tag {
+    margin-left: 6px;
+  }
+}
+// FIXME: overflow also needs to include a overflow count and popover with omitted items,
+// this is just a temporary visual fix to prevent content overlapping the adjacent cell
+td.default-col-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ant-table-filter-dropdown {
+  padding: 8px;
+}
+.prefs-popover {
+  ::ng-deep nz-checkbox-group:first-of-type {
+    label {
+      display: block;
+      span {
+        display: inline-block;
+      }
+    }
+  }
+}

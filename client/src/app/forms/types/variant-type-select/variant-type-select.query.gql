@@ -1,0 +1,18 @@
+query VariantTypeSelectTypeahead($name: String!) {
+  variantTypeTypeahead(queryTerm: $name) {
+    ...VariantTypeSelectTypeaheadFields
+  }
+}
+
+query VariantTypeSelectTag($id: Int!) {
+  variantType(id: $id) {
+    ...VariantTypeSelectTypeaheadFields
+  }
+}
+
+fragment VariantTypeSelectTypeaheadFields on VariantType {
+  id
+  name
+  link
+  soid
+}

@@ -4,7 +4,18 @@ Trestle.resource(:variants) do
   end
 
   search do |q|
-    q ? collection.where("variants.name ILIKE ?", "#{q}%").or(collection.where("variant_aliases.name ILIKE ?", "#{q}%")) : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("variants.name ILIKE ? OR variants.id = ?", "#{q}%", query_id)
+          .or(collection.where("variant_aliases.name ILIKE ?", "#{q}%"))
+      else
+        collection.where("variants.name ILIKE ?", "#{q}%")
+          .or(collection.where("variant_aliases.name ILIKE ?", "#{q}%"))
+      end
+    else
+      collection
+    end
   end
 
   remove_action :destroy
@@ -14,19 +25,18 @@ Trestle.resource(:variants) do
   end
 
   scope :all
-  scope :with_evidence, -> { Variant.joins(:evidence_items).distinct }, default: true
   scope :flagged, -> { Variant.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
   table do
     column :id
     column :name
-    column :gene
+    column :feature
     column :variant_aliases do |variant|
-      variant.variant_aliases.map {|a| a.name }.join(', ')
+      variant.variant_aliases.map { |a| a.name }.join(", ")
     end
     column :variant_types do |variant|
-      variant.variant_types.map{|t| status_tag(t.name) }
+      variant.variant_types.map { |t| status_tag(t.name) }
     end
     column :flagged
   end
@@ -38,15 +48,8 @@ Trestle.resource(:variants) do
         col(sm: 1) { static_field :id }
         col(sm: 1) { static_field :name }
         col(sm: 1) do
-          static_field :gene do
-            link_to variant.gene.name, GenesAdmin.instance_path(variant.gene)
-          end
-        end
-        if variant.secondary_gene.present?
-          col(sm: 1) do
-            static_field :secondary_gene do
-              link_to variant.secondary_gene.name, GenesAdmin.instance_path(variant.secondary_gene)
-            end
+          static_field :variant do
+            link_to variant.feature.name, FeaturesAdmin.instance_path(variant.feature)
           end
         end
         if variant.flagged
@@ -58,26 +61,23 @@ Trestle.resource(:variants) do
         end
       end
 
-      text_area :description
-
       select :variant_alias_ids, VariantAlias.order(:name), { label: "Variant Aliases" }, multiple: true
 
-      select :source_ids, Source.order(:description), { label: "Sources" }, multiple: true
 
       row do
         col(sm: 4) { text_field :allele_registry_id }
         col(sm: 8) do
-          select :clinvar_entry_ids, ClinvarEntry.order(:clinvar_id), { label: 'ClinVar IDs' }, multiple: true
+          select :clinvar_entry_ids, ClinvarEntry.order(:clinvar_id), { label: "ClinVar IDs" }, multiple: true
         end
       end
 
       select :variant_type_ids, VariantType.order(:name), { label: "Variant Types" }, multiple: true
 
-      select :hgvs_expression_ids, HgvsExpression.order(:expression), { label: "HGVS Descriptions" }, multiple: true
+      select :hgvs_description_ids, HgvsDescription.order(:description), { label: "HGVS Descriptions" }, multiple: true
 
       row do
         col(sm: 6) do
-          references = Variant.reference_builds.keys.map { |b| [b, b] }
+          references = Variant.reference_builds.keys.map { |b| [ b, b ] }
           select :reference_build, references
         end
         col(sm: 6) { text_field :ensembl_version }
@@ -93,7 +93,6 @@ Trestle.resource(:variants) do
         col(sm: 4) { text_field :representative_transcript2 }
         col(sm: 2) { text_field :start2 }
         col(sm: 2) { text_field :stop2 }
-
       end
 
       divider
@@ -117,7 +116,7 @@ Trestle.resource(:variants) do
       end
     end
 
-    tab :flags, badge: variant.flags.where(state: 'open').exists? do
+    tab :flags, badge: variant.flags.where(state: "open").exists? do
       table variant.flags do
         column :id do |flag|
           link_to flag.id, FlagsAdmin.instance_path(flag)
@@ -132,7 +131,7 @@ Trestle.resource(:variants) do
       end
     end
 
-    tab :revisions, badge: variant.revisions.where(status: 'new').exists? do
+    tab :revisions, badge: variant.revisions.where(status: "new").exists? do
       table variant.revisions do
         column :id do |revision|
           link_to revision.id, RevisionsAdmin.instance_path(revision)
@@ -140,7 +139,7 @@ Trestle.resource(:variants) do
         column :field_name
         column :current_value
         column :suggested_value
-        column :revisionset_id
+        column :revision_set_id
         column :status
         column :revisor do |revision|
           revision.revisor.username

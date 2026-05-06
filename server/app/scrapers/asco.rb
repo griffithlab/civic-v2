@@ -1,5 +1,5 @@
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 class Asco
   def self.run
@@ -35,14 +35,14 @@ class Asco
     if not query_resp.citations.any?
       query_resp = call_asco_query_stage_api_by_asco_id(source.citation_id)
     end
-    source.description = get_citation_from_asco_id(source.citation_id)
+    source.citation = get_citation_from_asco_id(source.citation_id)
     source.asco_presenter = record_resp.presenter
     source.asco_abstract_id = record_resp.asco_abstract_id
     source.publication_year = query_resp.publication_year
     source.journal = record_resp.journal
     source.name = record_resp.article_title
     source.abstract = record_resp.abstract
-    source.full_journal_title = 'Journal of Clinical Oncology'
+    source.full_journal_title = "Journal of Clinical Oncology"
     nct_id = record_resp.nct_id
     if not nct_id.empty?
       source.clinical_trials << ::ClinicalTrial.where(nct_id: nct_id).first_or_create

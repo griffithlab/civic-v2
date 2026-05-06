@@ -15,15 +15,6 @@ fragment VariantGroupSummaryFields on VariantGroup {
     sourceUrl
     displayType
     sourceType
-  }
-  variants {
-    edges {
-      node {
-        id
-        name
-        link
-        description
-      }
-    }
+    deprecated
   }
 }

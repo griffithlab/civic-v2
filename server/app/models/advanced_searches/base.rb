@@ -16,18 +16,20 @@ module AdvancedSearches
 
       validate_node(node, supplied_search_fields)
 
-      operator = node.boolean_operator&.downcase&.to_sym
+      # default to AND when multiple conditions are provided
+      # this matches the behavior of other filters in GQL
+      operator = node.boolean_operator&.downcase&.to_sym || :and
 
       if supplied_search_fields.any?
         base_query = supplied_search_fields.first
 
         q = if supplied_search_fields.size == 1
               base_query
-            else
+        else
               supplied_search_fields[1..-1].inject(base_query) do |q, f|
                 q.send(operator, f)
               end
-            end
+        end
 
         if node.sub_filters
           node.sub_filters.inject(q) do |q, f|
@@ -49,22 +51,17 @@ module AdvancedSearches
     end
 
     def validate_node(node, fields)
-
       if fields.empty? && node.sub_filters.nil?
-        raise StandardError.new('Node has no filters.')
+        raise StandardError.new("Node has no filters.")
       end
 
       if fields.size == 1 && node.sub_filters.nil?
         return true
       end
-
-      if node.boolean_operator.nil?
-        raise StandardError.new('Must supply a boolean operator.')
-      end
     end
 
     def resolve_search_fields
-      raise StandardError.new('Must implement in child class.')
+      raise StandardError.new("Must implement in child class.")
     end
   end
 end

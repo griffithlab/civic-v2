@@ -1,15 +1,23 @@
 <ng-container *ngIf="assertion$ | async as assertion">
-  <cvc-section-navigation [displayName]="assertion.name"
-    [relationsTpl]="assertionRelations"> </cvc-section-navigation>
+  <cvc-section-navigation
+    [displayName]="assertion.name"
+    [relationsTpl]="assertionRelations">
+  </cvc-section-navigation>
   <ng-template #assertionRelations>
     <nz-space nzDirection="horizontal">
       <!-- parent relations -->
-      <span nz-typography
+      <span
+        nz-typography
         class="label"
-        *nzSpaceItem><strong>{{ assertion.name }}</strong> Parents:</span>
-      <span *nzSpaceItem
+        *nzSpaceItem
+        ><strong>{{ assertion.name }}</strong> Parents:</span
+      >
+      <span
+        *nzSpaceItem
         class="tags">
-        <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
+        <cvc-molecular-profile-tag
+          [molecularProfile]="assertion.molecularProfile"
+          [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
     </nz-space>
   </ng-template>
@@ -17,10 +25,12 @@
     <!-- title -->
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Assertion' | entityColor"
-        nzType="civic-assertion"></i> {{ assertion.name }}
+        nzType="civic-assertion"></i>
+      {{ assertion.name }}
     </nz-page-header-title>
     <nz-page-header-content>
       <div class="content">
@@ -28,9 +38,11 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24"
+          <nz-row
+            nzSpan="24"
             nzJustify="center">
-            <div nz-col
+            <div
+              nz-col
               nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>

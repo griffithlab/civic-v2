@@ -1,11 +1,18 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
-import { Maybe } from '@app/generated/civic.apollo';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkablePhenotype {
-  id: number,
-  name: string,
-  link: string,
+  id: number
+  name: string
+  link: string
 }
 
 @Component({
@@ -13,20 +20,25 @@ export interface LinkablePhenotype {
   templateUrl: './phenotype-tag.component.html',
   styleUrls: ['./phenotype-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcPhenotypeTagComponent extends BaseCloseableTag {
-  _phenotype!: LinkablePhenotype
-  @Input()
-  set phenotype(ph: LinkablePhenotype) {
-    if(!ph) throw new Error('phenotype-tag phentype input requires LinkablePhenotype.');
-    this._phenotype = ph;
+export class CvcPhenotypeTagComponent {
+  @Input() phenotype!: LinkablePhenotype
+  @Input() enablePopover?: boolean = true
+  @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
+
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
   }
-  get phenotype(): LinkablePhenotype { return this._phenotype }
 
-  @Input() enablePopover: Maybe<boolean> = true
-
-  idFunction(): number {
-    return this.phenotype.id;
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    }
   }
-
 }

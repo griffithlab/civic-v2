@@ -1,17 +1,16 @@
-
 query OrganizationMembers(
-  $organizationId: Int!
+  $organizationId: [Int!]
   $first: Int
   $last: Int
   $before: String
   $after: String
 ) {
-  users(
-    organization: {id: $organizationId}
-      first: $first
-      last: $last
-      before: $before
-      after: $after
+  browseUsers(
+    organization: { ids: $organizationId }
+    first: $first
+    last: $last
+    before: $before
+    after: $after
   ) {
     pageInfo {
       hasNextPage
@@ -28,12 +27,12 @@ query OrganizationMembers(
   }
 }
 
-fragment OrganizationMembersFields on User {
+fragment OrganizationMembersFields on BrowseUser {
   id
   name
   displayName
   username
-  profileImagePath(size:32)
+  profileImagePath(size: 64)
   role
   url
   areaOfExpertise
@@ -44,5 +43,6 @@ fragment OrganizationMembersFields on User {
   organizations {
     id
     name
+    url
   }
-} 
+}

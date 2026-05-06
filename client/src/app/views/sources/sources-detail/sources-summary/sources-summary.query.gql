@@ -1,9 +1,6 @@
-
-query SourceSummary(
-  $sourceId: Int!
-) {
+query SourceSummary($sourceId: Int!) {
   source(id: $sourceId) {
-      ...SourceSummaryFields
+    ...SourceSummaryFields
   }
 }
 
@@ -19,9 +16,15 @@ fragment SourceSummaryFields on Source {
   fullJournalTitle
   pmcId
   authorString
+  ascoAbstractId
   clinicalTrials {
     nctId
     id
     link
   }
+  retracted
+  retractionNature
+  retractionDate
+  retractionReasons
+  deprecated
 }

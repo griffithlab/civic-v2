@@ -2,7 +2,7 @@ module Types::Interfaces
   module Flaggable
     include Types::BaseInterface
 
-    description 'A CIViC entity that can be flagged for editor attention.'
+    description "A CIViC entity that can be flagged for editor attention."
 
     field :id, Int, null: false
     field :name, String, null: false
@@ -14,10 +14,14 @@ module Types::Interfaces
     definition_methods do
       def resolve_type(object, context)
         case object
-        when Gene
-          Types::Entities::GeneType
-        when Variant
-          Types::Entities::VariantType
+        when Feature
+          Types::Entities::FeatureType
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
+        when Variants::FusionVariant
+          Types::Variants::FusionVariantType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion

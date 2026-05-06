@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'cvc-curation-view',
-  templateUrl: './curation.view.html',
-  styleUrls: ['./curation.view.less']
+    selector: 'cvc-curation-view',
+    templateUrl: './curation.view.html',
+    standalone: false
 })
 export class CurationView implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

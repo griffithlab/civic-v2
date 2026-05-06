@@ -11,12 +11,14 @@ class MyGeneInfo
 
   private
   def self.make_request(gene_id)
-    entrez_id = Gene.find_by!(id: gene_id).entrez_id
+    entrez_id = Features::Gene.find_by!(id: gene_id).entrez_id
     ScrapingUtils.make_get_request(my_gene_info_url(entrez_id))
+  rescue StandardError
+    ""
   end
 
   def self.my_gene_info_url(entrez_id)
-    "http://mygene.info/v2/gene/#{entrez_id}?fields=name,symbol,alias,interpro,pathway,summary,genomic_pos_hg19,uniprot"
+    "https://mygene.info/v3/gene/#{entrez_id}?fields=name,symbol,alias,interpro,pathway,summary,genomic_pos_hg19,uniprot"
   end
 
   def self.cache_key(gene_id)

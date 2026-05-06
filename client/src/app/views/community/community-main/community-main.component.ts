@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'cvc-community-main',
   templateUrl: './community-main.component.html',
-  styleUrls: ['./community-main.component.less']
+  styleUrls: ['./community-main.component.less'],
 })
 export class CommunityMainComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

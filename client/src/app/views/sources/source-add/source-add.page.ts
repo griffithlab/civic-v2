@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'cvc-source-add-page',
-  templateUrl: './source-add.page.html',
-  styleUrls: ['./source-add.page.less']
+    selector: 'cvc-source-add-page',
+    templateUrl: './source-add.page.html',
+    styleUrls: ['./source-add.page.less'],
+    standalone: false
 })
 export class SourceAddPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

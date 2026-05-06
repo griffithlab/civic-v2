@@ -1,0 +1,155 @@
+  <div class="help-content">
+    <ng-container [ngSwitch]="cvcErrorType">
+      <!-- INCOMPLETE EXPRESSION -->
+      <ng-container *ngSwitchCase="'incompleteExpression'">
+        <p>
+          The expression contains open parentheses. Please ensure that all
+          parenthetical expressions are closed.
+        </p>
+      </ng-container>
+
+      <!-- INCOMPLETE 'NOT' -->
+      <ng-container *ngSwitchCase="'incompleteNOT'">
+        <p>
+          Complete the expression by appending a <strong>#VID</strong> token to
+          the incomplete boolean expression.
+        </p>
+      </ng-container>
+
+      <!-- INITIAL BOOLEAN -->
+      <ng-container *ngSwitchCase="'initialBoolean'">
+        <p>
+          MP Expressions may not begin with an <strong>AND</strong> or
+          <strong>OR</strong> boolean. Ensure the expression begins with a
+          <strong>#VID</strong> or <strong>NOT #VID</strong> token.
+        </p>
+      </ng-container>
+
+      <!-- INVALID TOKEN -->
+      <ng-container *ngSwitchCase="'invalidToken'">
+        <p>
+          Molecular Profile expressions use a simple domain-specific language to
+          specify complex MPs using boolean expressions to combine variants. These
+          expressions may contain:
+        </p>
+        <ul>
+          <li>
+            Variant Tokens - <strong>#VID</strong> or
+            <strong>NOT #VID</strong>followed by a valid Variant ID, e.g.
+            "#VID123"
+          </li>
+          <li>Boolean Tokens - <strong>AND</strong>, <strong>OR</strong></li>
+          <li>
+            Parentheses - <strong>(</strong> or <strong>)</strong>, for grouping
+            tokens into nested expressions
+          </li>
+        </ul>
+        <p>
+          <strong>Invalid Token</strong> errors occur if the parser encounters any
+          text or token that does not match those listed above.
+        </p>
+      </ng-container>
+
+      <!-- MULTIPLE BOOLEAN -->
+      <ng-container *ngSwitchCase="'multipleBoolean'">
+        <p>
+          A single expression may not include more than one
+          <strong>AND</strong> or <strong>OR</strong> boolean operator. To
+          construct complex expressions, use parentheses.
+        </p>
+        <p>
+          For example, the expression
+          <strong>#VID12 AND #VID2220 OR #VID456</strong> is invalid, but the
+          expression <strong>#VID12 AND (#VID2220 OR #VID456)</strong> is valid.
+          The parentheses create a nested expression independent of the outer
+          expression.
+        </p>
+      </ng-container>
+
+      <!-- TRAILING BOOLEAN -->
+      <ng-container *ngSwitchCase="'trailingBoolean'">
+        <p>
+          Complete the expression by appending a <strong>#VID</strong> token to
+          the incomplete boolean expression.
+        </p>
+      </ng-container>
+
+      <!-- UNKNOWN VARIANT ERROR -->
+      <ng-container *ngSwitchCase="'unknownVariant'">
+        <p>
+          The expression contains a Variant ID that cannot be matched to any
+          Variant in the CIViC database. Please re-check the Variant ID, or create
+          a new one by following these steps:
+        </p>
+        <ol>
+          <li>click the 'Variant' button,</li>
+          <li>enter a Gene name, then select a Gene</li>
+          <li>enter the Variant name</li>
+          <li>
+            click the 'Create Variant' button that will appear if name does not
+            match any CIViC Variants
+          </li>
+        </ol>
+      </ng-container>
+
+      <!-- UNKNOWN VARIANT ERROR -->
+      <ng-container *ngSwitchCase="'identicalVariants'">
+        <p>
+          An expression may not contain multiple instances of the same Variant.
+          Either remove the variant or change the expression. For example,
+          <strong>(#VID123 AND #VID456) OR (#VID123 AND #VID789)</strong>, which
+          is invalid, is logically identical to the valid MP expression
+          <strong>#VID123 AND (#VID456 OR #VID789)</strong>.
+        </p>
+      </ng-container>
+
+      <!-- GETTING STARTED -->
+      <ng-container *ngSwitchDefault>
+        <p>
+          The Molecular Profile editor allows the selection or creation of complex
+          Molecular Profiles by writing Molecular Profile Expressions. These
+          expressions are composed with a simple language consisting of Variant
+          tokens, boolean operators, and parentheses. For example:
+        </p>
+
+        <blockquote>
+          <strong>#VID12 AND #VID2220</strong><br />
+          <strong>#VID12 OR #VID2220</strong><br />
+          <strong>#VID12 AND NOT #VID2220</strong><br />
+          <strong>#VID12 AND #VID2220 AND (#VID456 OR #VID123)</strong><br />
+          <strong>#VID12 OR #VID2220 OR (NOT #VID456 AND #VID123)</strong><br />
+        </blockquote>
+
+        <p>
+          <strong>Variant Tokens</strong><br />
+          Variant tokens are composed of a CIViC Variant ID prepended with
+          <strong>#VID</strong>, and refer to specific CIViC Variants. For
+          example, <strong>#VID12</strong> refers to <strong>BRAF V600E</strong>;
+          <strong>#VID2220</strong> refers to <strong>ALK FUSION</strong>. If you
+          don’t know the CIViC ID of a Variant, you can search for Variants by
+          name using the ‘Variant’ or ‘NOT Variant’ buttons below. These
+          interfaces can also be used to add a Variant that’s not yet in CIViC.
+        </p>
+        <p>
+          <strong>Boolean Operators</strong><br />
+          MP Expressions with more than a single variant must include boolean
+          operators - <strong>AND</strong>, <strong>OR</strong>, and
+          <strong>NOT</strong> - indicating their relationship. For example, the
+          expression <strong>#VID12 AND #VID2220</strong> describes a MP that
+          includes both <strong>BRAF V600E</strong> and
+          <strong>ALK FUSION</strong>.
+        </p>
+        <p>
+          <strong>Parentheses</strong><br />
+          Expressions cannot have both <strong>AND</strong> and
+          <strong>OR</strong> operators within the same expression. To construct
+          complex MPs that require multiple operators, one must use parentheses to
+          create embedded expressions.
+        </p>
+        <p>
+          <strong>NOTE:</strong> Be sure to read the help text provided along with
+          every alert message by hovering over 'Syntax Assistance'.
+        </p>
+      </ng-container>
+    </ng-container>
+  </div>

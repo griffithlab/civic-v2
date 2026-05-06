@@ -1,0 +1,11 @@
+query HomepageNewsItems {
+  newsItems {
+    ... newsItem
+  }
+}
+
+fragment newsItem on NewsItem {
+    publishedAt
+    contentHtml
+    title
+}

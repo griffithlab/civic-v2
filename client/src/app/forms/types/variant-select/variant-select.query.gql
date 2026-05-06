@@ -1,0 +1,40 @@
+query VariantSelectTypeahead($name: String!, $featureId: Int) {
+  variantsTypeahead(queryTerm: $name, featureId: $featureId) {
+    ...VariantSelectTypeaheadFields
+  }
+}
+
+query VariantSelectTag($variantId: Int!) {
+  variant(id: $variantId) {
+    ... on Variant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on GeneVariant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on FactorVariant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on FusionVariant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on RegionVariant {
+      ...VariantSelectTypeaheadFields
+    }
+  }
+}
+
+fragment VariantSelectTypeaheadFields on VariantInterface {
+  id
+  name
+  link
+  deprecated
+  variantAliases
+  singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+    molecularProfileAliases
+  }
+}

@@ -4,23 +4,50 @@ query CommentPopover($commentId: Int!) {
   }
 }
 
-
 fragment commentPopover on Comment {
   id
   name
   createdAt
   title
   comment
+  deleted
+  deletedAt
   commenter {
     id
     displayName
     role
-    profileImagePath(size: 32)
   }
   commentable {
     id
     name
     link
+    ... on Variant {
+      deprecated
+      feature {
+        id
+        name
+        link
+        deprecated
+        flagged
+      }
+      flagged
+    }
+    ... on Feature {
+      deprecated
+      flagged
+    }
+    ... on Source {
+      deprecated
+      sourceType
+    }
+    ... on Assertion {
+      flagged
+      status
+    }
+    ... on EvidenceItem {
+      flagged
+      status
+    }
     __typename
   }
 }

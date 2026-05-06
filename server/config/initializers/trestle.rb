@@ -1,5 +1,4 @@
 Trestle.configure do |config|
-
   # == Customization Options
   #
   # Set the page title shown in the main header within the admin.
@@ -16,7 +15,7 @@ Trestle.configure do |config|
   #
   # config.site_logo_small = "logo-small.png"
 
-  # Speficy a favicon to be used within the admin.
+  # Specify a favicon to be used within the admin.
   #
   # config.favicon = "favicon.ico"
 
@@ -77,31 +76,32 @@ Trestle.configure do |config|
   config.before_action do |controller|
     current_user = User.find_by(id: session[:user_id])
     unless current_user && Role.user_is_at_least_a?(current_user, :admin)
-      redirect_to '/'
+      redirect_to "/"
     end
-    ActiveStorage::Current.host = request.base_url
   end
-  #
-  # config.after_action do |controller|
-  #   Rails.logger.debug("After action")
-  # end
-  #
-  # config.around_action do |controller, block|
-  #   Rails.logger.debug("Around action (before)")
-  #   block.call
-  #   Rails.logger.debug("Around action (after)")
-  # end
+   #
+   # config.after_action do |controller|
+   #   Rails.logger.debug("After action")
+   # end
+   #
+   # config.around_action do |controller, block|
+   #   Rails.logger.debug("Around action (before)")
+   #   block.call
+   #   Rails.logger.debug("Around action (after)")
+   # end
 
-  # Specify a custom hook to be injected into the admin.
-  #
-  # config.hook(:stylesheets) do
-  #   stylesheet_link_tag "custom"
-  # end
-  #
+   # Specify a custom hook to be injected into the admin.
+   #
+   config.hook(:stylesheets) do
+     stylesheet_link_tag "actiontext"
+   end
 
-  #config.hook(:javascripts) do
-  #  javascript_include_tag("trestle/custom.js")
-  #end
+   config.hook(:javascripts) do
+     safe_join([
+       javascript_include_tag("trix", "data-turbo-track": "reload"),
+       javascript_include_tag("actiontext", "data-turbo-track": "reload"),
+     ], "\n")
+   end
 
   # Toggle whether Turbolinks is enabled within the admin.
   # Defaults to true if Turbolinks is available.

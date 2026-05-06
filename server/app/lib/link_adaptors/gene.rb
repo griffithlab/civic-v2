@@ -5,7 +5,7 @@ module LinkAdaptors
     end
 
     def base_path
-      "/genes/#{obj.id}"
+      "/features/#{obj.feature.id}"
     end
   end
 end

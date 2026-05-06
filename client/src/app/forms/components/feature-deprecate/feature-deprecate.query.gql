@@ -1,0 +1,32 @@
+mutation DeprecateFeature(
+  $featureId: Int!
+  $deprecationReason: FeatureDeprecationReason!
+  $comment: String!
+  $organizationId: Int
+) {
+  deprecateFeature(
+    input: {
+      featureId: $featureId
+      deprecationReason: $deprecationReason
+      comment: $comment
+      organizationId: $organizationId
+    }
+  ) {
+    feature {
+      id
+      name
+    }
+  }
+}
+
+query VariantsForFeature($featureId: Int!) {
+  variants(featureId: $featureId, first: 50) {
+    nodes {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
+  }
+}

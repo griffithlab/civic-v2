@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'cvc-pages-help',
-  templateUrl: './pages-help.page.html',
-  styleUrls: ['./pages-help.page.less']
+    selector: 'cvc-pages-help',
+    templateUrl: './pages-help.page.html',
+    styleUrls: ['./pages-help.page.less'],
+    standalone: false
 })
 export class PagesHelpPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -1,0 +1,42 @@
+<!-- by default, display tag content within its own nz-tag -->
+<span
+  *ngIf="cvcContext === 'default'"
+  class="default">
+   <nz-tag
+    [nzMode]="cvcMode"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
+
+<!-- if select-item context, tag is being displayed in a non-multi nz-select,
+so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
+<span
+  *ngIf="cvcContext === 'select-item'"
+  class="select-item">
+  <nz-tag
+    [nzMode]="'closeable'"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
+
+<!-- in multi-select item form context, tag is being displayed in a multi-mode nz-select,
+so only display the tag contents as it will be wrapped in nz-select's pseudo-tag styles & close btn -->
+<span
+  *ngIf="cvcContext === 'multi-select-item'"
+  class="multi-select-item">
+  <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+</span>
+
+<ng-template #tagContent>
+  <i
+    *ngIf="!cvcLabel"
+    nz-icon
+    nzType="question-circle"
+    nzTheme="outline"></i>
+  <span
+    [innerHtml]="
+      cvcLabel ? (cvcLabel | highlightTypeahead: cvcEmphasize) : '?STRING?'
+    "></span>
+</ng-template>

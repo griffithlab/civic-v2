@@ -1,10 +1,22 @@
 Trestle.resource(:assertions) do
   collection do
-    Assertion.eager_load(:gene, :variant, :flags).order(id: :asc)
+    Assertion.eager_load(:flags, molecular_profile: { variants: [ :feature ] }).order(id: :asc)
   end
 
   search do |q|
-    q ? collection.where("genes.name ILIKE ?", "#{q}%").or(collection.where("variants.name ILIKE ?", "#{q}%")) : collection
+    if q
+      query_id = q.to_i.to_s == q ? q.to_i : nil
+      if query_id
+        collection.where("assertions.id = ?", query_id)
+          .or(collection.where("features.name ILIKE ?", "#{q}%"))
+          .or(collection.where("variants.name ILIKE ?", "#{q}%"))
+      else
+        collection.where("features.name ILIKE ?", "#{q}%")
+          .or(collection.where("variants.name ILIKE ?", "#{q}%"))
+      end
+    else
+      collection
+    end
   end
 
   remove_action :destroy
@@ -15,19 +27,20 @@ Trestle.resource(:assertions) do
   end
 
   scope :all
-  scope :accepted, -> { Assertion.where(status: 'accepted') }, default: true
-  scope :submitted, -> { Assertion.where(status: 'submitted') }
-  scope :rejected, -> { Assertion.where(status: 'rejected') }
+  scope :accepted, -> { Assertion.where(status: "accepted") }, default: true
+  scope :submitted, -> { Assertion.where(status: "submitted") }
+  scope :rejected, -> { Assertion.where(status: "rejected") }
   scope :flagged, -> { Assertion.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
   table do
     column :id
-    column :gene
-    column :variant
+    column :molecular_profile do |assertion|
+      assertion.molecular_profile.display_name
+    end
     column :summary
-    column :evidence_type do |assertion|
-      status_tag(assertion.evidence_type)
+    column :assertion_type do |assertion|
+      status_tag(assertion.assertion_type)
     end
     column :status do |assertion|
       status_tag(assertion.status)
@@ -40,22 +53,13 @@ Trestle.resource(:assertions) do
     tab :assertion do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) do
-          static_field :gene do
-            link_to assertion.gene.name, GenesAdmin.instance_path(assertion.gene)
-          end
-        end
+        col(sm: 1) { status_tag assertion.molecular_profile.display_name }
         col(sm: 2) do
-          static_field :variant do
-            link_to assertion.variant.name, VariantsAdmin.instance_path(assertion.variant)
-          end
-        end
-        col(sm: 2) do
-          variant_origins = Assertion.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
+          variant_origins = Assertion.variant_origins.keys.map { |variant_origin| [ variant_origin, variant_origin ] }
           select :variant_origin, variant_origins
         end
         col(sm: 2) do
-          assertion_statuses = ["suggested", "accepted", "rejected", "deleted"]
+          assertion_statuses = [ "suggested", "accepted", "rejected", "deleted" ]
           select :status, assertion_statuses
         end
         if assertion.flagged
@@ -69,16 +73,16 @@ Trestle.resource(:assertions) do
 
       row do
         col(sm: 5) do
-          evidence_types = Assertion.evidence_types.keys.map { |evidence_type| [evidence_type, evidence_type] }
-          select :evidence_type, evidence_types
+          assertion_types = Assertion.assertion_types.keys.map { |assertion_type| [ assertion_type, assertion_type ] }
+          select :assertion_type, assertion_types
         end
         col(sm: 2) do
-          evidence_directions = Assertion.evidence_directions.keys.map { |evidence_direction| [evidence_direction, evidence_direction] }
-          select :evidence_direction, evidence_directions
+          directions = Assertion.assertion_directions.keys.map { |evidence_direction| [ evidence_direction, evidence_direction ] }
+          select :assertion_direction, directions
         end
         col(sm: 5) do
-          clinical_significances = Assertion.clinical_significances.keys.map { |clinical_significance| [clinical_significance, clinical_significance] }
-          select :clinical_significance, clinical_significances
+          significances = Assertion.significances.keys.map { |significance| [ significance, significance ] }
+          select :significance, significances
         end
       end
 
@@ -89,12 +93,12 @@ Trestle.resource(:assertions) do
 
       row do
         col(sm: 10) do
-          select :drug_ids, Drug.order(:name), { label: "Drugs" }, multiple: true
+          select :therapy_ids, Therapy.order(:name), { label: "Therapies" }, multiple: true
         end
         col(sm: 2) do
-          drug_interaction_types = Assertion.drug_interaction_types.keys.map { |interaction_type| [interaction_type, interaction_type] }
-          drug_interaction_types << ["None", nil]
-          select :drug_interaction_type, drug_interaction_types
+          therapy_interaction_types = Assertion.therapy_interaction_types.keys.map { |interaction_type| [ interaction_type, interaction_type ] }
+          therapy_interaction_types << [ "None", nil ]
+          select :therapy_interaction_type, therapy_interaction_types
         end
       end
 
@@ -112,7 +116,7 @@ Trestle.resource(:assertions) do
           select :acmg_code_ids, AcmgCode.order(:code), { label: "ACMG Codes" }, multiple: true
         end
         col(sm: 6) do
-          amp_levels = Assertion.amp_levels.keys.map { |amp_level| [amp_level, amp_level] }
+          amp_levels = Assertion.amp_levels.keys.map { |amp_level| [ amp_level, amp_level ] }
           select :amp_level, amp_levels
         end
       end
@@ -145,7 +149,7 @@ Trestle.resource(:assertions) do
       end
     end
 
-    tab :flags, badge: assertion.flags.where(state: 'open').exists? do
+    tab :flags, badge: assertion.flags.where(state: "open").exists? do
       table assertion.flags do
         column :id do |flag|
           link_to flag.id, FlagsAdmin.instance_path(flag)
@@ -160,7 +164,7 @@ Trestle.resource(:assertions) do
       end
     end
 
-    tab :revisions, badge: assertion.revisions.where(status: 'new').exists? do
+    tab :revisions, badge: assertion.revisions.where(status: "new").exists? do
       table assertion.revisions do
         column :id do |revision|
           link_to revision.id, RevisionsAdmin.instance_path(revision)
@@ -168,7 +172,7 @@ Trestle.resource(:assertions) do
         column :field_name
         column :current_value
         column :suggested_value
-        column :revisionset_id
+        column :revision_set_id
         column :status
         column :revisor do |revision|
           revision.revisor.username

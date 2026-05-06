@@ -1,11 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcCommentDisplayComponent } from './comment-display.component';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
-import { CvcCommentBodyModule } from '../comment-body/comment-body.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcCommentDisplayComponent } from './comment-display.component'
+import { NzCommentModule } from 'ng-zorro-antd/comment'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { CvcCommentBodyModule } from '../comment-body/comment-body.module'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm'
 
 @NgModule({
   declarations: [CvcCommentDisplayComponent],
@@ -13,9 +17,15 @@ import { CvcCommentBodyModule } from '../comment-body/comment-body.module';
     CommonModule,
     NzCommentModule,
     NzAvatarModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
-    CvcCommentBodyModule
+    NzTypographyModule,
+    NzIconModule,
+    NzToolTipModule,
+    NzPopconfirmModule,
+    PushPipe,
+    LetDirective,
+    CvcCommentBodyModule,
+    CvcPipesModule,
   ],
-  exports: [CvcCommentDisplayComponent]
+  exports: [CvcCommentDisplayComponent],
 })
-export class CvcCommentDisplayModule { }
+export class CvcCommentDisplayModule {}

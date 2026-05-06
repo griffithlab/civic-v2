@@ -1,32 +1,48 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  QueryList,
+  ViewChildren,
+} from '@angular/core'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableFlag {
-  id: number,
-  name: string,
-  link: string,
+  id: number
+  name: string
+  link: string
 }
 
 export interface Subject {
-  id: number,
+  id: number
   __typename: string
 }
 
 @Component({
   selector: 'cvc-flag-tag',
   templateUrl: './flag-tag.component.html',
-  styleUrls: ['./flag-tag.component.less']
+  standalone: false,
 })
-export class CvcFlagTagComponent implements OnInit {
+export class CvcFlagTagComponent implements AfterViewInit {
   @Input() flag!: LinkableFlag
   @Input() subject?: Subject
   @Input() enablePopover: Boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
 
-  constructor() { }
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
 
-  ngOnInit() {
-    if (this.flag === undefined) {
-      throw new Error('cvc-flag-tag requires LinkableFlag input, none supplied.')
+  constructor() {}
+
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
     }
   }
-
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    }
+  }
 }

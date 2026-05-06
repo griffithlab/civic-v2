@@ -4,23 +4,47 @@ query CoordinatesCard($variantId: Int!) {
   }
 }
 
-fragment CoordinatesCardFields on Variant {
+fragment CoordinatesCardFields on VariantInterface {
   id
   name
+  ... on GeneVariant {
+    coordinates {
+      ...CoordinateFields
+    }
+  }
+  ... on FusionVariant {
+    fivePrimeCoordinates {
+      ...CoordinateFields
+    }
+    threePrimeCoordinates {
+      ...CoordinateFields
+    }
+    fivePrimeStartExonCoordinates {
+      ...ExonCoordinateFields
+    }
+    fivePrimeEndExonCoordinates {
+      ...ExonCoordinateFields
+    }
+    threePrimeStartExonCoordinates {
+      ...ExonCoordinateFields
+    }
+    threePrimeEndExonCoordinates {
+      ...ExonCoordinateFields
+    }
+  }
+}
+
+fragment ExonCoordinateFields on ExonCoordinate {
   referenceBuild
   ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
+  chromosome
+  representativeTranscript
+  start
+  stop
+  exon
+  exonOffset
+  exonOffsetDirection
+  ensemblId
+  strand
+  coordinateType
 }

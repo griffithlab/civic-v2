@@ -1,34 +1,39 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcMolecularProfilePopoverComponent } from './molecular-profile-popover.component';
-import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
-import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
-import { CvcMolecularProfileTagNameModule } from '../molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcMolecularProfilePopoverComponent } from './molecular-profile-popover.component'
+import { RouterModule } from '@angular/router'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
+import { CvcMolecularProfileTagNameModule } from '../molecular-profile-tag-name/molecular-profile-tag-name.module'
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 
 @NgModule({
   declarations: [CvcMolecularProfilePopoverComponent],
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetDirective,
+    PushPipe,
     NzCardModule,
     NzGridModule,
     NzDescriptionsModule,
     NzTagModule,
     NzIconModule,
     NzSpaceModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcLinkTagModule,
-    CvcMolecularProfileTagNameModule
+    CvcTagListModule,
+    CvcMolecularProfileTagNameModule,
+    CvcEntityChildCounts,
   ],
-  exports: [CvcMolecularProfilePopoverComponent]
+  exports: [CvcMolecularProfilePopoverComponent],
 })
-export class CvcMolecularProfilePopoverModule { }
+export class CvcMolecularProfilePopoverModule {}

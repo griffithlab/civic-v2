@@ -1,7 +1,5 @@
-query SourceDetail(
-  $sourceId: Int!
-){
-  source(id: $sourceId){
+query SourceDetail($sourceId: Int!) {
+  source(id: $sourceId) {
     ...SourceDetailFields
   }
 }
@@ -11,5 +9,9 @@ fragment SourceDetailFields on Source {
   citation
   sourceUrl
   displayType
+  fullyCurated
   citationId
+  comments {
+    totalCount
+  }
 }

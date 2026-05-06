@@ -1,21 +1,23 @@
 query MolecularProfileMenu(
-  $geneId: Int,
-  $mpName: String,
-  $first: Int,
-  $last: Int,
-  $before: String,
-  $after: String,
-  $evidenceStatusFilter: MolecularProfileDisplayFilter
-  ) {
+  $geneId: Int
+  $featureId: Int
+  $mpName: String
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $evidenceStatusFilter: AssociatedEvidenceStatusFilter
+) {
   molecularProfiles(
-    geneId: $geneId,
-    name: $mpName,
+    geneId: $geneId
+    featureId: $featureId
+    name: $mpName
     evidenceStatusFilter: $evidenceStatusFilter
-    first: $first,
-    last: $last,
-    before: $before,
-    after: $after,
-    ) {
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
     totalCount
     pageInfo {
       startCursor
@@ -37,4 +39,5 @@ fragment menuMolecularProfile on MolecularProfile {
   name
   link
   flagged
+  deprecated
 }

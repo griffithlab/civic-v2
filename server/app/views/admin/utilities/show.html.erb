@@ -1,0 +1,19 @@
+<%= content_for(:title, @util.name) %>
+<%= render "header" %>
+
+<div class="main-content-area">
+  <%= render "trestle/flash/flash" %>
+  <div class="utilities">
+      Configure your utility:
+  </div>
+  <div class="main-content-container">
+    <div class="main-content">
+      <%= form_with do |f| %>
+        <% @util.inputs.each do |f_name, f_type| %>
+          <%= render 'admin/shared/field', name: f_name, type: f_type, form: f  %>
+        <% end %>
+        <%= f.submit @util.name, class: "btn btn-success" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<nz-card
+  style="width: 100%"
+  nzSize="default">
+  <nz-card-tab>
+    <nz-tabs
+      nzSize="default"
+      [(nzSelectedIndex)]="selectedTab">
+      <nz-tab [nzTitle]="myVariantInfoTab"> </nz-tab>
+      <ng-template #myVariantInfoTab>
+        <i
+          nz-icon
+          style="font-size: 12px; margin-right: 0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1024 1024">
+            <path
+              d="M739.01 113.59c226.72 401.21 222.72 389 222.72 403.42l-223.46 393.4H285.01L62.27 513.86l222.01-400.27h454.73Z"
+              style="fill: #67ce2f" />
+            <path
+              d="M827.17 331.53 599.73 765.02c-9.26 4.17-151.83 4.99-169.52 2.62-21.27-2.85-10.02 5.37-234.1-436.11h141.52c28.15 33.86 153.07 332.38 171.78 334.19 17.54 1.7 9.38 4.94 176.23-334.19h141.52Z"
+              style="fill: #fdfefd" />
+          </svg>
+        </i>
+        My Variant Info
+      </ng-template>
+      <nz-tab [nzTitle]="openCravatTab"> </nz-tab>
+      <ng-template #openCravatTab>
+        <i
+          nz-icon
+          style="font-size: 12px; margin-right: 0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1024 1024">
+            <rect
+              x="64"
+              y="64"
+              width="896.11"
+              height="896"
+              rx="72"
+              ry="72"
+              style="fill: #006bff" />
+            <path
+              d="M499.35 395.8c-11.5 8-23.75 16.52-30.68 21.53l-.28.2-.26.23c-4.4 3.43-8.51 6.57-12.33 9.51l-4.42-3.28c-9.85-8.21-19.49-16.78-28.71-25.73a602.251 602.251 0 0 1-21.23-21.35c-6.95-7.34-13.47-14.88-19.95-22.55-25.75-30.63-48.41-64.64-64.05-101.87a260.919 260.919 0 0 1-16.88-57.87 187.65 187.65 0 0 1-.71-59.27c6.08 38.71 21.35 73.47 41.58 104.64 20.23 31.17 44.88 59.23 71.67 85.03a746.994 746.994 0 0 0 77.74 64.87l8.51 5.85v.07Zm231.33 320.72c-.18 5.32-.72 10.23-1.15 15.32a332.56 332.56 0 0 1-11.5 59.65 271.999 271.999 0 0 1-23.6 55.47 204.884 204.884 0 0 1-36.41 46.66c9.21-16.8 16.7-34.49 22.33-52.8a311.7 311.7 0 0 0 11.17-54.85c2.02-18.36 2.66-36.85 1.92-55.31-.26-4.58-.46-9.31-.84-13.68-.38-4.37-.82-8.62-1.48-12.87-1.39-8.57-3.33-17.04-5.83-25.36-10.05-33.34-28.48-64.41-50.65-92.95a489.163 489.163 0 0 0-36.01-41.19c-12.76-13.14-26.16-25.93-40.17-38.02-9.77-8.56-19.71-16.9-29.99-24.86l44.34-33.14c9.07 6.88 16.11 12.19 21.51 16.91 15.04 13.35 29.56 27.24 43.4 42.12a468.828 468.828 0 0 1 38.49 47.49c12 16.89 22.44 34.84 31.2 53.62 4.47 9.52 8.38 19.29 11.69 29.26a256.47 256.47 0 0 1 7.98 30.74c2.05 10.48 3.25 21.1 3.58 31.78.2 5.3.2 10.69 0 16h-.02Z"
+              style="fill: #fff" />
+            <path
+              d="M577.28 424.04C417.85 543.09 292.91 640.45 346.47 834.02c11.99 45.97 39.33 78.57 9.1 43.5-25.22-29.25-42.81-71.14-50.71-109.39-17.89-81.32-2.8-164.28 86.12-260.46 88.7-96.01 271.63-170.37 327.39-330.46 12.61-36.67 9.42-52.14 11.43-34.5 10.6 106.02-70.29 212.51-152.51 281.33Z"
+              style="fill: #fff" />
+          </svg>
+        </i>
+        OpenCRAVAT ACMG/AMP Classifications
+      </ng-template>
+    </nz-tabs>
+  </nz-card-tab>
+  @if (selectedTab() === 0) {
+    @if (variantInfo().myVariantInfo) {
+      <cvc-my-variant-info
+        [variantInfo]="variantInfo().myVariantInfo"></cvc-my-variant-info>
+    } @else {
+      <cvc-empty-revisable
+        notification="Not available, provide Representative Variant Coordinates">
+      </cvc-empty-revisable>
+    }
+  }
+  @if (selectedTab() === 1) {
+    @if (variantInfo().openCravatAnnotations && variantInfo().openCravatUrl) {
+      <cvc-open-cravat-annotations
+        [openCravatAnnotations]="variantInfo().openCravatAnnotations"
+        [openCravatUrl]="variantInfo().openCravatUrl + ''">
+      </cvc-open-cravat-annotations>
+    } @else {
+      <cvc-empty-revisable
+        notification="Not available, provide Representative Variant Coordinates">
+      </cvc-empty-revisable>
+    }
+  }
+</nz-card>

@@ -1,0 +1,156 @@
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col nzFlex="auto">
+    <span
+      nz-tooltip
+      [nzTooltipTrigger]="
+        props.requireFeature && !(onFeatureId$ | ngrxPush) ? 'hover' : null
+      "
+      nzTooltipTitle="Select a Feature to enable field.">
+      <cvc-entity-select
+        [cvcAddEntity]="addVariant"
+        [cvcAddEntityModel]="onModel$ | ngrxPush"
+        [cvcAddEntityBehavior]="showAddBehavior"
+        [cvcMinSearchStrLength]="props.minSearchStrLength"
+        [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+        [cvcCustomTemplate]="selectedTemplate"
+        [cvcFormControl]="formControl"
+        [cvcFormlyAttributes]="field"
+        [cvcEntityName]="props.entityName"
+        [cvcPlaceholder]="props.placeholder"
+        [cvcResults]="result$ | ngrxPush"
+        [cvcDisabled]="props.requireFeature && !(onFeatureId$ | ngrxPush)"
+        [cvcOptions]="selectOption$ | ngrxPush"
+        [cvcSelectOpen]="selectOpen$ | ngrxPush"
+        [cvcShowError]="showError"
+        [cvcLoading]="isLoading$ | ngrxPush"
+        [cvcParamName]="onFeatureName$ | ngrxPush"
+        (cvcOnSearch)="onSearch$.next($event)"
+        (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"
+        (cvcOnModelChange)="props.change && props.change(field, $event)">
+      </cvc-entity-select>
+    </span>
+  </nz-col>
+  <nz-col
+    *ngIf="props.showManagerBtn"
+    nzFlex="50px">
+    <button
+      type="button"
+      nz-button
+      nzBlock
+      class="manager-button"
+    (click)="onShowMgrClick$.next()">
+      <span
+        nz-icon
+        [ngClass]="{
+          show: (showMgr$ | ngrxPush),
+          hide: !(showMgr$ | ngrxPush)
+        }"
+        [nzType]="'caret-right'"></span>
+      Manager
+    </button>
+  </nz-col>
+  <nz-col
+    nzSpan="24"
+    class="manager-drawer"
+    *ngIf="showMgr$ | ngrxPush">
+    <cvc-variant-manager
+      [cvcSelectedIds]="onVid$ | ngrxPush"
+      (cvcSelectedIdsChange)="onPopulate$.next($event)"></cvc-variant-manager>
+  </nz-col>
+</nz-row>
+
+<!-- select option templates -->
+<!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
+<ng-container *ngrxLet="onSearch$ as searchString">
+  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+    <ng-template #optionTemplates>
+      <cvc-entity-tag
+        [cvcDisableLink]="true"
+        [cvcCacheId]="result.__typename + ':' + result.id"
+        [cvcEmphasize]="searchString"></cvc-entity-tag>
+      <span
+        nz-typography
+        nzType="secondary">
+        <strong>Aliases:</strong>
+        <ng-container *ngIf="result.variantAliases.length > 0; else noAliases">
+          <em>
+            <span
+              nz-typography
+              nzType="secondary"
+              nz-tooltip
+              [nzTooltipTitle]="result.variantAliases.join(', ')"
+              [innerHtml]="
+                result.variantAliases.join(', ')
+                  | highlightTypeahead : searchString
+              "></span
+          ></em>
+        </ng-container>
+        <ng-template #noAliases>--</ng-template>
+      </span>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<!-- selected option item template -->
+<!-- displays entity tag, specifying context and mode depending on
+    if field is multi-select or single -->
+<ng-template
+  #selectedTemplate
+  let-selected>
+  <div class="ant-select-selection-item-content">
+    <cvc-entity-tag
+      [cvcCacheId]="'Variant:' + selected.nzValue"
+      [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
+      [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+      (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+  </div>
+</ng-template>
+
+<!-- quick-add button's popup template -->
+<ng-template
+  #addVariant
+  let-searchStr
+  let-model="model">
+  @if (selectedFeatureType == 'FUSION') {
+  <nz-space nzDirection="vertical">
+    <span
+      *nzSpaceItem
+      nz-typography>
+      {{searchStr}} does not match any existing Variants</span
+    >
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createFusionVariantModal()">
+      Open Fusion Variant Builder
+    </button>
+  </nz-space>
+  }@else if (selectedFeatureType == 'REGION') {
+  <nz-space nzDirection="vertical">
+    <ng-container *ngIf="result$ | ngrxPush as r">
+      @if (r.length == 0 && searchStr.length > 0){
+        <span
+          *nzSpaceItem
+          nz-typography
+          >{{searchStr}} does not match any existing Variants</span
+        >
+      }
+    </ng-container>
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createRegionVariantModal()">
+      Open Region Variant Builder
+    </button>
+  </nz-space>
+  } @else {
+  <cvc-variant-quick-add-form
+    [cvcSearchString]="searchStr"
+    [cvcFeatureId]="onFeatureId$ | ngrxPush"
+    [cvcFeatureName]="onFeatureName$ | ngrxPush"
+    (cvcOnCreate)="onSelectOrCreate($event)">
+  </cvc-variant-quick-add-form>
+  }
+</ng-template>

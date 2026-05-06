@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'cvc-assertion-submit',
-  templateUrl: './assertion-submit.page.html',
-  styleUrls: ['./assertion-submit.page.less']
+    selector: 'cvc-assertion-submit',
+    templateUrl: './assertion-submit.page.html',
+    standalone: false
 })
 export class AssertionSubmitPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

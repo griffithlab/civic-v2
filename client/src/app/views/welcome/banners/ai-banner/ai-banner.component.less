@@ -1,0 +1,66 @@
+@import 'themes/global-variables.less';
+@import 'ng-zorro-antd/style/color/colors.less';
+
+@bg-gradient-1: #faad14;
+@bg-gradient-2: #874d00;
+@border-gradient-1: #e6c15c;
+@border-gradient-2: #874d00;
+@text-color: #fff;
+@arrow-color: #ffc53d;
+@arrow-hover-color: #fff;
+@icon-fill-color: #613400;
+@icon-stroke-color: #fff;
+@drop-shadow-fill: rgba(122, 88, 19, 0.6);
+
+.banner {
+  width: 100%;
+  overflow: hidden;
+  border-radius: @border-radius-md;
+  height: 35px;
+  border: 1px solid transparent;
+  background:
+    radial-gradient(circle 600px at 50% 25px, @bg-gradient-1, @bg-gradient-2)
+      padding-box,
+    linear-gradient(176deg, @border-gradient-1, @border-gradient-2) border-box;
+
+  &:hover {
+    svg {
+      #arrow {
+        fill: @arrow-hover-color;
+      }
+    }
+  }
+
+  svg {
+    height: 35px;
+    width: auto;
+    top: -1px;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+
+    #text1,
+    #text2 {
+      fill: @text-color;
+      filter: drop-shadow(1px 1px 2px @drop-shadow-fill);
+    }
+
+    #arrow {
+      fill: @arrow-color;
+      fill-rule: evenodd;
+    }
+
+    #icon {
+      #bg {
+        fill: @icon-fill-color;
+      }
+      #outline {
+        fill: @icon-stroke-color;
+      }
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.5px;
+      filter: drop-shadow(1px 1px 2px @drop-shadow-fill);
+    }
+  }
+}

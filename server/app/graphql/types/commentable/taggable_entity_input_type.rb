@@ -1,30 +1,32 @@
 module Types::Commentable
   class TaggableEntityInputType < Types::BaseInputObject
-    description 'Mentioned entity to filter comments on.'
+    description "Mentioned entity to filter comments on."
 
     argument :id, Int, required: true,
-      description: 'ID of the mentioned entity'
+      description: "ID of the mentioned entity"
     argument :entity_type, Types::Commentable::TaggableEntity, required: true,
-      description: 'The type of the entity'
+      description: "The type of the entity"
 
     def prepare
       const = case entity_type
-      when 'GENE'
-        Gene
-      when 'VARIANT'
+      when "FEATURE"
+        Feature
+      when "VARIANT"
         Variant
-      when 'EVIDENCE_ITEM'
+      when "EVIDENCE_ITEM"
         EvidenceItem
-      when 'ASSERTION'
+      when "ASSERTION"
         Assertion
-      when 'VARIANT_GROUP'
+      when "VARIANT_GROUP"
         VariantGroup
-      when 'REVISION'
+      when "REVISION"
         Revision
-      when 'MOLECULAR_PROFILE'
+      when "MOLECULAR_PROFILE"
         MolecularProfile
+      when "SOURCE"
+        Source
       else
-        #it was a role
+        # it was a role
         nil
       end
 

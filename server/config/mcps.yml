@@ -1,0 +1,4 @@
+mcp_servers:
+  civic:
+    transport_type: streamable
+    url: https://civic-mcp-server.larscivic.workers.dev/mcp
