@@ -6,10 +6,15 @@ class CreateCivicpyCachePkl < ApplicationJob
     if not status.success?
       raise stderr
     end
+    create_versioned_path
   end
 
   private
   def civicpy_cache_file_location
     raise "Implement in subclass!"
+  end
+
+  def create_versioned_path
+    # noop
   end
 end
