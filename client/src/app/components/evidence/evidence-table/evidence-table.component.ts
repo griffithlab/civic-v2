@@ -28,6 +28,7 @@ import {
   EvidenceStatusFilter,
   EvidenceType,
   Maybe,
+  OrganizationFilter,
   PageInfo,
   VariantOrigin,
 } from '@app/generated/civic.apollo'
@@ -176,10 +177,11 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         : undefined,
       evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
       first: this.initialPageSize,
-      organizationId: this.organizationId ? [this.organizationId] : [],
-      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      organization: this.organizationFilter(this.organizationId),
       phenotypeId: this.phenotypeId,
-      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+      evidenceRating: this.evidenceRatingInput
+        ? this.evidenceRatingInput
+        : undefined,
       sourceId: this.sourceId,
       status: this.status || EvidenceStatusFilter.NonRejected,
       userId: this.userId,
@@ -300,7 +302,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         therapyName: this.therapyNameInput,
         description: this.descriptionInput,
         status: this.statusInput,
-        includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+        organization: this.organizationFilter(this.organizationId),
         evidenceLevel: this.evidenceLevelInput
           ? this.evidenceLevelInput
           : undefined,
@@ -316,7 +318,9 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput
           : undefined,
-        rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+        evidenceRating: this.evidenceRatingInput
+          ? this.evidenceRatingInput
+          : undefined,
         molecularProfileName: this.molecularProfileNameInput
           ? this.molecularProfileNameInput
           : undefined,
@@ -334,6 +338,13 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   includeSubgroupsChanged() {
     this.filterChange$.next()
     this.statusFilterVisible = false
+  }
+
+  private organizationFilter(organizationId: Maybe<number>): OrganizationFilter {
+    return {
+      ids: organizationId ? [organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+    }
   }
 
   trackByIndex(

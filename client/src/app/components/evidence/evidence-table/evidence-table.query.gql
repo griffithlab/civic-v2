@@ -16,8 +16,7 @@ query EvidenceBrowse(
   $variantId: Int
   $molecularProfileId: Int
   $assertionId: Int
-  $organizationId: [Int!]
-  $includeSubgroups: Boolean
+  $organization: OrganizationFilter
   $userId: Int
   $sortBy: EvidenceSort
   $phenotypeId: Int
@@ -46,7 +45,7 @@ query EvidenceBrowse(
     variantId: $variantId
     molecularProfileId: $molecularProfileId
     assertionId: $assertionId
-    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
+    organization: $organization
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId

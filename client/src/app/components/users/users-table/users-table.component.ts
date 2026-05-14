@@ -199,9 +199,11 @@ export class CvcUsersTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
-        userName: this.nameInput ? this.nameInput : undefined,
-        orgName: this.orgNameInput ? { name: this.orgNameInput } : undefined,
-        userRole: this.roleInput ? this.roleInput : undefined,
+        name: this.nameInput ? this.nameInput : undefined,
+        organization: this.orgNameInput
+          ? { name: this.orgNameInput }
+          : undefined,
+        role: this.roleInput ? this.roleInput : undefined,
       })
       .then(() => this.scrollIndex$.next(0))
 

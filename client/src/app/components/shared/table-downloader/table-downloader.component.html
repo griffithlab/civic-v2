@@ -1,5 +1,6 @@
 <button
   nz-button
+  class="download-button"
   nzSize="small"
   (click)="downloadTable()"
   [disabled]="downloading | async">
@@ -13,5 +14,5 @@
     nz-icon
     nzType="sync"
     [nzSpin]="true"></span>
-  Download Table
+  Download
 </button>

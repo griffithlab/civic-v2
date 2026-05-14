@@ -283,16 +283,18 @@
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag
-    *ngIf="moreLoading$ | ngrxPush"
-    nzColor="processing">
-    <i
-      nz-icon
-      nzType="sync"
-      nzSpin></i>
-    <span>Loading…</span>
-  </nz-tag>
-  <cvc-table-downloader [vars]="queryRef.variables" tableName="features"></cvc-table-downloader>
+  <span class="table-actions">
+    <nz-tag
+      *ngIf="moreLoading$ | ngrxPush"
+      nzColor="processing">
+      <i
+        nz-icon
+        nzType="sync"
+        nzSpin></i>
+      <span>Loading…</span>
+    </nz-tag>
+    <cvc-table-downloader [vars]="queryRef.variables" tableName="features"></cvc-table-downloader>
 
-  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+    <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  </span>
 </ng-template>

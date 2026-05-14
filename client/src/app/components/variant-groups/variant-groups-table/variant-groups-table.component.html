@@ -171,17 +171,19 @@
 </ng-template>
 
 <ng-template #extraTemplate>
-  <nz-tag
-    *ngIf="moreLoading$ | ngrxPush"
-    nzColor="processing">
-    <i
-      nz-icon
-      k
-      nzType="sync"
-      nzSpin></i>
-    <span>Loading…</span>
-  </nz-tag>
-  <cvc-table-downloader [vars]="queryRef.variables" tableName="variant_groups"></cvc-table-downloader>
+  <span class="table-actions">
+    <nz-tag
+      *ngIf="moreLoading$ | ngrxPush"
+      nzColor="processing">
+      <i
+        nz-icon
+        k
+        nzType="sync"
+        nzSpin></i>
+      <span>Loading…</span>
+    </nz-tag>
+    <cvc-table-downloader [vars]="queryRef.variables" tableName="variant_groups"></cvc-table-downloader>
 
-  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+    <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  </span>
 </ng-template>
