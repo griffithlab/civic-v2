@@ -27,6 +27,7 @@ import {
   EvidenceStatusFilter,
   EvidenceType,
   Maybe,
+  OrganizationFilter,
   PageInfo,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -186,11 +187,10 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
       molecularProfileId: this.molecularProfileId,
       molecularProfileName: this.molecularProfileNameInput,
       evidenceId: this.evidenceId,
-      organizationId: this.organizationId ? [this.organizationId] : [],
-      approvingOrganizationIds: this.approvingOrganizationId
-        ? [this.approvingOrganizationId]
-        : [],
-      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      organization: this.organizationFilter(this.organizationId),
+      approvingOrganizations: this.organizationFilter(
+        this.approvingOrganizationId
+      ),
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
@@ -313,7 +313,10 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
       therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       status: this.statusInput,
-      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      organization: this.organizationFilter(this.organizationId),
+      approvingOrganizations: this.organizationFilter(
+        this.approvingOrganizationId
+      ),
       assertionType: this.assertionTypeInput
         ? this.assertionTypeInput
         : undefined,
@@ -344,6 +347,13 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   includeSubgroupsChanged() {
     this.debouncedQuery.next()
     this.statusFilterVisible = false
+  }
+
+  private organizationFilter(organizationId: Maybe<number>): OrganizationFilter {
+    return {
+      ids: organizationId ? [organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+    }
   }
 
   // virtual scroll helpers

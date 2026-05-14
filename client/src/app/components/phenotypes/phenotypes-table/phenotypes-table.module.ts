@@ -17,6 +17,7 @@ import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module'
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module'
+import { CvcTableDownloaderComponent } from '@app/components/shared/table-downloader/table-downloader.component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
@@ -36,6 +37,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CvcNoMoreRowsModule,
     CvcTableScrollModule,
     CvcTableCountsModule,
+    CvcTableDownloaderComponent,
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,
