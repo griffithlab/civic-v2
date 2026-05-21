@@ -91,6 +91,10 @@ export function formatOntologyTermSearchOperator(
       return fmt('equal to')
     case 'NE':
       return fmt('not equal to')
+    case 'IS_NULL':
+      return fmt('is null')
+    case 'IS_NOT_NULL':
+      return fmt('is not null')
 
     default:
       return fmt(operator)
@@ -113,6 +117,10 @@ export function formatStringSearchOperator(
       return fmt('equal to')
     case 'NE':
       return fmt('not equal to')
+    case 'IS_NULL':
+      return fmt('is null')
+    case 'IS_NOT_NULL':
+      return fmt('is not null')
 
     default:
       return fmt(operator)

@@ -3247,7 +3247,7 @@ String search input that only accepts DNA bases (A, C, T, G, /)
 """
 input DnaBaseStringInput {
   operator: StringSearchOperator!
-  value: String!
+  value: String
 }
 
 type DownloadableFile {
@@ -8670,7 +8670,7 @@ type ObjectFieldDiff {
 
 input OntologyTermSearchInput {
   operator: OntologyTermSearchOperator!
-  value: String!
+  value: String
 }
 
 enum OntologyTermSearchOperator {
@@ -8703,6 +8703,8 @@ enum OntologyTermSearchOperator {
   Include the matched term and its direct parent terms
   """
   EQ_SELF_OR_DIRECT_PARENTS
+  IS_NOT_NULL
+  IS_NULL
 
   """
   Does not equal
@@ -12901,13 +12903,15 @@ type Stats {
 
 input StringSearchInput {
   operator: StringSearchOperator!
-  value: String!
+  value: String
 }
 
 enum StringSearchOperator {
   CONTAINS
   DOES_NOT_CONTAIN
   EQ
+  IS_NOT_NULL
+  IS_NULL
   NE
   STARTS_WITH
 }

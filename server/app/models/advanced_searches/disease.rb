@@ -39,7 +39,7 @@ module AdvancedSearches
       node.doid.resolve_ontology_query(
         base_query,
         "diseases.doid",
-        value_override: node.doid.value.sub("DOID:", "")
+        value_override: node.doid.value&.sub("DOID:", "")
       )
     end
 

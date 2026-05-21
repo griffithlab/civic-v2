@@ -17268,13 +17268,9 @@
               "name": "value",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -42063,13 +42059,9 @@
               "name": "value",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -42127,6 +42119,18 @@
             {
               "name": "EQ_SELF_AND_SIBLINGS",
               "description": "Include the matched term and any sibling terms",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NULL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NOT_NULL",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -60399,13 +60403,9 @@
               "name": "value",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -60450,6 +60450,18 @@
             },
             {
               "name": "STARTS_WITH",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NULL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NOT_NULL",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

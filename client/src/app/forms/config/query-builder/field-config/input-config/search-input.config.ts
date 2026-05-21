@@ -10,6 +10,12 @@ import {
   VariantDeprecationReason,
 } from '@app/generated/civic.apollo'
 
+const SEARCH_NO_VALUE_OPERATORS = new Set(['IS_NULL', 'IS_NOT_NULL'])
+
+const hasSearchNoValueOperator = (field: FormlyFieldConfig): boolean => {
+  return SEARCH_NO_VALUE_OPERATORS.has(field.parent?.model?.operator)
+}
+
 const BOOLEAN_SEARCH_INPUT = [
   {
     key: 'value',
@@ -54,6 +60,12 @@ const STRING_SEARCH_INPUT = [
     key: 'value',
     type: 'base-input',
     defaultValue: '',
+    resetOnHide: true,
+    expressions: {
+      hide: hasSearchNoValueOperator,
+      'props.required': (field: FormlyFieldConfig) =>
+        !hasSearchNoValueOperator(field),
+    },
     props: {
       required: true,
       placeholder: 'Enter search term',
@@ -72,6 +84,12 @@ const ONTOLOGY_TERM_INPUT = [
   {
     key: 'value',
     type: 'base-input',
+    resetOnHide: true,
+    expressions: {
+      hide: hasSearchNoValueOperator,
+      'props.required': (field: FormlyFieldConfig) =>
+        !hasSearchNoValueOperator(field),
+    },
     props: {
       required: true,
       placeholder: 'Enter search term',
@@ -505,6 +523,12 @@ const DNA_BASE_STRING_INPUT = [
   {
     key: 'value',
     type: 'base-input',
+    resetOnHide: true,
+    expressions: {
+      hide: hasSearchNoValueOperator,
+      'props.required': (field: FormlyFieldConfig) =>
+        !hasSearchNoValueOperator(field),
+    },
     props: {
       required: true,
       placeholder: 'Enter Bases',
