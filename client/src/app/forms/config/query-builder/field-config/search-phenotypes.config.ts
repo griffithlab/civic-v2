@@ -35,8 +35,8 @@ export const searchPhenotypesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
-          key: 'hpoid',
-          props: { label: 'Disease Ontology ID' },
+          key: 'hpoId',
+          props: { label: 'Human Phenotype Ontology ID' },
           fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
         },
       ]),
