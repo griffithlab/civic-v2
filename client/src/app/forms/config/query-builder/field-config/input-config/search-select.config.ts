@@ -1,6 +1,6 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
-// custom operator select for entity selection, with only 'is' and 'is not' (EQ/NEQ) options
+// custom operator select for entity selection, with only 'is' and 'is not' (EQ/NE) options
 const ENTITY_SELECT_OPERATOR = {
   key: 'operator',
   type: 'base-select',
@@ -13,7 +13,7 @@ const ENTITY_SELECT_OPERATOR = {
       },
       {
         label: 'is not',
-        value: 'NEQ',
+        value: 'NE',
       },
     ],
     placeholder: 'Select an operator',

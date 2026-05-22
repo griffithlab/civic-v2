@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_22_234000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -575,7 +575,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
     t.bigint "next_node_id", null: false
     t.bigint "previous_node_id", null: false
     t.index ["edge_type"], name: "index_edges_on_edge_type"
+    t.index ["next_node_id", "edge_type"], name: "index_edges_on_next_node_and_edge_type"
     t.index ["next_node_id"], name: "index_edges_on_next_node_id"
+    t.index ["previous_node_id", "edge_type"], name: "index_edges_on_previous_node_and_edge_type"
+    t.index ["previous_node_id", "next_node_id", "edge_type"], name: "index_edges_on_nodes_and_edge_type_unique", unique: true
     t.index ["previous_node_id"], name: "index_edges_on_previous_node_id"
   end
 
@@ -862,6 +865,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_150137) do
     t.index ["id", "term_type"], name: "index_nodes_on_id_and_term_type"
     t.index ["term_id", "term_type"], name: "index_nodes_on_term_id_and_term_type"
     t.index ["term_type", "term_id"], name: "index_nodes_on_term"
+    t.index ["term_type", "term_id"], name: "index_nodes_on_term_unique", unique: true
   end
 
   create_table "notifications", id: :serial, force: :cascade do |t|

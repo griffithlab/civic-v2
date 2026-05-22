@@ -20,13 +20,17 @@ module Importer
     end
 
     def import
-      parser.each do |elem|
-        if valid_entry?(elem)
-          create_object_from_entry(elem)
-          store_parent(elem)
+      ActiveRecord::Base.transaction do
+        Therapy.reset_graph!
+
+        parser.each do |elem|
+          if valid_entry?(elem)
+            create_object_from_entry(elem)
+            store_parent(elem)
+          end
         end
+        create_graph
       end
-      create_graph
     end
 
     def valid_entry?(entry)
@@ -52,7 +56,7 @@ module Importer
           therapy.therapy_aliases << therapy_alias
         end
       end
-      therapy.save
+      therapy.save!
     end
 
     def store_parent(elem)

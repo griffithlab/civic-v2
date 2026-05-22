@@ -2205,7 +2205,7 @@ export enum DiseasesSortColumns {
 /** String search input that only accepts DNA bases (A, C, T, G, /) */
 export type DnaBaseStringInput = {
   operator: StringSearchOperator;
-  value: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DownloadableFile = {
@@ -5285,7 +5285,7 @@ export type ObjectFieldDiff = {
 
 export type OntologyTermSearchInput = {
   operator: OntologyTermSearchOperator;
-  value: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum OntologyTermSearchOperator {
@@ -5301,6 +5301,8 @@ export enum OntologyTermSearchOperator {
   EqSelfOrDirectChildren = 'EQ_SELF_OR_DIRECT_CHILDREN',
   /** Include the matched term and its direct parent terms */
   EqSelfOrDirectParents = 'EQ_SELF_OR_DIRECT_PARENTS',
+  IsNotNull = 'IS_NOT_NULL',
+  IsNull = 'IS_NULL',
   /** Does not equal */
   Ne = 'NE'
 }
@@ -7458,6 +7460,8 @@ export type SourcePopoverEventsArgs = {
 
 export type SourceSearchFilter = {
   abstract?: InputMaybe<StringSearchInput>;
+  authorFirstName?: InputMaybe<StringSearchInput>;
+  authorLastName?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   citation?: InputMaybe<StringSearchInput>;
   citationId?: InputMaybe<StringSearchInput>;
@@ -7609,13 +7613,15 @@ export type Stats = {
 
 export type StringSearchInput = {
   operator: StringSearchOperator;
-  value: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum StringSearchOperator {
   Contains = 'CONTAINS',
   DoesNotContain = 'DOES_NOT_CONTAIN',
   Eq = 'EQ',
+  IsNotNull = 'IS_NOT_NULL',
+  IsNull = 'IS_NULL',
   Ne = 'NE',
   StartsWith = 'STARTS_WITH'
 }

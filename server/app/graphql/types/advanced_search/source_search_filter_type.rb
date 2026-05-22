@@ -6,6 +6,8 @@ module Types
       argument :deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :abstract, Types::AdvancedSearch::StringSearchInput, required: false
+      argument :author_first_name, Types::AdvancedSearch::StringSearchInput, required: false
+      argument :author_last_name, Types::AdvancedSearch::StringSearchInput, required: false
       argument :source_type, Types::AdvancedSearch::EnumSearchInput.for(Types::SourceSourceType, is_activerecord_enum: true), required: false
       argument :journal, Types::AdvancedSearch::StringSearchInput, required: false
       argument :citation, Types::AdvancedSearch::StringSearchInput, required: false
