@@ -12700,6 +12700,8 @@ type SourcePopover implements Commentable & EventSubject {
 
 input SourceSearchFilter {
   abstract: StringSearchInput
+  authorFirstName: StringSearchInput
+  authorLastName: StringSearchInput
   booleanOperator: BooleanOperator
   citation: StringSearchInput
   citationId: StringSearchInput

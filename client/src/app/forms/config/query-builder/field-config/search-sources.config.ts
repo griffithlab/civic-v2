@@ -20,6 +20,8 @@ import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type SourceSearchFilterREF = {
   abstract?: InputMaybe<StringSearchInput>
+  authorFirstName?: InputMaybe<StringSearchInput>
+  authorLastName?: InputMaybe<StringSearchInput>
   booleanOperator?: InputMaybe<BooleanOperator>
   citation?: InputMaybe<StringSearchInput>
   citationId?: InputMaybe<StringSearchInput>
@@ -46,6 +48,16 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
         {
           key: 'abstract',
           props: { label: 'Abstract' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'authorFirstName',
+          props: { label: 'Author First Name' },
+          fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
+        },
+        {
+          key: 'authorLastName',
+          props: { label: 'Author Last Name' },
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {

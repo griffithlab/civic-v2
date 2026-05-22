@@ -7379,6 +7379,8 @@ export type SourcePopoverEventsArgs = {
 
 export type SourceSearchFilter = {
   abstract?: InputMaybe<StringSearchInput>;
+  authorFirstName?: InputMaybe<StringSearchInput>;
+  authorLastName?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   citation?: InputMaybe<StringSearchInput>;
   citationId?: InputMaybe<StringSearchInput>;
