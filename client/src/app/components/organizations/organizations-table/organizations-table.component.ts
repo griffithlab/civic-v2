@@ -191,7 +191,7 @@ export class CvcOrganizationsTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
-        orgName: this.orgNameInput,
+        name: this.orgNameInput,
         id: this.idInput ? +this.idInput : undefined,
       })
       .then(() => this.scrollIndex$.next(0))

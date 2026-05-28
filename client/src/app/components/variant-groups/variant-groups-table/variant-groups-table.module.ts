@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module'
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module'
+import { CvcTableDownloaderComponent } from '@app/components/shared/table-downloader/table-downloader.component'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
@@ -41,6 +42,7 @@ import { CvcVariantGroupsTableComponent } from './variant-groups-table.component
     CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcTableCountsModule,
+    CvcTableDownloaderComponent,
     CvcTableScrollModule,
     CvcVariantGroupTagModule,
     CvcVariantTagModule,

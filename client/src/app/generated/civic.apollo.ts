@@ -9486,14 +9486,13 @@ export type AssertionsBrowseQueryVariables = Exact<{
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<AssertionSort>;
   ampLevel?: InputMaybe<AmpLevel>;
-  organizationId?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
-  includeSubgroups?: InputMaybe<Scalars['Boolean']['input']>;
+  organization?: InputMaybe<OrganizationFilter>;
   userId?: InputMaybe<Scalars['Int']['input']>;
   phenotypeId?: InputMaybe<Scalars['Int']['input']>;
   diseaseId?: InputMaybe<Scalars['Int']['input']>;
   therapyId?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<EvidenceStatusFilter>;
-  approvingOrganizationIds?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+  approvingOrganizations?: InputMaybe<OrganizationFilter>;
 }>;
 
 
@@ -9660,13 +9659,12 @@ export type EvidenceBrowseQueryVariables = Exact<{
   evidenceDirection?: InputMaybe<EvidenceDirection>;
   significance?: InputMaybe<EvidenceSignificance>;
   evidenceType?: InputMaybe<EvidenceType>;
-  rating?: InputMaybe<Scalars['Int']['input']>;
+  evidenceRating?: InputMaybe<Scalars['Int']['input']>;
   variantOrigin?: InputMaybe<VariantOrigin>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileId?: InputMaybe<Scalars['Int']['input']>;
   assertionId?: InputMaybe<Scalars['Int']['input']>;
-  organizationId?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
-  includeSubgroups?: InputMaybe<Scalars['Boolean']['input']>;
+  organization?: InputMaybe<OrganizationFilter>;
   userId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<EvidenceSort>;
   phenotypeId?: InputMaybe<Scalars['Int']['input']>;
@@ -9869,7 +9867,7 @@ export type OrganizationsBrowseQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
-  orgName?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<OrganizationSort>;
 }>;
 
@@ -10153,9 +10151,9 @@ export type UsersBrowseQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
-  userName?: InputMaybe<Scalars['String']['input']>;
-  orgName?: InputMaybe<OrganizationFilter>;
-  userRole?: InputMaybe<UserRole>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  organization?: InputMaybe<OrganizationFilter>;
+  role?: InputMaybe<UserRole>;
   sortBy?: InputMaybe<UsersSort>;
 }>;
 
@@ -10299,7 +10297,7 @@ export type BrowseVariantsQueryVariables = Exact<{
   variantGroupId?: InputMaybe<Scalars['Int']['input']>;
   variantTypeName?: InputMaybe<Scalars['String']['input']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']['input']>;
-  variantCategory?: InputMaybe<VariantCategories>;
+  category?: InputMaybe<VariantCategories>;
   sortBy?: InputMaybe<VariantsSort>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -16062,7 +16060,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: AssertionSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $approvingOrganizationIds: [Int!]) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: AssertionSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organization: OrganizationFilter, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $approvingOrganizations: OrganizationFilter) {
   assertions(
     first: $first
     last: $last
@@ -16081,13 +16079,13 @@ export const AssertionsBrowseDocument = gql`
     ampLevel: $ampLevel
     molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
-    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
+    organization: $organization
     userId: $userId
     phenotypeId: $phenotypeId
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
-    approvingOrganizations: {ids: $approvingOrganizationIds, includeSubgroups: $includeSubgroups}
+    approvingOrganizations: $approvingOrganizations
   ) {
     totalCount
     pageInfo {
@@ -16429,7 +16427,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $evidenceRating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organization: OrganizationFilter, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -16443,12 +16441,12 @@ export const EvidenceBrowseDocument = gql`
     evidenceDirection: $evidenceDirection
     significance: $significance
     evidenceType: $evidenceType
-    evidenceRating: $rating
+    evidenceRating: $evidenceRating
     variantOrigin: $variantOrigin
     variantId: $variantId
     molecularProfileId: $molecularProfileId
     assertionId: $assertionId
-    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
+    organization: $organization
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
@@ -16930,13 +16928,13 @@ export const OrgPopoverDocument = gql`
     }
   }
 export const OrganizationsBrowseDocument = gql`
-    query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $orgName: String, $sortBy: OrganizationSort) {
+    query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $name: String, $sortBy: OrganizationSort) {
   browseOrganizations(
     first: $first
     last: $last
     before: $before
     after: $after
-    name: $orgName
+    name: $name
     id: $id
     sortBy: $sortBy
   ) {
@@ -17720,15 +17718,15 @@ export const UserPopoverDocument = gql`
     }
   }
 export const UsersBrowseDocument = gql`
-    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort) {
+    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $organization: OrganizationFilter, $role: UserRole, $sortBy: UsersSort) {
   browseUsers(
     first: $first
     last: $last
     before: $before
     after: $after
-    name: $userName
-    organization: $orgName
-    role: $userRole
+    name: $name
+    organization: $organization
+    role: $role
     sortBy: $sortBy
   ) {
     pageInfo {
@@ -17974,7 +17972,7 @@ export const VariantTypesForFeatureDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $variantCategory: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $category: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     featureName: $featureName
@@ -17985,7 +17983,7 @@ export const BrowseVariantsDocument = gql`
     variantGroupId: $variantGroupId
     variantTypeName: $variantTypeName
     hasNoVariantType: $hasNoVariantType
-    category: $variantCategory
+    category: $category
     sortBy: $sortBy
     first: $first
     last: $last
