@@ -121,6 +121,7 @@ fragment AssertionSummaryFields on Assertion {
       }
       lastReviewed
       clinvarAccession
+      clinvarAccessionVisible
     }
   }
   requiresReviewApprovals: approvals(status: REQUIRES_REVIEW) {
@@ -136,6 +137,7 @@ fragment AssertionSummaryFields on Assertion {
       }
       lastReviewed
       clinvarAccession
+      clinvarAccessionVisible
     }
   }
 }

@@ -123,7 +123,7 @@ export class CvcVariantsTableComponent implements OnInit {
       variantTypeId: this.variantTypeId,
       variantGroupId: this.variantGroupId,
       hasNoVariantType: this.hasNoVariantTypeInput,
-      variantCategory: this.variantCategoryInput,
+      category: this.variantCategoryInput,
       sortBy: {
         column: VariantsSortColumns.EvidenceItemCount,
         direction: SortDirection.Desc,
@@ -227,7 +227,7 @@ export class CvcVariantsTableComponent implements OnInit {
           ? this.variantTypeNameInput
           : undefined,
         hasNoVariantType: this.hasNoVariantTypeInput,
-        variantCategory: this.variantCategoryInput,
+        category: this.variantCategoryInput,
       })
       .then(() => this.scrollIndex$.next(0))
 

@@ -25,6 +25,7 @@ import {
   EvidenceStatusFilter,
   EvidenceType,
   Maybe,
+  OrganizationFilter,
   PageInfo,
   EvidenceLevel,
   AssertionSignificance,
@@ -174,11 +175,10 @@ export class CvcAssertionsTableComponent implements OnInit {
       molecularProfileId: this.molecularProfileId,
       molecularProfileName: this.molecularProfileNameInput,
       evidenceId: this.evidenceId,
-      organizationId: this.organizationId ? [this.organizationId] : [],
-      approvingOrganizationIds: this.approvingOrganizationId
-        ? [this.approvingOrganizationId]
-        : [],
-      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      organization: this.organizationFilter(this.organizationId),
+      approvingOrganizations: this.organizationFilter(
+        this.approvingOrganizationId
+      ),
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
@@ -299,7 +299,10 @@ export class CvcAssertionsTableComponent implements OnInit {
       therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       status: this.statusInput,
-      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+      organization: this.organizationFilter(this.organizationId),
+      approvingOrganizations: this.organizationFilter(
+        this.approvingOrganizationId
+      ),
       assertionType: this.assertionTypeInput
         ? this.assertionTypeInput
         : undefined,
@@ -329,6 +332,13 @@ export class CvcAssertionsTableComponent implements OnInit {
   includeSubgroupsChanged() {
     this.debouncedQuery.next()
     this.statusFilterVisible = false
+  }
+
+  private organizationFilter(organizationId: Maybe<number>): OrganizationFilter {
+    return {
+      ids: organizationId ? [organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
+    }
   }
 
   // virtual scroll helpers
