@@ -43,12 +43,14 @@ module Types::Entities
         if entries.blank?
           true
         else
-          Promise.all([
+          release_status_promises = entries.map do |entry|
             Loaders::AssociationLoader
               .for(ClinvarBatchEntry, :clinvar_batch_submission)
               .load(entry)
-              .then { |batch| batch&.release_status },
-          ]).then do |relase_statuses|
+              .then { |batch| batch&.release_status }
+          end
+
+          Promise.all(release_status_promises).then do |release_statuses|
             release_statuses.any? { |s| s == "released" }
           end
         end
