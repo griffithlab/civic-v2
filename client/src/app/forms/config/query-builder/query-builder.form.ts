@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   model,
   OnInit,
   output,
@@ -51,6 +52,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
 export class CvcQueryBuilderForm implements OnInit {
   searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<string>()
+  formModelQuery = input<QueryBuilderFormModel['query']>()
 
   searchResults = output<QueryBuilderResult>()
   formModel: WritableSignal<QueryBuilderFormModel> = signal(

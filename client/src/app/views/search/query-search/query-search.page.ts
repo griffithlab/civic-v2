@@ -22,6 +22,7 @@ import {
 } from '@app/views/search/query-search/query-search.functions'
 import {
   AdvancedSearchEndpoint,
+  QueryBuilderFormModel,
   QueryBuilderResult,
 } from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -40,8 +41,15 @@ import { CvcTherapiesTableModule } from '@app/components/therapies/therapies-tab
 import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module'
 import { CvcRevisionsTableModule } from '@app/components/revisions/revisions-table/revisions-table.module'
 import { CvcCommentsTableModule } from '@app/components/comments/comments-table/comments-table.module'
-import { NzResultComponent } from 'ng-zorro-antd/result'
+import { NzResultComponent, NzResultModule } from 'ng-zorro-antd/result'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzListComponent, NzListModule } from 'ng-zorro-antd/list'
+import {
+  QUERY_SEARCH_EXAMPLES,
+  QuerySearchExample,
+} from './query-search.examples'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -56,6 +64,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     NzResizableModule,
     NzEmptyModule,
     NzIconModule,
+    NzButtonModule,
+    NzPopoverModule,
+    NzListModule,
+    NzResultModule,
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
     CvcEvidenceTableModule,
@@ -71,7 +83,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     CvcSourcesTableModule,
     CvcRevisionsTableModule,
     CvcCommentsTableModule,
-    NzResultComponent,
   ],
 })
 export class QuerySearchPage {
@@ -82,6 +93,9 @@ export class QuerySearchPage {
   selectedTabIndex: WritableSignal<number> = signal(0)
 
   tabs = queryBuilderTabs
+  searchExamples = QUERY_SEARCH_EXAMPLES
+
+  searchExampleQuery = signal<Maybe<QueryBuilderFormModel['query']>>(undefined)
 
   // Make enum available in template
   EvidenceStatusFilter = EvidenceStatusFilter
@@ -164,5 +178,9 @@ export class QuerySearchPage {
     if (containerWidth === 0) return
     const percent = Math.round((width / containerWidth) * 100)
     this.formWidthPercent.set(Math.max(20, Math.min(80, percent)))
+  }
+
+  onExampleSelect(example: QuerySearchExample): void {
+    this.searchExampleQuery.set(example.formQuery)
   }
 }
