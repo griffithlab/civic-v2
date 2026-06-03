@@ -181,6 +181,7 @@ export class QuerySearchPage {
   }
 
   onExampleSelect(example: QuerySearchExample): void {
+    this.searchEndpoint.set(example.searchEndpoint)
     this.searchExampleQuery.set(example.formQuery)
   }
 }

@@ -164,6 +164,18 @@ export class CvcQueryBuilderForm implements OnInit {
           console.error('searchByPermalink results did not include a formModel')
         }
       })
+
+    effect(() => {
+      const fmq = this.formModelQuery()
+      if (fmq) {
+        this.formModel.update((value) => {
+          return {
+            ...value,
+            query: structuredClone(fmq) as QueryBuilderFormModel['query'],
+          }
+        })
+      }
+    })
   }
 
   ngOnInit(): void {
