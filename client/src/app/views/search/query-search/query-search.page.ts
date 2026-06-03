@@ -109,6 +109,11 @@ export class QuerySearchPage {
   private route = inject(ActivatedRoute)
   private previousEndpoint?: AdvancedSearchEndpoint
 
+  tabBarStyle = {
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  }
+
   constructor() {
     // EFFECT: sync route with searchEndpoint and permalinkId
     effect(() => {

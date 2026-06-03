@@ -2,12 +2,21 @@
   <!-- TABS -->
   <nz-col nzSpan="24">
     <nz-tabs
-      nzType="card"
-      nzSize="small"
+      nzType="line"
+      nzSize="large"
+      [nzTabBarStyle]="tabBarStyle"
       (nzSelectedIndexChange)="onTabIndexChange($event)"
       [nzSelectedIndex]="selectedTabIndex()">
       @for (tab of tabs; track tab) {
-        <nz-tab [nzTitle]="tab.label"></nz-tab>
+        <nz-tab [nzTitle]="tabTitle">
+          <ng-template #tabTitle>
+            <nz-icon
+              [nzType]="tab.icon"
+              nzTheme="twotone"
+              [nzTwotoneColor]="tab.iconColor" />
+            {{ tab.label }}
+          </ng-template>
+        </nz-tab>
       }
     </nz-tabs>
   </nz-col>

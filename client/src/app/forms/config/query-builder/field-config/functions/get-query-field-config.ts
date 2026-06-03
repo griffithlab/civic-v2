@@ -33,7 +33,11 @@ export function getQueryFieldConfig(
         key: `${key}`,
         wrappers: [`query-builder-card`],
         props: {
-          formCardOptions: { title: title, size: 'small' },
+          formCardOptions: {
+            title: title,
+            size: 'small',
+            searchEndpoint: endpoint,
+          },
         },
         fieldGroup: [
           {

@@ -1,5 +1,5 @@
 <nz-card
-  [nzTitle]="wrapperOptions.title"
+  [nzTitle]="cardTitle"
   [nzSize]="wrapperOptions.size ?? 'default'"
   [nzExtra]="operatorSelector"
   [nzActions]="[actionSearch]"
@@ -10,6 +10,17 @@
     <span style="color: red">No subfilters field found</span>
   }
 </nz-card>
+<ng-template #cardTitle>
+  @let config = getSearchConfig(wrapperOptions.searchEndpoint!);
+  @if (config) {
+    <nz-icon
+      [nzType]="config.icon"
+      nzTheme="twotone"
+      [nzTwotoneColor]="config.iconColor" />
+  }
+
+  {{ wrapperOptions.title }}
+</ng-template>
 <ng-template #actionSearch>
   <nz-row
     [nzGutter]="[8, 8]"
@@ -21,7 +32,7 @@
         nzType="default"
         nzSize="default"
         (click)="onClearForm()">
-        Clear Query
+        Clear Filters
       </button>
     </nz-col>
 
@@ -31,7 +42,9 @@
       @if (formSubmitted && hasNoFilters) {
         <span class="error-msg">Add at least one filter before searching.</span>
       } @else if (isFormInvalid) {
-        <span class="error-msg">Please complete all filter values before searching.</span>
+        <span class="error-msg"
+          >Please complete all filter values before searching.</span
+        >
       }
     </nz-col>
     <nz-col nzSpan="8">

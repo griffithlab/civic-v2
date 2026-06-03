@@ -11,6 +11,23 @@
     }
   }
 
+  nz-tabs {
+    margin-left: -16px;
+    margin-right: -16px;
+
+    ::ng-deep .ant-tabs-nav-list {
+      > .ant-tabs-tab {
+        .anticon {
+          margin-right: 2px;
+        }
+      }
+
+      > .ant-tabs-tab:not(:first-child) {
+        margin-left: 12px;
+      }
+    }
+  }
+
   .query-form {
     position: relative;
     min-width: 0;

@@ -2,10 +2,18 @@ import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { FormArray } from '@angular/forms'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
+import { getEntityColor } from '../../../core/utilities/get-entity-color'
+import {
+  entityNameFromSearchEndpoint,
+  queryBuilderTabConfig,
+} from '../../../views/search/query-search/query-search.functions'
+import { Maybe } from '@generated/civic.apollo'
+import { QuerySearchPageTab } from '../../../views/search/query-search/query-search.types'
 
 type QueryBuilderCardOptions = {
   title?: string
   size?: 'default' | 'small'
+  searchEndpoint?: string
 }
 
 export interface CvcQueryBuilderCardWrapperProps extends FormlyFieldProps {
@@ -34,7 +42,9 @@ export class CvcQueryBuilderCardWrapper
   }
 
   get hasNoFilters(): boolean {
-    const subFilters = this.subFiltersField?.formControl as FormArray | undefined
+    const subFilters = this.subFiltersField?.formControl as
+      | FormArray
+      | undefined
     return !subFilters || subFilters.length === 0
   }
 
@@ -65,7 +75,14 @@ export class CvcQueryBuilderCardWrapper
       this.options.formState.submitQuery()
     }
   }
-
+  getSearchConfig(endpoint: string): Maybe<QuerySearchPageTab> {
+    const config = queryBuilderTabConfig.find(
+      (tab) => tab.searchEndpoint === endpoint
+    )
+    if (config) {
+      return config as QuerySearchPageTab
+    } else return
+  }
   ngOnInit(): void {
     if (this.props.formCardOptions) {
       this.wrapperOptions = {
