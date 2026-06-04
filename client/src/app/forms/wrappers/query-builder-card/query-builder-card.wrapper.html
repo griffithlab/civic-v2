@@ -3,7 +3,10 @@
   [nzSize]="wrapperOptions.size ?? 'default'"
   [nzExtra]="operatorSelector"
   [nzActions]="[actionSearch]"
-  class="large-card">
+  class="large-card"
+  [cvcAutoHeightCard]="4"
+  cvcAutoHeightTarget="ancestor"
+  cvcAutoHeightAncestor=".query-form-content">
   @if (subFiltersField) {
     <formly-field [field]="subFiltersField"></formly-field>
   } @else {

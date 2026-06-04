@@ -10,7 +10,7 @@ import {
 import { fromEvent, Subject, Subscription } from 'rxjs'
 import { throttleTime } from 'rxjs/operators'
 
-type AutoHeightTarget = 'parent' | 'viewport' | undefined
+type AutoHeightTarget = 'parent' | 'viewport' | 'ancestor' | undefined
 type AutoHeightOffset = string | number | undefined
 
 //
@@ -27,7 +27,10 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   private _offset?: AutoHeightOffset = 0
   // if 'parent' will use card's parent container for height calculation
   // if 'viewport', will use browser window for height calculation
+  // if 'ancestor', will fill the nearest ancestor matching _ancestorSelector
   private _target?: AutoHeightTarget = 'parent'
+  // CSS selector for the ancestor to fill when _target === 'ancestor'
+  private _ancestorSelector?: string
 
   @Input()
   set cvcAutoHeightCard(v: AutoHeightOffset) {
@@ -43,6 +46,14 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   }
   get cvcAutoHeightTarget(): AutoHeightTarget {
     return this._target
+  }
+
+  @Input()
+  set cvcAutoHeightAncestor(selector: string) {
+    this._ancestorSelector = selector
+  }
+  get cvcAutoHeightAncestor(): string | undefined {
+    return this._ancestorSelector
   }
 
   private resizeObserver: ResizeObserver
@@ -74,6 +85,12 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.resizeObserver.observe(this.el.nativeElement)
+    // in ancestor mode the card's own box doesn't change when the ancestor is
+    // resized (e.g. a parent resizer), so observe the ancestor too
+    if (this._target === 'ancestor' && this._ancestorSelector) {
+      const ancestor = this.el.nativeElement.closest(this._ancestorSelector)
+      if (ancestor) this.resizeObserver.observe(ancestor)
+    }
   }
 
   private doAutoSize() {
@@ -101,6 +118,25 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
         }
         const viewportOffset = bodyTop + headerDivHeight + this._offset
         bodyDiv.style.height = `calc(100vh - ${viewportOffset}px)`
+      } else if (this._target === 'ancestor') {
+        // fill the nearest matching ancestor: body height = ancestor height
+        // minus the card's head and actions (the offset trims for borders).
+        if (!this._ancestorSelector) return
+        const ancestor = card.closest(this._ancestorSelector)
+        if (!ancestor) {
+          console.warn(
+            `auto-height-card could not find ancestor matching "${this._ancestorSelector}".`
+          )
+          return
+        }
+        const actionsDiv = card.querySelector('.ant-card-actions')
+        const actionsHeight = actionsDiv ? actionsDiv.clientHeight : 0
+        const available =
+          ancestor.clientHeight -
+          headerDivHeight -
+          actionsHeight -
+          Number(this._offset)
+        bodyDiv.style.height = `${available}px`
       }
       bodyDiv.style['overflow-y'] = 'auto' // provides vertical scrollbars if overflow
     } else {
@@ -114,6 +150,6 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.windowResizeSub.unsubscribe()
     this.onResized$.unsubscribe()
-    this.resizeObserver.unobserve(this.el.nativeElement)
+    this.resizeObserver.disconnect()
   }
 }

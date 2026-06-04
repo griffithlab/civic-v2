@@ -72,8 +72,9 @@
     height: 100%;
 
     @media (max-width: (@xxl-min - 1)) {
-      // Below XXl: scroll the form internally when its height is constrained
-      overflow-y: auto;
+      // Below XXl: the card body handles its own scroll (cvcAutoHeightCard
+      // ancestor mode), so clip here to avoid a second scrollbar
+      overflow-y: hidden;
     }
   }
 
