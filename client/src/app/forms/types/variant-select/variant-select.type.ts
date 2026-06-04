@@ -37,15 +37,15 @@ import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
   combineLatest,
+  filter,
   lastValueFrom,
   map,
   Observable,
   ReplaySubject,
-  Subject,
   scan,
-  withLatestFrom,
-  filter,
+  Subject,
   take,
+  withLatestFrom,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 import {
@@ -95,11 +95,11 @@ const VariantSelectMixin = mixin(
 )
 
 @Component({
-    selector: '',
-    templateUrl: './variant-select.type.html',
-    styleUrls: ['./variant-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: '',
+  templateUrl: './variant-select.type.html',
+  styleUrls: ['./variant-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantSelectField
   extends VariantSelectMixin
@@ -257,6 +257,8 @@ export class CvcVariantSelectField
     return { value: variant.id, label: variant.name }
   }
 
+  // NOTE: to handle polymorphic types, the title attribute is overloaded below to get the variant typename into its #selectedTemplate's context, which is limited to NzSelectOptionInterface
+
   getSelectOptionsFn(
     results: VariantSelectTypeaheadFieldsFragment[],
     tplRefs: QueryList<TemplateRef<any>>
@@ -266,6 +268,7 @@ export class CvcVariantSelectField
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || variant.name,
           value: variant.id,
+          title: variant.__typename,
         }
       }
     )

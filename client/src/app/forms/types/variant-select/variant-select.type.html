@@ -38,12 +38,12 @@
       nz-button
       nzBlock
       class="manager-button"
-    (click)="onShowMgrClick$.next()">
+      (click)="onShowMgrClick$.next()">
       <span
         nz-icon
         [ngClass]="{
           show: (showMgr$ | ngrxPush),
-          hide: !(showMgr$ | ngrxPush)
+          hide: !(showMgr$ | ngrxPush),
         }"
         [nzType]="'caret-right'"></span>
       Manager
@@ -81,7 +81,7 @@
               [nzTooltipTitle]="result.variantAliases.join(', ')"
               [innerHtml]="
                 result.variantAliases.join(', ')
-                  | highlightTypeahead : searchString
+                  | highlightTypeahead: searchString
               "></span
           ></em>
         </ng-container>
@@ -98,8 +98,9 @@
   #selectedTemplate
   let-selected>
   <div class="ant-select-selection-item-content">
+    <!-- NOTE: to handle polymorphic Variant typenames, getSelectOptionFn overrides NzSelectOptionInterface title to provide the proper typename. This is a kludge to get the typename into the context where this template is rendered. -->
     <cvc-entity-tag
-      [cvcCacheId]="'Variant:' + selected.nzValue"
+      [cvcCacheId]="selected.nzTitle + ':' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
@@ -146,11 +147,11 @@
     </button>
   </nz-space>
   } @else {
-  <cvc-variant-quick-add-form
-    [cvcSearchString]="searchStr"
-    [cvcFeatureId]="onFeatureId$ | ngrxPush"
-    [cvcFeatureName]="onFeatureName$ | ngrxPush"
-    (cvcOnCreate)="onSelectOrCreate($event)">
-  </cvc-variant-quick-add-form>
+    <cvc-variant-quick-add-form
+      [cvcSearchString]="searchStr"
+      [cvcFeatureId]="onFeatureId$ | ngrxPush"
+      [cvcFeatureName]="onFeatureName$ | ngrxPush"
+      (cvcOnCreate)="onSelectOrCreate($event)">
+    </cvc-variant-quick-add-form>
   }
 </ng-template>

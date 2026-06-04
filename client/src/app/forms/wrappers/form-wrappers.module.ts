@@ -6,6 +6,9 @@ import { CvcFormFieldWrapperModule } from './form-field/form-field.module'
 import { CvcFormFooterWrapperModule } from './form-footer/form-footer.wrapper.module'
 import { CvcFormLayoutWrapperModule } from './form-layout/form-layout.wrapper.module'
 import { CvcFormRowWrapperModule } from './form-row/form-row.module'
+import { CvcQuerySubfiltersCardModule } from '@app/forms/wrappers/query-subfilters-card/query-subfilters-card.module'
+import { CvcQueryBuilderCardModule } from '@app/forms/wrappers/query-builder-card/query-builder-card.module'
+import { CvcQueryStructCardModule } from './query-struct-card/query-struct-card.module'
 
 @NgModule({
   imports: [
@@ -16,6 +19,9 @@ import { CvcFormRowWrapperModule } from './form-row/form-row.module'
     CvcFormFieldWrapperModule,
     CvcFormRowWrapperModule,
     CvcAddEntityFormWrapperModule,
+    CvcQuerySubfiltersCardModule,
+    CvcQueryBuilderCardModule,
+    CvcQueryStructCardModule,
   ],
 })
 export class CvcFormWrappersModule {}

@@ -1,4 +1,5 @@
 query BrowseSources(
+  $ids: [Int!]
   $first: Int
   $last: Int
   $before: String
@@ -11,9 +12,10 @@ query BrowseSources(
   $author: String
   $journal: String
   $clinicalTrialId: Int
-  $openAccess: Boolean,
+  $openAccess: Boolean
 ) {
   browseSources(
+    ids: $ids
     first: $first
     last: $last
     before: $before

@@ -22,6 +22,14 @@ module AdvancedSearches
       ]
     end
 
+    def resolve_is_deprecated_filter(node)
+      if node.deprecated.nil?
+        return nil
+      end
+      clause, value = node.deprecated.resolve_query_for_type("therapies.deprecated")
+      base_query.where(clause, value)
+    end
+
     def resolve_ncit_id_filter(node)
       return nil if node.ncit_id.nil?
       node.ncit_id.resolve_ontology_query(base_query, "therapies.ncit_id")

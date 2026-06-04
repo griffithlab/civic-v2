@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
-import { IndexableObject } from 'ng-zorro-antd/core/types'
 
-type FormCardOptions = {
+export type FormCardOptions = {
   title?: string
   size?: 'default' | 'small'
 }
@@ -17,10 +16,10 @@ const defaultWrapperOptions: FormCardOptions = {
 }
 
 @Component({
-    selector: 'cvc-form-card',
-    templateUrl: './form-card.wrapper.html',
-    styleUrls: ['./form-card.wrapper.less'],
-    standalone: false
+  selector: 'cvc-form-card',
+  templateUrl: './form-card.wrapper.html',
+  styleUrls: ['./form-card.wrapper.less'],
+  standalone: false,
 })
 export class CvcFormCardWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormCardWrapperProps>>

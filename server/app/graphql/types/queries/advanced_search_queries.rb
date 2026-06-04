@@ -56,6 +56,16 @@ module Types::Queries
         argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
       end
 
+      klass.field :search_revisions, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::RevisionSearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
+      klass.field :search_comments, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::CommentSearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
       klass.field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
         argument :permalink_id, String, required: true
       end
@@ -105,6 +115,14 @@ module Types::Queries
         handle_search("searchUsers", AdvancedSearches::User, create_permalink, query)
       end
 
+      def search_revisions(query:, create_permalink:)
+        handle_search("searchRevisions", AdvancedSearches::Revision, create_permalink, query)
+      end
+
+      def search_comments(query:, create_permalink:)
+        handle_search("searchComments", AdvancedSearches::Comment, create_permalink, query)
+      end
+
       def search_by_permalink(permalink_id:)
         saved_search = ::AdvancedSearch.find_by(token: permalink_id)
 
@@ -112,28 +130,51 @@ module Types::Queries
           raise GraphQL::ExecutionError.new("Saved search with id #{permalink_id} not found.")
         end
 
-        result = Civic2Schema.execute(saved_search.params, context: context)
+        begin
+          stored_params = JSON.parse(saved_search.params)
+          query_string = stored_params["query_string"]
+          variables = stored_params["variables"]
+          original_query = stored_params["original_query"]
+        rescue JSON::ParserError, TypeError
+          query_string = saved_search.params
+          variables = {}
+          original_query = nil
+        end
+
+        result = Civic2Schema.execute(query_string, variables: variables, context: context)
         formatted_hash = result.to_h.dig("data", saved_search.search_type)
+
         {
           permalink_id: formatted_hash["permalinkId"],
           result_ids: formatted_hash["resultIds"],
           search_endpoint: saved_search.search_type,
+          original_query: query_string,
+          original_variables: variables,
         }
       end
 
       def handle_search(search_type, search_class, create_permalink, query)
-        permalink = handle_permalink(search_type, create_permalink)
+        permalink = handle_permalink(search_type, create_permalink, query)
         {
           result_ids: search_class.new(query: query).results,
           permalink_id: permalink,
           search_endpoint: search_type,
+          original_query: query.to_h,
+          original_variables: context.query&.variables&.to_h,
         }
       end
 
-      def handle_permalink(search_type, create_permalink)
+      def handle_permalink(search_type, create_permalink, query)
         if create_permalink
           AdvancedSearch
-            .where(params: context.query.query_string, search_type: search_type)
+            .where(
+              params: {
+                query_string: context.query.query_string,
+                variables: context.query&.variables&.to_h,
+                original_query: query.to_h,
+              }.to_json,
+              search_type: search_type
+            )
             .first_or_create!
             .token
         else

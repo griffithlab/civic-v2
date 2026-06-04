@@ -1,4 +1,4 @@
-query BrowseDiseases(
+query DiseaseBrowse(
   $first: Int
   $last: Int
   $before: String
@@ -6,6 +6,7 @@ query BrowseDiseases(
   $sortBy: DiseasesSort
   $name: String
   $doid: String
+  $ids: [Int!]
   $diseaseAlias: String
   $featureName: String
 ) {
@@ -17,6 +18,7 @@ query BrowseDiseases(
     sortBy: $sortBy
     name: $name
     doid: $doid
+    ids: $ids
     diseaseAlias: $diseaseAlias
     featureName: $featureName
   ) {

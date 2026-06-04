@@ -5,12 +5,14 @@ module Types::AdvancedSearch
     value "CONTAINS"
     value "DOES_NOT_CONTAIN"
     value "STARTS_WITH"
+    value "IS_NULL"
+    value "IS_NOT_NULL"
   end
 
 
   class StringSearchInput < Types::BaseInputObject
     argument :operator, Types::AdvancedSearch::StringSearchOperator, required: true
-    argument :value, String, required: true
+    argument :value, String, required: false
 
     def resolve_query_for_type(column_name, value_override: nil)
       v = if value_override.present?
@@ -30,6 +32,10 @@ module Types::AdvancedSearch
         [ "#{column_name} IS NULL OR #{column_name} NOT ILIKE ?", "%#{v}%" ]
       when "STARTS_WITH"
         [ "#{column_name} ILIKE ?", "#{v}%" ]
+      when "IS_NULL"
+        [ "(#{column_name} IS NULL OR #{column_name} = '')" ]
+      when "IS_NOT_NULL"
+        [ "(#{column_name} IS NOT NULL AND #{column_name} != '')" ]
       end
     end
   end

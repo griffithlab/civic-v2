@@ -1,10 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -34,7 +34,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -52,7 +51,8 @@ export interface PhenotypesTableUserFilters {
   styleUrls: ['./phenotypes-table.component.less'],
   standalone: false,
 })
-export class CvcPhenotypesTableComponent implements OnInit {
+export class CvcPhenotypesTableComponent implements OnInit, OnChanges {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -104,6 +104,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
+      ids: this.ids,
       first: this.initialPageSize,
       sortBy: {
         column: PhenotypeSortColumns.EvidenceItemCount,
@@ -193,14 +194,22 @@ export class CvcPhenotypesTableComponent implements OnInit {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
+        ids: this.ids,
         name: this.hpoNameFilter,
         hpoId: this.hpoIdFilter,
       })
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   trackByIndex(

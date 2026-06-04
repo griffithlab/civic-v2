@@ -16,11 +16,14 @@ module AdvancedSearches
         resolve_source_type_filter(node),
         resolve_citation_filter(node),
         resolve_citation_id_filter(node),
+        resolve_author_first_name_filter(node),
+        resolve_author_last_name_filter(node),
         resolve_journal_filter(node),
         resolve_abstract_filter(node),
         resolve_title_filter(node),
         resolve_deprecated_filter(node),
         resolve_is_retracted_filter(node),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -82,6 +85,25 @@ module AdvancedSearches
       base_query.where(clause, value)
     end
 
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      source_ids = ::Source.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: source_ids)
+    end
+
+    def resolve_author_first_name_filter(node)
+      return nil if node.author_first_name.nil?
+
+      resolve_author_field_filter(node.author_first_name, "authors.fore_name")
+    end
+
+    def resolve_author_last_name_filter(node)
+      return nil if node.author_last_name.nil?
+
+      resolve_author_field_filter(node.author_last_name, "authors.last_name")
+    end
+
     def resolve_journal_filter(node)
       if node.journal.nil?
         return nil
@@ -89,6 +111,17 @@ module AdvancedSearches
 
       (clause, value) = node.journal.resolve_query_for_type("sources.journal")
       base_query.where(clause, value)
+    end
+
+    private
+    def source_author_query
+      ::Source.left_outer_joins(:authors)
+    end
+
+    def resolve_author_field_filter(filter, column_name)
+      clause, value = filter.resolve_query_for_type(column_name)
+      source_ids = source_author_query.where(clause, value).distinct.select(:id)
+      base_query.where(id: source_ids)
     end
   end
 end

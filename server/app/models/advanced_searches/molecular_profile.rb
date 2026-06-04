@@ -16,6 +16,7 @@ module AdvancedSearches
     def resolve_search_fields(node)
       [
         resolve_id_filter(node),
+        resolve_name_filter(node),
         resolve_description_filter(node),
         resolve_alias_filter(node),
         resolve_open_revision_count_filter(node),
@@ -27,7 +28,36 @@ module AdvancedSearches
         resolve_activity_user(node.creating_user, "CreateComplexMolecularProfileActivity"),
         resolve_activity_user(node.deprecating_user, "DeprecateComplexMolecularProfileActivity"),
         resolve_revisions_filter(node),
+        resolve_comment_filter(node),
       ]
+    end
+
+    def resolve_name_filter(node)
+      return nil if node.name.nil?
+      # MP display names are composed of feature and variant names (e.g. "BRAF V600E").
+      # The raw DB name column stores tokenized references (e.g. "#VID123"),
+      # so we search by matching against the concatenated feature + variant names.
+      feature_clause, feature_value = node.name.resolve_query_for_type("features.name")
+      variant_clause, variant_value = node.name.resolve_query_for_type("variants.name")
+      display_name_clause, display_name_value = node.name.resolve_query_for_type("CONCAT(features.name, ' ', variants.name)")
+
+      matching_ids = ::MolecularProfile
+        .joins(variants: [ :feature ])
+        .where(display_name_clause, display_name_value)
+        .or(
+          ::MolecularProfile
+            .joins(variants: [ :feature ])
+            .where(feature_clause, feature_value)
+        )
+        .or(
+          ::MolecularProfile
+            .joins(variants: [ :feature ])
+            .where(variant_clause, variant_value)
+        )
+        .distinct
+        .pluck(:id)
+
+      base_query.where(id: matching_ids)
     end
 
     def resolve_source_filter(node)
@@ -104,6 +134,13 @@ module AdvancedSearches
       end
       (clause, value) = node.score.resolve_query_for_type("molecular_profiles.evidence_score")
       base_query.where(clause, value)
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      mp_ids = ::MolecularProfile.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: mp_ids)
     end
 
     def resolve_revisions_filter(node)
