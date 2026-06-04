@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   effect,
   ElementRef,
@@ -101,10 +100,13 @@ export class QuerySearchPage {
   // Make enum available in template
   EvidenceStatusFilter = EvidenceStatusFilter
 
-  // Resizable form panel width (percentage of container, used at xxl+)
-  formWidthPercent = signal(50)
-  // Resizable form panel height (px, used below xxl; undefined = natural height)
-  formHeightPx = signal<Maybe<number>>(undefined)
+  // form block dimensions for resizer feature.
+  // formWidth is a percentage (XXl+ row layout, resolves against the
+  // container's definite width); formHeight is pixels (below-XXl column
+  // layout, where a percentage height has no definite containing block).
+  // The results block fills the remainder via flex.
+  formWidth = signal(50)
+  formHeight = signal(300)
 
   @ViewChild('panelContainer') panelContainer!: ElementRef<HTMLElement>
 
@@ -116,8 +118,6 @@ export class QuerySearchPage {
     paddingLeft: '16px',
     paddingRight: '16px',
   }
-
-  private cdr = inject(ChangeDetectorRef)
 
   constructor() {
     // EFFECT: sync route with searchEndpoint and permalinkId
@@ -184,19 +184,18 @@ export class QuerySearchPage {
 
   onResize(event: NzResizeEvent): void {
     if (event.direction === 'bottom') {
+      // below XXl: apply the form height directly in pixels; results fills
+      // the remaining vertical space via flex.
       if (event.height === undefined) return
-      this.formHeightPx.set(Math.max(200, event.height))
+      this.formHeight.set(event.height)
     } else {
+      // XXl+: form width as a percentage of the container's definite width.
       if (event.width === undefined) return
       const containerWidth = this.panelContainer.nativeElement.offsetWidth
-      const containerHeight = this.panelContainer.nativeElement.offsetHeight
       if (containerWidth === 0) return
       const percent = Math.round((event.width / containerWidth) * 100)
-      this.formWidthPercent.set(Math.max(20, Math.min(80, percent)))
+      this.formWidth.set(percent)
     }
-  }
-  onResizeEnd() {
-    this.cdr.detectChanges()
   }
 
   onExampleSelect(example: QuerySearchExample): void {

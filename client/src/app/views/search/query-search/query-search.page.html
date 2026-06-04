@@ -30,12 +30,9 @@
         class="query-form"
         nz-resizable
         nzBounds="parent"
-        [nzMinWidth]="200"
-        [nzMinHeight]="200"
         (nzResize)="onResize($event)"
-        (nzResizeEnd)="onResizeEnd()"
-        [style.width.%]="formWidthPercent()"
-        [style.height.px]="formHeightPx()">
+        [style.width.%]="formWidth()"
+        [style.height.px]="formHeight()">
         <nz-resize-handle
           nzDirection="right"
           nzCursorType="window">
