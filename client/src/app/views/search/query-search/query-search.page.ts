@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   effect,
   ElementRef,
@@ -100,8 +101,10 @@ export class QuerySearchPage {
   // Make enum available in template
   EvidenceStatusFilter = EvidenceStatusFilter
 
-  // Resizable form panel width (percentage of container)
+  // Resizable form panel width (percentage of container, used at xxl+)
   formWidthPercent = signal(50)
+  // Resizable form panel height (px, used below xxl; undefined = natural height)
+  formHeightPx = signal<Maybe<number>>(undefined)
 
   @ViewChild('panelContainer') panelContainer!: ElementRef<HTMLElement>
 
@@ -113,6 +116,8 @@ export class QuerySearchPage {
     paddingLeft: '16px',
     paddingRight: '16px',
   }
+
+  private cdr = inject(ChangeDetectorRef)
 
   constructor() {
     // EFFECT: sync route with searchEndpoint and permalinkId
@@ -177,12 +182,21 @@ export class QuerySearchPage {
     this.permalinkId.set(undefined)
   }
 
-  onResize({ width }: NzResizeEvent): void {
-    if (width === undefined) return
-    const containerWidth = this.panelContainer.nativeElement.offsetWidth
-    if (containerWidth === 0) return
-    const percent = Math.round((width / containerWidth) * 100)
-    this.formWidthPercent.set(Math.max(20, Math.min(80, percent)))
+  onResize(event: NzResizeEvent): void {
+    if (event.direction === 'bottom') {
+      if (event.height === undefined) return
+      this.formHeightPx.set(Math.max(200, event.height))
+    } else {
+      if (event.width === undefined) return
+      const containerWidth = this.panelContainer.nativeElement.offsetWidth
+      const containerHeight = this.panelContainer.nativeElement.offsetHeight
+      if (containerWidth === 0) return
+      const percent = Math.round((event.width / containerWidth) * 100)
+      this.formWidthPercent.set(Math.max(20, Math.min(80, percent)))
+    }
+  }
+  onResizeEnd() {
+    this.cdr.detectChanges()
   }
 
   onExampleSelect(example: QuerySearchExample): void {

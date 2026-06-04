@@ -31,21 +31,31 @@
         nz-resizable
         nzBounds="parent"
         [nzMinWidth]="200"
+        [nzMinHeight]="200"
         (nzResize)="onResize($event)"
-        [style.width.%]="formWidthPercent()">
+        (nzResizeEnd)="onResizeEnd()"
+        [style.width.%]="formWidthPercent()"
+        [style.height.px]="formHeightPx()">
         <nz-resize-handle
           nzDirection="right"
           nzCursorType="window">
           <div class="resize-handle-inner"></div>
         </nz-resize-handle>
+        <nz-resize-handle
+          nzDirection="bottom"
+          nzCursorType="window">
+          <div class="resize-handle-inner"></div>
+        </nz-resize-handle>
 
         <!-- QUERY BUILDER FORM -->
-        <cvc-query-builder-form
-          [searchEndpoint]="searchEndpoint()"
-          [permalinkId]="permalinkId()"
-          [formModelQuery]="searchExampleQuery()"
-          (searchResults)="searchResults.set($event)">
-        </cvc-query-builder-form>
+        <div class="query-form-content">
+          <cvc-query-builder-form
+            [searchEndpoint]="searchEndpoint()"
+            [permalinkId]="permalinkId()"
+            [formModelQuery]="searchExampleQuery()"
+            (searchResults)="searchResults.set($event)">
+          </cvc-query-builder-form>
+        </div>
       </div>
 
       <!-- QUERY RESULTS -->

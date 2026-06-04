@@ -33,8 +33,13 @@
     min-width: 0;
 
     @media (max-width: (@xxl-min - 1)) {
-      // Below XXl: full width, ignore resizable inline styles
+      // Below XXl: full width, ignore resizable inline width
       width: 100% !important;
+    }
+
+    @media (min-width: @xxl-min) {
+      // At XXl+: natural height, ignore resizable inline height
+      height: auto !important;
     }
 
     // ng-zorro resizable handle base styles (not included in compact theme)
@@ -51,6 +56,23 @@
       height: 100%;
       cursor: ew-resize;
     }
+
+    ::ng-deep .nz-resizable-handle-bottom {
+      left: 0;
+      bottom: -9px; // center in the 8px gap (half of gap + half of handle height)
+      width: 100%;
+      height: 10px;
+      cursor: ns-resize;
+    }
+  }
+
+  .query-form-content {
+    height: 100%;
+
+    @media (max-width: (@xxl-min - 1)) {
+      // Below XXl: scroll the form internally when its height is constrained
+      overflow-y: auto;
+    }
   }
 
   .query-results {
@@ -58,7 +80,7 @@
     min-width: 0;
   }
 
-  // Resize handle - only visible at XXl+
+  // Horizontal resize handle (form width) - only visible at XXl+
   nz-resize-handle[nzDirection='right'] {
     display: none;
 
@@ -82,6 +104,33 @@
     &:hover .resize-handle-inner {
       background-color: #1890ff;
       height: 60px;
+    }
+  }
+
+  // Vertical resize handle (form height) - only visible below XXl
+  nz-resize-handle[nzDirection='bottom'] {
+    display: block;
+
+    @media (min-width: @xxl-min) {
+      display: none;
+    }
+
+    .resize-handle-inner {
+      width: 40px;
+      height: 3px;
+      background-color: #d9d9d9;
+      border-radius: 2px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.2s,
+      width 0.2s;
+    }
+
+    &:hover .resize-handle-inner {
+      background-color: #1890ff;
+      width: 60px;
     }
   }
 
