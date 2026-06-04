@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy'
 import { CvcBaseInputField } from './input.type'
+import { NzSelectComponent } from 'ng-zorro-antd/select'
 
 @NgModule({
   declarations: [CvcBaseInputField],
@@ -43,6 +44,7 @@ import { CvcBaseInputField } from './input.type'
         },
       ],
     }),
+    NzSelectComponent,
   ],
 })
 export class CvcBaseInputModule {}

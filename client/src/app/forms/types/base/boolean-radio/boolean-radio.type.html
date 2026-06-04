@@ -1,0 +1,16 @@
+<nz-radio-group
+  nzButtonStyle="solid"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  (ngModelChange)="props.change && props.change(field, $event)">
+  <label
+    nz-radio-button
+    [nzValue]="true"
+    >{{ props.labels.true }}</label
+  >
+  <label
+    nz-radio-button
+    [nzValue]="false"
+    >{{ props.labels.false }}</label
+  >
+</nz-radio-group>

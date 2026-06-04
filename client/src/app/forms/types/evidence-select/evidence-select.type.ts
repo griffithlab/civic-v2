@@ -62,6 +62,7 @@ export interface CvcEvidenceSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   minSearchStrLength: number
+  showManager?: boolean
 }
 
 export interface CvcEvidenceSelectFieldConfig
@@ -132,6 +133,7 @@ export class CvcEvidenceSelectField
       label: 'Evidence Items',
       placeholder: 'Select Evidence Items',
       isMultiSelect: true,
+      showManager: true,
       description:
         'Select Evidence by ID, or use the manager to select with filtering',
       entityName: {

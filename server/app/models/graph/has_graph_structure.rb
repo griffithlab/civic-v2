@@ -3,7 +3,7 @@ module Graph
     extend ActiveSupport::Concern
 
     class_methods do
-      def delete_graph
+      def reset_graph!
         Graph::Node.where(term_type: name).destroy_all
       end
     end
@@ -18,13 +18,13 @@ module Graph
       has_one :graph_node, as: :term, class_name: "Graph::Node", dependent: :destroy, autosave: true
 
       def add_parent_term(term, relationship: default_edge_type)
-        parent_term = Graph::Node.find_by(term: term)
-        Graph::Edge.find_or_create_by!(previous_node: parent_term, next_node: self.graph_node, edge_type: relationship)
+        parent_term = term.ensure_graph_node!
+        Graph::Edge.find_or_create_by!(previous_node: parent_term, next_node: ensure_graph_node!, edge_type: relationship)
       end
 
       def add_child_term(term, relationship: default_edge_type)
-        child_term = Graph::Node.find_by(term: term)
-        Graph::Edge.find_or_create_by!(previous_node: self.graph_node, next_node: child_term, edge_type: relationship)
+        child_term = term.ensure_graph_node!
+        Graph::Edge.find_or_create_by!(previous_node: ensure_graph_node!, next_node: child_term, edge_type: relationship)
       end
 
       def remove_parent_term(term, relationship: default_edge_type)
@@ -37,35 +37,53 @@ module Graph
         Graph::Edge.where(previous_node: self.graph_node, next_node: child_term, edge_type: relationship).destroy_all
       end
 
+      def ensure_graph_node!
+        return graph_node if graph_node
+
+        node = Graph::Node.create_or_find_by!(term: self)
+        association(:graph_node).target = node
+        node
+      end
+
       # get only direct child nodes
       def direct_children(relationship: default_edge_type)
+        return self.class.none if graph_node.nil?
+
         instance_sql_for(direct_children_sql(relationship: relationship))
       end
 
       # get all child nodes recursively
       def all_children(relationship: default_edge_type)
+        return self.class.none if graph_node.nil?
+
         instance_sql_for(all_descendants_sql(relationship: relationship))
       end
 
       # get sibling nodes
       def siblings(relationship: default_edge_type)
+        return self.class.none if graph_node.nil?
+
         instance_sql_for(siblings_sql(relationship: relationship))
       end
 
       # get direct parent nodes
       def direct_parents(relationship: default_edge_type)
+        return self.class.none if graph_node.nil?
+
         instance_sql_for(direct_parents_sql(relationship: relationship))
       end
 
       # get all parent nodes rescursively
       def all_parents(relationship: default_edge_type)
+        return self.class.none if graph_node.nil?
+
         instance_sql_for(all_ancestors_sql(relationship: relationship))
       end
 
       private
 
       def create_node
-        Graph::Node.where(term: self).first_or_create!
+        ensure_graph_node!
       end
 
       def delete_node

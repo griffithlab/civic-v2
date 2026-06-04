@@ -10,13 +10,17 @@ module Importer
     end
 
     def import
-      parser.elements.each do |elem|
-        next unless valid_entry?(elem)
-        store_parent(elem)
-        create_object_from_entry(elem)
+      ActiveRecord::Base.transaction do
+        Disease.reset_graph!
+
+        parser.elements.each do |elem|
+          next unless valid_entry?(elem)
+          store_parent(elem)
+          create_object_from_entry(elem)
+        end
+        create_graph
+        delete_unprocessed_diseases
       end
-      create_graph
-      delete_unprocessed_diseases
     end
 
     private
@@ -113,7 +117,7 @@ module Importer
         d = Disease.find_by(doid: doid)
         if is_disease_with_no_relations?(d)
           d.disease_aliases.clear
-          d.delete
+          d.destroy
         else
           uri = URI(url_from_doid(d.doid))
           resp = Net::HTTP.get_response(uri)
@@ -145,7 +149,7 @@ module Importer
       Disease.where(doid: nil).each do |d|
         if is_disease_with_no_relations?(d)
           d.disease_aliases.clear
-          d.delete
+          d.destroy
         elsif [ "Solid Tumor", "Ventricular Dysfunction", "Acute Mountain Sickness", "Glioma", "Low Bone Mineral Density" ].include? d.name
           next
         else

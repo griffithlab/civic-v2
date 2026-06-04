@@ -13,6 +13,7 @@ module Types::AdvancedSearch
     argument :deprecation_reason, Types::AdvancedSearch::EnumSearchInput.for(Types::FeatureDeprecationReasonType, is_activerecord_enum: true), required: false
     argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
     argument :deprecating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+    argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
 
     # Gene Fields
     argument :entrez_id, Types::AdvancedSearch::IntSearchInput, required: false

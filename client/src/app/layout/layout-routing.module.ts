@@ -12,6 +12,14 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      {
+        path: 'search',
+        loadChildren: () =>
+          import('@app/views/search/search.module').then((m) => m.SearchModule),
+        data: {
+          breadcrumb: 'Advanced Search',
+        },
+      },
       // Primary Views
       {
         path: 'assertions',

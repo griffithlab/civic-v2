@@ -17,6 +17,7 @@ module AdvancedSearches
     def resolve_search_fields(node)
       [
         resolve_id_filter(node),
+        resolve_name_filter(node),
         resolve_assertion_type_filter(node),
         resolve_amp_level_filter(node),
         resolve_regulatory_approval_filter(node),
@@ -36,7 +37,14 @@ module AdvancedSearches
         resolve_activity_user(node.creating_user, "SubmitAsssertionActivity"),
         resolve_activity_user(node.moderating_user, "ModerateAsssertionActivity"),
         resolve_revisions_filter(node),
+        resolve_comment_filter(node),
       ]
+    end
+
+    def resolve_name_filter(node)
+      return nil if node.name.nil?
+      clause, value = node.name.resolve_query_for_type("CONCAT('AID', assertions.id::text)")
+      base_query.where(clause, value)
     end
 
     def resolve_assertion_type_filter(node)
@@ -51,7 +59,7 @@ module AdvancedSearches
 
     def resolve_regulatory_approval_filter(node)
       return nil if node.regulatory_approval.nil?
-      clause, value = node.regulatory_approval.resolve_query_for_type("assertions.regulatory_approval")
+      clause, value = node.regulatory_approval.resolve_query_for_type("assertions.fda_regulatory_approval")
       base_query.where(clause, value)
     end
 
@@ -123,6 +131,13 @@ module AdvancedSearches
     def resolve_variant_origin_filter(node)
       return nil if node.variant_origin.nil?
       node.variant_origin.resolve_query_for_activerecord_enum(base_query, "assertions.variant_origin")
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      assertion_ids = ::Assertion.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: assertion_ids)
     end
 
     def resolve_revisions_filter(node)

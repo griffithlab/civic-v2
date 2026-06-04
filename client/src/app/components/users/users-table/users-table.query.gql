@@ -7,8 +7,10 @@ query UsersBrowse(
   $organization: OrganizationFilter
   $role: UserRole
   $sortBy: UsersSort
+  $ids: [Int!]
 ) {
   browseUsers(
+    ids: $ids
     first: $first
     last: $last
     before: $before

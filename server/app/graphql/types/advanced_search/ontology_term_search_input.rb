@@ -8,6 +8,8 @@ module Types
       value "EQ_SELF_OR_ALL_ANCESTORS", description: "Include the matched term along with all ancestor terms recursively"
       value "EQ_SELF_OR_ALL_DESCENDANTS", description: "Include the matched term and any descendant terms recursively"
       value "EQ_SELF_AND_SIBLINGS", description: "Include the matched term and any sibling terms"
+      value "IS_NULL"
+      value "IS_NOT_NULL"
     end
 
     class OntologyTermSearchInput < StringSearchInput
@@ -65,6 +67,10 @@ module Types
           else
             base_query.none
           end
+        when "IS_NULL"
+          base_query.where("(#{column_name} IS NULL OR #{column_name} = '')")
+        when "IS_NOT_NULL"
+          base_query.where("(#{column_name} IS NOT NULL AND #{column_name} != '')")
         end
       end
     end

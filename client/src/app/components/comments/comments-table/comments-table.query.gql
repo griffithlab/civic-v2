@@ -1,0 +1,118 @@
+query CommentsBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $ids: [Int!]
+  $sortBy: DateSort
+  $originatingUserId: Int
+) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    ids: $ids
+    sortBy: $sortBy
+    originatingUserId: $originatingUserId
+  ) {
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...CommentBrowseFields
+      }
+    }
+  }
+}
+
+fragment CommentBrowseFields on Comment {
+  id
+  name
+  link
+  comment
+  createdAt
+  commenter {
+    id
+    displayName
+    role
+  }
+  commentable {
+    ... on Assertion {
+      id
+      name
+      link
+    }
+    ... on EvidenceItem {
+      id
+      name
+      link
+    }
+    ... on Feature {
+      id
+      name
+      link
+    }
+    ... on Flag {
+      id
+      name
+      link
+    }
+    ... on GeneVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FusionVariant {
+      id
+      name
+      link
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on MolecularProfile {
+      id
+      name
+      link
+    }
+    ... on Revision {
+      id
+      name
+      link
+    }
+    ... on Source {
+      id
+      name
+      link
+    }
+    ... on VariantGroup {
+      id
+      name
+      link
+    }
+  }
+}

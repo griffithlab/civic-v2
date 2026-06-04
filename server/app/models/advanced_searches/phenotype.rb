@@ -21,6 +21,12 @@ module AdvancedSearches
       ]
     end
 
+    def resolve_name_filter(node)
+      return nil if node.name.nil?
+      clause, value = node.name.resolve_query_for_type("phenotypes.hpo_class")
+      base_query.where(clause, value)
+    end
+
     def resolve_hpo_id_filter(node)
       return nil if node.hpo_id.nil?
       node.hpo_id.resolve_ontology_query(base_query, "phenotypes.hpo_id")

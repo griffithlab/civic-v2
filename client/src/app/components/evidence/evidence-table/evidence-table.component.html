@@ -654,6 +654,7 @@
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
     <nz-filter-trigger
+      *ngIf="!(ids && ids.length > 0)"
       [(nzVisible)]="statusFilterVisible"
       [nzDropdownMenu]="statusFilterMenu">
       <span

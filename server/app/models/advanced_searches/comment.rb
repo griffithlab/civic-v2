@@ -16,7 +16,17 @@ module AdvancedSearches
         resolve_id_filter(node),
         resolve_comment_filter(node),
         resolve_created_at_filter(node),
+        resolve_commenter_filter(node),
       ]
+    end
+
+    def resolve_commenter_filter(node)
+      return nil if node.commenter.nil?
+      user_ids = AdvancedSearches::User.new(query: node.commenter).results
+      matching_ids = ::Comment.unscoped.joins(:user)
+        .where(users: { id: user_ids })
+        .pluck(:id)
+      base_query.where(id: matching_ids)
     end
 
     def resolve_comment_filter(node)
