@@ -7,7 +7,7 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core'
-import { Subject } from 'rxjs'
+import { fromEvent, Subject, Subscription } from 'rxjs'
 import { throttleTime } from 'rxjs/operators'
 
 type AutoHeightTarget = 'parent' | 'viewport' | undefined
@@ -47,6 +47,7 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
 
   private resizeObserver: ResizeObserver
   private onResized$: Subject<boolean>
+  private windowResizeSub: Subscription
 
   constructor(
     private el: ElementRef,
@@ -59,6 +60,12 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
         this.onResized$.next(true)
       })
     })
+
+    // catch top-edge shifts that the ResizeObserver can't see (e.g. a sibling
+    // resizing pushes this card down); callers broadcast a window resize.
+    this.windowResizeSub = fromEvent(window, 'resize').subscribe(() =>
+      this.onResized$.next(true)
+    )
 
     this.onResized$.pipe(throttleTime(10)).subscribe((_) => {
       this.doAutoSize()
@@ -105,6 +112,7 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.windowResizeSub.unsubscribe()
     this.onResized$.unsubscribe()
     this.resizeObserver.unobserve(this.el.nativeElement)
   }

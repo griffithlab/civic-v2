@@ -188,6 +188,10 @@ export class QuerySearchPage {
       // the remaining vertical space via flex.
       if (event.height === undefined) return
       this.formHeight.set(event.height)
+      // moving the form only shifts the results card's top edge, which its
+      // ResizeObserver-based auto-height directives don't see; broadcast a
+      // resize so they (and the inner auto-height table) recompute.
+      window.dispatchEvent(new Event('resize'))
     } else {
       // XXl+: form width as a percentage of the container's definite width.
       if (event.width === undefined) return

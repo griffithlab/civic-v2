@@ -136,12 +136,7 @@
             <!-- null results & error notices -->
             <div
               [cvcAutoHeightDiv]="34"
-              cvcAutoHeightTarget="viewport"
-              style="
-                border: 1px solid #f0f0f0;
-                border-radius: 2px;
-                padding: 50px;
-              ">
+              cvcAutoHeightTarget="viewport">
               @if (result.status === 'empty') {
                 <nz-empty [nzNotFoundContent]="notFoundContent"></nz-empty>
                 <ng-template #notFoundContent>
