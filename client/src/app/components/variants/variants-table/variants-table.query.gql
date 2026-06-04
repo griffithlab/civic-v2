@@ -9,7 +9,7 @@ query BrowseVariants(
   $variantGroupId: Int
   $variantTypeName: String
   $hasNoVariantType: Boolean
-  $variantCategory: VariantCategories
+  $category: VariantCategories
   $sortBy: VariantsSort
   $first: Int
   $last: Int
@@ -27,7 +27,7 @@ query BrowseVariants(
     variantGroupId: $variantGroupId
     variantTypeName: $variantTypeName
     hasNoVariantType: $hasNoVariantType
-    category: $variantCategory
+    category: $category
     sortBy: $sortBy
     first: $first
     last: $last

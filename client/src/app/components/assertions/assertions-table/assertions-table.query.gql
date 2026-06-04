@@ -17,14 +17,13 @@ query AssertionsBrowse(
   $molecularProfileName: String
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
-  $organizationId: [Int!]
-  $includeSubgroups: Boolean
+  $organization: OrganizationFilter
   $userId: Int
   $phenotypeId: Int
   $diseaseId: Int
   $therapyId: Int
   $status: EvidenceStatusFilter
-  $approvingOrganizationIds: [Int!]
+  $approvingOrganizations: OrganizationFilter
 ) {
   assertions(
     first: $first
@@ -45,16 +44,13 @@ query AssertionsBrowse(
     ampLevel: $ampLevel
     molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
-    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
+    organization: $organization
     userId: $userId
     phenotypeId: $phenotypeId
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
-    approvingOrganizations: {
-      ids: $approvingOrganizationIds
-      includeSubgroups: $includeSubgroups
-    }
+    approvingOrganizations: $approvingOrganizations
   ) {
     totalCount
     pageInfo {

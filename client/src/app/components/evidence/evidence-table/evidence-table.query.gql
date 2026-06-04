@@ -12,13 +12,12 @@ query EvidenceBrowse(
   $evidenceDirection: EvidenceDirection
   $significance: EvidenceSignificance
   $evidenceType: EvidenceType
-  $rating: Int
+  $evidenceRating: Int
   $variantOrigin: VariantOrigin
   $variantId: Int
   $molecularProfileId: Int
   $assertionId: Int
-  $organizationId: [Int!]
-  $includeSubgroups: Boolean
+  $organization: OrganizationFilter
   $userId: Int
   $sortBy: EvidenceSort
   $phenotypeId: Int
@@ -43,12 +42,12 @@ query EvidenceBrowse(
     evidenceDirection: $evidenceDirection
     significance: $significance
     evidenceType: $evidenceType
-    evidenceRating: $rating
+    evidenceRating: $evidenceRating
     variantOrigin: $variantOrigin
     variantId: $variantId
     molecularProfileId: $molecularProfileId
     assertionId: $assertionId
-    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
+    organization: $organization
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId

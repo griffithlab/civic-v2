@@ -7,7 +7,8 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- summary, description block -->
         <nz-col [nzSpan]="24">
-          <cvc-entity-description [cvcEntity]="assertion"></cvc-entity-description>
+          <cvc-entity-description
+            [cvcEntity]="assertion"></cvc-entity-description>
         </nz-col>
 
         <!-- assertion attributes block -->
@@ -194,15 +195,18 @@
               nzBordered="true"
               [nzColumn]="1">
               <nz-descriptions-item [nzTitle]="approvalTitle">
-                @for (
-                  approval of assertion.activeApprovals.nodes.concat(
-                    assertion.requiresReviewApprovals.nodes
-                  );
-                  track approval.id
-                ) {
-                  <cvc-approval-notification
-                    [cvcApproval]="approval"></cvc-approval-notification>
-                }
+                <nz-space nzDirection="vertical">
+                  @for (
+                    approval of assertion.activeApprovals.nodes.concat(
+                      assertion.requiresReviewApprovals.nodes
+                    );
+                    track approval.id
+                  ) {
+                    <cvc-approval-notification
+                      *nzSpaceItem
+                      [cvcApproval]="approval"></cvc-approval-notification>
+                  }
+                </nz-space>
               </nz-descriptions-item>
               <ng-template #approvalTitle>
                 <span style="color: {{ this.color() }}">
@@ -412,7 +416,7 @@
 
             <!-- regulatory approval -->
             <nz-descriptions-item
-              nzTitle="Regulatory Approval"
+              nzTitle="FDA Regulatory Approval"
               nzSpan="1">
               <i
                 nz-icon

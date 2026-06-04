@@ -3,9 +3,9 @@ query UsersBrowse(
   $last: Int
   $before: String
   $after: String
-  $userName: String
-  $orgName: OrganizationFilter
-  $userRole: UserRole
+  $name: String
+  $organization: OrganizationFilter
+  $role: UserRole
   $sortBy: UsersSort
   $ids: [Int!]
 ) {
@@ -15,9 +15,9 @@ query UsersBrowse(
     last: $last
     before: $before
     after: $after
-    name: $userName
-    organization: $orgName
-    role: $userRole
+    name: $name
+    organization: $organization
+    role: $role
     sortBy: $sortBy
   ) {
     pageInfo {

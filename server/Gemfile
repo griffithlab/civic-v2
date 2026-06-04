@@ -66,7 +66,7 @@ gem "angular_rails_csrf", "~> 7.0.0"
 
 
 gem "sidekiq", "< 8"
-gem "sidekiq-cron", "~> 2.0"
+gem "sidekiq-cron", "~> 2.4"
 gem "connection_pool", "< 3"
 
 gem "aws-sdk-s3", "~> 1.208.0"
