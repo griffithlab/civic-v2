@@ -364,8 +364,9 @@ export class CvcEvidenceSelectField
   }
 
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {
+    const match = id.trim().match(/^(?:EID)?(\d+)$/i)
     return {
-      eid: +id.replace(/EID/i, ''),
+      eid: match ? +match[1] : 0,
     }
   }
 
