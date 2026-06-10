@@ -390,8 +390,8 @@
               nzValue="COMMON_GERMLINE"
               nzLabel="Common Germline"></nz-option>
             <nz-option
-              nzValue="GERMLINE_OR_SOMATIC"
-              nzLabel="Germline or Somatic"></nz-option>
+              nzValue="MIXED"
+              nzLabel="Mixed"></nz-option>
             <nz-option
               nzValue="COMBINED"
               nzLabel="Combined"></nz-option>
@@ -650,7 +650,9 @@
         nzSpin></i>
       <span>Loading…</span>
     </nz-tag>
-    <cvc-table-downloader [vars]="queryRef.variables" tableName="evidence"></cvc-table-downloader>
+    <cvc-table-downloader
+      [vars]="queryRef.variables"
+      tableName="evidence"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
     <nz-filter-trigger
