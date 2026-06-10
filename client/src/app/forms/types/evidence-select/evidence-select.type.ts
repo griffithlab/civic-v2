@@ -3,17 +3,23 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
+  effect,
+  Injector,
   QueryList,
   TemplateRef,
   Type,
   ViewChildren,
 } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import {
   AssertionFields,
+  AssertionSignificance,
+  AssertionType,
   EvidenceSelectTagGQL,
   EvidenceSelectTagQuery,
   EvidenceSelectTagQueryVariables,
@@ -174,7 +180,8 @@ export class CvcEvidenceSelectField
     private taq: EvidenceSelectTypeaheadGQL,
     private tq: EvidenceSelectTagGQL,
     private changeDetectorRef: ChangeDetectorRef,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private injector: Injector
   ) {
     super()
     this.onEid$ = new ReplaySubject<Maybe<number[]>>()
@@ -227,6 +234,7 @@ export class CvcEvidenceSelectField
 
   private configureStateConnections() {
     if (!this.state) return
+    this.configureAssertionEvidenceRequirement()
 
     // for each synchronized field specified, find its state.field stream,
     // add it to the synchronized fields array
@@ -307,9 +315,58 @@ export class CvcEvidenceSelectField
     )
   }
 
+  private configureAssertionEvidenceRequirement(): void {
+    const assertionType$ = this.state?.fields.assertionType$
+    const significance$ = this.state?.fields.significance$
+
+    if (!assertionType$ || !significance$) return
+
+    const assertionType = toSignal<Maybe<AssertionType>>(assertionType$, {
+      initialValue: assertionType$.value,
+      injector: this.injector,
+    })
+    const significance = toSignal<Maybe<AssertionSignificance>>(significance$, {
+      initialValue: significance$.value,
+      injector: this.injector,
+    })
+
+    const evidenceItemsRequired = computed(() =>
+      this.assertionRequiresEvidenceItems(assertionType(), significance())
+    )
+
+    effect(
+      () => {
+        this.props.required = evidenceItemsRequired()
+        this.formControl.updateValueAndValidity({ emitEvent: false })
+        this.changeDetectorRef.markForCheck()
+      },
+      { injector: this.injector }
+    )
+  }
+
+  private assertionRequiresEvidenceItems(
+    assertionType: Maybe<AssertionType>,
+    significance: Maybe<AssertionSignificance>
+  ): boolean {
+    const optionalSignificances = [
+      AssertionSignificance.Benign,
+      AssertionSignificance.LikelyBenign,
+      AssertionSignificance.UncertainSignificance,
+    ]
+
+    const optionalBySignificance =
+      assertionType === AssertionType.Oncogenic &&
+      significance !== undefined &&
+      significance !== null &&
+      optionalSignificances.includes(significance)
+
+    return !optionalBySignificance
+  }
+
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {
+    const match = id.trim().match(/^(?:EID)?(\d+)$/i)
     return {
-      eid: +id.replace(/EID/i, ''),
+      eid: match ? +match[1] : 0,
     }
   }
 
