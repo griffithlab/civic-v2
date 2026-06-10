@@ -1,10 +1,20 @@
 class AssertionValidator < ActiveModel::Validator
+  OPTIONAL_SIGNIFICANCES = [
+    "Benign",
+    "Likely Benign",
+    "Uncertain Significance",
+  ]
+
   def validate(record)
     validator = valid_types[record.assertion_type]
 
     if validator.blank?
       record.errors.add :assertion_type, "Invalid assertion type: #{record.assertion_type}"
       return
+    end
+
+    if record.evidence_item_ids.blank? && !allows_assertion_without_evidence_items?(record)
+      record.errors.add :evidence_item_ids, "At least one Evidence Item is required for this Assertion type and significance."
     end
 
     if !validator[:significance].include? record.significance
@@ -76,6 +86,11 @@ class AssertionValidator < ActiveModel::Validator
     if record.variant_origin == "Combined" && !record.molecular_profile.is_multi_variant?
       record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
     end
+  end
+
+  def allows_assertion_without_evidence_items?(record)
+    record.assertion_type == "Oncogenic" &&
+      OPTIONAL_SIGNIFICANCES.include?(record.significance)
   end
 
   def valid_types
