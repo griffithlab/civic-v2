@@ -39,8 +39,22 @@
       </button>
     </nz-col>
 
+    <nz-col nzSpan="2">
+      <button
+        nz-button
+        nzBlock
+        nzType="default"
+        nzSize="default"
+        nz-tooltip
+        nzTooltipTitle="Copy a shareable link to this search"
+        [disabled]="hasNoFilters"
+        (click)="onCopyLink()">
+        <nz-icon nzType="link" />
+      </button>
+    </nz-col>
+
     <nz-col
-      nzSpan="12"
+      nzSpan="10"
       class="form-messages">
       @if (formSubmitted && hasNoFilters) {
         <span class="error-msg">Add at least one filter before searching.</span>

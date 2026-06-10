@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 
 const wrapperConfig: ConfigOption = {
@@ -33,6 +34,7 @@ const wrapperConfig: ConfigOption = {
     NzCheckboxModule,
     NzSpaceModule,
     NzIconModule,
+    NzToolTipModule,
     CvcAutoHeightCardModule,
   ],
   exports: [CvcQueryBuilderCardWrapper],
