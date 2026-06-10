@@ -1,5 +1,5 @@
-import { compressToEncodedURIComponent } from 'lz-string'
 import {
+  compressToken,
   decodeQueryModel,
   encodeQueryModel,
 } from './advanced-search-url.service'
@@ -38,21 +38,21 @@ describe('advanced-search-url codec', () => {
   })
 
   it('returns null for an unknown endpoint', () => {
-    const token = compressToEncodedURIComponent(
+    const token = compressToken(
       JSON.stringify({ v: 1, e: 'searchNonsense', q: query })
     )
     expect(decodeQueryModel(token)).toBeNull()
   })
 
   it('returns null for a mismatched envelope version', () => {
-    const token = compressToEncodedURIComponent(
+    const token = compressToken(
       JSON.stringify({ v: 999, e: 'searchAssertions', q: query })
     )
     expect(decodeQueryModel(token)).toBeNull()
   })
 
   it('returns null when the query payload is missing/not an object', () => {
-    const token = compressToEncodedURIComponent(
+    const token = compressToken(
       JSON.stringify({ v: 1, e: 'searchAssertions', q: 'oops' })
     )
     expect(decodeQueryModel(token)).toBeNull()

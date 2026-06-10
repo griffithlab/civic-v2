@@ -1,9 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Router, UrlTree } from '@angular/router'
-import {
-  compressToEncodedURIComponent,
-  decompressFromEncodedURIComponent,
-} from 'lz-string'
+import { deflateSync, inflateSync, strFromU8, strToU8 } from 'fflate'
 import { ADVANCED_SEARCH_ENDPOINTS } from './query-builder.registry'
 import {
   AdvancedSearchEndpoint,
@@ -38,6 +35,48 @@ function isValidEndpoint(value: unknown): value is AdvancedSearchEndpoint {
   )
 }
 
+// Upper bound on the decompressed payload. A short token can inflate to an
+// arbitrarily large string ("zip bomb"); a shared malicious link should never
+// be able to allocate unbounded memory in a victim's tab. Any legitimate
+// query model is far smaller than this.
+const MAX_DECODED_BYTES = 256 * 1024
+
+// Base64url (RFC 4648 §5) keeps the token within the URL-unreserved set
+// [A-Za-z0-9-_], so it needs no further percent-encoding in a query param.
+function bytesToBase64Url(bytes: Uint8Array): string {
+  let binary = ''
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
+function base64UrlToBytes(token: string): Uint8Array {
+  const binary = atob(token.replace(/-/g, '+').replace(/_/g, '/'))
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i)
+  }
+  return bytes
+}
+
+// Compress a string into a URL-safe token (raw DEFLATE + base64url).
+export function compressToken(text: string): string {
+  return bytesToBase64Url(deflateSync(strToU8(text), { level: 9 }))
+}
+
+// Reverse compressToken. Returns null for any malformed input (bad base64,
+// non-DEFLATE data) or a payload that exceeds MAX_DECODED_BYTES.
+export function decompressToken(token: string): string | null {
+  try {
+    const inflated = inflateSync(base64UrlToBytes(token))
+    if (inflated.length > MAX_DECODED_BYTES) return null
+    return strFromU8(inflated)
+  } catch {
+    return null
+  }
+}
+
 // Serialize an endpoint + filter tree into a URL-safe, compressed token.
 export function encodeQueryModel(
   endpoint: AdvancedSearchEndpoint,
@@ -48,7 +87,7 @@ export function encodeQueryModel(
     e: endpoint,
     q: query,
   }
-  return compressToEncodedURIComponent(JSON.stringify(envelope))
+  return compressToken(JSON.stringify(envelope))
 }
 
 // Reverse encodeQueryModel. Returns null for any malformed/untrusted input
@@ -56,12 +95,7 @@ export function encodeQueryModel(
 // payload is only ever JSON.parse'd, never evaluated, and the resulting query
 // can express nothing a user couldn't build by hand in the query builder.
 export function decodeQueryModel(token: string): DecodedQueryModel | null {
-  let json: string | null
-  try {
-    json = decompressFromEncodedURIComponent(token)
-  } catch {
-    return null
-  }
+  const json = decompressToken(token)
   if (!json) return null
 
   let parsed: unknown
