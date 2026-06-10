@@ -129,7 +129,7 @@ export class EvidenceManagerConfig {
           typename: 'MolecularProfile',
           options: [
             {
-              key: 'Filter Therapy Names',
+              key: 'Filter Molecular Profiles',
               value: null,
             },
           ],
