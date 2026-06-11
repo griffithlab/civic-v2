@@ -11,13 +11,37 @@
     }
   }
 
+  nz-tabs {
+    margin-left: -16px;
+    margin-right: -16px;
+
+    ::ng-deep .ant-tabs-nav-list {
+      > .ant-tabs-tab {
+        .anticon {
+          margin-right: 2px;
+        }
+      }
+
+      > .ant-tabs-tab:not(:first-child) {
+        margin-left: 12px;
+      }
+    }
+  }
+
   .query-form {
     position: relative;
     min-width: 0;
 
     @media (max-width: (@xxl-min - 1)) {
-      // Below XXl: full width, ignore resizable inline styles
+      // Below XXl: full width, ignore resizable inline width
       width: 100% !important;
+      // floor for the vertical (pixel) resize
+      min-height: 150px;
+    }
+
+    @media (min-width: @xxl-min) {
+      // At XXl+: natural height, ignore resizable inline height
+      height: auto !important;
     }
 
     // ng-zorro resizable handle base styles (not included in compact theme)
@@ -34,6 +58,24 @@
       height: 100%;
       cursor: ew-resize;
     }
+
+    ::ng-deep .nz-resizable-handle-bottom {
+      left: 0;
+      bottom: -9px; // center in the 8px gap (half of gap + half of handle height)
+      width: 100%;
+      height: 10px;
+      cursor: ns-resize;
+    }
+  }
+
+  .query-form-content {
+    height: 100%;
+
+    @media (max-width: (@xxl-min - 1)) {
+      // Below XXl: the card body handles its own scroll (cvcAutoHeightCard
+      // ancestor mode), so clip here to avoid a second scrollbar
+      overflow-y: hidden;
+    }
   }
 
   .query-results {
@@ -41,7 +83,7 @@
     min-width: 0;
   }
 
-  // Resize handle - only visible at XXl+
+  // Horizontal resize handle (form width) - only visible at XXl+
   nz-resize-handle[nzDirection='right'] {
     display: none;
 
@@ -58,9 +100,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      transition:
-        background-color 0.2s,
-        height 0.2s;
+      transition: background-color 0.2s,
+      height 0.2s;
     }
 
     &:hover .resize-handle-inner {
@@ -69,9 +110,43 @@
     }
   }
 
-  .instructions-block {
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 12px;
+  // Vertical resize handle (form height) - only visible below XXl
+  nz-resize-handle[nzDirection='bottom'] {
+    display: block;
+
+    @media (min-width: @xxl-min) {
+      display: none;
+    }
+
+    .resize-handle-inner {
+      width: 40px;
+      height: 3px;
+      background-color: #d9d9d9;
+      border-radius: 2px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.2s,
+      width 0.2s;
+    }
+
+    &:hover .resize-handle-inner {
+      background-color: #1890ff;
+      width: 60px;
+    }
   }
+
+  .instructions-block {
+    border: 1px solid #f0f0f0;
+    border-radius: 2px;
+    padding: 25px;
+
+    .instructions-container {
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      padding: 12px;
+    }
+  }
+
 }

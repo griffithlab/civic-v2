@@ -436,6 +436,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_22_234000) do
     t.bigint "clinvar_api_key_id", null: false
     t.datetime "created_at", null: false
     t.bigint "organization_id", null: false
+    t.string "release_status"
     t.string "status"
     t.text "submission_id", null: false
     t.datetime "submitted_at"

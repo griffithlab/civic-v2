@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   model,
   OnInit,
   output,
@@ -51,6 +52,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
 export class CvcQueryBuilderForm implements OnInit {
   searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<string>()
+  formModelQuery = input<QueryBuilderFormModel['query']>()
 
   searchResults = output<QueryBuilderResult>()
   formModel: WritableSignal<QueryBuilderFormModel> = signal(
@@ -162,6 +164,18 @@ export class CvcQueryBuilderForm implements OnInit {
           console.error('searchByPermalink results did not include a formModel')
         }
       })
+
+    effect(() => {
+      const fmq = this.formModelQuery()
+      if (fmq) {
+        this.formModel.update((value) => {
+          return {
+            ...value,
+            query: structuredClone(fmq) as QueryBuilderFormModel['query'],
+          }
+        })
+      }
+    })
   }
 
   ngOnInit(): void {

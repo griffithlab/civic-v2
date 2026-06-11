@@ -7,7 +7,8 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- summary, description block -->
         <nz-col [nzSpan]="24">
-          <cvc-entity-description [cvcEntity]="assertion"></cvc-entity-description>
+          <cvc-entity-description
+            [cvcEntity]="assertion"></cvc-entity-description>
         </nz-col>
 
         <!-- assertion attributes block -->
@@ -201,7 +202,8 @@
                     );
                     track approval.id
                   ) {
-                    <cvc-approval-notification *nzSpaceItem
+                    <cvc-approval-notification
+                      *nzSpaceItem
                       [cvcApproval]="approval"></cvc-approval-notification>
                   }
                 </nz-space>
@@ -414,7 +416,7 @@
 
             <!-- regulatory approval -->
             <nz-descriptions-item
-              nzTitle="Regulatory Approval"
+              nzTitle="FDA Regulatory Approval"
               nzSpan="1">
               <i
                 nz-icon

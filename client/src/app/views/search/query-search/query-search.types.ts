@@ -3,4 +3,6 @@ import { AdvancedSearchEndpoint } from '@app/forms/config/query-builder/query-bu
 export type QuerySearchPageTab = {
   label: string
   searchEndpoint: AdvancedSearchEndpoint
+  icon: string
+  iconColor: string
 }

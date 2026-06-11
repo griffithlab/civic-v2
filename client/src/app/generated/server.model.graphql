@@ -392,6 +392,7 @@ type Approval {
   approvalActivity: ApproveAssertionActivity!
   assertion: Assertion!
   clinvarAccession: String
+  clinvarAccessionVisible: Boolean
   createdAt: ISO8601DateTime!
   id: Int!
   lastReviewed: ISO8601DateTime!

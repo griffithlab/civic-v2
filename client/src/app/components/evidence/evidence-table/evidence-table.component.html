@@ -296,7 +296,7 @@
                 nzValue="ADVERSE_RESPONSE"
                 nzLabel="Adverse Response"></nz-option>
               <nz-option
-                nzValue="REDUCED SENSITIVITY"
+                nzValue="REDUCED_SENSITIVITY"
                 nzLabel="Reduced Sensitivity"></nz-option>
               <nz-option
                 nzValue="NA"
@@ -390,8 +390,8 @@
               nzValue="COMMON_GERMLINE"
               nzLabel="Common Germline"></nz-option>
             <nz-option
-              nzValue="GERMLINE_OR_SOMATIC"
-              nzLabel="Germline or Somatic"></nz-option>
+              nzValue="MIXED"
+              nzLabel="Mixed"></nz-option>
             <nz-option
               nzValue="COMBINED"
               nzLabel="Combined"></nz-option>
@@ -656,6 +656,7 @@
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
     <nz-filter-trigger
+      *ngIf="!(ids && ids.length > 0)"
       [(nzVisible)]="statusFilterVisible"
       [nzDropdownMenu]="statusFilterMenu">
       <span

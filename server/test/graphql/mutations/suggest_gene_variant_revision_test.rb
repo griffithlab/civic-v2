@@ -125,4 +125,32 @@ class SuggestGeneVariantRevisionTest < ActiveSupport::TestCase
     )
     assert_graphql_error(response, /feature id/)
   end
+
+  test "rejects revision name containing fusion syntax" do
+    response = execute_mutation(
+      @mutation,
+      user: @user,
+      variables: {
+        id: @variant.id,
+        fields: default_fields.merge(name: "EML4::ALK"),
+        comment: "Trying to revise a gene variant into fusion syntax.",
+        organizationId: @org.id,
+      },
+    )
+    assert_graphql_error(response, /fusion syntax|Fusion Variant/i)
+  end
+
+  test "rejects revision name containing fusion case insensitively" do
+    response = execute_mutation(
+      @mutation,
+      user: @user,
+      variables: {
+        id: @variant.id,
+        fields: default_fields.merge(name: "eml4 fusion alk"),
+        comment: "Trying to revise a gene variant into fusion syntax.",
+        organizationId: @org.id,
+      },
+    )
+    assert_graphql_error(response, /fusion syntax|Fusion Variant/i)
+  end
 end

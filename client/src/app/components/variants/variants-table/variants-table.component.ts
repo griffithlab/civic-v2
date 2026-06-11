@@ -126,8 +126,8 @@ export class CvcVariantsTableComponent implements OnInit, OnChanges {
       variantTypeId: this.variantTypeId,
       variantGroupId: this.variantGroupId,
       hasNoVariantType: this.hasNoVariantTypeInput,
-      ids: this.ids,
       category: this.variantCategoryInput,
+      ids: this.ids,
       sortBy: {
         column: VariantsSortColumns.EvidenceItemCount,
         direction: SortDirection.Desc,

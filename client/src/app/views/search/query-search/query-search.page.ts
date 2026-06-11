@@ -22,6 +22,7 @@ import {
 } from '@app/views/search/query-search/query-search.functions'
 import {
   AdvancedSearchEndpoint,
+  QueryBuilderFormModel,
   QueryBuilderResult,
 } from '@app/forms/config/query-builder/query-builder.types'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -40,8 +41,15 @@ import { CvcTherapiesTableModule } from '@app/components/therapies/therapies-tab
 import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module'
 import { CvcRevisionsTableModule } from '@app/components/revisions/revisions-table/revisions-table.module'
 import { CvcCommentsTableModule } from '@app/components/comments/comments-table/comments-table.module'
-import { NzResultComponent } from 'ng-zorro-antd/result'
+import { NzResultComponent, NzResultModule } from 'ng-zorro-antd/result'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzListComponent, NzListModule } from 'ng-zorro-antd/list'
+import {
+  QUERY_SEARCH_EXAMPLES,
+  QuerySearchExample,
+} from './query-search.examples'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -56,6 +64,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     NzResizableModule,
     NzEmptyModule,
     NzIconModule,
+    NzButtonModule,
+    NzPopoverModule,
+    NzListModule,
+    NzResultModule,
     CvcAutoHeightDivModule,
     CvcQueryBuilderModule,
     CvcEvidenceTableModule,
@@ -71,7 +83,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     CvcSourcesTableModule,
     CvcRevisionsTableModule,
     CvcCommentsTableModule,
-    NzResultComponent,
   ],
 })
 export class QuerySearchPage {
@@ -82,18 +93,31 @@ export class QuerySearchPage {
   selectedTabIndex: WritableSignal<number> = signal(0)
 
   tabs = queryBuilderTabs
+  searchExamples = QUERY_SEARCH_EXAMPLES
+
+  searchExampleQuery = signal<Maybe<QueryBuilderFormModel['query']>>(undefined)
 
   // Make enum available in template
   EvidenceStatusFilter = EvidenceStatusFilter
 
-  // Resizable form panel width (percentage of container)
-  formWidthPercent = signal(50)
+  // form block dimensions for resizer feature.
+  // formWidth is a percentage (XXl+ row layout, resolves against the
+  // container's definite width); formHeight is pixels (below-XXl column
+  // layout, where a percentage height has no definite containing block).
+  // The results block fills the remainder via flex.
+  formWidth = signal(50)
+  formHeight = signal(300)
 
   @ViewChild('panelContainer') panelContainer!: ElementRef<HTMLElement>
 
   private router = inject(Router)
   private route = inject(ActivatedRoute)
   private previousEndpoint?: AdvancedSearchEndpoint
+
+  tabBarStyle = {
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  }
 
   constructor() {
     // EFFECT: sync route with searchEndpoint and permalinkId
@@ -158,11 +182,28 @@ export class QuerySearchPage {
     this.permalinkId.set(undefined)
   }
 
-  onResize({ width }: NzResizeEvent): void {
-    if (width === undefined) return
-    const containerWidth = this.panelContainer.nativeElement.offsetWidth
-    if (containerWidth === 0) return
-    const percent = Math.round((width / containerWidth) * 100)
-    this.formWidthPercent.set(Math.max(20, Math.min(80, percent)))
+  onResize(event: NzResizeEvent): void {
+    if (event.direction === 'bottom') {
+      // below XXl: apply the form height directly in pixels; results fills
+      // the remaining vertical space via flex.
+      if (event.height === undefined) return
+      this.formHeight.set(event.height)
+      // moving the form only shifts the results card's top edge, which its
+      // ResizeObserver-based auto-height directives don't see; broadcast a
+      // resize so they (and the inner auto-height table) recompute.
+      window.dispatchEvent(new Event('resize'))
+    } else {
+      // XXl+: form width as a percentage of the container's definite width.
+      if (event.width === undefined) return
+      const containerWidth = this.panelContainer.nativeElement.offsetWidth
+      if (containerWidth === 0) return
+      const percent = Math.round((event.width / containerWidth) * 100)
+      this.formWidth.set(percent)
+    }
+  }
+
+  onExampleSelect(example: QuerySearchExample): void {
+    this.searchEndpoint.set(example.searchEndpoint)
+    this.searchExampleQuery.set(example.formQuery)
   }
 }
