@@ -1,4 +1,5 @@
 import { assertionSubmitFormInitialModel } from '@app/forms/models/assertion-submit.model'
+import { AssertionFields } from '@app/forms/models/assertion-fields.model'
 import { CvcFdaCompanionTestCheckboxFieldOptions } from '@app/forms/types/fda-companion-test-checkbox/fda-companion-test-checkbox.type'
 import { CvcFdaRegulatoryApprovalCheckboxFieldOptions } from '@app/forms/types/fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms/types/interaction-select/interaction-select.type'
@@ -12,7 +13,12 @@ import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-de
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
+import { AssertionType } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig } from '@ngx-formly/core'
+
+function assertionRequiresEvidenceItems(model?: AssertionFields): boolean {
+  return model?.assertionType !== AssertionType.Oncogenic
+}
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
@@ -187,6 +193,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 props: {
                   required: true,
                   isMultiSelect: true,
+                },
+                expressions: {
+                  'props.required': (field: FormlyFieldConfig) =>
+                    assertionRequiresEvidenceItems(
+                      field.model as AssertionFields
+                    ),
                 },
               },
               {
