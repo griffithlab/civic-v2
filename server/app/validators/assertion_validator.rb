@@ -1,10 +1,4 @@
 class AssertionValidator < ActiveModel::Validator
-  OPTIONAL_SIGNIFICANCES = [
-    "Benign",
-    "Likely Benign",
-    "Uncertain Significance",
-  ]
-
   def validate(record)
     validator = valid_types[record.assertion_type]
 
@@ -89,8 +83,7 @@ class AssertionValidator < ActiveModel::Validator
   end
 
   def allows_assertion_without_evidence_items?(record)
-    record.assertion_type == "Oncogenic" &&
-      OPTIONAL_SIGNIFICANCES.include?(record.significance)
+    record.assertion_type == "Oncogenic"
   end
 
   def valid_types
