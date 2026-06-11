@@ -23,7 +23,7 @@ class VariantTsvFormatter
       "last_review_date",
     ]
 
-    shared_headers + gene_headers + factor_headers + fusion_headers
+    shared_headers + gene_headers + factor_headers + fusion_headers + region_headers
   end
 
   def self.gene_headers
