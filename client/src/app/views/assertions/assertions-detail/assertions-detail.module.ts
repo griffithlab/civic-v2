@@ -8,6 +8,7 @@ import { CvcApproveAssertionButtonComponent } from '@app/components/approvals/ap
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module'
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-buttons.module'
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module'
+import { CvcWithdrawAssertionButtonComponent } from '@app/components/shared/withdraw-assertion-button/withdraw-assertion-button.component'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
@@ -61,6 +62,7 @@ import { CvcApprovableDirective } from '@app/components/approvals/approvable/app
     CvcEntitySubscriptionButtonModule,
     CvcApprovableDirective,
     CvcRevertEntityButtonModule,
+    CvcWithdrawAssertionButtonComponent,
     CvcModerateEntityButtonsModule,
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,

@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core'
 import { QueryRef } from 'apollo-angular'
 import {
+  AssertionStatus,
   EvidenceDetailFieldsFragment,
   EvidenceDetailGQL,
   EvidenceDetailQuery,
@@ -139,7 +140,7 @@ export class EvidenceDetailView implements OnDestroy {
     }
   }
 
-  onModerateCompleted(res: EvidenceStatus | string[]) {
+  onModerateCompleted(res: AssertionStatus | EvidenceStatus | string[]) {
     if (Array.isArray(res)) {
       this.errors = res
       this.successMessage = undefined

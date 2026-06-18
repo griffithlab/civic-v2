@@ -8,14 +8,14 @@ import {
 } from '@angular/core'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
-import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
+import { AssertionStatus, EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 
 export interface LinkableAssertion {
   id: number
   name: string
   link: string
-  status: EvidenceStatus
+  status: AssertionStatus | EvidenceStatus
   flagged: boolean
 }
 

@@ -34,7 +34,7 @@ module Activities
     end
 
     def after_actions
-      @approvals = if new_status == "rejected"
+      @approvals = if new_status == "rejected" || new_status == "withdrawn"
         assertion.approvals.select { |e| e.active? || e.requires_review? }
       else
         []

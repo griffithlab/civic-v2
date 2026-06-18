@@ -1,14 +1,14 @@
 class Mutations::ModerateAssertion < Mutations::MutationWithOrg
-  description "Perform moderation actions on an assertion such as accepting, rejecting, or reverting."
+  description "Perform moderation actions on an assertion such as accepting, rejecting, reverting, or withdrawing."
 
   argument :assertion_id, Int, required: true,
     description: "ID of the Assertion to moderate"
 
-  argument :new_status, Types::EvidenceStatusType, required: true,
+  argument :new_status, Types::AssertionStatusType, required: true,
     description: "The desired status of the Assertion"
 
   argument :comment, String, required: false,
-    description: "Comment explaining the moderation action. Required when rejecting."
+    description: "Comment explaining the moderation action. Required when rejecting, reverting, or withdrawing."
 
   field :assertion, Types::Entities::AssertionType, null: false,
     description: "The moderated Assertion"
@@ -28,12 +28,16 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Assertion already has status #{new_status}."
     end
 
-    if (new_status == "rejected" || new_status == "submitted") && comment.blank?
-      raise GraphQL::ExecutionError, "A comment is required when rejecting or reverting an Assertion."
+    if (new_status == "rejected" || new_status == "submitted" || new_status == "withdrawn") && comment.blank?
+      raise GraphQL::ExecutionError, "A comment is required when rejecting, reverting, or withdrawing an Assertion."
     end
 
     if new_status == "accepted" && comment.present?
       raise GraphQL::ExecutionError, "Do not supply a comment when accepting an Assertion."
+    end
+
+    if new_status == "withdrawn" && @assertion.status != "accepted"
+      raise GraphQL::ExecutionError, "Only accepted Assertions may be withdrawn."
     end
 
     return true

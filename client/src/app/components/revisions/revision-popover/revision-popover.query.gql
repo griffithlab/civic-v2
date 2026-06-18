@@ -40,11 +40,11 @@ fragment revisionPopover on Revision {
     }
     ... on Assertion {
       flagged
-      status
+      assertionStatus: status
     }
     ... on EvidenceItem {
       flagged
-      status
+      evidenceStatus: status
     }
     ... on VariantGroup {
       flagged

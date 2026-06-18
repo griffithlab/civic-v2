@@ -31,12 +31,24 @@
           @case ('Assertion') {
             <cvc-assertion-tag
               [enablePopover]="false"
-              [assertion]="r.subject"></cvc-assertion-tag>
+              [assertion]="{
+                id: r.subject.id,
+                name: r.subject.name,
+                link: r.subject.link,
+                flagged: r.subject.flagged,
+                status: r.subject.assertionStatus,
+              }"></cvc-assertion-tag>
           }
           @case ('EvidenceItem') {
             <cvc-evidence-tag
               [enablePopover]="false"
-              [evidence]="r.subject"></cvc-evidence-tag>
+              [evidence]="{
+                id: r.subject.id,
+                name: r.subject.name,
+                link: r.subject.link,
+                flagged: r.subject.flagged,
+                status: r.subject.evidenceStatus,
+              }"></cvc-evidence-tag>
           }
           @case ('Variant') {
             <cvc-feature-variant-tag

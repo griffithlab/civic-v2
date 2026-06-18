@@ -3,6 +3,7 @@ import {
   AmpLevel,
   AssertionDirection,
   AssertionSignificance,
+  AssertionStatus,
   AssertionType,
   BooleanOperator,
   Chromosome,
@@ -99,6 +100,10 @@ export function getSelectOptions(enumType: string) {
       })
     case 'EvidenceItemStatusEnum':
       return $enum(EvidenceStatus).map((value) => {
+        return getOption(formatEvidenceEnum(value), value)
+      })
+    case 'AssertionStatusEnum':
+      return $enum(AssertionStatus).map((value) => {
         return getOption(formatEvidenceEnum(value), value)
       })
     case 'EvidenceItemDirectionEnum':

@@ -9,7 +9,11 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core'
-import { EvidenceStatusFilter, Maybe } from '@app/generated/civic.apollo'
+import {
+  AssertionStatusFilter,
+  EvidenceStatusFilter,
+  Maybe,
+} from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
@@ -98,6 +102,7 @@ export class QuerySearchPage {
   searchExampleQuery = signal<Maybe<QueryBuilderFormModel['query']>>(undefined)
 
   // Make enum available in template
+  AssertionStatusFilter = AssertionStatusFilter
   EvidenceStatusFilter = EvidenceStatusFilter
 
   // form block dimensions for resizer feature.

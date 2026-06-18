@@ -58,7 +58,7 @@
 
             <!-- CURATION ACTION BUTTONS-->
             @if (vwr.canModerate) {
-              @if (entity.status === 'SUBMITTED') {
+              @if (entity.status !== 'SUBMITTED') {
                 <!-- Revert Button -->
                 <cvc-revert-entity-button
                   *nzSpaceItem
@@ -66,6 +66,13 @@
                   [entityId]="entity.id"
                   (onReverted)="onRevert($event)">
                 </cvc-revert-entity-button>
+              }
+              @if (entity.status === 'ACCEPTED') {
+                <cvc-withdraw-assertion-button
+                  *nzSpaceItem
+                  [assertionId]="entity.id"
+                  (onWithdrawn)="onWithdraw($event)">
+                </cvc-withdraw-assertion-button>
               }
               <!-- Create Approval Button -->
               @if (vwr | canPerformApprovalActions) {
@@ -116,6 +123,13 @@
               nzBanner
               nzMessage="This Assertion has been rejected."
               nzType="error">
+            </nz-alert>
+          }
+          @if (entity.status == 'WITHDRAWN') {
+            <nz-alert
+              nzBanner
+              nzMessage="This Assertion has been withdrawn."
+              nzType="info">
             </nz-alert>
           }
           <cvc-tab-navigation [tabs]="tabConfig()">

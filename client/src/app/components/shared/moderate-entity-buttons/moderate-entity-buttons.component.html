@@ -5,7 +5,13 @@
       nzType="primary"
       nzSize="large"
       nz-button
-      (click)="moderate(evidenceStatuses.Accepted)"
+      (click)="
+        moderate(
+          entityType === 'Assertion'
+            ? assertionStatuses.Accepted
+            : evidenceStatuses.Accepted
+        )
+      "
       nz-tooltip
       [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
       [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
@@ -17,7 +23,13 @@
       nzType="primary"
       nzSize="large"
       nz-button
-      (click)="moderate(evidenceStatuses.Rejected)"
+      (click)="
+        moderate(
+          entityType === 'Assertion'
+            ? assertionStatuses.Rejected
+            : evidenceStatuses.Rejected
+        )
+      "
       nz-tooltip
       [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
       [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">

@@ -15,6 +15,7 @@ import { CvcApprovableCounts } from '@app/components/approvals/approvable/approv
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
+  AssertionStatus,
   AssertionDetailFieldsFragment,
   AssertionDetailGQL,
   AssertionDetailQuery,
@@ -272,13 +273,29 @@ export class AssertionsDetailView {
     }
   }
 
-  onModeration(moderationEvent: EvidenceStatus | string[]) {
+  onModeration(moderationEvent: AssertionStatus | EvidenceStatus | string[]) {
     if (Array.isArray(moderationEvent)) {
       this.errors.set(moderationEvent)
       this.successMessage.set(undefined)
     } else {
       this.errors.set([])
-      this.successMessage.set(moderationEvent)
+      this.successMessage.set(
+        `Assertion AID${this.assertionId()} successfully ${moderationEvent.toLowerCase()}.`
+      )
+      this.queryRef.refetch()
+    }
+  }
+
+  onWithdraw(withdrawEvent: true | string[]) {
+    if (withdrawEvent === true) {
+      this.errors.set([])
+      this.successMessage.set(
+        `Assertion AID${this.assertionId()} successfully withdrawn.`
+      )
+      this.queryRef.refetch()
+    } else {
+      this.errors.set(withdrawEvent)
+      this.successMessage.set(undefined)
     }
   }
 

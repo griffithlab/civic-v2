@@ -2,6 +2,7 @@ import {
   AmpLevel,
   AssertionDirection,
   AssertionSignificance,
+  AssertionStatus,
   AssertionType,
   EvidenceDirection,
   EvidenceLevel,
@@ -19,6 +20,7 @@ export type InputEnum =
   | EvidenceSignificance
   | EvidenceDirection
   | EvidenceStatus
+  | AssertionStatus
   | EvidenceType
   | AssertionSignificance
   | AssertionDirection
