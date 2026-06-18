@@ -16,7 +16,7 @@ module Types
       argument :name, Types::AdvancedSearch::StringSearchInput, required: false
       argument :phenotypes, Types::AdvancedSearch::PhenotypeSearchFilterType, required: false
       argument :significance, Types::AdvancedSearch::EnumSearchInput.for(Types::AssertionSignificanceType, is_activerecord_enum: true), required: false
-      argument :status, Types::AdvancedSearch::EnumSearchInput.for(Types::EvidenceStatusType), required: false
+      argument :status, Types::AdvancedSearch::EnumSearchInput.for(Types::AssertionStatusType), required: false
       argument :therapies, Types::AdvancedSearch::TherapySearchFilterType, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :variant_origin, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantOriginType, is_activerecord_enum: true), required: false

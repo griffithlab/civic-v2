@@ -108,11 +108,11 @@ fragment eventFeedNode on Event {
       deprecated
     }
     ... on EvidenceItem {
-      status
+      evidenceStatus: status
       flagged
     }
     ... on Assertion {
-      status
+      assertionStatus: status
       flagged
     }
     ... on Revision {

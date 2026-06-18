@@ -99,7 +99,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:therapy_id, type: GraphQL::Types::Int, description: "Exact match filtering of the assertions based on the internal CIViC therapy id") do |scope, value|
     scope.joins(:therapies).where("therapies.id = ?", value)
   end
-  option(:status, type: Types::EvidenceStatusFilterType, description: "Filtering on the status of the assertion.") do |scope, value|
+  option(:status, type: Types::AssertionStatusFilterType, description: "Filtering on the status of the assertion.") do |scope, value|
     if value == "ALL"
       scope.unscope(where: :status)
     elsif value == "NON_REJECTED"

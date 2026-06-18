@@ -8,9 +8,10 @@ class ModerateAssertionTest < ActiveSupport::TestCase
     @other_curator = users(:other_curator)
     @org = organizations(:test_org)
     @assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:submitted_assertion))
+    @accepted_assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:accepted_assertion))
     @assertion_by_editor = ::Assertion.find(ActiveRecord::FixtureSet.identify(:submitted_assertion_by_editor))
     @query = <<-GRAPHQL
-      mutation($assertionId: Int!, $newStatus: EvidenceStatus!, $orgId: Int, $comment: String) {
+      mutation($assertionId: Int!, $newStatus: AssertionStatus!, $orgId: Int, $comment: String) {
         moderateAssertion(input: {
           assertionId: $assertionId,
           newStatus: $newStatus,
@@ -44,6 +45,50 @@ class ModerateAssertionTest < ActiveSupport::TestCase
     )
     assert_graphql_success(response)
     assert_equal @assertion.id, response.dig("data", "moderateAssertion", "assertion", "id")
+  end
+
+  test "editor can withdraw an accepted assertion with comment" do
+    response = execute_mutation(
+      @query,
+      variables: { assertionId: @accepted_assertion.id, newStatus: "WITHDRAWN", orgId: @org.id, comment: "This assertion should no longer be considered active." },
+      user: @editor,
+    )
+    assert_graphql_success(response)
+    assert_equal @accepted_assertion.id, response.dig("data", "moderateAssertion", "assertion", "id")
+    assert_equal "WITHDRAWN", response.dig("data", "moderateAssertion", "assertion", "status")
+    assert_equal "withdrawn", @accepted_assertion.reload.status
+    assert_equal "assertion withdrawn", @accepted_assertion.withdrawal_event.action
+    assert_equal "withdrew", ModerateAssertionActivity.where(subject: @accepted_assertion).last.verbiage
+  end
+
+  test "withdrawing an accepted assertion moves active approvals to requires review" do
+    approval = approvals(:active_approval)
+
+    response = execute_mutation(
+      @query,
+      variables: { assertionId: @accepted_assertion.id, newStatus: "WITHDRAWN", orgId: @org.id, comment: "This assertion should no longer be considered active." },
+      user: @editor,
+    )
+    assert_graphql_success(response)
+    assert_equal "requires_review", approval.reload.status
+  end
+
+  test "withdrawing a submitted assertion fails" do
+    response = execute_mutation(
+      @query,
+      variables: { assertionId: @assertion.id, newStatus: "WITHDRAWN", orgId: @org.id, comment: "This assertion cannot be withdrawn yet." },
+      user: @editor,
+    )
+    assert_graphql_error(response, /only accepted assertions may be withdrawn/i)
+  end
+
+  test "withdrawing without comment fails" do
+    response = execute_mutation(
+      @query,
+      variables: { assertionId: @accepted_assertion.id, newStatus: "WITHDRAWN", orgId: @org.id },
+      user: @editor,
+    )
+    assert_graphql_error(response, /comment is required when rejecting, reverting, or withdrawing an assertion/i)
   end
 
   test "requires authentication" do
@@ -85,7 +130,7 @@ class ModerateAssertionTest < ActiveSupport::TestCase
       variables: { assertionId: @assertion.id, newStatus: "REJECTED", orgId: @org.id },
       user: @editor,
     )
-    assert_graphql_error(response, /comment is required when rejecting or reverting an assertion/i)
+    assert_graphql_error(response, /comment is required when rejecting, reverting, or withdrawing an assertion/i)
   end
 
   test "accepting with comment fails" do

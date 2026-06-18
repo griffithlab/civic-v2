@@ -3740,7 +3740,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "EvidenceStatus",
+                  "name": "AssertionStatus",
                   "ofType": null
                 }
               },
@@ -3839,6 +3839,18 @@
                   "name": "VariantOrigin",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "withdrawalEvent",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4646,7 +4658,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "EvidenceStatusTypeSearchInput",
+                "name": "AssertionStatusTypeSearchInput",
                 "ofType": null
               },
               "defaultValue": null,
@@ -5010,6 +5022,131 @@
               "deprecationReason": null
             }
           ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "AssertionStatus",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ACCEPTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUBMITTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WITHDRAWN",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "AssertionStatusFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ACCEPTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUBMITTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WITHDRAWN",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NON_REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ALL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "AssertionStatusTypeSearchInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "value",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "AssertionStatus",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "operator",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "EnumSearchOperator",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
           "possibleTypes": null
         },
         {
@@ -18119,6 +18256,12 @@
             },
             {
               "name": "ASSERTION_REVERTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ASSERTION_WITHDRAWN",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -35686,7 +35829,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "EvidenceStatus",
+                  "name": "AssertionStatus",
                   "ofType": null
                 }
               },
@@ -35696,7 +35839,7 @@
             },
             {
               "name": "comment",
-              "description": "Comment explaining the moderation action. Required when rejecting.",
+              "description": "Comment explaining the moderation action. Required when rejecting, reverting, or withdrawing.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -38956,7 +39099,7 @@
             },
             {
               "name": "moderateAssertion",
-              "description": "Perform moderation actions on an assertion such as accepting, rejecting, or reverting.",
+              "description": "Perform moderation actions on an assertion such as accepting, rejecting, reverting, or withdrawing.",
               "args": [
                 {
                   "name": "input",
@@ -44916,7 +45059,7 @@
                   "description": "Filtering on the status of the assertion.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "EvidenceStatusFilter",
+                    "name": "AssertionStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,

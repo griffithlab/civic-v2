@@ -31,10 +31,10 @@ fragment flagPopover on Flag {
       deprecated
     }
     ... on EvidenceItem {
-      status
+      evidenceStatus: status
     }
     ... on Assertion {
-      status
+      assertionStatus: status
     }
     flagged
   }

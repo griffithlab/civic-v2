@@ -22,7 +22,7 @@ query AssertionsBrowse(
   $phenotypeId: Int
   $diseaseId: Int
   $therapyId: Int
-  $status: EvidenceStatusFilter
+  $status: AssertionStatusFilter
   $approvingOrganizations: OrganizationFilter
 ) {
   assertions(

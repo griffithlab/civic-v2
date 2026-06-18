@@ -7,6 +7,7 @@ class ModerateAssertionActivity < Activity
 
   def generate_verbiage
     action = self.events[0].action
-    "#{action.split(" ")[1]}"
+    status = action.split(" ")[1]
+    status == "withdrawn" ? "withdrew" : status
   end
 end

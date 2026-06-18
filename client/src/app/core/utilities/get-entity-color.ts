@@ -38,6 +38,7 @@ export const EntityColors = new Map<string, string>([
 
   // entity state colors
   ['Rejected', '#BBBBBB'],
+  ['Withdrawn', '#fa8c16'],
 
   ['Greyscale', '#999999'],
 ])

@@ -135,6 +135,26 @@ const EVIDENCE_STATUS_TYPE_SEARCH_INPUT = [
   },
 ]
 
+const ASSERTION_STATUS_TYPE_SEARCH_INPUT = [
+  {
+    key: 'operator',
+    type: 'base-select',
+    defaultValue: EnumSearchOperator.Eq,
+    props: {
+      options: getSelectOptions('EnumSearchOperator'),
+    },
+  },
+  {
+    key: 'value',
+    type: 'base-select',
+    props: {
+      required: true,
+      options: getSelectOptions('AssertionStatusEnum'),
+      placeholder: 'Select Status',
+    },
+  },
+]
+
 const EVIDENCE_DIRECTION_TYPE_SEARCH_INPUT = [
   {
     key: 'operator',
@@ -541,6 +561,7 @@ export const INPUT_FIELD_CONFIG: Record<string, FormlyFieldConfig[]> = {
   AssertionDirectionTypeSearchInput: ASSERTION_DIRECTION_TYPE_SEARCH_INPUT,
   AssertionSignificanceTypeSearchInput:
     ASSERTION_SIGNIFICANCE_TYPE_SEARCH_INPUT,
+  AssertionStatusTypeSearchInput: ASSERTION_STATUS_TYPE_SEARCH_INPUT,
   AssertionTypeTypeSearchInput: ASSERTION_TYPE_TYPE_SEARCH_INPUT,
   BooleanSearchInput: BOOLEAN_SEARCH_INPUT,
   ChromosomeTypeSearchInput: CHROMOSOME_TYPE_SEARCH_INPUT,

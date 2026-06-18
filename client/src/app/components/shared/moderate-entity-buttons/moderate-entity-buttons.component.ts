@@ -15,9 +15,9 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
+  AssertionStatus,
   EvidenceStatus,
   Maybe,
-  Organization,
   ModerateAssertionGQL,
   ModerateAssertionMutation,
   ModerateAssertionMutationVariables,
@@ -43,7 +43,9 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
   @Input() entityId!: number
 
-  @Output() onModerated = new EventEmitter<EvidenceStatus | string[]>()
+  @Output() onModerated = new EventEmitter<
+    EvidenceStatus | AssertionStatus | string[]
+  >()
 
   @ViewChild('confirmModal') modalContents!: TemplateRef<any>
 
@@ -62,6 +64,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
   >
 
   evidenceStatuses = EvidenceStatus
+  assertionStatuses = AssertionStatus
 
   isSubmitting = false
   showConfirm = false
@@ -105,7 +108,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
       .subscribe((org) => (this.mostRecentOrg = org))
   }
 
-  moderate(newStatus: EvidenceStatus) {
+  moderate(newStatus: EvidenceStatus | AssertionStatus) {
     const action = newStatus.replace(/ED$/, '')
     const actionName = action.charAt(0) + action.slice(1).toLowerCase()
 
@@ -121,7 +124,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
     })
   }
 
-  submit(newStatus: EvidenceStatus) {
+  submit(newStatus: EvidenceStatus | AssertionStatus) {
     this.isSubmitting = true
     let state: MutationState
 
@@ -130,7 +133,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
         input: {
           evidenceItemId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
-          newStatus: newStatus,
+          newStatus: newStatus as EvidenceStatus,
           comment: this.confirmationComment,
         },
       })
@@ -139,7 +142,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
         input: {
           assertionId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
-          newStatus: newStatus,
+          newStatus: newStatus as AssertionStatus,
           comment: this.confirmationComment,
         },
       })

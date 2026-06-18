@@ -775,13 +775,14 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     status: RevisionStatus
   ): RevisionConnection!
   significance: AssertionSignificance!
-  status: EvidenceStatus!
+  status: AssertionStatus!
   submissionActivity: SubmitAssertionActivity!
   submissionEvent: Event
   summary: String!
   therapies: [Therapy!]!
   therapyInteractionType: TherapyInteraction
   variantOrigin: VariantOrigin!
+  withdrawalEvent: Event
 }
 
 """
@@ -960,7 +961,7 @@ input AssertionSearchFilter {
   regulatoryApproval: BooleanSearchInput
   revisions: RevisionSearchFilter
   significance: AssertionSignificanceTypeSearchInput
-  status: EvidenceStatusTypeSearchInput
+  status: AssertionStatusTypeSearchInput
   subFilters: [AssertionSearchFilter!]
   therapies: TherapySearchFilter
   variantOrigin: VariantOriginTypeSearchInput
@@ -1012,6 +1013,27 @@ enum AssertionSortColumns {
   SIGNIFICANCE
   STATUS
   SUMMARY
+}
+
+enum AssertionStatus {
+  ACCEPTED
+  REJECTED
+  SUBMITTED
+  WITHDRAWN
+}
+
+enum AssertionStatusFilter {
+  ACCEPTED
+  ALL
+  NON_REJECTED
+  REJECTED
+  SUBMITTED
+  WITHDRAWN
+}
+
+input AssertionStatusTypeSearchInput {
+  operator: EnumSearchOperator!
+  value: AssertionStatus!
 }
 
 enum AssertionType {
@@ -3425,6 +3447,7 @@ enum EventAction {
   ASSERTION_REJECTED
   ASSERTION_REVERTED
   ASSERTION_SUBMITTED
+  ASSERTION_WITHDRAWN
   COMMENTED
   COMMENT_DELETED
   COMPLEX_MOLECULAR_PROFILE_CREATED
@@ -7315,14 +7338,14 @@ input ModerateAssertionInput {
   clientMutationId: String
 
   """
-  Comment explaining the moderation action. Required when rejecting.
+  Comment explaining the moderation action. Required when rejecting, reverting, or withdrawing.
   """
   comment: String
 
   """
   The desired status of the Assertion
   """
-  newStatus: EvidenceStatus!
+  newStatus: AssertionStatus!
 
   """
   The ID of the organization to credit the user's contributions to.
@@ -8123,7 +8146,7 @@ type Mutation {
   ): GenerateApiKeyPayload
 
   """
-  Perform moderation actions on an assertion such as accepting, rejecting, or reverting.
+  Perform moderation actions on an assertion such as accepting, rejecting, reverting, or withdrawing.
   """
   moderateAssertion(
     """
@@ -9387,7 +9410,7 @@ type Query {
     """
     Filtering on the status of the assertion.
     """
-    status: EvidenceStatusFilter
+    status: AssertionStatusFilter
 
     """
     Substring filtering on assertion description.

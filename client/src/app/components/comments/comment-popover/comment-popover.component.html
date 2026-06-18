@@ -19,12 +19,24 @@
             @case ('Assertion') {
               <cvc-assertion-tag
                 [enablePopover]="false"
-                [assertion]="c.commentable"></cvc-assertion-tag>
+                [assertion]="{
+                  id: c.commentable.id,
+                  name: c.commentable.name,
+                  link: c.commentable.link,
+                  flagged: c.commentable.flagged,
+                  status: c.commentable.assertionStatus,
+                }"></cvc-assertion-tag>
             }
             @case ('EvidenceItem') {
               <cvc-evidence-tag
                 [enablePopover]="false"
-                [evidence]="c.commentable"></cvc-evidence-tag>
+                [evidence]="{
+                  id: c.commentable.id,
+                  name: c.commentable.name,
+                  link: c.commentable.link,
+                  flagged: c.commentable.flagged,
+                  status: c.commentable.evidenceStatus,
+                }"></cvc-evidence-tag>
             }
             @case ('Variant') {
               <cvc-feature-variant-tag
