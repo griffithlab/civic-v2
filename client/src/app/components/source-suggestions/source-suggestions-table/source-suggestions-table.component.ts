@@ -49,6 +49,7 @@ export interface SourceSuggestionTableFilters {
   citationInput?: Maybe<string>
   commentInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
   molecularProfileNameInput?: Maybe<string>
   sourceIdInput?: Maybe<number>
   sourceTypeInput?: Maybe<SourceSource>
@@ -104,6 +105,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   sourceIdInput: Maybe<number>
   molecularProfileNameInput: Maybe<string>
   diseaseNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   commentInput: Maybe<string>
   submitterInput: Maybe<string>
   citationInput: Maybe<string>
@@ -239,6 +241,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
         sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
         molecularProfileName: this.molecularProfileNameInput,
         diseaseName: this.diseaseNameInput,
+        therapyName: this.therapyNameInput,
         comment: this.commentInput,
         submitter: this.submitterInput,
         citation: this.citationInput,
@@ -260,6 +263,12 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
 
   closePopover() {
     this.showManageForm = false
+  }
+
+  getTherapyIdsQueryParam(
+    suggestion: Maybe<BrowseSourceSuggestionRowFieldsFragment>
+  ): string {
+    return JSON.stringify(suggestion?.therapies.map((t) => t.id) || [])
   }
 
   // virtual scroll helpers

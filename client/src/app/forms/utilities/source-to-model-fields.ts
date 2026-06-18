@@ -20,11 +20,12 @@ export function sourceFormModelToInput(model: SourceModel): Maybe<SuggestSourceI
   if (requiredFields.find(f => f === undefined)) {
     return undefined
   }
-  
+
   return {
     sourceId: fields.sourceId!,
     molecularProfileId: fields.molecularProfileId,
     diseaseId: fields.diseaseId,
+    therapyIds: fields.therapyIds || [],
     organizationId: model.organizationId,
     comment: model.comment!
   }

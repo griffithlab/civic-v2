@@ -3,10 +3,16 @@ import { SuggestSourceActivityDetailFragment } from '@app/generated/civic.apollo
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 
 @Component({
   selector: 'cvc-suggest-source-activity-details',
-  imports: [NzDescriptionsModule, NzTagModule, CvcEmptyValueModule],
+  imports: [
+    NzDescriptionsModule,
+    NzTagModule,
+    CvcEmptyValueModule,
+    CvcTherapyTagModule,
+  ],
   templateUrl: './suggest-source-activity.component.html',
   styleUrl: './suggest-source-activity.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

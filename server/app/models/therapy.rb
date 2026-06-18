@@ -7,6 +7,7 @@ class Therapy < ApplicationRecord
 
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :assertions
+  has_and_belongs_to_many :source_suggestions
   has_and_belongs_to_many :therapy_aliases
 
   before_validation :nilify_blank_ncit_id

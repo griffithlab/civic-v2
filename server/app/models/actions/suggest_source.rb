@@ -1,14 +1,15 @@
 module Actions
   class SuggestSource
     include Actions::Transactional
-    attr_reader :source, :originating_user, :organization_id, :molecular_profile_id, :disease_id, :source_suggestion
+    attr_reader :source, :originating_user, :organization_id, :molecular_profile_id, :disease_id, :therapy_ids, :source_suggestion
 
-    def initialize(source:, originating_user:, organization_id:, molecular_profile_id: nil, disease_id: nil)
+    def initialize(source:, originating_user:, organization_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids: [])
       @source = source
       @originating_user = originating_user
       @organization_id = organization_id
       @molecular_profile_id = molecular_profile_id
       @disease_id = disease_id
+      @therapy_ids = therapy_ids.uniq
     end
 
     private
@@ -19,6 +20,7 @@ module Actions
         status: "new",
         molecular_profile_id: molecular_profile_id,
         disease_id: disease_id,
+        therapy_ids: therapy_ids,
       )
       create_event(source_suggestion)
     end

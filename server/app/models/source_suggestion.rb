@@ -6,6 +6,7 @@ class SourceSuggestion < ActiveRecord::Base
   belongs_to :user
   belongs_to :disease, optional: true
   belongs_to :molecular_profile, optional: true
+  has_and_belongs_to_many :therapies
 
   validates :status, inclusion: { in: [ "new", "curated", "rejected" ] }
 
