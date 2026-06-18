@@ -10,6 +10,7 @@ import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module'
 import { CvcTableDownloaderComponent } from '@app/components/shared/table-downloader/table-downloader.component'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
@@ -58,6 +59,7 @@ import { NzSpaceCompactComponent } from 'ng-zorro-antd/space'
     CvcFormErrorsAlertModule,
     CvcPipesModule,
     CvcSourceTagModule,
+    CvcTherapyTagModule,
     CvcUpdateSourceSuggestionFormModule,
     CvcUserTagModule,
     CvcMolecularProfileTagModule,

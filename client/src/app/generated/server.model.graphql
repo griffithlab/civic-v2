@@ -10849,6 +10849,7 @@ type Query {
     status: SourceSuggestionStatus
     submitter: String
     submitterId: Int
+    therapyName: String
   ): SourceSuggestionConnection!
 
   """
@@ -12780,6 +12781,7 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
   reason: String
   source: Source
   status: SourceSuggestionStatus!
+  therapies: [Therapy!]!
   user: User
 }
 
@@ -13879,6 +13881,11 @@ input SuggestSourceInput {
   Internal CIViC ID for the source to suggest. Use the AddRemoteCitation mutation to populate this if needed.
   """
   sourceId: Int!
+
+  """
+  List of IDs of CIViC Therapy entries for this Source Suggestion. An empty list indicates none.
+  """
+  therapyIds: [Int!]!
 }
 
 """

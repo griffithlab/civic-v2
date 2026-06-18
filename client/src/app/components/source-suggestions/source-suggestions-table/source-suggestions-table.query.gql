@@ -9,6 +9,7 @@ query BrowseSourceSuggestions(
   $sourceId: Int
   $molecularProfileName: String
   $diseaseName: String
+  $therapyName: String
   $comment: String
   $submitter: String
   $citation: String
@@ -26,6 +27,7 @@ query BrowseSourceSuggestions(
     sourceId: $sourceId
     molecularProfileName: $molecularProfileName
     diseaseName: $diseaseName
+    therapyName: $therapyName
     comment: $comment
     submitter: $submitter
     citation: $citation
@@ -59,6 +61,12 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     deprecated
   }
   disease {
+    id
+    name
+    link
+    deprecated
+  }
+  therapies {
     id
     name
     link
