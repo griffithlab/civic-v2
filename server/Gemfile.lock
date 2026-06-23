@@ -341,7 +341,7 @@ GEM
       rack (>= 1.2, < 4)
     obo (0.1.5)
     observer (0.1.2)
-    oj (3.16.16)
+    oj (3.17.3)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     omniauth (2.0.4)
@@ -695,7 +695,7 @@ DEPENDENCIES
   neighbor (~> 0.6.0)
   net-ftp (~> 0.3.3)
   obo (~> 0.1.5)
-  oj (~> 3.16.3)
+  oj (~> 3.17.3)
   omniauth (~> 2.0.2)
   omniauth-github (~> 2.0.0)
   omniauth-google-oauth2 (~> 0.8.1)
@@ -881,7 +881,7 @@ CHECKSUMS
   oauth2 (1.4.11) sha256=6739fcc8872bc94f476b0cae3e8bd78a56d8364b1b79b0757794c25e152d5c10
   obo (0.1.5) sha256=7a242ca55c44a43d9dbfb27321c1c7df930c9db85d3525c53ab9ac6d974a6484
   observer (0.1.2) sha256=d8a3107131ba661138d748e7be3dbafc0d82e732fffba9fccb3d7829880950ac
-  oj (3.16.16) sha256=3635b36128991796434f55da8decc0de236a323535adcb36fc04e6d0253c013d
+  oj (3.17.3) sha256=ebe3967b0bb7ac4f206561d0d9ac8875b9973f778600d7b61b5c355662a707ed
   omniauth (2.0.4) sha256=403d011497d4b0cd70573d5cde739808d9a4187813c6992d022b15b5db2c581c
   omniauth-github (2.0.1) sha256=8ff8e70ac6d6db9d52485eef52cfa894938c941496e66b52b5e2773ade3ccad4
   omniauth-google-oauth2 (0.8.1) sha256=a3b4510b27723481e94236d55690b9cfabb5be845cedb4af9d86b0a185545c81
