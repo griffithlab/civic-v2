@@ -401,7 +401,7 @@ GEM
     psych (4.0.6)
       stringio
     public_suffix (7.0.5)
-    puma (5.6.9)
+    puma (7.2.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -706,7 +706,7 @@ DEPENDENCIES
   propshaft
   pry
   pry-rails
-  puma (= 5.6.9)
+  puma (= 7.2.1)
   rack-cors (~> 1.1.1)
   rack-mini-profiler (~> 2.0)
   rails (~> 8.0)
@@ -908,7 +908,7 @@ CHECKSUMS
   pry-rails (0.3.11) sha256=a69e28e24a34d75d1f60bcf241192a54253f8f7ef8a62cba1e75750a9653593d
   psych (4.0.6) sha256=f70425c3dca8d8fbe4c1de7270d921e35eb6eb44cf2b2e4f961dc8031330b876
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
-  puma (5.6.9) sha256=20701b2451080ec8d6d78d2e4b5a2913e6d0b865a51d704a4d60db8fd39a4228
+  puma (7.2.1) sha256=d7bf0e9cabd532e0d401e142cd94e3ac531e993610e2d80e6fbf9c26961414b0
   raabro (1.4.0) sha256=d4fa9ff5172391edb92b242eed8be802d1934b1464061ae5e70d80962c5da882
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (2.2.23) sha256=a8fe9d7e07064770b8ec123663fded8a59ef7e2b6db5cda7173d45a5718ab69c
