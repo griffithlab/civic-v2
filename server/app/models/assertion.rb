@@ -40,6 +40,11 @@ class Assertion < ActiveRecord::Base
     as: :subject,
     class_name: "Event"
   has_one :rejector, through: :rejection_event, source: :originating_user
+  has_one :withdrawal_event,
+    ->() { where(action: "assertion withdrawn").includes(:originating_user).order("events.created_at desc") },
+    as: :subject,
+    class_name: "Event"
+  has_one :withdrawer, through: :withdrawal_event, source: :originating_user
 
   has_many :activities, as: :subject, class_name: "Activity"
 

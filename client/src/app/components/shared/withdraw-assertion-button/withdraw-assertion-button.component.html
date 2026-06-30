@@ -1,0 +1,70 @@
+<button
+  nz-button
+  nz-tooltip="Withdraw Assertion"
+  nzSize="small"
+  (click)="showConfirm = true"
+  [nzLoading]="isSubmitting">
+  <i
+    nz-icon
+    nzType="stop"></i>
+</button>
+
+<nz-modal
+  [(nzVisible)]="showConfirm"
+  [nzContent]="confirmModalContent"
+  [nzTitle]="confirmModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="handleConfirmModalCancel()">
+  <ng-template #confirmModalTitle>
+    <span>Withdraw this Assertion?</span>
+  </ng-template>
+</nz-modal>
+
+<ng-template #confirmModalContent>
+  <nz-spin [nzSpinning]="isSubmitting">
+    <nz-space nzDirection="vertical">
+      @if (mostRecentOrg) {
+        <span
+          nz-typography
+          *nzSpaceItem>
+          You will be withdrawing this Assertion on behalf of
+          <strong> {{ mostRecentOrg.name }}</strong
+          >. Please supply a reason below.
+        </span>
+      } @else {
+        <span
+          nz-typography
+          *nzSpaceItem>
+          Please supply a reason for withdrawing this Assertion below.
+        </span>
+      }
+      <textarea
+        *nzSpaceItem
+        nz-input
+        rows="4"
+        [(ngModel)]="withdrawComment"
+        placeholder="Please provide a reason for withdrawing.">
+      </textarea>
+      <span
+        *nzSpaceItem
+        class="modal-footer-buttons">
+        <button
+          [disabled]="!withdrawComment || withdrawComment.length < 10"
+          nzType="primary"
+          nz-button
+          (click)="withdraw()"
+          nz-tooltip
+          [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+          Withdraw
+        </button>
+        &nbsp;
+        <button
+          nz-button
+          (click)="showConfirm = false">
+          Cancel
+        </button>
+      </span>
+    </nz-space>
+  </nz-spin>
+</ng-template>

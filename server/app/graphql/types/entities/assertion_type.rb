@@ -18,7 +18,7 @@ module Types::Entities
     field :assertion_direction, Types::AssertionDirectionType, null: false
     field :assertion_type, Types::AssertionTypeType, null: false
     field :phenotypes, [ Types::Entities::PhenotypeType ], null: false
-    field :status, Types::EvidenceStatusType, null: false
+    field :status, Types::AssertionStatusType, null: false
     field :variant_origin, Types::VariantOriginType, null: false
     field :regulatory_approval, GraphQL::Types::Boolean, null: true
     field :regulatory_approval_last_updated, GraphQL::Types::ISO8601DateTime, null: true
@@ -33,6 +33,7 @@ module Types::Entities
     field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
+    field :withdrawal_event, Types::Entities::EventType, null: true
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
@@ -105,6 +106,10 @@ module Types::Entities
 
     def rejection_event
       Loaders::AssociationLoader.for(Assertion, :rejection_event).load(object)
+    end
+
+    def withdrawal_event
+      Loaders::AssociationLoader.for(Assertion, :withdrawal_event).load(object)
     end
 
     def approvals

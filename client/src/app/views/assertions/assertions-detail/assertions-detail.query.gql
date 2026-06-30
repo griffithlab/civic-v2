@@ -13,6 +13,12 @@ fragment AssertionDetailFields on Assertion {
       id
     }
   }
+  withdrawalEvent {
+    createdAt
+    originatingUser {
+      id
+    }
+  }
   molecularProfile {
     id
     name

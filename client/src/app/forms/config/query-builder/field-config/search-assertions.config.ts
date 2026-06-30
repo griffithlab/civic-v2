@@ -75,7 +75,7 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
         {
           key: 'status',
           props: { label: 'Status' },
-          fieldGroup: INPUT_FIELD_CONFIG['EvidenceStatusTypeSearchInput'],
+          fieldGroup: INPUT_FIELD_CONFIG['AssertionStatusTypeSearchInput'],
         },
         {
           key: 'variantOrigin',

@@ -14,6 +14,7 @@ import {
 } from '@angular/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
+  AssertionStatus,
   EvidenceStatus,
   FlagState,
   Maybe,
@@ -73,7 +74,11 @@ export type CvcTagLabelMax =
   | '450px'
   | '500px'
 
-export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
+export type CvcEntityTagStatus =
+  | AssertionStatus
+  | EvidenceStatus
+  | RevisionStatus
+  | FlagState
 
 @Component({
   selector: 'cvc-entity-tag',
@@ -99,6 +104,7 @@ export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
     '[class.rejected]': `cvcStatus === 'REJECTED'`,
     '[class.accepted]': `cvcStatus === 'ACCEPTED'`,
     '[class.submitted]': `cvcStatus === 'SUBMITTED'`,
+    '[class.withdrawn]': `cvcStatus === 'WITHDRAWN'`,
     '[class.new]': `cvcStatus === 'NEW'`,
     '[class.superseded]': `cvcStatus === 'SUPERSEDED'`,
   },

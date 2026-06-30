@@ -31,6 +31,8 @@ export class IconNameForEventActionPipe implements PipeTransform {
         return 'civic-assertion'
       case EventAction.AssertionRejected:
         return 'civic-assertion'
+      case EventAction.AssertionWithdrawn:
+        return 'civic-assertion'
       case EventAction.Submitted:
         return 'civic-evidence'
       case EventAction.Accepted:

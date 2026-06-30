@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
+import { AssertionStatus, EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
 
 @Pipe({
     name: 'colorNameForStatus',
@@ -7,13 +7,15 @@ import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
     standalone: false
 })
 export class ColorNameForStatusPipe implements PipeTransform {
-  transform(status: Maybe<EvidenceStatus>): string {
+  transform(status: Maybe<AssertionStatus | EvidenceStatus>): string {
     switch (status) {
       case EvidenceStatus.Accepted:
         return 'green'
       case EvidenceStatus.Rejected:
         return 'red'
       case EvidenceStatus.Submitted:
+        return 'orange'
+      case AssertionStatus.Withdrawn:
         return 'orange'
       default:
         return 'default'

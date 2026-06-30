@@ -18,13 +18,13 @@ import {
   AmpLevel,
   AssertionBrowseFieldsFragment,
   AssertionConnection,
+  AssertionStatusFilter,
   AssertionsBrowseGQL,
   AssertionsBrowseQuery,
   AssertionsBrowseQueryVariables,
   AssertionSignificance,
   AssertionSortColumns,
   EvidenceDirection,
-  EvidenceStatusFilter,
   EvidenceType,
   Maybe,
   OrganizationFilter,
@@ -65,7 +65,7 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
   @Input() therapyId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatusFilter>
+  @Input() status: Maybe<AssertionStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() approvingOrganizationId: Maybe<number>
@@ -126,10 +126,10 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
   SignificanceInput: Maybe<AssertionSignificance>
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
-  statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+  statusInput: Maybe<AssertionStatusFilter> = AssertionStatusFilter.NonRejected
   includeSubgroups: Maybe<boolean>
 
-  availableStatusFilters = EvidenceStatusFilter
+  availableStatusFilters = AssertionStatusFilter
   statusFilterVisible = false
 
   sortColumns: typeof AssertionSortColumns = AssertionSortColumns
@@ -195,7 +195,7 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
       therapyId: this.therapyId,
-      status: this.status || EvidenceStatusFilter.NonRejected,
+      status: this.status || AssertionStatusFilter.NonRejected,
       assertionType: this.assertionTypeInput,
       assertionDirection: this.assertionDirectionInput,
       significance: this.SignificanceInput,

@@ -233,7 +233,7 @@
               <cvc-status-tag [status]="assertion.status"></cvc-status-tag>
             </nz-descriptions-item>
 
-            <!-- submit/accept/reject curation events -->
+            <!-- submit/accept/reject/withdraw curation events -->
             <nz-descriptions-item [nzTitle]="submittedTitle">
               by
               <cvc-user-tag
@@ -269,7 +269,8 @@
             <ng-container
               *ngIf="
                 assertion.rejectionEvent !== null ||
-                assertion.acceptanceEvent !== null
+                assertion.acceptanceEvent !== null ||
+                assertion.withdrawalEvent !== null
               ">
               <!-- show acceptance only if no rejection event exists and the AID is accepted -->
               <ng-container
@@ -312,6 +313,28 @@
                     nz-typography
                     nzType="secondary">
                     ({{ assertion.rejectionEvent!.createdAt | timeAgo }})
+                  </span>
+                </ng-template>
+              </ng-container>
+
+              <ng-container
+                *ngIf="
+                  assertion.status == statusValues.Withdrawn &&
+                  assertion.withdrawalEvent
+                ">
+                <nz-descriptions-item [nzTitle]="withdrawnTitle">
+                  by
+                  <cvc-user-tag
+                    [user]="
+                      assertion.withdrawalEvent!.originatingUser
+                    "></cvc-user-tag>
+                </nz-descriptions-item>
+                <ng-template #withdrawnTitle>
+                  Withdrawn
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ assertion.withdrawalEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
               </ng-container>

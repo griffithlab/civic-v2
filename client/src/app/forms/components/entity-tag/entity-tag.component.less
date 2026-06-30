@@ -29,6 +29,7 @@
   &.rejected,
   &.submitted,
   &.accepted,
+  &.withdrawn,
   &.deprecated {
     nz-tag {
       border-right-width: 2px;
@@ -45,6 +46,13 @@
   &.submitted {
     nz-tag {
       border-color: #ffe58f; // same as @antd-warning-color-outline
+    }
+  }
+  &.withdrawn {
+    nz-tag {
+      border-color: #ffd591; // same as @antd-orange-color-outline
+      background-color: #fff7e6;
+      color: #d46b08;
     }
   }
   &.accepted {

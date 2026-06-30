@@ -10,6 +10,7 @@
       rejected: assertion.status === 'REJECTED',
       submitted: assertion.status === 'SUBMITTED',
       accepted: assertion.status === 'ACCEPTED',
+      withdrawn: assertion.status === 'WITHDRAWN',
     }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
@@ -40,6 +41,8 @@
       [nzTwotoneColor]="
         assertion.status === 'REJECTED'
           ? ('Rejected' | entityColor)
+          : assertion.status === 'WITHDRAWN'
+          ? ('Withdrawn' | entityColor)
           : ('Assertion' | entityColor)
       ">
     </i>

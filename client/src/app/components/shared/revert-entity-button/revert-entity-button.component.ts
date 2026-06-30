@@ -6,9 +6,9 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
+  AssertionStatus,
   EvidenceStatus,
   Maybe,
-  Organization,
   ModerateAssertionGQL,
   ModerateAssertionMutation,
   ModerateAssertionMutationVariables,
@@ -82,7 +82,7 @@ export class CvcRevertEntityButtonComponent implements OnInit {
         input: {
           assertionId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
-          newStatus: EvidenceStatus.Submitted,
+          newStatus: AssertionStatus.Submitted,
           comment: this.revertComment,
         },
       })

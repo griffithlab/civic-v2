@@ -70,10 +70,24 @@
           <cvc-feature-tag [feature]="subject"></cvc-feature-tag>
         }
         @case ('Assertion') {
-          <cvc-assertion-tag [assertion]="subject"></cvc-assertion-tag>
+          <cvc-assertion-tag
+            [assertion]="{
+              id: subject.id,
+              name: subject.name,
+              link: subject.link,
+              flagged: subject.flagged,
+              status: subject.assertionStatus,
+            }"></cvc-assertion-tag>
         }
         @case ('EvidenceItem') {
-          <cvc-evidence-tag [evidence]="subject"></cvc-evidence-tag>
+          <cvc-evidence-tag
+            [evidence]="{
+              id: subject.id,
+              name: subject.name,
+              link: subject.link,
+              flagged: subject.flagged,
+              status: subject.evidenceStatus,
+            }"></cvc-evidence-tag>
         }
         @case ('GeneVariant') {
           <cvc-feature-variant-tag

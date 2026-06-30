@@ -5,6 +5,7 @@
   &.rejected,
   &.submitted,
   &.accepted,
+  &.withdrawn,
   &.deprecated {
     border-right-width: 2px;
   }
@@ -16,6 +17,11 @@
   }
   &.submitted {
     border-color: #ffe58f; // same as @antd-warning-color-outline
+  }
+  &.withdrawn {
+    border-color: #ffd591; // same as @antd-orange-color-outline
+    background-color: #fff7e6;
+    color: #d46b08;
   }
   &.accepted {
     border-color: #b7eb8f; // same as @antd-success-color-outline

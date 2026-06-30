@@ -42,11 +42,11 @@ fragment commentPopover on Comment {
     }
     ... on Assertion {
       flagged
-      status
+      assertionStatus: status
     }
     ... on EvidenceItem {
       flagged
-      status
+      evidenceStatus: status
     }
     __typename
   }

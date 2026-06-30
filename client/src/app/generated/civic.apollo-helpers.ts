@@ -143,7 +143,7 @@ export type ApproveAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | 'withdrawalEvent' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -189,7 +189,8 @@ export type AssertionFieldPolicy = {
 	summary?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapies?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapyInteractionType?: FieldPolicy<any> | FieldReadFunction<any>,
-	variantOrigin?: FieldPolicy<any> | FieldReadFunction<any>
+	variantOrigin?: FieldPolicy<any> | FieldReadFunction<any>,
+	withdrawalEvent?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type AssertionConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | AssertionConnectionKeySpecifier)[];
 export type AssertionConnectionFieldPolicy = {

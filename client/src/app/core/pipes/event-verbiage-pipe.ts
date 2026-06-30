@@ -45,6 +45,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'accepted assertion'
       case EventAction.AssertionRejected:
         return 'rejected assertion'
+      case EventAction.AssertionWithdrawn:
+        return 'withdrew assertion'
       case EventAction.Submitted:
         return 'submitted evidence item'
       case EventAction.Accepted:
@@ -104,6 +106,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'assertion accepted'
       case EventAction.AssertionRejected:
         return 'assertion rejected'
+      case EventAction.AssertionWithdrawn:
+        return 'assertion withdrawn'
       case EventAction.Submitted:
         return 'evidence item submitted'
       case EventAction.Accepted:
@@ -173,6 +177,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'accepted this assertion'
       case EventAction.AssertionRejected:
         return 'rejected this assertion'
+      case EventAction.AssertionWithdrawn:
+        return 'withdrew this assertion'
       case EventAction.Submitted:
         return 'submitted this evidence item'
       case EventAction.Accepted:
