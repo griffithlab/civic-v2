@@ -179,7 +179,7 @@ GEM
       ffi (>= 1.15.0)
       logger
     event_stream_parser (1.0.0)
-    faraday (1.10.5)
+    faraday (1.10.6)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -800,7 +800,7 @@ CHECKSUMS
   et-orbi (1.4.0) sha256=6c7e3c90779821f9e3b324c5e96fda9767f72995d6ae435b96678a4f3e2de8bc
   ethon (0.18.0) sha256=b598afc9f30448cb068b850714b7d6948e941476095d04f90a4ac65b8d6efcb2
   event_stream_parser (1.0.0) sha256=a2683bab70126286f8184dc88f7968ffc4028f813161fb073ec90d171f7de3c8
-  faraday (1.10.5) sha256=b144f1d2b045652fa820b5f532723e1643cc28b93dae911d784e5c5f88e8f6ed
+  faraday (1.10.6) sha256=7ff4802a6b312876a2241b3e641ce0d5045e168dd871b422c35b505e5261ad4d
   faraday-em_http (1.0.0) sha256=7a3d4c7079789121054f57e08cd4ef7e40ad1549b63101f38c7093a9d6c59689
   faraday-em_synchrony (1.0.1) sha256=bf3ce45dcf543088d319ab051f80985ea6d294930635b7a0b966563179f81750
   faraday-excon (1.1.0) sha256=b055c842376734d7f74350fe8611542ae2000c5387348d9ba9708109d6e40940
