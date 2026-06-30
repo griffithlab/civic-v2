@@ -4,6 +4,7 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
   model,
   signal,
   ViewChild,
@@ -50,6 +51,10 @@ import {
   QUERY_SEARCH_EXAMPLES,
   QuerySearchExample,
 } from './query-search.examples'
+import {
+  AdvancedSearchUrlService,
+  QUERY_MODEL_PARAM,
+} from '@app/forms/config/query-builder/advanced-search-url.service'
 
 @Component({
   selector: 'cvc-query-search-page',
@@ -88,6 +93,8 @@ import {
 export class QuerySearchPage {
   searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<Maybe<string>>()
+  // encoded shareable query token, auto-bound from the ?queryModel= query param
+  queryModel = input<Maybe<string>>()
 
   searchResults = signal<Maybe<QueryBuilderResult>>(undefined)
   selectedTabIndex: WritableSignal<number> = signal(0)
@@ -96,6 +103,8 @@ export class QuerySearchPage {
   searchExamples = QUERY_SEARCH_EXAMPLES
 
   searchExampleQuery = signal<Maybe<QueryBuilderFormModel['query']>>(undefined)
+  // drives the form's auto-run: true for shareable-link loads, false for examples
+  autoRunSearch = signal(false)
 
   // Make enum available in template
   EvidenceStatusFilter = EvidenceStatusFilter
@@ -112,6 +121,7 @@ export class QuerySearchPage {
 
   private router = inject(Router)
   private route = inject(ActivatedRoute)
+  private searchUrl = inject(AdvancedSearchUrlService)
   private previousEndpoint?: AdvancedSearchEndpoint
 
   tabBarStyle = {
@@ -162,6 +172,30 @@ export class QuerySearchPage {
       })
     })
 
+    // EFFECT: decode a shareable query-model token from the URL, rehydrate the
+    // builder and auto-run its search, then strip the param so it can't
+    // re-trigger on later in-app navigation (one-shot). The recipient's link
+    // still works; only the in-app URL is cleaned.
+    effect(() => {
+      const token = this.queryModel()
+      if (!token) return
+      const decoded = this.searchUrl.decode(token)
+      if (!decoded) {
+        console.warn('Ignoring invalid queryModel token in URL.')
+        return
+      }
+      // set autoRun before the query so the form sees it when formModelQuery lands
+      this.autoRunSearch.set(true)
+      this.searchEndpoint.set(decoded.endpoint)
+      this.searchExampleQuery.set(decoded.query)
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { [QUERY_MODEL_PARAM]: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      })
+    })
+
     // EFFECT: update searchEndpoint and permalinkId from searchResults
     effect(() => {
       const result = this.searchResults()
@@ -203,6 +237,8 @@ export class QuerySearchPage {
   }
 
   onExampleSelect(example: QuerySearchExample): void {
+    // examples populate the builder only; the user reviews and runs the search
+    this.autoRunSearch.set(false)
     this.searchEndpoint.set(example.searchEndpoint)
     this.searchExampleQuery.set(example.formQuery)
   }

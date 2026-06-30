@@ -50,6 +50,7 @@
             [searchEndpoint]="searchEndpoint()"
             [permalinkId]="permalinkId()"
             [formModelQuery]="searchExampleQuery()"
+            [autoRun]="autoRunSearch()"
             (searchResults)="searchResults.set($event)">
           </cvc-query-builder-form>
         </div>

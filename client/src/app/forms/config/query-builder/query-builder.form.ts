@@ -9,6 +9,7 @@ import {
   OnInit,
   output,
   signal,
+  untracked,
   WritableSignal,
 } from '@angular/core'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -53,6 +54,9 @@ export class CvcQueryBuilderForm implements OnInit {
   searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<string>()
   formModelQuery = input<QueryBuilderFormModel['query']>()
+  // when true, applying formModelQuery also executes the search immediately
+  // (used by shareable-link loads); examples leave this false (populate only)
+  autoRun = input<boolean>(false)
 
   searchResults = output<QueryBuilderResult>()
   formModel: WritableSignal<QueryBuilderFormModel> = signal(
@@ -174,6 +178,13 @@ export class CvcQueryBuilderForm implements OnInit {
             query: structuredClone(fmq) as QueryBuilderFormModel['query'],
           }
         })
+        // shareable-link loads request an immediate search; run it from the
+        // decoded query directly so it doesn't depend on formly having patched
+        // the form controls yet. untracked so toggling autoRun alone can't
+        // re-fire this effect with a stale query.
+        if (untracked(this.autoRun)) {
+          this.runQuery(structuredClone(fmq) as QueryBuilderFormModel['query'])
+        }
       }
     })
   }
@@ -200,6 +211,29 @@ export class CvcQueryBuilderForm implements OnInit {
 
     gql
       .fetch(model)
+      .pipe(
+        pluck('data', endpoint),
+        catchError((err) => {
+          this.onError(err)
+          return EMPTY
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe(({ resultIds, permalinkId, searchEndpoint }) => {
+        this.onResults(searchEndpoint, resultIds, permalinkId)
+      })
+  }
+
+  // execute a search from a given query object (rather than the live form
+  // value). Used for shareable-link auto-run, where the query is already known
+  // and we don't want to wait on formly to patch the form controls.
+  private runQuery(query: QueryBuilderFormModel['query']): void {
+    this.skipPermalinkRestore = true
+    const endpoint = this.searchEndpoint()
+    const gql = this.formGQL()
+
+    gql
+      .fetch({ query, createPermalink: false })
       .pipe(
         pluck('data', endpoint),
         catchError((err) => {
