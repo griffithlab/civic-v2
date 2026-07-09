@@ -8,7 +8,7 @@ gem "rails", "~> 8.0"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use Puma as the app server
-gem "puma", "5.6.9"
+gem "puma", "7.2.1"
 
 gem "propshaft"
 gem "importmap-rails"
@@ -34,7 +34,7 @@ gem "net-ftp", "~>0.3.3"
 gem "rubyzip", "~>2.3.2"
 
 # higher performance json encoding
-gem "oj", "~> 3.16.3"
+gem "oj", "~> 3.17.3"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false

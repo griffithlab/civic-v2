@@ -234,11 +234,10 @@
               </nz-descriptions-item>
             </nz-descriptions>
 
-            <!-- Editor COI card -->
-            <ng-container
-              *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'">
+            <!-- COI card -->
+            <ng-container>
               <nz-card
-                class="editor-coi-card"
+                class="user-coi-card"
                 [nzTitle]="statementTitle"
                 nzSize="small"
                 [nzExtra]="updateCoi"
@@ -249,7 +248,7 @@
                     [nzType]="'civic-' + (user.role | lowercase)"
                     nzTheme="twotone"
                     [nzTwotoneColor]="user.role | titlecase | entityColor"></i>
-                  Editor Conflict of Interest Statement
+                  Conflict of Interest Statement
                 </ng-template>
                 <ng-template #updateCoi>
                   <ng-container *ngIf="ownProfile$ | ngrxPush">

@@ -303,10 +303,10 @@
     semver "7.7.2"
     yargs "17.7.2"
 
-"@angular/common@20.0.6":
-  version "20.0.6"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-20.0.6.tgz#b123bf7ad10932c0dd265df7f090fbdf0a8cef62"
-  integrity sha512-NRsq2gI4CH8nEy8yEZFySEmZ4U+1Y1yGzdIFubrKmtE2NXxR4KFGvQCkBLCLh6hNQXQx+Soe126bqByA6oIaFw==
+"@angular/common@20.3.25":
+  version "20.3.25"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-20.3.25.tgz#0f2bd058ec6595cfb4dd6a05601c41cb5cf3cb23"
+  integrity sha512-rnRGcXbjet0DHgkRL4Dqxk21G2T4UypVfiTV/fay58H8w9U89PJ1L6gRmk8B/uyfpii/9r23cBwnpcguQykxYw==
   dependencies:
     tslib "^2.3.0"
 
@@ -331,10 +331,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@20.0.6":
-  version "20.0.6"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-20.0.6.tgz#c4ef738760e84d992f40b9e1bf65e1d16bf2bea9"
-  integrity sha512-PLSRl8vM8I+HOlAJFiTcRMNbRj2Clb7lpQqUfkeBSk8bBWOy9fLlscoY3JOk0tXoUTnW6lbRB1LmAFuYAQZzAA==
+"@angular/core@20.3.25":
+  version "20.3.25"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-20.3.25.tgz#4418a9625a8a152029b49158dbda01f1c83d19c0"
+  integrity sha512-B4XnnR5jzikZDvZ4PjwjAWZMT14dxrKrmJdwa/n0yp7rMPkIJTKF6ZJMg4d1pLWLLSsc2oWHioN3UrWlGqIKnA==
   dependencies:
     tslib "^2.3.0"
 
