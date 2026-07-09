@@ -56,28 +56,26 @@
               </cvc-entity-subscription-button>
             }
 
-            <!-- CURATION ACTION BUTTONS-->
-            @if (vwr.canModerate) {
-              @if (entity.status === 'SUBMITTED') {
-                <!-- Revert Button -->
-                <cvc-revert-entity-button
-                  *nzSpaceItem
-                  entityType="Assertion"
-                  [entityId]="entity.id"
-                  (onReverted)="onRevert($event)">
-                </cvc-revert-entity-button>
-              }
-              <!-- Create Approval Button -->
-              @if (vwr | canPerformApprovalActions) {
-                <cvc-approve-assertion-button
-                  *nzSpaceItem
-                  mode="approve"
-                  [assertionId]="entity.id"
-                  [disabled]="!(vwr | canCreateApproval: entity)"
-                  [tooltipText]="vwr | approvalActionTooltip: 'create' : entity"
-                  (onApproved)="onApproval($event)">
-                </cvc-approve-assertion-button>
-              }
+            <!-- CURATION ACTION BUTTONS -->
+            @if (vwr.canModerate && entity.status === 'SUBMITTED') {
+              <!-- Revert Button -->
+              <cvc-revert-entity-button
+                *nzSpaceItem
+                entityType="Assertion"
+                [entityId]="entity.id"
+                (onReverted)="onRevert($event)">
+              </cvc-revert-entity-button>
+            }
+            <!-- Create Approval Button -->
+            @if (vwr | canPerformApprovalActions) {
+              <cvc-approve-assertion-button
+                *nzSpaceItem
+                mode="approve"
+                [assertionId]="entity.id"
+                [disabled]="!(vwr | canCreateApproval: entity)"
+                [tooltipText]="vwr | approvalActionTooltip: 'create' : entity"
+                (onApproved)="onApproval($event)">
+              </cvc-approve-assertion-button>
             }
           </nz-space>
         }
