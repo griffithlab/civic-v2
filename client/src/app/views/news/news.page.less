@@ -1,0 +1,39 @@
+@import 'themes/global-variables.less';
+@import 'themes/overrides/entity-page-header.overrides.less';
+
+.news-page-content {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.results-summary {
+  margin-bottom: @default-padding-sm;
+  color: @text-color-secondary;
+  text-align: right;
+}
+
+.load-more-sentinel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: @default-padding-sm;
+  min-height: 40px;
+  margin-top: @default-padding-lg;
+  text-align: center;
+
+  nz-alert {
+    width: 100%;
+  }
+}
+
+.end-of-feed {
+  color: @text-color-secondary;
+}
+
+@media (max-width: 575px) {
+  .results-summary {
+    text-align: left;
+  }
+}

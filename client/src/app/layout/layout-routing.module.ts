@@ -190,6 +190,14 @@ const routes: Routes = [
         },
       },
       {
+        path: 'news',
+        loadChildren: () =>
+          import('@app/views/news/news.module').then((m) => m.NewsModule),
+        data: {
+          breadcrumb: 'News & Events',
+        },
+      },
+      {
         path: 'releases',
         loadChildren: () =>
           import('@app/views/releases/releases.module').then(

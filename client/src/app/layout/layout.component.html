@@ -269,6 +269,21 @@
             nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'News & Events' : ''"
+            nzMatchRouter>
+            <i
+              nz-icon
+              nzType="notification"></i>
+            <a
+              routerLink="/news"
+              id="news">
+              <span>News & Events</span>
+            </a>
+          </li>
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Data Releases' : ''"
             nzMatchRouter>
             <i

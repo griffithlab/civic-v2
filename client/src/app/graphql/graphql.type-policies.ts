@@ -88,6 +88,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'eventType',
       ]),
       variants: relayStylePagination(['featureId', 'name']),
+      newsItems: relayStylePagination(),
       molecularProfiles: relayStylePagination([
         'featureId',
         'name',
@@ -190,7 +191,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'organizatioName',
         'subjectType',
         'id',
-      ])
+      ]),
     },
   },
   AdvancedSearchResult: CvcAdvancedSearchResultPolicy as any,
