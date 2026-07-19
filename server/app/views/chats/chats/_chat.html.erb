@@ -8,5 +8,5 @@
       <div class="text-xs text-gray-500"><%= chat.messages.count %> messages</div>
     </div>
   </div>
-  <div class="text-xs text-gray-400"><%= chat.created_at.strftime("%b %d") %></div>
+  <time class="text-xs text-gray-400" datetime="<%= chat.created_at.iso8601 %>" data-controller="local-time" data-local-time-format-value="date"><%= chat.created_at.strftime("%b %d") %></time>
 </div>

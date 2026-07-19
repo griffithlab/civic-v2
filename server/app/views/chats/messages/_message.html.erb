@@ -5,7 +5,7 @@
       <div class="max-w-2xl">
         <div class="flex items-center justify-end gap-2 mb-1">
           <span class="text-sm font-semibold text-civic-blue">You</span>
-          <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
+          <time class="text-xs text-gray-400" datetime="<%= message.created_at&.iso8601 %>" data-controller="local-time"><%= message.created_at&.strftime("%I:%M %p") %></time>
         </div>
         <div class="bg-civic-blue text-white rounded-2xl rounded-tr-sm px-5 py-3 shadow-sm">
           <div id="message_<%= message.id %>_content" class="whitespace-pre-wrap leading-relaxed"><%= message.content %></div>
@@ -24,10 +24,10 @@
       <div class="w-9 h-9 rounded-full bg-civic-purple flex items-center justify-center shrink-0">
         <%= render "chats/shared/icons/chat_bubble_solid", css: "h-5 w-5 text-white" %>
       </div>
-      <div class="max-w-3xl flex-1">
+      <div class="max-w-3xl flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">
           <span class="text-sm font-semibold text-civic-purple">CIViC Bot</span>
-          <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
+          <time class="text-xs text-gray-400" datetime="<%= message.created_at&.iso8601 %>" data-controller="local-time"><%= message.created_at&.strftime("%I:%M %p") %></time>
         </div>
         <% if message.tool_call? %>
           <%= render "chats/messages/tool_calls", message: message %>
@@ -85,10 +85,10 @@
       <div class="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center shrink-0">
         <%= render "chats/shared/icons/gear", css: "h-5 w-5 text-white" %>
       </div>
-      <div class="max-w-3xl flex-1">
+      <div class="max-w-3xl flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">
           <span class="text-sm font-semibold text-amber-600">Tool Result</span>
-          <span class="text-xs text-gray-400"><%= message.created_at&.strftime("%I:%M %p") %></span>
+          <time class="text-xs text-gray-400" datetime="<%= message.created_at&.iso8601 %>" data-controller="local-time"><%= message.created_at&.strftime("%I:%M %p") %></time>
         </div>
         <details class="tool-call-details bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <summary class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer">
