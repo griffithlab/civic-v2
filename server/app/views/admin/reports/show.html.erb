@@ -8,7 +8,7 @@
   </div>
   <div class="main-content-container">
     <div class="main-content">
-      <%= form_with do |f| %>
+      <%= form_with data: { turbo: false } do |f| %>
         <% @report.inputs.each do |f_name, f_type| %>
           <%= render 'admin/shared/field', name: f_name, type: f_type, form: f  %>
         <% end %>
