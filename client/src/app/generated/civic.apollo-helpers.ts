@@ -1931,6 +1931,19 @@ export type NewsItemFieldPolicy = {
 	publishedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type NewsItemConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | NewsItemConnectionKeySpecifier)[];
+export type NewsItemConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type NewsItemEdgeKeySpecifier = ('cursor' | 'node' | NewsItemEdgeKeySpecifier)[];
+export type NewsItemEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type NotificationKeySpecifier = ('createdAt' | 'event' | 'id' | 'notifiedUser' | 'originatingUser' | 'seen' | 'subscription' | 'type' | 'updatedAt' | NotificationKeySpecifier)[];
 export type NotificationFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3707,6 +3720,14 @@ export type StrictTypedTypePolicies = {
 	NewsItem?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NewsItemKeySpecifier | (() => undefined | NewsItemKeySpecifier),
 		fields?: NewsItemFieldPolicy,
+	},
+	NewsItemConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NewsItemConnectionKeySpecifier | (() => undefined | NewsItemConnectionKeySpecifier),
+		fields?: NewsItemConnectionFieldPolicy,
+	},
+	NewsItemEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NewsItemEdgeKeySpecifier | (() => undefined | NewsItemEdgeKeySpecifier),
+		fields?: NewsItemEdgeFieldPolicy,
 	},
 	Notification?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NotificationKeySpecifier | (() => undefined | NotificationKeySpecifier),
