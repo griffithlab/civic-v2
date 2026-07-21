@@ -1,6 +1,8 @@
 class HgvsDescription < ActiveRecord::Base
   has_and_belongs_to_many :variants
 
+  before_create :strip_description
+
   def display_name
     description
   end
@@ -178,5 +180,11 @@ class HgvsDescription < ActiveRecord::Base
       "Y" =>  "NC_000024.9",
     }
     sequences[chromosome]
+  end
+
+  private
+
+  def strip_description
+    self.description = description&.strip
   end
 end
