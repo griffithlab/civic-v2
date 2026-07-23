@@ -14,11 +14,14 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
   argument :disease_id, GraphQL::Types::Int, required: false,
     description: "Internal CIViC ID for the applicable disease, if any."
 
+  argument :therapy_ids, [ GraphQL::Types::Int ], required: true,
+    description: "List of IDs of CIViC Therapy entries for this Source Suggestion. An empty list indicates none."
+
   field :source_suggestion, Types::Entities::SourceSuggestionType, null: false,
     description: "The newly created Source Suggestion"
 
 
-  def ready?(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, **kwargs)
+  def ready?(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids:, **kwargs)
     validate_user_logged_in
     validate_user_org(organization_id)
 
@@ -41,6 +44,18 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       errors << "Disease with ID #{disease_id} does not exist in CIViC"
     end
 
+    unique_therapy_ids = therapy_ids.uniq
+    therapies = Therapy.where(id: unique_therapy_ids)
+    missing_therapy_ids = unique_therapy_ids - therapies.map(&:id)
+    if missing_therapy_ids.any?
+      errors << "Therapy ID(s) #{missing_therapy_ids.join(', ')} do not exist in CIViC"
+    end
+
+    deprecated_therapy_ids = therapies.select(&:deprecated).map(&:id)
+    if deprecated_therapy_ids.any?
+      errors << "Therapy ID(s) #{deprecated_therapy_ids.join(', ')} are deprecated"
+    end
+
     if errors.any?
       raise GraphQL::ExecutionError, errors.join("|")
     end
@@ -53,13 +68,14 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, comment:, **kwargs)
+  def resolve(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids:, comment:, **kwargs)
     cmd = Activities::SuggestSource.new(
       source_id: source_id,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment,
       disease_id: disease_id,
+      therapy_ids: therapy_ids,
       molecular_profile_id: molecular_profile_id
     )
     res = cmd.perform

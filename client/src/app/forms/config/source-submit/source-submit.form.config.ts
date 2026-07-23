@@ -37,6 +37,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {},
           },
           {
+            key: 'therapyIds',
+            type: 'therapy-multi-select',
+            props: {
+              required: false,
+              requireType: false,
+              description:
+                'Select one or more Therapies for this Source Suggestion, if applicable.',
+            },
+          },
+          {
             key: 'sourceId',
             type: 'source-select',
             wrappers: ['form-field'],

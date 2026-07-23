@@ -94,6 +94,7 @@
           [nzSortFn]="true">
           Disease
         </th>
+        <th nzWidth="220px">Therapies</th>
         <th
           nzWidth="90px"
           [nzColumnKey]="sortColumns.CreatedAt"
@@ -182,6 +183,14 @@
           <cvc-clearable-input-filter
             [(inputModel)]="diseaseNameInput"
             placeholderText="Disease"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter
+            [(inputModel)]="therapyNameInput"
+            placeholderText="Therapy"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
@@ -296,6 +305,15 @@
               [disease]="suggestion.disease"
               [truncateLongName]="true"></cvc-disease-tag>
           </td>
+          <td>
+            <ng-container *ngIf="suggestion.therapies.length > 0">
+              <ng-container *ngFor="let therapy of suggestion.therapies">
+                <cvc-therapy-tag
+                  [therapy]="therapy"
+                  [truncateLongName]="true"></cvc-therapy-tag>
+              </ng-container>
+            </ng-container>
+          </td>
           <td nzAlign="right">
             {{ suggestion.createdAt | date }}
           </td>
@@ -311,6 +329,7 @@
                     molecularProfileId: suggestion.molecularProfile?.id,
                     sourceId: suggestion.source?.id,
                     diseaseId: suggestion.disease?.id,
+                    therapyIds: getTherapyIdsQueryParam(suggestion),
                   }"
                   [disabled]="suggestion.status != status.New"
                   nz-button

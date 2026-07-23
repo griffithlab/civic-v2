@@ -43,5 +43,17 @@
         <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
       }
     </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Therapies">
+      @if (activity().sourceSuggestion.therapies.length > 0) {
+        @for (therapy of activity().sourceSuggestion.therapies; track therapy.id) {
+          <cvc-therapy-tag
+            [therapy]="therapy"
+            [truncateLongName]="true"></cvc-therapy-tag>
+        }
+      } @else {
+        <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+      }
+    </nz-descriptions-item>
   </nz-descriptions>
 </div>

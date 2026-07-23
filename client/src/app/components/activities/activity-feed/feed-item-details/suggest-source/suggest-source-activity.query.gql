@@ -23,6 +23,12 @@ fragment SuggestSourceActivityDetail on SuggestSourceActivity {
       link
       deprecated
     }
+    therapies {
+      id
+      name
+      link
+      deprecated
+    }
   }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents

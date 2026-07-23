@@ -2508,7 +2508,7 @@ export type SourceStubFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceSuggestionKeySpecifier = ('createdAt' | 'creationActivity' | 'disease' | 'events' | 'id' | 'initialComment' | 'lastStatusUpdateActivity' | 'link' | 'molecularProfile' | 'name' | 'reason' | 'source' | 'status' | 'user' | SourceSuggestionKeySpecifier)[];
+export type SourceSuggestionKeySpecifier = ('createdAt' | 'creationActivity' | 'disease' | 'events' | 'id' | 'initialComment' | 'lastStatusUpdateActivity' | 'link' | 'molecularProfile' | 'name' | 'reason' | 'source' | 'status' | 'therapies' | 'user' | SourceSuggestionKeySpecifier)[];
 export type SourceSuggestionFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2523,6 +2523,7 @@ export type SourceSuggestionFieldPolicy = {
 	reason?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
+	therapies?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SourceSuggestionConnectionKeySpecifier = ('edges' | 'filteredCount' | 'lastUpdated' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | SourceSuggestionConnectionKeySpecifier)[];
