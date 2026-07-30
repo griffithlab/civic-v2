@@ -46,7 +46,7 @@ class Source < ActiveRecord::Base
     if source.source_type == "PubMed"
       "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
     elsif source.source_type == "ASCO"
-      "https://www.asco.org/abstracts-presentations/#{source.citation_id}"
+      "https://doi.org/#{source.citation_id}"
     elsif source.source_type == "ASH"
       "https://doi.org/#{source.citation_id}"
     end
@@ -71,7 +71,7 @@ class Source < ActiveRecord::Base
           errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid PubMed ID")
         end
       elsif source_type == "ASCO"
-        unless citation_id =~ /\A\d+\z/
+        unless citation_id =~ /\A10.1200\/JCO[-._;()\/:A-Z0-9]+\z/i
           errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid ASCO Abstract ID")
         end
       elsif source_type == "ASH"

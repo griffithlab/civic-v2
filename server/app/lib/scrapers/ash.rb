@@ -9,8 +9,12 @@ module Scrapers
     end
 
     def self.fetch_ash_page(doi:)
-      resp = Util.make_get_request("https://doi.org/#{doi}")
-      AshRecordResponse.new(resp)
+      resp = Util.make_get_request("https://api.crossref.org/works/#{doi}")
+      response = CrossrefWorkResponse.new(resp)
+      if response.json['message']['publisher'] != 'American Society of Hematology'
+        raise StandardError.new("Publisher not 'American Society of Hematology': #{response.json['message']['publisher']}")
+      end
+      response
     end
 
     def self.populate_source_fields(source)
@@ -28,10 +32,9 @@ module Scrapers
         ).first_or_create!
       end
 
-      (day, month, year) = resp.publication_date
-      source.publication_day = day
-      source.publication_month = month
-      source.publication_year = year
+      source.publication_day = resp.day
+      source.publication_month = resp.month
+      source.publication_year = resp.year
       source.abstract = resp.abstract
       source.journal = resp.journal
       source.title = resp.article_title
