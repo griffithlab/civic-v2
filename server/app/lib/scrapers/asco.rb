@@ -47,7 +47,7 @@ module Scrapers
       source.publication_month = resp.month
       source.publication_year = resp.year
       if !resp.abstract.blank?
-        source.abstract = Nokogiri::HTML(resp.abstract).text.strip.sub(/\A#{resp.asco_abstract_id}/, '').strip
+        source.abstract = Nokogiri::HTML(resp.abstract).text.strip.sub(/\A#{resp.asco_abstract_id}/, "").strip
       end
       source.journal = resp.journal
       source.title = resp.article_title
