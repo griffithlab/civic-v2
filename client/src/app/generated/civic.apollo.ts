@@ -7442,7 +7442,7 @@ export type SourceSourceTypeSearchInput = {
 
 export type SourceStub = {
   __typename: 'SourceStub';
-  citationId: Scalars['Int']['output'];
+  citationId: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   sourceType: SourceSource;
 };
@@ -11253,7 +11253,7 @@ export type QuickAddSourceRemoteCitationMutationVariables = Exact<{
 }>;
 
 
-export type QuickAddSourceRemoteCitationMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
+export type QuickAddSourceRemoteCitationMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: string, sourceType: SourceSource } } | undefined };
 
 export type SourceSelectTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['String']['input'];
