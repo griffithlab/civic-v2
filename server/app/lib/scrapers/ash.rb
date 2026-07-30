@@ -1,5 +1,6 @@
 require "net/http"
 require "uri"
+require "nokogiri"
 
 module Scrapers
   class Ash
@@ -35,7 +36,9 @@ module Scrapers
       source.publication_day = resp.day
       source.publication_month = resp.month
       source.publication_year = resp.year
-      source.abstract = resp.abstract
+      if !resp.abstract.blank?
+        source.abstract = Nokogiri::HTML(resp.abstract).text.strip.split('Disclosures').first.sub(/\AAbstract/, "").strip
+      end
       source.journal = resp.journal
       source.title = resp.article_title
       source.full_journal_title = resp.full_journal_title
