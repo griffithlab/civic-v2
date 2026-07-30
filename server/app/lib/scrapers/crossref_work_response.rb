@@ -4,9 +4,9 @@ module Scrapers
 
     def initialize(response_body)
       @json = JSON(response_body)
-      if json['status'] != 'ok'
+      if json["status"] != "ok"
         raise StandardError.new("Crossref response status not 'ok': #{json['status']}")
-      elsif json['message-type'] != 'work'
+      elsif json["message-type"] != "work"
         raise StandardError.new("Crossref message-type not 'work': #{json['message-type']}")
       end
     end
@@ -26,20 +26,20 @@ module Scrapers
     end
 
     def authors
-      @authors ||= json['message']['author']
+      @authors ||= json["message"]["author"]
         .each
         .with_index(1)
         .map do |author, i|
           {
-            fore_name: author['given'],
-            last_name: author['family'],
+            fore_name: author["given"],
+            last_name: author["family"],
             author_position: i,
           }
         end
     end
 
     def abstract
-      json['message']['abstract']
+      json["message"]["abstract"]
     end
 
     def publication_date
@@ -47,19 +47,19 @@ module Scrapers
     end
 
     def day
-      json['message']['created']['date-parts'][0][2]
+      json["message"]["created"]["date-parts"][0][2]
     end
 
     def month
-      json['message']['created']['date-parts'][0][1]
+      json["message"]["created"]["date-parts"][0][1]
     end
 
     def year
-      json['message']['created']['date-parts'][0][0]
+      json["message"]["created"]["date-parts"][0][0]
     end
 
     def journal
-      short = json['message']['short-container-title']
+      short = json["message"]["short-container-title"]
       if short.empty?
         full_journal_title
       else
@@ -68,19 +68,19 @@ module Scrapers
     end
 
     def full_journal_title
-      json['message']['container-title'][0]
+      json["message"]["container-title"][0]
     end
 
     def article_title
-      json['message']['title'][0]
+      json["message"]["title"][0]
     end
 
     def asco_abstract_id
-      json['message']['page'].split('-').first
+      json["message"]["page"].split("-").first
     end
 
     def asco_presenter
-      a = json['message']['author'].first
+      a = json["message"]["author"].first
       "#{a['given']} #{a['family']}"
     end
   end

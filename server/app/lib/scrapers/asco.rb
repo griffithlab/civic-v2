@@ -19,7 +19,7 @@ module Scrapers
     def self.fetch_asco_page(doi:)
       resp = Util.make_get_request("https://api.crossref.org/works/#{doi}")
       response = CrossrefWorkResponse.new(resp)
-      if response.json['message']['publisher'] != 'American Society of Clinical Oncology (ASCO)'
+      if response.json["message"]["publisher"] != "American Society of Clinical Oncology (ASCO)"
         raise StandardError.new("Publisher not 'American Society of Clinical Oncology (ASCO)': #{response.json['message']['publisher']}")
       end
       response

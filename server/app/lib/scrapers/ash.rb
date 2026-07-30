@@ -11,7 +11,7 @@ module Scrapers
     def self.fetch_ash_page(doi:)
       resp = Util.make_get_request("https://api.crossref.org/works/#{doi}")
       response = CrossrefWorkResponse.new(resp)
-      if response.json['message']['publisher'] != 'American Society of Hematology'
+      if response.json["message"]["publisher"] != "American Society of Hematology"
         raise StandardError.new("Publisher not 'American Society of Hematology': #{response.json['message']['publisher']}")
       end
       response
