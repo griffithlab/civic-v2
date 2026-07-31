@@ -8365,8 +8365,12 @@ export type TherapyPopover = {
 };
 
 export type TherapySearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   deprecated?: InputMaybe<BooleanSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
   ncitId?: InputMaybe<OntologyTermSearchInput>;
