@@ -7430,6 +7430,7 @@ export type SourceSearchFilter = {
   citationId?: InputMaybe<StringSearchInput>;
   comment?: InputMaybe<CommentSearchFilter>;
   deprecated?: InputMaybe<BooleanSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
   id?: InputMaybe<IntSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;
   journal?: InputMaybe<StringSearchInput>;

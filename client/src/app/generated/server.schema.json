@@ -59669,6 +59669,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "evidenceItems",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "EvidenceItemSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
