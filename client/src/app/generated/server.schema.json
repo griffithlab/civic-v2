@@ -71101,6 +71101,18 @@
               "deprecationReason": null
             },
             {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "isFlagged",
               "description": null,
               "type": {
