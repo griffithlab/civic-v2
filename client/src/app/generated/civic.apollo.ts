@@ -2133,10 +2133,14 @@ export type DiseasePopover = {
 };
 
 export type DiseaseSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   deprecated?: InputMaybe<BooleanSearchInput>;
   diseaseAliases?: InputMaybe<StringSearchInput>;
   doid?: InputMaybe<OntologyTermSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
   subFilters?: InputMaybe<Array<DiseaseSearchFilter>>;
