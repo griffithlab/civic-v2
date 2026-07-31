@@ -5484,8 +5484,12 @@ export type PhenotypePopover = {
 };
 
 export type PhenotypeSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   description?: InputMaybe<StringSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   hpoId?: InputMaybe<OntologyTermSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
