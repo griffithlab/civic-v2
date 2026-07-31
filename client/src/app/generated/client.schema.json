@@ -65046,6 +65046,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "assertion",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AssertionSearchFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "booleanOperator",
             "description": null,
             "type": {
@@ -65059,6 +65071,42 @@
           },
           {
             "name": "deprecated",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BooleanSearchInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "evidenceItems",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "EvidenceItemSearchFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "hasAssertion",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BooleanSearchInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "hasEvidenceItem",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",

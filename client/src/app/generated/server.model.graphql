@@ -14136,8 +14136,12 @@ type TherapyPopover {
 }
 
 input TherapySearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   ncitId: OntologyTermSearchInput
