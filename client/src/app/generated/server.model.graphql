@@ -9097,8 +9097,12 @@ type PhenotypePopover {
 }
 
 input PhenotypeSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   description: StringSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
