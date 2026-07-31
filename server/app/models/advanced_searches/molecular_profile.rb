@@ -119,7 +119,7 @@ module AdvancedSearches
         return nil
       end
 
-      matching_ids = ::Assertion.joins(molecular_profile: { variants: [ :feature ] }).distinct.pluck("molecular_profiles.id")
+      matching_ids = ::Assertion.joins(:molecular_profile).distinct.pluck("molecular_profiles.id")
 
       if node.has_assertion.value
         base_query.where(id: matching_ids)
