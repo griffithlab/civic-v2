@@ -93,6 +93,11 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
       ]),
       ...withRecursive([
         ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
+        ...getQueryFieldConfig(
+          'evidenceItems',
+          'searchEvidenceItems',
+          'Evidence Items'
+        ),
       ]),
     ]),
   ])

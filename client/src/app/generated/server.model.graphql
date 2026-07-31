@@ -12788,6 +12788,7 @@ input SourceSearchFilter {
   citationId: StringSearchInput
   comment: CommentSearchFilter
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
   id: IntSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput

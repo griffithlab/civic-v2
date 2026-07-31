@@ -24,6 +24,7 @@ module AdvancedSearches
         resolve_deprecated_filter(node),
         resolve_is_retracted_filter(node),
         resolve_comment_filter(node),
+        resolve_evidence_items_filter(node),
       ]
     end
 
@@ -121,6 +122,13 @@ module AdvancedSearches
     def resolve_author_field_filter(filter, column_name)
       clause, value = filter.resolve_query_for_type(column_name)
       source_ids = source_author_query.where(clause, value).distinct.select(:id)
+      base_query.where(id: source_ids)
+    end
+
+    def resolve_evidence_items_filter(node)
+      return nil if node.evidence_items.nil?
+      matching_ids = ::AdvancedSearches::EvidenceItem.new(query: node.evidence_items).results
+      source_ids = ::Source.joins(:evidence_items).where(evidence_items: { id: matching_ids }).select(:id)
       base_query.where(id: source_ids)
     end
   end
