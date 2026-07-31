@@ -15655,6 +15655,7 @@ input VariantSearchFilter {
   deprecatingUser: UserSearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isDeprecated: BooleanSearchInput
   isFlagged: BooleanSearchInput

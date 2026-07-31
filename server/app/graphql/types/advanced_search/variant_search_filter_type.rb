@@ -7,6 +7,7 @@ module Types
       argument :is_deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :deprecation_reason, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantDeprecationReasonType, is_activerecord_enum: true), required: false
       argument :feature, Types::AdvancedSearch::FeatureSearchFilterType, required: false
+      argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :molecular_profile, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: false

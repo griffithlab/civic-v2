@@ -9154,6 +9154,7 @@ export type VariantSearchFilter = {
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>;
   feature?: InputMaybe<FeatureSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isDeprecated?: InputMaybe<BooleanSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
