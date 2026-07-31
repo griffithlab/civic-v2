@@ -3214,10 +3214,14 @@ type DiseasePopover {
 }
 
 input DiseaseSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
   doid: OntologyTermSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
