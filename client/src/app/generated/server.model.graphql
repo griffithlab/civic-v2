@@ -3871,6 +3871,7 @@ input EvidenceItemSearchFilter {
   evidenceLevel: EvidenceLevelTypeSearchInput
   evidenceRating: IntSearchInput
   evidenceType: EvidenceTypeTypeSearchInput
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
   moderatingUser: UserSearchFilter
