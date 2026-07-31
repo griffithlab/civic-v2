@@ -2516,6 +2516,7 @@ export type EvidenceItemSearchFilter = {
   evidenceLevel?: InputMaybe<EvidenceLevelTypeSearchInput>;
   evidenceRating?: InputMaybe<IntSearchInput>;
   evidenceType?: InputMaybe<EvidenceTypeTypeSearchInput>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
   moderatingUser?: InputMaybe<UserSearchFilter>;
