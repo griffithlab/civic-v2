@@ -4,6 +4,7 @@ import {
   EvidenceItemSearchFilter,
   FeatureSearchFilter,
   MolecularProfileSearchFilter,
+  OrganizationSearchFilter,
   PhenotypeSearchFilter,
   RevisionSearchFilter,
   SourceSearchFilter,
@@ -38,6 +39,7 @@ interface EndpointFilterTypes {
   searchVariants: VariantSearchFilter
   searchVariantTypes: VariantTypeSearchFilter
   searchRevisions: RevisionSearchFilter
+  searchOrganizations: OrganizationSearchFilter
 }
 
 export type AdvancedSearchFilter<

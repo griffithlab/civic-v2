@@ -5408,6 +5408,15 @@ export type OrganizationLeaderboardsSubmissionsLeaderboardArgs = {
   window?: InputMaybe<TimeWindow>;
 };
 
+export type OrganizationSearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  createdAt?: InputMaybe<DateSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  name?: InputMaybe<StringSearchInput>;
+  parentId?: InputMaybe<IntSearchInput>;
+  subFilters?: InputMaybe<Array<OrganizationSearchFilter>>;
+};
+
 export type OrganizationSort = {
   /** Available columns for sorting */
   column: OrganizationSortColumns;
@@ -5642,6 +5651,7 @@ export type Query = {
   searchEvidenceItems: AdvancedSearchResult;
   searchFeatures: AdvancedSearchResult;
   searchMolecularProfiles: AdvancedSearchResult;
+  searchOrganizations: AdvancedSearchResult;
   searchPhenotypes: AdvancedSearchResult;
   searchRevisions: AdvancedSearchResult;
   searchSources: AdvancedSearchResult;
@@ -6386,6 +6396,12 @@ export type QuerySearchFeaturesArgs = {
 export type QuerySearchMolecularProfilesArgs = {
   createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
   query: MolecularProfileSearchFilter;
+};
+
+
+export type QuerySearchOrganizationsArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: OrganizationSearchFilter;
 };
 
 
@@ -8663,8 +8679,7 @@ export type UserSearchFilter = {
   createdAt?: InputMaybe<DateSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
-  organizationId?: InputMaybe<IntSearchInput>;
-  organizationName?: InputMaybe<StringSearchInput>;
+  organizations?: InputMaybe<OrganizationSearchFilter>;
   subFilters?: InputMaybe<Array<UserSearchFilter>>;
   username?: InputMaybe<StringSearchInput>;
 };
@@ -10843,6 +10858,14 @@ export type SearchMolecularProfilesQueryVariables = Exact<{
 
 
 export type SearchMolecularProfilesQuery = { __typename: 'Query', searchMolecularProfiles: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchOrganizationsQueryVariables = Exact<{
+  query: OrganizationSearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchOrganizationsQuery = { __typename: 'Query', searchOrganizations: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchPhenotypesQueryVariables = Exact<{
   query: PhenotypeSearchFilter;
@@ -19566,6 +19589,24 @@ export const SearchMolecularProfilesDocument = gql`
       super(apollo);
     }
   }
+export const SearchOrganizationsDocument = gql`
+    query searchOrganizations($query: OrganizationSearchFilter!, $createPermalink: Boolean) {
+  searchOrganizations(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchOrganizationsGQL extends Apollo.Query<SearchOrganizationsQuery, SearchOrganizationsQueryVariables> {
+    document = SearchOrganizationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const SearchPhenotypesDocument = gql`
     query searchPhenotypes($query: PhenotypeSearchFilter!, $createPermalink: Boolean) {
   searchPhenotypes(query: $query, createPermalink: $createPermalink) {
@@ -21117,7 +21158,7 @@ export const NewsItemsPageDocument = gql`
   })
   export class NewsItemsPageGQL extends Apollo.Query<NewsItemsPageQuery, NewsItemsPageQueryVariables> {
     document = NewsItemsPageDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

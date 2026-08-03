@@ -50,6 +50,14 @@ query searchMolecularProfiles(
     ...QueryBuilderResponseFields
   }
 }
+query searchOrganizations(
+  $query: OrganizationSearchFilter!
+  $createPermalink: Boolean
+) {
+  searchOrganizations(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
 query searchPhenotypes(
   $query: PhenotypeSearchFilter!
   $createPermalink: Boolean

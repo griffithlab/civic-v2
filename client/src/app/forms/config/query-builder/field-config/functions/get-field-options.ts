@@ -14,6 +14,7 @@ import { searchVariantsFieldOptions } from '@app/forms/config/query-builder/fiel
 import { withSmallSize } from './field-config-helpers'
 import { searchRevisionsFieldOptions } from '../search-revisions.config'
 import { searchCommentsFieldOptions } from '../search-comments.config'
+import { searchOrganizationsFieldOptions } from '../search-organizations.config'
 
 export function getFieldOptions(
   endpoint: AdvancedSearchEndpoint,
@@ -26,6 +27,7 @@ export function getFieldOptions(
     searchAssertions: searchAssertionsFieldOptions,
     searchMolecularProfiles: searchMolecularProfilesFieldOptions,
     searchEvidenceItems: searchEvidenceItemsFieldOptions,
+    searchOrganizations: searchOrganizationsFieldOptions,
     searchPhenotypes: searchPhenotypesFieldOptions,
     searchSources: searchSourcesFieldOptions,
     searchTherapies: searchTherapiesFieldOptions,
