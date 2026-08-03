@@ -6,6 +6,7 @@ import {
   SearchEvidenceItemsGQL,
   SearchFeaturesGQL,
   SearchMolecularProfilesGQL,
+  SearchOrganizationsGQL,
   SearchPhenotypesGQL,
   SearchRevisionsGQL,
   SearchSourcesGQL,
@@ -44,6 +45,10 @@ export const ADVANCED_SEARCH_ENDPOINTS = {
   searchMolecularProfiles: {
     attribute: 'molecularProfile',
     token: SearchMolecularProfilesGQL as Type<AdvancedSearchService>,
+  },
+  searchOrganizations: {
+    attribute: 'organization',
+    token: SearchOrganizationsGQL as Type<AdvancedSearchService>,
   },
   searchPhenotypes: {
     attribute: 'phenotype',

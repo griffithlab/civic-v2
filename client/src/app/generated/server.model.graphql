@@ -8985,6 +8985,15 @@ type OrganizationLeaderboards {
   ): LeaderboardOrganizationConnection!
 }
 
+input OrganizationSearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  parentId: IntSearchInput
+  subFilters: [OrganizationSearchFilter!]
+}
+
 input OrganizationSort {
   """
   Available columns for sorting
@@ -10869,6 +10878,7 @@ type Query {
   searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
   searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
+  searchOrganizations(createPermalink: Boolean = false, query: OrganizationSearchFilter!): AdvancedSearchResult!
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
   searchRevisions(createPermalink: Boolean = false, query: RevisionSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
@@ -14602,8 +14612,7 @@ input UserSearchFilter {
   createdAt: DateSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  organizationId: IntSearchInput
-  organizationName: StringSearchInput
+  organizations: OrganizationSearchFilter
   subFilters: [UserSearchFilter!]
   username: StringSearchInput
 }
