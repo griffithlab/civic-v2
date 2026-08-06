@@ -199,7 +199,6 @@ module Types::Queries
         ClingenCode.where("code ILIKE ?", "#{query_term}%")
           .or(ClingenCode.where("description ILIKE ?", "%#{query_term}%"))
           .order(:code)
-          .limit(20)
       end
 
       def nccn_guidelines_typeahead(query_term:)

@@ -34,6 +34,11 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
+          key: 'hasAssertion',
+          props: { label: 'Has Assertion' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
           key: 'isDeprecated',
           props: { label: 'Is Deprecated' },
           fieldGroup: INPUT_FIELD_CONFIG['DeprecatedSearchInput'],

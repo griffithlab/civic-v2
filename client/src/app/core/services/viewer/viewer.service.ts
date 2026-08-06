@@ -24,7 +24,8 @@ export interface Viewer {
   isCurator: boolean
   canCurate: boolean
   canModerate: boolean
-  invalidCoi: boolean
+  coiNeedsUpdate: boolean
+  hasValidCoiStatement: boolean
 }
 
 @UntilDestroy()
@@ -63,13 +64,8 @@ export class ViewerService {
               ? []
               : v.organizationsWithApprovalPrivileges?.map((o: any) => o.id) ||
                 [],
-          invalidCoi:
-            isEditor(v) &&
-            (!v?.mostRecentConflictOfInterestStatement ||
-              v?.mostRecentConflictOfInterestStatement.coiStatus ===
-                CoiStatus.Expired ||
-              v?.mostRecentConflictOfInterestStatement.coiStatus ===
-                CoiStatus.Missing),
+          coiNeedsUpdate: coiNeedsUpdate(v),
+          hasValidCoiStatement: hasValidCoiStatement(v),
         }
       }),
       shareReplay(1)
@@ -99,14 +95,21 @@ export class ViewerService {
     }
 
     function canModerate(v?: ViewerFieldsFragment): boolean {
-      return v &&
-        (v.role === UserRole.Editor || v.role === UserRole.Admin) &&
-        v.mostRecentConflictOfInterestStatement &&
-        (v.mostRecentConflictOfInterestStatement?.coiStatus ==
-          CoiStatus.Conflict ||
-          v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Valid)
-        ? true
-        : false
+      return isEditor(v) && hasValidCoiStatement(v)
+    }
+
+    function coiNeedsUpdate(v?: ViewerFieldsFragment): boolean {
+      if (!v) return false
+
+      const status = v.mostRecentConflictOfInterestStatement?.coiStatus
+      return (
+        !status || status === CoiStatus.Expired || status === CoiStatus.Missing
+      )
+    }
+
+    function hasValidCoiStatement(v?: ViewerFieldsFragment): boolean {
+      const status = v?.mostRecentConflictOfInterestStatement?.coiStatus
+      return status === CoiStatus.Conflict || status === CoiStatus.Valid
     }
 
     function mostRecentOrg(

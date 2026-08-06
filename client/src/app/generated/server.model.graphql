@@ -3303,10 +3303,14 @@ type DiseasePopover {
 }
 
 input DiseaseSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
   doid: OntologyTermSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
@@ -3962,6 +3966,7 @@ input EvidenceItemSearchFilter {
   evidenceLevel: EvidenceLevelTypeSearchInput
   evidenceRating: IntSearchInput
   evidenceType: EvidenceTypeTypeSearchInput
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
   moderatingUser: UserSearchFilter
@@ -8542,6 +8547,51 @@ type NewsItem {
   title: String!
 }
 
+"""
+The connection type for NewsItem.
+"""
+type NewsItemConnection {
+  """
+  A list of edges.
+  """
+  edges: [NewsItemEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [NewsItem!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type NewsItemEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: NewsItem
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -9150,8 +9200,12 @@ type PhenotypePopover {
 }
 
 input PhenotypeSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   description: StringSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
@@ -10520,7 +10574,31 @@ type Query {
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
-  newsItems: [NewsItem!]!
+
+  """
+  List published news items.
+  """
+  newsItems(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): NewsItemConnection!
 
   """
   List and filter notifications for the logged in user.
@@ -12841,6 +12919,7 @@ input SourceSearchFilter {
   citationId: StringSearchInput
   comment: CommentSearchFilter
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
   id: IntSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput
@@ -14203,8 +14282,12 @@ type TherapyPopover {
 }
 
 input TherapySearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   ncitId: OntologyTermSearchInput
@@ -15722,6 +15805,7 @@ input VariantSearchFilter {
   deprecatingUser: UserSearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isDeprecated: BooleanSearchInput
   isFlagged: BooleanSearchInput

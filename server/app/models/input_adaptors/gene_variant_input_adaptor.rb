@@ -26,11 +26,12 @@ class InputAdaptors::GeneVariantInputAdaptor
 
   def get_hgvs_ids
     input.hgvs_descriptions.map do |hgvs|
-      existing = HgvsDescription.where("description ILIKE ?", hgvs).first
+      normalized_hgvs = hgvs.strip
+      existing = HgvsDescription.where("description ILIKE ?", normalized_hgvs).first
       if existing
         existing.id
       else
-        HgvsDescription.create!(description: hgvs).id
+        HgvsDescription.create!(description: normalized_hgvs).id
       end
     end
   end

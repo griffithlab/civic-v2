@@ -1,0 +1,6 @@
+fragment NewsItemFields on NewsItem {
+  id
+  title
+  publishedAt
+  contentHtml
+}

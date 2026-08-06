@@ -135,6 +135,7 @@ export class UsersDetailComponent implements OnDestroy {
   coiUpdated() {
     this.updateCoiModalVisible = false
     this.queryRef?.refetch()
+    this.viewerService.refetch()
   }
 
   profileUpdated() {

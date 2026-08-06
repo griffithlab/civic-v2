@@ -1,0 +1,15 @@
+query NewsItemsPage($first: Int!, $after: String) {
+  newsItems(first: $first, after: $after) {
+    edges {
+      cursor
+      node {
+        ...NewsItemFields
+      }
+    }
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

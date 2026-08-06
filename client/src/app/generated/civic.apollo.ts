@@ -2200,10 +2200,14 @@ export type DiseasePopover = {
 };
 
 export type DiseaseSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   deprecated?: InputMaybe<BooleanSearchInput>;
   diseaseAliases?: InputMaybe<StringSearchInput>;
   doid?: InputMaybe<OntologyTermSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
   subFilters?: InputMaybe<Array<DiseaseSearchFilter>>;
@@ -2585,6 +2589,7 @@ export type EvidenceItemSearchFilter = {
   evidenceLevel?: InputMaybe<EvidenceLevelTypeSearchInput>;
   evidenceRating?: InputMaybe<IntSearchInput>;
   evidenceType?: InputMaybe<EvidenceTypeTypeSearchInput>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
   moderatingUser?: InputMaybe<UserSearchFilter>;
@@ -5148,6 +5153,30 @@ export type NewsItem = {
   title: Scalars['String']['output'];
 };
 
+/** The connection type for NewsItem. */
+export type NewsItemConnection = {
+  __typename: 'NewsItemConnection';
+  /** A list of edges. */
+  edges: Array<NewsItemEdge>;
+  /** A list of nodes. */
+  nodes: Array<NewsItem>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type NewsItemEdge = {
+  __typename: 'NewsItemEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<NewsItem>;
+};
+
 export type Notification = {
   __typename: 'Notification';
   createdAt: Scalars['ISO8601DateTime']['output'];
@@ -5533,8 +5562,12 @@ export type PhenotypePopover = {
 };
 
 export type PhenotypeSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   description?: InputMaybe<StringSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   hpoId?: InputMaybe<OntologyTermSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
@@ -5646,7 +5679,8 @@ export type Query = {
   nccnGuideline?: Maybe<NccnGuideline>;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
-  newsItems: Array<NewsItem>;
+  /** List published news items. */
+  newsItems: NewsItemConnection;
   /** List and filter notifications for the logged in user. */
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
@@ -6238,6 +6272,14 @@ export type QueryNccnGuidelineArgs = {
 
 export type QueryNccnGuidelinesTypeaheadArgs = {
   queryTerm: Scalars['String']['input'];
+};
+
+
+export type QueryNewsItemsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -7492,6 +7534,7 @@ export type SourceSearchFilter = {
   citationId?: InputMaybe<StringSearchInput>;
   comment?: InputMaybe<CommentSearchFilter>;
   deprecated?: InputMaybe<BooleanSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
   id?: InputMaybe<IntSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;
   journal?: InputMaybe<StringSearchInput>;
@@ -8438,8 +8481,12 @@ export type TherapyPopover = {
 };
 
 export type TherapySearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   deprecated?: InputMaybe<BooleanSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
   ncitId?: InputMaybe<OntologyTermSearchInput>;
@@ -9226,6 +9273,7 @@ export type VariantSearchFilter = {
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>;
   feature?: InputMaybe<FeatureSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isDeprecated?: InputMaybe<BooleanSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
@@ -9974,6 +10022,8 @@ export type MolecularProfileMenuQueryVariables = Exact<{
 export type MolecularProfileMenuQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'MolecularProfileEdge', cursor: string, node?: { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | undefined }> } };
 
 export type MenuMolecularProfileFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean, deprecated: boolean };
+
+export type NewsItemFieldsFragment = { __typename: 'NewsItem', id: number, title: string, publishedAt?: any | undefined, contentHtml?: string | undefined };
 
 export type LeaderboardOrganizationFieldsFragment = { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined };
 
@@ -11635,6 +11685,14 @@ type VariantMolecularProfileCardFields_Variant_Fragment = { __typename: 'Variant
 
 export type VariantMolecularProfileCardFieldsFragment = VariantMolecularProfileCardFields_FactorVariant_Fragment | VariantMolecularProfileCardFields_FusionVariant_Fragment | VariantMolecularProfileCardFields_GeneVariant_Fragment | VariantMolecularProfileCardFields_RegionVariant_Fragment | VariantMolecularProfileCardFields_Variant_Fragment;
 
+export type NewsItemsPageQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type NewsItemsPageQuery = { __typename: 'Query', newsItems: { __typename: 'NewsItemConnection', totalCount: number, edges: Array<{ __typename: 'NewsItemEdge', cursor: string, node?: { __typename: 'NewsItem', id: number, title: string, publishedAt?: any | undefined, contentHtml?: string | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean } } };
+
 export type OrganizationDetailQueryVariables = Exact<{
   organizationId: Scalars['Int']['input'];
 }>;
@@ -11868,9 +11926,7 @@ export type MyVariantInfoFieldsFragment = { __typename: 'MyVariantInfo', myVaria
 export type HomepageNewsItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomepageNewsItemsQuery = { __typename: 'Query', newsItems: Array<{ __typename: 'NewsItem', publishedAt?: any | undefined, contentHtml?: string | undefined, title: string }> };
-
-export type NewsItemFragment = { __typename: 'NewsItem', publishedAt?: any | undefined, contentHtml?: string | undefined, title: string };
+export type HomepageNewsItemsQuery = { __typename: 'Query', newsItems: { __typename: 'NewsItemConnection', edges: Array<{ __typename: 'NewsItemEdge', cursor: string, node?: { __typename: 'NewsItem', id: number, title: string, publishedAt?: any | undefined, contentHtml?: string | undefined } | undefined }> } };
 
 export const ActivitiesPageInfoFieldsFragmentDoc = gql`
     fragment ActivitiesPageInfoFields on ActivityInterfaceConnection {
@@ -13465,6 +13521,14 @@ export const MenuMolecularProfileFragmentDoc = gql`
   link
   flagged
   deprecated
+}
+    `;
+export const NewsItemFieldsFragmentDoc = gql`
+    fragment NewsItemFields on NewsItem {
+  id
+  title
+  publishedAt
+  contentHtml
 }
     `;
 export const LeaderboardOrganizationFieldsFragmentDoc = gql`
@@ -16267,13 +16331,6 @@ ${GeneVariantSummaryFieldsFragmentDoc}
 ${FactorVariantSummaryFieldsFragmentDoc}
 ${FusionVariantSummaryFieldsFragmentDoc}
 ${RegionVariantSummaryFieldsFragmentDoc}`;
-export const NewsItemFragmentDoc = gql`
-    fragment newsItem on NewsItem {
-  publishedAt
-  contentHtml
-  title
-}
-    `;
 export const ActivityFeedDocument = gql`
     query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $includeSubgroups: Boolean!, $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $linkedApprovalId: Int, $includeAutomatedEvents: Boolean, $includeConnection: Boolean = true, $includePageInfo: Boolean = true, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime, $sortBy: DateSort) {
   activities(
@@ -21279,6 +21336,34 @@ export const MolecularProfileSummaryDocument = gql`
       super(apollo);
     }
   }
+export const NewsItemsPageDocument = gql`
+    query NewsItemsPage($first: Int!, $after: String) {
+  newsItems(first: $first, after: $after) {
+    edges {
+      cursor
+      node {
+        ...NewsItemFields
+      }
+    }
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+    ${NewsItemFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class NewsItemsPageGQL extends Apollo.Query<NewsItemsPageQuery, NewsItemsPageQueryVariables> {
+    document = NewsItemsPageDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const OrganizationDetailDocument = gql`
     query OrganizationDetail($organizationId: Int!) {
   organization(id: $organizationId) {
@@ -21717,11 +21802,16 @@ export const VariantSummaryDocument = gql`
   }
 export const HomepageNewsItemsDocument = gql`
     query HomepageNewsItems {
-  newsItems {
-    ...newsItem
+  newsItems(first: 5) {
+    edges {
+      cursor
+      node {
+        ...NewsItemFields
+      }
+    }
   }
 }
-    ${NewsItemFragmentDoc}`;
+    ${NewsItemFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
