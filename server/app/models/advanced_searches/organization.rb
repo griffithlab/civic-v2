@@ -16,7 +16,7 @@ module AdvancedSearches
         resolve_id_filter(node),
         resolve_created_at_filter(node),
         resolve_name_filter(node),
-        resolve_parent_id_filter(node)
+        resolve_parent_id_filter(node),
       ]
     end
 
