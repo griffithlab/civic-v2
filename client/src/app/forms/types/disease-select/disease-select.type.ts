@@ -262,12 +262,9 @@ export class CvcDiseaseSelectField
       this.props.description = undefined
       this.props.extraType = undefined
     }
-    // field currently has a value, but state indicates no disease is required,
-    //  or no type is provided && type is required, so reset field
-    if (
-      (!requiresDisease && diseaseId !== undefined) ||
-      (this.props.requireType && !entityType && this.formControl.value)
-    ) {
+    // Preserve prepopulated diseases until an entity type is selected, then
+    // clear the field if the selected type does not support diseases.
+    if (entityType && !requiresDisease && diseaseId !== undefined) {
       this.resetField()
     }
   }
