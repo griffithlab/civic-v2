@@ -71,6 +71,11 @@ module Types::Queries
         argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
       end
 
+      klass.field :search_activities, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::ActivitySearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
       klass.field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
         argument :permalink_id, String, required: true
       end

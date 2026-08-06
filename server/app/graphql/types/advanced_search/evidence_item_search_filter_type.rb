@@ -22,8 +22,8 @@ module Types
       argument :source, Types::AdvancedSearch::SourceSearchFilterType, required: false
       argument :therapies, Types::AdvancedSearch::TherapySearchFilterType, required: false
       argument :therapy_interaction_type, Types::AdvancedSearch::EnumSearchInput.for(Types::TherapyInteractionType, is_activerecord_enum: true), required: false
-      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
-      argument :moderating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :submission_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
+      argument :last_moderation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
       argument :revisions, Types::AdvancedSearch::RevisionSearchFilterType, required: false
     end
   end

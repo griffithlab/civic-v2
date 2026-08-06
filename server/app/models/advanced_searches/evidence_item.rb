@@ -35,8 +35,8 @@ module AdvancedSearches
         resolve_assertion_filter(node),
         resolve_comment_filter(node),
         resolve_status_filter(node),
-        resolve_activity_user(node.creating_user, "SubmitEvidenceItemActivity"),
-        resolve_activity_user(node.moderating_user, "ModerateEvidenceItemActivity"),
+        resolve_activity(node.submission_activity, :submission_activity),
+        resolve_activity(node.last_moderation_activity, :last_moderation_activity),
         resolve_revisions_filter(node),
       ]
     end

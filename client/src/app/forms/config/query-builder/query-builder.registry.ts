@@ -1,5 +1,6 @@
 import type { Type } from '@angular/core'
 import {
+  SearchActivitiesGQL,
   SearchAssertionsGQL,
   SearchCommentsGQL,
   SearchDiseasesGQL,
@@ -25,6 +26,10 @@ export const ADVANCED_SEARCH_ENDPOINTS = {
   searchComments: {
     attribute: 'comment',
     token: SearchCommentsGQL as Type<AdvancedSearchService>,
+  },
+  searchActivities: {
+    attribute: 'activity',
+    token: SearchActivitiesGQL as Type<AdvancedSearchService>,
   },
   searchAssertions: {
     attribute: 'assertion',

@@ -125,6 +125,16 @@ export type ActivityInterfaceEdge = {
   node?: Maybe<ActivityInterface>;
 };
 
+export type ActivitySearchFilter = {
+  booleanOperator?: InputMaybe<BooleanOperator>;
+  createdAt?: InputMaybe<DateSearchInput>;
+  id?: InputMaybe<IntSearchInput>;
+  organization?: InputMaybe<OrganizationSearchFilter>;
+  subFilters?: InputMaybe<Array<ActivitySearchFilter>>;
+  type?: InputMaybe<StringSearchInput>;
+  user?: InputMaybe<UserSearchFilter>;
+};
+
 export enum ActivitySubjectInput {
   Assertion = 'ASSERTION',
   Comment = 'COMMENT',
@@ -577,7 +587,6 @@ export type AssertionSearchFilter = {
   assertionType?: InputMaybe<AssertionTypeTypeSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
-  creatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   disease?: InputMaybe<DiseaseSearchFilter>;
   evidenceItemCount?: InputMaybe<IntSearchInput>;
@@ -585,7 +594,7 @@ export type AssertionSearchFilter = {
   fdaCompanionTest?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
-  moderatingUser?: InputMaybe<UserSearchFilter>;
+  lastModerationActivity?: InputMaybe<ActivitySearchFilter>;
   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
   name?: InputMaybe<StringSearchInput>;
   phenotypes?: InputMaybe<PhenotypeSearchFilter>;
@@ -594,6 +603,7 @@ export type AssertionSearchFilter = {
   significance?: InputMaybe<AssertionSignificanceTypeSearchInput>;
   status?: InputMaybe<EvidenceStatusTypeSearchInput>;
   subFilters?: InputMaybe<Array<AssertionSearchFilter>>;
+  submissionActivity?: InputMaybe<ActivitySearchFilter>;
   therapies?: InputMaybe<TherapySearchFilter>;
   variantOrigin?: InputMaybe<VariantOriginTypeSearchInput>;
 };
@@ -2513,7 +2523,6 @@ export type EvidenceItemSearchFilter = {
   assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
-  creatingUser?: InputMaybe<UserSearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   disease?: InputMaybe<DiseaseSearchFilter>;
   evidenceDirection?: InputMaybe<EvidenceDirectionTypeSearchInput>;
@@ -2523,7 +2532,7 @@ export type EvidenceItemSearchFilter = {
   hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
-  moderatingUser?: InputMaybe<UserSearchFilter>;
+  lastModerationActivity?: InputMaybe<ActivitySearchFilter>;
   molecularProfile?: InputMaybe<MolecularProfileSearchFilter>;
   openRevisionCount?: InputMaybe<IntSearchInput>;
   phenotypes?: InputMaybe<PhenotypeSearchFilter>;
@@ -2532,6 +2541,7 @@ export type EvidenceItemSearchFilter = {
   source?: InputMaybe<SourceSearchFilter>;
   status?: InputMaybe<EvidenceStatusTypeSearchInput>;
   subFilters?: InputMaybe<Array<EvidenceItemSearchFilter>>;
+  submissionActivity?: InputMaybe<ActivitySearchFilter>;
   therapies?: InputMaybe<TherapySearchFilter>;
   therapyInteractionType?: InputMaybe<TherapyInteractionTypeSearchInput>;
 };
@@ -3142,8 +3152,8 @@ export type FeatureSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
-  creatingUser?: InputMaybe<UserSearchFilter>;
-  deprecatingUser?: InputMaybe<UserSearchFilter>;
+  creationActivity?: InputMaybe<ActivitySearchFilter>;
+  deprecationActivity?: InputMaybe<ActivitySearchFilter>;
   deprecationReason?: InputMaybe<FeatureDeprecationReasonTypeSearchInput>;
   description?: InputMaybe<StringSearchInput>;
   entrezId?: InputMaybe<IntSearchInput>;
@@ -4550,8 +4560,8 @@ export type MolecularProfileSearchFilter = {
   alias?: InputMaybe<StringSearchInput>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
-  creatingUser?: InputMaybe<UserSearchFilter>;
-  deprecatingUser?: InputMaybe<UserSearchFilter>;
+  creationActivity?: InputMaybe<ActivitySearchFilter>;
+  deprecationActivity?: InputMaybe<ActivitySearchFilter>;
   description?: InputMaybe<StringSearchInput>;
   evidenceItemsCount?: InputMaybe<IntSearchInput>;
   hasAssertion?: InputMaybe<BooleanSearchInput>;
@@ -5644,6 +5654,7 @@ export type Query = {
   /** List and filter revisions. */
   revisions: RevisionConnection;
   search: Array<SearchResult>;
+  searchActivities: AdvancedSearchResult;
   searchAssertions: AdvancedSearchResult;
   searchByPermalink: AdvancedSearchResult;
   searchComments: AdvancedSearchResult;
@@ -6355,6 +6366,12 @@ export type QuerySearchArgs = {
   highlightMatches?: InputMaybe<Scalars['Boolean']['input']>;
   query: Scalars['String']['input'];
   types?: InputMaybe<Array<SearchableEntities>>;
+};
+
+
+export type QuerySearchActivitiesArgs = {
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+  query: ActivitySearchFilter;
 };
 
 
@@ -7125,9 +7142,9 @@ export type RevisionSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
   createdAt?: InputMaybe<DateSearchInput>;
-  creatingUser?: InputMaybe<UserSearchFilter>;
+  creationActivity?: InputMaybe<ActivitySearchFilter>;
   fieldName?: InputMaybe<StringSearchInput>;
-  moderatingUser?: InputMaybe<UserSearchFilter>;
+  moderationActivity?: InputMaybe<ActivitySearchFilter>;
   status?: InputMaybe<RevisionStatusSearchInput>;
   subFilters?: InputMaybe<Array<RevisionSearchFilter>>;
   subjectId?: InputMaybe<IntSearchInput>;
@@ -9178,8 +9195,8 @@ export type VariantSearchFilter = {
   booleanOperator?: InputMaybe<BooleanOperator>;
   comment?: InputMaybe<CommentSearchFilter>;
   coordinates?: InputMaybe<CoordinateSearchInput>;
-  creatingUser?: InputMaybe<UserSearchFilter>;
-  deprecatingUser?: InputMaybe<UserSearchFilter>;
+  creationActivity?: InputMaybe<ActivitySearchFilter>;
+  deprecationActivity?: InputMaybe<ActivitySearchFilter>;
   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>;
   feature?: InputMaybe<FeatureSearchFilter>;
   hasAssertion?: InputMaybe<BooleanSearchInput>;
@@ -10826,6 +10843,14 @@ export type SearchEvidenceItemsQueryVariables = Exact<{
 
 
 export type SearchEvidenceItemsQuery = { __typename: 'Query', searchEvidenceItems: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
+
+export type SearchActivitiesQueryVariables = Exact<{
+  query: ActivitySearchFilter;
+  createPermalink?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type SearchActivitiesQuery = { __typename: 'Query', searchActivities: { __typename: 'AdvancedSearchResult', permalinkId?: string | undefined, searchEndpoint: string, resultIds: Array<number> } };
 
 export type SearchAssertionsQueryVariables = Exact<{
   query: AssertionSearchFilter;
@@ -19512,6 +19537,24 @@ export const SearchEvidenceItemsDocument = gql`
   })
   export class SearchEvidenceItemsGQL extends Apollo.Query<SearchEvidenceItemsQuery, SearchEvidenceItemsQueryVariables> {
     document = SearchEvidenceItemsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchActivitiesDocument = gql`
+    query searchActivities($query: ActivitySearchFilter!, $createPermalink: Boolean) {
+  searchActivities(query: $query, createPermalink: $createPermalink) {
+    ...QueryBuilderResponseFields
+  }
+}
+    ${QueryBuilderResponseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchActivitiesGQL extends Apollo.Query<SearchActivitiesQuery, SearchActivitiesQueryVariables> {
+    document = SearchActivitiesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

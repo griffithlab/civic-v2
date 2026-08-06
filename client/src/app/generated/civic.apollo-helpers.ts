@@ -2140,6 +2140,7 @@ export type QueryFieldPolicy = {
 	revisionSets?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	search?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchActivities?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchComments?: FieldPolicy<any> | FieldReadFunction<any>,

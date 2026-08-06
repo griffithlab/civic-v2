@@ -34,8 +34,8 @@ module AdvancedSearches
         resolve_therapies_filter(node),
         resolve_variant_origin_filter(node),
         resolve_is_flagged_filter(node),
-        resolve_activity_user(node.creating_user, "SubmitAsssertionActivity"),
-        resolve_activity_user(node.moderating_user, "ModerateAsssertionActivity"),
+        resolve_activity(node.submission_activity, :submission_activity),
+        resolve_activity(node.last_moderation_activity, :last_moderation_activity),
         resolve_revisions_filter(node),
         resolve_comment_filter(node),
       ]
