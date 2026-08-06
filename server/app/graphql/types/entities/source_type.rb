@@ -9,7 +9,7 @@ module Types::Entities
     field :citation, String, null: true
     field :citation_id, String, null: false
     field :source_type, Types::SourceSourceType, null: false
-    field :asco_abstract_id, Int, null: true
+    field :asco_abstract_id, String, null: true
     field :source_url, String, null: true
     field :publication_year, Int, null: true
     field :publication_month, Int, null: true

@@ -12636,7 +12636,7 @@ enum SortDirection {
 
 type Source implements Commentable & EventSubject {
   abstract: String
-  ascoAbstractId: Int
+  ascoAbstractId: String
   authorString: String
   citation: String
   citationId: String!
@@ -12816,7 +12816,7 @@ enum SourceLinkReason {
 
 type SourcePopover implements Commentable & EventSubject {
   abstract: String
-  ascoAbstractId: Int
+  ascoAbstractId: String
   authorString: String
   citation: String
   citationId: String!
@@ -12961,7 +12961,7 @@ input SourceSourceTypeSearchInput {
 }
 
 type SourceStub {
-  citationId: Int!
+  citationId: String!
   id: Int!
   sourceType: SourceSource!
 }
