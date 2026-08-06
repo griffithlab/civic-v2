@@ -155,6 +155,16 @@ type ActivityInterfaceEdge {
   node: ActivityInterface
 }
 
+input ActivitySearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  organization: OrganizationSearchFilter
+  subFilters: [ActivitySearchFilter!]
+  type: StringSearchInput
+  user: UserSearchFilter
+}
+
 enum ActivitySubjectInput {
   ASSERTION
   COMMENT
@@ -946,7 +956,6 @@ input AssertionSearchFilter {
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceItemCount: IntSearchInput
@@ -954,7 +963,7 @@ input AssertionSearchFilter {
   fdaCompanionTest: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -963,6 +972,7 @@ input AssertionSearchFilter {
   significance: AssertionSignificanceTypeSearchInput
   status: AssertionStatusTypeSearchInput
   subFilters: [AssertionSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   variantOrigin: VariantOriginTypeSearchInput
 }
@@ -3959,7 +3969,6 @@ input EvidenceItemSearchFilter {
   assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceDirection: EvidenceDirectionTypeSearchInput
@@ -3969,7 +3978,7 @@ input EvidenceItemSearchFilter {
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   openRevisionCount: IntSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -3978,6 +3987,7 @@ input EvidenceItemSearchFilter {
   source: SourceSearchFilter
   status: EvidenceStatusTypeSearchInput
   subFilters: [EvidenceItemSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   therapyInteractionType: TherapyInteractionTypeSearchInput
 }
@@ -5198,8 +5208,8 @@ input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
   description: StringSearchInput
   entrezId: IntSearchInput
@@ -7888,8 +7898,8 @@ input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   description: StringSearchInput
   evidenceItemsCount: IntSearchInput
   hasAssertion: BooleanSearchInput
@@ -9086,6 +9096,15 @@ type OrganizationLeaderboards {
     last: Int
     window: TimeWindow
   ): LeaderboardOrganizationConnection!
+}
+
+input OrganizationSearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  parentId: IntSearchInput
+  subFilters: [OrganizationSearchFilter!]
 }
 
 input OrganizationSort {
@@ -10970,6 +10989,7 @@ type Query {
     """
     types: [SearchableEntities!]
   ): [SearchResult!]!
+  searchActivities(createPermalink: Boolean = false, query: ActivitySearchFilter!): AdvancedSearchResult!
   searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchComments(createPermalink: Boolean = false, query: CommentSearchFilter!): AdvancedSearchResult!
@@ -10977,6 +10997,7 @@ type Query {
   searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
   searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
+  searchOrganizations(createPermalink: Boolean = false, query: OrganizationSearchFilter!): AdvancedSearchResult!
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
   searchRevisions(createPermalink: Boolean = false, query: RevisionSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
@@ -12383,9 +12404,9 @@ input RevisionSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   createdAt: DateSearchInput
-  creatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
   fieldName: StringSearchInput
-  moderatingUser: UserSearchFilter
+  moderationActivity: ActivitySearchFilter
   status: RevisionStatusSearchInput
   subFilters: [RevisionSearchFilter!]
   subjectId: IntSearchInput
@@ -14740,8 +14761,7 @@ input UserSearchFilter {
   createdAt: DateSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  organizationId: IntSearchInput
-  organizationName: StringSearchInput
+  organizations: OrganizationSearchFilter
   subFilters: [UserSearchFilter!]
   username: StringSearchInput
 }
@@ -15801,8 +15821,8 @@ input VariantSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   coordinates: CoordinateSearchInput
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
   hasAssertion: BooleanSearchInput

@@ -31,8 +31,8 @@ module AdvancedSearches
         resolve_variant_type_filter(node),
         resolve_coordinates_filter(node),
         resolve_revisions_filter(node),
-        resolve_activity_user(node.creating_user, "CreateVariantActivity"),
-        resolve_activity_user(node.deprecating_user, "DeprecateVariantActivity"),
+        resolve_activity(node.creation_activity, :creation_activity),
+        resolve_activity(node.deprecation_activity, :deprecation_activity),
       ]
     end
 

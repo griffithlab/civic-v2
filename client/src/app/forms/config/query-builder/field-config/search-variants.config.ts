@@ -61,12 +61,8 @@ export const searchVariantsFieldOptions: FormlyFieldConfig[] =
         },
       ]),
       ...withRecursive([
-        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
-        ...getQueryFieldConfig(
-          'deprecatingUser',
-          'searchUsers',
-          'Deprecating User'
-        ),
+        ...getQueryFieldConfig('creationActivity', 'searchActivities', 'Creation Activity'),
+        ...getQueryFieldConfig('deprecationActivity', 'searchActivities', 'Deprecation Activity'),
         ...getQueryFieldConfig('feature', 'searchFeatures', 'Feature'),
         ...getQueryFieldConfig(
           'molecularProfile',

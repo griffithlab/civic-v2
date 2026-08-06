@@ -58,12 +58,8 @@ export const searchRevisionsFieldOptions: FormlyFieldConfig[] =
         },
       ]),
       ...withRecursive([
-        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
-        ...getQueryFieldConfig(
-          'moderatingUser',
-          'searchUsers',
-          'Moderating User'
-        ),
+        ...getQueryFieldConfig('creationActivity', 'searchActivities', 'Creation Activity'),
+        ...getQueryFieldConfig('moderationActivity', 'searchActivities', 'Moderation Activity'),
         ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ])

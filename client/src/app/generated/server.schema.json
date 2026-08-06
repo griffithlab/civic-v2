@@ -1000,6 +1000,109 @@
           "possibleTypes": null
         },
         {
+          "kind": "INPUT_OBJECT",
+          "name": "ActivitySearchFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "subFilters",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ActivitySearchFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "booleanOperator",
+              "description": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "BooleanOperator",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "OrganizationSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DateSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "ENUM",
           "name": "ActivitySubjectInput",
           "description": null,
@@ -4714,11 +4817,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "submissionActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -4726,11 +4829,11 @@
               "deprecationReason": null
             },
             {
-              "name": "moderatingUser",
+              "name": "lastModerationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -20921,11 +21024,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "submissionActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -20933,11 +21036,11 @@
               "deprecationReason": null
             },
             {
-              "name": "moderatingUser",
+              "name": "lastModerationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -26288,11 +26391,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -26300,11 +26403,11 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecatingUser",
+              "name": "deprecationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -38372,11 +38475,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -38384,11 +38487,11 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecatingUser",
+              "name": "deprecationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -43778,6 +43881,97 @@
           ],
           "inputFields": null,
           "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "OrganizationSearchFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "subFilters",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationSearchFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "booleanOperator",
+              "description": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "BooleanOperator",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parentId",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DateSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -50801,6 +50995,51 @@
               "deprecationReason": null
             },
             {
+              "name": "searchActivities",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ActivitySearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "searchAssertions",
               "description": null,
               "args": [
@@ -51071,6 +51310,51 @@
                     "ofType": {
                       "kind": "INPUT_OBJECT",
                       "name": "MolecularProfileSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "searchOrganizations",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "OrganizationSearchFilter",
                       "ofType": null
                     }
                   },
@@ -57358,11 +57642,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -57370,11 +57654,11 @@
               "deprecationReason": null
             },
             {
-              "name": "moderatingUser",
+              "name": "moderationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -67756,23 +68040,11 @@
               "deprecationReason": null
             },
             {
-              "name": "organizationName",
+              "name": "organizations",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organizationId",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "IntSearchInput",
+                "name": "OrganizationSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -72169,11 +72441,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -72181,11 +72453,11 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecatingUser",
+              "name": "deprecationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,

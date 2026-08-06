@@ -84,18 +84,8 @@ export const searchAssertionsFieldOptions: FormlyFieldConfig[] =
         },
       ]),
       ...withRecursive([
-        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
-        ...getQueryFieldConfig(
-          'moderatingUser',
-          'searchUsers',
-          'Moderating User'
-        ),
-        ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
-        ...getQueryFieldConfig(
-          'evidenceItems',
-          'searchEvidenceItems',
-          'Evidence Items'
-        ),
+        ...getQueryFieldConfig('submissionActivity', 'searchActivities', 'Submission Activity'),
+        ...getQueryFieldConfig('lastModerationActivity', 'searchActivities', 'Last Moderation Activity'),
         ...getQueryFieldConfig(
           'molecularProfile',
           'searchMolecularProfiles',
