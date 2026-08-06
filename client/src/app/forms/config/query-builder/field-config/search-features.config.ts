@@ -95,12 +95,8 @@ export const searchFeaturesFieldOptions: FormlyFieldConfig[] =
         },
       ]),
       ...withRecursive([
-        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
-        ...getQueryFieldConfig(
-          'deprecatingUser',
-          'searchUsers',
-          'Deprecating User'
-        ),
+        ...getQueryFieldConfig('creationActivity', 'searchActivities', 'Creation Activity'),
+        ...getQueryFieldConfig('deprecationActivity', 'searchActivities', 'Deprecation Activity'),
         ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),
     ]),

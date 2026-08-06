@@ -48,6 +48,10 @@ class Assertion < ActiveRecord::Base
     as: :subject,
     class_name: "Activity"
 
+  has_one :last_moderation_activity,
+    ->() { where(type: "ModerateAssertionActivity").order("activities.created_at desc") },
+    as: :subject,
+    class_name: "Activity"
 
   searchkick highlight: [ :id ], callbacks: :async
 

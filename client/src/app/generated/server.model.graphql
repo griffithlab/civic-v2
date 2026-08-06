@@ -155,6 +155,16 @@ type ActivityInterfaceEdge {
   node: ActivityInterface
 }
 
+input ActivitySearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  organization: OrganizationSearchFilter
+  subFilters: [ActivitySearchFilter!]
+  type: StringSearchInput
+  user: UserSearchFilter
+}
+
 enum ActivitySubjectInput {
   ASSERTION
   COMMENT
@@ -944,7 +954,6 @@ input AssertionSearchFilter {
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceItemCount: IntSearchInput
@@ -952,7 +961,7 @@ input AssertionSearchFilter {
   fdaCompanionTest: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -961,6 +970,7 @@ input AssertionSearchFilter {
   significance: AssertionSignificanceTypeSearchInput
   status: EvidenceStatusTypeSearchInput
   subFilters: [AssertionSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   variantOrigin: VariantOriginTypeSearchInput
 }
@@ -3868,7 +3878,6 @@ input EvidenceItemSearchFilter {
   assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceDirection: EvidenceDirectionTypeSearchInput
@@ -3878,7 +3887,7 @@ input EvidenceItemSearchFilter {
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   openRevisionCount: IntSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -3887,6 +3896,7 @@ input EvidenceItemSearchFilter {
   source: SourceSearchFilter
   status: EvidenceStatusTypeSearchInput
   subFilters: [EvidenceItemSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   therapyInteractionType: TherapyInteractionTypeSearchInput
 }
@@ -5107,8 +5117,8 @@ input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
   description: StringSearchInput
   entrezId: IntSearchInput
@@ -7796,8 +7806,8 @@ input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   description: StringSearchInput
   evidenceItemsCount: IntSearchInput
   hasAssertion: BooleanSearchInput
@@ -10871,6 +10881,7 @@ type Query {
     """
     types: [SearchableEntities!]
   ): [SearchResult!]!
+  searchActivities(createPermalink: Boolean = false, query: ActivitySearchFilter!): AdvancedSearchResult!
   searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchComments(createPermalink: Boolean = false, query: CommentSearchFilter!): AdvancedSearchResult!
@@ -12284,9 +12295,9 @@ input RevisionSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   createdAt: DateSearchInput
-  creatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
   fieldName: StringSearchInput
-  moderatingUser: UserSearchFilter
+  moderationActivity: ActivitySearchFilter
   status: RevisionStatusSearchInput
   subFilters: [RevisionSearchFilter!]
   subjectId: IntSearchInput
@@ -15672,8 +15683,8 @@ input VariantSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   coordinates: CoordinateSearchInput
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
   hasAssertion: BooleanSearchInput

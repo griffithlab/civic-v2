@@ -1,4 +1,5 @@
 import {
+  ActivitySearchFilter,
   AssertionSearchFilter,
   DiseaseSearchFilter,
   EvidenceItemSearchFilter,
@@ -26,6 +27,7 @@ export type AdvancedSearchAttribute<
 > = (typeof ADVANCED_SEARCH_ENDPOINTS)[E]['attribute']
 
 interface EndpointFilterTypes {
+  searchActivities: ActivitySearchFilter
   searchAssertions: AssertionSearchFilter
   searchComments: AssertionSearchFilter
   searchDiseases: DiseaseSearchFilter

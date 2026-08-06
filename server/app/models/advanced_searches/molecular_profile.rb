@@ -25,8 +25,8 @@ module AdvancedSearches
         resolve_score_filter(node),
         resolve_evidence_items_count_filter(node),
         resolve_source_filter(node),
-        resolve_activity_user(node.creating_user, "CreateComplexMolecularProfileActivity"),
-        resolve_activity_user(node.deprecating_user, "DeprecateComplexMolecularProfileActivity"),
+        resolve_activity(node.creation_activity, :complex_molecular_profile_creation_activity),
+        resolve_activity(node.deprecation_activity, :complex_molecular_profile_deprecation_activity),
         resolve_revisions_filter(node),
         resolve_comment_filter(node),
       ]
