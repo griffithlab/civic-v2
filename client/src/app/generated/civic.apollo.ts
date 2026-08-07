@@ -7282,6 +7282,7 @@ export type Source = Commentable & EventSubject & {
   fullJournalTitle?: Maybe<Scalars['String']['output']>;
   fullyCurated: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  isPreprint: Scalars['Boolean']['output'];
   journal?: Maybe<Scalars['String']['output']>;
   lastCommentEvent?: Maybe<Event>;
   link: Scalars['String']['output'];
@@ -7368,6 +7369,7 @@ export type SourcePopover = Commentable & EventSubject & {
   fullJournalTitle?: Maybe<Scalars['String']['output']>;
   fullyCurated: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  isPreprint: Scalars['Boolean']['output'];
   journal?: Maybe<Scalars['String']['output']>;
   lastCommentEvent?: Maybe<Event>;
   link: Scalars['String']['output'];
@@ -7422,6 +7424,7 @@ export type SourceSearchFilter = {
   comment?: InputMaybe<CommentSearchFilter>;
   deprecated?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
+  isPreprint?: InputMaybe<BooleanSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;
   journal?: InputMaybe<StringSearchInput>;
   sourceType?: InputMaybe<SourceSourceTypeSearchInput>;
@@ -21100,7 +21103,7 @@ export const NewsItemsPageDocument = gql`
   })
   export class NewsItemsPageGQL extends Apollo.Query<NewsItemsPageQuery, NewsItemsPageQueryVariables> {
     document = NewsItemsPageDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

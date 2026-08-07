@@ -15,6 +15,7 @@ module Types
       argument :title, Types::AdvancedSearch::StringSearchInput, required: false
       argument :is_retracted, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
+      argument :is_preprint, Types::AdvancedSearch::BooleanSearchInput, required: false
     end
   end
 end

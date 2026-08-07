@@ -29,6 +29,7 @@ module Types::Entities
     field :retraction_date, GraphQL::Types::ISO8601DateTime, null: true
     field :retraction_reasons, String, null: true
     field :deprecated, Boolean, null: false
+    field :is_preprint, Boolean, null: false
 
     def deprecated
       object&.retraction_nature == "Retraction" || object.deprecated

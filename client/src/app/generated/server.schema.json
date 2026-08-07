@@ -58334,6 +58334,22 @@
               "deprecationReason": null
             },
             {
+              "name": "isPreprint",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "journal",
               "description": null,
               "args": [],
@@ -59140,6 +59156,22 @@
               "deprecationReason": null
             },
             {
+              "name": "isPreprint",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "journal",
               "description": null,
               "args": [],
@@ -59556,6 +59588,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "CommentSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isPreprint",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
                 "ofType": null
               },
               "defaultValue": null,
