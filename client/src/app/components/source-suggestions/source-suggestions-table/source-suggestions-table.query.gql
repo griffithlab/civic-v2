@@ -72,6 +72,7 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     sourceType
     sourceUrl
     displayType
+    displayName
     deprecated
   }
   user {

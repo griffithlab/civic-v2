@@ -12553,6 +12553,7 @@ type Source implements Commentable & EventSubject {
     sortBy: DateSort
   ): CommentConnection!
   deprecated: Boolean!
+  displayName: String!
   displayType: String!
 
   """
@@ -12713,6 +12714,7 @@ type SourcePopover implements Commentable & EventSubject {
     sortBy: DateSort
   ): CommentConnection!
   deprecated: Boolean!
+  displayName: String!
   displayType: String!
 
   """

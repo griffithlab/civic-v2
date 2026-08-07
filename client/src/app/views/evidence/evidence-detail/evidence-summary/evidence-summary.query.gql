@@ -47,6 +47,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     citationId
     sourceType
     displayType
+    displayName
     sourceUrl
     ascoAbstractId
     link
