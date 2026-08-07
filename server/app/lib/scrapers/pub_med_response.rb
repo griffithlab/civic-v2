@@ -87,6 +87,10 @@ module Scrapers
         .any? { |x| x == "Preprint" }
     end
 
+    def update_pmid
+      xpath_contents_or_nil("//CommentsCorrectionsList/CommentsCorrections[@RefType='UpdateIn']/PMID")
+    end
+
     private
     def xpath_contents_or_nil(path)
       if (node = xml.xpath(path).text).blank?
