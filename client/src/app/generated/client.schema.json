@@ -58219,7 +58219,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -59044,7 +59044,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -60001,7 +60001,7 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "name": "Int",
+                "name": "String",
                 "kind": "SCALAR",
                 "ofType": null
               }

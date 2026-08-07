@@ -58,6 +58,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
     retractionNature
     deprecated
+    isPreprint
   }
   evidenceRating
   molecularProfile {

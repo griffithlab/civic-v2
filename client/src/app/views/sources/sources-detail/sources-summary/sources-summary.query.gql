@@ -27,4 +27,5 @@ fragment SourceSummaryFields on Source {
   retractionDate
   retractionReasons
   deprecated
+  isPreprint
 }

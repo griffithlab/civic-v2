@@ -15179,6 +15179,25 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    displayType
+    displayName
+    sourceUrl
+    ascoAbstractId
+    link
+    clinicalTrials {
+      nctId
+      id
+      link
+    }
+    retractionNature
+    deprecated
+    isPreprint
+  }
   ...evidenceSubmissionActivity
 }
     ${EvidenceSubmissionActivityFragmentDoc}`;
@@ -15237,6 +15256,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     }
     retractionNature
     deprecated
+    isPreprint
   }
   evidenceRating
   molecularProfile {
@@ -15782,6 +15802,7 @@ export const SourceDetailFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+  isPreprint
 }
     `;
 export const SourceSummaryFieldsFragmentDoc = gql`
@@ -15808,6 +15829,7 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   retractionDate
   retractionReasons
   deprecated
+  isPreprint
 }
     `;
 export const MyChemInfoFieldsFragmentDoc = gql`
