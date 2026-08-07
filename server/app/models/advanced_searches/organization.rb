@@ -16,7 +16,7 @@ module AdvancedSearches
         resolve_id_filter(node),
         resolve_created_at_filter(node),
         resolve_name_filter(node),
-        resolve_parent_id_filter(node),
+        resolve_parent_organization_filter(node),
       ]
     end
 
@@ -26,10 +26,13 @@ module AdvancedSearches
       base_query.where(clause, value)
     end
 
-    def resolve_parent_id_filter(node)
-      return nil if node.parent_id.nil?
-      clause, value = node.parent_id.resolve_query_for_type("organizations.parent_id")
-      base_query.where(clause, value)
+    def resolve_parent_organization_filter(node)
+      return nil if node.parent_organization.nil?
+      organization_ids = AdvancedSearches::Organization.new(query: node.parent_organization).results
+      matching_ids = ::Organization
+        .where(parent_id: organization_ids)
+        .select(:id)
+      base_query.where(id: matching_ids)
     end
   end
 end

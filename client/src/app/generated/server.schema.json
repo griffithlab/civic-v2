@@ -43511,11 +43511,11 @@
               "deprecationReason": null
             },
             {
-              "name": "parentId",
+              "name": "parentOrganization",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "IntSearchInput",
+                "name": "OrganizationSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,

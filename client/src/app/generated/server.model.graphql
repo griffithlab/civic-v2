@@ -9000,7 +9000,7 @@ input OrganizationSearchFilter {
   createdAt: DateSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  parentId: IntSearchInput
+  parentOrganization: OrganizationSearchFilter
   subFilters: [OrganizationSearchFilter!]
 }
 

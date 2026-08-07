@@ -5423,7 +5423,7 @@ export type OrganizationSearchFilter = {
   createdAt?: InputMaybe<DateSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
-  parentId?: InputMaybe<IntSearchInput>;
+  parentOrganization?: InputMaybe<OrganizationSearchFilter>;
   subFilters?: InputMaybe<Array<OrganizationSearchFilter>>;
 };
 
