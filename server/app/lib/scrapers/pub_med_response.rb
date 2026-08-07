@@ -81,6 +81,12 @@ module Scrapers
         .map(&:text)
     end
 
+    def is_preprint
+      (xml.xpath("//PublicationTypeList/PublicationType") || [])
+        .map(&:text)
+        .any? { |x| x == "Preprint" }
+    end
+
     private
     def xpath_contents_or_nil(path)
       if (node = xml.xpath(path).text).blank?
