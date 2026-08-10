@@ -1,19 +1,71 @@
-
 class UpdatePreprints < ApplicationJob
   attr_reader :civicbot_user
 
   def perform
     @civicbot_user = User.find(Constants::CIVICBOT_USER_ID)
     update_pubmed_preprints
+    update_biorxiv_preprints
+    update_medrxiv_preprints
   end
 
   def update_pubmed_preprints
     Source.where(source_type: "PubMed", is_preprint: true).each do |source|
-      resp = Scrapers::PubMed.call_pubmed_api(source.citation_id)
-      update_pmid = resp.update_pmid
+      if source.evidence_items.count > 0
+        resp = Scrapers::PubMed.call_pubmed_api(source.citation_id)
+        update_pmid = resp.update_pmid
 
-      update_source = create_update_source("PubMed", update_pmid)
-      create_revisions(source, update_source)
+        unless update_pmid.nil?
+          update_source = create_update_source("PubMed", update_pmid)
+          create_revisions(source, update_source)
+        end
+      end
+    end
+  end
+
+  def update_biorxiv_preprints
+    Source.where(source_type: "bioRxiv", is_preprint: true).each do |source|
+      if source.evidence_items.count > 0
+        resp = Scrapers::BioRxiv.fetch_biorxiv_page(doi: source.citation_id)
+        update_doi = resp.update_doi
+
+        unless update_doi.nil?
+          update_pmid = get_pmid_from_doi(update_doi)
+
+          unless update_pmid.nil?
+            update_source = create_update_source("PubMed", update_pmid)
+            create_revisions(source, update_source)
+          end
+        end
+      end
+    end
+  end
+
+  def update_medrxiv_preprints
+    Source.where(source_type: "medRxiv", is_preprint: true).each do |source|
+      if source.evidence_items.count > 0
+        resp = Scrapers::MedRxiv.fetch_medrxiv_page(doi: source.citation_id)
+        update_doi = resp.update_doi
+
+        unless update_doi.nil?
+          update_pmid = get_pmid_from_doi(update_doi)
+
+          unless update_pmid.nil?
+            update_source = create_update_source("PubMed", update_pmid)
+            create_revisions(source, update_source)
+          end
+        end
+      end
+    end
+  end
+
+  def get_pmid_from_doi(doi)
+    url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=#{doi}&retmode=json"
+    response_body = Scrapers::Util.make_get_request(url)
+    json = JSON(response_body)
+    if json["esearchresult"]["count"].to_i == 1
+      json["esearchresult"]["idlist"][0]
+    else
+      nil
     end
   end
 

@@ -7437,6 +7437,8 @@ export type SourceSearchFilter = {
 export enum SourceSource {
   Asco = 'ASCO',
   Ash = 'ASH',
+  Biorxiv = 'BIORXIV',
+  Medrxiv = 'MEDRXIV',
   Pubmed = 'PUBMED'
 }
 

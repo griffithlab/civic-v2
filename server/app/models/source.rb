@@ -16,7 +16,7 @@ class Source < ActiveRecord::Base
   has_many :sources_variant_groups, class_name: "SourceVariantGroup"
   has_many :variant_groups, through: :sources_variant_groups
 
-  enum :source_type, [ "PubMed", "ASCO", "ASH" ]
+  enum :source_type, [ "PubMed", "ASCO", "ASH", "bioRxiv", "medRxiv" ]
 
   validate :citation_id_format_matches_source_type
 
@@ -55,9 +55,7 @@ class Source < ActiveRecord::Base
   def self.url_for(source:)
     if source.source_type == "PubMed"
       "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
-    elsif source.source_type == "ASCO"
-      "https://doi.org/#{source.citation_id}"
-    elsif source.source_type == "ASH"
+    elsif [ "ASCO", "ASH", "bioRxiv", "medRxiv" ].include?(source.source_type)
       "https://doi.org/#{source.citation_id}"
     end
   end
@@ -87,6 +85,12 @@ class Source < ActiveRecord::Base
       elsif source_type == "ASH"
         unless citation_id =~ /\A10.1182\/blood[-._;()\/:A-Z0-9]+\z/i
           errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid ASH Abstract DOI")
+        end
+      elsif [ "bioRxiv", "medRxiv" ].include?(source_type)
+        if citation_id =~ /\A10.64898\/[-._;()\/:A-Z0-9]+\z/i || citation_id =~ /\A10.1101\/[-._;()\/:A-Z0-9]+\z/i
+          # no op
+        else
+          errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid #{source_type} Abstract DOI")
         end
       else
         errors.add(:source_type, "Unexpected Source Type: #{source_type}")

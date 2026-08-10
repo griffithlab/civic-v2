@@ -71,7 +71,7 @@ module Types::Entities
     end
 
     def author_string
-      if object.source_type == "PubMed" || object.source_type == "ASH"
+      if [ "PubMed", "ASH", "bioRxiv", "medRxiv" ].include?(object.source_type)
         Loaders::AssociationLoader.for(Source, :authors_sources).load(object).then do |authors_sources|
           Promise.all(authors_sources.map { |as| Loaders::AssociationLoader.for(AuthorsSource, :author).load(as) }).then do |authors|
             authors_sources.sort_by { |as| as.author_position }
