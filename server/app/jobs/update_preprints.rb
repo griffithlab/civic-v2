@@ -29,7 +29,6 @@ class UpdatePreprints < ApplicationJob
   def create_revisions(source, update_source)
     source.evidence_items.each do |evidence|
       revisions = Revision.where(subject: evidence, field_name: "source_id", current_value: source.id, suggested_value: update_source.id)
-      binding.pry
       if revisions.empty?
         updated_evidence = evidence.dup
         updated_evidence.source = update_source
