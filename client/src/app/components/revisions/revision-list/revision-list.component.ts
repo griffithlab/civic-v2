@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   AcceptRevisionGQL,
@@ -42,6 +43,7 @@ type SuccessType = false | 'accepted' | 'rejected'
   selector: 'cvc-revision-list',
   templateUrl: './revision-list.component.html',
   styleUrls: ['./revision-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {

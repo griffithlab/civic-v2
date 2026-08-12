@@ -167,7 +167,9 @@
                   #enumTagFilterTrigger
                   [nzDropdownMenu]="enumFilterMenu"
                   [nzActive]="
-                    (enumTagCol.filter.changes | ngrxPush)?.value !== null
+                    $safeNavigationMigration(
+                      (enumTagCol.filter.changes | ngrxPush)?.value
+                    ) !== null
                   ">
                   <span
                     nz-icon
@@ -202,7 +204,9 @@
                 <nz-filter-trigger
                   [nzDropdownMenu]="textTagFilterMenu"
                   [nzActive]="
-                    (textTagCol.filter.changes | ngrxPush)?.value !== null
+                    $safeNavigationMigration(
+                      (textTagCol.filter.changes | ngrxPush)?.value
+                    ) !== null
                   ">
                   <span
                     nz-icon
@@ -287,8 +291,9 @@
                           context: {
                             $implicit: row[colKey],
                             config: entityTagCol,
-                            emphasize: (entityTagCol.filter.changes | ngrxPush)
-                              ?.value,
+                            emphasize: $safeNavigationMigration(
+                              (entityTagCol.filter.changes | ngrxPush)?.value
+                            ),
                           }
                         ">
                       </ng-container>
@@ -357,7 +362,9 @@
                     let-config="config"
                     let-emphasize="emphasize">
                     <cvc-entity-tag
-                      [cvcTruncateLabel]="config.tag?.truncateLabel"
+                      [cvcTruncateLabel]="
+                        $safeNavigationMigration(config.tag?.truncateLabel)
+                      "
                       [cvcLinkableEntity]="data"
                       [cvcEmphasize]="emphasize"
                       [cvcShowPopover]="!isScrolling"
@@ -430,8 +437,9 @@
                         (colData | isArray) ? staticList : staticValue;
                         context: {
                           $implicit: colData,
-                          emphasize: (defaultCol.filter.changes | ngrxPush)
-                            ?.value,
+                          emphasize: $safeNavigationMigration(
+                            (defaultCol.filter.changes | ngrxPush)?.value
+                          ),
                         }
                       ">
                     </ng-container>
@@ -496,9 +504,7 @@
   let-filter="filter">
   <!-- input updates onFilterChange -->
   @if (filter.inputType === undefined || filter.inputType === 'default') {
-    <nz-input-group
-      [nzSuffix]="suffixIcon"
-      nzSize="small">
+    <nz-input-wrapper nzSize="small">
       <input
         #filterInput
         nz-input
@@ -507,7 +513,10 @@
         (nzFilterChange)="
           filter.changes.next({ key: filter.key, value: $event })
         " />
-    </nz-input-group>
+      <span nzInputSuffix>
+        <ng-container *ngTemplateOutlet="suffixIcon"></ng-container>
+      </span>
+    </nz-input-wrapper>
     <!-- input suffix icon tpl - magnifying glass if unset, clear icon if set  -->
     <ng-template #suffixIcon>
       @if (!filterInput.value) {

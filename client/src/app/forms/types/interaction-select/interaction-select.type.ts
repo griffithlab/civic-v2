@@ -6,6 +6,7 @@ import {
   TemplateRef,
   Type,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
@@ -44,8 +45,7 @@ interface CvcInteractionSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcInteractionSelectFieldConfig
-  extends FormlyFieldConfig<CvcInteractionSelectFieldProps> {
+export interface CvcInteractionSelectFieldConfig extends FormlyFieldConfig<CvcInteractionSelectFieldProps> {
   type: 'interaction-select' | Type<CvcInteractionSelectField>
 }
 
@@ -58,10 +58,11 @@ const InteractionSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-interaction-select',
-    templateUrl: './interaction-select.type.html',
-    styleUrls: ['./interaction-select.type.less'],
-    standalone: false
+  selector: 'cvc-interaction-select',
+  templateUrl: './interaction-select.type.html',
+  styleUrls: ['./interaction-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcInteractionSelectField
   extends InteractionSelectMixin
@@ -86,7 +87,6 @@ export class CvcInteractionSelectField
       requireMultipleTherapiesPromptFn: () =>
         `A single associated therapy does not have an Interaction type`,
       tooltip: 'Characterizes the interaction of a multi-therapy treatment',
-      
     },
   }
 

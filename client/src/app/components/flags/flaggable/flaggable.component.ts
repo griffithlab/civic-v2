@@ -7,6 +7,7 @@ import {
   ElementRef,
   Renderer2,
   OnChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { FlaggableEntities, Maybe } from '@app/generated/civic.apollo'
 import { CvcFlaggableOptionsDirective } from './flaggable-options.directive'
@@ -21,6 +22,7 @@ export interface FlaggableSubject {
 @Component({
   selector: '[cvcFlaggable]',
   templateUrl: './flaggable.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcFlaggableComponent implements AfterViewInit, OnChanges {

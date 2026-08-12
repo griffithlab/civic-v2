@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core'
 import { Router } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename'
@@ -34,6 +34,7 @@ export interface QuicksearchOption {
   selector: 'cvc-quicksearch',
   styleUrls: ['./quicksearch-component.less'],
   templateUrl: './quicksearch-component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcQuicksearchComponent {

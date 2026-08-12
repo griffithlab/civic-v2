@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -16,6 +16,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
   selector: 'cvc-licensing',
   templateUrl: 'releases-licensing.component.html',
   styleUrl: 'releases-licensing.component.less',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NzButtonModule,
     NzPageHeaderModule,

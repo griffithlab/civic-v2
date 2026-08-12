@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -18,6 +18,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-molecular-profiles-summary',
   templateUrl: './molecular-profiles-summary.page.html',
   styleUrls: ['./molecular-profiles-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class MolecularProfilesSummaryPage {

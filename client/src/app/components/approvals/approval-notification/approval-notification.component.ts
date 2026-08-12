@@ -1,4 +1,9 @@
-import { Component, input, computed } from '@angular/core'
+import {
+  Component,
+  input,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -41,6 +46,7 @@ export interface NotificationApproval {
     CvcTagGroupModule,
   ],
   templateUrl: './approval-notification.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './approval-notification.component.less',
 })
 export class CvcApprovalNotificationComponent {

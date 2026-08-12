@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -18,6 +23,7 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
   selector: 'cvc-variant-groups-summary',
   templateUrl: './variant-groups-summary.page.html',
   styleUrls: ['./variant-groups-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class VariantGroupsSummaryPage implements OnDestroy {

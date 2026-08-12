@@ -1,15 +1,16 @@
 <!-- input updates onCustomFilter -->
 @if (cvcInputType === 'default') {
-  <nz-input-group
-    [nzSuffix]="suffixIcon"
-    nzSize="small">
+  <nz-input-wrapper nzSize="small">
     <input
       #filterInput
       nz-input
       [placeholder]="cvcPlaceholder"
       [ngModel]="cvcModel"
       (ngModelChange)="cvcModelChange.next($event)" />
-  </nz-input-group>
+    <span nzInputSuffix>
+      <ng-container *ngTemplateOutlet="suffixIcon"></ng-container>
+    </span>
+  </nz-input-wrapper>
   <!-- input suffic icon tpl - magnifying glass if unset, clear icon if set  -->
   <ng-template #suffixIcon>
     @if (!filterInput.value) {

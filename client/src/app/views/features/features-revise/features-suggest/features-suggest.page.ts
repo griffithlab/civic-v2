@@ -1,12 +1,13 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-features-suggest',
-    templateUrl: './features-suggest.page.html',
-    styleUrls: ['./features-suggest.page.less'],
-    standalone: false
+  selector: 'cvc-features-suggest',
+  templateUrl: './features-suggest.page.html',
+  styleUrls: ['./features-suggest.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class FeaturesSuggestPage implements OnDestroy {
   featureId?: number

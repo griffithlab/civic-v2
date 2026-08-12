@@ -376,9 +376,16 @@
               style="text-align: right">
               {{ revision.status | enumToTitle }} By
               <cvc-user-tag
-                *ngIf="revision.resolutionActivity?.user !== undefined"
+                *ngIf="
+                  $safeNavigationMigration(
+                    revision.resolutionActivity?.user
+                  ) !== undefined
+                "
                 [user]="revision.resolutionActivity!.user"></cvc-user-tag>
-              {{ revision.resolutionActivity?.createdAt | timeAgo }}
+              {{
+                $safeNavigationMigration(revision.resolutionActivity?.createdAt)
+                  | timeAgo
+              }}
             </nz-col>
           </nz-row>
         </ng-container>
@@ -603,7 +610,10 @@
                           (click)="onRejectRevisionsClicked()"
                           nz-tooltip
                           [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
-                          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+                          [nzTooltipTitle]="
+                            'For ' +
+                            $safeNavigationMigration(mostRecentOrg?.name)
+                          ">
                           Reject Revision
                         </button>
                       </span>
@@ -625,7 +635,10 @@
                           (click)="onAcceptRevisionClicked()"
                           nz-tooltip
                           [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
-                          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+                          [nzTooltipTitle]="
+                            'For ' +
+                            $safeNavigationMigration(mostRecentOrg?.name)
+                          ">
                           Accept Revision
                         </button>
                       </span>

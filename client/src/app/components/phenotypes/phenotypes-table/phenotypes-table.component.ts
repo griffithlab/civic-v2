@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
@@ -49,6 +50,7 @@ export interface PhenotypesTableUserFilters {
   selector: 'cvc-phenotypes-table',
   templateUrl: './phenotypes-table.component.html',
   styleUrls: ['./phenotypes-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcPhenotypesTableComponent implements OnInit, OnChanges {

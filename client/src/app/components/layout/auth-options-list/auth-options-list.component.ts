@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 
 import { CookieService } from 'ngx-cookie-service'
 
@@ -8,6 +13,7 @@ import { encodeUriString } from '@app/core/utilities/encode-uri-string'
   selector: 'cvc-auth-options-list',
   templateUrl: './auth-options-list.component.html',
   styleUrls: ['./auth-options-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcAuthOptionsListComponent implements OnInit {

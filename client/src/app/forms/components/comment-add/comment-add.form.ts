@@ -5,6 +5,7 @@ import {
   OnDestroy,
   Output,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 
 import { Subject } from 'rxjs'
@@ -32,6 +33,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   templateUrl: './comment-add.form.html',
   styleUrls: ['./comment-add.form.less'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcCommentAddForm {

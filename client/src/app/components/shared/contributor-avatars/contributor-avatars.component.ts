@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   ContributorAvatarsGQL,
   ContributorFieldsFragment,
@@ -12,6 +17,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-contributor-avatars',
   templateUrl: './contributor-avatars.component.html',
   styleUrls: ['./contributor-avatars.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcContributorAvatarsComponent implements OnInit {

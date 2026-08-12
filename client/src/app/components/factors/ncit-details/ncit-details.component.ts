@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { Maybe, NcitDetailsFragment } from '@app/generated/civic.apollo'
 import { NzCardModule } from 'ng-zorro-antd/card'
@@ -11,6 +16,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
   selector: 'cvc-ncit-details',
   templateUrl: './ncit-details.component.html',
   styleUrls: ['./ncit-details.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NzDescriptionsModule,
     NzCardModule,

@@ -1,4 +1,10 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  signal,
+  WritableSignal,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
 
 export type QueryFilterSelectOption = { label: string; value: string }
@@ -6,6 +12,7 @@ export type QueryFilterSelectOption = { label: string; value: string }
   selector: 'query-filter',
   templateUrl: './query-filter.type.html',
   styleUrl: './query-filter.type.less',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcQueryFilterField

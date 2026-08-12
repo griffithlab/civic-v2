@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ContributorFieldsFragment, Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-contributor-stack',
-    templateUrl: './contributor-stack.component.html',
-    standalone: false
+  selector: 'cvc-contributor-stack',
+  templateUrl: './contributor-stack.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcContributorStackComponent implements OnInit {
   @Input() contributors: Maybe<ContributorFieldsFragment[]>

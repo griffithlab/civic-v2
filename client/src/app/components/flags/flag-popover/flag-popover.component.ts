@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   FlagPopoverFragment,
@@ -22,6 +23,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-flag-popover',
   templateUrl: './flag-popover.component.html',
   styleUrls: ['./flag-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcFlagPopoverComponent
