@@ -232,6 +232,25 @@
                   </span>
                 </ng-container>
               </nz-descriptions-item>
+
+              <nz-descriptions-item
+                [nzSpan]="4"
+                nzTitle="Organizations with approval privileges">
+                <ng-container *ngIf="user.organizationsWithApprovalPrivileges.length > 0">
+                  <cvc-tag-overflow
+                    tagType="organization"
+                    [maxDisplayCount]="2"
+                    [tags]="organizationsWithApprovalPrivileges$ | ngrxPush">
+                  </cvc-tag-overflow>
+                </ng-container>
+                <ng-container *ngIf="user.organizationsWithApprovalPrivileges.length === 0">
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>User does not approval privileges for any Organizations.</i>
+                  </span>
+                </ng-container>
+              </nz-descriptions-item>
             </nz-descriptions>
 
             <!-- COI card -->
