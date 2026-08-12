@@ -103,8 +103,10 @@ export class CvcVariantTypesTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      first: this.initialPageSize,
-      ids: this.ids,
+      variables: {
+        first: this.initialPageSize,
+        ids: this.ids,
+      },
     })
 
     this.result$ = this.queryRef.valueChanges

@@ -14,10 +14,10 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-    selector: 'features-detail',
-    templateUrl: './features-detail.view.html',
-    styleUrls: ['./features-detail.view.less'],
-    standalone: false
+  selector: 'features-detail',
+  templateUrl: './features-detail.view.html',
+  styleUrls: ['./features-detail.view.less'],
+  standalone: false,
 })
 export class FeaturesDetailView implements OnDestroy {
   loading$?: Observable<boolean>
@@ -67,7 +67,9 @@ export class FeaturesDetailView implements OnDestroy {
 
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({
-        featureId: +params.featureId,
+        variables: {
+          featureId: +params.featureId,
+        },
       }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))

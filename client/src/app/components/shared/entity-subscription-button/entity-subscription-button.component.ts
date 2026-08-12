@@ -17,17 +17,16 @@ import {
   UnsubscribeMutation,
   UnsubscribeMutationVariables,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { filter, Observable, Subject } from 'rxjs'
 import { map, takeUntil } from 'rxjs/operators'
 import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-entity-subscription-button',
-    templateUrl: './entity-subscription-button.component.html',
-    styleUrls: ['./entity-subscription-button.component.less'],
-    standalone: false
+  selector: 'cvc-entity-subscription-button',
+  templateUrl: './entity-subscription-button.component.html',
+  styleUrls: ['./entity-subscription-button.component.less'],
+  standalone: false,
 })
 export class CvcEntitySubscriptionButtonComponent implements OnInit, OnDestroy {
   @Input() viewer!: Viewer
@@ -91,11 +90,14 @@ export class CvcEntitySubscriptionButtonComponent implements OnInit, OnDestroy {
       entityType: SubscribableEntities[entityType],
     }
     this.queryRef = this.isSubscribedGQL.watch({
-      subscribable: this.subscribable,
+      variables: {
+        subscribable: this.subscribable,
+      },
     })
 
     this.existingSubscription$ = this.queryRef.valueChanges.pipe(
-      pluck('data', 'subscriptionForEntity'),
+      onlyCompleteData(),
+      map(({ data }) => data.subscriptionForEntity),
       filter(isNonNulled)
     )
   }

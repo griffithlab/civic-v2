@@ -24,13 +24,12 @@ import {
 } from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { catchError, EMPTY } from 'rxjs'
-import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
-import { filter, switchMap } from 'rxjs/operators'
+import { filter, map, switchMap } from 'rxjs/operators'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 import { AdvancedSearchRegistry } from './query-builder.service'
-import { ApolloError } from '@apollo/client/core'
+import { ErrorLike } from '@apollo/client'
 import { Apollo } from 'apollo-angular'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
@@ -135,15 +134,17 @@ export class CvcQueryBuilderForm {
           return true
         }),
         switchMap((id) => {
-          return this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
-            pluck('data', 'searchByPermalink'),
-            filter(isNonNulled),
-            catchError((err) => {
-              console.error('Error fetching permalink query:', err)
-              this.onError(err)
-              return EMPTY
-            })
-          )
+          return this.getOriginalQueryGQL
+            .fetch({ variables: { permalinkId: id } })
+            .pipe(
+              map((r) => r.data?.searchByPermalink),
+              filter(isNonNulled),
+              catchError((err) => {
+                console.error('Error fetching permalink query:', err)
+                this.onError(err)
+                return EMPTY
+              })
+            )
         }),
         untilDestroyed(this)
       )
@@ -191,7 +192,8 @@ export class CvcQueryBuilderForm {
     gql
       .fetch(model)
       .pipe(
-        pluck('data', endpoint),
+        map((r) => r.data?.[endpoint]),
+        filter(isNonNulled),
         catchError((err) => {
           this.onError(err)
           return EMPTY
@@ -226,7 +228,7 @@ export class CvcQueryBuilderForm {
     this.searchResults.emit(result)
   }
 
-  onError(error: ApolloError) {
+  onError(error: ErrorLike) {
     const result: QueryBuilderResult = {
       status: 'error',
       error,

@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   Component,
   ElementRef,
@@ -41,9 +42,10 @@ export class CvcDiseasePopoverComponent implements OnInit {
       throw new Error('cvc-disease-popover requires valid diseaseId input.')
     }
     this.disease$ = this.gql
-      .watch({ diseaseId: this.diseaseId })
+      .watch({ variables: { diseaseId: this.diseaseId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.diseasePopover),
+        onlyCompleteData(),
+        map(({ data }) => data.diseasePopover),
         filter(isNonNulled)
       )
   }

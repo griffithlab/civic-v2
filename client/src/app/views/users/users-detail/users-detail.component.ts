@@ -78,7 +78,7 @@ export class UsersDetailComponent implements OnDestroy {
     this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
     this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ userId: +params.userId })
+      this.queryRef = this.gql.watch({ variables: { userId: +params.userId } })
       let observable = this.queryRef.valueChanges
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 

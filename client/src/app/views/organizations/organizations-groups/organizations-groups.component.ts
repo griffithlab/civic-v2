@@ -14,10 +14,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable, Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-organizations-groups',
-    templateUrl: './organizations-groups.component.html',
-    styleUrls: ['./organizations-groups.component.less'],
-    standalone: false
+  selector: 'cvc-organizations-groups',
+  templateUrl: './organizations-groups.component.html',
+  styleUrls: ['./organizations-groups.component.less'],
+  standalone: false,
 })
 export class OrganizationsGroupsComponent implements OnDestroy {
   queryRef?: QueryRef<OrganizationGroupsQuery, OrganizationGroupsQueryVariables>
@@ -34,7 +34,9 @@ export class OrganizationsGroupsComponent implements OnDestroy {
   ) {
     this.routeSub = route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
-        organizationId: +params.organizationId,
+        variables: {
+          organizationId: +params.organizationId,
+        },
       })
 
       let observable = this.queryRef.valueChanges

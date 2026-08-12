@@ -44,6 +44,7 @@ import {
   take,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { Apollo } from 'apollo-angular'
 
 export type CvcDiseaseSelectFieldOptions = Partial<
   FieldTypeConfig<CvcDiseaseSelectFieldProps>
@@ -65,8 +66,7 @@ export interface CvcDiseaseSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcDiseaseSelectFieldConfig
-  extends FormlyFieldConfig<CvcDiseaseSelectFieldProps> {
+export interface CvcDiseaseSelectFieldConfig extends FormlyFieldConfig<CvcDiseaseSelectFieldProps> {
   type: 'disease-select' | 'disease-multi-select' | Type<CvcDiseaseSelectField>
 }
 
@@ -86,11 +86,11 @@ const DiseaseSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-disease-select',
-    templateUrl: './disease-select.type.html',
-    styleUrls: ['./disease-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-disease-select',
+  templateUrl: './disease-select.type.html',
+  styleUrls: ['./disease-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcDiseaseSelectField
   extends DiseaseSelectMixin
@@ -218,7 +218,7 @@ export class CvcDiseaseSelectField
         ([requiresDisease, entityType, diseaseId]: [
           boolean,
           Maybe<EntityType>,
-          Maybe<number | number[]>
+          Maybe<number | number[]>,
         ]) => {
           this.onStateUpdates(requiresDisease, entityType, diseaseId)
         }
@@ -276,8 +276,8 @@ export class CvcDiseaseSelectField
     return { name: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<DiseaseSelectTypeaheadQuery>) {
-    return r.data.diseaseTypeahead
+  getTypeaheadResultsFn(r: Apollo.QueryResult<DiseaseSelectTypeaheadQuery>) {
+    return r.data?.diseaseTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): DiseaseSelectTagQueryVariables {
@@ -285,9 +285,9 @@ export class CvcDiseaseSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<DiseaseSelectTagQuery>
+    r: Apollo.QueryResult<DiseaseSelectTagQuery>
   ): Maybe<DiseaseSelectTypeaheadFieldsFragment> {
-    return r.data.disease
+    return r.data?.disease
   }
 
   getSelectedItemOptionFn(

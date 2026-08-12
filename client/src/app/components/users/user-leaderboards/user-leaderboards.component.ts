@@ -18,7 +18,8 @@ import {
   UserSubmissionsLeaderboardQueryVariables,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { QueryRef, WatchQueryOptionsAlone } from 'apollo-angular'
+import { Query, QueryRef } from 'apollo-angular'
+import { WatchQueryFetchPolicy } from '@apollo/client'
 import { BehaviorSubject, map } from 'rxjs'
 import { TagLinkableUser } from '../user-tag/user-tag.component'
 
@@ -104,7 +105,10 @@ export class CvcUserLeaderboardsComponent implements OnInit {
   initialRows: number = 25
   initialWindow: TimeWindow = TimeWindow.AllTime
 
-  fetchPolicy: WatchQueryOptionsAlone = {
+  fetchPolicy: {
+    fetchPolicy: WatchQueryFetchPolicy
+    nextFetchPolicy: WatchQueryFetchPolicy
+  } = {
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   }
@@ -156,19 +160,19 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     /*
      * COMMENTS VIEW
      */
-    this.commentsQueryRef = this.commentsGQL.watch(
-      {
+    this.commentsQueryRef = this.commentsGQL.watch({
+      variables: {
         first: this.initialRows,
         window: this.initialWindow,
       },
-      this.fetchPolicy
-    )
+      ...this.fetchPolicy,
+    })
 
     this.commentsQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserCommentsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.commentsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -192,19 +196,19 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     /*
      * MODERATION VIEW
      */
-    this.moderationQueryRef = this.moderationGQL.watch(
-      {
+    this.moderationQueryRef = this.moderationGQL.watch({
+      variables: {
         first: this.initialRows,
         window: this.initialWindow,
       },
-      this.fetchPolicy
-    )
+      ...this.fetchPolicy,
+    })
 
     this.moderationQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.moderationLeaderboard.edges.map(
               (e) => {
                 if (e.node) {
@@ -230,19 +234,19 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     /*
      * REVISIONS VIEW
      */
-    this.revisionsQueryRef = this.revisionsGQL.watch(
-      {
+    this.revisionsQueryRef = this.revisionsGQL.watch({
+      variables: {
         first: this.initialRows,
         window: this.initialWindow,
       },
-      this.fetchPolicy
-    )
+      ...this.fetchPolicy,
+    })
 
     this.revisionsQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserRevisionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.revisionsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -266,19 +270,19 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     /*
      * SUBMISSIONS VIEW
      */
-    this.submissionsQueryRef = this.submissionsGQL.watch(
-      {
+    this.submissionsQueryRef = this.submissionsGQL.watch({
+      variables: {
         first: this.initialRows,
         window: this.initialWindow,
       },
-      this.fetchPolicy
-    )
+      ...this.fetchPolicy,
+    })
 
     this.submissionsQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserSubmissionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.submissionsLeaderboard.edges.map(
               (e) => {
                 if (e.node) {
