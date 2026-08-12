@@ -53,13 +53,13 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "20.3.34",
     "@angular-devkit/core": "20.3.34",
     "@angular-eslint/builder": "19.2.0",
     "@angular-eslint/eslint-plugin": "20.1.1",
     "@angular-eslint/eslint-plugin-template": "20.1.1",
     "@angular-eslint/schematics": "19.2.0",
     "@angular-eslint/template-parser": "20.1.1",
+    "@angular/build": "20.3.34",
     "@angular/cli": "20.3.34",
     "@angular/compiler-cli": "20.3.27",
     "@ctrl/tinycolor": "^4.1.0",
@@ -79,6 +79,7 @@
     "directory-tree": "^3.5.1",
     "eslint": "8.57.0",
     "graphql": "^16.11.0",
+    "less": "^4.8.1",
     "mustache": "^4.2.0",
     "ngx-json-viewer": "^3.2.1",
     "prettier": "^3.2.4",
