@@ -126,34 +126,40 @@
 
 ## 7. Known caveats, cleanup candidates & commenting opportunities
 
-Latent issues spotted while researching (not fixed on this branch unless noted):
+Resolved on this branch:
 
-- `revisionLinkoutData` fragment location (see §3) — cross-component
-  dependency.
-- `revision-list.component.html` passes `item.status` to `cvc-evidence-tag`,
-  but `ModeratedObjectField` has no `status` field — always undefined, so
-  evidence tags in the Revise tab never get status styling. (Server could
-  expose status on `ModeratedObjectField` if wanted.)
-- `forms/components/entity-tag-popover`: `ENTITY_TAG_TYPES_WITH_POPOVER`
-  contains `'Gene'` but the popover template switches on `'Feature'` (no
-  `'Gene'` case) — a `'Gene'` typename passes `hasPopover()` yet renders an
-  empty popover, and `'Feature'` renders but fails the check. (Forms path
-  only; the feed uses the typed tags instead.)
-- `revision-list.component.ts` `untypedRevisons` — typo, and it erases types
-  that would have caught the `item.status` issue above.
-- `activity-revision.component.ts` carries some unused imports (`JsonPipe`,
-  `LinkoutData`, `Revision`, `ModeratedFieldDiff`, `TypeGuard`).
+- `revision-list.component.html` no longer passes the nonexistent
+  `item.status` to `cvc-evidence-tag` (`ModeratedObjectField` has no status
+  field; `LinkableEvidence.status` is now optional). Exposing real status on
+  `ModeratedObjectField` server-side remains an option if status styling is
+  wanted in diffs.
+- `entity-tag-popover`: `ENTITY_TAG_TYPES_WITH_POPOVER` now lists `'Feature'`
+  (matching both the popover template's dispatch and the `Feature:<id>`
+  cacheIds produced by feature-select) instead of the dead legacy `'Gene'`
+  entry, restoring popovers on feature tags in form selects.
+- `untypedRevisons` typo fixed (`untypedRevisions`).
+- Dead code removed: unused imports/type aliases in
+  `activity-revision.component.ts` and `evidence-tag.component.ts`; duplicate
+  `showOrganization` assignment and a leftover fetchMore `console.log` in
+  `activity-feed.component.ts`.
+- Comments added: observable-graph + vscroll-lifecycle block on
+  `CvcActivityFeed`'s constructor; headers for `ScrollerStateService`,
+  `configureScrollerRoutines`, and `SignalStateService`; fragment-gating and
+  fragment-layering comments in `activity-feed.query.gql`;
+  precomputed-columns note in `activity-revision.component.ts`; heuristic and
+  deleted-stub comments in server `linkout_data.rb`.
 
-Areas that would benefit from better comments:
+Deferred / remaining:
 
-- `activity-feed.component.ts`: block comment mapping the observable graph
-  (settings/filters/poll/fetchMore/refresh → result$) and the vscroll
-  datasource/adapter lifecycle.
-- `feed-scroll.service.ts` / `signal-state.service.ts`: file-level headers
-  explaining roles and the injection-token pattern.
-- `activity-feed.query.gql`: `#` comments on the fragment layering and the
-  boolean-variable gating strategy.
-- `activity-revision.component.ts`: note that diff columns are precomputed
-  server-side (see §4) — the existing type-narrowing NOTE is a good model.
-- Server `linkout_data.rb`: the `_id`/`_ids` heuristic, `non_object_fields`,
-  and deleted-stub semantics.
+- `revisionLinkoutData` still lives in
+  `revisions-list-and-filter.query.gql` — relocation deferred until the
+  project's fragment organization is addressed wholesale; the definition site
+  now carries a NOTE comment marking the cross-component dependency.
+- `revision-list`'s revisions remain untyped (`untypedRevisions?: any[]`) —
+  typing them would let templates catch shape mismatches like the `item.status`
+  issue above.
+- Observed while fixing the popover list: variant typeahead results carry
+  concrete typenames (`GeneVariant`, `FusionVariant`, …) that don't match the
+  list's `'Variant'` entry, so variant tags in form selects likely never show
+  popovers; the popover template also handles `Assertion`, which the list
+  omits. Worth a general audit of `cvc-entity-tag` popover coverage.

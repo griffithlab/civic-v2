@@ -45,6 +45,9 @@ export class CvcActivityRevision {
     const rev = this.revision()
     return `${rev.linkoutData.name} ${rev.name} `
   })
+  // Diff columns (current/added/removed/kept/suggested objects, or left/right
+  // scalar HTML) arrive precomputed from the server (LinkoutData.from_revision)
+  // — no diffing happens client-side.
   // NOTE: getter required for type narrowing to work with @let/@if/@switch
   // see https://medium.com/javascript-everyday/elegant-type-narrowing-with-let-syntax-in-angular-a6cf2cd18964
   get diffValue(): ObjectFieldDiff | ScalarFieldDiff {
