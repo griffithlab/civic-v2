@@ -13,7 +13,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
@@ -41,7 +41,7 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
     NzSpaceModule,
     NzFlexModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzAlertModule,
     NzFlexModule,

@@ -1,20 +1,21 @@
-<ng-container *ngIf="source$ | ngrxPush as source">
+@if (source$ | ngrxPush; as source) {
   <cvc-section-navigation
     [displayName]="source.citation"
     [actionsTpl]="sourcesActions">
   </cvc-section-navigation>
   <ng-template #sourcesActions>
     <ng-container *ngrxLet="viewer$ as viewer">
-      <button
-        routerLink="/sources/add"
-        *ngIf="viewer.signedIn"
-        nz-button
-        nzSize="small">
-        <i
-          nz-icon
-          nzType="plus-circle"></i>
-        Suggest a New Source
-      </button>
+      @if (viewer.signedIn) {
+        <button
+          routerLink="/sources/add"
+          nz-button
+          nzSize="small">
+          <i
+            nz-icon
+            nzType="plus-circle"></i>
+          Suggest a New Source
+        </button>
+      }
     </ng-container>
   </ng-template>
   <nz-page-header class="site-page-header">
@@ -27,15 +28,16 @@
       {{ source.citation }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <nz-tag *ngIf="source.fullyCurated" nzColor='success'>
-        Fully Curated
-      </nz-tag>
-      <cvc-link-tag
-        *ngIf="source.sourceUrl"
-        [href]="source.sourceUrl"
-        [tooltip]="'View on ' + source.displayType">
-        {{ source.displayType + ":" + source.citationId }}
-      </cvc-link-tag>
+      @if (source.fullyCurated) {
+        <nz-tag nzColor="success"> Fully Curated </nz-tag>
+      }
+      @if (source.sourceUrl) {
+        <cvc-link-tag
+          [href]="source.sourceUrl"
+          [tooltip]="'View on ' + source.displayType">
+          {{ source.displayType + ':' + source.citationId }}
+        </cvc-link-tag>
+      }
     </nz-page-header-extra>
     <nz-page-header-content>
       <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"></cvc-tab-navigation>
@@ -44,4 +46,4 @@
       </div>
     </nz-page-header-content>
   </nz-page-header>
-</ng-container>
+}

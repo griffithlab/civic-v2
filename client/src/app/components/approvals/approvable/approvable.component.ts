@@ -9,7 +9,7 @@ import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
 export type CvcApprovableCounts = {
   flags: number
@@ -23,7 +23,7 @@ export type CvcApprovableCounts = {
     CommonModule,
     NzBadgeModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpaceModule,
   ],
   templateUrl: './approvable.component.html',

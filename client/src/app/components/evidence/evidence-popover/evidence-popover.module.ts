@@ -22,7 +22,7 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 import { CvcAttributeTagModule } from '@app/forms/components/attribute-tag/attribute-tag.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcEvidenceRatingModule } from '../evidence-rating/evidence-rating.module'
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
@@ -41,7 +41,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     NzTagModule,
     NzSpaceModule,
     NzTypographyModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CvcTagListModule,
     CvcPipesModule,
     CvcAttributeTagModule,

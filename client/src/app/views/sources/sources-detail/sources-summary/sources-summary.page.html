@@ -1,4 +1,4 @@
-<ng-container *ngIf="source$ | ngrxPush as source">
+@if (source$ | ngrxPush; as source) {
   <nz-row
     [nzGutter]="[8, 16]"
     cvcAutoHeightDiv>
@@ -42,34 +42,36 @@
           source.publicationDate
         }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="{{ source.displayType }} ID">
-          <cvc-link-tag
-            *ngIf="source.sourceUrl"
-            [href]="source.sourceUrl"
-            [tooltip]="'View on ' + source.displayType">
-            {{ source.displayType + ':' + source.citationId }}
-          </cvc-link-tag>
-          <cvc-retraction-status-tag
-            *ngIf="
-              source.retractionNature &&
-              source.retractionDate &&
-              source.retractionReasons
-            "
-            [retractionNature]="source.retractionNature"
-            [retractionDate]="source.retractionDate"
-            [retractionReasons]="
-              source.retractionReasons
-            "></cvc-retraction-status-tag>
+          @if (source.sourceUrl) {
+            <cvc-link-tag
+              [href]="source.sourceUrl"
+              [tooltip]="'View on ' + source.displayType">
+              {{ source.displayType + ':' + source.citationId }}
+            </cvc-link-tag>
+          }
+          @if (
+            source.retractionNature &&
+            source.retractionDate &&
+            source.retractionReasons
+          ) {
+            <cvc-retraction-status-tag
+              [retractionNature]="source.retractionNature"
+              [retractionDate]="source.retractionDate"
+              [retractionReasons]="
+                source.retractionReasons
+              "></cvc-retraction-status-tag>
+          }
         </nz-descriptions-item>
-        <nz-descriptions-item
-          *ngIf="source.displayType == 'ASCO'"
-          nzTitle="ASCO Abstract ID">
-          {{ source.ascoAbstractId }}
-        </nz-descriptions-item>
+        @if (source.displayType == 'ASCO') {
+          <nz-descriptions-item nzTitle="ASCO Abstract ID">
+            {{ source.ascoAbstractId }}
+          </nz-descriptions-item>
+        }
         <nz-descriptions-item nzTitle="Journal"
           >{{ source.fullJournalTitle }}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="PMC ID">
-          <ng-container *ngIf="source.pmcId; else notAvailable">
+          @if (source.pmcId) {
             <cvc-link-tag
               href="https://www.ncbi.nlm.nih.gov/pmc/articles/{{
                 source.pmcId
@@ -77,7 +79,13 @@
               tooltip="View on PubMed Central">
               {{ source.pmcId }}
             </cvc-link-tag>
-          </ng-container>
+          } @else {
+            <span
+              nz-typography
+              nzType="secondary">
+              Not available
+            </span>
+          }
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Access">
           <span
@@ -89,34 +97,33 @@
               nzTheme="outline"></span>
           </span>
         </nz-descriptions-item>
-
-        <ng-container
-          *ngIf="source.clinicalTrials"
-          [ngPlural]="source.clinicalTrials.length">
-          <ng-template ngPluralCase="=0">
-            <nz-descriptions-item nzTitle="Clinicial Trial">
-              <ng-template [ngTemplateOutlet]="notAvailable"></ng-template>
-            </nz-descriptions-item>
-          </ng-template>
-          <ng-template ngPluralCase="=1">
-            <nz-descriptions-item nzTitle="Clinicial Trial">
-              <cvc-clinical-trial-tag
-                [clinicalTrial]="
-                  source.clinicalTrials[0]
-                "></cvc-clinical-trial-tag>
-            </nz-descriptions-item>
-          </ng-template>
-          <ng-template ngPluralCase="other">
-            <nz-descriptions-item nzTitle="Clinicial Trials">
-              <ng-container *ngFor="let t of source.clinicalTrials">
-                <nz-space>
-                  <cvc-clinical-trial-tag
-                    [clinicalTrial]="t"></cvc-clinical-trial-tag>
-                </nz-space>
-              </ng-container>
-            </nz-descriptions-item>
-          </ng-template>
-        </ng-container>
+        @if (source.clinicalTrials) {
+          <ng-container [ngPlural]="source.clinicalTrials.length">
+            <ng-template ngPluralCase="=0">
+              <nz-descriptions-item nzTitle="Clinicial Trial">
+                <ng-template [ngTemplateOutlet]="notAvailable"></ng-template>
+              </nz-descriptions-item>
+            </ng-template>
+            <ng-template ngPluralCase="=1">
+              <nz-descriptions-item nzTitle="Clinicial Trial">
+                <cvc-clinical-trial-tag
+                  [clinicalTrial]="
+                    source.clinicalTrials[0]
+                  "></cvc-clinical-trial-tag>
+              </nz-descriptions-item>
+            </ng-template>
+            <ng-template ngPluralCase="other">
+              <nz-descriptions-item nzTitle="Clinicial Trials">
+                @for (t of source.clinicalTrials; track t) {
+                  <nz-space>
+                    <cvc-clinical-trial-tag
+                      [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                  </nz-space>
+                }
+              </nz-descriptions-item>
+            </ng-template>
+          </ng-container>
+        }
       </nz-descriptions>
       <ng-template #notAvailable>
         <span
@@ -137,7 +144,6 @@
         Evidence for {{ source.citation }}
       </ng-template>
     </nz-col>
-
     <!-- source suggestion table card -->
     <nz-col [nzSpan]="24">
       <cvc-source-suggestions-table
@@ -151,4 +157,4 @@
       </ng-template>
     </nz-col>
   </nz-row>
-</ng-container>
+}

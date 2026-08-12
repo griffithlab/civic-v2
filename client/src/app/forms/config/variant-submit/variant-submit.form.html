@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(newVariant$ | ngrxPush); else variantCreated">
+@if (!(newVariant$ | ngrxPush)) {
   <form
     nz-form
     [nzLayout]="layout"
@@ -11,15 +11,15 @@
       (modelChange)="modelChange($event)">
     </formly-form>
   </form>
-</ng-container>
-<ng-template #variantCreated>
-  <ng-container *ngIf="newVariant$ | ngrxPush as variant">
-    <nz-alert
-      *ngIf="newlyCreated"
-      nzType="success"
-      nzShowIcon
-      [nzMessage]="successMessage"
-      [nzDescription]="variantLink"></nz-alert>
+} @else {
+  @if (newVariant$ | ngrxPush; as variant) {
+    @if (newlyCreated) {
+      <nz-alert
+        nzType="success"
+        nzShowIcon
+        [nzMessage]="successMessage"
+        [nzDescription]="variantLink"></nz-alert>
+    }
     <ng-template #successMessage>
       New Variant {{ variant.name }} added.
     </ng-template>
@@ -27,14 +27,15 @@
       View its
       <a [routerLink]="['/variants', variant.id, 'summary']">details here</a>.
     </ng-template>
-    <nz-alert
-      *ngIf="!newlyCreated"
-      nzType="info"
-      nzShowIcon
-      [nzMessage]="existsMessage"
-      [nzDescription]="variantLink"></nz-alert>
+    @if (!newlyCreated) {
+      <nz-alert
+        nzType="info"
+        nzShowIcon
+        [nzMessage]="existsMessage"
+        [nzDescription]="variantLink"></nz-alert>
+    }
     <ng-template #existsMessage>
       Variant {{ variant.name }} already exists.
     </ng-template>
-  </ng-container>
-</ng-template>
+  }
+}

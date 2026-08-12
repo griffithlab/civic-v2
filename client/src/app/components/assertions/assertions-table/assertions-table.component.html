@@ -1,5 +1,5 @@
 <!-- if cvcHeight not specified, render table with viewport target, without card height container -->
-<ng-container *ngIf="!cvcHeight; else setHeightCard">
+@if (!cvcHeight) {
   <nz-card
     [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
@@ -8,10 +8,7 @@
     cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
-</ng-container>
-
-<!-- if cvcHeight is specified, render table in container w/ specified height-->
-<ng-template #setHeightCard>
+} @else {
   <div
     class="card-container"
     [ngStyle]="{ height: cvcHeight }">
@@ -23,7 +20,9 @@
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
-</ng-template>
+}
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
 
 <ng-template #table>
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
@@ -336,37 +335,37 @@
               [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
-            <ng-container *ngIf="aid.disease.name; else diseaseElse">
+            @if (aid.disease.name) {
               <cvc-disease-tag
                 [disease]="aid.disease"
                 [enablePopover]="!isScrolling"
                 [truncateLongName]="true"></cvc-disease-tag>
-            </ng-container>
-            <ng-template #diseaseElse>
+            } @else {
               <i>N/A</i>
-            </ng-template>
+            }
           </td>
           <td>
-            <div *ngIf="aid.therapies.length > 0; else therapiesElse">
-              <cvc-tag-list>
-                <ng-container *ngFor="let therapy of aid.therapies">
-                  <cvc-therapy-tag
-                    [therapy]="therapy"
-                    [enablePopover]="!isScrolling"
-                    [truncateLongName]="true"></cvc-therapy-tag>
-                </ng-container>
-              </cvc-tag-list>
-            </div>
-            <ng-template #therapiesElse>
+            @if (aid.therapies.length > 0) {
+              <div>
+                <cvc-tag-list>
+                  @for (therapy of aid.therapies; track therapy) {
+                    <cvc-therapy-tag
+                      [therapy]="therapy"
+                      [enablePopover]="!isScrolling"
+                      [truncateLongName]="true"></cvc-therapy-tag>
+                  }
+                </cvc-tag-list>
+              </div>
+            } @else {
               <i
                 nz-typography
                 nzType="secondary"
                 >N/A</i
               >
-            </ng-template>
+            }
           </td>
           <td>
-            <ng-container *ngIf="aid.therapyInteractionType">
+            @if (aid.therapyInteractionType) {
               <nz-tag
                 nz-tooltip
                 nzTooltipPlacement="top"
@@ -385,14 +384,14 @@
                   "
                   class="attribute-icon"></i>
               </nz-tag>
-            </ng-container>
-            <ng-container *ngIf="!aid.therapyInteractionType">
+            }
+            @if (!aid.therapyInteractionType) {
               <i
                 nz-typography
                 nzType="secondary"
                 >N/A</i
               >
-            </ng-container>
+            }
           </td>
           <td
             nzAlign="center"
@@ -458,15 +457,16 @@
           <td
             nzRight
             nzAlign="center">
-            <nz-tag
-              *ngIf="aid.ampLevel"
-              nz-tooltip
-              nzTooltipPlacement="top"
-              [nzTooltipTitle]="
-                !isScrolling ? (aid.ampLevel | formatAmp: 'verbose') : ''
-              ">
-              {{ aid.ampLevel | formatAmp: 'compact' }}
-            </nz-tag>
+            @if (aid.ampLevel) {
+              <nz-tag
+                nz-tooltip
+                nzTooltipPlacement="top"
+                [nzTooltipTitle]="
+                  !isScrolling ? (aid.ampLevel | formatAmp: 'verbose') : ''
+                ">
+                {{ aid.ampLevel | formatAmp: 'compact' }}
+              </nz-tag>
+            }
           </td>
           <td
             nzRight
@@ -480,12 +480,12 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="cvcTitleTemplate">
+  @if (cvcTitleTemplate) {
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
-  </ng-container>
-  <ng-container *ngIf="cvcTitle">
+  }
+  @if (cvcTitle) {
     {{ cvcTitle }}
-  </ng-container>
+  }
   <span class="table-info">
     <cvc-table-counts
       [cvcTableCountsConnection]="connection$"></cvc-table-counts>
@@ -495,16 +495,18 @@
 <!-- card's extra template -->
 <ng-template #extraTemplate>
   <span class="table-actions">
-    <nz-tag
-      *ngIf="moreLoading$ | ngrxPush"
-      nzColor="processing">
-      <i
-        nz-icon
-        nzType="sync"
-        nzSpin></i>
-      <span>Loading…</span>
-    </nz-tag>
-    <cvc-table-downloader [vars]="queryRef.variables" tableName="assertions"></cvc-table-downloader>
+    @if (moreLoading$ | ngrxPush) {
+      <nz-tag nzColor="processing">
+        <i
+          nz-icon
+          nzType="sync"
+          nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+    }
+    <cvc-table-downloader
+      [vars]="queryRef.variables"
+      tableName="assertions"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
     <nz-filter-trigger

@@ -1,9 +1,10 @@
 <ng-container *ngrxLet="formMessageDisplay$ as display">
-  <span
-    *ngIf="display.showSpinner"
-    nz-icon
-    [nzType]="'loading'"></span
-  >&nbsp;
+  @if (display.showSpinner) {
+    <span
+      nz-icon
+      [nzType]="'loading'"></span>
+  }
+  &nbsp;
   <span>{{ display.message }}</span>
 </ng-container>
 <cvc-form-submission-status-display

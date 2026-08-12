@@ -10,7 +10,7 @@ import { CvcFlagTagModule } from '@app/components/flags/flag-tag/flag-tag.module
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -29,7 +29,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     NzButtonModule,
     NzIconModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzGridModule,
     RouterModule,

@@ -1,7 +1,6 @@
-<ng-container *ngIf="user$ | ngrxPush as user">
+@if (user$ | ngrxPush; as user) {
   <cvc-section-navigation [displayName]="user.displayName">
   </cvc-section-navigation>
-
   <nz-page-header class="site-page-header">
     <nz-page-header-content>
       <nz-row
@@ -34,102 +33,99 @@
                 [nzBordered]="true"
                 [nzColumn]="1">
                 <!-- username -->
-                <nz-descriptions-item
-                  *ngIf="user.name"
-                  nzTitle="Name">
-                  {{ user.name }}
-                </nz-descriptions-item>
-
+                @if (user.name) {
+                  <nz-descriptions-item nzTitle="Name">
+                    {{ user.name }}
+                  </nz-descriptions-item>
+                }
                 <!-- role -->
                 <nz-descriptions-item nzTitle="Role">
                   {{ user.role | enumToTitle }}
                 </nz-descriptions-item>
                 <nz-descriptions-item nzTitle="Personal Links">
-                  <div
-                    class="user-socials"
-                    *ngIf="
-                      user.url ||
-                        user.twitterHandle ||
-                        user.facebookProfile ||
-                        user.linkedinProfile ||
-                        user.orcid;
-                      else noLinks
-                    ">
-                    <ng-container *ngIf="user.url">
-                      <a
-                        href="https://{{ user.url }}"
-                        target="_blank"
-                        nz-tooltip
-                        nzTooltipTitle="Personal Website">
-                        <i
-                          nz-icon
-                          nzType="link"
-                          nzTheme="outline"></i>
-                      </a>
-                    </ng-container>
-                    <ng-container *ngIf="user.twitterHandle">
-                      <a
-                        href="http://twitter.com/{{ user.twitterHandle }}"
-                        target="_blank"
-                        nz-tooltip
-                        nzTooltipTitle="Twitter Profile">
-                        <i
-                          nz-icon
-                          nzType="twitter"
-                          nzTheme="outline"></i>
-                      </a>
-                    </ng-container>
-
-                    <ng-container *ngIf="user.facebookProfile">
-                      <a
-                        href="http://facebook.com/{{ user.facebookProfile }}"
-                        target="_blank"
-                        nz-tooltip
-                        nzTooltipTitle="Facebook Profile">
-                        <i
-                          nz-icon
-                          nzType="facebook"
-                          nzTheme="outline"></i>
-                      </a>
-                    </ng-container>
-
-                    <ng-container *ngIf="user.linkedinProfile">
-                      <a
-                        href="http://linkedin.com/in/{{ user.linkedinProfile }}"
-                        target="_blank"
-                        nz-tooltip
-                        nzTooltipTitle="LinkedIn Profile">
-                        <i
-                          nz-icon
-                          nzType="linkedin"
-                          nzTheme="outline"></i>
-                      </a>
-                    </ng-container>
-                    <ng-container *ngIf="user.orcid">
-                      <a
-                        href="https://orcid.org/{{ user.orcid }}"
-                        target="_blank"
-                        nz-tooltip
-                        nzTooltipTitle="ORCiD Record">
-                        <i
-                          nz-icon
-                          nzType="civic-orcid"
-                          nzTheme="outline">
-                        </i>
-                      </a>
-                    </ng-container>
-                  </div>
-                  <ng-template #noLinks>
+                  @if (
+                    user.url ||
+                    user.twitterHandle ||
+                    user.facebookProfile ||
+                    user.linkedinProfile ||
+                    user.orcid
+                  ) {
+                    <div class="user-socials">
+                      @if (user.url) {
+                        <a
+                          href="https://{{ user.url }}"
+                          target="_blank"
+                          nz-tooltip
+                          nzTooltipTitle="Personal Website">
+                          <i
+                            nz-icon
+                            nzType="link"
+                            nzTheme="outline"></i>
+                        </a>
+                      }
+                      @if (user.twitterHandle) {
+                        <a
+                          href="http://twitter.com/{{ user.twitterHandle }}"
+                          target="_blank"
+                          nz-tooltip
+                          nzTooltipTitle="Twitter Profile">
+                          <i
+                            nz-icon
+                            nzType="twitter"
+                            nzTheme="outline"></i>
+                        </a>
+                      }
+                      @if (user.facebookProfile) {
+                        <a
+                          href="http://facebook.com/{{ user.facebookProfile }}"
+                          target="_blank"
+                          nz-tooltip
+                          nzTooltipTitle="Facebook Profile">
+                          <i
+                            nz-icon
+                            nzType="facebook"
+                            nzTheme="outline"></i>
+                        </a>
+                      }
+                      @if (user.linkedinProfile) {
+                        <a
+                          href="http://linkedin.com/in/{{
+                            user.linkedinProfile
+                          }}"
+                          target="_blank"
+                          nz-tooltip
+                          nzTooltipTitle="LinkedIn Profile">
+                          <i
+                            nz-icon
+                            nzType="linkedin"
+                            nzTheme="outline"></i>
+                        </a>
+                      }
+                      @if (user.orcid) {
+                        <a
+                          href="https://orcid.org/{{ user.orcid }}"
+                          target="_blank"
+                          nz-tooltip
+                          nzTooltipTitle="ORCiD Record">
+                          <i
+                            nz-icon
+                            nzType="civic-orcid"
+                            nzTheme="outline">
+                          </i>
+                        </a>
+                      }
+                    </div>
+                  } @else {
                     <i
                       nz-typography
                       nzType="secondary">
                       None provided
                     </i>
-                  </ng-template>
+                  }
                 </nz-descriptions-item>
               </nz-descriptions>
             </div>
-            <ng-container *ngIf="ownProfile$ | ngrxPush">
+            @if (ownProfile$ | ngrxPush) {
               <button
                 *nzSpaceItem
                 nz-button
@@ -152,10 +148,9 @@
                 (click)="manageApiKeysModalVisible = true">
                 Manage API Keys
               </button>
-            </ng-container>
+            }
           </nz-space>
         </nz-col>
-
         <!-- bio, organizations, COI column -->
         <nz-col nzFlex="1 1 400px">
           <nz-space
@@ -170,70 +165,66 @@
               <nz-descriptions-item
                 nzTitle="Biography"
                 nzSpan="4">
-                <ng-container *ngIf="user.bio">
+                @if (user.bio) {
                   {{ user.bio }}
-                </ng-container>
-                <ng-container *ngIf="!user.bio">
+                }
+                @if (!user.bio) {
                   <span
                     nz-typography
                     nzType="secondary">
                     <i>User has not provided a bio.</i>
                   </span>
-                </ng-container>
+                }
               </nz-descriptions-item>
-
               <nz-descriptions-item
                 [nzSpan]="2"
                 nzTitle="Area of Expertise">
-                <ng-container *ngIf="user.areaOfExpertise">
+                @if (user.areaOfExpertise) {
                   {{ user.areaOfExpertise | enumToTitle }}
-                </ng-container>
-                <ng-container *ngIf="!user.areaOfExpertise">
+                }
+                @if (!user.areaOfExpertise) {
                   <span
                     nz-typography
                     nzType="secondary">
                     <i>Unspecified</i>
                   </span>
-                </ng-container>
+                }
               </nz-descriptions-item>
-
               <nz-descriptions-item
                 [nzSpan]="2"
                 nzTitle="Country">
-                <ng-container *ngIf="user.country">
+                @if (user.country) {
                   {{ user.country.name }}
-                </ng-container>
-                <ng-container *ngIf="!user.country">
+                }
+                @if (!user.country) {
                   <span
                     nz-typography
                     nzType="secondary">
                     <i>Unspecified</i>
                   </span>
-                </ng-container>
+                }
               </nz-descriptions-item>
-
               <nz-descriptions-item
                 [nzSpan]="4"
                 [nzTitle]="
                   'Organization' + (user.organizations.length > 1 ? 's' : '')
                 ">
-                <ng-container *ngIf="user.organizations.length > 0">
+                @if (user.organizations.length > 0) {
                   <cvc-tag-overflow
                     tagType="organization"
                     [maxDisplayCount]="2"
                     [tags]="organization$ | ngrxPush">
                   </cvc-tag-overflow>
-                </ng-container>
-                <ng-container *ngIf="user.organizations.length === 0">
+                }
+                @if (user.organizations.length === 0) {
                   <span
                     nz-typography
                     nzType="secondary">
                     <i>User is not a member of any Organizations.</i>
                   </span>
-                </ng-container>
+                }
               </nz-descriptions-item>
             </nz-descriptions>
-
             <!-- COI card -->
             <ng-container>
               <nz-card
@@ -251,7 +242,7 @@
                   Conflict of Interest Statement
                 </ng-template>
                 <ng-template #updateCoi>
-                  <ng-container *ngIf="ownProfile$ | ngrxPush">
+                  @if (ownProfile$ | ngrxPush) {
                     <button
                       nz-button
                       nzType="primary"
@@ -259,7 +250,7 @@
                       (click)="updateCoiModalVisible = true">
                       Update COI
                     </button>
-                  </ng-container>
+                  }
                 </ng-template>
                 <nz-descriptions
                   [nzBordered]="true"
@@ -267,8 +258,7 @@
                   class="user-coi"
                   nzLayout="horizontal"
                   nzSize="small">
-                  <ng-container
-                    *ngIf="user.mostRecentConflictOfInterestStatement">
+                  @if (user.mostRecentConflictOfInterestStatement) {
                     <nz-descriptions-item
                       [nzSpan]="1"
                       nzTitle="Status">
@@ -296,35 +286,30 @@
                     <nz-descriptions-item
                       [nzSpan]="3"
                       nzTitle="Statement">
-                      <ng-container
-                        *ngIf="
-                          user.mostRecentConflictOfInterestStatement.coiPresent;
-                          else noStatement
-                        ">
+                      @if (
+                        user.mostRecentConflictOfInterestStatement.coiPresent
+                      ) {
                         {{
                           user.mostRecentConflictOfInterestStatement
                             .coiStatement
                         }}
-                      </ng-container>
-                      <ng-template #noStatement>
+                      } @else {
                         I do not have any potential conflicts of interest.
-                      </ng-template>
+                      }
                     </nz-descriptions-item>
-                  </ng-container>
-                  <ng-container
-                    *ngIf="!user.mostRecentConflictOfInterestStatement">
+                  }
+                  @if (!user.mostRecentConflictOfInterestStatement) {
                     <nz-descriptions-item
                       [nzSpan]="3"
                       nzTitle="Status">
                       None on file.
                     </nz-descriptions-item>
-                  </ng-container>
+                  }
                 </nz-descriptions>
               </nz-card>
             </ng-container>
           </nz-space>
         </nz-col>
-
         <!-- stats column -->
         <nz-col nzFlex="0 1 150px">
           <nz-descriptions
@@ -353,7 +338,6 @@
                     nzTheme="outline"></i>
                 </span>
               </div>
-
               <ng-template #rankingCalculations>
                 <div class="calculation-info">
                   <p>
@@ -402,7 +386,7 @@
         (profileUpdatedEvent)="profileUpdated()"></cvc-user-profile-form>
     </ng-template>
   </nz-modal>
-</ng-container>
+}
 
 <nz-modal
   [(nzVisible)]="manageApiKeysModalVisible"
@@ -426,7 +410,6 @@
     ><span>Update your Conflict of Interest Statement</span></ng-template
   >
   <ng-template #coiModalContent>
-    <cvc-user-coi-form
-      (coiUpdatedEvent)="coiUpdated()"></cvc-user-coi-form>
+    <cvc-user-coi-form (coiUpdatedEvent)="coiUpdated()"></cvc-user-coi-form>
   </ng-template>
 </nz-modal>

@@ -19,7 +19,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcPhenotypeSelectField,
@@ -34,9 +34,9 @@ const typeConfig: ConfigOption = {
       component: CvcPhenotypeSelectField,
       defaultOptions: {
         props: {
-          label: 'Phenotype'
-        }
-      }
+          label: 'Phenotype',
+        },
+      },
     },
     {
       name: 'phenotype-multi-select',
@@ -45,7 +45,7 @@ const typeConfig: ConfigOption = {
       defaultOptions: <CvcPhenotypeSelectFieldOptions>{
         props: {
           isMultiSelect: true,
-          label: 'Phenotypes'
+          label: 'Phenotypes',
         },
       },
     },
@@ -57,7 +57,8 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetDirective, PushPipe,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,
@@ -67,7 +68,7 @@ const typeConfig: ConfigOption = {
     NzIconModule,
     NzInputModule,
     NzGridModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpaceModule,
     NzFormModule,
     NzAutocompleteModule,

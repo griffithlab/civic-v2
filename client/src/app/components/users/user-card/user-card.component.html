@@ -5,7 +5,7 @@
     orcidLink,
     linkedinLink,
     facebookLink,
-    twitterLink
+    twitterLink,
   ]">
   <nz-card-meta
     [nzTitle]="user.name ? user.name : user.displayName"
@@ -38,136 +38,135 @@
       <nz-descriptions-item
         nzTitle="Expertise"
         [nzSpan]="1">
-        <ng-container *ngIf="user.areaOfExpertise; else noneProvided">
+        @if (user.areaOfExpertise) {
           {{ user.areaOfExpertise | enumToTitle }}
-        </ng-container>
+        } @else {
+          <i
+            nz-typography
+            nzType="secondary">
+            None provided
+          </i>
+        }
       </nz-descriptions-item>
       <nz-descriptions-item
         [nzSpan]="2"
         [nzTitle]="'Organization' + (organizations.length > 1 ? 's' : '')">
-        <ng-container *ngIf="user.organizations.length > 0">
+        @if (user.organizations.length > 0) {
           <cvc-tag-overflow
             tagType="organization"
             [maxDisplayCount]="2"
             [tags]="organizations">
           </cvc-tag-overflow>
-        </ng-container>
-        <ng-container *ngIf="user.organizations.length === 0">
+        }
+        @if (user.organizations.length === 0) {
           <span
             nz-typography
             nzType="secondary">
             <i>User is not a member of any Organizations.</i>
           </span>
-        </ng-container>
+        }
       </nz-descriptions-item>
-      <ng-template #noneProvided>
-        <i
-          nz-typography
-          nzType="secondary">
-          None provided
-        </i>
-      </ng-template>
     </nz-descriptions>
   </div>
 </nz-card>
 <ng-template #personalLink>
-  <a
-    *ngIf="user.url; else noPersonalLink"
-    href="https://{{ user.url }}"
-    target="_blank"
-    nz-tooltip
-    nzTooltipTitle="Personal Website">
-    <i
-      nz-icon
-      nzType="link"
-      nzTheme="outline"></i>
-  </a>
-  <ng-template #noPersonalLink>
+  @if (user.url) {
+    <a
+      href="https://{{ user.url }}"
+      target="_blank"
+      nz-tooltip
+      nzTooltipTitle="Personal Website">
+      <i
+        nz-icon
+        nzType="link"
+        nzTheme="outline"></i>
+    </a>
+  } @else {
     <i
       nz-icon
       nzType="link"
       nzTheme="outline"
       style="color: #aaaaaa"></i>
-  </ng-template>
+  }
 </ng-template>
 <ng-template #twitterLink>
-  <a
-    *ngIf="user.twitterHandle; else noTwitterLink"
-    href="http://twitter.com/{{ user.twitterHandle }}"
-    target="_blank"
-    nz-tooltip
-    nzTooltipTitle="Twitter Profile">
-    <i
-      nz-icon
-      nzType="twitter"
-      nzTheme="outline"></i>
-  </a>
-  <ng-template #noTwitterLink>
+  @if (user.twitterHandle) {
+    <a
+      href="http://twitter.com/{{ user.twitterHandle }}"
+      target="_blank"
+      nz-tooltip
+      nzTooltipTitle="Twitter Profile">
+      <i
+        nz-icon
+        nzType="twitter"
+        nzTheme="outline"></i>
+    </a>
+  } @else {
     <i
       nz-icon
       nzType="twitter"
       nzTheme="outline"
       style="color: #aaaaaa"></i>
-  </ng-template>
+  }
 </ng-template>
 <ng-template #facebookLink>
-  <a
-    *ngIf="user.facebookProfile; else noFacebookLink"
-    href="http://facebook.com/{{ user.facebookProfile }}"
-    target="_blank"
-    nz-tooltip
-    nzTooltipTitle="Facebook Profile">
-    <i
-      nz-icon
-      nzType="facebook"
-      nzTheme="outline"></i>
-  </a>
-  <ng-template #noFacebookLink>
+  @if (user.facebookProfile) {
+    <a
+      href="http://facebook.com/{{ user.facebookProfile }}"
+      target="_blank"
+      nz-tooltip
+      nzTooltipTitle="Facebook Profile">
+      <i
+        nz-icon
+        nzType="facebook"
+        nzTheme="outline"></i>
+    </a>
+  } @else {
     <i
       nz-icon
       nzType="facebook"
       nzTheme="outline"
       style="color: #aaaaaa"></i>
-  </ng-template>
+  }
 </ng-template>
 <ng-template #linkedinLink>
-  <a
-    *ngIf="user.linkedinProfile; else noLinkedinLink"
-    href="http://linkedin.com/in/{{ user.linkedinProfile }}"
-    target="_blank"
-    nz-tooltip
-    nzTooltipTitle="LinkedIn Profile">
-    <i
-      nz-icon
-      nzType="linkedin"
-      nzTheme="outline"></i>
-  </a>
-  <ng-template #noLinkedinLink>
+  @if (user.linkedinProfile) {
+    <a
+      href="http://linkedin.com/in/{{ user.linkedinProfile }}"
+      target="_blank"
+      nz-tooltip
+      nzTooltipTitle="LinkedIn Profile">
+      <i
+        nz-icon
+        nzType="linkedin"
+        nzTheme="outline"></i>
+    </a>
+  } @else {
     <i
       nz-icon
       nzType="linkedin"
       nzTheme="outline"
       style="color: #aaaaaa"></i>
-  </ng-template>
+  }
 </ng-template>
 <ng-template #orcidLink>
-  <a
-    *ngIf="user.orcid; else noOrcidLink"
-    href="https://orcid.org/{{ user.orcid }}"
-    target="_blank"
-    nz-tooltip
-    nzTooltipTitle="ORCiD Record">
-    <i
-      nz-icon
-      nzType="civic-orcid"
-      nzTheme="outline">
-    </i>
-  </a>
-  <ng-template #noOrcidLink>
+  @if (user.orcid) {
+    <a
+      href="https://orcid.org/{{ user.orcid }}"
+      target="_blank"
+      nz-tooltip
+      nzTooltipTitle="ORCiD Record">
+      <i
+        nz-icon
+        nzType="civic-orcid"
+        nzTheme="outline">
+      </i>
+    </a>
+  } @else {
     <i
       nz-icon
       nzType="civic-orcid"
       nzTheme="outline"
       style="color: #aaaaaa"></i>
-  </ng-template>
+  }
 </ng-template>

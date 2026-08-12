@@ -1,4 +1,4 @@
-<nz-row [nzGutter]="[8,12]">
+<nz-row [nzGutter]="[8, 12]">
   <nz-col nzSpan="24">
     <span
       nz-typography
@@ -9,117 +9,122 @@
     </span>
   </nz-col>
   <nz-col nzSpan="24">
-    <nz-alert
-      *ngIf="success"
-      nzBanner
-      [nzMessage]="successMessage"
-      nzType="success"></nz-alert>
-    <nz-form-item *ngIf="errorMessages.length > 0">
-      <cvc-form-errors-alert [errors]="errorMessages">
-      </cvc-form-errors-alert>
-    </nz-form-item>
+    @if (success) {
+      <nz-alert
+        nzBanner
+        [nzMessage]="successMessage"
+        nzType="success"></nz-alert>
+    }
+    @if (errorMessages.length > 0) {
+      <nz-form-item>
+        <cvc-form-errors-alert [errors]="errorMessages">
+        </cvc-form-errors-alert>
+      </nz-form-item>
+    }
   </nz-col>
   <nz-col nzSpan="24">
     <nz-list
       nzBordered
       nzHeader="API Keys"
       [nzLoading]="loading">
-      @if(apiKeys().length > 0) { @for(key of apiKeys(); track key) {
-      <nz-list-item>
-        {{ key.reminder }}
-        <span
-          nz-typography
-          nzType="secondary">
-          {{ key.createdAt | date }}
-        </span>
-        <ul nz-list-item-actions>
-          <nz-list-item-action>
-            <button
-              (click)="revokeKey(key.id)"
-              nz-button
-              nz-tooltip
-              nzTooltipTitle="Revoke Key"
-              nzType="default"
-              style="color: red"
-              nzSize="small">
-              <span
-                nz-icon
-                nzTheme="fill"
-                nzType="delete"></span>
-            </button>
-          </nz-list-item-action>
-        </ul>
-      </nz-list-item>
-      } } @else {
-      <nz-list-item>
-        <span
-          nz-typography
-          nzType="secondary">
-          No API keys generated yet
-        </span>
-      </nz-list-item>
+      @if (apiKeys().length > 0) {
+        @for (key of apiKeys(); track key) {
+          <nz-list-item>
+            {{ key.reminder }}
+            <span
+              nz-typography
+              nzType="secondary">
+              {{ key.createdAt | date }}
+            </span>
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <button
+                  (click)="revokeKey(key.id)"
+                  nz-button
+                  nz-tooltip
+                  nzTooltipTitle="Revoke Key"
+                  nzType="default"
+                  style="color: red"
+                  nzSize="small">
+                  <span
+                    nz-icon
+                    nzTheme="fill"
+                    nzType="delete"></span>
+                </button>
+              </nz-list-item-action>
+            </ul>
+          </nz-list-item>
+        }
+      } @else {
+        <nz-list-item>
+          <span
+            nz-typography
+            nzType="secondary">
+            No API keys generated yet
+          </span>
+        </nz-list-item>
       }
     </nz-list>
   </nz-col>
-  @if(newApiKey(); as key) {
-  <nz-col nzSpan="24">
-    <nz-list nzHeader="New API Key Generated:">
-      <nz-list-item>
-        {{ key.token }}
-        <span
-          nz-typography
-          nzType="secondary">
-          {{ key.createdAt | date }}
-        </span>
-        <ul nz-list-item-actions>
-          <nz-list-item-action>
-            <button
-              (click)="copyKey(key.token)"
-              nz-button
-              nz-tooltip
-              nzTooltipTitle="Copy Key"
-              nzType="default"
-              nzSize="small">
-              <span
-                nz-icon
-                nzTheme="fill"
-                style="color: green"
-                nzType="copy"></span>
-            </button>
-          </nz-list-item-action>
-        </ul>
-      </nz-list-item>
-    </nz-list>
-  </nz-col>
+  @if (newApiKey(); as key) {
+    <nz-col nzSpan="24">
+      <nz-list nzHeader="New API Key Generated:">
+        <nz-list-item>
+          {{ key.token }}
+          <span
+            nz-typography
+            nzType="secondary">
+            {{ key.createdAt | date }}
+          </span>
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <button
+                (click)="copyKey(key.token)"
+                nz-button
+                nz-tooltip
+                nzTooltipTitle="Copy Key"
+                nzType="default"
+                nzSize="small">
+                <span
+                  nz-icon
+                  nzTheme="fill"
+                  style="color: green"
+                  nzType="copy"></span>
+              </button>
+            </nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+    </nz-col>
   }
   <!-- @if(apiKeys().length > 0) {
   <nz-col nzSpan="24">
     <ul nz-list>
       @for(key of apiKeys(); track key) {
-      <li nz-list-item>
-        {{ key.reminder }}
-        <span
-          nz-typography
-          nztype="secondary">
-          {{ key.createdat | date }}
-        </span>
-        <ul nz-list-item-actions>
-          <nz-list-item-action>
-            <button
-              (click)="revokekey(key.id)"
-              nz-button
-              nz-tooltip
-              nztooltiptitle="revoke key"
-              nztype="default"
-              nzdanger
-              nzsize="small">
-              <span
-                nz-icon
+        <li nz-list-item>
+          {{ key.reminder }}
+          <span
+            nz-typography
+            nztype="secondary">
+            {{ key.createdat | date }}
+          </span>
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <button
+                (click)="revokekey(key.id)"
+                nz-button
+                nz-tooltip
+                nztooltiptitle="revoke key"
+                nztype="default"
+                nzdanger
+                nzsize="small">
+                <span
+                  nz-icon
                 nztype="delete"></span>
-            </button>
-          </nz-list-item-action>
-        </ul>
-      </li>
+              </button>
+            </nz-list-item-action>
+          </ul>
+        </li>
       }
     </ul>
   </nz-col>

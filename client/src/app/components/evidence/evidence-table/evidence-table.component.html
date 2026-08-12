@@ -1,5 +1,5 @@
 <!-- if cvcHeight not specified, render table without card height container & viewport target -->
-<ng-container *ngIf="!cvcHeight; else setHeightCard">
+@if (!cvcHeight) {
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
   <nz-card
     [nzTitle]="titleTemplate"
@@ -9,10 +9,7 @@
     cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
-</ng-container>
-
-<!-- if cvcHeight is specified, render table in container w/ specified height-->
-<ng-template #setHeightCard>
+} @else {
   <div
     class="card-container"
     [ngStyle]="{ height: cvcHeight }">
@@ -24,7 +21,9 @@
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
-</ng-template>
+}
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
 
 <ng-template #table>
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
@@ -55,13 +54,14 @@
           nzTooltipTitle="Evidence ID">
           EID
         </th>
-        <th
-          *ngIf="displayMolecularProfile"
-          nzWidth="320px"
-          nz-tooltip
-          nzTooltipTitle="Molecular Profile Name">
-          Molecular Profile
-        </th>
+        @if (displayMolecularProfile) {
+          <th
+            nzWidth="320px"
+            nz-tooltip
+            nzTooltipTitle="Molecular Profile Name">
+            Molecular Profile
+          </th>
+        }
         <th
           nzWidth="250px"
           [nzColumnKey]="sortColumns.DiseaseName"
@@ -155,13 +155,15 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th *ngIf="displayMolecularProfile">
-          <cvc-clearable-input-filter
-            [(inputModel)]="molecularProfileNameInput"
-            (inputModelChange)="
-              filterChange$.next()
-            "></cvc-clearable-input-filter>
-        </th>
+        @if (displayMolecularProfile) {
+          <th>
+            <cvc-clearable-input-filter
+              [(inputModel)]="molecularProfileNameInput"
+              (inputModelChange)="
+                filterChange$.next()
+              "></cvc-clearable-input-filter>
+          </th>
+        }
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="diseaseNameInput"
@@ -444,44 +446,46 @@
               [enablePopover]="!isScrolling"
               popoverPlacement="right"></cvc-evidence-tag>
           </td>
-          <td *ngIf="displayMolecularProfile">
-            <cvc-molecular-profile-tag
-              [molecularProfile]="eid.molecularProfile"
-              [enablePopover]="!isScrolling"
-              [truncateLongName]="40"></cvc-molecular-profile-tag>
-          </td>
+          @if (displayMolecularProfile) {
+            <td>
+              <cvc-molecular-profile-tag
+                [molecularProfile]="eid.molecularProfile"
+                [enablePopover]="!isScrolling"
+                [truncateLongName]="40"></cvc-molecular-profile-tag>
+            </td>
+          }
           <td>
-            <ng-container *ngIf="eid.disease; else diseaseElse">
+            @if (eid.disease) {
               <cvc-disease-tag
                 [disease]="eid.disease"
                 [enablePopover]="!isScrolling"
                 [truncateLongName]="true"></cvc-disease-tag>
-            </ng-container>
-            <ng-template #diseaseElse>
+            } @else {
               <i>N/A</i>
-            </ng-template>
+            }
           </td>
           <td>
-            <div *ngIf="eid.therapies.length > 0; else therapiesElse">
-              <cvc-tag-list>
-                <ng-container *ngFor="let therapy of eid.therapies">
-                  <cvc-therapy-tag
-                    [therapy]="therapy"
-                    [enablePopover]="!isScrolling"
-                    [truncateLongName]="true"></cvc-therapy-tag>
-                </ng-container>
-              </cvc-tag-list>
-            </div>
-            <ng-template #therapiesElse>
+            @if (eid.therapies.length > 0) {
+              <div>
+                <cvc-tag-list>
+                  @for (therapy of eid.therapies; track therapy) {
+                    <cvc-therapy-tag
+                      [therapy]="therapy"
+                      [enablePopover]="!isScrolling"
+                      [truncateLongName]="true"></cvc-therapy-tag>
+                  }
+                </cvc-tag-list>
+              </div>
+            } @else {
               <i
                 nz-typography
                 nzType="secondary"
                 >N/A</i
               >
-            </ng-template>
+            }
           </td>
           <td>
-            <ng-container *ngIf="eid.therapyInteractionType">
+            @if (eid.therapyInteractionType) {
               <nz-tag
                 nz-tooltip
                 nzTooltipPlacement="top"
@@ -499,14 +503,14 @@
                   "
                   class="attribute-icon"></i>
               </nz-tag>
-            </ng-container>
-            <ng-container *ngIf="!eid.therapyInteractionType">
+            }
+            @if (!eid.therapyInteractionType) {
               <i
                 nz-typography
                 nzType="secondary"
                 >N/A</i
               >
-            </ng-container>
+            }
           </td>
           <td
             nzAlign="center"
@@ -625,12 +629,12 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="cvcTitleTemplate">
+  @if (cvcTitleTemplate) {
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
-  </ng-container>
-  <ng-container *ngIf="cvcTitle">
+  }
+  @if (cvcTitle) {
     {{ cvcTitle }}
-  </ng-container>
+  }
 
   <span class="table-info">
     <cvc-table-counts
@@ -641,29 +645,30 @@
 <!-- card's extra template -->
 <ng-template #extraTemplate>
   <span class="table-actions">
-    <nz-tag
-      *ngIf="moreLoading$ | ngrxPush"
-      nzColor="processing">
-      <i
-        nz-icon
-        nzType="sync"
-        nzSpin></i>
-      <span>Loading…</span>
-    </nz-tag>
+    @if (moreLoading$ | ngrxPush) {
+      <nz-tag nzColor="processing">
+        <i
+          nz-icon
+          nzType="sync"
+          nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+    }
     <cvc-table-downloader
       [vars]="queryRef.variables"
       tableName="evidence"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
-    <nz-filter-trigger
-      *ngIf="!(ids && ids.length > 0)"
-      [(nzVisible)]="statusFilterVisible"
-      [nzDropdownMenu]="statusFilterMenu">
-      <span
-        nz-icon
-        nzType="filter"
-        nzTheme="fill"></span>
-    </nz-filter-trigger>
+    @if (!(ids && ids.length > 0)) {
+      <nz-filter-trigger
+        [(nzVisible)]="statusFilterVisible"
+        [nzDropdownMenu]="statusFilterMenu">
+        <span
+          nz-icon
+          nzType="filter"
+          nzTheme="fill"></span>
+      </nz-filter-trigger>
+    }
   </span>
 </ng-template>
 

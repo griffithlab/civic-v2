@@ -27,7 +27,7 @@ import { NzListModule } from 'ng-zorro-antd/list'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { FlagListComponent } from './flag-list.component'
 
@@ -45,7 +45,7 @@ import { FlagListComponent } from './flag-list.component'
     NzEmptyModule,
     NzCheckboxModule,
     NzDividerModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzListModule,
     NzPopoverModule,
     NzIconModule,

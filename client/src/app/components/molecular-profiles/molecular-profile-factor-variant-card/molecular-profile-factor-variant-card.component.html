@@ -38,21 +38,19 @@
               <nz-descriptions-item
                 [nzSpan]="2"
                 nzTitle="Aliases">
-                <ng-container
-                  *ngIf="variant.variantAliases.length > 0; else noAliases">
+                @if (variant.variantAliases.length > 0) {
                   <cvc-tag-list>
-                    <nz-tag *ngFor="let alias of variant.variantAliases">{{
-                      alias
-                    }}</nz-tag>
+                    @for (alias of variant.variantAliases; track alias) {
+                      <nz-tag>{{ alias }}</nz-tag>
+                    }
                   </cvc-tag-list>
-                </ng-container>
-                <ng-template #noAliases>
+                } @else {
                   <span
                     nz-typography
                     nzType="secondary"
                     >None specified</span
                   >
-                </ng-template>
+                }
               </nz-descriptions-item>
 
               <!-- variant type(s) -->
@@ -63,60 +61,57 @@
                     ? 'Variant Types'
                     : 'Variant Type'
                 ">
-                <ng-container
-                  *ngIf="variant.variantTypes.length > 0; else noTypes">
+                @if (variant.variantTypes.length > 0) {
                   <cvc-tag-list>
-                    <cvc-variant-type-tag
-                      [variantType]="type"
-                      *ngFor="let type of variant.variantTypes">
-                    </cvc-variant-type-tag>
+                    @for (type of variant.variantTypes; track type) {
+                      <cvc-variant-type-tag [variantType]="type">
+                      </cvc-variant-type-tag>
+                    }
                   </cvc-tag-list>
-                </ng-container>
-                <ng-template #noTypes>
+                } @else {
                   <span
                     nz-typography
                     nzType="secondary"
                     >None specified</span
                   >
-                </ng-template>
+                }
               </nz-descriptions-item>
 
-              <nz-descriptions-item
-                [nzSpan]="4"
-                *ngIf="displayMps.length > 0"
-                nzTitle="Other Molecular Profiles">
-                <cvc-tag-list>
-                  <ng-container *ngFor="let mp of displayMps">
-                    <cvc-molecular-profile-tag
-                      [molecularProfile]="mp"
-                      [truncateLongName]="true"></cvc-molecular-profile-tag>
-                  </ng-container>
-                  <ng-container
-                    *ngIf="
+              @if (displayMps.length > 0) {
+                <nz-descriptions-item
+                  [nzSpan]="4"
+                  nzTitle="Other Molecular Profiles">
+                  <cvc-tag-list>
+                    @for (mp of displayMps; track mp) {
+                      <cvc-molecular-profile-tag
+                        [molecularProfile]="mp"
+                        [truncateLongName]="true"></cvc-molecular-profile-tag>
+                    }
+                    @if (
                       variant.molecularProfiles.totalCount >
                       displayMps.length + 1
-                    ">
-                    <a routerLink="/variants/{{ variant.id }}/summary">
-                      + view
-                      {{
-                        variant.molecularProfiles.totalCount -
-                          displayMps.length
-                      }}
-                      more
-                    </a>
-                  </ng-container>
-                </cvc-tag-list>
-              </nz-descriptions-item>
+                    ) {
+                      <a routerLink="/variants/{{ variant.id }}/summary">
+                        + view
+                        {{
+                          variant.molecularProfiles.totalCount -
+                            displayMps.length
+                        }}
+                        more
+                      </a>
+                    }
+                  </cvc-tag-list>
+                </nz-descriptions-item>
+              }
             </nz-descriptions>
           </nz-col>
         </nz-row>
       </nz-col>
       <nz-col [nzSpan]="24">
-        <ng-container *ngIf="variant.ncitId; else noNcit">
+        @if (variant.ncitId) {
           <cvc-ncit-details
             [ncitDetails]="variant.ncitDetails"></cvc-ncit-details>
-        </ng-container>
-        <ng-template #noNcit>
+        } @else {
           <nz-col [nzSpan]="24">
             <nz-card nzTitle="">
               <cvc-empty-revisable
@@ -124,7 +119,7 @@
               </cvc-empty-revisable>
             </nz-card>
           </nz-col>
-        </ng-template>
+        }
       </nz-col>
     </nz-row>
   </nz-card>

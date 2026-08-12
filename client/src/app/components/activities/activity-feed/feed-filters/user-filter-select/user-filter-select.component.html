@@ -8,23 +8,24 @@
   [nzNotFoundContent]="notFound"
   [nzOptionOverflowSize]="12"
   [nzOptionHeightPx]="28">
-  <nz-option
-    *ngFor="let user of filteredUsers()"
-    nzCustomContent
-    [nzLabel]="user.displayName"
-    [nzValue]="user.id">
-    <ng-container
-      *ngTemplateOutlet="
-        userLabel;
-        context: {
-          $implicit: {
-            nzLabel: user.displayName ?? user.name ?? user.username,
-            nzValue: user.id,
-          },
-        }
-      ">
-    </ng-container>
-  </nz-option>
+  @for (user of filteredUsers(); track user) {
+    <nz-option
+      nzCustomContent
+      [nzLabel]="user.displayName"
+      [nzValue]="user.id">
+      <ng-container
+        *ngTemplateOutlet="
+          userLabel;
+          context: {
+            $implicit: {
+              nzLabel: user.displayName ?? user.name ?? user.username,
+              nzValue: user.id,
+            },
+          }
+        ">
+      </ng-container>
+    </nz-option>
+  }
 </nz-select>
 
 <ng-template
