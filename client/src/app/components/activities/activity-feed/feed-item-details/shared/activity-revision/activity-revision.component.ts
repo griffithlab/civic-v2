@@ -1,4 +1,4 @@
-import { CommonModule, JsonPipe } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,34 +7,18 @@ import {
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
+import { CvcModeratedEntityTagComponent } from '@app/components/revisions/moderated-entity-tag/moderated-entity-tag.component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import {
-  ExonCoordinate,
-  LinkoutData,
-  ModeratedFieldDiff,
   ObjectFieldDiff,
-  Revision,
   RevisionActivityDetailFragment,
   ScalarFieldDiff,
 } from '@app/generated/civic.apollo'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'
-import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-
-type DiffType = 'ObjectFieldDiff' | 'ScalarFieldDiff'
-
-type ColumnDefinition = {
-  xxl: number
-  xl: number
-  lg: number
-  md: number
-  sm: number
-  xs: number
-}
 
 @Component({
   selector: 'cvc-activity-revision',
@@ -45,8 +29,8 @@ type ColumnDefinition = {
     NzSwitchModule,
     NzGridModule,
     NzDescriptionsModule,
-    NzTagModule,
     CvcEmptyValueModule,
+    CvcModeratedEntityTagComponent,
     CvcPipesModule,
   ],
   templateUrl: './activity-revision.component.html',

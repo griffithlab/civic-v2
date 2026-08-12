@@ -126,7 +126,8 @@
     <ul class="object-list">
       @for (object of objects; track object.id) {
         <li>
-          <nz-tag>{{ object.displayName }}</nz-tag>
+          <cvc-moderated-entity-tag
+            [cvcModeratedEntityTag]="object"></cvc-moderated-entity-tag>
         </li>
       }
     </ul>
