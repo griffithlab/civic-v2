@@ -26,10 +26,8 @@
     "error-stack-parser": "2.0.6"
   },
   "dependencies": {
-    "@angular-devkit/schematics": "22.1.3",
     "@angular/animations": "22.1.1",
     "@angular/common": "22.1.1",
-    "@angular/compiler": "22.1.1",
     "@angular/core": "22.1.1",
     "@angular/forms": "22.1.1",
     "@angular/platform-browser": "22.1.1",
@@ -46,6 +44,7 @@
     "date-fns": "^4",
     "ng-zorro-antd": "22.0.1",
     "ngx-cookie-service": "^22",
+    "ngx-json-viewer": "^3.2.1",
     "ngx-ui-scroll": "4.2.0",
     "rxjs": "^7.8.1",
     "rxjs-etc": "^10.6.2",
@@ -56,6 +55,7 @@
   },
   "devDependencies": {
     "@angular-devkit/core": "22.1.3",
+    "@angular-devkit/schematics": "22.1.3",
     "@angular-eslint/builder": "19.2.0",
     "@angular-eslint/eslint-plugin": "20.1.1",
     "@angular-eslint/eslint-plugin-template": "20.1.1",
@@ -63,6 +63,7 @@
     "@angular-eslint/template-parser": "20.1.1",
     "@angular/build": "22.1.3",
     "@angular/cli": "22.1.3",
+    "@angular/compiler": "22.1.1",
     "@angular/compiler-cli": "22.1.1",
     "@ctrl/tinycolor": "^4.1.0",
     "@graphql-codegen/add": "^5.0.3",
@@ -85,13 +86,11 @@
     "jsdom": "^30.0.1",
     "less": "^4.8.1",
     "mustache": "^4.2.0",
-    "ngx-json-viewer": "^3.2.1",
     "prettier": "^3.2.4",
     "svg-to-ts": "^12.0.0",
     "svgo": "^3.3.3",
     "ts-node": "~10.9.1",
     "tslib": "^2.3.1",
-    "tslint": "~6.1.0",
     "typescript": "6.0.3",
     "vitest": "^4.1.10",
     "webpack-bundle-analyzer": "^4.5.0"
