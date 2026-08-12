@@ -6,7 +6,7 @@
 ## 1. Overview
 
 - Purpose: paginated, filterable feed of curation activities (ActivityInterface
-  implementors), used in four scopes: unscoped (welcome page "Live Activity
+  implementers), used in four scopes: unscoped (welcome page "Live Activity
   Feed", curation Activity page), subject-scoped (entity detail "Activity"
   tabs), organization-scoped, and user-scoped (`ActivityFeedScope` in
   `activity-feed.types.ts`).
