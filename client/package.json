@@ -17,6 +17,7 @@
     "generate-icon-data": "scripts/generate-icon-data.js",
     "generate-icon-rst": "scripts/generate-icon-rst.js",
     "generate-docs-rst": "yarn run generate-icon-data && yarn run generate-icon-rst",
+    "test": "ng test",
     "lint": "ng lint"
   },
   "private": true,
@@ -73,12 +74,14 @@
     "@graphql-codegen/typescript-operations": "^4.5.1",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@parcel/watcher": "^2.4.1",
+    "@types/jsdom": "^30",
     "@types/node": "^20.14.12",
     "@typescript-eslint/eslint-plugin": "7.11.0",
     "@typescript-eslint/parser": "7.11.0",
     "directory-tree": "^3.5.1",
     "eslint": "8.57.0",
     "graphql": "^16.11.0",
+    "jsdom": "^30.0.1",
     "less": "^4.8.1",
     "mustache": "^4.2.0",
     "ngx-json-viewer": "^3.2.1",
@@ -89,6 +92,7 @@
     "tslib": "^2.3.1",
     "tslint": "~6.1.0",
     "typescript": "5.8.3",
+    "vitest": "^3.1.1",
     "webpack-bundle-analyzer": "^4.5.0"
   }
 }
