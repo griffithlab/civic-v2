@@ -27,7 +27,7 @@
     - `feed-item-details` — lazy detail loader + polymorphic dispatch
       - one `*-activity` component per activity type (20 at present)
       - `shared/activity-revision` — renders a single revision's diff
-        - `cvc-moderated-entity-tag` (`components/revisions/moderated-entity-tag`)
+        - `cvc-entity-meta-tag` (`components/revisions/entity-meta-tag`)
           — entity tag dispatch for object-field diff values
 - Naming/file conventions for per-activity-type components
   (`<type>/<type>-activity.component.{ts,html,less}` + `.query.gql`).
@@ -74,8 +74,8 @@
   `ObjectFieldDiff`, Current / Suggested for `ScalarFieldDiff`. Column
   membership is precomputed server-side (set arithmetic in
   `LinkoutData.from_revision`), not diffed client-side.
-- `cvc-moderated-entity-tag`:
-  - Input: any object satisfying `LinkableModeratedObject` (i.e. anything
+- `cvc-entity-meta-tag`:
+  - Input: any object satisfying `LinkableRevisionObject` (i.e. anything
     fetched via `revisionLinkoutData`).
   - Dispatch table `ENTITY_TYPE_TAGS` keyed on the leading namespace segment of
     `entityType`; renders the matching typed tag component
@@ -94,7 +94,7 @@
   exists.
 - Relationship to the legacy pattern: `revision-list.component.html` (entity
   Revise tab) still uses a ~20-case `ngSwitch` on `fieldName` with inline
-  per-field templates; candidate refactor to `cvc-moderated-entity-tag`.
+  per-field templates; candidate refactor to `cvc-entity-meta-tag`.
 
 ## 5. Scrolling, state & performance
 

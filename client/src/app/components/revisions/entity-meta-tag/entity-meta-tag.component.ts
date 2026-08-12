@@ -23,7 +23,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 /** Minimal ModeratedObjectField shape required to render an entity tag.
  * Matches the fields fetched by the shared revisionLinkoutData fragment, so
  * diff objects from any query that includes it may be passed directly. */
-export interface LinkableModeratedObject {
+export interface LinkableRevisionObject {
   id: number
   entityType: string
   deleted: boolean
@@ -40,7 +40,7 @@ export interface LinkableModeratedObject {
   }>
 }
 
-type ModeratedEntityTagType =
+type EntityMetaTagType =
   | 'disease'
   | 'evidence'
   | 'feature'
@@ -57,7 +57,7 @@ type ModeratedEntityTagType =
 // name's leading namespace segment, so all STI subclasses of Feature and
 // Variant resolve to their base entity's tag. Types without a key (aliases,
 // ACMG/ClinGen codes, NCCN guidelines, etc.) render as a plain nz-tag.
-const ENTITY_TYPE_TAGS: Record<string, ModeratedEntityTagType> = {
+const ENTITY_TYPE_TAGS: Record<string, EntityMetaTagType> = {
   Disease: 'disease',
   EvidenceItem: 'evidence',
   Feature: 'feature',
@@ -75,7 +75,7 @@ const ENTITY_TYPE_TAGS: Record<string, ModeratedEntityTagType> = {
  * component - linked, with summary popover - falling back to a plain tag for
  * non-entity types and a 'Deleted' tag for records that no longer exist. */
 @Component({
-  selector: 'cvc-moderated-entity-tag',
+  selector: 'cvc-entity-meta-tag',
   imports: [
     CvcDiseaseTagModule,
     CvcEvidenceTagModule,
@@ -90,15 +90,15 @@ const ENTITY_TYPE_TAGS: Record<string, ModeratedEntityTagType> = {
     CvcVariantTypeTagModule,
     NzTagModule,
   ],
-  templateUrl: './moderated-entity-tag.component.html',
+  templateUrl: './entity-meta-tag.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcModeratedEntityTagComponent {
-  object = input.required<LinkableModeratedObject>({
-    alias: 'cvcModeratedEntityTag',
+export class CvcEntityMetaTagComponent {
+  object = input.required<LinkableRevisionObject>({
+    alias: 'cvcLinkableRevisionObject',
   })
 
-  tagType = computed<ModeratedEntityTagType>(() => {
+  tagType = computed<EntityMetaTagType>(() => {
     const namespace = this.object().entityType.split('::')[0]
     return ENTITY_TYPE_TAGS[namespace] ?? 'other'
   })

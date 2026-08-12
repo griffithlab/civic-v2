@@ -126,8 +126,8 @@
     <ul class="object-list">
       @for (object of objects; track object.id) {
         <li>
-          <cvc-moderated-entity-tag
-            [cvcModeratedEntityTag]="object"></cvc-moderated-entity-tag>
+          <cvc-entity-meta-tag
+            [cvcLinkableRevisionObject]="object"></cvc-entity-meta-tag>
         </li>
       }
     </ul>

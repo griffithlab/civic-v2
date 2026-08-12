@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { CvcModeratedEntityTagComponent } from '@app/components/revisions/moderated-entity-tag/moderated-entity-tag.component'
+import { CvcEntityMetaTagComponent } from '@app/components/revisions/entity-meta-tag/entity-meta-tag.component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import {
@@ -30,7 +30,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     NzGridModule,
     NzDescriptionsModule,
     CvcEmptyValueModule,
-    CvcModeratedEntityTagComponent,
+    CvcEntityMetaTagComponent,
     CvcPipesModule,
   ],
   templateUrl: './activity-revision.component.html',
