@@ -3568,27 +3568,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngx-formly/core@npm:7.0.0":
-  version: 7.0.0
-  resolution: "@ngx-formly/core@npm:7.0.0"
+"@ngx-formly/core@npm:7.1.0":
+  version: 7.1.0
+  resolution: "@ngx-formly/core@npm:7.1.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     "@angular/forms": ">=13.2.0"
     rxjs: ^6.5.3 || ^7.0.0
-  checksum: 10c0/94a60ec2505dcb297ab972bf62854067c9db61c33493bef0d3de004cdc2607c4132eaa8c0a667b447f6eff280cacb47838f798fdd5a166823fcc3e332b31ae83
+  checksum: 10c0/defe8d2628c9e7fc46794fc7564a1dc4d98796aa2116965a8b630ad4e627227bbdab0f339cd7d6e918e8ce1be413d3624ef7f85d42ecd94007bca1f86e341f84
   languageName: node
   linkType: hard
 
-"@ngx-formly/ng-zorro-antd@npm:7.0.0":
-  version: 7.0.0
-  resolution: "@ngx-formly/ng-zorro-antd@npm:7.0.0"
+"@ngx-formly/ng-zorro-antd@npm:7.1.0":
+  version: 7.1.0
+  resolution: "@ngx-formly/ng-zorro-antd@npm:7.1.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@ngx-formly/core": 7.0.0
+    "@ngx-formly/core": 7.1.0
     ng-zorro-antd: ">=16.0.0"
-  checksum: 10c0/39b76330f1d12a1e49d96e5aaea534e345a42f8fe08d33a051acbe0c6754c70b59914fe357d8f9da4d57a35f2501826e98b2876fc06d85617cca6381b1348554
+  checksum: 10c0/cbb421db404d03f02112c303a7f77b49b700db60e4997cb501855cd734d083cc66dac1bdab79af58910faeea848c0ae6798426aaa9b57fd8de73242c3fe75035
   languageName: node
   linkType: hard
 
@@ -8395,8 +8395,8 @@ __metadata:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
     "@ngneat/until-destroy": "npm:^10.0.0"
     "@ngrx/component": "npm:^20.1.0"
-    "@ngx-formly/core": "npm:7.0.0"
-    "@ngx-formly/ng-zorro-antd": "npm:7.0.0"
+    "@ngx-formly/core": "npm:7.1.0"
+    "@ngx-formly/ng-zorro-antd": "npm:7.1.0"
     "@parcel/watcher": "npm:^2.4.1"
     "@types/jsdom": "npm:^30"
     "@types/node": "npm:^20.14.12"
@@ -8414,7 +8414,7 @@ __metadata:
     ng-zorro-antd: "npm:20.0.0"
     ngx-cookie-service: "npm:20.0.1"
     ngx-json-viewer: "npm:^3.2.1"
-    ngx-ui-scroll: "npm:3.2.0"
+    ngx-ui-scroll: "npm:4.2.0"
     prettier: "npm:^3.2.4"
     rxjs: "npm:^7.8.1"
     rxjs-etc: "npm:^10.6.2"
@@ -8427,7 +8427,7 @@ __metadata:
     tslint: "npm:~6.1.0"
     typescript: "npm:5.8.3"
     vitest: "npm:^3.1.1"
-    vscroll: "npm:1.6.1"
+    vscroll: "npm:1.8.4"
     webpack-bundle-analyzer: "npm:^4.5.0"
     zone.js: "npm:0.15.0"
   languageName: unknown
@@ -8906,16 +8906,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-ui-scroll@npm:3.2.0":
-  version: 3.2.0
-  resolution: "ngx-ui-scroll@npm:3.2.0"
+"ngx-ui-scroll@npm:4.2.0":
+  version: 4.2.0
+  resolution: "ngx-ui-scroll@npm:4.2.0"
   dependencies:
-    tslib: "npm:^2.2.0"
+    tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/common": ">=12.0.0"
-    "@angular/core": ">=12.0.0"
-    vscroll: 1.6.1
-  checksum: 10c0/88f8154f8ade3ba6d9ef5be1f6b4a18fd46958c0de48087dcf5d21839af78b8af0972be2902ddd4a76637b3b7bc98d5ad674c2fd16ad0390c3fc3f3e48b2699e
+    "@angular/common": ">=17.0.0"
+    "@angular/core": ">=17.0.0"
+    vscroll: ^1.8.3
+  checksum: 10c0/81d2f1117a5a12241319f37e4a9e6cc029b668b633bbd1a5c6dc2f67a080298cb2e3087602d9d856081a444a205b4d0d9d729c8bd04cea22a6339ec268fabc83
   languageName: node
   linkType: hard
 
@@ -11206,7 +11206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
@@ -11638,12 +11638,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscroll@npm:1.6.1":
-  version: 1.6.1
-  resolution: "vscroll@npm:1.6.1"
+"vscroll@npm:1.8.4":
+  version: 1.8.4
+  resolution: "vscroll@npm:1.8.4"
   dependencies:
-    tslib: "npm:^2.3.1"
-  checksum: 10c0/4053b63feb279c47fdf42c7a7c267f54607330a083a5464623ad56399431f3fdbcb30adac9f46dd5d379f5d6605daa13f56b43c4cd3d08771fac9d2094a0bf4f
+    tslib: "npm:^2.8.1"
+  checksum: 10c0/f0a12377bb2bdf17e2141a0f03f6e49628bd62509620eca56df5dacac5b0d50138a281eda84bdb7b2fdb145e59949636329f8326dbc80a8cfebe6edea42a8355
   languageName: node
   linkType: hard
 

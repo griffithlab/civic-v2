@@ -6,7 +6,6 @@ import {
   inject,
   input,
   model,
-  OnInit,
   output,
   signal,
   WritableSignal,
@@ -49,7 +48,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcQueryBuilderForm implements OnInit {
+export class CvcQueryBuilderForm {
   searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<string>()
   formModelQuery = input<QueryBuilderFormModel['query']>()
@@ -67,7 +66,18 @@ export class CvcQueryBuilderForm implements OnInit {
     return this.advancedSearch.getService(endpoint)
   })
   form: UntypedFormGroup = new UntypedFormGroup({})
-  fields: FormlyFieldConfig[] = []
+  // computed() evaluates synchronously on first template read, so formly
+  // never sees an empty fields array (avoids the double-build timing
+  // issue with imperative assignment from an effect, see
+  // docs/FORMLY_V7_NOTES.md)
+  fields = computed<FormlyFieldConfig[]>(() => {
+    const endpoint = this.searchEndpoint()
+    return getQueryFieldConfig(
+      'query',
+      endpoint,
+      this.searchEndpointToCardTitle(endpoint)
+    )
+  })
   options: FormlyFormOptions = {
     formState: { formLayout: 'horizontal', showErrors: false },
     showError: (field) => {
@@ -105,12 +115,6 @@ export class CvcQueryBuilderForm implements OnInit {
         },
       }
 
-      // update root field config
-      this.fields = getQueryFieldConfig(
-        'query',
-        endpoint,
-        this.searchEndpointToCardTitle(endpoint)
-      )
       // only reset model if this change did not originate from a permalink
       if (endpoint !== this.permalinkSearchEndpoint) {
         this.resetModel()
@@ -176,20 +180,6 @@ export class CvcQueryBuilderForm implements OnInit {
         })
       }
     })
-  }
-
-  ngOnInit(): void {
-    // Eagerly initialize fields so formly's first render has the correct
-    // field tree rather than an empty array (avoids a double-build timing issue).
-    // The effect in the constructor also runs on init, but ngOnInit fires before
-    // the first change detection cycle in which formly reads `fields`, so this
-    // ensures the very first render has real fields.
-    const endpoint = this.searchEndpoint()
-    this.fields = getQueryFieldConfig(
-      'query',
-      endpoint,
-      this.searchEndpointToCardTitle(endpoint)
-    )
   }
 
   onSubmit() {
