@@ -21,7 +21,7 @@ module Types::BrowseTables
 
     def organizations_with_approval_privileges
       Loaders::AssociationLoader.for(MaterializedViews::UserBrowseTableRow, :affiliations).load(object).then do |affil|
-        affil.select{ |a| a.can_approve }.map do |a|
+        affil.select { |a| a.can_approve }.map do |a|
           Loaders::AssociationLoader.for(Affiliation, :organization).load(a)
         end
       end
