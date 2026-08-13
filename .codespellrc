@@ -3,4 +3,5 @@
 skip = .git*,*.svg,*.lock,*.css,.codespellrc,*.js,generated,assets,variants-summary.page.html
 check-hidden = true
 # Ignore super long lines -- must be minimized etc
-ignore-regex = ^.{120,}|\b(AllTime|allTime)\b
+# mor.nlm.nih.gov is the RxNav host (my-chem-info component)
+ignore-regex = ^.{120,}|\b(AllTime|allTime)\b|mor\.nlm\.nih\.gov
