@@ -45,9 +45,10 @@ export type AdvancedSearchFilter<
 > = EndpointFilterTypes[E]
 
 // generic interface for all adv. search's Apollo GQL services
+// (apollo-angular v14 single-options-object call shape)
 export interface AdvancedSearchService {
-  fetch(variables?: any, options?: any): Observable<any>
-  watch(variables?: any, options?: any): QueryRef<any, any>
+  fetch(options?: { variables?: any; [key: string]: any }): Observable<any>
+  watch(options?: { variables?: any; [key: string]: any }): QueryRef<any, any>
 }
 
 export type QueryBuilderFormModel = {
