@@ -69,7 +69,7 @@ A typical dev session runs three processes: the Rails server, `yarn start`, and 
 | `yarn start:production`      | Dev server with production configuration on port 4210                                    |
 | `yarn build`                 | Production build, output to `../server/public/`                                          |
 | `yarn build:watch`           | Production build in watch mode                                                           |
-| `yarn build:analyze-stats`   | Production build + webpack-bundle-analyzer report                                        |
+| `yarn build:stats`           | Production build to `dist/stats-build/` emitting `stats.json` for bundle analysis        |
 | `yarn generate-apollo`       | Run GraphQL codegen once                                                                 |
 | `yarn generate-apollo:start` | GraphQL codegen in watch mode                                                            |
 | `yarn generate-apollo:full`  | Server schema SDL dump followed by one-shot codegen                                      |
@@ -95,9 +95,30 @@ Prettier is the source of truth for formatting. Run it on touched files before c
 yarn prettier --write <files>
 ```
 
+## Styles & theming
+
+`src/styles.less` is the single global stylesheet. It does **not** import all of ng-zorro: it pulls in the theme entry plus one `<component>/style/entry.less` per component the app actually uses. When adopting a new `nz-*` component, add its entry there — otherwise the component renders unstyled. Entries pull their own style dependencies, so only the top-level component needs listing.
+
+`src/themes/` holds the CIViC theme: `default.less` (imported last by `styles.less`), `global-variables.less`, and per-component overrides in `themes/overrides/`. `angular.json` sets `stylePreprocessorOptions.includePaths` to `src/`, `src/themes/`, and `node_modules`, which is why `@import 'themes/...'` and bare ng-zorro paths resolve.
+
+`postcss.config.json` registers `scripts/postcss-strip-rtl.cjs`, a local plugin that drops RTL rules (`[dir="rtl"]`, `.ant-*-rtl`) from the compiled CSS. The app is LTR-only; if RTL support is ever wanted, remove that plugin first.
+
+## Bundle & bootstrap invariants
+
+These are load-time invariants, not style preferences — breaking one silently regresses first paint:
+
+- **No blocking work at bootstrap.** There is deliberately no `APP_INITIALIZER`/`provideAppInitializer` performing a network request. Anything that needs server state fetches it reactively and degrades if it fails (see `environment-banner.component.ts`). Adding a blocking initializer puts a full round-trip in front of first render.
+- **`CvcForms2Module` must not be imported by `AppModule`.** The Formly field-type registry pulls in the whole forms tree; it belongs to the lazy form-config modules that use it. `FormlyModule.forRoot()` stays at the root injector only (see the note in `forms/forms.module.ts`).
+- **Eager shell components must not statically import form modules.** Where an always-loaded component opens a form (e.g. the Add Variant modal in `components/layout/viewer-button/`), load it with a dynamic `import()` + `createNgModule()` into a `ViewContainerRef` outlet rather than importing the module in the component's NgModule.
+- **Import generated GraphQL modules directly**, never through a barrel — see the codegen section above. Barrels re-concentrate every operation into one chunk.
+
+Measured effects of these are recorded outside the repo in the local `agent-artifacts/` scratch directory.
+
 ## Build output
 
 `yarn build` writes directly into `../server/public/`, where the Rails app serves it in production. There is no separate `dist/` deployment artifact.
+
+`yarn build:stats` is the exception: it builds to the gitignored `dist/stats-build/` and emits `stats.json`, an **esbuild metafile** — upload it to <https://esbuild.github.io/analyze/> to inspect chunk composition. It is not a webpack stats file, so webpack-era analyzers cannot read it. Keeping it out of `../server/public/` matters because CI commits that directory wholesale.
 
 ## Project layout
 
@@ -112,6 +133,8 @@ src/app/
   layout/       # app shell, navigation
   views/        # routed page components
 ```
+
+Other files at the client root worth knowing: `styles.less` and `themes/` (above), `scripts/` (codegen validation, the PostCSS RTL-strip plugin, icon/doc generators), `proxy.config.json` (dev API proxying), and the `index.html` / `index.prod.html` split — the production index is the one carrying the analytics tag and its `preconnect`.
 
 `.gql` documents and their generated `*.gql.generated.ts` modules live throughout
 `components/`, `forms/`, `views/`, and `core/`, colocated with the code that uses them.
