@@ -82,3 +82,12 @@
 .hide-dropdown {
   display: none;
 }
+
+// ng-zorro 22 sets single-select selection items to `display: block`
+// (v20 had no display rule). Our custom nzCustomTemplate select templates
+// wrap selected content in div.ant-select-selection-item-content, a class
+// ant only styles in multiple mode — as a raw block div it stacks a second
+// line box and the item overflows the control, misplacing entity tags.
+.ant-select-single .ant-select-selector .ant-select-selection-item-content {
+  display: inline-block;
+}
