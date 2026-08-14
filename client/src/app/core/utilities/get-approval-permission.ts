@@ -1,4 +1,5 @@
-import { ApprovalListNodeFragment, Maybe } from '@app/generated/civic.apollo'
+import { ApprovalListNodeFragment } from '@app/components/approvals/approval-list/approval-list.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { Viewer } from '../services/viewer/viewer.service'
 
 export type ApprovalAction = 'approve' | 're-approve' | 'revoke'

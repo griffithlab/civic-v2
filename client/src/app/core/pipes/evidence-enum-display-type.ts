@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { EvidenceLevel, Maybe } from '@app/generated/civic.apollo'
+import { EvidenceLevel, Maybe } from '@app/generated/civic.apollo.types'
 import {
   formatEvidenceEnum,
   InputEnum,
@@ -22,9 +22,9 @@ export const EvidenceRatingLabelMap = new Map<number, string>([
   [5, 'Five Stars'],
 ])
 @Pipe({
-    name: 'evidenceEnumDisplay',
-    pure: true,
-    standalone: false
+  name: 'evidenceEnumDisplay',
+  pure: true,
+  standalone: false,
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
   transform(

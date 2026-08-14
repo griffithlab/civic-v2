@@ -3,8 +3,8 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import {
   CivicStatsGQL,
   CivicStatsQuery,
-  CivicTimepointStats,
-} from '@app/generated/civic.apollo'
+} from './site-stats-card.query.gql.generated'
+import { CivicTimepointStats } from '@app/generated/civic.apollo.types'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

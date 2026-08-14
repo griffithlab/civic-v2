@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { EventFeedMode } from '@app/generated/civic.apollo'
+import { EventFeedMode } from '@app/generated/civic.apollo.types'
 import {
   ActivityFeedScope,
   ActivityFeedSettings,

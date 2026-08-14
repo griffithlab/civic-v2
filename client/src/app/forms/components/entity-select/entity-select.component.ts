@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core'
 import { UntypedFormControl } from '@angular/forms'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import {

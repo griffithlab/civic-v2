@@ -1,12 +1,11 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Maybe, Phenotype } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
-  Phenotype,
   PhenotypeDetailGQL,
   PhenotypeDetailQuery,
   PhenotypeDetailQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './phenotypes-detail.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { Observable, Subscription } from 'rxjs'
 import { startWith } from 'rxjs/operators'

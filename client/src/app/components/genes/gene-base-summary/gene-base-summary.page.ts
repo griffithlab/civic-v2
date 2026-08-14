@@ -4,7 +4,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { GeneBaseFieldsFragment } from '@app/generated/civic.apollo'
+import { GeneBaseFieldsFragment } from '@app/views/features/features-detail/features-summary/features-summary.query.gql.generated'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSpaceModule } from 'ng-zorro-antd/space'

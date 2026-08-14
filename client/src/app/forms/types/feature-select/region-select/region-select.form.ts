@@ -11,11 +11,11 @@ import {
   UntypedFormGroup,
 } from '@angular/forms'
 import {
-  FeatureInstanceTypes,
   SelectOrCreateRegionGQL,
   SelectOrCreateRegionMutation,
   SelectOrCreateRegionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './region-add.query.gql.generated'
+import { FeatureInstanceTypes } from '@app/generated/civic.apollo.types'
 import {
   FormlyFieldConfig,
   FormlyFormOptions,

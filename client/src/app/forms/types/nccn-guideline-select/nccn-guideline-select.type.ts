@@ -21,8 +21,8 @@ import {
   NccnGuidelineSelectTypeaheadGQL,
   NccnGuidelineSelectTypeaheadQuery,
   NccnGuidelineSelectTypeaheadQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './nccn-guideline-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,

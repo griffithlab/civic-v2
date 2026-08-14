@@ -53,10 +53,9 @@ This produces:
 
 - `<name>.gql.generated.ts` next to each `.gql` document — its operation types and injectable Apollo services (near-operation-file preset)
 - `src/app/generated/civic.apollo.types.ts` — schema-level types (enums, input/object types, scalars)
-- `src/app/generated/civic.apollo.ts` — an auto-generated barrel re-exporting all of the above (written by `scripts/generate-apollo-barrel.mjs`, which also prunes generated files orphaned by `.gql` deletions and fails on duplicate export names)
 - `src/app/generated/civic.possible-types.ts` (fragment matcher) and `civic.apollo-helpers.ts` (cache type policies)
 
-Existing code imports from the `civic.apollo` barrel; new code can import directly from the colocated `*.gql.generated.ts` modules. All generated files are committed, and the `codegen_drift` CI job fails if they drift from the committed schema and documents — so never hand-edit them, and don't let formatters touch them (they're excluded in `.prettierignore`).
+Import operation types and `*GQL` services from the colocated `*.gql.generated.ts` module next to the `.gql` document, and schema-level types from `@app/generated/civic.apollo.types`. Keeping these imports direct (no barrels) lets each lazy route chunk carry only the GraphQL operations it uses. A post-codegen hook (`scripts/validate-generated-graphql.mjs`) prunes generated files orphaned by `.gql` deletions and fails on import cycles between generated modules. All generated files are committed, and the `codegen_drift` CI job fails if they drift from the committed schema and documents — so never hand-edit them, and don't let formatters touch them (they're excluded in `.prettierignore`).
 
 A fragment shared by several `.gql` documents should live in its own `*.fragments.gql` file (see `activity-feed.fragments.gql`): defining it beside one of its consumers can create import cycles between generated modules, which break fragment-document interpolation at runtime.
 

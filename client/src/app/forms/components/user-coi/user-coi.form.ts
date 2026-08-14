@@ -8,12 +8,11 @@ import {
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  Maybe,
   UpdateCoiGQL,
-  UpdateCoiInput,
   UpdateCoiMutation,
   UpdateCoiMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './user-coi.mutation.gql.generated'
+import { Maybe, UpdateCoiInput } from '@app/generated/civic.apollo.types'
 
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'

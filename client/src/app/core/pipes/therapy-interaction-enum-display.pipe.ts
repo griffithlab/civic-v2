@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { Maybe, TherapyInteraction } from '@app/generated/civic.apollo'
+import { Maybe, TherapyInteraction } from '@app/generated/civic.apollo.types'
 import { formatTherapyInteractionEnum } from '../utilities/enum-formatters/format-therapy-interaction-enum'
 
 export type EnumOutputStyle = 'display-string' | 'icon-name'
 
 @Pipe({
-    name: 'therapyInteractionEnumDisplay',
-    pure: true,
-    standalone: false
+  name: 'therapyInteractionEnumDisplay',
+  pure: true,
+  standalone: false,
 })
 export class TherapyInteractionEnumDisplayPipe implements PipeTransform {
   transform(

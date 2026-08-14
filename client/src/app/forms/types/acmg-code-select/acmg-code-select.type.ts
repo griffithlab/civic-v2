@@ -22,8 +22,8 @@ import {
   AcmgCodeSelectTypeaheadGQL,
   AcmgCodeSelectTypeaheadQuery,
   AcmgCodeSelectTypeaheadQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './acmg-code-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

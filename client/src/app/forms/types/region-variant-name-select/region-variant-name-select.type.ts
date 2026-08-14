@@ -12,13 +12,13 @@ import {
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
+import { FeatureSelectTypeaheadFieldsFragment } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
+import { RegionVariantNameForFeatureGQL } from './region-variant-name-select.query.gql.generated'
 import {
-  FeatureSelectTypeaheadFieldsFragment,
   Maybe,
   ReferenceBuild,
   RegionVariantName,
-  RegionVariantNameForFeatureGQL,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,

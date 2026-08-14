@@ -3,7 +3,7 @@ import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-de
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
-import { FeatureInstanceTypes } from '@app/generated/civic.apollo'
+import { FeatureInstanceTypes } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
@@ -79,8 +79,10 @@ const formFieldConfig: FormlyFieldConfig[] = [
                     return !field.model.canAddPartnerGenes
                   },
                   'props.description': (field) => {
-                    return field.model.canAddPartnerGenes ? 'Enter known Gene partners for this Fusion' : 'Fusion must have a Multiple partner in order to specify Known Gene Partners'
-                  }
+                    return field.model.canAddPartnerGenes
+                      ? 'Enter known Gene partners for this Fusion'
+                      : 'Fusion must have a Multiple partner in order to specify Known Gene Partners'
+                  },
                 },
               },
             ],

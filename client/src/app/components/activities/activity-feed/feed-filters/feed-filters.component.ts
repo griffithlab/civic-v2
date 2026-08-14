@@ -17,13 +17,13 @@ import {
   ActivityFeedScope,
   FeedQueryRefetchEvent,
 } from '../activity-feed.types'
+import { ActivityFeedUpdatesGQL } from './feed-filters.query.gql.generated'
 import {
-  ActivityFeedUpdatesGQL,
   ActivitySubjectInput,
   ActivityTypeInput,
   DateSortColumns,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NzFormModule } from 'ng-zorro-antd/form'

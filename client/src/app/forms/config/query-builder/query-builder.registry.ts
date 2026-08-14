@@ -13,7 +13,7 @@ import {
   SearchUsersGQL,
   SearchVariantsGQL,
   SearchVariantTypesGQL,
-} from '@app/generated/civic.apollo'
+} from './query-builder.query.gql.generated'
 import { AdvancedSearchService } from './query-builder.types'
 
 export const ADVANCED_SEARCH_ENDPOINTS = {

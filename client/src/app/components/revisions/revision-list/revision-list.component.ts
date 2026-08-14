@@ -13,18 +13,20 @@ import {
   AcceptRevisionGQL,
   AcceptRevisionMutation,
   AcceptRevisionMutationVariables,
-  Maybe,
-  Organization,
   RejectRevisionGQL,
   RejectRevisionMutation,
   RejectRevisionMutationVariables,
-  Revision,
   ValidateRevisionsForAcceptanceGQL,
   ValidateRevisionsForAcceptanceQuery,
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from './revision-endpoints.gql.generated'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
+  Maybe,
+  Organization,
+  Revision,
+} from '@app/generated/civic.apollo.types'
 import { filter, Observable, Subject, combineLatest } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {

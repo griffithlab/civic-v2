@@ -1,4 +1,4 @@
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 export default function assignFieldConfigDefaultValues(

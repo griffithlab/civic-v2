@@ -5,7 +5,7 @@ import {
   Type,
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import mixin from 'ts-mixin-extended'
@@ -20,8 +20,7 @@ export interface CvcBaseSelectFieldProps extends FormlyFieldProps {
   optionOverflowSize?: number
 }
 
-export interface CvcBaseSelectFieldConfig
-  extends FormlyFieldConfig<CvcBaseSelectFieldProps> {
+export interface CvcBaseSelectFieldConfig extends FormlyFieldConfig<CvcBaseSelectFieldProps> {
   type: 'base-select' | Type<CvcBaseSelectField>
 }
 

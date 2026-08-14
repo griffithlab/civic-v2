@@ -8,11 +8,13 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   Maybe,
-  VariantGroupDetailFieldsFragment,
   SubscribableEntities,
   SubscribableInput,
+} from '@app/generated/civic.apollo.types'
+import {
+  VariantGroupDetailFieldsFragment,
   VariantGroupDetailGQL,
-} from '@app/generated/civic.apollo'
+} from './variant-groups-detail.query.gql.generated'
 import { ActivatedRoute } from '@angular/router'
 import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

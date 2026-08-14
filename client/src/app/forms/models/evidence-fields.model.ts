@@ -5,7 +5,7 @@ import {
   EvidenceLevel,
   EvidenceType,
   VariantOrigin,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 export type EvidenceItemFields = {
   // gene, variant included for initial input type development

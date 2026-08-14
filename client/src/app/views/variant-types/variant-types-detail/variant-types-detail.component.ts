@@ -1,12 +1,11 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Maybe, VariantType } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
-  VariantType,
   VariantTypeDetailGQL,
   VariantTypeDetailQuery,
   VariantTypeDetailQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './variant-types-detail.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { Observable, Subscription } from 'rxjs'
 import { startWith } from 'rxjs/operators'

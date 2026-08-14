@@ -7,10 +7,8 @@ import {
   signal,
 } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import {
-  HomepageNewsItemsGQL,
-  NewsItemFieldsFragment,
-} from '@app/generated/civic.apollo'
+import { NewsItemFieldsFragment } from '@app/components/news/news-item-list/news-item-list.fragment.gql.generated'
+import { HomepageNewsItemsGQL } from './news-item-list.query.gql.generated'
 
 @Component({
   selector: 'cvc-homepage-news-items',

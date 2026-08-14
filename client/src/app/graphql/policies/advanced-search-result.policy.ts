@@ -1,6 +1,6 @@
 import { getFormModelFromOriginalQuery } from '@app/graphql/utilities/form-model-from-original-query'
 import { FieldFunctionOptions, Reference } from '@apollo/client/cache'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 export const CvcAdvancedSearchResultPolicy = {
   fields: {

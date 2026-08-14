@@ -15,16 +15,18 @@ import {
   SortDirectionEvent,
 } from '@app/core/utilities/datatable-helpers'
 import {
-  BrowseVariantGroupConnection,
   BrowseVariantGroupRowFieldsFragment,
   BrowseVariantGroupsGQL,
   BrowseVariantGroupsQuery,
+} from './variant-groups-table.query.gql.generated'
+import {
+  BrowseVariantGroupConnection,
   Maybe,
   PageInfo,
   QueryBrowseVariantGroupsArgs,
   SortDirection,
   VariantGroupsSortColumns,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

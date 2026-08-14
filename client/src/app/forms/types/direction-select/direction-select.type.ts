@@ -14,7 +14,7 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
 import { EntityDirection } from '@app/forms/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
@@ -116,8 +116,7 @@ export interface CvcDirectionSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcDirectionSelectFieldConfig
-  extends FormlyFieldConfig<CvcDirectionSelectFieldProps> {
+export interface CvcDirectionSelectFieldConfig extends FormlyFieldConfig<CvcDirectionSelectFieldProps> {
   type: 'direction-select' | Type<CvcDirectionSelectField>
 }
 

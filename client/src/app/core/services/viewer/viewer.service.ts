@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import {
-  CoiStatus,
-  Maybe,
-  UserRole,
   ViewerBaseGQL,
   ViewerFieldsFragment,
   ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from './viewer.service.gql.generated'
+import { CoiStatus, Maybe, UserRole } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { map, Observable, shareReplay } from 'rxjs'

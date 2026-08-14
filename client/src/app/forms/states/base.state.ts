@@ -7,7 +7,7 @@ import {
   EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, Subject } from 'rxjs'

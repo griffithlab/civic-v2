@@ -10,11 +10,8 @@ import {
   OnDestroy,
   ElementRef,
 } from '@angular/core'
-import {
-  TherapyPopoverGQL,
-  Maybe,
-  TherapyPopover,
-} from '@app/generated/civic.apollo'
+import { TherapyPopoverGQL } from './cvc-therapy-popover.query.gql.generated'
+import { Maybe, TherapyPopover } from '@app/generated/civic.apollo.types'
 import { filter, map } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

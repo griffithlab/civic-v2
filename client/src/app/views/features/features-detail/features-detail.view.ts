@@ -4,12 +4,14 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import {
-  FeatureDetailFieldsFragment,
-  FeatureDetailGQL,
   Maybe,
   SubscribableEntities,
   SubscribableInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import {
+  FeatureDetailFieldsFragment,
+  FeatureDetailGQL,
+} from './features-detail.query.gql.generated'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 

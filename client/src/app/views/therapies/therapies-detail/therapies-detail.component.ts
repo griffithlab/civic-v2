@@ -1,11 +1,11 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Therapy } from '@app/generated/civic.apollo.types'
 import {
   TherapyDetailQuery,
   TherapyDetailQueryVariables,
-  Therapy,
   TherapyDetailGQL,
-} from '@app/generated/civic.apollo'
+} from './therapies-detail.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { Observable, Subscription } from 'rxjs'

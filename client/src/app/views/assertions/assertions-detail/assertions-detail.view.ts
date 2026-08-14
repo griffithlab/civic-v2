@@ -14,17 +14,19 @@ import { ApprovalResult } from '@app/components/approvals/approve-assertion-butt
 import { CvcApprovableCounts } from '@app/components/approvals/approvable/approvable.component'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { ApprovalListNodeFragment } from '@app/components/approvals/approval-list/approval-list.query.gql.generated'
+import {
+  EvidenceStatus,
+  Maybe,
+  SubscribableEntities,
+  SubscribableInput,
+} from '@app/generated/civic.apollo.types'
 import {
   AssertionDetailFieldsFragment,
   AssertionDetailGQL,
   AssertionDetailQuery,
   AssertionDetailQueryVariables,
-  ApprovalListNodeFragment,
-  EvidenceStatus,
-  Maybe,
-  SubscribableEntities,
-  SubscribableInput,
-} from '@app/generated/civic.apollo'
+} from './assertions-detail.query.gql.generated'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { map } from 'rxjs/operators'

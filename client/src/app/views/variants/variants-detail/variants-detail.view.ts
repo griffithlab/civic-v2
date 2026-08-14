@@ -4,13 +4,15 @@ import {
   Maybe,
   SubscribableEntities,
   SubscribableInput,
+} from '@app/generated/civic.apollo.types'
+import {
   VariantDetailFieldsFragment,
   VariantDetailGQL,
   VariantDetailQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './variants-detail.query.gql.generated'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
-import { VariantDetailQuery } from '@app/generated/civic.apollo'
+import { VariantDetailQuery } from './variants-detail.query.gql.generated'
 import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'

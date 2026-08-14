@@ -8,11 +8,8 @@ import {
   Output,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import {
-  DiseasePopover,
-  DiseasePopoverGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { DiseasePopoverGQL } from './disease-popover.query.gql.generated'
+import { DiseasePopover, Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

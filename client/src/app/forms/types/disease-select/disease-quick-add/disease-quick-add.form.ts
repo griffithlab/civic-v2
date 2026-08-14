@@ -13,12 +13,11 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NoStateFormOptions } from '@app/forms/states/base.state'
 import {
-  Maybe,
   QuickAddDiseaseGQL,
   QuickAddDiseaseMutation,
   QuickAddDiseaseMutationVariables,
-  Disease,
-} from '@app/generated/civic.apollo'
+} from './disease-quick-add.query.gql.generated'
+import { Maybe, Disease } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
@@ -31,10 +30,10 @@ type DiseaseQuickAddModel = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-disease-quick-add-form',
-    templateUrl: './disease-quick-add.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-disease-quick-add-form',
+  templateUrl: './disease-quick-add.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcDiseaseQuickAddForm {
   @Input()

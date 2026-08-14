@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
+import {
+  ModeratedEntities,
+  ModeratedInput,
+} from '@app/generated/civic.apollo.types'
 import { Subscription } from 'rxjs'
 
 @Component({

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { SuggestSourceActivityDetailFragment } from '@app/generated/civic.apollo'
+import { SuggestSourceActivityDetailFragment } from './suggest-source-activity.query.gql.generated'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'

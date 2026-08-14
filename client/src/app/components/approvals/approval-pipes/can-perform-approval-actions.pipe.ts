@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { canPerformApprovalActions } from './approval.functions'
 
 /**

@@ -4,14 +4,14 @@ import { ActivityFeedScope } from '@app/components/activities/activity-feed/acti
 import {
   EventFeedMode,
   SubscribableEntities,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 @Component({
-    selector: 'cvc-assertions-events',
-    templateUrl: './assertions-events.page.html',
-    styleUrls: ['./assertions-events.page.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-assertions-events',
+  templateUrl: './assertions-events.page.html',
+  styleUrls: ['./assertions-events.page.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AssertionsEventsPage {
   feedScope: ActivityFeedScope

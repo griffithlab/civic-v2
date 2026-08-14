@@ -1,4 +1,4 @@
-import { Maybe, SortDirection } from '@app/generated/civic.apollo'
+import { Maybe, SortDirection } from '@app/generated/civic.apollo.types'
 
 export interface SortDirectionEvent {
   key: any

@@ -21,7 +21,7 @@ extensions:
       serviceProvidedInRoot: true
     hooks:
       afterAllFileWrite:
-        - node scripts/generate-apollo-barrel.mjs
+        - node scripts/validate-generated-graphql.mjs
     generates:
       # schema-level types: Maybe, Scalars, enums, input & object types
       ./src/app/generated/civic.apollo.types.ts:

@@ -7,8 +7,8 @@ import {
 import {
   CommentPopoverFragment,
   CommentPopoverGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './comment-popover.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 import { Observable } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'

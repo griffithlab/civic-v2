@@ -4,7 +4,7 @@ import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import {
   ClinicalSignificanceCountsFragment,
   DetailedClinicalSignificanceCountsFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/views/features/features-detail/features-summary/features-summary.query.gql.generated'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzTableModule } from 'ng-zorro-antd/table'

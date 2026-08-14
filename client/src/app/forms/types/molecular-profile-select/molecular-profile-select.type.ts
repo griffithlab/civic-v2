@@ -14,8 +14,6 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  Maybe,
-  MolecularProfile,
   MolecularProfileSelectTagGQL,
   MolecularProfileSelectTagQuery,
   MolecularProfileSelectTagQueryVariables,
@@ -23,7 +21,8 @@ import {
   MolecularProfileSelectTypeaheadGQL,
   MolecularProfileSelectTypeaheadQuery,
   MolecularProfileSelectTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './molecular-profile-select.query.gql.generated'
+import { Maybe, MolecularProfile } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

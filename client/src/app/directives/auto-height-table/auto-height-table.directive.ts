@@ -8,7 +8,7 @@ import {
   OnInit,
   AfterViewInit,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { NzTableComponent } from 'ng-zorro-antd/table'
 
 //

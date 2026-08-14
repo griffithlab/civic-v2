@@ -15,12 +15,14 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
-  AmpLevel,
   AssertionBrowseFieldsFragment,
-  AssertionConnection,
   AssertionsBrowseGQL,
   AssertionsBrowseQuery,
   AssertionsBrowseQueryVariables,
+} from './assertions-table.query.gql.generated'
+import {
+  AmpLevel,
+  AssertionConnection,
   AssertionSignificance,
   AssertionSortColumns,
   EvidenceDirection,
@@ -29,7 +31,7 @@ import {
   Maybe,
   OrganizationFilter,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'

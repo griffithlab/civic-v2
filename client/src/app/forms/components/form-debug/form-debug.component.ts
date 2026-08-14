@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core'
 import { AbstractControl } from '@angular/forms'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { BehaviorSubject, Observable, Subscription } from 'rxjs'
 import { combineLatestArray } from 'rxjs-etc'

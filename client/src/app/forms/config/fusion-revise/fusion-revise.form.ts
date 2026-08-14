@@ -12,7 +12,7 @@ import {
   SuggestFusionRevisionGQL,
   SuggestFusionRevisionMutation,
   SuggestFusionRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './fusion-revise.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import {

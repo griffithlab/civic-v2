@@ -12,11 +12,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { FormsModule } from '@angular/forms'
 import {
-  BrowseOrganization,
   OrgFilterSearchGQL,
   OrgFilterSearchQuery,
   OrgFilterSearchQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './org-filter-select.query.gql.generated'
+import { BrowseOrganization } from '@app/generated/civic.apollo.types'
 import { from, map, Subject, switchMap } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
 import { toSignal } from '@angular/core/rxjs-interop'

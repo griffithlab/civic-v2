@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core'
-import { Maybe, PageInfo } from '@app/generated/civic.apollo'
+import { Maybe, PageInfo } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 
@@ -32,11 +32,11 @@ export type EntityEdge = {
 }
 
 @Component({
-    selector: 'cvc-table-counts',
-    templateUrl: './table-counts.component.html',
-    styleUrls: ['./table-counts.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-table-counts',
+  templateUrl: './table-counts.component.html',
+  styleUrls: ['./table-counts.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableCountsComponent implements OnInit {
   @Input() cvcTableCountsConnection!: Observable<EntityConnection>
@@ -62,7 +62,7 @@ export class TableCountsComponent implements OnInit {
         return {
           edgeCount: edges.length,
           filteredCount: filteredCount,
-          lastUpdated: c.lastUpdated
+          lastUpdated: c.lastUpdated,
         }
       })
     )

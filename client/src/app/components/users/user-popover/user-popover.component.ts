@@ -13,10 +13,10 @@ import {
   ElementRef,
 } from '@angular/core'
 import {
-  Maybe,
   PopoverUserFragment,
   UserPopoverGQL,
-} from '@app/generated/civic.apollo'
+} from './user-popover.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

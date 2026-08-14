@@ -5,14 +5,16 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import {
-  Maybe,
-  PageInfo,
   MenuFusionFragment,
   FusionMenuQuery,
-  FusionConnection,
   FusionMenuQueryVariables,
   FusionMenuGQL,
-} from '@app/generated/civic.apollo'
+} from './fusions-menu.gql.generated'
+import {
+  Maybe,
+  PageInfo,
+  FusionConnection,
+} from '@app/generated/civic.apollo.types'
 import { map, debounceTime, filter, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs'
 import { QueryRef } from 'apollo-angular'

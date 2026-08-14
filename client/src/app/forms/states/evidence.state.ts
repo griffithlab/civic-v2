@@ -7,7 +7,7 @@ import {
   MolecularProfile,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { BehaviorSubject } from 'rxjs'
 import { CvcInputEnum } from '../forms.types'

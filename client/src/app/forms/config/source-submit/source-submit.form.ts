@@ -11,14 +11,14 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  Maybe,
   SourceSuggestionChecksGQL,
   SourceSuggestionChecksQuery,
   SourceSuggestionChecksQueryVariables,
   SubmitSourceGQL,
   SubmitSourceMutation,
   SubmitSourceMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './source-submit.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { sourceSuggestFields } from './source-submit.form.config'

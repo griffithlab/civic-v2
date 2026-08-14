@@ -4,7 +4,7 @@ import { ActivityFeedScope } from '@app/components/activities/activity-feed/acti
 import {
   EventFeedMode,
   SubscribableEntities,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-molecular-profiles-events',

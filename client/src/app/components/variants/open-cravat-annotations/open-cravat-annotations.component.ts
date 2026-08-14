@@ -4,7 +4,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { BehaviorSubject } from 'rxjs'
 
 @Component({

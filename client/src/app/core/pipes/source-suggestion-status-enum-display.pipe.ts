@@ -1,13 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { Maybe, SourceSuggestionStatus } from '@app/generated/civic.apollo'
+import {
+  Maybe,
+  SourceSuggestionStatus,
+} from '@app/generated/civic.apollo.types'
 import { formatSourceSuggestionStatusEnum } from '../utilities/enum-formatters/format-source-suggestion-status-enum'
 
 export type EnumOutputStyle = 'display-string' | 'icon-name'
 
 @Pipe({
-    name: 'sourceSuggestionStatusEnumDisplay',
-    pure: true,
-    standalone: false
+  name: 'sourceSuggestionStatusEnumDisplay',
+  pure: true,
+  standalone: false,
 })
 export class SourceSuggestionStatusEnumDisplay implements PipeTransform {
   transform(

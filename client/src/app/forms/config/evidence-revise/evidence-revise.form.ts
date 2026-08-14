@@ -24,7 +24,7 @@ import {
   SuggestEvidenceItemRevisionGQL,
   SuggestEvidenceItemRevisionMutation,
   SuggestEvidenceItemRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './evidence-revise.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { evidenceReviseFields } from './evidence-revise.form.config'

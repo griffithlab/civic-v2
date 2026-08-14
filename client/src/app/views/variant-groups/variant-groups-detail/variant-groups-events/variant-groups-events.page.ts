@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import {
   SubscribableEntities,
   SubscribableInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-variant-groups-events',

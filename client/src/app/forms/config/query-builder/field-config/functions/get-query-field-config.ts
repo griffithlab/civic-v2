@@ -2,7 +2,7 @@ import { AdvancedSearchEndpoint } from '../../query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from './get-select-options'
 import { getFieldOptions } from './get-field-options'
-import { BooleanOperator } from '@generated/civic.apollo'
+import { BooleanOperator } from '@app/generated/civic.apollo.types'
 import { AbstractControl } from '@angular/forms'
 
 const filterCompleteValidator = {

@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 @Pipe({
-    name: 'ifEmpty',
-    pure: true,
-    standalone: false
+  name: 'ifEmpty',
+  pure: true,
+  standalone: false,
 })
 export class IfEmptyPipe implements PipeTransform {
   transform(input: any, defaultValue: string): string {

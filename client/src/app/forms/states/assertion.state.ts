@@ -7,7 +7,7 @@ import {
   VariantOrigin,
   TherapyInteraction,
   AmpLevel,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject } from 'rxjs'

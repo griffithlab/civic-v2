@@ -13,7 +13,7 @@ import {
   TherapyInteraction,
   VariantOrigin,
   RegionVariantName,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 export type InputEnum =
   | EvidenceSignificance

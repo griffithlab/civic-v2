@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { ActivityTypeInput } from '@app/generated/civic.apollo'
+import { ActivityTypeInput } from '@app/generated/civic.apollo.types'
 
 @Pipe({
-    name: 'iconNameForActivityTypeInput',
-    pure: true,
-    standalone: false
+  name: 'iconNameForActivityTypeInput',
+  pure: true,
+  standalone: false,
 })
 export class IconNameForActivityTypeInputPipe implements PipeTransform {
   private iconMap: { [key in ActivityTypeInput]?: string } = {

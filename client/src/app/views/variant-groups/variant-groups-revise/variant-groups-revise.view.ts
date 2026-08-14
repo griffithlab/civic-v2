@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
   VariantGroupDetailFieldsFragment,
   VariantGroupDetailGQL,
-} from '@app/generated/civic.apollo'
+} from '@app/views/variant-groups/variant-groups-detail/variant-groups-detail.query.gql.generated'
 import { Observable, Subscription } from 'rxjs'
 import { startWith, map } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

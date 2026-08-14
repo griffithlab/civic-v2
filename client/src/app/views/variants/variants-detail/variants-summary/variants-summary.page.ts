@@ -1,14 +1,16 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
-  VariantSummaryGQL,
   Maybe,
+  SubscribableInput,
+  SubscribableEntities,
+} from '@app/generated/civic.apollo.types'
+import {
+  VariantSummaryGQL,
   VariantSummaryQuery,
   VariantSummaryQueryVariables,
   VariantSummaryFieldsFragment,
-  SubscribableInput,
-  SubscribableEntities,
-} from '@app/generated/civic.apollo'
+} from './variants-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

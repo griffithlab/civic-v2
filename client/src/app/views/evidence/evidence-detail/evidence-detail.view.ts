@@ -1,15 +1,17 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { QueryRef } from 'apollo-angular'
 import {
-  EvidenceDetailFieldsFragment,
-  EvidenceDetailGQL,
-  EvidenceDetailQuery,
-  EvidenceDetailQueryVariables,
   EvidenceStatus,
   Maybe,
   SubscribableEntities,
   SubscribableInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import {
+  EvidenceDetailFieldsFragment,
+  EvidenceDetailGQL,
+  EvidenceDetailQuery,
+  EvidenceDetailQueryVariables,
+} from './evidence-detail.query.gql.generated'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { ActivatedRoute } from '@angular/router'
 import { startWith, takeUntil } from 'rxjs/operators'

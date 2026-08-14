@@ -11,7 +11,7 @@ import {
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
-import { Maybe, ReferenceBuild } from '@app/generated/civic.apollo'
+import { Maybe, ReferenceBuild } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

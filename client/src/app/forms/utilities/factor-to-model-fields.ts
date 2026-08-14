@@ -1,8 +1,8 @@
+import { RevisableFactorFieldsFragment } from '@app/forms/config/factor-revise/factor-revise.query.gql.generated'
 import {
   Maybe,
-  RevisableFactorFieldsFragment,
   SuggestFactorRevisionInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import * as fmt from '@app/forms/utilities/input-formatters'
 import { FactorFields } from '../models/factor-fields.model'
 import { FactorReviseModel } from '../models/factor-revise.model'

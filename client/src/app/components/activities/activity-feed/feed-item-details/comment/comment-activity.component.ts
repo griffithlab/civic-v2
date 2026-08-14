@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
-import { CommentActivityDetailFragment } from '@app/generated/civic.apollo'
+import { CommentActivityDetailFragment } from './comment-activity.query.gql.generated'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({

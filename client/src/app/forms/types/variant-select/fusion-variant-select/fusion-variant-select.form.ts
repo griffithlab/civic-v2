@@ -10,16 +10,18 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms'
+import { FeatureSelectTypeaheadFieldsFragment } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
 import {
-  FeatureSelectTypeaheadFieldsFragment,
+  SelectOrCreateFusionVariantGQL,
+  SelectOrCreateFusionVariantMutation,
+  SelectOrCreateFusionVariantMutationVariables,
+} from './fusion-variant-add.query.gql.generated'
+import {
   Direction,
   FusionPartnerStatus,
   Maybe,
   ReferenceBuild,
-  SelectOrCreateFusionVariantGQL,
-  SelectOrCreateFusionVariantMutation,
-  SelectOrCreateFusionVariantMutationVariables,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import {
   FormlyFieldConfig,
   FormlyFormOptions,

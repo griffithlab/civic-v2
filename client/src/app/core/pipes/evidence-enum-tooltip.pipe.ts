@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-enum-tooltip'
 
 @Pipe({
-    name: 'enumTooltip',
-    pure: true,
-    standalone: false
+  name: 'enumTooltip',
+  pure: true,
+  standalone: false,
 })
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(

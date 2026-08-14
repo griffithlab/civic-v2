@@ -1,6 +1,9 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
+import {
+  FlaggableEntities,
+  FlaggableInput,
+} from '@app/generated/civic.apollo.types'
 import { Subscription } from 'rxjs'
 
 @Component({

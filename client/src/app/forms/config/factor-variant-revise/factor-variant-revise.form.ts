@@ -20,7 +20,7 @@ import {
   SuggestFactorVariantRevisionGQL,
   SuggestFactorVariantRevisionMutation,
   SuggestFactorVariantRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './factor-variant-revise.query.gql.generated'
 import { factorVariantReviseFields } from './factor-variant-revise.form.config'
 import {
   factorVariantFormModelToReviseInput,

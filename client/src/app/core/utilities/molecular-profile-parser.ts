@@ -2,7 +2,7 @@ import {
   MolecularProfileComponentInput,
   BooleanOperator,
   VariantComponent,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 const leftParen = /\(/g
 const rightParen = /\)/g

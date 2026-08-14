@@ -22,8 +22,8 @@ import {
   ClingenCodeSelectTypeaheadGQL,
   ClingenCodeSelectTypeaheadQuery,
   ClingenCodeSelectTypeaheadQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './clingen-code-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

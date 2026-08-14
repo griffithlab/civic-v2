@@ -7,7 +7,7 @@ import {
   InputMaybe,
   IntSearchInput,
   StringSearchInput,
-} from '@generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import {
   sortByKey,
   withHideExpression,

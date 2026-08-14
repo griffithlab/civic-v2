@@ -11,7 +11,7 @@ import {
   FeatureInstanceTypes,
   MolecularProfile,
   Variant,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
@@ -31,11 +31,11 @@ type MpFinderState = {
 }
 
 @Component({
-    selector: 'cvc-mp-finder',
-    templateUrl: './mp-finder.component.html',
-    styleUrls: ['./mp-finder.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-mp-finder',
+  templateUrl: './mp-finder.component.html',
+  styleUrls: ['./mp-finder.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MpFinderComponent {
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()

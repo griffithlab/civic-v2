@@ -12,7 +12,7 @@ import {
   entityNameFromSearchEndpoint,
   queryBuilderTabConfig,
 } from '../../../views/search/query-search/query-search.functions'
-import { Maybe } from '@generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { QuerySearchPageTab } from '../../../views/search/query-search/query-search.types'
 
 type QueryBuilderCardOptions = {

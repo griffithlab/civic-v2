@@ -13,7 +13,7 @@ import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-de
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
-import { AssertionType } from '@app/generated/civic.apollo'
+import { AssertionType } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 function assertionRequiresEvidenceItems(model?: AssertionFields): boolean {

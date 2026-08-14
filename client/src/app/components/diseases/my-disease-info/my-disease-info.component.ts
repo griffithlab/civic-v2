@@ -4,8 +4,8 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
-import { MyDiseaseInfoFieldsFragment } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { MyDiseaseInfoFieldsFragment } from '@app/views/diseases/diseases-detail/diseases-summary/diseases-summary.query.gql.generated'
 import { BehaviorSubject } from 'rxjs'
 
 @Component({

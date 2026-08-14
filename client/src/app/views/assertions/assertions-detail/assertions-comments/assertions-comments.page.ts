@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { CommentListNodeFragment } from '@app/components/comments/comment-list/comment-list.query.gql.generated'
 import {
   CommentableEntities,
   CommentableInput,
-  AssertionSubmissionActivityFragmentDoc,
-  CommentListNodeFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { AssertionSubmissionActivityFragmentDoc } from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
 import { Apollo } from 'apollo-angular'
 
 @Component({

@@ -14,10 +14,10 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  FeatureInstanceTypes,
   FeatureSelectTagGQL,
   FeatureSelectTypeaheadFieldsFragment,
-  Maybe,
+} from '@app/forms/types/feature-select/feature-select.query.gql.generated'
+import {
   VariantSelectTagGQL,
   VariantSelectTagQuery,
   VariantSelectTagQueryVariables,
@@ -25,7 +25,8 @@ import {
   VariantSelectTypeaheadGQL,
   VariantSelectTypeaheadQuery,
   VariantSelectTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './variant-select.query.gql.generated'
+import { FeatureInstanceTypes, Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

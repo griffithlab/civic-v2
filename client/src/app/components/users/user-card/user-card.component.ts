@@ -5,18 +5,15 @@ import {
   OnInit,
 } from '@angular/core'
 import { TagInfo } from '@app/components/shared/tag-overflow/tag-overflow.component'
-import {
-  Maybe,
-  OrganizationMembersFieldsFragment,
-  UserRole,
-} from '@app/generated/civic.apollo'
+import { Maybe, UserRole } from '@app/generated/civic.apollo.types'
+import { OrganizationMembersFieldsFragment } from '@app/views/organizations/organizations-members/organizations-members.query.gql.generated'
 
 @Component({
-    selector: 'cvc-user-card',
-    templateUrl: './user-card.component.html',
-    styleUrls: ['./user-card.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcUserCardComponent implements OnInit {
   @Input() user!: OrganizationMembersFieldsFragment

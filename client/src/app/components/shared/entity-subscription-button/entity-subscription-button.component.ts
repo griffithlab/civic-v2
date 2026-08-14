@@ -9,20 +9,24 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  Maybe,
-  SubscribableEntities,
-  SubscribableInput,
-  SubscribeGQL,
-  SubscribeMutation,
-  SubscribeMutationVariables,
   SubscriptionForEntityGQL,
   SubscriptionForEntityQuery,
   SubscriptionForEntityQueryVariables,
   SubscriptionIdFragment,
+} from './entity-subscription-button.gql.generated'
+import {
+  Maybe,
+  SubscribableEntities,
+  SubscribableInput,
+} from '@app/generated/civic.apollo.types'
+import {
+  SubscribeGQL,
+  SubscribeMutation,
+  SubscribeMutationVariables,
   UnsubscribeGQL,
   UnsubscribeMutation,
   UnsubscribeMutationVariables,
-} from '@app/generated/civic.apollo'
+} from '@app/views/users/users-notifications/users-notifications.query.gql.generated'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { filter, Observable, Subject } from 'rxjs'
 import { map, takeUntil } from 'rxjs/operators'

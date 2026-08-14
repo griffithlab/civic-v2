@@ -1,4 +1,4 @@
-import { SourceSource } from '@app/generated/civic.apollo'
+import { SourceSource } from '@app/generated/civic.apollo.types'
 
 export function formatSourceTypeEnum(value: SourceSource): string {
   switch (value) {

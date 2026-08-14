@@ -15,7 +15,6 @@ import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  Maybe,
   PhenotypeSelectTagGQL,
   PhenotypeSelectTagQuery,
   PhenotypeSelectTagQueryVariables,
@@ -23,7 +22,8 @@ import {
   PhenotypeSelectTypeaheadGQL,
   PhenotypeSelectTypeaheadQuery,
   PhenotypeSelectTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './phenotype-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import {
   EntityTagsTestGQL,
   EntityTagsTestQuery,
-} from '@app/generated/civic.apollo'
+} from './tags-test.query.gql.generated'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { BehaviorSubject, filter, map, Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

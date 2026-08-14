@@ -1,16 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { CvcInputEnum } from '@app/forms/forms.types'
-import { AmpLevel, Maybe } from '@app/generated/civic.apollo'
+import { AmpLevel, Maybe } from '@app/generated/civic.apollo.types'
 
 export type AmpDisplayFormat = 'verbose' | 'compact'
 
 @Pipe({
-    name: 'formatAmp',
-    pure: true,
-    standalone: false
+  name: 'formatAmp',
+  pure: true,
+  standalone: false,
 })
 export class AmpFormatPipe implements PipeTransform {
-  transform(level: Maybe<AmpLevel> | CvcInputEnum, format: AmpDisplayFormat): string {
+  transform(
+    level: Maybe<AmpLevel> | CvcInputEnum,
+    format: AmpDisplayFormat
+  ): string {
     if (level) {
       if (format == 'verbose') {
         if (level === 'TIER_I_LEVEL_A') return 'Tier I - Level A'

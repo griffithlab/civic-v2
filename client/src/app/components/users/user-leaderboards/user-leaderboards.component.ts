@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   LeaderboardUserFieldsFragment,
-  Maybe,
-  TimeWindow,
   UserCommentsLeaderboardGQL,
   UserCommentsLeaderboardQuery,
   UserCommentsLeaderboardQueryVariables,
@@ -16,7 +14,8 @@ import {
   UserSubmissionsLeaderboardGQL,
   UserSubmissionsLeaderboardQuery,
   UserSubmissionsLeaderboardQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './user-leaderboards.query.gql.generated'
+import { Maybe, TimeWindow } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Query, QueryRef } from 'apollo-angular'
 import { WatchQueryFetchPolicy } from '@apollo/client'

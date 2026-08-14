@@ -12,7 +12,7 @@ import {
   SuggestMolecularProfileRevisionGQL,
   SuggestMolecularProfileRevisionMutation,
   SuggestMolecularProfileRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './molecular-profile-revise.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import {

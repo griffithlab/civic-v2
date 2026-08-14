@@ -2,13 +2,15 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
-  MolecularProfileSummaryQuery,
-  MolecularProfileSummaryQueryVariables,
   SubscribableInput,
   SubscribableEntities,
+} from '@app/generated/civic.apollo.types'
+import {
+  MolecularProfileSummaryQuery,
+  MolecularProfileSummaryQueryVariables,
   MolecularProfileSummaryFieldsFragment,
   MolecularProfileSummaryGQL,
-} from '@app/generated/civic.apollo'
+} from './molecular-profiles-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
