@@ -39,6 +39,7 @@
     "@ngrx/component": "22.0.0-rc.0",
     "@ngx-formly/core": "7.1.0",
     "@ngx-formly/ng-zorro-antd": "7.1.0",
+    "@taiga-ui/polymorpheus": "^5.0.1",
     "@typescript-eslint/types": "^8.36.0",
     "@typescript-eslint/utils": "^8.36.0",
     "apollo-angular": "^14.2.0",

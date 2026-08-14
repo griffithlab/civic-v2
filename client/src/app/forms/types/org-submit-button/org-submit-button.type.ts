@@ -8,7 +8,10 @@ import {
   ViewChild,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
+  UserMostRecentOrgIdFragmentDoc,
+  ViewerOrganizationFragment,
+} from '@app/core/services/viewer/viewer.service.gql.generated'
 import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
@@ -17,7 +20,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { Apollo, gql } from 'apollo-angular'
+import { Apollo } from 'apollo-angular'
 import {
   auditTime,
   BehaviorSubject,
@@ -108,18 +111,13 @@ export class CvcOrgSubmitButtonComponent
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {
         if (viewer.signedIn) {
-          const fragment = {
+          this.apollo.client.writeFragment({
             id: `User:${viewer.user?.id}`,
-            fragment: gql`
-              fragment UserMostRecentOrgId on User {
-                mostRecentOrganizationId
-              }
-            `,
+            fragment: UserMostRecentOrgIdFragmentDoc,
             data: {
               mostRecentOrganizationId: mroId,
             },
-          }
-          this.apollo.client.writeFragment(fragment)
+          })
         }
       })
 

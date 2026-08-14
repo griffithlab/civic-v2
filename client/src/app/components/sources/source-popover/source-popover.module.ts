@@ -11,8 +11,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcRetractionStatusTagModule } from '@app/components/shared/retraction-status-tag/retraction-status-tag.module'
 
 @NgModule({
-  declarations: [CvcSourcePopoverComponent],
   imports: [
+    CvcSourcePopoverComponent,
     CommonModule,
     LetDirective,
     PushPipe,

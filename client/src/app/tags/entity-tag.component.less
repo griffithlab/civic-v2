@@ -1,0 +1,118 @@
+@import 'themes/default.less';
+
+:host {
+  // label truncation via CSS var (set from the `truncate` input);
+  // replaces the old 13-member px-width class union
+  .tag-label {
+    max-width: var(--cvc-tag-max-width, none);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // entity status / lifecycle states
+  &.rejected,
+  &.submitted,
+  &.accepted,
+  &.deprecated {
+    nz-tag {
+      border-right-width: 2px;
+    }
+  }
+  &.rejected,
+  &.deprecated {
+    nz-tag {
+      border-color: lighten(@border-color-base, 5%);
+      background-color: #fff;
+      color: lighten(@tag-default-color, 60%);
+    }
+    .tag-label {
+      text-decoration: line-through;
+    }
+  }
+  &.submitted {
+    nz-tag {
+      border-color: #ffe58f; // @antd-warning-color-outline
+    }
+  }
+  &.accepted {
+    nz-tag {
+      border-color: #b7eb8f; // @antd-success-color-outline
+    }
+  }
+
+  &.full-width {
+    nz-tag {
+      width: 100%;
+      .tag-label {
+        width: 100%;
+      }
+    }
+  }
+
+  &.default,
+  &.select-item {
+    nz-tag {
+      margin: 0;
+      padding: 0 2px 0 0;
+      margin-inline-end: 4px;
+      max-width: 100%;
+      .tag-icon {
+        display: inline-block;
+        padding: 3px 2px 3px 4px;
+        margin: -3px 0 -3px 0;
+      }
+      .tag-no-icon {
+        display: inline-block;
+        width: 4px;
+      }
+      .tag-label {
+        display: inline-block;
+        font-weight: normal;
+        margin: -3px 0 -4px 0;
+        padding: 3px 3px 3px 2px;
+        line-height: 1;
+      }
+      ::ng-deep i.ant-tag-close-icon.anticon-close {
+        transition: none;
+        margin-left: 3px;
+      }
+    }
+  }
+  &.select-item {
+    nz-tag {
+      .tag-label {
+        padding-right: 0;
+      }
+    }
+  }
+
+  &.multi-select-item {
+    .tag-content {
+      // pull content margins to the edges of nz-select's pseudo-tag to
+      // increase the popover hover area
+      display: inline-block;
+      margin-top: -3px;
+      margin-bottom: -3px;
+      margin-left: -4px;
+      padding-left: 4px;
+    }
+    // space between icon & label inside nz-select's pseudo-tag
+    .tag-icon::after {
+      content: ' ';
+    }
+  }
+}
+
+.tag-skeleton {
+  color: @text-color-secondary;
+  font-style: italic;
+}
+
+.typeahead-match {
+  font-weight: bold;
+}
+
+nz-tag {
+  margin-right: 0;
+  margin-inline-end: 4px;
+}

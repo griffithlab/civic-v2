@@ -28,8 +28,8 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 
 @NgModule({
-  declarations: [CvcAssertionPopoverComponent],
   imports: [
+    CvcAssertionPopoverComponent,
     CommonModule,
     RouterModule,
     LetDirective,

@@ -13,13 +13,32 @@ import { DiseasePopover, Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
+import { CommonModule } from '@angular/common'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 
 @Component({
   selector: 'cvc-disease-popover',
   templateUrl: './disease-popover.component.html',
   styleUrls: ['./disease-popover.component.less'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetDirective,
+    PushPipe,
+    NzCardModule,
+    NzDescriptionsModule,
+    NzIconModule,
+    NzTypographyModule,
+    CvcPipesModule,
+    CvcLinkTagModule,
+  ],
 })
 export class CvcDiseasePopoverComponent implements OnInit {
   @Input() diseaseId!: number

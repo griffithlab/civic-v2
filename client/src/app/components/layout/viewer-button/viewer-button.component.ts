@@ -9,8 +9,11 @@ import {
   ViewContainerRef,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { ViewerNotificationCountGQL } from '@app/core/services/viewer/viewer.service.gql.generated'
-import { Apollo, gql } from 'apollo-angular'
+import {
+  UserMostRecentOrgIdFragmentDoc,
+  ViewerNotificationCountGQL,
+} from '@app/core/services/viewer/viewer.service.gql.generated'
+import { Apollo } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'
 import { map, startWith, withLatestFrom } from 'rxjs/operators'
@@ -72,18 +75,13 @@ export class CvcViewerButtonComponent implements OnInit {
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {
         if (viewer.signedIn) {
-          const fragment = {
+          this.apollo.client.writeFragment({
             id: `User:${viewer.user?.id}`,
-            fragment: gql`
-              fragment UserMostRecentOrgId on User {
-                mostRecentOrganizationId
-              }
-            `,
+            fragment: UserMostRecentOrgIdFragmentDoc,
             data: {
               mostRecentOrganizationId: mroId,
             },
-          }
-          this.apollo.client.writeFragment(fragment)
+          })
         }
       })
   }
