@@ -6,7 +6,6 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
 import { CvcCommentInputFormModule } from '@app/forms/components/comment-input/comment-input.module'
 import { CvcFormButtonsModule } from '@app/forms/components/form-buttons/form-buttons.module'
 import { CvcFormErrorsAlertModule } from '@app/forms/components/form-errors-alert/form-errors-alert.module'
-import { CvcSubmitButtonTypeModule } from '@app/forms/types/submit-button/submit-button.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -43,7 +42,6 @@ import { ComplexMolecularProfileDeprecateForm } from './complex-molecular-profil
 
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
-    CvcSubmitButtonTypeModule,
     CvcCommentInputFormModule,
     CvcMolecularProfileTagModule,
   ],

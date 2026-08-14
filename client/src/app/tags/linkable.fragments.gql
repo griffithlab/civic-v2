@@ -1,0 +1,17 @@
+# Linkable* fragments: the canonical per-type cache shapes watched by CvcTag
+# (spike C: Disease + VariantInterface first; remaining types added in Phase 1)
+
+fragment LinkableDisease on Disease {
+  id
+  name
+  link
+  deprecated
+}
+
+fragment LinkableVariant on VariantInterface {
+  id
+  name
+  link
+  flagged
+  deprecated
+}

@@ -8,7 +8,6 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
 import { CvcCommentInputFormModule } from '@app/forms/components/comment-input/comment-input.module'
 import { CvcFormButtonsModule } from '@app/forms/components/form-buttons/form-buttons.module'
 import { CvcFormErrorsAlertModule } from '@app/forms/components/form-errors-alert/form-errors-alert.module'
-import { CvcCommentTextareaTypeModule } from '@app/forms/types/comment-textarea/comment-textarea.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -38,7 +37,6 @@ import { CvcCommentAddForm } from './comment-add.form'
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcCommentBodyModule,
-    CvcCommentTextareaTypeModule,
     CvcCommentInputFormModule,
   ],
   exports: [CvcCommentAddForm],
