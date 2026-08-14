@@ -1,9 +1,62 @@
-// Import the official compact less style file
-@import "ng-zorro-antd/ng-zorro-antd.compact.less";
+// ng-zorro compact theme, importing only the components the app uses.
+//
+// This replicates ng-zorro-antd.compact.less (style/compact.less +
+// style/entry.less + components.less) with the all-components import
+// replaced by an explicit list — the full bundle ships ~24 unused
+// components' CSS. When adopting a new nz component, add its
+// <component>/style/entry.less here (entries pull their own style
+// dependencies, e.g. table brings pagination/empty/spin).
+@root-entry-name: default;
+@import 'ng-zorro-antd/style/compact.less'; // compact theme variables + core
+@import 'ng-zorro-antd/style/entry.less'; // base/reset/motion/iconfont
+
+@import 'ng-zorro-antd/alert/style/entry.less';
+@import 'ng-zorro-antd/auto-complete/style/entry.less';
+@import 'ng-zorro-antd/avatar/style/entry.less';
+@import 'ng-zorro-antd/badge/style/entry.less';
+@import 'ng-zorro-antd/breadcrumb/style/entry.less';
+@import 'ng-zorro-antd/button/style/entry.less';
+@import 'ng-zorro-antd/card/style/entry.less';
+@import 'ng-zorro-antd/checkbox/style/entry.less';
+@import 'ng-zorro-antd/collapse/style/entry.less';
+@import 'ng-zorro-antd/comment/style/entry.less';
+@import 'ng-zorro-antd/date-picker/style/entry.less';
+@import 'ng-zorro-antd/descriptions/style/entry.less';
+@import 'ng-zorro-antd/divider/style/entry.less';
+@import 'ng-zorro-antd/dropdown/style/entry.less';
+@import 'ng-zorro-antd/empty/style/entry.less';
+@import 'ng-zorro-antd/flex/style/entry.less';
+@import 'ng-zorro-antd/form/style/entry.less';
+@import 'ng-zorro-antd/grid/style/entry.less';
+@import 'ng-zorro-antd/icon/style/entry.less';
+@import 'ng-zorro-antd/image/style/entry.less';
+@import 'ng-zorro-antd/input/style/entry.less';
+@import 'ng-zorro-antd/input-number/style/entry.less';
+@import 'ng-zorro-antd/layout/style/entry.less';
+@import 'ng-zorro-antd/list/style/entry.less';
+@import 'ng-zorro-antd/mention/style/entry.less';
+@import 'ng-zorro-antd/menu/style/entry.less';
+@import 'ng-zorro-antd/message/style/entry.less';
+@import 'ng-zorro-antd/modal/style/entry.less';
+@import 'ng-zorro-antd/page-header/style/entry.less';
+@import 'ng-zorro-antd/popconfirm/style/entry.less';
+@import 'ng-zorro-antd/popover/style/entry.less';
+@import 'ng-zorro-antd/radio/style/entry.less';
+@import 'ng-zorro-antd/rate/style/entry.less';
+@import 'ng-zorro-antd/resizable/style/entry.less';
+@import 'ng-zorro-antd/result/style/entry.less';
+@import 'ng-zorro-antd/select/style/entry.less';
+@import 'ng-zorro-antd/skeleton/style/entry.less';
+@import 'ng-zorro-antd/space/style/entry.less';
+@import 'ng-zorro-antd/spin/style/entry.less';
+@import 'ng-zorro-antd/statistic/style/entry.less';
+@import 'ng-zorro-antd/switch/style/entry.less';
+@import 'ng-zorro-antd/table/style/entry.less';
+@import 'ng-zorro-antd/tabs/style/entry.less';
+@import 'ng-zorro-antd/tag/style/entry.less';
+@import 'ng-zorro-antd/timeline/style/entry.less';
+@import 'ng-zorro-antd/tooltip/style/entry.less';
+@import 'ng-zorro-antd/typography/style/entry.less';
 
 // Override compact styles with CIViC default theme
-@import "./themes/default.less";
-
-// Custom Theming for NG-ZORRO
-// For more information: https://ng.ant.design/docs/customize-theme/en
-// @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import './themes/default.less';
