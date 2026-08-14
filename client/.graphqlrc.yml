@@ -1,39 +1,54 @@
 # include server-generated schema and client-side schemas
-# see: https://www.graphql-code-generator.com/docs/integrations/apollo-local-state
+# see: https://the-guild.dev/graphql/codegen/docs/guides/graphql-server-apollo-yoga-with-server-preset
 schema:
   - ./src/app/generated/server.model.graphql
   - ./src/app/graphql/schemas/**/*.graphql
 
-# collect client-side component& service queries, mutations, fragments
+# collect client-side component & service queries, mutations, fragments
 documents: ./src/**/*.gql
 extensions:
   codegen:
+    overwrite: true
     config:
-      # replace generated files
-      overwrite: true
+      nonOptionalTypename: true
+      futureProofUnions: false
+      futureProofEnums: false
+      maybeValue: T | undefined
+      # custom scalars (ISO8601DateTime, JSON) remain `any`, matching the
+      # pre-codegen-7 output; switching to `unknown`/explicit mappings is a
+      # separate, deliberate change
+      defaultScalarType: any
       serviceProvidedInRoot: true
+    hooks:
+      afterAllFileWrite:
+        - node scripts/generate-apollo-barrel.mjs
     generates:
-      # generate apollo-angular client service
-      # see: https://www.graphql-code-generator.com/plugins/typescript/typescript-apollo-angular
-      ./src/app/generated/civic.apollo.ts:
+      # schema-level types: Maybe, Scalars, enums, input & object types
+      ./src/app/generated/civic.apollo.types.ts:
         plugins:
           - typescript
+          - add:
+              content: /* eslint-disable */
+      # per-document operation types + apollo-angular services, emitted
+      # next to each .gql source file as <name>.gql.generated.ts
+      ./src/:
+        preset: near-operation-file
+        presetConfig:
+          extension: .gql.generated.ts
+          baseTypesPath: app/generated/civic.apollo.types.ts
+          importTypesNamespace: Types
+        plugins:
           - typescript-operations
           - typescript-apollo-angular
           - add:
               content: /* eslint-disable */
-        config:
-          apolloClientVersion: 3
-          nonOptionalTypename: true
-          futureProofUnions: false
-          futureProofEnums: false
-          maybeValue: T | undefined
       ./src/app/generated/civic.possible-types.ts:
         plugins:
           - fragment-matcher
         config:
           apolloClientVersion: 3
           useExplicitTyping: false
+          deterministic: true
       ./src/app/generated/civic.apollo-helpers.ts:
         plugins:
           - typescript-apollo-client-helpers

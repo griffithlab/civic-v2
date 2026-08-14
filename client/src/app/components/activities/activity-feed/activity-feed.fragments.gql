@@ -1,0 +1,144 @@
+# Shared leaf fragments for the activity feed feature.
+#
+# These live in their own document so the generated-file import graph stays
+# acyclic: both the feed queries and the feed-item-details fragments depend
+# on them, and a fragment defined next to either query would create a
+# circular import between the colocated *.gql.generated.ts modules
+# (fragment docs interpolate as `undefined` mid-initialization).
+
+# activity summary info to render each feed item
+fragment ActivityFeedItemBase on ActivityInterface {
+  id
+  verbiage
+  createdAt
+  organization {
+    id
+    name
+  }
+  user {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    name
+    link
+    ... on GeneVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FusionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on RegionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on Comment {
+      deleted
+      deletedAt
+      commentable {
+        id
+        name
+        link
+
+        ... on FactorVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on FusionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on GeneVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on RegionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+      }
+    }
+  }
+  ... on DeleteCommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+  ... on CommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+}
+
+fragment ActivityFeedItemEvents on ActivityInterface {
+  events {
+    id
+    createdAt
+    action
+    originatingObject {
+      id
+      name
+      link
+    }
+    originatingUser {
+      id
+      displayName
+    }
+  }
+}
+
+fragment RevisionActivityDetail on Revision {
+  id
+  name
+  status
+  currentValue
+  suggestedValue
+  fieldName
+  link
+  createdAt
+  linkoutData {
+    ...revisionLinkoutData
+  }
+  subject {
+    ... on ExonCoordinate {
+      coordinateType
+    }
+  }
+}

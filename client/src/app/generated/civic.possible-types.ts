@@ -29,15 +29,6 @@
       "SuggestSourceActivity",
       "UpdateSourceSuggestionStatusActivity"
     ],
-    "CommentBodySegment": [
-      "CommentTagSegment",
-      "CommentTagSegmentDeprecated",
-      "CommentTagSegmentFlagged",
-      "CommentTagSegmentFlaggedAndDeprecated",
-      "CommentTagSegmentFlaggedAndWithStatus",
-      "CommentTextSegment",
-      "User"
-    ],
     "Commentable": [
       "Assertion",
       "EvidenceItem",
@@ -57,6 +48,15 @@
       "SourcePopover",
       "Variant",
       "VariantGroup"
+    ],
+    "CommentBodySegment": [
+      "CommentTagSegment",
+      "CommentTagSegmentDeprecated",
+      "CommentTagSegmentFlagged",
+      "CommentTagSegmentFlaggedAndDeprecated",
+      "CommentTagSegmentFlaggedAndWithStatus",
+      "CommentTextSegment",
+      "User"
     ],
     "EventOriginObject": [
       "Assertion",

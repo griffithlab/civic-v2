@@ -75,106 +75,9 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   }
 }
 
-# activity summary info to render each feed item
-fragment ActivityFeedItemBase on ActivityInterface {
-  id
-  verbiage
-  createdAt
-  organization {
-    id
-    name
-  }
-  user {
-    id
-    displayName
-    role
-  }
-  subject {
-    id
-    name
-    link
-    ... on GeneVariant {
-      feature {
-        id
-        name
-        link
-      }
-    }
-    ... on FactorVariant {
-      feature {
-        id
-        name
-        link
-      }
-    }
-    ... on FusionVariant {
-      feature {
-        id
-        name
-        link
-      }
-    }
-    ... on RegionVariant {
-      feature {
-        id
-        name
-        link
-      }
-    }
-    ... on Comment {
-      deleted
-      deletedAt
-      commentable {
-        id
-        name
-        link
-
-        ... on FactorVariant {
-          feature {
-            id
-            name
-            link
-          }
-        }
-        ... on FusionVariant {
-          feature {
-            id
-            name
-            link
-          }
-        }
-        ... on GeneVariant {
-          feature {
-            id
-            name
-            link
-          }
-        }
-        ... on RegionVariant {
-          feature {
-            id
-            name
-            link
-          }
-        }
-      }
-    }
-  }
-  ... on DeleteCommentActivity {
-    comment {
-      id
-      name
-      link
-    }
-  }
-  ... on CommentActivity {
-    comment {
-      id
-      name
-      link
-    }
-  }
-}
+# ActivityFeedItemBase, ActivityFeedItemEvents, and RevisionActivityDetail
+# are defined in activity-feed.fragments.gql to keep the generated-file
+# import graph acyclic
 
 fragment ActivityFeedItem on ActivityInterface {
   ...ActivityFeedItemBase
@@ -199,23 +102,4 @@ fragment ActivityFeedItem on ActivityInterface {
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
   ...ApproveAssertionActivityDetail @include(if: $requestDetails)
   ...RevokeApprovalActivityDetail @include(if: $requestDetails)
-}
-
-fragment RevisionActivityDetail on Revision {
-  id
-  name
-  status
-  currentValue
-  suggestedValue
-  fieldName
-  link
-  createdAt
-  linkoutData {
-    ...revisionLinkoutData
-  }
-  subject {
-    ... on ExonCoordinate {
-      coordinateType
-    }
-  }
 }
