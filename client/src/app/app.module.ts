@@ -20,7 +20,6 @@ import { AppComponent } from './app.component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { AppErrorHandler } from './core/utilities/app-error-handler'
-import { CvcForms2Module } from '@app/forms/forms.module'
 import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core'
 import { CvcFormlyConfig2 } from '@app/forms/forms.options'
 import { registerCvcExtensions } from '@app/forms/extensions/form-extensions.config'
@@ -39,9 +38,10 @@ registerLocaleData(en)
     BrowserAnimationsModule,
     BrowserModule,
     NzIconModule.forRoot(civicIcons),
-    // forRoot must live at the root injector ONLY — see note in forms.module.ts
+    // forRoot must live at the root injector ONLY — see note in forms.module.ts.
+    // The field-type registry (CvcForms2Module) is NOT imported here: the lazy
+    // form config modules import it, keeping the forms tree out of main.js.
     FormlyModule.forRoot(CvcFormlyConfig2),
-    CvcForms2Module,
     LetDirective,
     PushPipe,
     CvcNetworkErrorAlertModule,

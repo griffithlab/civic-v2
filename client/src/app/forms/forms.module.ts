@@ -20,6 +20,7 @@ import { CvcFormWrappersModule } from './wrappers/form-wrappers.module'
     NzFormModule,
     FormlyNgZorroAntdModule,
     CvcFormWrappersModule,
+    CvcFormTypesModule,
   ],
   exports: [
     ReactiveFormsModule,

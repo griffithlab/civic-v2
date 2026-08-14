@@ -1,8 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  createNgModule,
+  Injector,
   Input,
   OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { ViewerNotificationCountGQL } from '@app/core/services/viewer/viewer.service.gql.generated'
@@ -29,10 +33,19 @@ export class CvcViewerButtonComponent implements OnInit {
   coiUpdateModalVisible: boolean = false
   addVariantModalVisible$: BehaviorSubject<boolean>
 
+  // the variant submit form drags in the forms field-type tree, so it is
+  // dynamically imported when the Add Variant modal first renders its content
+  // rather than bundled with the app shell
+  @ViewChild('variantFormOutlet', { read: ViewContainerRef })
+  set variantFormOutlet(outlet: ViewContainerRef | undefined) {
+    if (outlet && outlet.length === 0) this.loadVariantSubmitForm(outlet)
+  }
+
   constructor(
     private queryService: ViewerService,
     private unreadCountGql: ViewerNotificationCountGQL,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private injector: Injector
   ) {
     this.viewer$ = this.queryService.viewer$
     this.menuSelection$ = new Subject()
@@ -86,5 +99,15 @@ export class CvcViewerButtonComponent implements OnInit {
 
   handleCoiModalCancel() {
     this.coiUpdateModalVisible = false
+  }
+
+  private async loadVariantSubmitForm(outlet: ViewContainerRef) {
+    const [{ VariantSubmitFormModule }, { VariantSubmitForm }] =
+      await Promise.all([
+        import('@app/forms/config/variant-submit/variant-submit.module'),
+        import('@app/forms/config/variant-submit/variant-submit.form'),
+      ])
+    const moduleRef = createNgModule(VariantSubmitFormModule, this.injector)
+    outlet.createComponent(VariantSubmitForm, { ngModuleRef: moduleRef })
   }
 }
