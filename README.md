@@ -56,17 +56,15 @@ The dev server proxies `/api`, auth, and related routes to the Rails backend on 
 
 ### GraphQL schema & codegen workflow
 
-The client's generated types are derived from a schema dump produced by the server. After changing the server's GraphQL schema:
+The client's generated types are derived from an SDL dump produced by the server. After changing the server's GraphQL schema, run (in `client/`):
 
 ```sh
-# in server/
-bundle exec rails graphql:schema:dump   # writes to client/src/app/generated/
-
-# in client/
-yarn generate-apollo                    # regenerate types & Apollo services
+yarn generate-apollo:full   # dumps the schema SDL, then regenerates types & Apollo services
 ```
 
-During active development, `yarn generate-apollo:start` watches `.gql` documents and regenerates on change.
+or run the two steps separately: `bundle exec rake graphql:schema:idl` in `server/` (writes `client/src/app/generated/server.model.graphql`), then `yarn generate-apollo` in `client/`.
+
+During active development, `yarn generate-apollo:start` watches `.gql` documents and regenerates on change. Generated code is committed; CI fails if it drifts from the committed schema and `.gql` documents.
 
 ## Development
 

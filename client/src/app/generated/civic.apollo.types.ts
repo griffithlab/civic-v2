@@ -8516,7 +8516,6 @@ export type User = {
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
   mostRecentEvent?: Maybe<Event>;
-  mostRecentOrg?: Maybe<Organization>;
   mostRecentOrganizationId?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   /** Filterable list of notifications for the logged in user. */

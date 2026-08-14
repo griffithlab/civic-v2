@@ -2795,7 +2795,7 @@ export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'joinDate' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithApprovalPrivileges' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'joinDate' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithApprovalPrivileges' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2811,7 +2811,6 @@ export type UserFieldPolicy = {
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
-	mostRecentOrg?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentOrganizationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,

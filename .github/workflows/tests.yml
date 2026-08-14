@@ -107,3 +107,35 @@ jobs:
 
       - run: yarn build
         working-directory: ./client
+
+  # Committed generated GraphQL code must match what codegen produces from
+  # the committed schema + .gql documents. (The schema SDL itself is kept in
+  # sync with the Ruby schema by server/test/graphql/updated_idl_test.rb in
+  # backend_tests.)
+  codegen_drift:
+    name: GraphQL Codegen Drift
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: corepack enable
+        working-directory: ./client
+
+      - run: yarn install --immutable
+        working-directory: ./client
+
+      - run: yarn generate-apollo
+        working-directory: ./client
+
+      - name: Fail on stale generated artifacts
+        working-directory: ./client
+        run: |
+          git add -A src
+          git diff --cached --exit-code --stat -- src
