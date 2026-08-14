@@ -11,6 +11,7 @@ import {
   ViewChild,
 } from '@angular/core'
 import { UntypedFormControl } from '@angular/forms'
+import { CvcSelectEntityName as CvcSelectEntityNameType } from '@app/forms/select'
 import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
@@ -29,7 +30,9 @@ import {
   throttleTime,
 } from 'rxjs'
 
-export type CvcSelectEntityName = { singular: string; plural: string }
+// canonical definition now lives with the new select core; re-exported here
+// until the remaining fields migrate off this component (plan phase 6)
+export type CvcSelectEntityName = CvcSelectEntityNameType
 
 type NotFoundDisplay = {
   message: string

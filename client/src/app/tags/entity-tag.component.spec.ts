@@ -20,7 +20,8 @@ import {
 } from './linkable.fragments.gql.generated'
 import { Apollo } from 'apollo-angular'
 import ICON_DATA from '@app/generated/civic.icons.data.json'
-import { IconsProviderModule } from '@app/icons-provider.module'
+import { civicIcons } from '@app/icons-provider.module'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 @Component({
   standalone: true,
@@ -58,7 +59,7 @@ describe('CvcTagComponent', () => {
 
   function setup(seed?: Parameters<typeof provideSeededApollo>[0]) {
     TestBed.configureTestingModule({
-      imports: [HostComponent, IconsProviderModule],
+      imports: [HostComponent, NzIconModule.forRoot(civicIcons)],
       providers: [provideSeededApollo(seed), provideRouter([])],
     })
     fixture = TestBed.createComponent(HostComponent)

@@ -13,7 +13,7 @@ import { CvcClinvarInputFieldModule } from './clinvar-input/clinvar-input.module
 import { CvcCvcFdaCompanionTestCheckboxFieldModule } from './fda-companion-test-checkbox/fda-companion-test-checkbox.module'
 import { CvcCvcFdaRegulatoryApprovalCheckboxFieldModule } from './fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.module'
 import { CvcDirectionSelectModule } from './direction-select/direction-select.module'
-import { CvcDiseaseSelectModule } from './disease-select/disease-select.module'
+import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcEvidenceSelectFieldModule } from './evidence-select/evidence-select.module'
 import { CvcFeatureSelectModule } from './feature-select/feature-select.module'
@@ -57,7 +57,7 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcCvcFdaCompanionTestCheckboxFieldModule,
     CvcCvcFdaRegulatoryApprovalCheckboxFieldModule,
     CvcDirectionSelectModule,
-    CvcDiseaseSelectModule,
+    CvcSelectFieldsRegistryModule,
     CvcEntityTypeSelectModule,
     CvcEvidenceSelectFieldModule,
     CvcFeatureSelectModule,

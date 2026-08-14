@@ -5,8 +5,9 @@ import {
   Input,
   Output,
 } from '@angular/core'
-import { UntypedFormGroup } from '@angular/forms'
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
 import {
   MutationState,
   MutatorWithState,
@@ -19,8 +20,10 @@ import {
 } from './disease-quick-add.query.gql.generated'
 import { Maybe, Disease } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { NzFormLayoutType } from 'ng-zorro-antd/form'
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzFormLayoutType, NzFormModule } from 'ng-zorro-antd/form'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 import { BehaviorSubject, Subject } from 'rxjs'
 
 type DiseaseQuickAddModel = {
@@ -31,9 +34,17 @@ type DiseaseQuickAddModel = {
 @UntilDestroy()
 @Component({
   selector: 'cvc-disease-quick-add-form',
+  standalone: true,
   templateUrl: './disease-quick-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzButtonModule,
+    NzFormModule,
+    NzGridModule,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcDiseaseQuickAddForm {
   @Input()

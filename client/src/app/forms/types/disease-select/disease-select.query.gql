@@ -10,11 +10,11 @@ query DiseaseSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableDisease so every Disease this field writes to the cache
+# satisfies cvc-tag's watchFragment read without a second round-trip
+# (see src/app/tags/linkable.fragments.gql).
 fragment DiseaseSelectTypeaheadFields on Disease {
-  id
-  name
-  link
-  displayName
+  ...LinkableDisease
   doid
   diseaseAliases
 }
