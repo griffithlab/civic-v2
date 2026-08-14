@@ -34,9 +34,9 @@ const routes: Routes = [
       {
         path: 'molecular-profiles',
         loadChildren: () =>
-          import(
-            '@app/views/molecular-profiles/molecular-profiles.module'
-          ).then((m) => m.MolecularProfilesModule),
+          import('@app/views/molecular-profiles/molecular-profiles.module').then(
+            (m) => m.MolecularProfilesModule
+          ),
         data: {
           breadcrumb: 'Molecular Profiles',
         },
@@ -215,16 +215,6 @@ const routes: Routes = [
           breadcrumb: 'Pages',
         },
       },
-      // {
-      //   path: 'forms',
-      //   loadChildren: () =>
-      //     import('@app/forms/test-pages/test-pages.module').then(
-      //       (m) => m.TestPagesModule
-      //     ),
-      //   data: {
-      //     breadcrumb: 'Forms Dev',
-      //   },
-      // },
     ],
   },
 ]

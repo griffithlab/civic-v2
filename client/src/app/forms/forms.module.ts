@@ -3,7 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { FormlyModule } from '@ngx-formly/core'
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { CvcFormTypesModule } from './types/form-types.module'
 import { CvcFormWrappersModule } from './wrappers/form-wrappers.module'
 
@@ -21,7 +20,6 @@ import { CvcFormWrappersModule } from './wrappers/form-wrappers.module'
     NzFormModule,
     FormlyNgZorroAntdModule,
     CvcFormWrappersModule,
-    NgxJsonViewerModule,
   ],
   exports: [
     ReactiveFormsModule,

@@ -10,7 +10,6 @@ import { NzMenuModule } from 'ng-zorro-antd/menu'
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
-import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { CvcQuicksearchModule } from '@app/components/layout/quicksearch/quicksearch.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcLoginButtonModule } from '@app/components/layout/login-button/login-button.module'
@@ -28,7 +27,6 @@ import { PushPipe } from '@ngrx/component'
     NzMenuModule,
     NzTooltipModule,
     NzTypographyModule,
-    NgxJsonViewerModule,
     PushPipe,
     CvcLoginButtonModule,
     CvcViewerButtonModule,

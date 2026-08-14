@@ -16,8 +16,8 @@ import result from '@app/generated/civic.possible-types'
 // - APOLLO_OPTIONS: a link that never resolves, so GraphQL queries stay
 //   pending and components render their loading states with no network.
 // - HttpClient: testing backend, plus an interceptor answering the
-//   /api/status app-initializer immediately (otherwise its
-//   firstValueFrom rejects with EmptyError at TestBed teardown).
+//   environment banner's /api/status request immediately so it doesn't
+//   dangle past TestBed teardown.
 export function smokeTestProviders(): (Provider | EnvironmentProviders)[] {
   return [
     {
