@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core'
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -74,10 +75,10 @@ export class CvcDiseaseQuickAddForm {
   mutationState?: MutationState
   successMessage?: string
 
-  constructor(
-    private query: QuickAddDiseaseGQL,
-    private errors: NetworkErrorsService
-  ) {
+  private readonly query = inject(QuickAddDiseaseGQL)
+  private readonly errors = inject(NetworkErrorsService)
+
+  constructor() {
     // configure form
     this.form = new UntypedFormGroup({})
     this.model = { name: '' }

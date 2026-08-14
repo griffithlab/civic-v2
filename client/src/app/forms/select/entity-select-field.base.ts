@@ -209,14 +209,32 @@ export abstract class CvcEntitySelectFieldBase<
    */
   protected onEntityCreated(value: number | number[]): void {
     this.fetchTagRecords(value).subscribe((results) => {
-      const ids = results.map((r) => r.id)
-      this.formControl.setValue(this.props.isMultiSelect ? ids : ids[0])
+      if (results.length === 0) return
+      const created = results.map((r) => r.id)
+      if (this.props.isMultiSelect) {
+        // append: a quick-add adds to the selection rather than replacing it
+        // (the old mixin overwrote every prior choice)
+        const current = this.selectedIds()
+        this.formControl.setValue([
+          ...current,
+          ...created.filter((id) => !current.includes(id)),
+        ])
+      } else {
+        this.formControl.setValue(created[0])
+      }
       this.open.set(false)
     })
   }
 
   protected onTagClose(): void {
     this.resetField()
+  }
+
+  /** the current selection as ids, whether the field is single or multi */
+  protected selectedIds(): number[] {
+    const value = this.value()
+    if (value === undefined) return []
+    return Array.isArray(value) ? value : [value]
   }
 
   /**

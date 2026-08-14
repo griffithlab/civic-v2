@@ -1,8 +1,10 @@
 import { OverlayContainer } from '@angular/cdk/overlay'
 import { ComponentFixture } from '@angular/core/testing'
 import { provideNoopAnimations } from '@angular/platform-browser/animations'
+import { By } from '@angular/platform-browser'
 import { provideRouter } from '@angular/router'
 import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
+import { CvcDiseaseSelectField } from './disease-select.type'
 import { civicIcons } from '@app/icons-provider.module'
 import {
   MockGraphqlOperation,
@@ -114,6 +116,15 @@ describe('CvcDiseaseSelectField', () => {
   const control = () => fixture.componentInstance.form.get('diseaseId')!
   const optionItems = () =>
     Array.from(overlay.querySelectorAll('nz-option-item')) as HTMLElement[]
+  const field = () =>
+    fixture.debugElement.query(By.directive(CvcDiseaseSelectField))
+      .componentInstance as CvcDiseaseSelectField
+
+  /** what the in-dropdown quick-add form emits once it has created an entity */
+  const quickAdd = (id: number) =>
+    (field() as unknown as { onEntityCreated(v: number): void }).onEntityCreated(
+      id
+    )
 
   it('issues no query until the dropdown is opened or a search is typed', async () => {
     await setup()
@@ -206,6 +217,34 @@ describe('CvcDiseaseSelectField', () => {
     close.click()
     await settle()
     expect(control().value).toBeUndefined()
+  })
+
+  it('appends a quick-added entity to a multi-select rather than replacing it', async () => {
+    await setup({ type: 'disease-multi-select' }, { diseaseId: [7] })
+    await settle()
+    expect(control().value).toEqual([7])
+
+    quickAdd(8)
+    await settle()
+
+    expect(control().value).toEqual([7, 8])
+    expect(field().open()).toBe(false)
+  })
+
+  it('does not duplicate an id already selected in a multi-select', async () => {
+    await setup({ type: 'disease-multi-select' }, { diseaseId: [7] })
+    await settle()
+    quickAdd(7)
+    await settle()
+    expect(control().value).toEqual([7])
+  })
+
+  it('replaces the value when a quick-added entity lands in a single select', async () => {
+    await setup({}, { diseaseId: 7 })
+    await settle()
+    quickAdd(8)
+    await settle()
+    expect(control().value).toBe(8)
   })
 
   it('propagates its value to the form-state subject named after its key', async () => {
