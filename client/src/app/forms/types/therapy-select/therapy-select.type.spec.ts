@@ -3,7 +3,7 @@ import {
   createSelectFieldHarness,
   describeEntitySelectContract,
 } from '@app/testing/select-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 import { CvcTherapySelectField } from './therapy-select.type'
 
@@ -36,13 +36,12 @@ const respond = (op: MockGraphqlOperation) => {
 function gatedState(requiresTherapy: boolean, entityType?: string) {
   return {
     entityName: 'Evidence',
-    formReady$: new BehaviorSubject(true),
     requires: {
-      requiresTherapy$: new BehaviorSubject(requiresTherapy),
+      requiresTherapy: signal(requiresTherapy),
     },
     fields: {
-      evidenceType$: new BehaviorSubject(entityType),
-      therapyIds$: new BehaviorSubject(undefined),
+      evidenceType: signal(entityType),
+      therapyIds: signal(undefined),
     },
   }
 }
@@ -137,8 +136,8 @@ describe('CvcTherapySelectField', () => {
     await h.settle()
     expect(h.control().value).toEqual([51])
 
-    state.requires.requiresTherapy$.next(false)
-    state.fields.evidenceType$.next('DIAGNOSTIC')
+    state.requires.requiresTherapy.set(false)
+    state.fields.evidenceType.set('DIAGNOSTIC')
     await h.settle()
 
     expect(h.control().value).toBeUndefined()

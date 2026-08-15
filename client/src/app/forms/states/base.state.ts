@@ -1,4 +1,3 @@
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import {
   AssertionSignificance,
   AssertionDirection,
@@ -8,11 +7,9 @@ import {
   EvidenceDirection,
   EvidenceType,
 } from '@app/generated/civic.apollo.types'
+import { Signal, WritableSignal } from '@angular/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, Subject } from 'rxjs'
 import { $enum } from 'ts-enum-util'
-import { CvcInputEnum } from '../forms.types'
 
 export type EntityType = EvidenceType | AssertionType
 
@@ -44,13 +41,23 @@ export enum SelectType {
   ED = 'entityDirection',
 }
 
-export type EntityFieldSubjectMap = { [key: string]: BehaviorSubject<any> }
+/**
+ * Where each field publishes its current value, keyed by the field's formly
+ * `key`. Writable because the fields own them.
+ */
+export type EntityFieldSignalMap = { [key: string]: WritableSignal<any> }
+
+/**
+ * Everything derived from those values — which enum options apply, which fields
+ * the chosen entity type requires. Read-only because nothing pushes into them;
+ * they are `computed` from `fields`.
+ */
+export type EntityDerivedSignalMap = { [key: string]: Signal<any> }
 
 // 'state' for non-entity forms that just stores layout for form-field.wrapper's template logic
 export type NoStateFormOptions = { formState: { formLayout: NzFormLayoutType } }
 
 export interface IEntityState {
-  formReady$: BehaviorSubject<boolean>
   formLayout: NzFormLayoutType
   formMode: CvcFormMode
   validStates: Map<EntityType, ValidEntity>
@@ -65,46 +72,37 @@ export interface IEntityState {
   requiresAmpLevel: (et: EntityType) => boolean
   requiresClingenCodes: (et: EntityType) => boolean
   allowsFdaApproval: (et: EntityType) => boolean
-
-  typeOption$: Subject<EntityType[]>
-  requiresTherapy$: Subject<boolean>
-  requiresDisease$: Subject<boolean>
-  requiresAcmgCode$: Subject<boolean>
-  requiresAmpLevel$: Subject<boolean>
-  requiresClingenCode$: Subject<boolean>
-  allowsFdaApproval$: Subject<boolean>
 }
 
+/**
+ * Form state as signals rather than subjects.
+ *
+ * This replaced a map of BehaviorSubjects plus a `formReady$` barrier. The
+ * barrier existed because a BehaviorSubject replays its current value to every
+ * new subscriber, and during population that value is the initial `undefined` —
+ * so a field subscribing to a sibling's value immediately received an event
+ * indistinguishable from "the user just cleared this", and dutifully cleared a
+ * value the revise form had only just loaded. `formReady$` was a global "don't
+ * subscribe yet" flag compensating for that.
+ *
+ * Signals remove the need for it. A signal has a current value rather than a
+ * stream of events, so there is nothing to replay and misread; and effects flush
+ * at the end of a change-detection cycle, by which point every field's ngOnInit
+ * has published. A field created later still reads the truth whenever it reads,
+ * which is the case the old barrier could not handle at all.
+ */
 class BaseState implements IEntityState {
-  /**
-   * Announced once the form has populated its model. A BehaviorSubject rather
-   * than a Subject so a field that subscribes *after* the announcement still
-   * sees it — a plain Subject drops it silently, and the field then never wires
-   * itself up. Every consumer pipes `filter(Boolean), take(1)`, so the seeded
-   * `false` is filtered out and existing ordering is unchanged.
-   */
-  formReady$ = new BehaviorSubject<boolean>(false)
   formLayout: NzFormLayoutType = 'vertical'
   formMode: CvcFormMode = 'add'
-  fields: EntityFieldSubjectMap
-  enums: EntityFieldSubjectMap
-  options: EntityFieldSubjectMap
-  requires: EntityFieldSubjectMap
+  fields: EntityFieldSignalMap
+  enums: EntityDerivedSignalMap
+  requires: EntityDerivedSignalMap
   validStates = new Map<EntityType, ValidEntity>()
   entityName: EntityName
   pluralNames: Map<EntityName, string>
 
-  typeOption$ = new Subject<EntityType[]>()
-  requiresTherapy$ = new Subject<boolean>()
-  requiresDisease$ = new Subject<boolean>()
-  requiresAcmgCode$ = new Subject<boolean>()
-  requiresAmpLevel$ = new Subject<boolean>()
-  requiresClingenCode$ = new Subject<boolean>()
-  allowsFdaApproval$ = new Subject<boolean>()
-
   constructor(en: EntityName) {
     this.fields = {}
-    this.options = {}
     this.enums = {}
     this.requires = {}
 
@@ -186,19 +184,12 @@ class BaseState implements IEntityState {
     return state !== undefined ? state.allowsFdaApproval : true
   }
 
-  getOptionsFromEnums = (e: CvcInputEnum[]): NzSelectOptionInterface[] => {
-    if (e.length === 0) {
-      return []
-    }
-    return e.map((value) => {
-      return { value: value, label: formatEvidenceEnum(value) }
-    })
-  }
-
-  onDestroy() {
-    // this function needs to be present for auto-unsubscribing child states' subscriptions
-    // with untilDestroyed() operator
-  }
+  /**
+   * Kept because the form components call it from ngOnDestroy. There is nothing
+   * left to tear down — the derived state is `computed`, which needs no
+   * unsubscribing — but removing it would mean touching every form config.
+   */
+  onDestroy() {}
 }
 
 export { BaseState }

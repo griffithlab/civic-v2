@@ -4,7 +4,7 @@ import {
   createSelectFieldHarness,
   describeEntitySelectContract,
 } from '@app/testing/select-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 import { CvcVariantSelectField } from './variant-select.type'
 
@@ -65,10 +65,8 @@ const respond = (op: MockGraphqlOperation) => {
 
 // NOTE: no default for featureId — passing undefined explicitly must mean
 // "no feature", which a default parameter would silently override
-/** variant-select only wires itself up once the form reports it is ready */
-const readyState = (featureId: number | undefined) => ({
-  formReady$: new BehaviorSubject(true),
-  fields: { featureId$: new BehaviorSubject<number | undefined>(featureId) },
+const featureState = (featureId: number | undefined) => ({
+  fields: { featureId: signal<number | undefined>(featureId) },
 })
 
 const setup = (overrides = {}) =>
@@ -76,7 +74,7 @@ const setup = (overrides = {}) =>
     type: 'variant-select',
     key: 'variantId',
     respond,
-    formState: readyState(FEATURE.id),
+    formState: featureState(FEATURE.id),
     ...overrides,
   })
 
@@ -94,7 +92,7 @@ describe('CvcVariantSelectField', () => {
     searchVars: (name) => ({ name, featureId: FEATURE.id }),
     tagVars: (variantId) => ({ variantId }),
     searchTerm: 'v60',
-    formState: () => readyState(FEATURE.id),
+    formState: () => featureState(FEATURE.id),
   })
 
   it('scopes the typeahead to the feature the form supplies', async () => {
@@ -109,7 +107,7 @@ describe('CvcVariantSelectField', () => {
   })
 
   it('disables itself until a feature is chosen', async () => {
-    const h = await setup({ formState: readyState(undefined) })
+    const h = await setup({ formState: featureState(undefined) })
     await h.settle()
     const field = h.field(CvcVariantSelectField)
     expect(field['disabled']()).toBe(true)
@@ -130,33 +128,36 @@ describe('CvcVariantSelectField', () => {
   })
 
   it('clears the selection when the feature is cleared', async () => {
-    const featureId$ = new BehaviorSubject<number | undefined>(FEATURE.id)
+    const featureId = signal<number | undefined>(FEATURE.id)
     const h = await setup({
-      formState: { formReady$: new BehaviorSubject(true), fields: { featureId$ } },
+      formState: { fields: { featureId } },
       model: { variantId: V600E.id },
     })
     await h.settle()
     expect(h.control().value).toBe(V600E.id)
 
-    featureId$.next(undefined)
+    featureId.set(undefined)
     await h.settle()
 
     expect(h.control().value).toBeUndefined()
     h.destroy()
   })
 
-  it('does not clear a prepopulated value before the form is ready', async () => {
-    const formReady$ = new BehaviorSubject(false)
+  /**
+   * Replaces a test of the old formReady$ barrier. The guarantee is unchanged —
+   * a prepopulated Variant survives a form that has no Feature — but it now
+   * comes from the gate ignoring its own first run rather than from a global
+   * "don't attach yet" flag. Remove that guard and this clears V600E, silently.
+   */
+  it('does not clear a prepopulated value when no feature is set', async () => {
     const h = await setup({
       formState: {
-        formReady$,
-        fields: { featureId$: new BehaviorSubject<number | undefined>(undefined) },
+        fields: { featureId: signal<number | undefined>(undefined) },
       },
       model: { variantId: V600E.id },
     })
     await h.settle()
 
-    // featureId is empty, but the field must not react to it yet
     expect(h.control().value).toBe(V600E.id)
     h.destroy()
   })

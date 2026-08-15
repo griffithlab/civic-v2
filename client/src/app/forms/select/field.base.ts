@@ -1,4 +1,12 @@
-import { DestroyRef, Directive, OnInit, Signal, inject, signal } from '@angular/core'
+import {
+  DestroyRef,
+  Directive,
+  Injector,
+  OnInit,
+  Signal,
+  inject,
+  signal,
+} from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { BaseState } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo.types'
@@ -24,6 +32,8 @@ export abstract class CvcFieldBase<
   implements OnInit
 {
   protected readonly destroyRef = inject(DestroyRef)
+  /** for effects created outside the constructor, i.e. from ngOnInit */
+  protected readonly injector = inject(Injector)
 
   private readonly currentValue = signal<Maybe<V>>(undefined)
   readonly value: Signal<Maybe<V>> = this.currentValue.asReadonly()
@@ -48,28 +58,30 @@ export abstract class CvcFieldBase<
   }
 
   /**
-   * Binds this field to its form-state subject, located by the `${field.key}$`
-   * naming convention. The convention is deliberately isolated in this one
-   * method: the planned form-state rework replaces it and nothing else.
+   * Publishes this field's value into the form state, under its own `key`.
+   *
+   * The `${field.key}$` naming convention this used to rely on is gone with the
+   * subjects — the state keys are now just the field keys, so there is no
+   * convention left to get wrong.
    */
   protected connectStateField(): void {
     const formState = this.field.options?.formState
     if (!formState?.fields) return
     this.state = formState as BaseState
 
-    const stateKey = `${this.field.key}$`
-    const subject = this.state.fields[stateKey]
-    if (!subject) {
+    const key = String(this.field.key)
+    const stateField = this.state.fields[key]
+    if (!stateField) {
       console.warn(
-        `${this.field.id} could not find state field ${stateKey} on its form state.`
+        `${this.field.id} could not find state field ${key} on its form state.`
       )
       return
     }
 
-    subject.next(this.value())
+    stateField.set(this.value())
     this.formControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((v) => subject.next(normalizeValue(v)))
+      .subscribe((v) => stateField.set(normalizeValue(v)))
   }
 
   protected resetField(): void {

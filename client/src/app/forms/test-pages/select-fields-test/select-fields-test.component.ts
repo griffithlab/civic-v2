@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
@@ -146,7 +145,7 @@ function bench(configs: FormlyFieldConfig[], formState: unknown): FieldBench[] {
   styleUrls: ['./select-fields-test.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcSelectFieldsTestComponent implements AfterViewInit {
+export class CvcSelectFieldsTestComponent {
   private readonly apollo = inject(Apollo)
 
   private readonly evidenceState = new EvidenceState()
@@ -175,16 +174,4 @@ export class CvcSelectFieldsTestComponent implements AfterViewInit {
     }))
   }
 
-  /**
-   * A real form announces this once it has finished populating its model, and
-   * four field types wait for it before wiring themselves up: variant-select's
-   * feature gate, both FDA checkboxes, and the NCCN version input. formReady$
-   * is a plain Subject rather than a BehaviorSubject, so this has to run after
-   * the fields have subscribed — hence ngAfterViewInit, matching
-   * assertion-submit.form.ts.
-   */
-  ngAfterViewInit(): void {
-    this.evidenceState.formReady$.next(true)
-    this.assertionState.formReady$.next(true)
-  }
 }

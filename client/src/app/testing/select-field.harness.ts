@@ -1,5 +1,5 @@
 import { OverlayContainer } from '@angular/cdk/overlay'
-import { Type } from '@angular/core'
+import { Type, signal } from '@angular/core'
 import { ComponentFixture } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { provideNoopAnimations } from '@angular/platform-browser/animations'
@@ -339,21 +339,20 @@ export function describeEntitySelectContract<TField>(
       h.destroy()
     })
 
-    it('propagates its value to the form-state subject named after its key', async () => {
-      const { BehaviorSubject } = await import('rxjs')
-      const subject = new BehaviorSubject<number | undefined>(undefined)
+    it('publishes its value into the form state under its own key', async () => {
+      const stateField = signal<number | undefined>(undefined)
       // merged, not replaced: a field may need other state to be usable
       const base = config.formState?.() ?? {}
       const h = await setup({
         formState: {
           ...base,
-          fields: { ...(base.fields ?? {}), [`${config.key}$`]: subject },
+          fields: { ...(base.fields ?? {}), [config.key]: stateField },
         },
       })
       await showOptions(h)
       h.optionItems()[1].click()
       await h.settle()
-      expect(subject.value).toBe(second.id)
+      expect(stateField()).toBe(second.id)
       h.destroy()
     })
 

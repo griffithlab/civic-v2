@@ -8,44 +8,44 @@ import {
   TherapyInteraction,
   AmpLevel,
 } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject } from 'rxjs'
+import { Signal, WritableSignal, computed, signal } from '@angular/core'
 import { CvcInputEnum } from '../forms.types'
 import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
 import { EntityName, BaseState } from './base.state'
 import { EvidenceRequires } from './evidence.state'
 
+/** Keyed by each field's formly `key`; the field owns its entry. */
 export type AssertionFields = {
-  molecularProfileId$: BehaviorSubject<Maybe<number>>
-  evidenceItemIds$: BehaviorSubject<Maybe<number[]>>
-  geneId$: BehaviorSubject<Maybe<number>>
-  variantId$: BehaviorSubject<Maybe<number>>
-  variantMolecularProfile$: BehaviorSubject<Maybe<MolecularProfile>>
-  variantOrigin$: BehaviorSubject<Maybe<VariantOrigin>>
-  assertionType$: BehaviorSubject<Maybe<AssertionType>>
-  assertionDirection$: BehaviorSubject<Maybe<AssertionDirection>>
-  significance$: BehaviorSubject<Maybe<AssertionSignificance>>
-  diseaseId$: BehaviorSubject<Maybe<number>>
-  therapyIds$: BehaviorSubject<Maybe<number[]>>
-  therapyInteractionType$: BehaviorSubject<Maybe<TherapyInteraction>>
-  phenotypeIds$: BehaviorSubject<Maybe<number[]>>
-  nccnGuidelineId$: BehaviorSubject<Maybe<number>>
-  fdaRegulatoryApproval$: BehaviorSubject<Maybe<boolean>>
-  fdaCompanionTest$: BehaviorSubject<Maybe<boolean>>
-  ampLevel$: BehaviorSubject<Maybe<AmpLevel>>
-  acmgCodeIds$: BehaviorSubject<Maybe<number[]>>
-  clingenCodeIds$: BehaviorSubject<Maybe<number[]>>
-  nccnGuidelineVersion$: BehaviorSubject<Maybe<string>>
-  description$: BehaviorSubject<Maybe<string>>
-  comment$: BehaviorSubject<Maybe<string>>
+  molecularProfileId: WritableSignal<Maybe<number>>
+  evidenceItemIds: WritableSignal<Maybe<number[]>>
+  geneId: WritableSignal<Maybe<number>>
+  variantId: WritableSignal<Maybe<number>>
+  variantMolecularProfile: WritableSignal<Maybe<MolecularProfile>>
+  variantOrigin: WritableSignal<Maybe<VariantOrigin>>
+  assertionType: WritableSignal<Maybe<AssertionType>>
+  assertionDirection: WritableSignal<Maybe<AssertionDirection>>
+  significance: WritableSignal<Maybe<AssertionSignificance>>
+  diseaseId: WritableSignal<Maybe<number>>
+  therapyIds: WritableSignal<Maybe<number[]>>
+  therapyInteractionType: WritableSignal<Maybe<TherapyInteraction>>
+  phenotypeIds: WritableSignal<Maybe<number[]>>
+  nccnGuidelineId: WritableSignal<Maybe<number>>
+  fdaRegulatoryApproval: WritableSignal<Maybe<boolean>>
+  fdaCompanionTest: WritableSignal<Maybe<boolean>>
+  ampLevel: WritableSignal<Maybe<AmpLevel>>
+  acmgCodeIds: WritableSignal<Maybe<number[]>>
+  clingenCodeIds: WritableSignal<Maybe<number[]>>
+  nccnGuidelineVersion: WritableSignal<Maybe<string>>
+  description: WritableSignal<Maybe<string>>
+  comment: WritableSignal<Maybe<string>>
 }
 
+/** Derived from the chosen assertion type; nothing pushes into these. */
 export type AssertionEnums = {
-  entityType$: BehaviorSubject<CvcInputEnum[]>
-  significance$: BehaviorSubject<CvcInputEnum[]>
-  direction$: BehaviorSubject<CvcInputEnum[]>
-  interaction$: BehaviorSubject<CvcInputEnum[]>
+  entityType: Signal<CvcInputEnum[]>
+  significance: Signal<CvcInputEnum[]>
+  direction: Signal<CvcInputEnum[]>
+  interaction: Signal<CvcInputEnum[]>
 }
 
 class AssertionState extends BaseState {
@@ -58,112 +58,55 @@ class AssertionState extends BaseState {
     const def = assertionSubmitFieldsDefaults
 
     this.fields = {
-      molecularProfileId$: new BehaviorSubject<Maybe<number>>(
-        def.molecularProfileId
-      ),
-      variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
-        undefined
-      ),
-      geneId$: new BehaviorSubject<Maybe<number>>(undefined),
-      variantId$: new BehaviorSubject<Maybe<number>>(undefined),
-      variantOrigin$: new BehaviorSubject<Maybe<VariantOrigin>>(
-        def.variantOrigin
-      ),
-      assertionType$: new BehaviorSubject<Maybe<AssertionType>>(
-        def.assertionType
-      ),
-      assertionDirection$: new BehaviorSubject<Maybe<AssertionDirection>>(
-        def.assertionDirection
-      ),
-      evidenceItemIds$: new BehaviorSubject<Maybe<number[]>>(
-        def.evidenceItemIds
-      ),
-      significance$: new BehaviorSubject<Maybe<AssertionSignificance>>(
-        def.significance
-      ),
-      diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
-      therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
-      therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(
-        def.therapyInteractionType
-      ),
-      phenotypeIds$: new BehaviorSubject<Maybe<number[]>>(def.phenotypeIds),
-      nccnGuidelineId$: new BehaviorSubject(def.nccnGuidelineId),
-      fdaRegulatoryApproval$: new BehaviorSubject(def.fdaRegulatoryApproval),
-      fdaCompanionTest$: new BehaviorSubject(def.fdaCompanionTest),
-      ampLevel$: new BehaviorSubject<Maybe<AmpLevel>>(def.ampLevel),
-      acmgCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.acmgCodeIds),
-      clingenCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.clingenCodeIds),
-      nccnGuidelineVersion$: new BehaviorSubject<Maybe<string>>(
-        def.nccnGuidelineVersion
-      ),
-      description$: new BehaviorSubject<Maybe<string>>(undefined),
-      comment$: new BehaviorSubject<Maybe<string>>(undefined),
+      molecularProfileId: signal(def.molecularProfileId),
+      variantMolecularProfile: signal<Maybe<MolecularProfile>>(undefined),
+      geneId: signal<Maybe<number>>(undefined),
+      variantId: signal<Maybe<number>>(undefined),
+      variantOrigin: signal(def.variantOrigin),
+      assertionType: signal(def.assertionType),
+      assertionDirection: signal(def.assertionDirection),
+      evidenceItemIds: signal(def.evidenceItemIds),
+      significance: signal(def.significance),
+      diseaseId: signal(def.diseaseId),
+      therapyIds: signal(def.therapyIds),
+      therapyInteractionType: signal(def.therapyInteractionType),
+      phenotypeIds: signal(def.phenotypeIds),
+      nccnGuidelineId: signal(def.nccnGuidelineId),
+      fdaRegulatoryApproval: signal(def.fdaRegulatoryApproval),
+      fdaCompanionTest: signal(def.fdaCompanionTest),
+      ampLevel: signal(def.ampLevel),
+      acmgCodeIds: signal(def.acmgCodeIds),
+      clingenCodeIds: signal(def.clingenCodeIds),
+      nccnGuidelineVersion: signal(def.nccnGuidelineVersion),
+      description: signal<Maybe<string>>(undefined),
+      comment: signal<Maybe<string>>(undefined),
     }
+
+    // Everything below is derived from the chosen assertion type. It used to be a
+    // subscription pushing into seven subjects; as `computed` there is no push,
+    // no ordering, and no way for two writers to disagree.
+    const entityType = this.fields.assertionType
+    const forType = <T>(f: (at: AssertionType) => T, fallback: T): Signal<T> =>
+      computed(() => {
+        const at = entityType()
+        return at ? f(at) : fallback
+      })
 
     this.enums = {
-      entityType$: new BehaviorSubject<CvcInputEnum[]>(this.getTypeOptions()),
-      significance$: new BehaviorSubject<CvcInputEnum[]>([]),
-      direction$: new BehaviorSubject<CvcInputEnum[]>([]),
-      interaction$: new BehaviorSubject<CvcInputEnum[]>(
-        this.getInteractionOptions()
-      ),
-    }
-
-    this.options = {
-      assertionTypeOption$: new BehaviorSubject<NzSelectOptionInterface[]>(
-        this.getOptionsFromEnums(this.getTypeOptions())
-      ),
-      directionOption$: new BehaviorSubject<Maybe<NzSelectOptionInterface[]>>(
-        undefined
-      ),
-      significanceOption$: new BehaviorSubject<
-        Maybe<NzSelectOptionInterface[]>
-      >(undefined),
+      entityType: signal(this.getTypeOptions()),
+      significance: forType((at) => this.getSignificanceOptions(at), []),
+      direction: forType((at) => this.getDirectionOptions(at), []),
+      interaction: signal(this.getInteractionOptions()),
     }
 
     this.requires = {
-      requiresDisease$: new BehaviorSubject<boolean>(false),
-      requiresTherapy$: new BehaviorSubject<boolean>(false),
-      requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
-      requiresClingenCodes$: new BehaviorSubject<boolean>(false),
-      requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
-      requiresAmpLevel$: new BehaviorSubject<boolean>(false),
-      allowsFdaApproval$: new BehaviorSubject<boolean>(false),
+      requiresDisease: forType((at) => this.requiresDisease(at), false),
+      requiresTherapy: forType((at) => this.requiresTherapy(at), false),
+      requiresClingenCodes: forType((at) => this.requiresClingenCodes(at), false),
+      requiresAcmgCodes: forType((at) => this.requiresAcmgCodes(at), false),
+      requiresAmpLevel: forType((at) => this.requiresAmpLevel(at), false),
+      allowsFdaApproval: forType((at) => this.allowsFdaApproval(at), false),
     }
-
-    // ASSERTION TYPE SUBSCRIBERS
-    this.fields.assertionType$
-      .pipe(untilDestroyed(this, 'onDestroy'))
-      .subscribe((at: Maybe<AssertionType>) => {
-        if (!at) {
-          // set all 'requires' fields to false, non-type enums to []
-          Object.entries(this.requires).forEach(([key, value]) => {
-            value.next(false)
-          })
-          this.enums.significance$.next([])
-          this.enums.direction$.next([])
-          return
-        }
-        this.enums.significance$.next(this.getSignificanceOptions(at))
-        this.enums.direction$.next(this.getDirectionOptions(at))
-
-        this.requires.requiresDisease$.next(this.requiresDisease(at))
-        this.requires.requiresTherapy$.next(this.requiresTherapy(at))
-        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
-        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
-        this.requires.requiresAmpLevel$.next(this.requiresAmpLevel(at))
-        this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
-      })
-
-    this.fields.therapyIds$
-      .pipe(untilDestroyed(this, 'onDestroy'))
-      .subscribe((ids: Maybe<number[]>) => {
-        if (ids === undefined || ids === null) {
-          this.requires.requiresTherapyInteractionType$.next(false)
-        } else {
-          this.requires.requiresTherapyInteractionType$.next(ids.length > 1)
-        }
-      })
 
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,

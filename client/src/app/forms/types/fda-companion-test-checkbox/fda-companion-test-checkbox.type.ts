@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Type,
+  effect,
+} from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { CvcFieldBase } from '@app/forms/select'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
@@ -11,7 +15,6 @@ import {
 } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { filter, take } from 'rxjs'
 
 export type CvcFdaCompanionTestCheckboxFieldOptions = Partial<
   FieldTypeConfig<CvcFdaCompanionTestCheckboxFieldProps>
@@ -55,21 +58,16 @@ export class CvcFdaCompanionTestCheckboxField extends CvcFieldBase<
 
   override ngOnInit(): void {
     super.ngOnInit()
-    if (!this.state) return
-
-    if (!this.state.formReady$) {
-      this.connectRegulatoryApproval()
-      return
-    }
-    this.state.formReady$
-      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.connectRegulatoryApproval())
+    this.connectRegulatoryApproval()
   }
 
+  /** see the sibling approval checkbox: no barrier needed, effects flush late */
   private connectRegulatoryApproval(): void {
-    this.state?.fields.fdaRegulatoryApproval$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((approved: Maybe<boolean>) => {
+    const regulatoryApproval = this.state?.fields.fdaRegulatoryApproval
+    if (!regulatoryApproval) return
+    effect(
+      () => {
+        const approved: Maybe<boolean> = regulatoryApproval()
         if (approved) {
           this.props.disabled = false
           this.props.extraType = 'description'
@@ -83,6 +81,8 @@ export class CvcFdaCompanionTestCheckboxField extends CvcFieldBase<
             'FDA Companion Test only applies when Regulatory Approval is selected'
           this.formControl.setValue(undefined)
         }
-      })
+      },
+      { injector: this.injector }
+    )
   }
 }

@@ -1,31 +1,29 @@
+import { signal } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo.types'
 import { createEnumFieldHarness } from '@app/testing/enum-field.harness'
-import { BehaviorSubject } from 'rxjs'
 import { describe, expect, it } from 'vitest'
 
 /**
  * The two FDA checkboxes form a chain: regulatory approval follows the
- * assertion type, and the companion test follows regulatory approval. Both
- * wait for formReady$ before attaching, so a revise form has populated its
- * model before either can clear it.
+ * assertion type, and the companion test follows regulatory approval. Each
+ * clears its control when its predecessor is absent, which is why the ordering
+ * below matters — a revise form must populate before either can react.
  */
 const formState = (opts: {
   allowsFdaApproval?: boolean
   fdaRegulatoryApproval?: Maybe<boolean>
-  formReady?: boolean
 }) => ({
   entityName: 'Assertion',
   formMode: 'add' as const,
-  formReady$: new BehaviorSubject<boolean>(opts.formReady ?? true),
   fields: {
-    fdaRegulatoryApproval$: new BehaviorSubject<Maybe<boolean>>(
+    fdaRegulatoryApproval: signal<Maybe<boolean>>(
       opts.fdaRegulatoryApproval
     ),
-    fdaCompanionTest$: new BehaviorSubject<Maybe<boolean>>(undefined),
+    fdaCompanionTest: signal<Maybe<boolean>>(undefined),
   },
   enums: {},
   requires: {
-    allowsFdaApproval$: new BehaviorSubject<boolean>(
+    allowsFdaApproval: signal<boolean>(
       opts.allowsFdaApproval ?? false
     ),
   },
@@ -75,22 +73,30 @@ describe('FDA regulatory approval checkbox', () => {
     await h.settle()
     expect(h.control().value).toBe(true)
 
-    state.requires.allowsFdaApproval$.next(false)
+    state.requires.allowsFdaApproval.set(false)
     await h.settle()
     expect(h.control().value).toBeUndefined()
     h.destroy()
   })
 
-  it('does not attach until the form announces it is ready', async () => {
-    const state = formState({ allowsFdaApproval: false, formReady: false })
-    const h = await setup(state, { fdaRegulatoryApproval: true })
-    await h.settle()
-    // still untouched: the gate has not run, so the model survives
-    expect(h.control().value).toBe(true)
+  /**
+   * Replaces a test of the old formReady$ barrier, which delayed attaching
+   * until a global announcement arrived. That barrier had a silent failure mode
+   * of its own: a field mounted after the announcement never attached at all,
+   * because the announcement was an event and events do not wait. Reading the
+   * state rather than subscribing to an event makes that impossible — whenever
+   * the field attaches, it sees the current answer.
+   */
+  it('reads the current state whenever it attaches, however late', async () => {
+    const state = formState({ allowsFdaApproval: false })
+    // the form settles on its answer well before this field is mounted
+    state.requires.allowsFdaApproval.set(true)
 
-    state.formReady$.next(true)
+    const h = await setup(state)
     await h.settle()
-    expect(h.control().value).toBeUndefined()
+
+    expect(h.props().disabled).toBe(false)
+    expect(h.control().value).toBe(false)
     h.destroy()
   })
 })
@@ -120,7 +126,7 @@ describe('FDA companion test checkbox', () => {
     await h.settle()
     expect(h.props().disabled).toBe(true)
 
-    state.fields.fdaRegulatoryApproval$.next(true)
+    state.fields.fdaRegulatoryApproval.set(true)
     await h.settle()
     expect(h.props().disabled).toBe(false)
     expect(h.control().value).toBe(false)
@@ -133,7 +139,7 @@ describe('FDA companion test checkbox', () => {
     await h.settle()
     expect(h.control().value).toBe(true)
 
-    state.fields.fdaRegulatoryApproval$.next(false)
+    state.fields.fdaRegulatoryApproval.set(false)
     await h.settle()
     expect(h.control().value).toBeUndefined()
     h.destroy()

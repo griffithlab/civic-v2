@@ -56,7 +56,6 @@ export class CvcRatingField extends CvcFieldBase<
   Maybe<number>,
   FieldTypeConfig<CvcRatingFieldProps>
 > {
-  private readonly injector = inject(Injector)
 
   defaultOptions: CvcRatingFieldOptions = {
     props: {

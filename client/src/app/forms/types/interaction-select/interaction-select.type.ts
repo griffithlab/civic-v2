@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Type, effect } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcAttributeTagComponent } from '@app/forms/components/attribute-tag/attribute-tag.component'
 import {
@@ -81,24 +80,24 @@ export class CvcInteractionSelectField extends CvcEnumSelectFieldBase<
       return
     }
 
-    if (!this.state.enums.interaction$) {
+    if (!this.state.enums.interaction) {
       console.error(
-        `${this.field.id} could not find form state's interaction$ to populate select.`
+        `${this.field.id} could not find form state's interaction to populate select.`
       )
     } else {
-      this.connectStateEnum(this.state.enums.interaction$)
+      this.connectStateEnum(this.state.enums.interaction)
     }
 
-    const therapies = this.state.fields.therapyIds$
+    const therapies = this.state.fields.therapyIds
     if (!therapies) {
       console.warn(
-        `${this.field.id} could not find state's fields.therapyIds$ to handle its required & disabled states.`
+        `${this.field.id} could not find state's fields.therapyIds to handle its required & disabled states.`
       )
       this.connectValueDescription()
       return
     }
 
-    const therapyIds = toSignal(therapies, { injector: this.injector })
+    const therapyIds = therapies
     effect(
       () => this.applyGate(therapyIds()?.length ?? 0, this.selected()),
       { injector: this.injector }

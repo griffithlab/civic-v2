@@ -1,15 +1,12 @@
 import {
   ChangeDetectorRef,
   Directive,
-  Injector,
   effect,
   inject,
 } from '@angular/core'
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { EntityType } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { filter, take } from 'rxjs'
 import { CvcEntitySelectResult } from './entity-select-config'
 import {
   CvcEntitySelectFieldBase,
@@ -20,9 +17,9 @@ import { CvcTypeGatedSelectFieldProps } from './select.types'
 /** How a field's availability follows the form's entity type. */
 export interface CvcTypeGateConfig {
   /**
-   * Key into the form state's `requires` map — 'requiresDisease$',
-   * 'requiresTherapy$', 'requiresAcmgCodes$', 'requiresClingenCodes$'.
-   * The state only reports it once an entity type has been chosen.
+   * Key into the form state's `requires` map — 'requiresDisease',
+   * 'requiresTherapy', 'requiresAcmgCodes', 'requiresClingenCodes'. It is
+   * derived from the chosen entity type, and false while none is chosen.
    */
   requiresKey: string
   /**
@@ -49,43 +46,50 @@ export abstract class CvcTypeGatedSelectFieldBase<
 > extends CvcEntitySelectFieldBase<TResult, TParam, P> {
   protected abstract readonly typeGate: CvcTypeGateConfig
 
-  private readonly injector = inject(Injector)
   protected readonly cdr = inject(ChangeDetectorRef)
 
   override ngOnInit(): void {
     super.ngOnInit()
-    if (!this.state?.formReady$) return
-    // the form component populates its model, then announces formReady$
-    this.state.formReady$
-      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.connectTypeGate())
+    this.connectTypeGate()
   }
 
+  /**
+   * No readiness barrier here any more. The gate reads signals, and effects
+   * flush at the end of a change-detection cycle — by which point every sibling
+   * field's ngOnInit has published its value into the state. So the first run
+   * already sees the populated form, which is the only thing `formReady$` was
+   * protecting against.
+   */
   private connectTypeGate(): void {
-    const state = this.state!
-    const requires = state.requires[this.typeGate.requiresKey]
-    if (!requires) {
-      console.warn(
-        `${this.field.id} field's form provides a state, but could not find ${this.typeGate.requiresKey} subject to attach.`
-      )
+    const state = this.state
+    if (!state) return
+
+    // a form may provide a partial state — neither map is assumed
+    const isRequired = state.requires?.[this.typeGate.requiresKey]
+    if (!isRequired) {
+      // a form with no `requires` map at all is simply not type-gated; one that
+      // has the map but not this key is a misconfiguration worth reporting
+      if (state.requires) {
+        console.warn(
+          `${this.field.id} field's form provides a state, but could not find ${this.typeGate.requiresKey} to attach.`
+        )
+      }
       return
     }
 
-    const entityTypeKey = `${state.entityName.toLowerCase()}Type$`
-    const entityTypeSubject = this.props.requireType
-      ? state.fields[entityTypeKey]
+    const entityTypeKey = `${state.entityName.toLowerCase()}Type`
+    const entityTypeField = this.props.requireType
+      ? state.fields?.[entityTypeKey]
       : undefined
-    if (this.props.requireType && !entityTypeSubject) {
+    if (this.props.requireType && !entityTypeField) {
       console.error(
-        `${this.field.id} requireType is true, however form state does not provide Subject ${entityTypeKey}.`
+        `${this.field.id} requireType is true, however form state does not provide ${entityTypeKey}.`
       )
       return
     }
 
-    const isRequired = toSignal(requires, { injector: this.injector })
-    const entityType = entityTypeSubject
-      ? toSignal(entityTypeSubject, { injector: this.injector })
-      : () => undefined
+    const entityType: () => Maybe<EntityType> =
+      entityTypeField ?? (() => undefined)
 
     effect(
       () =>

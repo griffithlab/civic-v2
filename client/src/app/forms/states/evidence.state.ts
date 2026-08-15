@@ -8,47 +8,47 @@ import {
   TherapyInteraction,
   VariantOrigin,
 } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
-import { BehaviorSubject } from 'rxjs'
+import { Signal, WritableSignal, computed, signal } from '@angular/core'
 import { CvcInputEnum } from '../forms.types'
 import { evidenceItemSubmitFieldsDefaults } from '../models/evidence-submit.model'
 import { BaseState, EntityName } from './base.state'
 
+/** Keyed by each field's formly `key`; the field owns its entry. */
 export type EvidenceFields = {
-  molecularProfileId$: BehaviorSubject<Maybe<number>>
-  featureId$: BehaviorSubject<Maybe<number>>
-  variantId$: BehaviorSubject<Maybe<number>>
-  variantMolecularProfile$: BehaviorSubject<Maybe<MolecularProfile>>
-  variantOrigin$: BehaviorSubject<Maybe<VariantOrigin>>
-  evidenceType$: BehaviorSubject<Maybe<EvidenceType>>
-  evidenceLevel$: BehaviorSubject<Maybe<EvidenceLevel>>
-  evidenceDirection$: BehaviorSubject<Maybe<EvidenceDirection>>
-  significance$: BehaviorSubject<Maybe<EvidenceSignificance>>
-  diseaseId$: BehaviorSubject<Maybe<number>>
-  therapyIds$: BehaviorSubject<Maybe<number[]>>
-  therapyInteractionType$: BehaviorSubject<Maybe<TherapyInteraction>>
-  rating$: BehaviorSubject<Maybe<number>>
-  sourceId$: BehaviorSubject<Maybe<number>>
-  phenotypeIds$: BehaviorSubject<Maybe<number[]>>
-  description$: BehaviorSubject<Maybe<string>>
-  comment$: BehaviorSubject<Maybe<string>>
+  molecularProfileId: WritableSignal<Maybe<number>>
+  featureId: WritableSignal<Maybe<number>>
+  variantId: WritableSignal<Maybe<number>>
+  variantMolecularProfile: WritableSignal<Maybe<MolecularProfile>>
+  variantOrigin: WritableSignal<Maybe<VariantOrigin>>
+  evidenceType: WritableSignal<Maybe<EvidenceType>>
+  evidenceLevel: WritableSignal<Maybe<EvidenceLevel>>
+  evidenceDirection: WritableSignal<Maybe<EvidenceDirection>>
+  significance: WritableSignal<Maybe<EvidenceSignificance>>
+  diseaseId: WritableSignal<Maybe<number>>
+  therapyIds: WritableSignal<Maybe<number[]>>
+  therapyInteractionType: WritableSignal<Maybe<TherapyInteraction>>
+  rating: WritableSignal<Maybe<number>>
+  sourceId: WritableSignal<Maybe<number>>
+  phenotypeIds: WritableSignal<Maybe<number[]>>
+  description: WritableSignal<Maybe<string>>
+  comment: WritableSignal<Maybe<string>>
 }
 
+/** Derived from the chosen evidence type; nothing pushes into these. */
 export type EvidenceEnums = {
-  entityType$: BehaviorSubject<CvcInputEnum[]>
-  significance$: BehaviorSubject<CvcInputEnum[]>
-  direction$: BehaviorSubject<CvcInputEnum[]>
-  interaction$: BehaviorSubject<CvcInputEnum[]>
+  entityType: Signal<CvcInputEnum[]>
+  significance: Signal<CvcInputEnum[]>
+  direction: Signal<CvcInputEnum[]>
+  interaction: Signal<CvcInputEnum[]>
 }
 
 export type EvidenceRequires = {
-  requiresDisease$: BehaviorSubject<boolean>
-  requiresTherapy$: BehaviorSubject<boolean>
-  requiresTherapyInteractionType$: BehaviorSubject<boolean>
-  requiresClingenCodes$: BehaviorSubject<boolean>
-  requiresAcmgCodes$: BehaviorSubject<boolean>
-  requiresAmpLevel$: BehaviorSubject<boolean>
-  allowsFdaApproval$: BehaviorSubject<boolean>
+  requiresDisease: Signal<boolean>
+  requiresTherapy: Signal<boolean>
+  requiresClingenCodes: Signal<boolean>
+  requiresAcmgCodes: Signal<boolean>
+  requiresAmpLevel: Signal<boolean>
+  allowsFdaApproval: Signal<boolean>
 }
 
 class EvidenceState extends BaseState {
@@ -62,95 +62,50 @@ class EvidenceState extends BaseState {
     const def = evidenceItemSubmitFieldsDefaults
 
     this.fields = {
-      molecularProfileId$: new BehaviorSubject<Maybe<number>>(
-        def.molecularProfileId
-      ),
-      variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
-      variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
-        undefined
-      ),
-      featureId$: new BehaviorSubject<Maybe<number>>(def.featureId),
-      evidenceType$: new BehaviorSubject<Maybe<EvidenceType>>(def.evidenceType),
-      evidenceLevel$: new BehaviorSubject<Maybe<EvidenceLevel>>(
-        def.evidenceLevel
-      ),
-      evidenceDirection$: new BehaviorSubject<Maybe<EvidenceDirection>>(
-        def.evidenceDirection
-      ),
-      significance$: new BehaviorSubject<Maybe<EvidenceSignificance>>(
-        def.significance
-      ),
-      variantOrigin$: new BehaviorSubject<Maybe<VariantOrigin>>(
-        def.variantOrigin
-      ),
-      diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
-      therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
-      therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(
-        def.therapyInteractionType
-      ),
-      rating$: new BehaviorSubject<Maybe<number>>(def.rating),
-      phenotypeIds$: new BehaviorSubject<Maybe<number[]>>(def.phenotypeIds),
-      sourceId$: new BehaviorSubject<Maybe<number>>(def.sourceId),
-      description$: new BehaviorSubject<Maybe<string>>(undefined),
-      comment$: new BehaviorSubject<Maybe<string>>(undefined),
+      molecularProfileId: signal(def.molecularProfileId),
+      variantId: signal(def.variantId),
+      variantMolecularProfile: signal<Maybe<MolecularProfile>>(undefined),
+      featureId: signal(def.featureId),
+      evidenceType: signal(def.evidenceType),
+      evidenceLevel: signal(def.evidenceLevel),
+      evidenceDirection: signal(def.evidenceDirection),
+      significance: signal(def.significance),
+      variantOrigin: signal(def.variantOrigin),
+      diseaseId: signal(def.diseaseId),
+      therapyIds: signal(def.therapyIds),
+      therapyInteractionType: signal(def.therapyInteractionType),
+      rating: signal(def.rating),
+      phenotypeIds: signal(def.phenotypeIds),
+      sourceId: signal(def.sourceId),
+      description: signal<Maybe<string>>(undefined),
+      comment: signal<Maybe<string>>(undefined),
     }
 
+    // Everything below is derived from the chosen evidence type. It used to be a
+    // subscription pushing into seven subjects; as `computed` there is no push,
+    // no ordering, and no way for two writers to disagree.
+    const entityType = this.fields.evidenceType
+    const forType = <T>(f: (et: EvidenceType) => T, fallback: T): Signal<T> =>
+      computed(() => {
+        const et = entityType()
+        return et ? f(et) : fallback
+      })
+
     this.enums = {
-      entityType$: new BehaviorSubject<CvcInputEnum[]>(this.getTypeOptions()),
-      significance$: new BehaviorSubject<CvcInputEnum[]>([]),
-      direction$: new BehaviorSubject<CvcInputEnum[]>([]),
-      interaction$: new BehaviorSubject<CvcInputEnum[]>(
-        this.getInteractionOptions()
-      ),
+      entityType: signal(this.getTypeOptions()),
+      significance: forType((et) => this.getSignificanceOptions(et), []),
+      direction: forType((et) => this.getDirectionOptions(et), []),
+      interaction: signal(this.getInteractionOptions()),
     }
 
     this.requires = {
-      requiresDisease$: new BehaviorSubject<boolean>(false),
-      requiresTherapy$: new BehaviorSubject<boolean>(false),
-      requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
-      requiresClingenCodes$: new BehaviorSubject<boolean>(false),
-      requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
-      requiresAmpLevel$: new BehaviorSubject<boolean>(false),
-      allowsFdaApproval$: new BehaviorSubject<boolean>(false),
+      requiresDisease: forType((et) => this.requiresDisease(et), false),
+      requiresTherapy: forType((et) => this.requiresTherapy(et), false),
+      requiresClingenCodes: forType((et) => this.requiresClingenCodes(et), false),
+      requiresAcmgCodes: forType((et) => this.requiresAcmgCodes(et), false),
+      requiresAmpLevel: forType((et) => this.requiresAmpLevel(et), false),
+      allowsFdaApproval: forType((et) => this.allowsFdaApproval(et), false),
     }
-
-    this.fields.evidenceType$
-      .pipe(
-        // tag('evidence.state evidentType$'),
-        untilDestroyed(this, 'onDestroy')
-      )
-      .subscribe((et: Maybe<EvidenceType>) => {
-        if (!et) {
-          // set all 'requires' fields to false, non-type enums to []
-          Object.entries(this.requires).forEach(([key, value]) => {
-            value.next(false)
-          })
-          this.enums.significance$.next([])
-          this.enums.direction$.next([])
-          return
-        }
-        this.enums.significance$.next(this.getSignificanceOptions(et))
-        this.enums.direction$.next(this.getDirectionOptions(et))
-
-        this.requires.requiresDisease$.next(this.requiresDisease(et))
-        this.requires.requiresTherapy$.next(this.requiresTherapy(et))
-        this.requires.requiresTherapyInteractionType$.next(
-          this.requiresTherapy(et)
-        )
-        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(et))
-        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(et))
-        this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(et))
-      })
-
-    this.fields.therapyIds$
-      .pipe(untilDestroyed(this, 'onDestroy'))
-      .subscribe((ids: Maybe<number[]>) => {
-        if (!ids) {
-          this.requires.requiresTherapyInteractionType$.next(false)
-        } else {
-          this.requires.requiresTherapyInteractionType$.next(ids.length > 1)
-        }
-      })
 
     this.validStates.set(EvidenceType.Predictive, {
       entityType: EvidenceType.Predictive,

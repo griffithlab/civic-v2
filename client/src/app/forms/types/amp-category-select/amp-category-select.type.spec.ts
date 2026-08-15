@@ -1,16 +1,16 @@
 import { AmpLevel } from '@app/generated/civic.apollo.types'
 import { createEnumFieldHarness } from '@app/testing/enum-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 
 const formState = (requiresAmpLevel = false) => ({
   entityName: 'Assertion',
   formMode: 'add' as const,
   fields: {
-    ampLevel$: new BehaviorSubject<AmpLevel | undefined>(undefined),
+    ampLevel: signal<AmpLevel | undefined>(undefined),
   },
   enums: {},
-  requires: { requiresAmpLevel$: new BehaviorSubject(requiresAmpLevel) },
+  requires: { requiresAmpLevel: signal(requiresAmpLevel) },
 })
 
 const setup = (
@@ -74,7 +74,7 @@ describe('CvcAmpCategorySelectField', () => {
     await h.settle()
     expect(h.control().value).toBe(AmpLevel.TierIii)
 
-    state.requires.requiresAmpLevel$.next(false)
+    state.requires.requiresAmpLevel.set(false)
     await h.settle()
     expect(h.control().value).toBeUndefined()
     expect(h.props().description).toContain('Select an Assertion Type')

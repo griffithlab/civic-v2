@@ -4,6 +4,7 @@ import {
   Component,
   Type,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core'
@@ -214,18 +215,7 @@ export class CvcVariantSelectField extends CvcEntitySelectFieldBase<
   override ngOnInit(): void {
     super.ngOnInit()
     if (!this.props.requireFeature) return
-
-    // Wait for the form to finish prepopulating before watching featureId:
-    // the subject replays its initial undefined, and reacting to that would
-    // reset a variant the form had just loaded.
-    const formReady$ = this.state?.formReady$
-    if (!formReady$) {
-      this.connectFeature()
-      return
-    }
-    formReady$
-      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.connectFeature())
+    this.connectFeature()
   }
 
   protected toggleManager(): void {
@@ -299,25 +289,39 @@ export class CvcVariantSelectField extends CvcEntitySelectFieldBase<
       })
   }
 
+  /**
+   * Scopes the typeahead to the form's chosen Feature, and drops the selected
+   * Variant when that Feature changes.
+   *
+   * The first run never clears. Effects flush after every field's ngOnInit, so
+   * by then a revise form has published its Feature — but if this form has no
+   * feature field at all, the first read is legitimately `undefined`, and
+   * clearing then would wipe a Variant the form had just loaded.
+   */
   private connectFeature(): void {
-    const featureId$ = this.state?.fields.featureId$
-    if (!featureId$) {
+    const featureId = this.state?.fields.featureId
+    if (!featureId) {
       console.error(
-        `${this.field.id} requireFeature is set, but no featureId$ subject found on state.`
+        `${this.field.id} requireFeature is set, but no featureId found on state.`
       )
       return
     }
-    featureId$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((featureId: Maybe<number>) => this.applyFeature(featureId))
+    let isFirstRun = true
+    effect(
+      () => {
+        this.applyFeature(featureId(), isFirstRun)
+        isFirstRun = false
+      },
+      { injector: this.injector }
+    )
   }
 
-  private applyFeature(featureId: Maybe<number>): void {
+  private applyFeature(featureId: Maybe<number>, isFirstRun = false): void {
     this.param.set(featureId)
 
     if (!featureId) {
       // clearing the Feature invalidates whatever Variant was chosen
-      this.resetField()
+      if (!isFirstRun) this.resetField()
       this.paramName.set(undefined)
       this.selectedFeature.set(undefined)
       this.props.description = this.props.requireFeaturePrompt

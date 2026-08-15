@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Type,
+  effect,
+} from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { CvcFieldBase } from '@app/forms/select'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
@@ -11,7 +15,6 @@ import {
 } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { filter, take } from 'rxjs'
 
 export type CvcFdaRegulatoryApprovalCheckboxFieldOptions = Partial<
   FieldTypeConfig<CvcFdaRegulatoryApprovalCheckboxFieldProps>
@@ -54,22 +57,20 @@ export class CvcFdaRegulatoryApprovalCheckboxField extends CvcFieldBase<
 
   override ngOnInit(): void {
     super.ngOnInit()
-    if (!this.state) return
-
-    if (!this.state.formReady$) {
-      this.connectApproval()
-      return
-    }
-    // the form component populates its model, then announces formReady$
-    this.state.formReady$
-      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.connectApproval())
+    this.connectApproval()
   }
 
+  /**
+   * No readiness barrier: effects flush after every field's ngOnInit has
+   * published, so the first run already sees the assertion type a revise form
+   * loaded. That matters here because the `else` branch clears the control.
+   */
   private connectApproval(): void {
-    this.state?.requires.allowsFdaApproval$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((allowed: Maybe<boolean>) => {
+    const allowsApproval = this.state?.requires.allowsFdaApproval
+    if (!allowsApproval) return
+    effect(
+      () => {
+        const allowed: Maybe<boolean> = allowsApproval()
         if (allowed) {
           this.props.disabled = false
           this.props.extraType = 'description'
@@ -85,6 +86,8 @@ export class CvcFdaRegulatoryApprovalCheckboxField extends CvcFieldBase<
             'FDA Regulatory Approval does not apply to this Assertion Type'
           this.formControl.setValue(undefined)
         }
-      })
+      },
+      { injector: this.injector }
+    )
   }
 }

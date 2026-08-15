@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Type, effect } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
@@ -107,11 +106,11 @@ export class CvcAmpCategorySelectField extends CvcEnumSelectFieldBase<
     super.ngOnInit()
     this.optionValues.set(OPTION_ORDER)
 
-    const requires = this.state?.requires.requiresAmpLevel$
+    const requires = this.state?.requires.requiresAmpLevel
     if (!requires) {
       if (this.state) {
         console.warn(
-          `${this.field.id} field's form provides a state, but could not find requiresAmpLevel$ subject to attach.`
+          `${this.field.id} field's form provides a state, but could not find requiresAmpLevel to attach.`
         )
       }
       this.connectValueDescription()
@@ -121,7 +120,7 @@ export class CvcAmpCategorySelectField extends CvcEnumSelectFieldBase<
     // one effect owns description, extraType, required and disabled together;
     // the old field split them across two subscriptions that overwrote each
     // other's description depending on which emitted last
-    const isRequired = toSignal(requires, { injector: this.injector })
+    const isRequired = requires
     effect(() => this.applyGate(isRequired() ?? false, this.selected()), {
       injector: this.injector,
     })

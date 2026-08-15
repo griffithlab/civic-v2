@@ -173,12 +173,12 @@ export class CvcSignificanceSelectField extends CvcEnumSelectFieldBase<
 
     this.placeholder.set(this.props.placeholderFn(state.entityName))
 
-    if (!state.enums.significance$) {
+    if (!state.enums.significance) {
       console.error(
-        `${this.field.id} could not find form state's enums.significance$ to populate select.`
+        `${this.field.id} could not find form state's enums.significance to populate select.`
       )
     } else {
-      this.connectStateEnum(state.enums.significance$)
+      this.connectStateEnum(state.enums.significance)
     }
 
     const entityType = this.connectEntityTypeGate()

@@ -78,7 +78,7 @@ export class CvcAcmgCodeSelectField extends CvcTypeGatedSelectFieldBase<
   })
 
   protected readonly typeGate: CvcTypeGateConfig = {
-    requiresKey: 'requiresAcmgCodes$',
+    requiresKey: 'requiresAcmgCodes',
     excludedDescription: (entityType, entityName) =>
       `${entityType} ${entityName} does not include associated ACMG/AMP Code(s)`,
   }

@@ -1,22 +1,22 @@
 import {
   ChangeDetectorRef,
   Directive,
-  Injector,
   Signal,
   computed,
   effect,
   inject,
   signal,
 } from '@angular/core'
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop'
 import { EntityType } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo.types'
 import { FieldTypeConfig } from '@ngx-formly/core'
-import { Observable, skip } from 'rxjs'
 import { CvcFieldBase } from './field.base'
 import { CvcEnumSelectFieldProps } from './select.types'
 
 export type CvcEnumSelectValue<E extends string> = Maybe<E | E[]>
+
+/** Distinguishes "no previous value yet" from a previous value of undefined. */
+const FIRST_RUN = Symbol('first run')
 
 /**
  * Base for the ten fields that select from a fixed enum rather than searching
@@ -34,7 +34,6 @@ export abstract class CvcEnumSelectFieldBase<
   P extends CvcEnumSelectFieldProps = CvcEnumSelectFieldProps,
 > extends CvcFieldBase<CvcEnumSelectValue<E>, FieldTypeConfig<P>> {
   protected readonly cdr = inject(ChangeDetectorRef)
-  protected readonly injector = inject(Injector)
 
   /** the enum values this field offers; set directly or via connectStateEnum */
   protected readonly optionValues = signal<E[]>([])
@@ -75,51 +74,52 @@ export abstract class CvcEnumSelectFieldBase<
   }
 
   /**
-   * Follows the form's `<entityName>Type$` subject and returns it as a signal.
-   * A type change invalidates whatever is selected, so this also clears the
-   * control; describing the field is left to the caller, so that each field
-   * has exactly one writer of `props`.
+   * Follows the form's `<entityName>Type` and returns it. A type change
+   * invalidates whatever is selected, so this also clears the control;
+   * describing the field is left to the caller, so that each field has exactly
+   * one writer of `props`.
    *
-   * The first emission is skipped on revise and clone forms. The subject is a
-   * BehaviorSubject, so it replays its current value the moment we subscribe —
-   * and since the handler clears the control, without the skip a revise form
-   * would wipe the value it had just prepopulated. Only 'add' starts from a
-   * genuinely empty field. Same class of trap as variant-select's formReady$
-   * gate; there is a test that fails if the skip is removed.
+   * **The first run never clears.** Arriving at an initial value is not a
+   * change — on a revise or clone form that value is the prepopulated one, and
+   * clearing it would wipe what the form had just loaded. This used to be a
+   * `skip(formMode === 'add' ? 0 : 1)` on a replaying BehaviorSubject, which
+   * needed to know the form mode to decide whether the first emission was real.
+   * Comparing against the previous value needs no such knowledge, and there is a
+   * test that fails if the guard is removed.
    */
   protected connectEntityTypeGate<T = EntityType>(): Signal<Maybe<T>> {
     const state = this.state
     if (!state) return signal<Maybe<T>>(undefined).asReadonly()
 
-    const stateKey = `${state.entityName.toLowerCase()}Type$`
-    const subject = state.fields[stateKey]
-    if (!subject) {
+    const stateKey = `${state.entityName.toLowerCase()}Type`
+    const entityType = state.fields[stateKey] as Maybe<Signal<Maybe<T>>>
+    if (!entityType) {
       console.error(
         `${this.field.id} could not find form state's ${stateKey} to gate its options.`
       )
       return signal<Maybe<T>>(undefined).asReadonly()
     }
 
-    // The reset is skipped, the reading is not. Describing the field needs the
-    // current entity type immediately — including the replayed one — while
-    // clearing the control must wait for a genuine change.
-    subject
-      .pipe(
-        skip(state.formMode === 'add' ? 0 : 1),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(() => {
-        if (this.formControl.value) this.resetField()
-      })
+    let previous: Maybe<T> | typeof FIRST_RUN = FIRST_RUN
+    effect(
+      () => {
+        const current = entityType()
+        const wasFirstRun = previous === FIRST_RUN
+        const changed = !wasFirstRun && previous !== current
+        previous = current
+        if (changed && this.formControl.value) this.resetField()
+      },
+      { injector: this.injector }
+    )
 
-    return toSignal(subject, { injector: this.injector })
+    return entityType
   }
 
-  /** Feeds a form-state enum subject into the dropdown's options. */
-  protected connectStateEnum(subject: Observable<E[]>): void {
-    subject
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((values) => this.optionValues.set(values ?? []))
+  /** Feeds a form-state enum into the dropdown's options. */
+  protected connectStateEnum(source: Signal<E[]>): void {
+    effect(() => this.optionValues.set(source() ?? []), {
+      injector: this.injector,
+    })
   }
 
   protected onTagClose(): void {

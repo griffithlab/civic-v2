@@ -3,7 +3,7 @@ import {
   createSelectFieldHarness,
   describeEntitySelectContract,
 } from '@app/testing/select-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 import { CvcAcmgCodeSelectField } from './acmg-code-select.type'
 
@@ -72,11 +72,10 @@ describe('CvcAcmgCodeSelectField', () => {
       respond,
       formState: {
         entityName: 'Assertion',
-        formReady$: new BehaviorSubject(true),
-        requires: { requiresAcmgCodes$: new BehaviorSubject(false) },
+        requires: { requiresAcmgCodes: signal(false) },
         fields: {
-          assertionType$: new BehaviorSubject(undefined),
-          acmgCodeIds$: new BehaviorSubject(undefined),
+          assertionType: signal(undefined),
+          acmgCodeIds: signal(undefined),
         },
       },
     })

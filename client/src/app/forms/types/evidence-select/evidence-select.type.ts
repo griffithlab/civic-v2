@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Type,
+  Signal,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core'
@@ -27,12 +29,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
-import { Observable, combineLatest, debounceTime, map } from 'rxjs'
 import { EvidenceManagerSettings } from './evidence-manager/evidence-manager.component'
 import { CvcEvidenceManagerModule } from './evidence-manager/evidence-manager.module'
 import {
-  ColumnPrefsOption,
-  CvcFilterChange,
   EvidenceManagerRowData,
 } from './evidence-manager/evidence-manager.types'
 import {
@@ -78,8 +77,8 @@ const SYNCHRONIZED_FIELD_TO_COL = new Map<
 
 /** manager columns shown/hidden in step with whether their field is required */
 const REQUIRED_FIELD_TO_COL = new Map<keyof EvidenceManagerRowData, string>([
-  ['disease', 'requiresDisease$'],
-  ['therapies', 'requiresTherapy$'],
+  ['disease', 'requiresDisease'],
+  ['therapies', 'requiresTherapy'],
 ])
 
 /** an EID typed with or without its prefix; anything else matches nothing */
@@ -182,42 +181,50 @@ export class CvcEvidenceSelectField extends CvcEntitySelectFieldBase<
     this.fetchTagRecords(value).subscribe()
   }
 
+  /**
+   * Translates sibling field values into manager column filters, and the form's
+   * required-flags into column visibility.
+   *
+   * This was a combineLatest over ~5 subjects behind a debounceTime(100), which
+   * existed only to coalesce the emission storm each change produced. A computed
+   * recomputes once per change-detection flush, so there is no storm to damp and
+   * the debounce goes with it.
+   */
   private connectTableSettings(): void {
-    if (!this.state) return
+    const state = this.state
+    if (!state) return
 
     // a form may declare either map without the other, so neither is assumed
-    const fields = this.state.fields ?? {}
-    const requires = this.state.requires ?? {}
+    const fields = state.fields ?? {}
+    const requires = state.requires ?? {}
 
-    const fieldChanges: Observable<CvcFilterChange>[] = []
+    const filterSources: [string, Signal<any>][] = []
     SYNCHRONIZED_FIELD_TO_COL.forEach((column, field) => {
-      const stream = fields[`${field}$`]
-      if (!stream) return
-      fieldChanges.push(
-        stream.pipe(map((v) => ({ key: column, value: v ?? null })))
-      )
+      const source = fields[field]
+      if (source) filterSources.push([column, source])
     })
 
-    const requiredChanges: Observable<Partial<ColumnPrefsOption>[]>[] = []
+    const prefSources: [string, Signal<boolean>][] = []
     REQUIRED_FIELD_TO_COL.forEach((requiresKey, column) => {
-      const stream = requires[requiresKey]
-      if (!stream) return
-      requiredChanges.push(
-        stream.pipe(map((required) => [{ value: column, checked: required }]))
-      )
+      const source = requires[requiresKey]
+      if (source) prefSources.push([column, source])
     })
 
-    if (fieldChanges.length === 0 || requiredChanges.length === 0) return
+    if (filterSources.length === 0 || prefSources.length === 0) return
 
-    combineLatest([
-      combineLatest(fieldChanges),
-      combineLatest(requiredChanges).pipe(map((prefs) => prefs.flat())),
-    ])
-      .pipe(
-        map(([filters, preferences]) => ({ filters, preferences })),
-        debounceTime(100),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe((settings) => this.tableSettings.set(settings))
+    const settings = computed<EvidenceManagerSettings>(() => ({
+      filters: filterSources.map(([column, value]) => ({
+        key: column,
+        value: value() ?? null,
+      })),
+      preferences: prefSources.map(([column, required]) => ({
+        value: column,
+        checked: required(),
+      })),
+    }))
+
+    effect(() => this.tableSettings.set(settings()), {
+      injector: this.injector,
+    })
   }
 }

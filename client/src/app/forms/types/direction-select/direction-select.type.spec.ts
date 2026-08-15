@@ -3,7 +3,7 @@ import {
   createEnumFieldHarness,
   describeEnumSelectContract,
 } from '@app/testing/enum-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 import { CvcDirectionSelectField } from './direction-select.type'
 
@@ -19,12 +19,12 @@ const formState = (
   entityName: 'Evidence',
   formMode,
   fields: {
-    evidenceType$: new BehaviorSubject<EvidenceType | undefined>(entityType),
-    evidenceDirection$: new BehaviorSubject<EvidenceDirection | undefined>(
+    evidenceType: signal<EvidenceType | undefined>(entityType),
+    evidenceDirection: signal<EvidenceDirection | undefined>(
       undefined
     ),
   },
-  enums: { direction$: new BehaviorSubject(DIRECTIONS) },
+  enums: { direction: signal(DIRECTIONS) },
   requires: {},
 })
 
@@ -78,7 +78,7 @@ describe('CvcDirectionSelectField', () => {
       'Select Diagnostic Evidence Direction'
     )
 
-    state.fields.evidenceType$.next(EvidenceType.Predictive)
+    state.fields.evidenceType.set(EvidenceType.Predictive)
     await h.settle()
     expect(h.field(CvcDirectionSelectField)['placeholder']()).toBe(
       'Select Predictive Evidence Direction'
@@ -116,7 +116,7 @@ describe('CvcDirectionSelectField', () => {
     expect(h.props().description).toContain('impact on the diagnosis')
 
     // a real type change clears the value, so the copy goes with it
-    state.fields.evidenceType$.next(EvidenceType.Predictive)
+    state.fields.evidenceType.set(EvidenceType.Predictive)
     await h.settle()
     expect(h.control().value).toBeUndefined()
     expect(h.props().description).toBeUndefined()

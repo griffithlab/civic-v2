@@ -112,7 +112,6 @@ export class CvcAssertionReviseForm
           console.log(error)
         },
         complete: () => {
-          this.state.formReady$.next(true)
         },
       })
   }
