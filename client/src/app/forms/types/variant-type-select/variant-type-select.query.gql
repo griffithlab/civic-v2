@@ -10,9 +10,10 @@ query VariantTypeSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableVariantType so every VariantType this field writes to the
+# cache satisfies cvc-tag's watchFragment read without a second round-trip
+# (see src/app/tags/linkable.fragments.gql).
 fragment VariantTypeSelectTypeaheadFields on VariantType {
-  id
-  name
-  link
+  ...LinkableVariantType
   soid
 }

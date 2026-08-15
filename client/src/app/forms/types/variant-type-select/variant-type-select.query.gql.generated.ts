@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableVariantTypeFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type VariantTypeSelectTypeaheadQueryVariables = Types.Exact<{
@@ -9,25 +10,23 @@ export type VariantTypeSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type VariantTypeSelectTypeaheadQuery = { __typename: 'Query', variantTypeTypeahead: Array<{ __typename: 'VariantType', id: number, name: string, link: string, soid: string }> };
+export type VariantTypeSelectTypeaheadQuery = { __typename: 'Query', variantTypeTypeahead: Array<{ __typename: 'VariantType', soid: string, id: number, name: string, link: string }> };
 
 export type VariantTypeSelectTagQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
 
-export type VariantTypeSelectTagQuery = { __typename: 'Query', variantType?: { __typename: 'VariantType', id: number, name: string, link: string, soid: string } | undefined };
+export type VariantTypeSelectTagQuery = { __typename: 'Query', variantType?: { __typename: 'VariantType', soid: string, id: number, name: string, link: string } | undefined };
 
-export type VariantTypeSelectTypeaheadFieldsFragment = { __typename: 'VariantType', id: number, name: string, link: string, soid: string };
+export type VariantTypeSelectTypeaheadFieldsFragment = { __typename: 'VariantType', soid: string, id: number, name: string, link: string };
 
 export const VariantTypeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeSelectTypeaheadFields on VariantType {
-  id
-  name
-  link
+  ...LinkableVariantType
   soid
 }
-    `;
+    ${LinkableVariantTypeFragmentDoc}`;
 export const VariantTypeSelectTypeaheadDocument = gql`
     query VariantTypeSelectTypeahead($name: String!) {
   variantTypeTypeahead(queryTerm: $name) {
