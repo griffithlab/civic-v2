@@ -577,11 +577,12 @@
       </nz-space-compact>
       <ng-template #prefsPopover>
         <div class="prefs-popover">
+          <!-- ng-zorro 22 splits these: nzOptions supplies the list,
+               ngModel carries only the checked values -->
           <nz-checkbox-group
-            [ngModel]="setPreference$ | ngrxPush"
-            (ngModelChange)="
-              onPreferenceChange$.next($event)
-            "></nz-checkbox-group>
+            [nzOptions]="(prefOptions$ | ngrxPush) ?? []"
+            [ngModel]="(checkedPrefs$ | ngrxPush) ?? []"
+            (ngModelChange)="onPreferenceValuesChange($event)"></nz-checkbox-group>
         </div>
       </ng-template>
     </nz-col>

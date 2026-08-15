@@ -138,10 +138,10 @@ export class VariantManagerConfig {
         },
         filter: {
           inputType: 'default',
-          typename: 'Therapy',
+          typename: 'Disease',
           options: [
             {
-              key: 'Filter Therapy Names',
+              key: 'Filter Disease Names',
               value: null,
             },
           ],

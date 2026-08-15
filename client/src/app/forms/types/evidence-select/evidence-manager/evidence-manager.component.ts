@@ -107,6 +107,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   refetch$: Observable<CvcTableQueryParams>
   fetchMore$: Observable<CvcTableQueryParams>
   setPreference$!: Observable<ColumnPrefsModel>
+  /** the visible-columns list, for nz-checkbox-group's nzOptions */
+  prefOptions$!: Observable<{ label: string; value: string }[]>
+  /** the keys of the currently shown columns, for its ngModel */
+  checkedPrefs$!: Observable<string[]>
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
@@ -300,6 +304,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // update preferences options whenever col options change
     this.setPreference$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromTableConfig(cols))
+    )
+    this.prefOptions$ = this.setPreference$.pipe(
+      map((prefs) => prefs.map(({ label, value }) => ({ label, value })))
+    )
+    this.checkedPrefs$ = this.setPreference$.pipe(
+      map((prefs) => prefs.filter((p) => p.checked).map((p) => p.value))
     )
 
     // update columns when preferences changed (called by prefs panel)
@@ -541,6 +551,17 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       }
     })
     return [...cols]
+  }
+
+  /**
+   * nz-checkbox-group reports the checked values; the rest of this component
+   * works in ColumnPrefsModel, so translate back at the boundary.
+   */
+  onPreferenceValuesChange(values: string[]): void {
+    const prefs = this.getColPrefsFromTableConfig(this.col$.getValue())
+    this.onPreferenceChange$.next(
+      prefs.map((pref) => ({ ...pref, checked: values.includes(pref.value) }))
+    )
   }
 
   getColPrefsFromTableConfig(

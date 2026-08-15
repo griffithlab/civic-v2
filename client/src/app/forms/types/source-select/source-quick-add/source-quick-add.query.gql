@@ -5,6 +5,8 @@ query QuickAddSourceCheckCitation(
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
 }
 
+# newSource is a SourceStub, not a Source, so a Linkable* fragment cannot be
+# spread here — the select re-fetches the real Source by id after creation.
 mutation QuickAddSourceRemoteCitation($input: AddRemoteCitationInput!) {
   addRemoteCitation(input: $input) {
     newSource {
