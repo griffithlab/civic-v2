@@ -31,7 +31,7 @@
             [formlyAttributes]="field"
             [class.ng-dirty]="showError"
             [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
-            [nzPlaceHolder]="props.placeholder ?? 'Search Molecular Profiles'"
+            [nzPlaceHolder]="props.placeholder || 'Search Molecular Profiles'"
             [nzDisabled]="!!props.disabled"
             [nzLoading]="isLoading()"
             [nzOpen]="open()!"

@@ -10,7 +10,7 @@
         [formlyAttributes]="field"
         [class.ng-dirty]="showError"
         [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
-        [nzPlaceHolder]="props.placeholder ?? 'Search Variants'"
+        [nzPlaceHolder]="props.placeholder || 'Search Variants'"
         [nzDisabled]="disabled() || !!props.disabled"
         [nzLoading]="isLoading()"
         [nzOpen]="open()!"

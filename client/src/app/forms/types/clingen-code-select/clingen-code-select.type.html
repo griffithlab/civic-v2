@@ -4,7 +4,7 @@
   [formlyAttributes]="field"
   [class.ng-dirty]="showError"
   [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [nzPlaceHolder]="props.placeholder ?? 'Search ' + props.entityName.plural"
+  [nzPlaceHolder]="props.placeholder || 'Search ' + props.entityName.plural"
   [nzDisabled]="!!props.disabled"
   [nzLoading]="isLoading()"
   [nzOpen]="open()!"

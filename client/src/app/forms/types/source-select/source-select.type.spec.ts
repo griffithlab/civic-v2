@@ -74,6 +74,26 @@ describe('CvcSourceSelectField', () => {
     h.destroy()
   })
 
+  // regression: formly initialises props.placeholder to '' rather than
+  // leaving it undefined, so a `??` fallback silently produced an empty
+  // placeholder on a field that supplies its own
+  it('names the chosen source type in its placeholder', async () => {
+    const h = await createSelectFieldHarness({
+      type: 'source-select',
+      key: 'sourceId',
+      respond,
+    })
+    await h.settle()
+    const field = h.field(CvcSourceSelectField)
+    expect(field.props.placeholder).toBe('')
+    expect(field['placeholder']()).toBe('Search PubMed Sources')
+
+    field['setSourceType'](SourceSource.Asco)
+    await h.settle()
+    expect(field['placeholder']()).toBe('Search ASCO Sources')
+    h.destroy()
+  })
+
   it('renders each option as a tag plus its citation ID', async () => {
     const h = await createSelectFieldHarness({
       type: 'source-select',

@@ -117,8 +117,10 @@ export class CvcSourceSelectField extends CvcEntitySelectFieldBase<
     return !value || Array.isArray(value)
   })
 
+  // `||`, not `??`: formly initialises props.placeholder to '' rather than
+  // leaving it undefined, so a nullish check never falls through
   protected readonly placeholder = computed(
-    () => this.props.placeholder ?? `Search ${this.paramName()} Sources`
+    () => this.props.placeholder || `Search ${this.paramName()} Sources`
   )
 
   /** props.description is help text for an empty field; captured in ngOnInit */
