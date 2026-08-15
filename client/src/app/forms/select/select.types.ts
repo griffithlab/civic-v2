@@ -11,3 +11,15 @@ export interface CvcEntitySelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   extraType?: CvcFormFieldExtraType
 }
+
+/**
+ * Props for a select whose availability is gated on the form's entity type —
+ * some evidence and assertion types have no associated disease, therapy or
+ * code at all. See CvcTypeGatedSelectFieldBase.
+ */
+export interface CvcTypeGatedSelectFieldProps
+  extends CvcEntitySelectFieldProps {
+  /** the form's entity type must be chosen before this field can be used */
+  requireType: boolean
+  requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
+}
