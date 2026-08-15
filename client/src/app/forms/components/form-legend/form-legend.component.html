@@ -1,0 +1,31 @@
+<!-- one definition, rendered inline on wide screens and inside the popover on
+     narrow ones; CSS decides which container is visible -->
+<ng-template #legend>
+  <div class="legend-items">
+    @for (item of items; track item.state) {
+      <span
+        class="legend-item"
+        [class]="'legend-item ' + item.state"
+        [title]="item.hint"
+        >{{ item.label }}</span
+      >
+    }
+  </div>
+</ng-template>
+
+<div class="legend-inline">
+  <ng-container [ngTemplateOutlet]="legend" />
+</div>
+
+<button
+  class="legend-button"
+  nz-button
+  nzType="link"
+  nzSize="small"
+  nz-popover
+  nzPopoverTitle="Field status"
+  nzPopoverTrigger="click"
+  nzPopoverPlacement="bottomRight"
+  [nzPopoverContent]="legend">
+  Form Legend
+</button>

@@ -1,0 +1,73 @@
+@import 'themes/field-states.less';
+
+// ant's `lg` breakpoint; global-variables.less defines no screen vars
+@legend-inline-min-width: 992px;
+
+:host {
+  display: inline-block;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.legend-item {
+  color: @field-default-label-color;
+  white-space: nowrap;
+  cursor: help;
+
+  // states that carry the label's marker bar also carry its weight, because
+  // the wrapper only establishes ::before on `.required`
+  &.required,
+  &.valid,
+  &.error {
+    font-weight: 600;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 1em;
+      border: 1px solid currentColor;
+      margin-right: 4px;
+      vertical-align: -0.15em;
+    }
+  }
+
+  &.required {
+    color: @field-required-label-color;
+  }
+  &.optional {
+    color: @field-default-label-color;
+  }
+  &.valid {
+    color: @field-valid-label-color;
+  }
+  &.error {
+    color: @field-error-label-color;
+  }
+  &.disabled {
+    color: @field-disabled-label-color;
+  }
+}
+
+// narrow first: the button, swapped for the inline row once there is room
+.legend-inline {
+  display: none;
+}
+.legend-button {
+  display: inline-block;
+}
+
+@media (min-width: @legend-inline-min-width) {
+  .legend-inline {
+    display: block;
+  }
+  .legend-button {
+    display: none;
+  }
+}
