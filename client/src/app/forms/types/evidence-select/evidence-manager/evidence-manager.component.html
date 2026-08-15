@@ -3,6 +3,7 @@
   [nzExtra]="extraTemplate"
   nzSize="small">
   <nz-table
+    data-testid="entity-table"
     #virtualTable
     [nzData]="(row$ | ngrxPush) || []"
     cvcTableScroller
@@ -26,6 +27,8 @@
             <!-- SELECT HEADER -->
             @if (col | guardType: colGuards.isSelectCol; as selectCol) {
               <th
+                data-testid="column-header"
+                [attr.data-column]="selectCol.key"
                 [nzShowCheckbox]="selectCol.checkbox.th.showCheckbox || false"
                 [nzWidth]="selectCol.width"
                 [nzAlign]="selectCol.align ?? 'left'"
@@ -35,6 +38,8 @@
             <!-- ENTITY TAG HEADER -->
             @if (col | guardType: colGuards.isEntityTagCol; as entityTagCol) {
               <th
+                data-testid="column-header"
+                [attr.data-column]="entityTagCol.key"
                 [nzColumnKey]="entityTagCol.key"
                 [nzAlign]="entityTagCol.align ?? 'left'"
                 [nzWidth]="entityTagCol.width"
@@ -64,6 +69,8 @@
             <!-- ENUM TAG HEADER -->
             @if (col | guardType: colGuards.isEnumTagCol; as enumTagCol) {
               <th
+                data-testid="column-header"
+                [attr.data-column]="enumTagCol.key"
                 [nzColumnKey]="enumTagCol.key"
                 [nzAlign]="enumTagCol.align ?? 'left'"
                 [nzWidth]="enumTagCol.width"
@@ -77,6 +84,8 @@
             <!-- TEXT TAG HEADER -->
             @if (col | guardType: colGuards.isTextTagCol; as textTagCol) {
               <th
+                data-testid="column-header"
+                [attr.data-column]="textTagCol.key"
                 [nzColumnKey]="textTagCol.key"
                 [nzAlign]="textTagCol.align ?? 'left'"
                 [nzWidth]="textTagCol.width"
@@ -97,6 +106,8 @@
             <!-- SELECT FILTER -->
             @if (col | guardType: colGuards.isSelectCol; as selectCol) {
               <th
+                data-testid="column-filter"
+                [attr.data-column]="selectCol.key"
                 [nzColumnKey]="selectCol.key"
                 [nzAlign]="selectCol.align ?? 'left'"
                 [nzWidth]="selectCol.width"
@@ -108,6 +119,8 @@
             <!-- ENTITY TAG FILTER -->
             @if (col | guardType: colGuards.isEntityTagCol; as entityTagCol) {
               <th
+                data-testid="column-filter"
+                [attr.data-column]="entityTagCol.key"
                 [nzColumnKey]="entityTagCol.key"
                 [nzWidth]="entityTagCol.width"
                 [nzAlign]="entityTagCol.align ?? 'left'"
@@ -136,6 +149,8 @@
             <!-- ENUM TAG FILTER -->
             @if (col | guardType: colGuards.isEnumTagCol; as enumTagCol) {
               <th
+                data-testid="column-filter"
+                [attr.data-column]="enumTagCol.key"
                 #enumTableFilter
                 [nzColumnKey]="enumTagCol.key"
                 class="attribute-filter"
@@ -186,6 +201,8 @@
             <!-- TEXT TAG FILTER -->
             @if (col | guardType: colGuards.isTextTagCol; as textTagCol) {
               <th
+                data-testid="column-filter"
+                [attr.data-column]="textTagCol.key"
                 #enumTableFilter
                 [nzColumnKey]="textTagCol.key"
                 class="attribute-filter"
@@ -233,12 +250,17 @@
       <ng-template
         nz-virtual-scroll
         let-row>
-        <tr class="data-row">
+        <tr
+                  data-testid="row"
+                  [attr.data-row-id]="row.id"
+                  class="data-row">
           @for (col of cols; track col) {
             @if (!col.hidden) {
               <!-- SELECT CELL -->
               @if (col | guardType: colGuards.isSelectCol; as selectCol) {
                 <td
+                  data-testid="row-select"
+                  [attr.data-column]="selectCol.key"
                   [nzChecked]="row.selected"
                   (nzCheckedChange)="
                     onRowSelected$.next({ id: row.id, selected: $event })
@@ -250,6 +272,8 @@
               <!-- ENTITY TAG CELL -->
               @if (col | guardType: colGuards.isEntityTagCol; as entityTagCol) {
                 <td
+                  data-testid="cell"
+                  [attr.data-column]="entityTagCol.key"
                   [nzAlign]="entityTagCol.align ?? 'left'"
                   [nzLeft]="entityTagCol.fixedLeft || false"
                   [nzRight]="entityTagCol.fixedRight || false">
@@ -322,6 +346,8 @@
               <!-- ENUM TAG CELL -->
               @if (col | guardType: colGuards.isEnumTagCol; as enumTagCol) {
                 <td
+                  data-testid="cell"
+                  [attr.data-column]="enumTagCol.key"
                   [nzAlign]="enumTagCol.align ?? 'left'"
                   [nzLeft]="enumTagCol.fixedLeft || false"
                   [nzRight]="enumTagCol.fixedRight || false">
@@ -347,6 +373,8 @@
               <!-- TEXT TAG CELL -->
               @if (col | guardType: colGuards.isTextTagCol; as textTagCol) {
                 <td
+                  data-testid="cell"
+                  [attr.data-column]="textTagCol.key"
                   [nzAlign]="textTagCol.align ?? 'left'"
                   [nzLeft]="textTagCol.fixedLeft || false"
                   [nzRight]="textTagCol.fixedRight || false">
@@ -510,6 +538,7 @@
     </nz-col>
     <nz-col nzFlex="auto">
       <cvc-table-counts2
+          data-testid="row-count"
         [cvcTableCountsConnection]="connection$"></cvc-table-counts2>
     </nz-col>
 
@@ -521,6 +550,9 @@
           type="button"
           nzType="default"
           nzSize="small"
+          data-testid="filter-reset"
+          nz-tooltip
+          nzTooltipTitle="Reset filters"
           (click)="onResetFilter$.next()">
           <span
             nz-icon
@@ -530,6 +562,7 @@
         <button
           nz-button
           nz-popover
+          data-testid="column-prefs-trigger"
           nzPopoverTitle="Visible Columns"
           [nzPopoverContent]="prefsPopover"
           [nzPopoverTrigger]="'click'"
@@ -543,7 +576,9 @@
         </button>
       </nz-space-compact>
       <ng-template #prefsPopover>
-        <div class="prefs-popover">
+        <div
+          data-testid="column-prefs-panel"
+          class="prefs-popover">
           <!-- ng-zorro 22 splits these: nzOptions supplies the list,
                ngModel carries only the checked values -->
           <nz-checkbox-group
