@@ -11,47 +11,51 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 12px;
-  font-size: 12px;
-  line-height: 1.4;
+  gap: 4px;
 }
 
+// Each chip is a miniature of the field box it describes: the same
+// background, border and label colour the form-field wrapper paints in
+// vertical layout. No marker bar — the chip's own border carries the state,
+// and only `required` establishes a bar on a real label, so showing one on
+// some chips and not others read as inconsistent.
 .legend-item {
-  color: @field-default-label-color;
-  white-space: nowrap;
+  margin-inline-end: 0;
+  font-size: 12px;
+  line-height: 18px;
   cursor: help;
-
-  // states that carry the label's marker bar also carry its weight, because
-  // the wrapper only establishes ::before on `.required`
-  &.required,
-  &.valid,
-  &.error {
-    font-weight: 600;
-
-    &:before {
-      content: '';
-      display: inline-block;
-      height: 1em;
-      border: 1px solid currentColor;
-      margin-right: 4px;
-      vertical-align: -0.15em;
-    }
-  }
 
   &.required {
     color: @field-required-label-color;
+    background-color: @field-required-bg-color;
+    border-color: @field-required-border-color;
+    font-weight: 600;
   }
+
   &.optional {
     color: @field-default-label-color;
+    background-color: @field-default-bg-color;
+    border-color: @field-default-border-color;
   }
+
   &.valid {
     color: @field-valid-label-color;
+    background-color: @field-valid-bg-color;
+    border-color: @field-valid-border-color;
+    font-weight: 600;
   }
+
   &.error {
     color: @field-error-label-color;
+    background-color: @field-error-bg-color;
+    border-color: @field-error-border-color;
+    font-weight: 600;
   }
+
   &.disabled {
     color: @field-disabled-label-color;
+    background-color: @field-disabled-bg-color;
+    border-color: @field-disabled-border-color;
   }
 }
 

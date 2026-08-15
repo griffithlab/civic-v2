@@ -3,30 +3,38 @@
  * Shared by the form-field wrapper (which paints the states) and the form
  * legend (which explains them), so the two cannot drift apart. Variables
  * only — no rules — so it is safe to import from a component stylesheet.
+ *
+ * Each state carries a border colour as well as the assembled border, so the
+ * legend can tint a chip's border without re-deriving the shorthand.
  */
 @import 'themes/default.less';
 
-@field-default-border: 1px solid @blue-1;
+@field-default-border-color: @blue-1;
+@field-default-border: 1px solid @field-default-border-color;
 @field-default-bg-color: @blue-1;
 @field-default-label-color: @blue-7;
 @field-default-icon-color: @blue-4;
 
-@field-disabled-border: 1px solid @grey-3;
+@field-disabled-border-color: @grey-3;
+@field-disabled-border: 1px solid @field-disabled-border-color;
 @field-disabled-bg-color: @grey-3;
 @field-disabled-label-color: @text-color-secondary;
 @field-disabled-icon-color: @grey-5;
 
-@field-required-border: 1px solid @blue-4;
+@field-required-border-color: @blue-4;
+@field-required-border: 1px solid @field-required-border-color;
 @field-required-bg-color: @blue-1;
 @field-required-label-color: @blue-7;
 @field-required-icon-color: @blue-5;
 
-@field-error-border: 1px solid @red-4;
+@field-error-border-color: @red-4;
+@field-error-border: 1px solid @field-error-border-color;
 @field-error-bg-color: @red-1;
 @field-error-label-color: @red-7;
 @field-error-icon-color: @red-5;
 
-@field-valid-border: 1px solid @green-4;
+@field-valid-border-color: @green-4;
+@field-valid-border: 1px solid @field-valid-border-color;
 @field-valid-bg-color: @green-1;
 @field-valid-label-color: @green-7;
 @field-valid-icon-color: @green-5;

@@ -2,8 +2,9 @@ import { NgTemplateOutlet } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 
-/** One field state, styled to match how the form-field wrapper paints it. */
+/** One field state, rendered as a chip tinted like the field box itself. */
 interface CvcFieldLegendItem {
   /** doubles as the CSS class, matching the wrapper's state classes */
   readonly state: 'required' | 'optional' | 'valid' | 'error' | 'disabled'
@@ -24,7 +25,7 @@ interface CvcFieldLegendItem {
   selector: 'cvc-form-legend',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NzButtonModule, NzPopoverModule],
+  imports: [NgTemplateOutlet, NzButtonModule, NzPopoverModule, NzTagModule],
   templateUrl: './form-legend.component.html',
   styleUrl: './form-legend.component.less',
 })
@@ -52,7 +53,7 @@ export class CvcFormLegendComponent {
     },
     {
       state: 'disabled',
-      label: 'Unavailable',
+      label: 'Not Applicable',
       hint: 'Does not apply to the entity type selected above',
     },
   ]

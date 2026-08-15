@@ -3,11 +3,10 @@
 <ng-template #legend>
   <div class="legend-items">
     @for (item of items; track item.state) {
-      <span
-        class="legend-item"
+      <nz-tag
         [class]="'legend-item ' + item.state"
         [title]="item.hint"
-        >{{ item.label }}</span
+        >{{ item.label }}</nz-tag
       >
     }
   </div>
