@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableFeatureFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type FeatureSelectTypeaheadQueryVariables = Types.Exact<{
@@ -10,7 +11,7 @@ export type FeatureSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureType: Types.FeatureInstanceTypes, featureInstance:
+export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', featureAliases: Array<string>, id: number, name: string, link: string, flagged: boolean, deprecated: boolean, featureType: Types.FeatureInstanceTypes, featureInstance:
       | { __typename: 'Factor', ncitId?: string | undefined }
       | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus }
       | { __typename: 'Gene', entrezId: number }
@@ -22,14 +23,14 @@ export type FeatureSelectTagQueryVariables = Types.Exact<{
 }>;
 
 
-export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureType: Types.FeatureInstanceTypes, featureInstance:
+export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', featureAliases: Array<string>, id: number, name: string, link: string, flagged: boolean, deprecated: boolean, featureType: Types.FeatureInstanceTypes, featureInstance:
       | { __typename: 'Factor', ncitId?: string | undefined }
       | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus }
       | { __typename: 'Gene', entrezId: number }
       | { __typename: 'Region' }
      } | undefined };
 
-export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureType: Types.FeatureInstanceTypes, featureInstance:
+export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', featureAliases: Array<string>, id: number, name: string, link: string, flagged: boolean, deprecated: boolean, featureType: Types.FeatureInstanceTypes, featureInstance:
     | { __typename: 'Factor', ncitId?: string | undefined }
     | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus }
     | { __typename: 'Gene', entrezId: number }
@@ -38,11 +39,8 @@ export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: 
 
 export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
     fragment FeatureSelectTypeaheadFields on Feature {
-  id
-  name
+  ...LinkableFeature
   featureAliases
-  link
-  featureType
   featureInstance {
     __typename
     ... on Gene {
@@ -57,7 +55,7 @@ export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
     }
   }
 }
-    `;
+    ${LinkableFeatureFragmentDoc}`;
 export const FeatureSelectTypeaheadDocument = gql`
     query FeatureSelectTypeahead($queryTerm: String!, $featureType: FeatureInstanceTypes) {
   featureTypeahead(queryTerm: $queryTerm, featureType: $featureType) {

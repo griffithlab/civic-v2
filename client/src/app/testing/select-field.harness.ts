@@ -5,7 +5,9 @@ import { By } from '@angular/platform-browser'
 import { provideNoopAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router'
 import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
+import { CvcOrgSubmitButtonTypeModule } from '@app/forms/types/org-submit-button/org-submit-button.type.module'
 import { civicIcons } from '@app/icons-provider.module'
+import { CaretRightOutline } from '@ant-design/icons-angular/icons'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { describe, expect, it } from 'vitest'
@@ -27,6 +29,8 @@ export interface SelectFieldHarness {
   type(text: string): void
   /** the rendered dropdown options, which live in the cdk overlay container */
   optionItems(): HTMLElement[]
+  /** the entity select's selected-item element */
+  selectedItem(): HTMLElement
   callsTo(operationName: string): MockGraphqlOperation[]
   control(): import('@angular/forms').AbstractControl
   /** the field component instance */
@@ -68,7 +72,15 @@ export async function createSelectFieldHarness(
     },
     model: config.model ?? {},
     formState: config.formState,
-    imports: [CvcSelectFieldsRegistryModule, NzIconModule.forRoot(civicIcons)],
+    // civicIcons covers the civic-* set; ant's own icons are registered
+    // individually, since IconsProviderModule ships only four of them.
+    // org-submit-button is registered because several quick-add forms embed
+    // one, and a field renders its quick-add as soon as a search misses.
+    imports: [
+      CvcSelectFieldsRegistryModule,
+      CvcOrgSubmitButtonTypeModule,
+      NzIconModule.forRoot([...civicIcons, CaretRightOutline]),
+    ],
     providers: [
       provideMockApollo(config.respond, operations),
       provideRouter([]),
@@ -111,6 +123,10 @@ export async function createSelectFieldHarness(
     },
     optionItems: () =>
       Array.from(overlay.querySelectorAll('nz-option-item')) as HTMLElement[],
+    selectedItem: () =>
+      entitySelect().querySelector(
+        '.ant-select-selection-item'
+      ) as HTMLElement,
     callsTo: (operationName) =>
       operations.filter((o) => o.operationName === operationName),
     control: () => fixture.componentInstance.form.get(config.key)!,
@@ -279,9 +295,9 @@ export function describeEntitySelectContract<TField>(
       await showOptions(h)
       h.optionItems()[0].click()
       await h.settle()
-      const selected = h.fixture.nativeElement.querySelector(
-        '.ant-select-selection-item'
-      ) as HTMLElement
+      // scoped to the entity select: a field may render a parameter picker
+      // whose own selected item would otherwise match first
+      const selected = h.selectedItem()
       expect(selected.textContent).toContain(first.name)
       h.destroy()
     })

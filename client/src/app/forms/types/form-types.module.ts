@@ -13,7 +13,6 @@ import { CvcCvcFdaRegulatoryApprovalCheckboxFieldModule } from './fda-regulatory
 import { CvcDirectionSelectModule } from './direction-select/direction-select.module'
 import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
-import { CvcFeatureSelectModule } from './feature-select/feature-select.module'
 import { CvcInteractionSelectModule } from './interaction-select/interaction-select.module'
 import { CvcLevelSelectModule } from './level-select/level-select.module'
 import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
@@ -49,7 +48,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcDirectionSelectModule,
     CvcSelectFieldsRegistryModule,
     CvcEntityTypeSelectModule,
-    CvcFeatureSelectModule,
     CvcInteractionSelectModule,
     CvcLevelSelectModule,
     CvcMolecularProfileSelectModule,
