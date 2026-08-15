@@ -43,6 +43,10 @@ export const columnKeyToQueryVariableMap: EvidenceManagerColQueryMap = {
   disease: 'diseaseName',
   therapies: 'therapyName',
   evidenceItem: 'id',
+  // the query's variable is `rating`; without this entry the filter set
+  // `evidenceRating` on the variables object, which the query never reads, so
+  // the star-rating filter silently did nothing
+  evidenceRating: 'rating',
 }
 // column keys included here will be hidden in preference panel, preventing
 // defaults from being changed by the user

@@ -76,7 +76,7 @@ export type EvidenceManagerRowData = Pick<
 // to a filter query variable. e.g. 'disease' -> 'diseaseName'
 export type ConvertedQueryVar = keyof Pick<
   EvidenceManagerQueryVariables,
-  'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
+  'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id' | 'rating'
 >
 
 // convenience type for various map keys
