@@ -1,36 +1,38 @@
 @import 'themes/field-states.less';
 
-// ant's `lg` breakpoint; global-variables.less defines no screen vars
-@legend-inline-min-width: 992px;
-
 :host {
   display: inline-block;
 }
 
-.legend-items {
+// the two lines wrap against each other; neither ever splits internally
+.legend-inline {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
-
-  // the divider carries the group break, so it gets the breathing room
-  // rather than every chip
-  nz-divider {
-    margin: 0 4px;
-    height: 1.1em;
-    top: 0;
-  }
+  justify-content: flex-end;
+  gap: 2px 12px;
 }
 
-// inline variant only: the title sits to the left of the chips
-.legend-inline {
+.legend-line {
+  display: flex;
+  flex: 0 0 auto;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .legend-title {
   font-size: 12px;
   white-space: nowrap;
+}
+
+// Below ant's md the two lines stack rather than sitting side by side. Left
+// to wrap on their own they still fit on one row here, but only by starving
+// the card title, which nz-card then ellipsises away.
+@media (max-width: 767px) {
+  .legend-inline {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }
 
 // Each chip is a miniature of the field box it describes: the same
@@ -69,28 +71,5 @@
     background-color: @field-error-bg-color;
     border-color: @field-error-border-color;
     font-weight: 600;
-  }
-
-  &.disabled {
-    color: @field-disabled-label-color;
-    background-color: @field-disabled-bg-color;
-    border-color: @field-disabled-border-color;
-  }
-}
-
-// narrow first: the button, swapped for the inline row once there is room
-.legend-inline {
-  display: none;
-}
-.legend-button {
-  display: inline-block;
-}
-
-@media (min-width: @legend-inline-min-width) {
-  .legend-inline {
-    display: flex;
-  }
-  .legend-button {
-    display: none;
   }
 }
