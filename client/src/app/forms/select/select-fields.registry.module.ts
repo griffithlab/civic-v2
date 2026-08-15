@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core'
+import { CvcAcmgCodeSelectField } from '@app/forms/types/acmg-code-select/acmg-code-select.type'
 import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-region-select/cytogenetic-region-select.type'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
@@ -16,6 +17,20 @@ import { ConfigOption, FormlyModule } from '@ngx-formly/core'
  */
 const selectFieldTypes: ConfigOption = {
   types: [
+    {
+      name: 'acmg-code-select',
+      wrappers: ['form-field'],
+      component: CvcAcmgCodeSelectField,
+      defaultOptions: { props: { label: 'ACMG/AMP Code' } },
+    },
+    {
+      name: 'acmg-code-multi-select',
+      wrappers: ['form-field'],
+      component: CvcAcmgCodeSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'ACMG/AMP Code(s)' },
+      },
+    },
     {
       name: 'cytogenetic-region-select',
       wrappers: ['form-field'],
