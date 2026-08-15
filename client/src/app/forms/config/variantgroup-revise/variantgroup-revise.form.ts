@@ -28,7 +28,7 @@ import {
 } from './variantgroup-revise.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
 
 @UntilDestroy()
@@ -46,7 +46,9 @@ export class CvcVariantgroupReviseForm
   model?: VariantGroupReviseModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
-  state: { formReady$: Subject<boolean> }
+  // not a BaseState, but the same contract: a BehaviorSubject so a field that
+  // subscribes after the announcement still sees it
+  state: { formReady$: BehaviorSubject<boolean> }
   options: FormlyFormOptions
 
   reviseAssertionMutator: MutatorWithState<
@@ -66,7 +68,7 @@ export class CvcVariantgroupReviseForm
   ) {
     this.form = new UntypedFormGroup({})
     this.fields = variantgroupSuggestFields
-    this.state = { formReady$: new Subject() }
+    this.state = { formReady$: new BehaviorSubject<boolean>(false) }
     this.options = { formState: this.state }
     this.reviseAssertionMutator = new MutatorWithState(this.networkErrorService)
   }

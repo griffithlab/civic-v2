@@ -50,7 +50,7 @@ export type EntityFieldSubjectMap = { [key: string]: BehaviorSubject<any> }
 export type NoStateFormOptions = { formState: { formLayout: NzFormLayoutType } }
 
 export interface IEntityState {
-  formReady$: Subject<boolean>
+  formReady$: BehaviorSubject<boolean>
   formLayout: NzFormLayoutType
   formMode: CvcFormMode
   validStates: Map<EntityType, ValidEntity>
@@ -76,7 +76,14 @@ export interface IEntityState {
 }
 
 class BaseState implements IEntityState {
-  formReady$ = new Subject<boolean>()
+  /**
+   * Announced once the form has populated its model. A BehaviorSubject rather
+   * than a Subject so a field that subscribes *after* the announcement still
+   * sees it — a plain Subject drops it silently, and the field then never wires
+   * itself up. Every consumer pipes `filter(Boolean), take(1)`, so the seeded
+   * `false` is filtered out and existing ordering is unchanged.
+   */
+  formReady$ = new BehaviorSubject<boolean>(false)
   formLayout: NzFormLayoutType = 'vertical'
   formMode: CvcFormMode = 'add'
   fields: EntityFieldSubjectMap
