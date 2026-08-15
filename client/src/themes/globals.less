@@ -32,3 +32,20 @@
 .ant-select-single .ant-select-selector .ant-select-selection-item-content {
   display: inline-block;
 }
+
+// Multi-select tags render edge to edge with nothing between them.
+//
+// ng-zorro's select derives its item margin from @padding-xss
+// (`@select-internal-fixed-item-margin: calc(@padding-xss / 2)`, see
+// select/style/multiple.less), and the COMPACT theme sets @padding-xss to 0px
+// where the default theme sets 4px. So the margin computes to calc(0px) and a
+// field holding several tags — phenotypes on an assertion, therapies on
+// evidence — becomes an unreadable block.
+//
+// This restores the default theme's spacing without leaving compact. The
+// selector matches ng-zorro's own specificity (.ant-select-multiple.ant-select
+// .ant-select-selection-item); a shorter one loses to it.
+.ant-select-multiple.ant-select .ant-select-selection-item {
+  margin-block: 2px;
+  margin-inline-end: 2px;
+}
