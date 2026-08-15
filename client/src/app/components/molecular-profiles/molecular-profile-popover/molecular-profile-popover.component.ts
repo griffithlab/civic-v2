@@ -20,7 +20,7 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
-import { LetDirective, PushPipe } from '@ngrx/component'
+import { PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
@@ -42,7 +42,6 @@ import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts
   imports: [
     CommonModule,
     RouterModule,
-    LetDirective,
     PushPipe,
     NzCardModule,
     NzGridModule,
