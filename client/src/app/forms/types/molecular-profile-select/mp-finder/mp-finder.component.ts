@@ -9,12 +9,13 @@ import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import {
   FeatureInstanceTypes,
+  Maybe,
   MolecularProfile,
   Variant,
 } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { Apollo, gql } from 'apollo-angular'
-import { Maybe } from 'graphql/jsutils/Maybe'
+import { Apollo } from 'apollo-angular'
+import { readCachedVariant } from '../../variant-select/cached-variant'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject } from 'rxjs'
 import { CvcVariantSelectFieldOptions } from '../../variant-select/variant-select.type'
@@ -117,55 +118,17 @@ export class MpFinderComponent {
     }
   }
 
-  getFragment(feature: string, variantId: number) {
-    return {
-      id: `${feature}Variant:${variantId}`,
-      fragment: gql`
-        fragment ${feature}VariantSelectQuery on ${feature}Variant {
-          id
-          name
-          link
-          variantAliases
-          singleVariantMolecularProfileId
-          singleVariantMolecularProfile {
-            id
-            name
-            link
-            molecularProfileAliases
-          }
-        }
-      `,
-    }
-  }
-
   getSelectedVariant(variantId: Maybe<number>): Maybe<Variant> {
-    if (!variantId) return
     const feature = new EnumToTitlePipe().transform(this.featureType)
-    let variant
-
-    const firstFragment = this.getFragment(feature, variantId)
-    try {
-      variant = this.apollo.client.readFragment(firstFragment) as Variant
-    } catch (err) {
-      console.error(err)
+    const variant = readCachedVariant(
+      this.apollo,
+      variantId,
+      `${feature}Variant`
+    )
+    if (!variant) {
+      console.error(`MpFinderForm could not resolve its Variant from the cache`)
+      return
     }
-
-    if (variant) {
-      return variant
-    }
-
-    const secondFragment = this.getFragment('', variantId)
-    try {
-      variant = this.apollo.client.readFragment(secondFragment) as Variant
-    } catch (err) {
-      console.error(err)
-    }
-
-    if (variant) {
-      return variant
-    }
-
-    console.error(`MpFinderForm could not resolve its Variant from the cache`)
-    return
+    return variant as Variant
   }
 }

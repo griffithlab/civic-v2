@@ -16,3 +16,4 @@ export type {
 } from './entity-tag.types'
 export { labelSegments } from './entity-tag.types'
 export { TAG_POPOVERS, hasTagPopover } from './tag-popovers'
+export { readCachedEntity, readCachedEntityName } from './cached-entity'

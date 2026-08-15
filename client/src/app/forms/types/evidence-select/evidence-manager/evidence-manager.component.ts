@@ -10,10 +10,10 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { ErrorLike } from '@apollo/client'
-import { ApolloQueryResult, gql } from '@apollo/client/core'
+import { ApolloQueryResult } from '@apollo/client/core'
 import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
-import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
+import { readCachedEntityName } from '@app/tags'
 import {
   EvidenceManagerGQL,
   EvidenceManagerQuery,
@@ -565,23 +565,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   getEntityName(typename: string, id: number): Maybe<string> {
-    const fragment = {
-      id: `${typename}:${id}`,
-      fragment: gql`
-        fragment Linkable${typename}Entity on ${typename} {
-        id
-        name
-        link
-        }`,
-    }
-    const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
-    if (!entity) {
+    const name = readCachedEntityName(this.apollo, typename, id)
+    if (!name) {
       console.error(
         `evidence-manager onSetTableFilter$ could not find cached entity ${typename}:${id} to populate input filter`
       )
-      return
     }
-    return entity.name
+    return name
   }
 
   trackByIndex(_: number, data: Maybe<EvidenceManagerRowData>): Maybe<number> {
