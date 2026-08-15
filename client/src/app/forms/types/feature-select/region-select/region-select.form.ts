@@ -34,7 +34,7 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { NZ_MODAL_DATA, NzModalModule, NzModalRef } from 'ng-zorro-antd/modal'
-import { CvcCytogeneticRegionSelectModule } from '../../cytogenetic-region-select/cytogenetic-region-select.module'
+import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
 
 type RegionSelectModel = {
   cytogeneticRegionId?: number
@@ -59,7 +59,7 @@ export interface RegionSelectModalData {
     NzModalModule,
     RouterModule,
     FormlyModule,
-    CvcCytogeneticRegionSelectModule,
+    CvcSelectFieldsRegistryModule,
   ],
 })
 export class CvcRegionSelectForm {

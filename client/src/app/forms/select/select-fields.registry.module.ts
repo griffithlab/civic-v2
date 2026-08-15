@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core'
+import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-region-select/cytogenetic-region-select.type'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
@@ -14,6 +15,20 @@ import { ConfigOption, FormlyModule } from '@ngx-formly/core'
  */
 const selectFieldTypes: ConfigOption = {
   types: [
+    {
+      name: 'cytogenetic-region-select',
+      wrappers: ['form-field'],
+      component: CvcCytogeneticRegionSelectField,
+      defaultOptions: { props: { label: 'Region' } },
+    },
+    {
+      name: 'cytogenetic-region-multi-select',
+      wrappers: ['form-field'],
+      component: CvcCytogeneticRegionSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Regions' },
+      },
+    },
     {
       name: 'disease-select',
       wrappers: ['form-field'],
