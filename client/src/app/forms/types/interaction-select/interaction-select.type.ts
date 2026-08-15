@@ -1,28 +1,20 @@
+import { ChangeDetectionStrategy, Component, Type, effect } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CvcAttributeTagComponent } from '@app/forms/components/attribute-tag/attribute-tag.component'
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChildren,
-  ChangeDetectionStrategy,
-} from '@angular/core'
-import { CvcInputEnum } from '@app/forms/forms.types'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { TherapyInteraction, Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+  CvcEnumSelectFieldBase,
+  CvcEnumSelectFieldProps,
+} from '@app/forms/select'
+import { Maybe, TherapyInteraction } from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map } from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzSelectModule } from 'ng-zorro-antd/select'
 
-const optionText: { [option: string]: string } = {
+const optionText: Record<string, string> = {
   COMBINATION:
     'Therapies specified were used as part of a combination therapy approach',
   SEQUENTIAL:
@@ -31,169 +23,105 @@ const optionText: { [option: string]: string } = {
     'Therapies specified are often considered to be of the same family, or behave similarly in a treatment setting',
 }
 
+const NO_THERAPIES =
+  'Interaction type is not applicable when no therapies are selected.'
+const ONE_THERAPY =
+  'A single associated therapy does not have an Interaction type'
+const PROMPT = 'Select an Interaction Type'
+
 export type CvcInteractionSelectFieldOptions = Partial<
   FieldTypeConfig<CvcInteractionSelectFieldProps>
 >
 
-interface CvcInteractionSelectFieldProps extends FormlyFieldProps {
-  label: string
-  placeholder: string
-  requireMultipleTherapies: boolean
-  requireMultipleTherapiesPromptFn: () => string
-  tooltip?: string
-  description?: string
-  extraType?: CvcFormFieldExtraType
-}
+export interface CvcInteractionSelectFieldProps
+  extends CvcEnumSelectFieldProps {}
 
-export interface CvcInteractionSelectFieldConfig extends FormlyFieldConfig<CvcInteractionSelectFieldProps> {
+export interface CvcInteractionSelectFieldConfig
+  extends FormlyFieldConfig<CvcInteractionSelectFieldProps> {
   type: 'interaction-select' | Type<CvcInteractionSelectField>
 }
 
-const InteractionSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcInteractionSelectFieldProps>,
-    Maybe<TherapyInteraction>
-  >(),
-  EnumSelectField<TherapyInteraction, CvcInputEnum>()
-)
-
+/**
+ * An interaction only means something between two or more therapies, so this
+ * field follows the therapy multi-select's length rather than the form's
+ * entity type.
+ */
 @Component({
   selector: 'cvc-interaction-select',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    CvcAttributeTagComponent,
+  ],
   templateUrl: './interaction-select.type.html',
-  styleUrls: ['./interaction-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
-export class CvcInteractionSelectField
-  extends InteractionSelectMixin
-  implements AfterViewInit
-{
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. TherapyInteraction instead of CvcInputEnum
-  // STATE SOURCE STREAMS
-  interactionEnum$: BehaviorSubject<CvcInputEnum[]>
-  onTherapies$?: BehaviorSubject<Maybe<number[]>>
-
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$!: BehaviorSubject<Maybe<string>>
-
-  // FieldTypeConfig defaults
+export class CvcInteractionSelectField extends CvcEnumSelectFieldBase<
+  TherapyInteraction,
+  CvcInteractionSelectFieldProps
+> {
   defaultOptions: CvcInteractionSelectFieldOptions = {
     props: {
       label: 'Therapy Interaction',
+      isMultiSelect: false,
       placeholder: 'Select Therapy Interaction',
-      requireMultipleTherapies: true,
-      requireMultipleTherapiesPromptFn: () =>
-        `A single associated therapy does not have an Interaction type`,
       tooltip: 'Characterizes the interaction of a multi-therapy treatment',
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  constructor(private cdr: ChangeDetectorRef) {
-    super()
-    this.interactionEnum$ = new BehaviorSubject<CvcInputEnum[]>([])
-    this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEnumSelectField({
-      optionEnum$: this.interactionEnum$,
-      optionTemplate$: this.optionTemplate$,
-      changeDetectorRef: this.cdr,
-    })
-  } // ngAfterViewInit()
-
-  configureStateConnections(): void {
+  override ngOnInit(): void {
+    super.ngOnInit()
     if (!this.state) {
       console.error(
         `${this.field.id} requires a form state to populate its options, none was found.`
       )
-      this.placeholder$.next('ERROR: Form state not found')
       return
     }
 
-    // CONFIGURE PLACEHOLDER PROMPT
-    this.placeholder$.next(this.props.placeholder)
-
-    // CONFIGURE STATE INPUTS
-    // connect to state clinicalInteractionOptions$
     if (!this.state.enums.interaction$) {
       console.error(
         `${this.field.id} could not find form state's interaction$ to populate select.`
       )
-      return
+    } else {
+      this.connectStateEnum(this.state.enums.interaction$)
     }
-    // update interaction enums when state clinicalInteraction$ emits
-    this.state.enums.interaction$
-      .pipe(untilDestroyed(this))
-      .subscribe((enums: CvcInputEnum[]) => {
-        this.interactionEnum$.next(enums)
-      })
 
-    // set up optionTemplates Observable
-    if (!this.optionTemplates) {
-      console.error(
-        `${this.field.id} could not find its optionTemplates QueryList to populate its select options, so simple text labels will be displayed.`
-      )
-    }
-    this.optionTemplate$ = this.optionTemplates?.changes.pipe(
-      // return QueryLists's array of TemplateRefs
-      map((ql: QueryList<TemplateRef<any>>) => {
-        return ql.map((q) => q)
-      })
-    )
-
-    this.onTherapies$ = this.state.fields.therapyIds$
-    if (!this.optionTemplates) {
+    const therapies = this.state.fields.therapyIds$
+    if (!therapies) {
       console.warn(
         `${this.field.id} could not find state's fields.therapyIds$ to handle its required & disabled states.`
       )
+      this.connectValueDescription()
+      return
     }
 
-    this.onTherapies$
-      .pipe(untilDestroyed(this))
-      .subscribe((therapies: Maybe<number[]>) => {
-        if (!therapies || therapies.length == 0) {
-          this.props.disabled = true
-          this.props.required = false
-          this.props.description =
-            'Interaction type is not applicable when no therapies are selected.'
-          if (this.formControl.value !== undefined) {
-            this.formControl.setValue(undefined)
-          }
-        } else if (therapies.length == 1) {
-          this.props.description =
-            'A single associated therapy does not have an Interaction type'
-          this.props.disabled = true
-          this.props.required = false
-          if (this.formControl.value !== undefined) {
-            this.formControl.setValue(undefined)
-          }
-        } else {
-          this.props.description = 'Select an Interaction Type'
-          this.props.disabled = false
-          this.props.required = true
-        }
-        this.cdr.markForCheck()
-      })
+    const therapyIds = toSignal(therapies, { injector: this.injector })
+    effect(
+      () => this.applyGate(therapyIds()?.length ?? 0, this.selected()),
+      { injector: this.injector }
+    )
+  }
 
-    // update field description on value changes
-    this.onValueChange$
-      .pipe(untilDestroyed(this))
-      .subscribe((interaction: Maybe<TherapyInteraction>) => {
-        if (interaction) {
-          this.props.description = optionText[interaction]
-          this.props.extraType = 'description'
-        } else {
-          this.props.extraType = 'prompt'
-          this.field.formControl.markAsTouched()
-        }
-      })
+  protected override descriptionFor(value: TherapyInteraction): Maybe<string> {
+    return optionText[value]
+  }
+
+  private applyGate(therapyCount: number, value?: TherapyInteraction): void {
+    if (therapyCount < 2) {
+      this.props.disabled = true
+      this.props.required = false
+      this.props.description = therapyCount === 0 ? NO_THERAPIES : ONE_THERAPY
+      this.props.extraType = 'prompt'
+      if (this.formControl.value !== undefined) this.resetField()
+    } else {
+      this.props.disabled = false
+      this.props.required = true
+      this.props.description = value ? optionText[value] : PROMPT
+      this.props.extraType = value ? 'description' : 'prompt'
+    }
+    this.markDirty()
   }
 }

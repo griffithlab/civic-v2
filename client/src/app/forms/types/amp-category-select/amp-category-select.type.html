@@ -1,38 +1,40 @@
-<cvc-enum-select
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcPlaceholder]="placeholder$ | ngrxPush"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"></cvc-enum-select>
-@for (enum of ampCategoryEnum$ | ngrxPush; track enum; let i = $index) {
-  <ng-template #optionTemplates>
-    <nz-tag>
-      <strong>{{ enum | formatAmp: 'verbose' }}</strong>
-    </nz-tag>
-    <span
-      nz-typography
-      nzType="secondary"
-      >{{ descriptionForCategory(enum) }}</span
-    >
-  </ng-template>
-}
+<nz-select
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.ng-dirty]="showError"
+  [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [nzPlaceHolder]="props.placeholder || 'Select AMP/ASCO/CAP Category'"
+  [nzDisabled]="!!props.disabled"
+  [nzCustomTemplate]="selectedTpl">
+  @for (category of optionValues(); track category) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="category"
+      [nzLabel]="category">
+      <nz-tag>
+        <strong>{{ category | formatAmp: 'verbose' }}</strong>
+      </nz-tag>
+      <span
+        nz-typography
+        nzType="secondary"
+        >{{ descriptionForCategory(category) }}</span
+      >
+    </nz-option>
+  }
+</nz-select>
 
 <ng-template
-  #selectedTemplate
+  #selectedTpl
   let-selected>
   <div class="ant-select-selection-item-content">
-    @if (!props.isMultiSelect) {
-      <nz-tag
-        nzMode="closeable"
-        (nzOnClose)="onTagClose$.next($event)">
-        <strong>{{ selected.nzValue | formatAmp: 'verbose' }}</strong>
-      </nz-tag>
-    }
     @if (props.isMultiSelect) {
       {{ selected.nzValue | formatAmp: 'verbose' }}
+    } @else {
+      <nz-tag
+        nzMode="closeable"
+        (nzOnClose)="onTagClose()">
+        <strong>{{ selected.nzValue | formatAmp: 'verbose' }}</strong>
+      </nz-tag>
     }
   </div>
 </ng-template>

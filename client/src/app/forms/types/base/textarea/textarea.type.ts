@@ -1,14 +1,15 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Type,
-  AfterViewInit,
-} from '@angular/core'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
+import { TextFieldModule } from '@angular/cdk/text-field'
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
+import { CvcFieldBase } from '@app/forms/select'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyModule,
+} from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
-import mixin from 'ts-mixin-extended'
+import { NzInputModule } from 'ng-zorro-antd/input'
 
 // zorro 22 removed textarea[nzAutosize] (and its AutoSizeType) in favor
 // of the CDK's cdkTextareaAutosize; shape retained for field configs
@@ -23,27 +24,26 @@ export interface CvcTextAreaFieldProps extends FormlyFieldProps {
   autosize: string | boolean | AutoSizeType
 }
 
-export interface FormlyTextAreaFieldConfig extends FormlyFieldConfig<CvcTextAreaFieldProps> {
+export interface FormlyTextAreaFieldConfig
+  extends FormlyFieldConfig<CvcTextAreaFieldProps> {
   type: 'base-textarea' | Type<CvcTextareaField>
 }
 
-const TextareaMixin =
-  mixin(BaseFieldType<FieldTypeConfig<CvcTextAreaFieldProps>, Maybe<string>>())
-
 @Component({
   selector: 'formly-field-nz-textarea',
-  templateUrl: './textarea.type.html',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [ReactiveFormsModule, FormlyModule, NzInputModule, TextFieldModule],
+  templateUrl: './textarea.type.html',
 })
-export class CvcTextareaField extends TextareaMixin implements AfterViewInit {
+export class CvcTextareaField extends CvcFieldBase<
+  Maybe<string>,
+  FieldTypeConfig<CvcTextAreaFieldProps>
+> {
   defaultOptions: CvcTextareaFieldOptions = {
     props: {
       autosize: false,
     },
-  }
-  constructor() {
-    super()
   }
 
   get autosizeMinRows(): number | undefined {
@@ -54,9 +54,5 @@ export class CvcTextareaField extends TextareaMixin implements AfterViewInit {
   get autosizeMaxRows(): number | undefined {
     const autosize = this.props.autosize
     return typeof autosize === 'object' ? autosize.maxRows : undefined
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField()
   }
 }

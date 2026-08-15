@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core'
 import { CvcAcmgCodeSelectField } from '@app/forms/types/acmg-code-select/acmg-code-select.type'
+import { CvcAmpCategorySelectField } from '@app/forms/types/amp-category-select/amp-category-select.type'
+import { CvcDirectionSelectField } from '@app/forms/types/direction-select/direction-select.type'
+import { CvcInteractionSelectField } from '@app/forms/types/interaction-select/interaction-select.type'
+import { CvcLevelSelectField } from '@app/forms/types/level-select/level-select.type'
+import { CvcOriginSelectField } from '@app/forms/types/origin-select/origin-select.type'
+import { CvcRatingField } from '@app/forms/types/rating/rating.type'
+import { CvcRegionVariantNameSelectField } from '@app/forms/types/region-variant-name-select/region-variant-name-select.type'
+import { CvcSignificanceSelectField } from '@app/forms/types/significance-select/significance-select.type'
+import { CvcEntityTypeSelectField } from '@app/forms/types/type-select/type-select.type'
 import { CvcClingenCodeSelectField } from '@app/forms/types/clingen-code-select/clingen-code-select.type'
 import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-region-select/cytogenetic-region-select.type'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcEvidenceSelectField } from '@app/forms/types/evidence-select/evidence-select.type'
 import { CvcFeatureSelectField } from '@app/forms/types/feature-select/feature-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
+import { CvcReferenceBuildSelectField } from '@app/forms/types/reference-build-select/reference-build-select.type'
 import { CvcMolecularProfileSelectField } from '@app/forms/types/molecular-profile-select/molecular-profile-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
 import { CvcSourceSelectField } from '@app/forms/types/source-select/source-select.type'
@@ -21,8 +31,64 @@ import { ConfigOption, FormlyModule } from '@ngx-formly/core'
  * two components. Never re-provide FormlyConfig via forRoot in a lazy injector —
  * it silently breaks FieldArrayType.onPopulate (see forms.module.ts).
  */
+/**
+ * The enum selects, which pick from a fixed schema enum or a form-state list
+ * rather than searching the API. None of them is used in multi-select mode
+ * anywhere in the app, so only the singular type name is registered; the old
+ * per-field modules each registered an unused `*-multi-select` alongside it,
+ * one of which had been carrying level-select's label since it was copied.
+ */
+const enumFieldTypes = [
+  {
+    name: 'amp-category-select',
+    wrappers: ['form-field'],
+    component: CvcAmpCategorySelectField,
+  },
+  {
+    name: 'direction-select',
+    wrappers: ['form-field'],
+    component: CvcDirectionSelectField,
+  },
+  {
+    name: 'interaction-select',
+    wrappers: ['form-field'],
+    component: CvcInteractionSelectField,
+  },
+  {
+    name: 'level-select',
+    wrappers: ['form-field'],
+    component: CvcLevelSelectField,
+  },
+  {
+    name: 'origin-select',
+    wrappers: ['form-field'],
+    component: CvcOriginSelectField,
+  },
+  {
+    name: 'rating',
+    wrappers: ['form-field'],
+    component: CvcRatingField,
+  },
+  {
+    name: 'region-variant-name-select',
+    wrappers: ['form-field'],
+    component: CvcRegionVariantNameSelectField,
+  },
+  {
+    name: 'significance-select',
+    wrappers: ['form-field'],
+    component: CvcSignificanceSelectField,
+  },
+  {
+    name: 'type-select',
+    wrappers: ['form-field'],
+    component: CvcEntityTypeSelectField,
+  },
+]
+
 const selectFieldTypes: ConfigOption = {
   types: [
+    ...enumFieldTypes,
     {
       name: 'acmg-code-select',
       wrappers: ['form-field'],
@@ -148,6 +214,11 @@ const selectFieldTypes: ConfigOption = {
       defaultOptions: {
         props: { isMultiSelect: true, label: 'NCCN Guideline(s)' },
       },
+    },
+    {
+      name: 'reference-build-select',
+      wrappers: ['form-field'],
+      component: CvcReferenceBuildSelectField,
     },
     {
       name: 'source-select',

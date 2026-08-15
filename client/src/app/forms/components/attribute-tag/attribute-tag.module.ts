@@ -1,20 +1,13 @@
 import { NgModule } from '@angular/core'
-import { CommonModule } from '@angular/common'
 import { CvcAttributeTagComponent } from './attribute-tag.component'
-import { NzTagModule } from 'ng-zorro-antd/tag'
-import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
+/**
+ * The component is standalone; this module survives only so the NgModule-based
+ * managers and enum filter menus can keep importing it by module name. Delete
+ * it once those are standalone too.
+ */
 @NgModule({
-  declarations: [CvcAttributeTagComponent],
-  imports: [
-    CommonModule,
-    NzTagModule,
-    NzIconModule,
-    NzTooltipModule,
-    CvcPipesModule,
-  ],
+  imports: [CvcAttributeTagComponent],
   exports: [CvcAttributeTagComponent],
 })
 export class CvcAttributeTagModule {}

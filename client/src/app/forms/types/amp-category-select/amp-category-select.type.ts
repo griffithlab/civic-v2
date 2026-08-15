@@ -1,27 +1,20 @@
+import { ChangeDetectionStrategy, Component, Type, effect } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChildren,
-  ChangeDetectionStrategy,
-} from '@angular/core'
-import { CvcInputEnum } from '@app/forms/forms.types'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { AmpLevel, Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+  CvcEnumSelectFieldBase,
+  CvcEnumSelectFieldProps,
+} from '@app/forms/select'
+import { AmpLevel } from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { BehaviorSubject, distinctUntilChanged, map } from 'rxjs'
-import { $enum } from 'ts-enum-util'
-import mixin from 'ts-mixin-extended'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 const optionText = new Map<AmpLevel, string>([
   [AmpLevel.Na, 'Not Applicable'],
@@ -51,160 +44,112 @@ const optionText = new Map<AmpLevel, string>([
   ],
 ])
 
+/** curators read the tiers in order, with Not Applicable last */
+const OPTION_ORDER: AmpLevel[] = [
+  AmpLevel.TierILevelA,
+  AmpLevel.TierILevelB,
+  AmpLevel.TierIiLevelC,
+  AmpLevel.TierIiLevelD,
+  AmpLevel.TierIii,
+  AmpLevel.TierIv,
+  AmpLevel.Na,
+]
+
+const CLASSIFICATION_PROMPT =
+  'Please provide the AMP/ASCO/CAP <a href="https://pubmed.ncbi.nlm.nih.gov/27993330/" target="_blank">somatic variant classification</a>.'
+
+const REQUIRES_TYPE_PROMPT =
+  'Select an Assertion Type to select its AMP Category'
+
 export type CvcAmpCategorySelectFieldOptions = Partial<
   FieldTypeConfig<CvcAmpCategorySelectFieldProps>
 >
 
-export interface CvcAmpCategorySelectFieldProps extends FormlyFieldProps {
-  label: string
-  placeholder: string
-  isMultiSelect: boolean
-  description?: string
-  tooltip?: string
-  extraType?: CvcFormFieldExtraType
-}
+export interface CvcAmpCategorySelectFieldProps
+  extends CvcEnumSelectFieldProps {}
 
-export interface CvcAmpCategorySelectFieldConfig extends FormlyFieldConfig<CvcAmpCategorySelectFieldProps> {
-  type: 'level-select' | Type<CvcAmpCategorySelectField>
+export interface CvcAmpCategorySelectFieldConfig
+  extends FormlyFieldConfig<CvcAmpCategorySelectFieldProps> {
+  type: 'amp-category-select' | Type<CvcAmpCategorySelectField>
 }
-
-const AmpCategorySelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcAmpCategorySelectFieldProps>,
-    Maybe<AmpLevel>
-  >(),
-  EnumSelectField<AmpLevel, CvcInputEnum>()
-)
 
 @Component({
   selector: 'cvc-amp-category-select',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    NzTagModule,
+    NzTypographyModule,
+    CvcPipesModule,
+  ],
   templateUrl: './amp-category-select.type.html',
-  styleUrls: ['./amp-category-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
-export class CvcAmpCategorySelectField
-  extends AmpCategorySelectMixin
-  implements AfterViewInit
-{
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EvidenceLevel instead of CvcInputEnum
-  // STATE SOURCE STREAMS
-  ampCategoryEnum$: BehaviorSubject<CvcInputEnum[]>
-  onRequiresAmpCategory$?: BehaviorSubject<boolean>
-
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$!: BehaviorSubject<string>
-
-  // FieldTypeConfig defaults
+export class CvcAmpCategorySelectField extends CvcEnumSelectFieldBase<
+  AmpLevel,
+  CvcAmpCategorySelectFieldProps
+> {
   defaultOptions: CvcAmpCategorySelectFieldOptions = {
     props: {
       label: 'AMP/ASCO/CAP Category',
       required: false,
       isMultiSelect: false,
       placeholder: 'Select AMP/ASCO/CAP Category',
+      tooltip:
+        'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
+  override ngOnInit(): void {
+    super.ngOnInit()
+    this.optionValues.set(OPTION_ORDER)
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super()
-    this.ampCategoryEnum$ = new BehaviorSubject<CvcInputEnum[]>([])
-  }
+    const requires = this.state?.requires.requiresAmpLevel$
+    if (!requires) {
+      if (this.state) {
+        console.warn(
+          `${this.field.id} field's form provides a state, but could not find requiresAmpLevel$ subject to attach.`
+        )
+      }
+      this.connectValueDescription()
+      return
+    }
 
-  descriptionForCategory(cat: Maybe<CvcInputEnum>): Maybe<string> {
-    return optionText.get(cat as AmpLevel)
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEnumSelectField({
-      optionEnum$: this.ampCategoryEnum$,
-      optionTemplate$: this.optionTemplate$,
-      changeDetectorRef: this.cdr,
+    // one effect owns description, extraType, required and disabled together;
+    // the old field split them across two subscriptions that overwrote each
+    // other's description depending on which emitted last
+    const isRequired = toSignal(requires, { injector: this.injector })
+    effect(() => this.applyGate(isRequired() ?? false, this.selected()), {
+      injector: this.injector,
     })
-    this.configurePlaceholder()
   }
 
-  configureStateConnections(): void {
-    //TODO - html linkout to https://pubmed.ncbi.nlm.nih.gov/27993330/
-    this.props.tooltip =
-      'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.'
+  protected override descriptionFor(value: AmpLevel) {
+    return optionText.get(value)
+  }
 
-    this.ampCategoryEnum$.next([
-      AmpLevel.TierILevelA,
-      AmpLevel.TierILevelB,
-      AmpLevel.TierIiLevelC,
-      AmpLevel.TierIiLevelD,
-      AmpLevel.TierIii,
-      AmpLevel.TierIv,
-      AmpLevel.Na,
-    ])
+  protected descriptionForCategory(value: AmpLevel) {
+    return optionText.get(value)
+  }
 
-    // set up optionTemplates Observable
-    if (!this.optionTemplates) {
-      console.error(
-        `${this.field.id} could not find its optionTemplates QueryList to populate its select options, so simple text labels will be displayed.`
-      )
-    }
-    this.optionTemplate$ = this.optionTemplates?.changes.pipe(
-      // return QueryLists's array of TemplateRefs
-      map((ql: QueryList<TemplateRef<any>>) => {
-        return ql.map((q) => q)
-      })
-    )
-
-    if (!this.state) return
-    if (!this.state.requires.requiresAmpLevel$) {
-      console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresAmpLevel$ subject to attach.`
-      )
+  private applyGate(isRequired: boolean, value?: AmpLevel): void {
+    if (!isRequired) {
+      this.props.required = false
+      this.props.disabled = true
+      this.props.description = REQUIRES_TYPE_PROMPT
+      this.props.extraType = 'prompt'
+      if (value !== undefined) this.resetField()
     } else {
-      this.onRequiresAmpCategory$ = this.state.requires.requiresAmpLevel$
+      this.props.required = true
+      this.props.disabled = false
+      this.props.description = value
+        ? optionText.get(value)
+        : CLASSIFICATION_PROMPT
+      this.props.extraType = 'description'
     }
-
-    // update field description on value changes
-    this.onValueChange$
-      .pipe(untilDestroyed(this))
-      .subscribe((level: Maybe<AmpLevel>) => {
-        if (!level) {
-          this.props.description =
-            'Select an Assertion Type to select its AMP Category'
-        } else {
-          this.props.extraType = undefined
-          this.props.description = optionText.get(level)
-        }
-      })
-  }
-
-  configurePlaceholder(): void {
-    this.placeholder$ = new BehaviorSubject<string>(this.props.placeholder)
-
-    if (!this.onRequiresAmpCategory$) return
-
-    this.onRequiresAmpCategory$
-      .pipe(distinctUntilChanged(), untilDestroyed(this))
-      .subscribe((requiresAmp) => {
-        this.props.extraType = undefined
-        if (requiresAmp) {
-          if (!this.formControl.value) {
-            this.props.extraType = 'description'
-            this.props.description =
-              'Please provide the AMP/ASCO/CAP <a href="https://pubmed.ncbi.nlm.nih.gov/27993330/" target="_blank">somatic variant classification</a>.'
-          }
-          this.props.required = true
-          this.props.disabled = false
-        } else {
-          this.props.required = false
-          this.props.disabled = true
-          //this.placeholder$.next()
-          this.resetField()
-        }
-        this.cdr.markForCheck()
-      })
+    this.markDirty()
   }
 }

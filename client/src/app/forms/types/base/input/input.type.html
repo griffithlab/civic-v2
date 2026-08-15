@@ -5,12 +5,10 @@
     [nzVariant]="props.variant || 'outlined'"
     [nzSize]="props.size || 'default'"
     [type]="props.type || 'text'"
-    [formlyAttributes]="field"
-    (ngModelChange)="onValueChange$.next($event)" />
+    [formlyAttributes]="field" />
 } @else {
   <nz-input-number
     [formControl]="formControl"
     [formlyAttributes]="field"
-    [nzSize]="props.size || 'default'"
-    (ngModelChange)="onValueChange$.next($event)"></nz-input-number>
+    [nzSize]="props.size || 'default'"></nz-input-number>
 }

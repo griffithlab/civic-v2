@@ -5,8 +5,7 @@
     nzAllowClear
     [formControl]="formControl"
     [formlyAttributes]="field"
-    nzDropdownClassName="hide-dropdown"
-    (ngModelChange)="onValueChange$.next($event)">
+    nzDropdownClassName="hide-dropdown">
     @for (item of formControl.value; track item) {
       <nz-option
         [nzLabel]="item"
@@ -14,29 +13,18 @@
         [nzHide]="true"></nz-option>
     }
   </nz-select>
+} @else if (props.type !== 'number') {
+  <input
+    nz-input
+    #baseInputTxt
+    [formControl]="formControl"
+    (keydown.enter)="baseInputTxt.blur()"
+    [type]="props.type || 'text'"
+    [formlyAttributes]="field" />
 } @else {
-  @if (tagLabel$ | ngrxPush; as tagLabel) {
-    <nz-tag
-      [nzMode]="'closeable'"
-      (nzOnClose)="onTagClose$.next($event)">
-      {{ tagLabel }}
-    </nz-tag>
-  }
-  @if (!(tagLabel$ | ngrxPush)) {
-    @if (props.type !== 'number') {
-      <input
-        nz-input
-        #baseInputTxt
-        [formControl]="formControl"
-        (keydown.enter)="baseInputTxt.blur()"
-        [type]="props.type || 'text'"
-        [formlyAttributes]="field" />
-    } @else {
-      <nz-input-number
-        #baseInputNum
-        (keydown.enter)="baseInputNum.blur()"
-        [formControl]="formControl"
-        [formlyAttributes]="field"></nz-input-number>
-    }
-  }
+  <nz-input-number
+    #baseInputNum
+    (keydown.enter)="baseInputNum.blur()"
+    [formControl]="formControl"
+    [formlyAttributes]="field"></nz-input-number>
 }

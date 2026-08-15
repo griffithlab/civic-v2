@@ -1,26 +1,29 @@
-<cvc-enum-select
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcPlaceholder]="props.placeholder"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"></cvc-enum-select>
-@for (enum of typeEnums$ | ngrxPush; track enum; let i = $index) {
-  <ng-template #optionTemplates>
-    <cvc-attribute-tag [cvcAttrValue]="enum"></cvc-attribute-tag>
-  </ng-template>
-}
+<nz-select
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.ng-dirty]="showError"
+  [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [nzPlaceHolder]="props.placeholder || 'Select a Type'"
+  [nzDisabled]="!!props.disabled"
+  [nzCustomTemplate]="selectedTpl">
+  @for (entityType of optionValues(); track entityType) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="entityType"
+      [nzLabel]="entityType">
+      <cvc-attribute-tag [cvcAttrValue]="entityType" />
+    </nz-option>
+  }
+</nz-select>
 
 <ng-template
-  #selectedTemplate
+  #selectedTpl
   let-selected>
   <div class="ant-select-selection-item-content">
     <cvc-attribute-tag
       [cvcAttrValue]="selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
-      (cvcOnClose)="onTagClose$.next($event)"></cvc-attribute-tag>
+      (cvcOnClose)="onTagClose()" />
   </div>
 </ng-template>

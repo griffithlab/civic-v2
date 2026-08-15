@@ -1,33 +1,35 @@
-<cvc-enum-select
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcPlaceholder]="placeholder$ | ngrxPush"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"></cvc-enum-select>
-@for (build of buildEnum$ | ngrxPush; track build; let i = $index) {
-  <ng-template #optionTemplates>
-    <nz-tag>
-      <strong>{{ build }}</strong>
-    </nz-tag>
-  </ng-template>
-}
+<nz-select
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.ng-dirty]="showError"
+  [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [nzPlaceHolder]="props.placeholder || 'Select Reference Build'"
+  [nzDisabled]="!!props.disabled"
+  [nzCustomTemplate]="selectedTpl">
+  @for (build of optionValues(); track build) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="build"
+      [nzLabel]="build">
+      <nz-tag>
+        <strong>{{ build }}</strong>
+      </nz-tag>
+    </nz-option>
+  }
+</nz-select>
 
 <ng-template
-  #selectedTemplate
+  #selectedTpl
   let-selected>
   <div class="ant-select-selection-item-content">
-    @if (!props.isMultiSelect) {
-      <nz-tag
-        nzMode="closeable"
-        (nzOnClose)="onTagClose$.next($event)">
-        <strong>{{ selected.nzValue }}</strong>
-      </nz-tag>
-    }
     @if (props.isMultiSelect) {
       {{ selected.nzValue }}
+    } @else {
+      <nz-tag
+        nzMode="closeable"
+        (nzOnClose)="onTagClose()">
+        <strong>{{ selected.nzValue }}</strong>
+      </nz-tag>
     }
   </div>
 </ng-template>

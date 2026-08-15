@@ -12,6 +12,13 @@ export interface CvcEntitySelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
+/** Props every enum-select field shares. */
+export interface CvcEnumSelectFieldProps extends FormlyFieldProps {
+  isMultiSelect: boolean
+  tooltip?: string
+  extraType?: CvcFormFieldExtraType
+}
+
 /**
  * Props for a select whose availability is gated on the form's entity type —
  * some evidence and assertion types have no associated disease, therapy or

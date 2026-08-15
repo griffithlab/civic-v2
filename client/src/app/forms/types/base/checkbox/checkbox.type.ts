@@ -1,34 +1,41 @@
 import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
+import { ReactiveFormsModule } from '@angular/forms'
+import { CvcFieldBase } from '@app/forms/select'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyModule,
+} from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
-import mixin from 'ts-mixin-extended'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 export type CvcBaseCheckboxFieldOptions = Partial<
   FieldTypeConfig<CvcBaseCheckboxFieldProps>
 >
+
 export interface CvcBaseCheckboxFieldProps extends FormlyFieldProps {
   indeterminate?: boolean
 }
 
-export interface FormlyCheckboxFieldConfig extends FormlyFieldConfig<CvcBaseCheckboxFieldProps> {
-  type: 'checkbox' | Type<CvcBaseCheckboxField>
+export interface FormlyCheckboxFieldConfig
+  extends FormlyFieldConfig<CvcBaseCheckboxFieldProps> {
+  type: 'base-checkbox' | Type<CvcBaseCheckboxField>
 }
 
-const BaseCheckboxMixin =
-  mixin(
-    BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
-  )
 @Component({
   selector: 'cvc-checkbox',
-  templateUrl: './checkbox.type.html',
-  styleUrls: ['./checkbox.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [ReactiveFormsModule, FormlyModule, NzCheckboxModule],
+  templateUrl: './checkbox.type.html',
+  styleUrl: './checkbox.type.less',
 })
-export class CvcBaseCheckboxField extends BaseCheckboxMixin {
-  override defaultOptions = {
+export class CvcBaseCheckboxField extends CvcFieldBase<
+  Maybe<boolean>,
+  FieldTypeConfig<CvcBaseCheckboxFieldProps>
+> {
+  defaultOptions: CvcBaseCheckboxFieldOptions = {
     props: {
       indeterminate: true,
       hideLabel: true,
