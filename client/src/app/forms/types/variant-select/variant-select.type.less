@@ -1,6 +1,25 @@
 @import 'themes/default.less';
 
+:host {
+  display: block;
+
+  nz-select {
+    width: 100%;
+  }
+}
+
 // prevent parent fields' validation state styles from affecting border color
 ::ng-deep nz-input-group {
   border-color: @border-color-base !important;
+}
+
+.manager-button {
+  span.hide {
+    transform: rotate(0deg);
+    transition: transform 0.2s linear;
+  }
+  span.show {
+    transform: rotate(90deg);
+    transition: transform 0.2s linear;
+  }
 }

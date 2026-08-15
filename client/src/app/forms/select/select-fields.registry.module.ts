@@ -9,6 +9,7 @@ import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/pheno
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
 import { CvcSourceSelectField } from '@app/forms/types/source-select/source-select.type'
 import { CvcTherapySelectField } from '@app/forms/types/therapy-select/therapy-select.type'
+import { CvcVariantSelectField } from '@app/forms/types/variant-select/variant-select.type'
 import { CvcVariantTypeSelectField } from '@app/forms/types/variant-type-select/variant-type-select.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 
@@ -160,6 +161,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcTherapySelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Therapies' },
+      },
+    },
+    {
+      name: 'variant-select',
+      wrappers: ['form-field'],
+      component: CvcVariantSelectField,
+      defaultOptions: { props: { label: 'Variant' } },
+    },
+    {
+      name: 'variant-multi-select',
+      wrappers: ['form-field'],
+      component: CvcVariantSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Variants' },
       },
     },
     {

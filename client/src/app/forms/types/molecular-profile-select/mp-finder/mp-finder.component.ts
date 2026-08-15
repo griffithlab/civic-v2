@@ -17,7 +17,7 @@ import { Apollo, gql } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject } from 'rxjs'
-import { CvcVariantSelectFieldOption } from '../../variant-select/variant-select.type'
+import { CvcVariantSelectFieldOptions } from '../../variant-select/variant-select.type'
 import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
 
 type MpFinderModel = {
@@ -87,7 +87,7 @@ export class MpFinderComponent {
               },
             },
           },
-          <CvcVariantSelectFieldOption>{
+          <CvcVariantSelectFieldOptions>{
             key: 'variantId',
             type: 'variant-select',
             props: {

@@ -23,7 +23,6 @@ import { CvcRatingModule } from './rating/rating.module'
 import { CvcReferenceBuildSelectModule } from './reference-build-select/reference-build-select.module'
 import { CvcSignificanceSelectModule } from './significance-select/significance-select.module'
 import { CvcTagInputModule } from './tag-input/tag-input.module'
-import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search-button.module'
 import { CvcQuerySubfiltersModule } from '@app/forms/types/query-builder/query-subfilters/query-subfilters.module'
 import { CvcBaseRadioFieldModule } from '@app/forms/types/base/radio/radio.module'
@@ -58,7 +57,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcReferenceBuildSelectModule,
     CvcSignificanceSelectModule,
     CvcTagInputModule,
-    CvcVariantSelectModule,
     CvcSearchButtonTypeModule,
     CvcQuerySubfiltersModule,
     CvcQueryFilterModule,

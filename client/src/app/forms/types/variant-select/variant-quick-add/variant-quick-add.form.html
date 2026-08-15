@@ -1,6 +1,6 @@
-<ng-container *ngrxLet="formMessageDisplay$ as display">
-  <span>{{ display.message }}</span>
-</ng-container>
+@if (formMessage().message; as message) {
+  <span>{{ message }}</span>
+}
 <cvc-form-submission-status-display
 [mutationState]="mutationState"
   entityType="Variant"

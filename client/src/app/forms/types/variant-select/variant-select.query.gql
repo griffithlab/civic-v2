@@ -4,31 +4,20 @@ query VariantSelectTypeahead($name: String!, $featureId: Int) {
   }
 }
 
+# One spread on the interface covers every concrete Variant type. This used to
+# repeat the same spread inside five inline fragments (Variant, GeneVariant,
+# FactorVariant, FusionVariant, RegionVariant), which selected exactly the
+# same fields.
 query VariantSelectTag($variantId: Int!) {
   variant(id: $variantId) {
-    ... on Variant {
-      ...VariantSelectTypeaheadFields
-    }
-    ... on GeneVariant {
-      ...VariantSelectTypeaheadFields
-    }
-    ... on FactorVariant {
-      ...VariantSelectTypeaheadFields
-    }
-    ... on FusionVariant {
-      ...VariantSelectTypeaheadFields
-    }
-    ... on RegionVariant {
-      ...VariantSelectTypeaheadFields
-    }
+    ...VariantSelectTypeaheadFields
   }
 }
 
+# Spreads LinkableVariant so a selected Variant lands in the cache in exactly
+# the shape cvc-tag's watchFragment reads, whatever its concrete typename.
 fragment VariantSelectTypeaheadFields on VariantInterface {
-  id
-  name
-  link
-  deprecated
+  ...LinkableVariant
   variantAliases
   singleVariantMolecularProfileId
   singleVariantMolecularProfile {

@@ -179,6 +179,13 @@ export interface EntitySelectContractConfig<TField> {
    * the contract types `searchTerm` wherever it needs options on screen.
    */
   minSearchStrLength?: number
+  /**
+   * Form state a field needs before it will work at all — variant-select is
+   * disabled until featureId$ has a value. A factory, so each test gets its
+   * own subjects, and merged with (not replaced by) the state the contract
+   * supplies itself.
+   */
+  formState?: () => Record<string, any>
 }
 
 /**
@@ -198,6 +205,7 @@ export function describeEntitySelectContract<TField>(
       type: config.type,
       key: config.key,
       respond: config.respond,
+      formState: config.formState?.(),
       ...overrides,
     })
 
@@ -330,8 +338,13 @@ export function describeEntitySelectContract<TField>(
     it('propagates its value to the form-state subject named after its key', async () => {
       const { BehaviorSubject } = await import('rxjs')
       const subject = new BehaviorSubject<number | undefined>(undefined)
+      // merged, not replaced: a field may need other state to be usable
+      const base = config.formState?.() ?? {}
       const h = await setup({
-        formState: { fields: { [`${config.key}$`]: subject } },
+        formState: {
+          ...base,
+          fields: { ...(base.fields ?? {}), [`${config.key}$`]: subject },
+        },
       })
       await showOptions(h)
       h.optionItems()[1].click()

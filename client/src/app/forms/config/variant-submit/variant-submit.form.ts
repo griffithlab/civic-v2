@@ -5,7 +5,7 @@ import {
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
+import { CvcVariantSelectFieldOptions } from '@app/forms/types/variant-select/variant-select.type'
 import { FeatureSelectTagGQL } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
 import { Maybe, Variant } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -82,7 +82,7 @@ export class VariantSubmitForm {
               hideLabel: true,
             },
           },
-          <CvcVariantSelectFieldOption>{
+          <CvcVariantSelectFieldOptions>{
             key: 'variantId',
             type: 'variant-select',
             props: {

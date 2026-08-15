@@ -1,54 +1,43 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  QueryList,
-  TemplateRef,
   Type,
-  ViewChildren,
+  computed,
+  inject,
+  signal,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ReactiveFormsModule } from '@angular/forms'
+import {
+  CvcEntitySelectDirective,
+  CvcEntitySelectFieldBase,
+  CvcEntitySelectFieldProps,
+  CvcHighlightComponent,
+  CvcSelectAddFormComponent,
+  CvcSelectMessagesComponent,
+  entitySelectConfig,
+} from '@app/forms/select'
 import {
   FeatureSelectTagGQL,
   FeatureSelectTypeaheadFieldsFragment,
 } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
-import {
-  VariantSelectTagGQL,
-  VariantSelectTagQuery,
-  VariantSelectTagQueryVariables,
-  VariantSelectTypeaheadFieldsFragment,
-  VariantSelectTypeaheadGQL,
-  VariantSelectTypeaheadQuery,
-  VariantSelectTypeaheadQueryVariables,
-} from './variant-select.query.gql.generated'
 import { FeatureInstanceTypes, Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+import { CvcTagComponent, TaggableTypename } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { NzModalService } from 'ng-zorro-antd/modal'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import {
-  BehaviorSubject,
-  combineLatest,
-  filter,
-  lastValueFrom,
-  map,
-  Observable,
-  ReplaySubject,
-  scan,
-  Subject,
-  take,
-  withLatestFrom,
-} from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { filter, map, take } from 'rxjs'
 import {
   CvcFusionVariantSelectForm,
   FusionVariantSelectModalData,
@@ -56,342 +45,310 @@ import {
 import {
   CvcRegionVariantSelectForm,
   RegionVariantSelectModalData,
-} from './region-variant-select /region-variant-select.form'
-import { Apollo } from 'apollo-angular'
+} from './region-variant-select/region-variant-select.form'
+import { CvcVariantManagerModule } from './variant-manager/variant-manager.module'
+import { CvcVariantQuickAddForm } from './variant-quick-add/variant-quick-add.form'
+import {
+  VariantSelectTagGQL,
+  VariantSelectTypeaheadFieldsFragment,
+  VariantSelectTypeaheadGQL,
+} from './variant-select.query.gql.generated'
 
 export interface VariantIdWithCreationStatus {
   new: boolean
   id: number
 }
 
-export type CvcVariantSelectFieldOption = Partial<
+// props is Partial here because config sites set only what they override and
+// let the field's defaultOptions supply the rest
+export type CvcVariantSelectFieldOptions = Partial<
   FieldTypeConfig<Partial<CvcVariantSelectFieldProps>>
 >
 
-export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
-  isMultiSelect: boolean // is child of a repeat-field type
-  entityName: CvcSelectEntityName
-  placeholder: string
-  tooltip?: string
-  requireFeature: boolean // if true, disables field if no featureId, and adjust placeholders, prompts
-  requireFeaturePlaceholderFn: (featureName: string) => string // returns placeholder that includes feature name
-  requireFeaturePrompt: string // prompt displayed if feature unspecified
-  extraType?: CvcFormFieldExtraType // stores display type for msg beneath select component
-  showManagerBtn?: boolean // show manager button
-  minSearchStrLength: number
+export interface CvcVariantSelectFieldProps extends CvcEntitySelectFieldProps {
+  /** disables the field until the form's Feature field has a value */
+  requireFeature: boolean
+  /** placeholder once a Feature is chosen, e.g. "Search BRAF Variants" */
+  requireFeaturePlaceholderFn: (featureName: string) => string
+  /** shown beneath the field while no Feature is chosen */
+  requireFeaturePrompt: string
+  /** shows the variant manager button */
+  showManagerBtn?: boolean
+  /** offer the add form even when the search already matches something */
   alwaysShowCreate?: boolean
+  /** notified whether the variant that landed in the field was just created */
+  isNewlyCreatedCallback?: (isNewlyCreated: boolean) => void
+  /** notified of the selected Feature's type */
+  featureTypeCallback?: (featureType: Maybe<FeatureInstanceTypes>) => void
 }
 
-export interface CvcVariantSelectFieldConfig extends FormlyFieldConfig<CvcVariantSelectFieldProps> {
+// NOTE: any multi-select field must have the string 'multi' in its type name,
+// as UI logic (currently in base-field) depends on its presence to differentiate
+// field types in some expressions
+export interface CvcVariantSelectFieldConfig
+  extends FormlyFieldConfig<CvcVariantSelectFieldProps> {
   type: 'variant-select' | 'variant-multi-select' | Type<CvcVariantSelectField>
 }
 
-const VariantSelectMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcVariantSelectFieldProps>, Maybe<number>>(),
-  EntitySelectField<
-    VariantSelectTypeaheadQuery,
-    VariantSelectTypeaheadQueryVariables,
-    VariantSelectTypeaheadFieldsFragment,
-    VariantSelectTagQuery,
-    VariantSelectTagQueryVariables,
-    Maybe<number>
-  >()
-)
+/** a name has to be this long before the quick-add form is worth offering */
+const MIN_ADD_NAME_LENGTH = 3
 
+/**
+ * What a builder modal resolves with. Distinct from the *ModalData types,
+ * which describe what is passed *in* via nzData — the old code conflated the
+ * two, which is why the result was effectively untyped.
+ */
+interface VariantBuilderResult {
+  variantId?: number
+}
+
+/**
+ * Selects a Variant within one Feature, with three ways to create one: an
+ * inline quick-add, and a modal builder each for Fusion and Region variants.
+ *
+ * The Feature comes from a sibling field via form state, not from this
+ * field's own UI — it is a parameter gate, not the entity-type gate the
+ * disease and therapy selects use, so this extends the plain base rather than
+ * CvcTypeGatedSelectFieldBase.
+ *
+ * Variants are the one genuinely polymorphic select: the tag query resolves
+ * to GeneVariant, FactorVariant, FusionVariant, RegionVariant or plain
+ * Variant, so the tag typename is resolved per result. The typeahead itself
+ * only ever returns plain Variant.
+ */
 @Component({
-  selector: '',
-  templateUrl: './variant-select.type.html',
-  styleUrls: ['./variant-select.type.less'],
+  selector: 'cvc-variant-select',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzButtonModule,
+    NzGridModule,
+    NzIconModule,
+    // supplies NzModalService, which opens the two variant builders
+    NzModalModule,
+    NzSelectModule,
+    NzSpaceModule,
+    NzTooltipModule,
+    NzTypographyModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcHighlightComponent,
+    CvcSelectAddFormComponent,
+    CvcSelectMessagesComponent,
+    CvcVariantQuickAddForm,
+    CvcVariantManagerModule,
+  ],
+  templateUrl: './variant-select.type.html',
+  styleUrl: './variant-select.type.less',
 })
-export class CvcVariantSelectField
-  extends VariantSelectMixin
-  implements AfterViewInit
-{
-  // STATE SOURCE STREAMS
-  onFeatureId$!: BehaviorSubject<Maybe<number>>
+export class CvcVariantSelectField extends CvcEntitySelectFieldBase<
+  VariantSelectTypeaheadFieldsFragment,
+  Maybe<number>,
+  CvcVariantSelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(VariantSelectTypeaheadGQL)
+  private readonly tagGQL = inject(VariantSelectTagGQL)
+  private readonly featureGQL = inject(FeatureSelectTagGQL)
+  private readonly modal = inject(NzModalService)
+  private readonly cdr = inject(ChangeDetectorRef)
 
-  // LOCAL SOURCE STREAMS
-  onVid$: ReplaySubject<Maybe<number[]>>
-  onShowMgrClick$: Subject<void>
-  onFeatureName$: BehaviorSubject<Maybe<string>>
+  protected readonly select = entitySelectConfig({
+    entityName: { singular: 'Variant', plural: 'Variants' },
+    typename: (result: VariantSelectTypeaheadFieldsFragment) =>
+      result.__typename as TaggableTypename,
+    typeahead: this.typeaheadGQL,
+    typeaheadVars: (name: string, featureId: Maybe<number>) => ({
+      name,
+      featureId,
+    }),
+    typeaheadResults: (data) => data?.variantsTypeahead ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (variantId: number) => ({ variantId }),
+      result: (data) => data?.variant,
+    },
+  })
 
-  // LOCAL PRESENTATION STREAMS
-  showMgr$: Observable<boolean>
-  onModel$ = new Observable<any>()
+  /** the Feature this field is scoped to, once its name has been fetched */
+  private readonly selectedFeature = signal<
+    Maybe<FeatureSelectTypeaheadFieldsFragment>
+  >(undefined)
 
-  selectedFeatureId?: number
-  selectedFeatureType?: string
-  selectedFeature?: FeatureSelectTypeaheadFieldsFragment
+  protected readonly showManager = signal(false)
 
-  // FieldTypeConfig defaults
-  defaultOptions = {
+  protected readonly disabled = computed(
+    () => this.props.requireFeature && !this.param()
+  )
+
+  /** which of the three add paths the selected Feature's type calls for */
+  protected readonly addPath = computed<'fusion' | 'region' | 'quick-add'>(
+    () => {
+      switch (this.selectedFeature()?.featureType) {
+        case FeatureInstanceTypes.Fusion:
+          return 'fusion'
+        case FeatureInstanceTypes.Region:
+          return 'region'
+        default:
+          return 'quick-add'
+      }
+    }
+  )
+
+  defaultOptions: Partial<FieldTypeConfig<CvcVariantSelectFieldProps>> = {
     props: {
       label: 'Variant',
       placeholder: 'Search Variants',
-      requireFeature: true,
-      requireFeaturePlaceholderFn: (featureName: string) => {
-        return `Search ${featureName} Variants`
-      },
-      requireFeaturePrompt: 'Select a Feature to search its Variants',
-      isMultiSelect: false,
       entityName: { singular: 'Variant', plural: 'Variants' },
+      isMultiSelect: false,
+      requireFeature: true,
+      requireFeaturePlaceholderFn: (featureName: string) =>
+        `Search ${featureName} Variants`,
+      requireFeaturePrompt: 'Select a Feature to search its Variants',
       showManagerBtn: false,
-      minSearchStrLength: 0,
       alwaysShowCreate: false,
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
+  override ngOnInit(): void {
+    super.ngOnInit()
+    if (!this.props.requireFeature) return
 
-  constructor(
-    private taq: VariantSelectTypeaheadGQL,
-    private tq: VariantSelectTagGQL,
-    private featureQuery: FeatureSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef,
-    private modal: NzModalService
-  ) {
-    super()
-    this.onFeatureName$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.onVid$ = new ReplaySubject<Maybe<number[]>>()
-    this.onShowMgrClick$ = new Subject<void>()
-    this.showMgr$ = this.onShowMgrClick$.pipe(scan((acc, _) => !acc, false))
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureEntitySelectField({
-      typeaheadQuery: this.taq,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent,
-      minSearchStrLength: this.field.props.minSearchStrLength,
-    })
-
-    // if state formReady exists,listen for parent ready event,
-    // then configure - otherwise configure the field immediately
-    if (this.state && this.state.formReady$) {
-      this.state.formReady$
-        .pipe(
-          filter((r) => r), // only pass true values
-          take(1), // unsubscribe after 1st emit
-          untilDestroyed(this) // or form destroyed
-        )
-        .subscribe((_) => {
-          this.configureField()
-        })
-    } else {
-      this.configureField()
+    // Wait for the form to finish prepopulating before watching featureId:
+    // the subject replays its initial undefined, and reacting to that would
+    // reset a variant the form had just loaded.
+    const formReady$ = this.state?.formReady$
+    if (!formReady$) {
+      this.connectFeature()
+      return
     }
-  } // ngAfterViewInit
-
-  private configureField() {
-    this.configureStateConnections() // local fn
-
-    this.onVid$.pipe(untilDestroyed(this)).subscribe()
-
-    // if form value exists on init, emit it so evidence manager will be updated
-    this.onVid$.next(this.formControl.value)
-
-    // update model provided to quick-add form when either sourceType or citationId changes
-    this.onModel$ = combineLatest([this.onFeatureId$, this.onSearch$]).pipe(
-      map(([featureId, name]: [Maybe<number>, Maybe<string>]) => {
-        return { featureId: featureId, name: name }
-      })
-    )
-
-    // emit value, to update variant-manager selection
-    this.onValueChange$
-      .pipe(withLatestFrom(this.onVid$), untilDestroyed(this))
-      .subscribe(([current, _]) => {
-        if (Array.isArray(current)) this.onVid$.next(current)
-      })
+    formReady$
+      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.connectFeature())
   }
 
-  private configureStateConnections() {
-    if (!this.state) return
-    // attach state featureId$ to get feature field value updates
-    if (this.props.requireFeature) {
-      if (!this.state?.fields.featureId$) {
-        console.error(
-          `${this.field.id} requireFeature is set, but no featureId$ subject found on state.`
-        )
-        return
-      }
-      this.onFeatureId$ = this.state.fields.featureId$
-      this.onFeatureId$.pipe(untilDestroyed(this)).subscribe((fid) => {
-        this.onFeatureId(fid)
-      })
-    }
+  protected toggleManager(): void {
+    this.showManager.update((shown) => !shown)
   }
 
-  getTypeaheadVarsFn(str: string) {
-    return {
-      name: str,
-      featureId: this.selectedFeatureId,
-    }
+  /** the manager emits the complete selection, so this replaces the value */
+  protected onManagerSelection(ids: Maybe<number[]>): void {
+    const value = ids ?? []
+    this.formControl.setValue(value)
+    this.fetchTagRecords(value).subscribe()
   }
 
-  getTypeaheadResultsFn(r: Apollo.QueryResult<VariantSelectTypeaheadQuery>) {
-    return r.data?.variantsTypeahead ?? []
-  }
-
-  getTagQueryVarsFn(id: number): VariantSelectTagQueryVariables {
-    return { variantId: id }
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<VariantSelectTagQuery>
-  ): Maybe<VariantSelectTypeaheadFieldsFragment> {
-    return r.data?.variant
-  }
-
-  getSelectedItemOptionFn(
-    variant: VariantSelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: variant.id, label: variant.name }
-  }
-
-  // NOTE: to handle polymorphic types, the title attribute is overloaded below to get the variant typename into its #selectedTemplate's context, which is limited to NzSelectOptionInterface
-
-  getSelectOptionsFn(
-    results: VariantSelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (variant: VariantSelectTypeaheadFieldsFragment, index: number) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || variant.name,
-          value: variant.id,
-          title: variant.__typename,
-        }
-      }
-    )
-  }
-
-  showAddBehavior(
-    s: string,
+  protected override showAddForm(
+    searchStr: string,
     results: VariantSelectTypeaheadFieldsFragment[]
   ): boolean {
-    const searchName = s.toLowerCase()
-    // The compiler thinks this refers to the component but because of
-    // something in the mixin chain, it does not.
-    const mixin = this as any
-    if (mixin.cvcFormlyAttributes.props.alwaysShowCreate) {
-      return true
-    } else {
-      return (
-        s.length >= 3 &&
-        !results.some((v) => v.name.toLowerCase() === searchName)
+    if (this.props.alwaysShowCreate) return true
+    const name = searchStr.toLowerCase()
+    return (
+      searchStr.length >= MIN_ADD_NAME_LENGTH &&
+      !results.some((r) => r.name.toLowerCase() === name)
+    )
+  }
+
+  /** the inline quick-add reports whether it created the Variant or found it */
+  protected onVariantQuickAdd(variant: VariantIdWithCreationStatus): void {
+    this.props.isNewlyCreatedCallback?.(variant.new)
+    this.props.featureTypeCallback?.(this.selectedFeature()?.featureType)
+    this.onEntityCreated(variant.id)
+  }
+
+  protected createFusionVariantModal(): void {
+    this.openBuilder(CvcFusionVariantSelectForm, 'Add New Fusion Variant', '60%')
+  }
+
+  protected createRegionVariantModal(): void {
+    this.openBuilder(
+      CvcRegionVariantSelectForm,
+      'Add New Region Variant',
+      '500px'
+    )
+  }
+
+  /**
+   * Both builders report their result by destroying the modal with it.
+   * Dismissing one any other way (the close icon, ESC, the mask) resolves
+   * with nothing, which the old code dereferenced unguarded.
+   */
+  private openBuilder<T>(
+    content: Type<T>,
+    title: string,
+    width: string
+  ): void {
+    const modal = this.modal.create<
+      T,
+      FusionVariantSelectModalData | RegionVariantSelectModalData
+    >({
+      nzTitle: title,
+      nzContent: content,
+      nzData: { feature: this.selectedFeature() },
+      nzFooter: null,
+      nzWidth: width,
+    })
+
+    modal.afterClose
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result?: VariantBuilderResult) => {
+        if (!result?.variantId) return
+        this.onVariantQuickAdd({ id: result.variantId, new: true })
+      })
+  }
+
+  private connectFeature(): void {
+    const featureId$ = this.state?.fields.featureId$
+    if (!featureId$) {
+      console.error(
+        `${this.field.id} requireFeature is set, but no featureId$ subject found on state.`
       )
+      return
     }
+    featureId$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((featureId: Maybe<number>) => this.applyFeature(featureId))
   }
 
-  onSelectOrCreate(variant: VariantIdWithCreationStatus) {
-    this.onPopulate$.next(variant.id)
-    this.formControl.setValue(variant.id)
-    if (this.props.isNewlyCreatedCallback) {
-      this.props.isNewlyCreatedCallback(variant.new)
-    }
-    if (this.props.featureTypeCallback) {
-      this.props.featureTypeCallback(this.selectedFeature?.featureType)
-    }
-  }
+  private applyFeature(featureId: Maybe<number>): void {
+    this.param.set(featureId)
 
-  private onFeatureId(fid: Maybe<number>): void {
-    this.selectedFeatureId = fid
-    // if field config indicates that a featureId is required, and none is provided,
-    // set model to undefined (this resets the variant model if feature field is reset)
-    // and set placeholder to the 'requires feature' placeholder
-    if (!fid && this.props.requireFeature) {
+    if (!featureId) {
+      // clearing the Feature invalidates whatever Variant was chosen
       this.resetField()
+      this.paramName.set(undefined)
+      this.selectedFeature.set(undefined)
       this.props.description = this.props.requireFeaturePrompt
       this.props.placeholder = 'Select a Variant'
       this.props.extraType = 'prompt'
-      this.onFeatureName$.next(undefined)
-    } else if (fid) {
-      this.props.description = undefined
-      this.props.extraType = undefined
-      // id provided, so fetch its name and update the placeholder string.
-      // lastValueFrom is used b/c fetch could return 'loading' events
-      lastValueFrom(
-        this.featureQuery.fetch({
-          variables: { featureId: fid },
-          fetchPolicy: 'cache-first',
-        })
-      ).then(({ data }) => {
-        if (!data?.feature?.name) {
-          console.error(
-            `${this.field.id} could not fetch feature name for Feature:${fid}.`
-          )
-        } else {
-          this.selectedFeatureType = data.feature.featureType
-          this.selectedFeature = data.feature
-          if (this.props.requireFeature) {
-            this.props.placeholder = this.props.requireFeaturePlaceholderFn(
-              data.feature.name
-            )
-          } else {
-            this.props.placeholder = this.props.placeholder
-          }
-          if (this.selectedFeatureType == FeatureInstanceTypes.Region) {
-            this.props.alwaysShowCreate = true
-          }
-          // emit feature name for quick-add form Input
-          this.onFeatureName$.next(data.feature.name)
-        }
-      })
+      this.cdr.markForCheck()
+      return
     }
-  }
 
-  createFusionVariantModal() {
-    const modal = this.modal.create<
-      CvcFusionVariantSelectForm,
-      FusionVariantSelectModalData
-    >({
-      nzTitle: 'Add New Fusion Variant',
-      nzContent: CvcFusionVariantSelectForm,
-      nzData: { feature: this.selectedFeature },
-      nzFooter: null,
-      nzWidth: '60%',
-    })
+    this.props.description = undefined
+    this.props.extraType = undefined
 
-    modal.getContentComponent()
-    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
-      if (result.variantId) {
-        this.onSelectOrCreate({ id: result.variantId, new: true })
-        this.onVid$.next(result.variantId)
-      }
-    })
-  }
-
-  createRegionVariantModal() {
-    const modal = this.modal.create<
-      CvcRegionVariantSelectForm,
-      RegionVariantSelectModalData
-    >({
-      nzTitle: 'Add New Region Variant',
-      nzContent: CvcRegionVariantSelectForm,
-      nzData: { feature: this.selectedFeature },
-      nzFooter: null,
-      nzWidth: '500px',
-    })
-
-    modal.getContentComponent()
-    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
-      if (result.variantId) {
-        this.onSelectOrCreate({ id: result.variantId, new: true })
-        this.onVid$.next(result.variantId)
-      }
-    })
+    this.featureGQL
+      .fetch({ variables: { featureId }, fetchPolicy: 'cache-first' })
+      .pipe(
+        map((r) => r.data?.feature),
+        filter(Boolean),
+        take(1),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((feature) => {
+        this.selectedFeature.set(feature)
+        this.paramName.set(feature.name)
+        this.props.placeholder = this.props.requireFeaturePlaceholderFn(
+          feature.name
+        )
+        // a Region variant is always worth offering to build
+        if (feature.featureType === FeatureInstanceTypes.Region) {
+          this.props.alwaysShowCreate = true
+        }
+        this.cdr.markForCheck()
+      })
   }
 }
