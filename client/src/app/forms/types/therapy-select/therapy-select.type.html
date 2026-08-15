@@ -1,85 +1,75 @@
-<cvc-entity-select
-  [cvcAddEntity]="addTherapy"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcDisabled]="onRequiresTherapy$ && !(onRequiresTherapy$ | ngrxPush)"
-  [cvcEntityName]="props.entityName"
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcLoading]="isLoading$ | ngrxPush"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcPlaceholder]="placeholder$ | ngrxPush"
-  [cvcResults]="result$ | ngrxPush"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcShowError]="showError"
-  [cvcSelectOpen]="selectOpen$ | ngrxPush"
-  (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"
-  (cvcOnModelChange)="props.change && props.change(field, $event)">
-</cvc-entity-select>
-<!-- FIXME: select does not auto-fill new entity created by therapy-quick-add form -->
-
-<!-- select option templates -->
-<!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
-<ng-container *ngrxLet="onSearch$ as searchString">
-  @for (result of result$ | ngrxPush; track result; let i = $index) {
-    <ng-template #optionTemplates>
-      <cvc-entity-tag
-        [cvcDisableLink]="true"
-        [cvcCacheId]="result.__typename + ':' + result.id"
-        [cvcEmphasize]="searchString"></cvc-entity-tag>
+<nz-select
+  cvcEntitySelect
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.ng-dirty]="showError"
+  [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [nzPlaceHolder]="props.placeholder ?? 'Search ' + props.entityName.plural"
+  [nzDisabled]="!!props.disabled"
+  [nzLoading]="isLoading()"
+  [nzOpen]="open()!"
+  [nzCustomTemplate]="selectedTpl"
+  [nzNotFoundContent]="notFoundTpl"
+  [nzDropdownRender]="dropdownRender()"
+  (nzOnSearch)="search.set($event)"
+  (nzOpenChange)="onOpenChange($event)">
+  @for (result of results(); track result.id) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="result.id"
+      [nzLabel]="result.name">
+      <cvc-tag
+        [ref]="refFor(result)"
+        [linked]="false"
+        [emphasize]="searchTerm()" />
       <span
         nz-typography
         nzType="secondary">
         @if (result.ncitId) {
-          <strong>NCIt Code: </strong>
-          <span
-            [innerHtml]="
-              result.ncitId | highlightTypeahead: searchString
-            "></span
-          >&nbsp;
+          <strong>NCIt:</strong>
+          <cvc-highlight
+            [text]="result.ncitId"
+            [emphasize]="searchTerm()" />
         }
         @if (result.therapyAliases.length > 0) {
-          <strong>Aliases: </strong>
-          <em>
-            <span
-              nz-typography
-              nzType="secondary"
-              nz-tooltip
-              [nzTooltipTitle]="result.therapyAliases.join(', ')"
-              [innerHtml]="
-                result.therapyAliases.join(', ')
-                  | highlightTypeahead: searchString
-              ">
-            </span>
+          &nbsp;
+          <strong>Aliases:</strong>
+          <em
+            nz-tooltip
+            [nzTooltipTitle]="result.therapyAliases.join(', ')">
+            <cvc-highlight
+              [text]="result.therapyAliases.join(', ')"
+              [emphasize]="searchTerm()" />
           </em>
         }
       </span>
-    </ng-template>
+    </nz-option>
   }
-</ng-container>
+</nz-select>
 
-<!-- selected option item template -->
-<!-- displays entity tag, specifying context and mode depending on
-  if field is multi-select or single -->
+<!-- selected item(s): nz-select hands back only the bare id, the tag renders
+     itself from the Apollo cache -->
 <ng-template
-  #selectedTemplate
+  #selectedTpl
   let-selected>
   <div class="ant-select-selection-item-content">
-    <cvc-entity-tag
-      [cvcCacheId]="'Therapy:' + selected.nzValue"
-      [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
-      [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
-      (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+    @if (refForId(selected.nzValue); as ref) {
+      <cvc-tag
+        [ref]="ref"
+        [context]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
+        (closed)="onTagClose()" />
+    }
   </div>
 </ng-template>
 
-<!-- quick-add form template-->
-<ng-template
-  #addTherapy
-  let-searchStr
-  let-createMsg>
-  <cvc-therapy-quick-add-form
-    [cvcSearchString]="searchStr"
-    (cvcOnCreate)="onPopulate$.next($event)">
-  </cvc-therapy-quick-add-form>
+<ng-template #notFoundTpl>
+  <cvc-select-messages [display]="notFound()" />
+</ng-template>
+
+<ng-template #addForm>
+  <cvc-select-add-form>
+    <cvc-therapy-quick-add-form
+      [cvcSearchString]="notFound().searchStr"
+      (cvcOnCreate)="onEntityCreated($event)" />
+  </cvc-select-add-form>
 </ng-template>

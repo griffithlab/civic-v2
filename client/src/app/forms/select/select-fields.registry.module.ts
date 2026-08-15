@@ -3,6 +3,7 @@ import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-re
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
+import { CvcTherapySelectField } from '@app/forms/types/therapy-select/therapy-select.type'
 import { CvcVariantTypeSelectField } from '@app/forms/types/variant-type-select/variant-type-select.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 
@@ -69,6 +70,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcNccnGuidelineSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'NCCN Guideline(s)' },
+      },
+    },
+    {
+      name: 'therapy-select',
+      wrappers: ['form-field'],
+      component: CvcTherapySelectField,
+      defaultOptions: { props: { label: 'Therapy' } },
+    },
+    {
+      name: 'therapy-multi-select',
+      wrappers: ['form-field'],
+      component: CvcTherapySelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Therapies' },
       },
     },
     {
