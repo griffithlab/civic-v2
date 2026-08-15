@@ -1,21 +1,18 @@
 :host {
-  // force source-select to 100% width
-  // NOTE: entity-select.component.less should do this, not sure why its .layout-horizontal selector isn't working here
-  cvc-entity-select {
-    ::ng-deep > nz-select {
-      display: inline-block;
-      width: 100%;
-    }
+  display: block;
+
+  nz-select {
+    width: 100%;
   }
 }
 
-.prefix {
-  div {
-    text-align: right;
-    line-height: 28px;
-    color: #999;
-  }
-}
+// the type picker, the ID prefix and the select stay on one line
 .select-layout {
   flex-wrap: nowrap;
+}
+
+.prefix div {
+  text-align: right;
+  line-height: 28px;
+  color: #999;
 }

@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableSourceFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type SourceSelectTypeaheadQueryVariables = Types.Exact<{
@@ -10,28 +11,23 @@ export type SourceSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type SourceSelectTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: Types.SourceSource, deprecated: boolean }> };
+export type SourceSelectTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', citationId: string, id: number, name: string, link: string, deprecated: boolean, citation?: string | undefined, sourceType: Types.SourceSource }> };
 
 export type SourceSelectTagQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
 
-export type SourceSelectTagQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: Types.SourceSource, deprecated: boolean } | undefined };
+export type SourceSelectTagQuery = { __typename: 'Query', source?: { __typename: 'Source', citationId: string, id: number, name: string, link: string, deprecated: boolean, citation?: string | undefined, sourceType: Types.SourceSource } | undefined };
 
-export type SourceSelectTypeaheadFieldsFragment = { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: Types.SourceSource, deprecated: boolean };
+export type SourceSelectTypeaheadFieldsFragment = { __typename: 'Source', citationId: string, id: number, name: string, link: string, deprecated: boolean, citation?: string | undefined, sourceType: Types.SourceSource };
 
 export const SourceSelectTypeaheadFieldsFragmentDoc = gql`
     fragment SourceSelectTypeaheadFields on Source {
-  id
-  name
-  link
-  citation
+  ...LinkableSource
   citationId
-  sourceType
-  deprecated
 }
-    `;
+    ${LinkableSourceFragmentDoc}`;
 export const SourceSelectTypeaheadDocument = gql`
     query SourceSelectTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
   sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {

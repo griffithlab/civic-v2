@@ -5,6 +5,7 @@ import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-re
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
+import { CvcSourceSelectField } from '@app/forms/types/source-select/source-select.type'
 import { CvcTherapySelectField } from '@app/forms/types/therapy-select/therapy-select.type'
 import { CvcVariantTypeSelectField } from '@app/forms/types/variant-type-select/variant-type-select.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
@@ -100,6 +101,21 @@ const selectFieldTypes: ConfigOption = {
       component: CvcNccnGuidelineSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'NCCN Guideline(s)' },
+      },
+    },
+    {
+      name: 'source-select',
+      wrappers: ['form-field'],
+      component: CvcSourceSelectField,
+      defaultOptions: { props: { label: 'Source' } },
+    },
+    {
+      // no label, for use in repeat-field types
+      name: 'source-multi-select',
+      wrappers: ['form-field'],
+      component: CvcSourceSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Sources' },
       },
     },
     {

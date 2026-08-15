@@ -1,242 +1,170 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  QueryList,
-  TemplateRef,
   Type,
-  ViewChildren,
+  computed,
+  effect,
+  inject,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import {
-  SourceSelectTagGQL,
-  SourceSelectTagQuery,
-  SourceSelectTagQueryVariables,
-  SourceSelectTypeaheadFieldsFragment,
-  SourceSelectTypeaheadGQL,
-  SourceSelectTypeaheadQuery,
-  SourceSelectTypeaheadQueryVariables,
-} from './source-select.query.gql.generated'
+  CvcEntitySelectDirective,
+  CvcEntitySelectFieldBase,
+  CvcEntitySelectFieldProps,
+  CvcHighlightComponent,
+  CvcSelectAddFormComponent,
+  CvcSelectMessagesComponent,
+  entitySelectConfig,
+} from '@app/forms/select'
 import { Maybe, SourceSource } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs'
-import mixin from 'ts-mixin-extended'
-import { Apollo } from 'apollo-angular'
-
-export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
-  entityName: CvcSelectEntityName
-  isMultiSelect: boolean
-  minSearchStrLength: number
-  placeholders: {
-    default: string
-    contextualFn: (sourceName: string) => string
-  }
-  tooltip?: string
-  description?: string
-  extraType?: string
-  showAddEntity?: boolean
-}
-
-export interface CvcSourceSelectFieldConfig extends FormlyFieldConfig<CvcSourceSelectFieldProps> {
-  type: 'source-select' | 'source-multi-select' | Type<CvcSourceSelectField>
-}
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcSourceQuickAddForm } from './source-quick-add/source-quick-add.form'
+import {
+  SourceSelectTagGQL,
+  SourceSelectTypeaheadFieldsFragment,
+  SourceSelectTypeaheadGQL,
+} from './source-select.query.gql.generated'
 
 export type CvcSourceSelectFieldOptions = Partial<
   FieldTypeConfig<CvcSourceSelectFieldProps>
 >
 
-export function getPlaceholder(
-  strings: TemplateStringsArray,
-  sourceType: SourceSource
-) {
-  return `${strings[0]}${sourceType}${strings[1]}`
+export interface CvcSourceSelectFieldProps extends CvcEntitySelectFieldProps {
+  /** set false to suppress the quick-add form on an empty result set */
+  showAddEntity?: boolean
 }
 
-const SourceSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcSourceSelectFieldProps>,
-    Maybe<number | number[]>
-  >(),
-  EntitySelectField<
-    SourceSelectTypeaheadQuery,
-    SourceSelectTypeaheadQueryVariables,
-    SourceSelectTypeaheadFieldsFragment,
-    SourceSelectTagQuery,
-    SourceSelectTagQueryVariables,
-    SourceSource
-  >()
-)
+// NOTE: any multi-select field must have the string 'multi' in its type name,
+// as UI logic (currently in base-field) depends on its presence to differentiate
+// field types in some expressions
+export interface CvcSourceSelectFieldConfig
+  extends FormlyFieldConfig<CvcSourceSelectFieldProps> {
+  type: 'source-select' | 'source-multi-select' | Type<CvcSourceSelectField>
+}
 
+const DEFAULT_SOURCE_TYPE = SourceSource.Pubmed
+
+/**
+ * Selects a Source by citation ID within one source repository.
+ *
+ * Unlike the fields migrated before it, the typeahead takes a parameter the
+ * *user* chooses: the source type select in this field's own template drives
+ * the base's `param`/`paramName` signals, so switching PubMed → ASCO re-runs
+ * the search and re-words the dropdown's messages and placeholder.
+ */
 @Component({
   selector: 'cvc-source-select',
-  templateUrl: './source-select.type.html',
-  styleUrls: ['./source-select.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    NzGridModule,
+    NzSelectModule,
+    NzTooltipModule,
+    NzTypographyModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcHighlightComponent,
+    CvcSelectAddFormComponent,
+    CvcSelectMessagesComponent,
+    CvcSourceQuickAddForm,
+  ],
+  templateUrl: './source-select.type.html',
+  styleUrl: './source-select.type.less',
 })
-export class CvcSourceSelectField
-  extends SourceSelectMixin
-  implements AfterViewInit
-{
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  sourceType$: BehaviorSubject<SourceSource>
+export class CvcSourceSelectField extends CvcEntitySelectFieldBase<
+  SourceSelectTypeaheadFieldsFragment,
+  SourceSource,
+  CvcSourceSelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(SourceSelectTypeaheadGQL)
+  private readonly tagGQL = inject(SourceSelectTagGQL)
+  private readonly cdr = inject(ChangeDetectorRef)
 
-  // LOCAL PRESENTATION STREAMS
-  placeholder$: BehaviorSubject<string>
-  sourceTypeName$: BehaviorSubject<string>
-  onModel$ = new Observable<any>()
+  protected readonly select = entitySelectConfig({
+    entityName: { singular: 'Source', plural: 'Sources' },
+    typename: 'Source',
+    typeahead: this.typeaheadGQL,
+    typeaheadVars: (partialCitationId: string, sourceType: SourceSource) => ({
+      partialCitationId,
+      sourceType,
+    }),
+    typeaheadResults: (data) => data?.sourceTypeahead ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (id: number) => ({ id }),
+      result: (data) => data?.source,
+    },
+    minSearchStrLength: 2,
+  })
 
-  showTypeSelect$: Observable<boolean>
+  /** the source-type picker is hidden once a single-select holds a Source */
+  protected readonly showTypeSelect = computed(() => {
+    const value = this.value()
+    return !value || Array.isArray(value)
+  })
 
-  defaultSourceType: SourceSource = SourceSource.Pubmed
-  initialDescription!: Maybe<string>
+  protected readonly placeholder = computed(
+    () => this.props.placeholder ?? `Search ${this.paramName()} Sources`
+  )
 
-  // FieldTypeConfig defaults
+  /** props.description is help text for an empty field; captured in ngOnInit */
+  private initialDescription: Maybe<string>
+
   defaultOptions: CvcSourceSelectFieldOptions = {
     props: {
       entityName: { singular: 'Source', plural: 'Sources' },
       isMultiSelect: false,
-      minSearchStrLength: 2,
       tooltip:
         'PubMed, ASCO, or ASH Abstract Source(s) that support items, statements or descriptions.',
-      placeholders: {
-        default: 'Search PubMed, ASCO, and ASH Sources',
-        contextualFn: (sourceName: string) => {
-          return `Search ${sourceName} Sources`
-        },
-      },
       description: 'Select Source type, then enter its ID to search Sources',
       showAddEntity: true,
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  constructor(
-    private taq: SourceSelectTypeaheadGQL,
-    private tq: SourceSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
+  constructor() {
     super()
-    this.sourceType$ = new BehaviorSubject<SourceSource>(this.defaultSourceType)
-    this.sourceTypeName$ = new BehaviorSubject<string>(
-      formatSourceTypeEnum(this.defaultSourceType)
-    )
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.defaultOptions.props!.placeholders.contextualFn(
-        formatSourceTypeEnum(this.defaultSourceType)
-      )
-    )
-    this.showTypeSelect$ = new Observable<boolean>()
+    this.setSourceType(DEFAULT_SOURCE_TYPE)
+    // Effects created here first run after the initial change detection, so
+    // ngOnInit has already captured the description by the time this reads it.
+    effect(() => {
+      const description = this.value() ? undefined : this.initialDescription
+      if (this.props.description === description) return
+      this.props.description = description
+      // the form-field wrapper renders the description, not this component
+      this.cdr.markForCheck()
+    })
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureEntitySelectField({
-      // mixin fn
-      typeaheadQuery: this.taq,
-      typeaheadParam$: this.sourceType$,
-      typeaheadParamName$: this.sourceTypeName$ || undefined,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent,
-      minSearchStrLength: this.field.props.minSearchStrLength,
-    })
-
+  override ngOnInit(): void {
+    super.ngOnInit()
     this.initialDescription = this.props.description
-
-    this.showTypeSelect$ = this.onValueChange$.pipe(
-      map((value) => {
-        if (!value || (value && Array.isArray(value))) return true
-        else return false
-      })
-    )
-
-    // update sourceTypeName, placeholder, reset field when new sourceType selected
-    this.sourceType$
-      .pipe(untilDestroyed(this))
-      .subscribe((src: SourceSource) => {
-        const srcName = formatSourceTypeEnum(src)
-        this.sourceTypeName$.next(srcName)
-        this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
-        //FIXME
-        //this.resetField()
-      })
-
-    // update model provided to quick-add form when either sourceType or citationId changes
-    this.onModel$ = combineLatest([this.sourceType$, this.onSearch$]).pipe(
-      map(([sourceType, citationId]: [SourceSource, Maybe<string>]) => {
-        return { citationId: citationId, sourceType: sourceType }
-      })
-    )
-    // hide/show prompt when field is populated/undefined
-    this.onValueChange$.pipe(untilDestroyed(this)).subscribe((sourceId) => {
-      if (sourceId) {
-        this.props.description = undefined
-      } else {
-        this.props.description = this.initialDescription
-      }
-    })
   }
 
-  getTypeaheadVarsFn(
-    str: string,
-    param: SourceSource = SourceSource.Pubmed
-  ): SourceSelectTypeaheadQueryVariables {
-    return { partialCitationId: str, sourceType: param }
+  /** drives both the typeahead parameter and the wording of every message */
+  protected setSourceType(sourceType: SourceSource): void {
+    this.param.set(sourceType)
+    this.paramName.set(formatSourceTypeEnum(sourceType))
   }
 
-  getTypeaheadResultsFn(r: Apollo.QueryResult<SourceSelectTypeaheadQuery>) {
-    return r.data?.sourceTypeahead ?? []
-  }
-
-  getTagQueryVarsFn(id: number): SourceSelectTagQueryVariables {
-    return { id: id }
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<SourceSelectTagQuery>
-  ): Maybe<SourceSelectTypeaheadFieldsFragment> {
-    return r.data?.source
-  }
-
-  getSelectedItemOptionFn(
-    source: SourceSelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: source.id, label: source.name }
-  }
-
-  getSelectOptionsFn(
-    results: SourceSelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (source: SourceSelectTypeaheadFieldsFragment, index: number) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || source.name,
-          value: source.id,
-        }
-      }
-    )
+  protected override showAddForm(
+    searchStr: string,
+    results: SourceSelectTypeaheadFieldsFragment[]
+  ): boolean {
+    if (this.props.showAddEntity === false) return false
+    return super.showAddForm(searchStr, results)
   }
 }

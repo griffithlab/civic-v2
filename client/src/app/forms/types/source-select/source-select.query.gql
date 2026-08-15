@@ -13,12 +13,10 @@ query SourceSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableSource so every Source this field can select lands in the
+# cache in exactly the shape cvc-tag's watchFragment reads. citationId is the
+# one extra field, shown as the dropdown option's metadata.
 fragment SourceSelectTypeaheadFields on Source {
-  id
-  name
-  link
-  citation
+  ...LinkableSource
   citationId
-  sourceType
-  deprecated
 }

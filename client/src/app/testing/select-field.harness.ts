@@ -80,6 +80,15 @@ export async function createSelectFieldHarness(
     .get(OverlayContainer)
     .getContainerElement()
 
+  /**
+   * The field's entity select, which is not always its only one — source,
+   * feature and variant selects each render a parameter picker alongside it.
+   * The cvcEntitySelect directive marks the one under test.
+   */
+  const entitySelect = (): HTMLElement =>
+    fixture.nativeElement.querySelector('nz-select[cvcEntitySelect]') ??
+    fixture.nativeElement.querySelector('nz-select')
+
   const harness: SelectFieldHarness = {
     fixture,
     operations,
@@ -91,13 +100,11 @@ export async function createSelectFieldHarness(
       fixture.detectChanges()
     },
     openDropdown() {
-      ;(fixture.nativeElement.querySelector('nz-select') as HTMLElement).click()
+      entitySelect().click()
       fixture.detectChanges()
     },
     type(text: string) {
-      const input = fixture.nativeElement.querySelector(
-        'input'
-      ) as HTMLInputElement
+      const input = entitySelect().querySelector('input') as HTMLInputElement
       input.value = text
       input.dispatchEvent(new Event('input', { bubbles: true }))
       fixture.detectChanges()
@@ -150,6 +157,12 @@ export interface EntitySelectContractConfig<TField> {
   searchTerm?: string
   /** set false for fields with no quick-add form */
   hasQuickAdd?: boolean
+  /**
+   * The field's minimum search length, when it sets one. Above zero the field
+   * cannot answer an empty search, so opening the dropdown lists nothing and
+   * the contract types `searchTerm` wherever it needs options on screen.
+   */
+  minSearchStrLength?: number
 }
 
 /**
@@ -162,6 +175,7 @@ export function describeEntitySelectContract<TField>(
 ): void {
   const [first, second] = config.records
   const term = config.searchTerm ?? first.name.slice(0, 3).toLowerCase()
+  const minSearchStrLength = config.minSearchStrLength ?? 0
 
   const setup = (overrides: Partial<SelectFieldHarnessConfig> = {}) =>
     createSelectFieldHarness({
@@ -171,6 +185,13 @@ export function describeEntitySelectContract<TField>(
       ...overrides,
     })
 
+  /** get options on screen, whatever it takes for this field */
+  const showOptions = async (h: SelectFieldHarness) => {
+    h.openDropdown()
+    if (minSearchStrLength > 0) h.type(term)
+    await h.settle()
+  }
+
   describe('entity-select contract', () => {
     it('issues no query until the dropdown is opened or a search is typed', async () => {
       const h = await setup()
@@ -179,19 +200,33 @@ export function describeEntitySelectContract<TField>(
       h.destroy()
     })
 
-    it('lists everything when the dropdown opens', async () => {
-      const h = await setup()
-      h.openDropdown()
-      await h.settle()
-      expect(h.callsTo(config.typeaheadOp)).toHaveLength(1)
-      expect(h.callsTo(config.typeaheadOp)[0].variables).toEqual(
-        config.emptySearchVars
-      )
-      expect(h.optionItems()).toHaveLength(
-        config.optionCount ?? config.records.length
-      )
-      h.destroy()
-    })
+    if (minSearchStrLength > 0) {
+      it('lists nothing until the search reaches its minimum length', async () => {
+        const h = await setup()
+        h.openDropdown()
+        await h.settle()
+        expect(h.callsTo(config.typeaheadOp)).toHaveLength(0)
+
+        h.type('x'.repeat(minSearchStrLength - 1))
+        await h.settle()
+        expect(h.callsTo(config.typeaheadOp)).toHaveLength(0)
+        h.destroy()
+      })
+    } else {
+      it('lists everything when the dropdown opens', async () => {
+        const h = await setup()
+        h.openDropdown()
+        await h.settle()
+        expect(h.callsTo(config.typeaheadOp)).toHaveLength(1)
+        expect(h.callsTo(config.typeaheadOp)[0].variables).toEqual(
+          config.emptySearchVars
+        )
+        expect(h.optionItems()).toHaveLength(
+          config.optionCount ?? config.records.length
+        )
+        h.destroy()
+      })
+    }
 
     it('debounces keystrokes into a single query', async () => {
       const h = await setup()
@@ -211,8 +246,7 @@ export function describeEntitySelectContract<TField>(
 
     it('renders an option per result', async () => {
       const h = await setup()
-      h.openDropdown()
-      await h.settle()
+      await showOptions(h)
       const text = h
         .optionItems()
         .map((el) => el.textContent?.replace(/\s+/g, ' ').trim())
@@ -224,8 +258,7 @@ export function describeEntitySelectContract<TField>(
 
     it('sets the control to a bare id when an option is selected', async () => {
       const h = await setup()
-      h.openDropdown()
-      await h.settle()
+      await showOptions(h)
       h.optionItems()[1].click()
       await h.settle()
       expect(h.control().value).toBe(second.id)
@@ -234,8 +267,7 @@ export function describeEntitySelectContract<TField>(
 
     it('sets the control to an array of bare ids in multi-select mode', async () => {
       const h = await setup({ type: config.multiType })
-      h.openDropdown()
-      await h.settle()
+      await showOptions(h)
       h.optionItems()[0].click()
       await h.settle()
       expect(h.control().value).toEqual([first.id])
@@ -244,8 +276,7 @@ export function describeEntitySelectContract<TField>(
 
     it('renders the selected item as a tag from the cache', async () => {
       const h = await setup()
-      h.openDropdown()
-      await h.settle()
+      await showOptions(h)
       h.optionItems()[0].click()
       await h.settle()
       const selected = h.fixture.nativeElement.querySelector(
@@ -286,8 +317,7 @@ export function describeEntitySelectContract<TField>(
       const h = await setup({
         formState: { fields: { [`${config.key}$`]: subject } },
       })
-      h.openDropdown()
-      await h.settle()
+      await showOptions(h)
       h.optionItems()[1].click()
       await h.settle()
       expect(subject.value).toBe(second.id)

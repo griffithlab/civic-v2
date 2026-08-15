@@ -24,7 +24,6 @@ import { CvcOriginSelectModule } from './origin-select/origin-select.module'
 import { CvcRatingModule } from './rating/rating.module'
 import { CvcReferenceBuildSelectModule } from './reference-build-select/reference-build-select.module'
 import { CvcSignificanceSelectModule } from './significance-select/significance-select.module'
-import { CvcSourceSelectModule } from './source-select/source-select.module'
 import { CvcTagInputModule } from './tag-input/tag-input.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcSearchButtonTypeModule } from '@app/forms/types/search-button/search-button.module'
@@ -62,7 +61,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcRatingModule,
     CvcReferenceBuildSelectModule,
     CvcSignificanceSelectModule,
-    CvcSourceSelectModule,
     CvcTagInputModule,
     CvcVariantSelectModule,
     CvcSearchButtonTypeModule,
