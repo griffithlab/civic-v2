@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
+import { devRoutes } from '@app/forms/test-pages/dev-routes'
 import { LayoutComponent } from '@app/layout/layout.component'
 
 const routes: Routes = [
@@ -215,6 +216,8 @@ const routes: Routes = [
           breadcrumb: 'Pages',
         },
       },
+      // Dev-only benches; empty in production via fileReplacements
+      ...devRoutes,
     ],
   },
 ]
