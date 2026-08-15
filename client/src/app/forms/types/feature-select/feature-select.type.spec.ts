@@ -110,8 +110,25 @@ describe('CvcFeatureSelectField', () => {
   it('withholds the add form until the name is long enough', async () => {
     const h = await setup()
     const field = h.field(CvcFeatureSelectField)
+    field['onFeatureTypeChange'](FeatureInstanceTypes.Factor)
+    await h.settle()
     expect(field['showAddForm']('br', [])).toBe(false)
     expect(field['showAddForm']('bra', [])).toBe(true)
+    h.destroy()
+  })
+
+  // the inline quick-add can only create Factors, and renders an empty box
+  // for anything else, so a Gene miss must not offer the form at all
+  it('never offers the add form for a feature type it cannot create', async () => {
+    const h = await setup()
+    const field = h.field(CvcFeatureSelectField)
+    expect(field['param']()).toBe(FeatureInstanceTypes.Gene)
+    expect(field['showAddForm']('ZZQXNOMATCH', [])).toBe(false)
+
+    // Fusions and Regions are creatable, via their modal builders
+    field['onFeatureTypeChange'](FeatureInstanceTypes.Fusion)
+    await h.settle()
+    expect(field['showAddForm']('ZZQXNOMATCH', [])).toBe(true)
     h.destroy()
   })
 

@@ -24,12 +24,13 @@ import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form
 import { NoStateFormOptions } from '@app/forms/states/base.state'
 import { Maybe, SourceSource } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core'
-import { QueryRef } from 'apollo-angular'
+import { Apollo, QueryRef } from 'apollo-angular'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzFormModule, NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { Subject, map, tap } from 'rxjs'
+import { SourceSelectTagDocument } from '../source-select.query.gql.generated'
 import {
   QuickAddSourceCheckCitationGQL,
   QuickAddSourceCheckCitationQuery,
@@ -94,6 +95,7 @@ export class CvcSourceQuickAddForm implements OnInit, OnChanges {
   private readonly addRemoteCitation = inject(QuickAddSourceRemoteCitationGQL)
   private readonly errors = inject(NetworkErrorsService)
   private readonly destroyRef = inject(DestroyRef)
+  private readonly apollo = inject(Apollo)
 
   model: SourceQuickAddModel = {
     citationId: '',
@@ -243,14 +245,48 @@ export class CvcSourceQuickAddForm implements OnInit, OnChanges {
       {},
       (data) => {
         if (!data.addRemoteCitation) return
+        const id = data.addRemoteCitation.newSource.id
         this.successMessage = `New Source "${this.citationString}" added.`
-        // No cache pre-write here: the select's base fetches the new Source
-        // with its Linkable fragment cache-first and only commits the
-        // selection once that resolves, which is what the old synthesized
-        // writeQuery plus a 1s readFragment delay was approximating.
-        this.cvcOnCreate.next(data.addRemoteCitation.newSource.id)
+        this.seedCitation(id)
+        this.cvcOnCreate.next(id)
       }
     )
+  }
+
+  /**
+   * The server creates the Source immediately but fills in its citation
+   * asynchronously, so reading it back right now yields `citation: null` and
+   * a placeholder name — the tag would read "PubMed: 5540" until the next
+   * page load. We already looked the citation up to enable this form, so
+   * record it; the select then finds a complete Source in the cache.
+   *
+   * Written with the select's generated fragment rather than a hand-rolled
+   * document, so it cannot drift from what the tag reads. Delete this once
+   * addRemoteCitation returns a populated Source.
+   */
+  private seedCitation(id: number): void {
+    if (!this.citationString || !this.model.sourceType) return
+    // writeQuery, not writeFragment: the select reads the new Source through
+    // the SourceSelectTag query, and cache-first cannot map the root field
+    // source(id:) onto Source:<id> without a type-policy redirect, so a
+    // fragment write alone would still be overtaken by the network result.
+    this.apollo.client.cache.writeQuery({
+      query: SourceSelectTagDocument,
+      variables: { id },
+      data: {
+        __typename: 'Query',
+        source: {
+          __typename: 'Source',
+          id,
+          name: `${formatSourceTypeEnum(this.model.sourceType)}: ${this.citationString}`,
+          link: `/sources/${id}`,
+          deprecated: false,
+          citation: this.citationString,
+          citationId: this.model.citationId,
+          sourceType: this.model.sourceType,
+        },
+      },
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {

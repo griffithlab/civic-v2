@@ -16,7 +16,11 @@ import {
   CvcSelectMessagesComponent,
   entitySelectConfig,
 } from '@app/forms/select'
-import { FeatureInstanceTypes, Maybe } from '@app/generated/civic.apollo.types'
+import {
+  CreateableFeatureTypes,
+  FeatureInstanceTypes,
+  Maybe,
+} from '@app/generated/civic.apollo.types'
 import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
@@ -84,6 +88,15 @@ const FEATURE_TYPE_LABELS: Record<FeatureInstanceTypes, string> = {
 
 /** a name has to be this long before the quick-add form is worth offering */
 const MIN_ADD_NAME_LENGTH = 3
+
+/**
+ * The feature types the inline quick-add can actually create. The schema
+ * enum currently lists only FACTOR; the form silently renders nothing for
+ * anything else, which is what this guards against.
+ */
+const CREATEABLE_FEATURE_TYPES = new Set<string>(
+  Object.values(CreateableFeatureTypes)
+)
 
 /**
  * Selects a Feature within one feature type, with three ways to create one:
@@ -204,12 +217,28 @@ export class CvcFeatureSelectField extends CvcEntitySelectFieldBase<
     searchStr: string,
     results: FeatureSelectTypeaheadFieldsFragment[]
   ): boolean {
+    // Genes are imported from Entrez, never created here, and the inline
+    // quick-add renders nothing for them — offering the form would show an
+    // empty box under "No Gene Features found".
+    if (!this.canCreateCurrentType()) return false
     if (this.props.alwaysShowCreate) return true
     const name = searchStr.toLowerCase()
     return (
       searchStr.length >= MIN_ADD_NAME_LENGTH &&
       !results.some((r) => r.name.toLowerCase() === name)
     )
+  }
+
+  /** Fusions and Regions have builders; only Factors can be quick-added */
+  private canCreateCurrentType(): boolean {
+    const featureType = this.param()
+    if (
+      featureType === FeatureInstanceTypes.Fusion ||
+      featureType === FeatureInstanceTypes.Region
+    ) {
+      return true
+    }
+    return CREATEABLE_FEATURE_TYPES.has(featureType as string)
   }
 
   /** the inline quick-add reports whether it created the Feature or found it */
