@@ -80,26 +80,22 @@ fragment EvidenceManagerFields on EvidenceItem {
   id
   name
   link
+  # Spread the Linkable* fragments rather than restating their fields. cvc-tag
+  # reads these entities straight out of the cache via watchFragment, so a
+  # selection that misses even one field renders a degraded tag and logs
+  # "incomplete cache data". That is what had happened to molecularProfile,
+  # which was missing `flagged`.
   disease {
-    id
-    name
-    link
-    deprecated
+    ...LinkableDisease
   }
   therapies {
-    id
-    name
-    link
-    deprecated
+    ...LinkableTherapy
   }
   molecularProfile {
-    id
-    name
-    link
+    ...LinkableMolecularProfile
     parsedName {
       ...MolecularProfileParsedName
     }
-    deprecated
   }
   status
   flagged
