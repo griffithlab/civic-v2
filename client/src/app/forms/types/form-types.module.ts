@@ -15,7 +15,6 @@ import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.r
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcInteractionSelectModule } from './interaction-select/interaction-select.module'
 import { CvcLevelSelectModule } from './level-select/level-select.module'
-import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
 import { CvcNccnGuidelineVersionFieldModule } from './nccn-guideline-version-input/nccn-guideline-version-input.module'
 import { CvcOrgSubmitButtonTypeModule } from './org-submit-button/org-submit-button.type.module'
 import { CvcOriginSelectModule } from './origin-select/origin-select.module'
@@ -49,7 +48,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcEntityTypeSelectModule,
     CvcInteractionSelectModule,
     CvcLevelSelectModule,
-    CvcMolecularProfileSelectModule,
     CvcNccnGuidelineVersionFieldModule,
     CvcOrgSubmitButtonTypeModule,
     CvcOriginSelectModule,

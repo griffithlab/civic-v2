@@ -112,7 +112,6 @@ export class MpFinderComponent {
         featureId: undefined,
         variantId: undefined,
       }
-      console.log(variant)
       this.cvcOnSelect.next(variant.singleVariantMolecularProfile)
       this.cvcOnVariantSelect.next(variant)
     }

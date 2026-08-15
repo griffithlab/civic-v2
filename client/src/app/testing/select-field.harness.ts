@@ -6,6 +6,7 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router'
 import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
 import { CvcOrgSubmitButtonTypeModule } from '@app/forms/types/org-submit-button/org-submit-button.type.module'
+import { CvcFormWrappersModule } from '@app/forms/wrappers/form-wrappers.module'
 import { civicIcons } from '@app/icons-provider.module'
 import { CaretRightOutline } from '@ant-design/icons-angular/icons'
 import { FormlyFieldConfig } from '@ngx-formly/core'
@@ -76,9 +77,12 @@ export async function createSelectFieldHarness(
     // individually, since IconsProviderModule ships only four of them.
     // org-submit-button is registered because several quick-add forms embed
     // one, and a field renders its quick-add as soon as a search misses.
+    // The wrappers come along because nested forms — the MP finder, the
+    // Fusion and Region builders — lay themselves out with them.
     imports: [
       CvcSelectFieldsRegistryModule,
       CvcOrgSubmitButtonTypeModule,
+      CvcFormWrappersModule,
       NzIconModule.forRoot([...civicIcons, CaretRightOutline]),
     ],
     providers: [

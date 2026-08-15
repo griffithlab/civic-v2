@@ -6,6 +6,7 @@ import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-s
 import { CvcEvidenceSelectField } from '@app/forms/types/evidence-select/evidence-select.type'
 import { CvcFeatureSelectField } from '@app/forms/types/feature-select/feature-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
+import { CvcMolecularProfileSelectField } from '@app/forms/types/molecular-profile-select/molecular-profile-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
 import { CvcSourceSelectField } from '@app/forms/types/source-select/source-select.type'
 import { CvcTherapySelectField } from '@app/forms/types/therapy-select/therapy-select.type'
@@ -118,6 +119,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcPhenotypeSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Phenotypes' },
+      },
+    },
+    {
+      name: 'molecular-profile-select',
+      wrappers: ['form-field'],
+      component: CvcMolecularProfileSelectField,
+      defaultOptions: { props: { label: 'Molecular Profile' } },
+    },
+    {
+      name: 'molecular-profile-multi-select',
+      wrappers: ['form-field'],
+      component: CvcMolecularProfileSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Molecular Profiles' },
       },
     },
     {

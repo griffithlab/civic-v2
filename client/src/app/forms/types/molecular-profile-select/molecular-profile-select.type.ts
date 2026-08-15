@@ -1,36 +1,42 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  QueryList,
-  TemplateRef,
   Type,
-  ViewChildren,
+  computed,
+  effect,
+  inject,
+  signal,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
+import { animate, state, style, transition, trigger } from '@angular/animations'
+import { ReactiveFormsModule } from '@angular/forms'
 import {
-  MolecularProfileSelectTagGQL,
-  MolecularProfileSelectTagQuery,
-  MolecularProfileSelectTagQueryVariables,
-  MolecularProfileSelectTypeaheadFieldsFragment,
-  MolecularProfileSelectTypeaheadGQL,
-  MolecularProfileSelectTypeaheadQuery,
-  MolecularProfileSelectTypeaheadQueryVariables,
-} from './molecular-profile-select.query.gql.generated'
+  CvcEntitySelectDirective,
+  CvcEntitySelectFieldBase,
+  CvcEntitySelectFieldProps,
+  CvcHighlightComponent,
+  CvcSelectMessagesComponent,
+  entitySelectConfig,
+} from '@app/forms/select'
 import { Maybe, MolecularProfile } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { Apollo } from 'apollo-angular'
-import { animate, state, style, transition, trigger } from '@angular/animations'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import {
+  MolecularProfileSelectTagGQL,
+  MolecularProfileSelectTypeaheadFieldsFragment,
+  MolecularProfileSelectTypeaheadGQL,
+} from './molecular-profile-select.query.gql.generated'
+import { CvcMpComponentsModule } from './mp-components.module'
 
 // ng-zorro-antd v21 removed its Angular-animations-based motion triggers
 // (fadeMotion/slideMotion) in favor of CSS class animations; these are
@@ -54,88 +60,106 @@ const slideMotion = trigger('slideMotion', [
     animate(`0.2s cubic-bezier(0.755, 0.05, 0.855, 0.06)`),
   ]),
 ])
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import {
-  BehaviorSubject,
-  filter,
-  Observable,
-  ReplaySubject,
-  scan,
-  startWith,
-  Subject,
-  tap,
-} from 'rxjs'
-import { isNonNulled } from 'rxjs-etc'
-import mixin from 'ts-mixin-extended'
 
 export type CvcMolecularProfileSelectFieldOptions = Partial<
-  FieldTypeConfig<CvcMolecularProfileSelectFieldProps>
+  FieldTypeConfig<Partial<CvcMolecularProfileSelectFieldProps>>
 >
 
-export interface CvcMolecularProfileSelectFieldProps extends FormlyFieldProps {
-  isMultiSelect: boolean // is child of a repeat-field type
-  entityName: CvcSelectEntityName
-  placeholder: string
-  tooltip?: string
-  description?: string
-  extraType?: CvcFormFieldExtraType
-  minSearchStrLength?: number
-}
+export type CvcMolecularProfileSelectFieldProps = CvcEntitySelectFieldProps
 
-export interface CvcMolecularProfileSelectFieldConfig extends FormlyFieldConfig<
-  Partial<CvcMolecularProfileSelectFieldProps>
-> {
+// NOTE: any multi-select field must have the string 'multi' in its type name,
+// as UI logic (currently in base-field) depends on its presence to differentiate
+// field types in some expressions
+export interface CvcMolecularProfileSelectFieldConfig
+  extends FormlyFieldConfig<Partial<CvcMolecularProfileSelectFieldProps>> {
   type:
     | 'molecular-profile-select'
     | 'molecular-profile-multi-select'
     | Type<CvcMolecularProfileSelectField>
 }
 
-const MolecularProfileSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcMolecularProfileSelectFieldProps>,
-    Maybe<number>
-  >(),
-  EntitySelectField<
-    MolecularProfileSelectTypeaheadQuery,
-    MolecularProfileSelectTypeaheadQueryVariables,
-    MolecularProfileSelectTypeaheadFieldsFragment,
-    MolecularProfileSelectTagQuery,
-    MolecularProfileSelectTagQueryVariables,
-    Maybe<number>
-  >()
-)
-
-type SelectDisplayModel = {
-  showFinder: boolean
-  showSelect: boolean
-}
-
+/**
+ * Selects a Molecular Profile, by three routes that share one value.
+ *
+ * Empty, it shows the MP finder — a nested form pairing a feature select with
+ * a variant select, which resolves to that variant's single-variant profile.
+ * Filled, it swaps the finder for a borderless select showing the chosen
+ * profile as a tag. Either way the expression editor drawer can build a
+ * complex profile and replace the value.
+ *
+ * The typeahead's geneId parameter was declared but never wired to anything,
+ * so it is gone; this field takes no typeahead parameter.
+ */
 @Component({
-  selector: '',
-  templateUrl: './molecular-profile-select.type.html',
-  styleUrls: ['./molecular-profile-select.type.less'],
-  animations: [slideMotion, fadeMotion],
+  selector: 'cvc-molecular-profile-select',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  animations: [slideMotion, fadeMotion],
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzButtonModule,
+    NzGridModule,
+    NzIconModule,
+    NzSelectModule,
+    NzTooltipModule,
+    NzTypographyModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcHighlightComponent,
+    CvcSelectMessagesComponent,
+    CvcMpComponentsModule,
+  ],
+  templateUrl: './molecular-profile-select.type.html',
+  styleUrl: './molecular-profile-select.type.less',
 })
-export class CvcMolecularProfileSelectField
-  extends MolecularProfileSelectMixin
-  implements AfterViewInit
-{
-  // SOURCE STREAMS
-  onMpSelect$: BehaviorSubject<Maybe<MolecularProfile>>
-  onMpId$: ReplaySubject<Maybe<number>>
-  onShowExpClick$: Subject<void>
+export class CvcMolecularProfileSelectField extends CvcEntitySelectFieldBase<
+  MolecularProfileSelectTypeaheadFieldsFragment,
+  void,
+  CvcMolecularProfileSelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(MolecularProfileSelectTypeaheadGQL)
+  private readonly tagGQL = inject(MolecularProfileSelectTagGQL)
+  private readonly cdr = inject(ChangeDetectorRef)
 
-  // PRESENTATION STREAMS
-  showExp$: Observable<boolean>
-  selectDisplay$!: BehaviorSubject<SelectDisplayModel>
+  protected readonly select = entitySelectConfig({
+    entityName: {
+      singular: 'Molecular Profile',
+      plural: 'Molecular Profiles',
+    },
+    typename: 'MolecularProfile',
+    typeahead: this.typeaheadGQL,
+    typeaheadVars: (name: string) => ({ name }),
+    typeaheadResults: (data) => data?.molecularProfiles.nodes ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (molecularProfileId: number) => ({ molecularProfileId }),
+      result: (data) => data?.molecularProfile,
+    },
+    minSearchStrLength: 1,
+  })
 
-  editorOpen: boolean = false
+  /** the expression editor drawer */
+  protected readonly editorOpen = signal(false)
 
-  // FieldTypeConfig defaults
-  defaultOptions: CvcMolecularProfileSelectFieldOptions = {
+  /** the finder is what an empty field offers; a full one shows its tag */
+  protected readonly showSelect = computed(() => this.value() !== undefined)
+  protected readonly showFinder = computed(
+    () => !this.showSelect() && !this.editorOpen()
+  )
+
+  /** the expression editor prepopulates from a single id */
+  protected readonly selectedId = computed<Maybe<number>>(() => {
+    const value = this.value()
+    return Array.isArray(value) ? value[0] : value
+  })
+
+  /** props.description is help text for an empty field; captured in ngOnInit */
+  private initialDescription: Maybe<string>
+
+  defaultOptions: Partial<
+    FieldTypeConfig<CvcMolecularProfileSelectFieldProps>
+  > = {
     props: {
       label: 'Molecular Profile',
       placeholder: 'Search Molecular Profiles',
@@ -144,144 +168,47 @@ export class CvcMolecularProfileSelectField
       isMultiSelect: false,
       description:
         'Select a Feature and Variant to specify a simple Molecular Profile.',
-
       entityName: {
         singular: 'Molecular Profile',
         plural: 'Molecular Profiles',
       },
-      minSearchStrLength: 1,
     },
   }
 
-  initialDescription!: Maybe<string>
-
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  constructor(
-    private taq: MolecularProfileSelectTypeaheadGQL,
-    private tq: MolecularProfileSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef,
-    private apollo: Apollo
-  ) {
+  constructor() {
     super()
-    this.onMpSelect$ = new BehaviorSubject<Maybe<MolecularProfile>>(undefined)
-    this.onMpId$ = new ReplaySubject<Maybe<number>>()
-    this.onShowExpClick$ = new Subject<void>()
-    this.showExp$ = this.onShowExpClick$.pipe(
-      scan((acc, _) => !acc, false),
-      // startWith(true),
-      tap((open) => (this.editorOpen = open))
-    )
-    this.selectDisplay$ = new BehaviorSubject<SelectDisplayModel>({
-      showFinder: true,
-      showSelect: false,
+    // Effects created here first run after the initial change detection, so
+    // ngOnInit has already captured the description by the time this reads it.
+    effect(() => {
+      const description = this.value() ? undefined : this.initialDescription
+      if (this.props.description === description) return
+      this.props.description = description
+      // the form-field wrapper renders the description, not this component
+      this.cdr.markForCheck()
     })
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEntitySelectField({
-      typeaheadQuery: this.taq,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent,
-    })
-
+  override ngOnInit(): void {
+    super.ngOnInit()
     this.initialDescription = this.props.description
-
-    // only show select if mpId set, emit mpId from onMpId$ subject
-    this.onValueChange$
-      .pipe(untilDestroyed(this))
-      .subscribe((mpId: Maybe<number>) => {
-        const showSelect = mpId !== undefined
-        this.selectDisplay$.next({
-          showFinder: !showSelect,
-          showSelect: showSelect,
-        })
-        this.onMpId$.next(mpId)
-        if (mpId) {
-          this.props.description = undefined
-        } else {
-          this.props.description = this.initialDescription
-        }
-      })
-
-    // populate MP select if variantId received from child form model
-    this.onMpSelect$
-      .pipe(untilDestroyed(this))
-      .subscribe((mp: Maybe<MolecularProfile>) => {
-        if (!mp) {
-          // this.field.formControl.setValue(undefined)
-          this.selectDisplay$.next({
-            showFinder: true,
-            showSelect: false,
-          })
-          return
-        }
-        this.selectOption$.next([{ label: mp.name, value: mp.id }])
-        if (this.editorOpen) this.onShowExpClick$.next()
-        this.cdr.detectChanges()
-        this.field.formControl.setValue(mp.id)
-        this.field.formControl.markAsTouched()
-      })
-  } // ngAfterViewInit
-
-  private configureStateConnections() {
-    if (!this.state) return
   }
 
-  getTypeaheadVarsFn(str: string, param: Maybe<number>) {
-    return {
-      name: str,
-      geneId: param,
-    }
+  protected toggleEditor(): void {
+    this.editorOpen.update((open) => !open)
   }
 
-  getTypeaheadResultsFn(
-    r: Apollo.QueryResult<MolecularProfileSelectTypeaheadQuery>
-  ) {
-    return r.data?.molecularProfiles.nodes ?? []
-  }
-
-  getTagQueryVarsFn(id: number): MolecularProfileSelectTagQueryVariables {
-    return { molecularProfileId: id }
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<MolecularProfileSelectTagQuery>
-  ): Maybe<MolecularProfileSelectTypeaheadFieldsFragment> {
-    return r.data?.molecularProfile
-  }
-
-  getSelectedItemOptionFn(
-    molecularProfile: MolecularProfileSelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: molecularProfile.id, label: molecularProfile.name }
-  }
-
-  getSelectOptionsFn(
-    results: MolecularProfileSelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (
-        molecularProfile: MolecularProfileSelectTypeaheadFieldsFragment,
-        index: number
-      ) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || molecularProfile.name,
-          value: molecularProfile.id,
-        }
-      }
-    )
+  /**
+   * A profile arrived from the finder or the expression editor. Both hand
+   * back a whole MolecularProfile rather than an id, so its record is written
+   * into the options — nz-select will not render a selected item it has never
+   * seen as an option — and the editor closes behind it.
+   */
+  protected onMolecularProfileSelected(mp: Maybe<MolecularProfile>): void {
+    if (!mp) return
+    this.editorOpen.set(false)
+    this.fetchTagRecords(mp.id).subscribe(() => {
+      this.formControl.setValue(mp.id)
+      this.formControl.markAsTouched()
+    })
   }
 }
