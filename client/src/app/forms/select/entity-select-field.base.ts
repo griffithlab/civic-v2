@@ -242,7 +242,7 @@ export abstract class CvcEntitySelectFieldBase<
    * in the cache — cvc-tag renders reactively from there — and records its
    * concrete typename.
    */
-  private fetchTagRecords(
+  protected fetchTagRecords(
     value: number | number[]
   ): Observable<TResult[]> {
     const ids = Array.isArray(value) ? value : [value]

@@ -12,10 +12,11 @@ query EvidenceSelectTag($eid: Int!) {
   }
 }
 
+# Spreads LinkableEvidenceItem so a selected item lands in the cache in
+# exactly the shape cvc-tag's watchFragment reads; the rest is the metadata
+# the dropdown option shows.
 fragment EvidenceSelectTypeaheadFields on EvidenceItem {
-  id
-  name
-  link
+  ...LinkableEvidenceItem
   evidenceType
   evidenceDirection
   evidenceLevel

@@ -3,6 +3,7 @@ import { CvcAcmgCodeSelectField } from '@app/forms/types/acmg-code-select/acmg-c
 import { CvcClingenCodeSelectField } from '@app/forms/types/clingen-code-select/clingen-code-select.type'
 import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-region-select/cytogenetic-region-select.type'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
+import { CvcEvidenceSelectField } from '@app/forms/types/evidence-select/evidence-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
 import { CvcSourceSelectField } from '@app/forms/types/source-select/source-select.type'
@@ -73,6 +74,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcDiseaseSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Diseases' },
+      },
+    },
+    {
+      name: 'evidence-select',
+      wrappers: ['form-field'],
+      component: CvcEvidenceSelectField,
+      defaultOptions: { props: { label: 'Evidence Item' } },
+    },
+    {
+      name: 'evidence-multi-select',
+      wrappers: ['form-field'],
+      component: CvcEvidenceSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Evidence Items' },
       },
     },
     {
