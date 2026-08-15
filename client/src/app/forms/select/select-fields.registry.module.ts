@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
+import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 
 /**
@@ -23,6 +24,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcDiseaseSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Diseases' },
+      },
+    },
+    {
+      name: 'phenotype-select',
+      wrappers: ['form-field'],
+      component: CvcPhenotypeSelectField,
+      defaultOptions: { props: { label: 'Phenotype' } },
+    },
+    {
+      name: 'phenotype-multi-select',
+      wrappers: ['form-field'],
+      component: CvcPhenotypeSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Phenotypes' },
       },
     },
   ],

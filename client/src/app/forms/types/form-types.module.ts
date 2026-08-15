@@ -24,7 +24,6 @@ import { CvcNccnGuidelineSelectModule } from './nccn-guideline-select/nccn-guide
 import { CvcNccnGuidelineVersionFieldModule } from './nccn-guideline-version-input/nccn-guideline-version-input.module'
 import { CvcOrgSubmitButtonTypeModule } from './org-submit-button/org-submit-button.type.module'
 import { CvcOriginSelectModule } from './origin-select/origin-select.module'
-import { CvcPhenotypeSelectModule } from './phenotype-select/phenotype-select.module'
 import { CvcRatingModule } from './rating/rating.module'
 import { CvcReferenceBuildSelectModule } from './reference-build-select/reference-build-select.module'
 import { CvcSignificanceSelectModule } from './significance-select/significance-select.module'
@@ -68,7 +67,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcNccnGuidelineVersionFieldModule,
     CvcOrgSubmitButtonTypeModule,
     CvcOriginSelectModule,
-    CvcPhenotypeSelectModule,
     CvcRatingModule,
     CvcReferenceBuildSelectModule,
     CvcSignificanceSelectModule,

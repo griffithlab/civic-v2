@@ -10,9 +10,10 @@ query PhenotypeSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkablePhenotype so every Phenotype this field writes to the cache
+# satisfies cvc-tag's watchFragment read without a second round-trip
+# (see src/app/tags/linkable.fragments.gql).
 fragment PhenotypeSelectTypeaheadFields on Phenotype {
-  id
-  name
-  link
+  ...LinkablePhenotype
   hpoId
 }
