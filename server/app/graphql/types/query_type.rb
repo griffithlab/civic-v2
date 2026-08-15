@@ -229,15 +229,15 @@ module Types
     end
 
     def molecular_profile(id:)
-      ::MolecularProfile.find_by(id: id)
+      Loaders::RecordLoader.for(::MolecularProfile).load(id)
     end
 
     def disease(id:)
-      Disease.find_by(id: id)
+      Loaders::RecordLoader.for(Disease).load(id)
     end
 
     def therapy(id:)
-      Therapy.find_by(id: id)
+      Loaders::RecordLoader.for(Therapy).load(id)
     end
 
     def gene(id: :unspecified, entrez_symbol: :unspecified)
@@ -271,15 +271,15 @@ module Types
     end
 
     def feature(id:)
-      Feature.find_by(id: id)
+      Loaders::RecordLoader.for(Feature).load(id)
     end
 
     def cytogenetic_region(id:)
-      CytogeneticRegion.find_by(id: id)
+      Loaders::RecordLoader.for(CytogeneticRegion).load(id)
     end
 
     def variant(id:)
-      Variant.find_by(id: id)
+      Loaders::RecordLoader.for(Variant).load(id)
     end
 
     def variant_group(id:)
@@ -291,7 +291,7 @@ module Types
     end
 
     def source(id:)
-      Source.find_by(id: id)
+      Loaders::RecordLoader.for(Source).load(id)
     end
 
     def organization(id:)
@@ -299,11 +299,11 @@ module Types
     end
 
     def phenotype(id:)
-      Phenotype.find_by(id: id)
+      Loaders::RecordLoader.for(Phenotype).load(id)
     end
 
     def variant_type(id:)
-      VariantType.find_by(id: id)
+      Loaders::RecordLoader.for(VariantType).load(id)
     end
 
     def clinical_trial(id:)
