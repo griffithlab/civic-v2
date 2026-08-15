@@ -59,11 +59,6 @@ export class CvcSelectAddFormComponent {}
   template: `@for (segment of segments(); track $index) {
     <span [class.typeahead-match]="segment.highlight">{{ segment.text }}</span>
   }`,
-  styles: `
-    .typeahead-match {
-      font-weight: bold;
-    }
-  `,
 })
 export class CvcHighlightComponent {
   readonly text = input.required<string>()

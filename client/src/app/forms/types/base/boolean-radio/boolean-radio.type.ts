@@ -25,7 +25,6 @@ export interface CvcBaseBooleanRadioFieldConfig
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FormlyModule, NzRadioModule],
   templateUrl: './boolean-radio.type.html',
-  styleUrl: './boolean-radio.type.less',
 })
 export class CvcBaseBooleanRadioField extends CvcFieldBase<
   Maybe<boolean>,

@@ -180,7 +180,6 @@ export class CvcVariantQuickAddForm implements OnChanges {
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      console.log('variant-quick-add form model submitted.', model)
       this.submitVariant(model)
     })
   }
@@ -201,18 +200,13 @@ export class CvcVariantQuickAddForm implements OnChanges {
       },
       {},
       (data) => {
-        console.log('variant-quick-add submit data callback', data)
         if (!data.createVariant) return
         // const vid = data.addVariant.variant.id
         this.formMessage.set({ message: undefined })
-        setTimeout(() => {
-          if (data && data.createVariant) {
-            this.cvcOnCreate.next({
-              id: data.createVariant.variant.id,
-              new: data.createVariant.new,
-            })
-          }
-        }, 1000)
+        this.cvcOnCreate.next({
+          id: data.createVariant.variant.id,
+          new: data.createVariant.new,
+        })
       }
     )
   }
