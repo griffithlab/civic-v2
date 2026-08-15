@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableNccnGuidelineFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type NccnGuidelineSelectTypeaheadQueryVariables = Types.Exact<{
@@ -22,10 +23,9 @@ export type NccnGuidelineSelectTypeaheadFieldsFragment = { __typename: 'NccnGuid
 
 export const NccnGuidelineSelectTypeaheadFieldsFragmentDoc = gql`
     fragment NccnGuidelineSelectTypeaheadFields on NccnGuideline {
-  id
-  name
+  ...LinkableNccnGuideline
 }
-    `;
+    ${LinkableNccnGuidelineFragmentDoc}`;
 export const NccnGuidelineSelectTypeaheadDocument = gql`
     query NccnGuidelineSelectTypeahead($name: String!) {
   nccnGuidelinesTypeahead(queryTerm: $name) {

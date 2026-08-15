@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
+import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
 import { CvcVariantTypeSelectField } from '@app/forms/types/variant-type-select/variant-type-select.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 
@@ -39,6 +40,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcPhenotypeSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Phenotypes' },
+      },
+    },
+    {
+      name: 'nccn-guideline-select',
+      wrappers: ['form-field'],
+      component: CvcNccnGuidelineSelectField,
+      defaultOptions: { props: { label: 'NCCN Guideline' } },
+    },
+    {
+      name: 'nccn-guideline-multi-select',
+      wrappers: ['form-field'],
+      component: CvcNccnGuidelineSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'NCCN Guideline(s)' },
       },
     },
     {

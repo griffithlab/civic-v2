@@ -20,7 +20,6 @@ import { CvcFeatureSelectModule } from './feature-select/feature-select.module'
 import { CvcInteractionSelectModule } from './interaction-select/interaction-select.module'
 import { CvcLevelSelectModule } from './level-select/level-select.module'
 import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
-import { CvcNccnGuidelineSelectModule } from './nccn-guideline-select/nccn-guideline-select.module'
 import { CvcNccnGuidelineVersionFieldModule } from './nccn-guideline-version-input/nccn-guideline-version-input.module'
 import { CvcOrgSubmitButtonTypeModule } from './org-submit-button/org-submit-button.type.module'
 import { CvcOriginSelectModule } from './origin-select/origin-select.module'
@@ -62,7 +61,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcInteractionSelectModule,
     CvcLevelSelectModule,
     CvcMolecularProfileSelectModule,
-    CvcNccnGuidelineSelectModule,
     CvcNccnGuidelineVersionFieldModule,
     CvcOrgSubmitButtonTypeModule,
     CvcOriginSelectModule,

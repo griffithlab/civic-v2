@@ -10,7 +10,10 @@ query NccnGuidelineSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableNccnGuideline so every NccnGuideline this field writes to
+# the cache satisfies cvc-tag's watchFragment read without a second
+# round-trip (see src/app/tags/linkable.fragments.gql). NccnGuideline has no
+# link field, so the fragment is the whole shape.
 fragment NccnGuidelineSelectTypeaheadFields on NccnGuideline {
-  id
-  name
+  ...LinkableNccnGuideline
 }
