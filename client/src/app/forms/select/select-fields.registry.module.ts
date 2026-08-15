@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CvcAcmgCodeSelectField } from '@app/forms/types/acmg-code-select/acmg-code-select.type'
+import { CvcClingenCodeSelectField } from '@app/forms/types/clingen-code-select/clingen-code-select.type'
 import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-region-select/cytogenetic-region-select.type'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
@@ -29,6 +30,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcAcmgCodeSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'ACMG/AMP Code(s)' },
+      },
+    },
+    {
+      name: 'clingen-code-select',
+      wrappers: ['form-field'],
+      component: CvcClingenCodeSelectField,
+      defaultOptions: { props: { label: 'ClinGen/CGC/VICC Code' } },
+    },
+    {
+      name: 'clingen-code-multi-select',
+      wrappers: ['form-field'],
+      component: CvcClingenCodeSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'ClinGen/CGC/VICC Code(s)' },
       },
     },
     {

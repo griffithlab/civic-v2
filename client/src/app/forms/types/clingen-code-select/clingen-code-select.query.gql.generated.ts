@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableClingenCodeFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type ClingenCodeSelectTypeaheadQueryVariables = Types.Exact<{
@@ -9,27 +10,25 @@ export type ClingenCodeSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean }> };
+export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', code: string, description: string, exclusive: boolean, id: number, name: string, tooltip: string }> };
 
 export type ClingenCodeSelectTagQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
 
-export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean } | undefined };
+export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', code: string, description: string, exclusive: boolean, id: number, name: string, tooltip: string } | undefined };
 
-export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean };
+export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', code: string, description: string, exclusive: boolean, id: number, name: string, tooltip: string };
 
 export const ClingenCodeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
-  id
+  ...LinkableClingenCode
   code
-  name
   description
-  tooltip
   exclusive
 }
-    `;
+    ${LinkableClingenCodeFragmentDoc}`;
 export const ClingenCodeSelectTypeaheadDocument = gql`
     query ClingenCodeSelectTypeahead($code: String!) {
   clingenCodesTypeahead(queryTerm: $code) {

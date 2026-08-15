@@ -10,11 +10,14 @@ query ClingenCodeSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableClingenCode so every ClingenCode this field writes to the
+# cache satisfies cvc-tag's watchFragment read without a second round-trip
+# (see src/app/tags/linkable.fragments.gql). ClingenCode has no link;
+# cvc-tag renders its tooltip field, which is why the fragment carries it.
+# `exclusive` marks codes (N/A) that preclude selecting any other.
 fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
-  id
+  ...LinkableClingenCode
   code
-  name
   description
-  tooltip
   exclusive
 }
