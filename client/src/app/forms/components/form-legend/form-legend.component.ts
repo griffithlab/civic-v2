@@ -1,13 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 /** One field state, rendered as a chip tinted like the field box itself. */
 interface CvcFieldLegendItem {
   /** doubles as the CSS class, matching the wrapper's state classes */
-  readonly state: 'required' | 'optional' | 'valid' | 'error' | 'disabled'
+  readonly state: 'required' | 'optional' | 'ok' | 'error' | 'disabled'
   readonly label: string
   readonly hint: string
 }
@@ -25,36 +27,54 @@ interface CvcFieldLegendItem {
   selector: 'cvc-form-legend',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NzButtonModule, NzPopoverModule, NzTagModule],
+  imports: [
+    NgTemplateOutlet,
+    NzButtonModule,
+    NzDividerModule,
+    NzPopoverModule,
+    NzTagModule,
+    NzTypographyModule,
+  ],
   templateUrl: './form-legend.component.html',
   styleUrl: './form-legend.component.less',
 })
 export class CvcFormLegendComponent {
-  protected readonly items: readonly CvcFieldLegendItem[] = [
-    {
-      state: 'required',
-      label: 'Required',
-      hint: 'Must be filled in before the form can be submitted',
-    },
-    {
-      state: 'optional',
-      label: 'Optional',
-      hint: 'May be left empty',
-    },
-    {
-      state: 'valid',
-      label: 'Valid',
-      hint: 'Filled in and accepted',
-    },
-    {
-      state: 'error',
-      label: 'Error',
-      hint: 'Required and empty, or filled in incorrectly',
-    },
-    {
-      state: 'disabled',
-      label: 'Not Applicable',
-      hint: 'Does not apply to the entity type selected above',
-    },
+  /**
+   * Grouped so the states that answer the same question sit together:
+   * whether the field must be filled, whether what is in it passes, and the
+   * one state that takes the field out of play entirely.
+   */
+  protected readonly groups: readonly (readonly CvcFieldLegendItem[])[] = [
+    [
+      {
+        state: 'required',
+        label: 'Required',
+        hint: 'Must be filled in before the form can be submitted',
+      },
+      {
+        state: 'optional',
+        label: 'Optional',
+        hint: 'May be left empty',
+      },
+    ],
+    [
+      {
+        state: 'ok',
+        label: 'OK',
+        hint: 'Filled in and accepted',
+      },
+      {
+        state: 'error',
+        label: 'Error',
+        hint: 'Required and empty, or filled in incorrectly',
+      },
+    ],
+    [
+      {
+        state: 'disabled',
+        label: 'Not Applicable',
+        hint: 'Does not apply to the entity type selected above',
+      },
+    ],
   ]
 }

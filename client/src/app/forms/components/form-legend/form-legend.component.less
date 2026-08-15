@@ -12,6 +12,25 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
+
+  // the divider carries the group break, so it gets the breathing room
+  // rather than every chip
+  nz-divider {
+    margin: 0 4px;
+    height: 1.1em;
+    top: 0;
+  }
+}
+
+// inline variant only: the title sits to the left of the chips
+.legend-inline {
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-title {
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 // Each chip is a miniature of the field box it describes: the same
@@ -38,7 +57,7 @@
     border-color: @field-default-border-color;
   }
 
-  &.valid {
+  &.ok {
     color: @field-valid-label-color;
     background-color: @field-valid-bg-color;
     border-color: @field-valid-border-color;
@@ -69,7 +88,7 @@
 
 @media (min-width: @legend-inline-min-width) {
   .legend-inline {
-    display: block;
+    display: flex;
   }
   .legend-button {
     display: none;

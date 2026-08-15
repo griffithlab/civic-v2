@@ -1,18 +1,31 @@
 <!-- one definition, rendered inline on wide screens and inside the popover on
-     narrow ones; CSS decides which container is visible -->
+     narrow ones; CSS decides which container is visible. The title lives
+     outside it: inline it sits to the left, in the popover nzPopoverTitle
+     already supplies it. -->
 <ng-template #legend>
   <div class="legend-items">
-    @for (item of items; track item.state) {
-      <nz-tag
-        [class]="'legend-item ' + item.state"
-        [title]="item.hint"
-        >{{ item.label }}</nz-tag
-      >
+    @for (group of groups; track $index) {
+      @if (!$first) {
+        <nz-divider nzType="vertical" />
+      }
+      @for (item of group; track item.state) {
+        <nz-tag
+          [class]="'legend-item ' + item.state"
+          [title]="item.hint"
+          >{{ item.label }}</nz-tag
+        >
+      }
     }
   </div>
 </ng-template>
 
 <div class="legend-inline">
+  <span
+    class="legend-title"
+    nz-typography
+    nzType="secondary"
+    >Field status</span
+  >
   <ng-container [ngTemplateOutlet]="legend" />
 </div>
 
