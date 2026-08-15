@@ -30,11 +30,40 @@
 @item-border: @default-border;
 @item-background-color: @default-bg-color;
 
+// Recolors the label marker, text and help icon for one field state. The
+// `required` state is written out separately below because it establishes the
+// ::before marker these only recolor, so it has to come first.
+//
+// Only the outermost ::ng-deep matters: everything after it is already
+// unscoped, so the nested second ::ng-deep this replaced was a no-op.
+.label-state(@state; @label-color; @icon-color) {
+  &.@{state} > nz-form-label ::ng-deep label {
+    &:before {
+      border-color: @label-color;
+    }
+    span.label {
+      color: @label-color;
+    }
+    span.anticon path {
+      color: @icon-color;
+    }
+  }
+}
+
+// Vertical-layout fields render as a filled block, tinted per state.
+.layout-state(@state; @bg-color; @border) {
+  &.@{state} {
+    background-color: @bg-color;
+    border: @border;
+  }
+}
+
 :host {
   > nz-form-item {
     border-radius: @item-border-radius;
     margin-top: 8px;
     margin-bottom: 0;
+
     // defaults
     > nz-form-label {
       span.label {
@@ -48,84 +77,38 @@
       }
     }
 
-    // handy selector for selecting fields contained by a form-row wrapper
-    :host-context(.form-row-wrapped) {
-      > nz-form-item {
-        margin-top: 0;
-        margin-bottom: 0;
+    &.required > nz-form-label ::ng-deep label {
+      &:before {
+        border: 1px solid @required-label-color;
+        height: 1em;
+        content: '';
+      }
+      span.label {
+        color: @required-label-color;
+        font-weight: 600;
+      }
+      span.anticon path {
+        color: @required-icon-color;
       }
     }
 
-    // required state
-    &.required {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border: 1px solid @required-label-color;
-            height: 1em;
-            content: '';
-          }
-          span.label {
-            color: @required-label-color;
-            font-weight: 600;
-          }
-          ::ng-deep span.anticon path {
-            color: @required-icon-color;
-          }
-        }
-      }
-    }
-
-    // error state
-    &.error {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border-color: @error-label-color;
-          }
-          span.label {
-            color: @error-label-color;
-          }
-          ::ng-deep span.anticon path {
-            color: @error-icon-color;
-          }
-        }
-      }
-    }
-
-    // valid state
-    &.valid {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border-color: @valid-label-color;
-          }
-          span.label {
-            color: @valid-label-color;
-          }
-          ::ng-deep span.anticon path {
-            color: @valid-icon-color;
-          }
-        }
-      }
-    }
-
-    &.disabled {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border-color: @disabled-label-color;
-          }
-          span.label {
-            color: @disabled-label-color;
-          }
-          ::ng-deep span.anticon path {
-            color: @disabled-icon-color;
-          }
-        }
-      }
-    }
+    .label-state(error; @error-label-color; @error-icon-color);
+    .label-state(valid; @valid-label-color; @valid-icon-color);
+    .label-state(disabled; @disabled-label-color; @disabled-icon-color);
   }
+}
+
+// Fields inside a form-row drop their own vertical margin — the row wrapper
+// owns that spacing (form-row.wrapper.html sets it on its container).
+//
+// This must stay at the top level. Nested inside `:host > nz-form-item` it
+// still worked, but only by accident: Angular expands :host-context into a
+// selector list, and while the first alternative was unmatchable, the second
+// (`.form-row-wrapped [_nghost] > nz-form-item`) is what actually zeroed the
+// margin. Written here it emits only the alternative that does the work.
+:host-context(.form-row-wrapped) > nz-form-item {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 // vertical layout fields displayed in a block w/ bg color & border styles
@@ -134,22 +117,10 @@
     background-color: @default-bg-color;
     border: @default-border;
     padding: @item-padding;
-    &.required {
-      background-color: @required-bg-color;
-      border: @required-border;
-    }
-    &.error {
-      background-color: @error-bg-color;
-      border: @error-border;
-    }
-    &.valid {
-      background-color: @valid-bg-color;
-      border: @valid-border;
-    }
-    &.disabled {
-      background-color: @disabled-bg-color;
-      border: @disabled-border;
-    }
+    .layout-state(required; @required-bg-color; @required-border);
+    .layout-state(error; @error-bg-color; @error-border);
+    .layout-state(valid; @valid-bg-color; @valid-border);
+    .layout-state(disabled; @disabled-bg-color; @disabled-border);
   }
 }
 
@@ -158,7 +129,6 @@
   // ensure consistent height of description, validation message line
   min-height: 16px;
   line-height: 1.2;
-  // font-size: 96%;
   margin-top: 4px;
   .extra-prompt {
     font-weight: 400;

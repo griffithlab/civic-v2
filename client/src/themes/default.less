@@ -75,19 +75,6 @@
 // PUT CUSTOM GLOBALS IN global-variables.less
 @import 'themes/global-variables.less';
 
-.typeahead-match {
-  font-weight: bold;
-}
-
-.hide-dropdown {
-  display: none;
-}
-
-// ng-zorro 22 sets single-select selection items to `display: block`
-// (v20 had no display rule). Our custom nzCustomTemplate select templates
-// wrap selected content in div.ant-select-selection-item-content, a class
-// ant only styles in multiple mode — as a raw block div it stacks a second
-// line box and the item overflows the control, misplacing entity tags.
-.ant-select-single .ant-select-selector .ant-select-selection-item-content {
-  display: inline-block;
-}
+// Global rules live in themes/globals.less, imported once by styles.less.
+// This file must stay variables-only: it is imported by component
+// stylesheets, and any rule here is duplicated into each of their bundles.

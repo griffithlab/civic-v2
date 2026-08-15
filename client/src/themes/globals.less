@@ -1,0 +1,31 @@
+/* Global CIViC rules.
+ *
+ * Imported once, by src/styles.less, and never by a component stylesheet.
+ * These are plain (unscoped) selectors, so a component that also imported
+ * them would emit a second, encapsulated copy that the global one already
+ * covers — pure duplication against the 2 kB per-component style budget.
+ *
+ * Variables and the colour palette live in themes/default.less, which IS
+ * safe to import anywhere because it emits no rules.
+ */
+
+.typeahead-match {
+  font-weight: bold;
+}
+
+.hide-dropdown {
+  display: none;
+}
+
+// ng-zorro 22 sets single-select selection items to `display: block`
+// (v20 had no display rule). Our custom nzCustomTemplate select templates
+// wrap selected content in div.ant-select-selection-item-content, a class
+// ant only styles in multiple mode — as a raw block div it stacks a second
+// line box and the item overflows the control, misplacing entity tags.
+//
+// Multiple mode needs no equivalent: ant's own
+// `.ant-select-multiple.ant-select .ant-select-selection-item-content` rule
+// covers it, and the flex item is blockified either way.
+.ant-select-single .ant-select-selector .ant-select-selection-item-content {
+  display: inline-block;
+}

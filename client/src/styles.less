@@ -60,3 +60,7 @@
 
 // Override compact styles with CIViC default theme
 @import './themes/default.less';
+
+// Global rules. Kept out of default.less so component stylesheets can import
+// that for variables without inlining a duplicate copy of these.
+@import './themes/globals.less';
