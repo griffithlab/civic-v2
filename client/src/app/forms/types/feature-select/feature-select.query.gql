@@ -18,7 +18,7 @@ fragment FeatureSelectTypeaheadFields on Feature {
   ...LinkableFeature
   featureAliases
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
     ... on Gene {
       entrezId
     }

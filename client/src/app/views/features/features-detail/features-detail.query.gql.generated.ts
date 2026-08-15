@@ -3,6 +3,7 @@ import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
 import { ParsedCommentFragmentFragmentDoc } from '../../../components/comments/comment-list/comment-list.query.gql.generated';
+import { FeatureInstanceRefFragmentDoc } from '../../../graphql/feature-instance.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type FeatureDetailQueryVariables = Types.Exact<{
@@ -19,10 +20,10 @@ export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 
         | { __typename: 'CommentTextSegment', text: string }
         | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: Types.UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }
       > } | undefined, featureInstance:
-      | { __typename: 'Factor' }
-      | { __typename: 'Fusion' }
-      | { __typename: 'Gene' }
-      | { __typename: 'Region' }
+      | { __typename: 'Factor', id: number }
+      | { __typename: 'Fusion', id: number }
+      | { __typename: 'Gene', id: number }
+      | { __typename: 'Region', id: number }
     , flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
 export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, deprecated: boolean, deprecationReason?: Types.FeatureDeprecationReason | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', parsedNote: Array<
@@ -34,10 +35,10 @@ export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, n
       | { __typename: 'CommentTextSegment', text: string }
       | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: Types.UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }
     > } | undefined, featureInstance:
-    | { __typename: 'Factor' }
-    | { __typename: 'Fusion' }
-    | { __typename: 'Gene' }
-    | { __typename: 'Region' }
+    | { __typename: 'Factor', id: number }
+    | { __typename: 'Fusion', id: number }
+    | { __typename: 'Gene', id: number }
+    | { __typename: 'Region', id: number }
   , flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export const FeatureDetailFieldsFragmentDoc = gql`
@@ -53,7 +54,7 @@ export const FeatureDetailFieldsFragmentDoc = gql`
     }
   }
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
   }
   flags(state: OPEN) {
     totalCount
@@ -65,7 +66,8 @@ export const FeatureDetailFieldsFragmentDoc = gql`
     totalCount
   }
 }
-    ${ParsedCommentFragmentFragmentDoc}`;
+    ${ParsedCommentFragmentFragmentDoc}
+${FeatureInstanceRefFragmentDoc}`;
 export const FeatureDetailDocument = gql`
     query FeatureDetail($featureId: Int!) {
   feature(id: $featureId) {

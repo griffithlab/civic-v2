@@ -17,6 +17,7 @@ fragment RevisableFactorFields on Feature {
   }
   featureAliases
   featureInstance {
+    ...FeatureInstanceRef
     ... on Factor {
       ncitId
     }

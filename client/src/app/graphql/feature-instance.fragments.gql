@@ -1,0 +1,29 @@
+# The identity of a Feature's featureInstance.
+#
+# Invariant: every query selecting `featureInstance` spreads this fragment.
+#
+# FeatureInstance is a union (Factor | Fusion | Gene | Region) and a union has
+# no fields of its own, so `id` has to be selected once per concrete type. Doing
+# that inline at each call site is how the shapes drifted in the first place:
+# eight queries selected featureInstance and not one of them asked for an id, so
+# Apollo could not normalise any of them and logged "Cache data may be lost when
+# replacing the featureInstance field of a Feature object" every time two of
+# them wrote the same Feature with different selections.
+#
+# Same rule, and same reason, as tags/linkable.fragments.gql.
+
+fragment FeatureInstanceRef on FeatureInstance {
+  __typename
+  ... on Gene {
+    id
+  }
+  ... on Factor {
+    id
+  }
+  ... on Fusion {
+    id
+  }
+  ... on Region {
+    id
+  }
+}
