@@ -3,7 +3,7 @@ import { ErrorLike } from '@apollo/client'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueCategory } from '@app/forms/components/empty-value/empty-value.component'
-import { CvcTagLabelMax } from '@app/forms/components/entity-tag/entity-tag.component'
+import { CvcTagLabelMax } from '@app/tags'
 import {
   VariantManagerFieldsFragment,
   VariantManagerQuery,

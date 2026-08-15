@@ -304,6 +304,20 @@
                         "></cvc-empty-value>
                     }
                   }
+                  <!-- single entity tag template -->
+                  <ng-template
+                    #entityTag
+                    let-data
+                    let-config="config"
+                    let-emphasize="emphasize">
+                    <cvc-tag
+                      [ref]="data"
+                      [emphasize]="emphasize"
+                      [popover]="!isScrolling"
+                      [popoverPlacement]="config.tag?.popoverPlacement ?? 'top'"
+                      [fullWidth]="config.tag?.fullWidth ?? false"
+                      [truncate]="config.tag?.truncateLabel" />
+                  </ng-template>
                   <!-- entity tag list template -->
                   <ng-template
                     #entityTagList
@@ -311,69 +325,25 @@
                     let-config="config"
                     let-emphasize="emphasize">
                     @if (data.length > 0) {
-                      <!-- display full size tags up to maxTags length -->
-                      <cvc-entity-tag-list
-                        [cvcTagTemplate]="entityTag"
-                        [cvcTagListConfig]="{
-                          tagList: data.slice(0, config.tag.maxTags),
-                          tag: config.tag,
-                          showPopover: !isScrolling,
-                          status:
-                            config.showStatus === true
-                              ? data.status
-                              : undefined,
-                          emphasize: emphasize,
-                        }">
-                      </cvc-entity-tag-list>
-                      <!-- display any additional entities in entity-collection tag -->
-                      @if (
-                        data.slice(config.tag.maxTags, data.length).length > 0
-                      ) {
-                        <cvc-entity-collection-tag
-                          [cvcCollectionTagConfig]="{
-                            tagList: data.slice(
-                              config.tag.maxTags,
-                              data.length
-                            ),
-                            tag: config.tag,
-                            showPopover: !isScrolling,
-                            status:
-                              config.showStatus === true
-                                ? data.status
-                                : undefined,
-                            emphasize: emphasize,
-                          }"
-                          [cvcTagTemplate]="entityTag"
-                          [cvcShowFullLabels]="
-                            true
-                          "></cvc-entity-collection-tag>
+                      <!-- full-size tags up to maxTags, then a collection tag
+                           standing in for whatever is left over -->
+                      <cvc-tag-list
+                        [refs]="data.slice(0, config.tag.maxTags)"
+                        [emphasize]="emphasize"
+                        [popover]="!isScrolling"
+                        [popoverPlacement]="config.tag?.popoverPlacement ?? 'top'"
+                        [fullWidth]="config.tag?.fullWidth ?? false"
+                        [truncate]="config.tag?.truncateLabel" />
+                      @if (data.length > config.tag.maxTags) {
+                        <cvc-collection-tag
+                          [refs]="data.slice(config.tag.maxTags, data.length)"
+                          [emphasize]="emphasize"
+                          [popover]="!isScrolling" />
                       }
                     } @else {
                       <cvc-empty-value
-                        [cvcEmptyCategory]="
-                          entityTagCol.emptyValueCategory || 'unspecified'
-                        "></cvc-empty-value>
+                        [cvcEmptyCategory]="entityTagCol.emptyValueCategory || 'unspecified'"></cvc-empty-value>
                     }
-                  </ng-template>
-                  <!-- entity tag template -->
-                  <ng-template
-                    #entityTag
-                    let-data
-                    let-config="config"
-                    let-emphasize="emphasize">
-                    <cvc-entity-tag
-                      [cvcTruncateLabel]="
-                        $safeNavigationMigration(config.tag?.truncateLabel)
-                      "
-                      [cvcLinkableEntity]="data"
-                      [cvcEmphasize]="emphasize"
-                      [cvcShowPopover]="!isScrolling"
-                      [cvcStatus]="
-                        config.showStatus === true ? data.status : undefined
-                      "
-                      [cvcFullWidth]="
-                        config.tag?.fullWidth ?? false
-                      "></cvc-entity-tag>
                   </ng-template>
                 </td>
               }

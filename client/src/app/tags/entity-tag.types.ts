@@ -18,6 +18,43 @@ export interface LinkableEntity {
   readonly citation?: string | undefined
 }
 
+/**
+ * nz-popover's placement union. CvcTag takes a plain string; this exists for
+ * the components that declare a placement in a typed config object.
+ */
+export type PopoverPlacement =
+  | 'top'
+  | 'left'
+  | 'right'
+  | 'bottom'
+  | 'topLeft'
+  | 'topRight'
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'leftTop'
+  | 'leftBottom'
+  | 'rightTop'
+  | 'rightBottom'
+
+/**
+ * Label max-widths the tag styling supports. CvcTag's `truncate` input takes
+ * any CSS length — the old component needed a closed set because each width
+ * was a separate host class.
+ */
+export type CvcTagLabelMax =
+  | '50px'
+  | '75px'
+  | '100px'
+  | '125px'
+  | '150px'
+  | '175px'
+  | '200px'
+  | '250px'
+  | '300px'
+  | '350px'
+  | '400px'
+  | '450px'
+
 /** Rendering context: default page flow, or inside an nz-select's chrome. */
 export type CvcTagContext = 'default' | 'select-item' | 'multi-select-item'
 

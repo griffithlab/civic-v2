@@ -452,8 +452,14 @@ APPEND BUTTON POPOVER TEMPLATES
             <nz-list-item>
               <nz-list-item-meta>
                 <nz-list-item-meta-title>
-                  <cvc-entity-tag
-                    [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
+                  <nz-tag>
+                    <i
+                      nz-icon
+                      nzType="civic-molecularprofile"
+                      nzTheme="twotone"
+                      [nzTwotoneColor]="mpColor"></i>
+                    {{ example.name }}
+                  </nz-tag>
                 </nz-list-item-meta-title>
                 <nz-list-item-meta-description>
                   {{ example.description }}

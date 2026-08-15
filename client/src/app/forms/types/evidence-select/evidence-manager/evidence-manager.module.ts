@@ -1,3 +1,8 @@
+import {
+  CvcCollectionTagComponent,
+  CvcTagComponent,
+  CvcTagListComponent,
+} from '@app/tags'
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
@@ -5,9 +10,6 @@ import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAttributeTagModule } from '@app/forms/components/attribute-tag/attribute-tag.module'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
-import { CvcEntityCollectionTagModule } from '@app/forms/components/entity-collection-tag/entity-collection-tag.module'
-import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
-import { CvcEntityTagListModule } from '@app/forms/components/entity-tag-list/entity-tag-list.module'
 import { CvcTableCounts2Module } from '@app/forms/components/tables/table-counts/table-counts.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -52,9 +54,9 @@ import { TableScrollerDirective } from './table-scroller.directive'
     CommonModule,
     CvcAttributeTagModule,
     CvcEmptyValueModule,
-    CvcEntityCollectionTagModule,
-    CvcEntityTagListModule,
-    CvcEntityTagModule,
+    CvcTagComponent,
+    CvcTagListComponent,
+    CvcCollectionTagComponent,
     CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcTableCounts2Module,
