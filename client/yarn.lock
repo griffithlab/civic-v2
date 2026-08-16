@@ -7533,6 +7533,7 @@ __metadata:
     prettier: "npm:^3.2.4"
     rxjs: "npm:^7.8.1"
     rxjs-etc: "npm:^10.6.2"
+    sonda: "npm:^0.14.0"
     svg-to-ts: "npm:^12.0.0"
     svgo: "npm:^3.3.3"
     ts-enum-util: "npm:^4.0.2"
@@ -9262,6 +9263,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sonda@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "sonda@npm:0.14.0"
+  dependencies:
+    "@jridgewell/remapping": "npm:^2.3.5"
+    tiny-open: "npm:^1.3.0"
+  bin:
+    sonda-angular: ./bin/sonda-angular.js
+  checksum: 10c0/e1995be0c6a99eabd1275bbff4ed9454ce7aaae888711eeefa31075719fac35cc6b56bcee04e50047849b9236ccf44abe9f905b03b7a607b6a25f5ab5d9cd15d
+  languageName: node
+  linkType: hard
+
 "source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1, source-map-js@npm:^1.2.1":
   version: 1.2.1
   resolution: "source-map-js@npm:1.2.1"
@@ -9541,6 +9554,13 @@ __metadata:
   version: 2.0.0
   resolution: "timeout-signal@npm:2.0.0"
   checksum: 10c0/dd0a41712552fd45e075664edbdb5d1715a0791e6a206f1d00f5808b954b18046f87b71a7b9216a5030ba772516212b696bbbfb3115bf81b3277b04f62aab135
+  languageName: node
+  linkType: hard
+
+"tiny-open@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "tiny-open@npm:1.3.0"
+  checksum: 10c0/9602c350d6a223892f8578c05fb7e16e44df4a0c6662d02e867791f235249cc1f6ac351de9188f9edf568c2eaef9b7fbf372d7ff798342bfddfc1f213fc6d35b
   languageName: node
   linkType: hard
 
