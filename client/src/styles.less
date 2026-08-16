@@ -18,6 +18,12 @@
 // Sub-component rule families the app cannot match (grid push/pull, ghost
 // buttons) are stripped later, in scripts/postcss-strip-unused.cjs, since LESS
 // has no way to opt out of part of an entry.
+//
+// `date-picker` is deliberately absent: it is used by exactly one component, on
+// a lazy route, and cost 26.4 kB of first paint everywhere. Its entry now ships
+// with CvcDatePickerStylesComponent instead — see that file. Any new
+// <nz-date-picker> outside the activity feed must import that component or add
+// the entry back here.
 @root-entry-name: default;
 @import 'ng-zorro-antd/style/compact.less'; // compact theme variables + core
 @import 'ng-zorro-antd/style/entry.less'; // base/reset/motion/iconfont
@@ -31,7 +37,6 @@
 @import 'ng-zorro-antd/checkbox/style/entry.less';
 @import 'ng-zorro-antd/collapse/style/entry.less';
 @import 'ng-zorro-antd/comment/style/entry.less';
-@import 'ng-zorro-antd/date-picker/style/entry.less';
 @import 'ng-zorro-antd/descriptions/style/entry.less';
 @import 'ng-zorro-antd/divider/style/entry.less';
 @import 'ng-zorro-antd/dropdown/style/entry.less';

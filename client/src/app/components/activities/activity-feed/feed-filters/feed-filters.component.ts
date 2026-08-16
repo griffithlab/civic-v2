@@ -42,6 +42,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcUserFilterSelect } from './user-filter-select/user-filter-select.component'
 import { CvcOrgFilterSelect } from './org-filter-select/org-filter-select.component'
+import { CvcDatePickerStylesComponent } from './date-picker-styles.component'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 export const defaultFilters = {}
@@ -63,6 +64,7 @@ export const defaultFilters = {}
     CvcPipesModule,
     CvcUserFilterSelect,
     CvcOrgFilterSelect,
+    CvcDatePickerStylesComponent,
   ],
   templateUrl: './feed-filters.component.html',
   styleUrls: ['./feed-filters.component.less'],

@@ -106,7 +106,13 @@ yarn prettier --write <files>
 
 `src/themes/` holds the CIViC theme: `default.less` (imported last by `styles.less`), `global-variables.less`, and per-component overrides in `themes/overrides/`. `angular.json` sets `stylePreprocessorOptions.includePaths` to `src/`, `src/themes/`, and `node_modules`, which is why `@import 'themes/...'` and bare ng-zorro paths resolve.
 
-`postcss.config.json` registers `scripts/postcss-strip-rtl.cjs`, a local plugin that drops RTL rules (`[dir="rtl"]`, `.ant-*-rtl`) from the compiled CSS. The app is LTR-only; if RTL support is ever wanted, remove that plugin first.
+`postcss.config.json` registers two local plugins that run over every stylesheet. `scripts/postcss-strip-rtl.cjs` drops RTL rules (`[dir="rtl"]`, `.ant-*-rtl`) — the app is LTR-only, so remove that plugin first if RTL support is ever wanted. `scripts/postcss-strip-unused.cjs` drops ng-zorro rule families nothing can match (the grid's `push`/`pull` classes, ghost buttons); it re-derives that premise from `src/` on every build and fails if a removed family comes back into use, so adding an `nzPush` produces a build error naming the plugin rather than a rule that silently does nothing.
+
+Run `yarn build:stats && yarn analyze:styles` to see what the global sheet is made of, broken down by the ng-zorro package that emitted each rule. `--families` breaks a package down further, and `--save`/`--diff` compares before and after a change. Measure removals rather than predicting them: entries pull their own dependencies, so dropping an `@import` may save nothing.
+
+**A style entry can ship lazily.** ng-zorro entries are all-or-nothing and global, so a component used on one lazy route still charges its full CSS to first paint. `CvcDatePickerStylesComponent` is the pattern for opting out: a component with an empty template, `ViewEncapsulation.None`, and the entry as its `styleUrl`, imported by the one component that needs it. The styles then land in that lazy chunk. Two things make this work — the encapsulation must go on a *dedicated carrier*, never on the consuming component (Angular emits CSS verbatim under `None`, so a component's own `:host` rules stop matching and silently die), and the carrier must import the entry's `index.less`/`patch.less` rather than `entry.less`, which would re-emit the dependency entries already shipped globally.
+
+That carrier is the one component stylesheet over the `anyComponentStyle` warning threshold, which is why the budget's `maximumError` is 30 kB while its `maximumWarning` stays at 3.2 kB: every real component is still guarded at 3.2 kB, and the single warning is a deliberate vendor bundle that names itself.
 
 ## Bundle & bootstrap invariants
 
