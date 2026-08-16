@@ -41,11 +41,7 @@ export type EvidenceManagerQuery = { __typename: 'Query', evidenceItems: { __typ
             | { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
             | { __typename: 'MolecularProfileTextSegment', text: string }
             | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
-          > } } | undefined }>, nodes: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: Types.EvidenceStatus, flagged: boolean, therapyInteractionType?: Types.TherapyInteraction | undefined, description: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean, deprecated: boolean, parsedName: Array<
-          | { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
-          | { __typename: 'MolecularProfileTextSegment', text: string }
-          | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
-        > } }> } };
+          > } } | undefined }> } };
 
 export type EvidenceManagerFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, status: Types.EvidenceStatus, flagged: boolean, therapyInteractionType?: Types.TherapyInteraction | undefined, description: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean, deprecated: boolean, parsedName: Array<
       | { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
@@ -129,9 +125,6 @@ export const EvidenceManagerDocument = gql`
       node {
         ...EvidenceManagerFields
       }
-    }
-    nodes {
-      ...EvidenceManagerFields
     }
   }
 }
