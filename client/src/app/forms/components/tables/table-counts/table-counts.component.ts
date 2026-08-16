@@ -49,13 +49,8 @@ export class TableCountsComponent implements OnInit {
         const fc = c.filteredCount
         const tc = c.totalCount
         const edges = c.edges
-        // Need to provide either filtered count or total count
-        if (fc == undefined && tc == undefined) {
-          console.log(
-            'Need to provide either filtered count or total count in the table counts component'
-          )
-        }
-        // If no filtered count, set filtered count to total count
+        // If no filtered count, set filtered count to total count. The filter
+        // above already guarantees at least one of the two is present.
         const filteredCount = fc == undefined ? tc : fc
         return {
           edgeCount: edges.length,

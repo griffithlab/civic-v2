@@ -72,8 +72,6 @@ export class CvcVariantgroupReviseForm
   }
 
   onSubmit(model: any) {
-    console.log('------ Variant Group Suggestion Added ------')
-    console.log(model)
     if (!this.variantGroupId) {
       return
     }
