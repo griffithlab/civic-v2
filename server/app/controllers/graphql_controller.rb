@@ -59,7 +59,7 @@ class GraphqlController < ApplicationController
   def execute_multiplex(batch)
     if batch.size > MAX_BATCH_SIZE
       render json: {
-        errors: [ { message: "Batch of #{batch.size} operations exceeds the maximum of #{MAX_BATCH_SIZE}." } ]
+        errors: [ { message: "Batch of #{batch.size} operations exceeds the maximum of #{MAX_BATCH_SIZE}." } ],
       }, status: :payload_too_large
       return
     end
