@@ -2,7 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
-import { EventFeedNodeFragmentDoc } from '../../../components/events/event-feed/event-feed.gql.generated';
+import { EventTimelineNodeFragmentDoc } from '../../../components/events/event-timeline/event-timeline.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type UserNotificationsQueryVariables = Types.Exact<{
@@ -326,7 +326,7 @@ export const NotificationNodeFragmentDoc = gql`
   id
   type
   event {
-    ...eventFeedNode
+    ...eventTimelineNode
   }
   seen
   subscription {
@@ -338,7 +338,7 @@ export const NotificationNodeFragmentDoc = gql`
     }
   }
 }
-    ${EventFeedNodeFragmentDoc}`;
+    ${EventTimelineNodeFragmentDoc}`;
 export const SubscribableFragmentDoc = gql`
     fragment subscribable on Subscribable {
   id

@@ -1,0 +1,88 @@
+"""
+The event shape cvc-event-timeline and cvc-event-timeline-item render.
+
+It lived in event-feed.gql until that component was retired in favour of the
+activity feed. It is kept here, beside the components typed by it, because the
+users-notifications query still spreads it — notifications are Event-based by
+design (Notification belongs_to :event), so this is not legacy.
+"""
+fragment eventTimelineNode on Event {
+  id
+  action
+  createdAt
+  organization {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  originatingUser {
+    id
+    username
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  subject {
+    name
+    id
+    link
+    ... on Source {
+      citation
+      sourceType
+      deprecated
+    }
+    ... on EvidenceItem {
+      status
+      flagged
+    }
+    ... on Assertion {
+      status
+      flagged
+    }
+    ... on Revision {
+      revisionSetId
+    }
+    ... on VariantInterface {
+      deprecated
+      flagged
+      feature {
+        id
+        link
+        name
+        deprecated
+        flagged
+      }
+    }
+    ... on Feature {
+      deprecated
+      flagged
+      id
+      link
+      name
+    }
+    ... on MolecularProfile {
+      deprecated
+      flagged
+    }
+    ... on VariantGroup {
+      flagged
+    }
+    __typename
+  }
+  originatingObject {
+    id
+    name
+    link
+    __typename
+    ... on Revision {
+      id
+      revisionSetId
+    }
+    ... on Comment {
+      id
+    }
+    ... on Flag {
+      id
+    }
+  }
+}

@@ -4,9 +4,9 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { EventFeedNodeFragment } from '@app/components/events/event-feed/event-feed.gql.generated'
+import { EventTimelineNodeFragment } from '@app/components/events/event-timeline/event-timeline.fragments.gql.generated'
 import { EventAction, Maybe } from '@app/generated/civic.apollo.types'
-import { EventDisplayOption } from '../event-feed/event-feed.component'
+import { EventDisplayOption } from './event-timeline.types'
 
 @Component({
   selector: 'cvc-event-timeline',
@@ -16,14 +16,14 @@ import { EventDisplayOption } from '../event-feed/event-feed.component'
   standalone: false,
 })
 export class CvcEventTimelineComponent implements OnInit {
-  @Input() events!: Maybe<EventFeedNodeFragment>[]
+  @Input() events!: Maybe<EventTimelineNodeFragment>[]
   @Input() tagDisplay: EventDisplayOption = 'displayAll'
   constructor() {}
 
   ngOnInit(): void {
     if (this.events === undefined) {
       throw new Error(
-        'cvc-feed-item component requires array of EventFeedNodeFragment input.'
+        'cvc-event-timeline component requires array of EventTimelineNodeFragment input.'
       )
     }
   }

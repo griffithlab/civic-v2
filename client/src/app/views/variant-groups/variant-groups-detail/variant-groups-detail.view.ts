@@ -59,6 +59,11 @@ export class VariantGroupsDetailView implements OnInit, OnDestroy {
       iconName: 'civic-flag',
       tabLabel: 'Flags',
     },
+    {
+      routeName: 'events',
+      iconName: 'civic-event',
+      tabLabel: 'Activity',
+    },
   ]
 
   constructor(
