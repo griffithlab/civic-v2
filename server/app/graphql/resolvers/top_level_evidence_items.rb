@@ -79,6 +79,9 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:variant_origin, type: Types::VariantOriginType, description: "Filtering on the evidence variant origin.") do |scope, value|
     scope.where(variant_origin: value)
   end
+  option(:therapy_interaction_type, type: Types::TherapyInteractionType, description: "Filtering on how an evidence item's multiple therapies interact.") do |scope, value|
+    scope.where(therapy_interaction_type: value)
+  end
   option(:evidence_rating, type: GraphQL::Types::Int, description: "Filtering on the evidence rating. Valid values: 1, 2, 3, 4, 5") do |scope, value|
     scope.where(rating: value)
   end

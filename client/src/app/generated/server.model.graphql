@@ -10152,6 +10152,11 @@ type Query {
     therapyId: Int
 
     """
+    Filtering on how an evidence item's multiple therapies interact.
+    """
+    therapyInteractionType: TherapyInteraction
+
+    """
     Substring filtering on therapy name.
     """
     therapyName: String
