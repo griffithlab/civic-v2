@@ -1,11 +1,14 @@
-"""
-The event shape cvc-event-timeline and cvc-event-timeline-item render.
-
-It lived in event-feed.gql until that component was retired in favour of the
-activity feed. It is kept here, beside the components typed by it, because the
-users-notifications query still spreads it — notifications are Event-based by
-design (Notification belongs_to :event), so this is not legacy.
-"""
+# The event shape cvc-event-timeline and cvc-event-timeline-item render.
+#
+# It lived in event-feed.gql until that component was retired in favour of the
+# activity feed. It is kept here, beside the components typed by it, because the
+# users-notifications query still spreads it — notifications are Event-based by
+# design (Notification belongs_to :event), so this is not legacy.
+#
+# Use `#` comments, not a `"""` description block: descriptions are SDL syntax
+# and are only valid on schema definitions. codegen embeds one into the operation
+# document, and the server then rejects the whole request with
+# `Expected one of SCHEMA, SCALAR, TYPE, ... actual: FRAGMENT`.
 fragment eventTimelineNode on Event {
   id
   action

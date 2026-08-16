@@ -47,15 +47,7 @@ export type EventTimelineNodeFragment = { __typename: 'Event', id: number, actio
    | undefined };
 
 export const EventTimelineNodeFragmentDoc = gql`
-    """
-The event shape cvc-event-timeline and cvc-event-timeline-item render.
-
-It lived in event-feed.gql until that component was retired in favour of the
-activity feed. It is kept here, beside the components typed by it, because the
-users-notifications query still spreads it — notifications are Event-based by
-design (Notification belongs_to :event), so this is not legacy.
-"""
-fragment eventTimelineNode on Event {
+    fragment eventTimelineNode on Event {
   id
   action
   createdAt
