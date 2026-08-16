@@ -10,9 +10,11 @@ import {
 } from 'rxjs'
 import { shareReplay, startWith, throttleTime } from 'rxjs/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { Routines } from 'ngx-ui-scroll'
-import { FeedItemToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+// type-only: both are used purely as types here, and value imports would point
+// this service back at the component and item that depend on it
+import type { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
+import type { FeedItemToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 
 export interface ScrollerState {
   isScrolling: boolean

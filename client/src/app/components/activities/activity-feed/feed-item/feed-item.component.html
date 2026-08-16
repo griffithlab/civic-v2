@@ -11,9 +11,24 @@
       class="details"
       [@details]="$showDetails() ? 'visible' : 'hidden'"
       (@details.done)="onToggleDone$.next($showDetails())">
-      @if ($showDetails()) {
-        <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
-        </cvc-activity-feed-item-details>
+      <!-- Deferred on the same condition the @if already applies. The details
+           component pulls 21 per-activity-type sub-components, each with its own
+           query document, and its data (ActivityFeedItem) is only fetched when a
+           row is expanded — so the code should arrive when the data does, not
+           with the feed. The inner @if stays: @defer renders once triggered and
+           does not tear down, so collapsing still needs it. -->
+      @defer (when $showDetails()) {
+        @if ($showDetails()) {
+          <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
+          </cvc-activity-feed-item-details>
+        }
+      } @loading (minimum 150ms) {
+        <div class="loading-container">
+          <nz-skeleton
+            [nzActive]="true"
+            [nzTitle]="false"
+            [nzParagraph]="{ rows: 2 }"></nz-skeleton>
+        </div>
       }
     </div>
   </nz-card>

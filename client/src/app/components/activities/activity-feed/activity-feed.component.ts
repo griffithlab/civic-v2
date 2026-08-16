@@ -93,8 +93,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzBreakpointService } from 'ng-zorro-antd/core/services'
 import { AutoHeightTarget } from '@app/directives/auto-height-div/auto-height-div.directive'
 
-export const FEED_SCROLL_SERVICE_TOKEN =
-  new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
+// Defined in activity-feed.tokens.ts so descendants can inject it without
+// importing their own parent. Imported for local use here and re-exported so
+// existing call sites keep working.
+import { FEED_SCROLL_SERVICE_TOKEN } from './activity-feed.tokens'
+export { FEED_SCROLL_SERVICE_TOKEN }
 
 @Component({
   selector: 'cvc-activity-feed',

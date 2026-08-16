@@ -11,7 +11,7 @@ import {
   ScrollerState,
   ScrollerStateService,
 } from '../../feed-scroll-service/feed-scroll.service'
-import { FEED_SCROLL_SERVICE_TOKEN } from '../../activity-feed.component'
+import { FEED_SCROLL_SERVICE_TOKEN } from '../../activity-feed.tokens'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
