@@ -9,6 +9,7 @@
     "build:watch": "ng build --watch --configuration production",
     "build:stats": "ng build --configuration production --stats-json --output-path dist/stats-build && node scripts/sonda-report.mjs",
     "analyze": "node scripts/analyze-bundle.mjs",
+    "analyze:styles": "node scripts/analyze-styles.mjs",
     "check:cycles": "node scripts/check-import-cycles.mjs",
     "optimize-icon-svg": "svgo --config .svgo.config.js -f ./src/assets/icons/ -r -o ./src/assets/icons/.tmp",
     "generate-icon-ts": "svg-to-ts-constants",

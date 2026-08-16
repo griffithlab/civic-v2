@@ -78,6 +78,11 @@ A typical dev session runs three processes: the Rails server, `yarn start`, and 
 | `yarn generate-docs-rst`     | Generate icon data + RST docs (used by the civic-docs project)                           |
 | `yarn test`                  | Run unit/smoke tests with Vitest via the Angular CLI                                     |
 | `yarn lint`                  | Run ESLint over `src/**/*.ts` and templates                                              |
+| `yarn analyze`               | Summarise or diff the JS chunks in a `build:stats` metafile                              |
+| `yarn analyze:styles`        | Attribute `styles.css` bytes to the ng-zorro packages that produced them                 |
+| `yarn check:cycles`          | Fail on circular imports between first-party modules (also a CI job)                     |
+
+The three analysis scripts all read the output of `yarn build:stats`, so run that first.
 
 ## Testing
 
