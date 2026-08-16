@@ -108,6 +108,37 @@ jobs:
       - run: yarn build
         working-directory: ./client
 
+  # Circular imports between first-party modules can never be tree-shaken apart,
+  # so importing any module in a cycle drags in all of them. This runs as its own
+  # job rather than inside frontend_tests because it needs a --stats-json build,
+  # and that writes stats.json into the output path — which for `yarn build` is
+  # server/public, whose contents get committed by the deploy workflow.
+  import_cycles:
+    name: Circular Imports
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: corepack enable
+        working-directory: ./client
+
+      - run: yarn install --immutable
+        working-directory: ./client
+
+      - name: Build with metafile
+        working-directory: ./client
+        run: yarn ng build --configuration production --stats-json --output-path dist/stats-build
+
+      - run: yarn check:cycles
+        working-directory: ./client
+
   # Committed generated GraphQL code must match what codegen produces from
   # the committed schema + .gql documents. (The schema SDL itself is kept in
   # sync with the Ruby schema by server/test/graphql/updated_idl_test.rb in
