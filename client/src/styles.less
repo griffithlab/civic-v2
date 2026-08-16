@@ -6,12 +6,23 @@
 // components' CSS. When adopting a new nz component, add its
 // <component>/style/entry.less here (entries pull their own style
 // dependencies, e.g. table brings pagination/empty/spin).
+//
+// `auto-complete` and `image` were dropped because nothing renders
+// <nz-autocomplete> or <nz-image> — measured at 0.4 kB and 4.7 kB. Note that
+// organizations-detail.module.ts still imports NzImageModule: removing that
+// import is correct on paper but re-shapes esbuild's chunk graph and hoists
+// ~64 kB of ng-zorro and CDK into `main`, so it is left alone deliberately
+// until that instability is understood. Verified, not assumed —
+// `yarn analyze` before and after.
+//
+// Sub-component rule families the app cannot match (grid push/pull, ghost
+// buttons) are stripped later, in scripts/postcss-strip-unused.cjs, since LESS
+// has no way to opt out of part of an entry.
 @root-entry-name: default;
 @import 'ng-zorro-antd/style/compact.less'; // compact theme variables + core
 @import 'ng-zorro-antd/style/entry.less'; // base/reset/motion/iconfont
 
 @import 'ng-zorro-antd/alert/style/entry.less';
-@import 'ng-zorro-antd/auto-complete/style/entry.less';
 @import 'ng-zorro-antd/avatar/style/entry.less';
 @import 'ng-zorro-antd/badge/style/entry.less';
 @import 'ng-zorro-antd/breadcrumb/style/entry.less';
@@ -29,7 +40,6 @@
 @import 'ng-zorro-antd/form/style/entry.less';
 @import 'ng-zorro-antd/grid/style/entry.less';
 @import 'ng-zorro-antd/icon/style/entry.less';
-@import 'ng-zorro-antd/image/style/entry.less';
 @import 'ng-zorro-antd/input/style/entry.less';
 @import 'ng-zorro-antd/input-number/style/entry.less';
 @import 'ng-zorro-antd/layout/style/entry.less';
