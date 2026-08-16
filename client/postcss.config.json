@@ -1,5 +1,6 @@
 {
   "plugins": {
-    "./scripts/postcss-strip-rtl.cjs": {}
+    "./scripts/postcss-strip-rtl.cjs": {},
+    "./scripts/postcss-strip-unused.cjs": {}
   }
 }
