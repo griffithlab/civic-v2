@@ -27,14 +27,15 @@ const queryVariableNames = (): Set<string> => {
 }
 
 /**
- * Known dead filter, kept explicit rather than silently tolerated. The Therapy
- * Interaction column offers a filter menu, but `evidenceItems` has no
- * interaction argument at all (see QueryEvidenceItemsArgs) — so unlike the
- * rating filter this cannot be fixed by routing it to the right variable. It
- * needs either a server-side filter or the removal of the control, which is a
- * product decision, not a mapping one.
+ * Filter columns the API genuinely cannot serve, kept explicit rather than
+ * silently tolerated. A ratchet, not a backlog: it should only ever shrink.
+ *
+ * It held `therapyInteractionType` until `evidenceItems` grew a
+ * `therapyInteractionType` argument (server: top_level_evidence_items.rb,
+ * guarded by evidence_items_filter_test.rb). Now empty, which is the point —
+ * every filter menu in this table changes the query.
  */
-const UNSUPPORTED_BY_THE_API = ['therapyInteractionType']
+const UNSUPPORTED_BY_THE_API: string[] = []
 
 const unreachableFilters = () => {
   const variables = queryVariableNames()

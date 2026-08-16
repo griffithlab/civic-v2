@@ -22,6 +22,7 @@ query EvidenceManager(
   $phenotypeId: Int
   $diseaseId: Int
   $therapyId: Int
+  $therapyInteractionType: TherapyInteraction
   $sourceId: Int
   $clinicalTrialId: Int
   $molecularProfileName: String
@@ -50,6 +51,7 @@ query EvidenceManager(
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
     therapyId: $therapyId
+    therapyInteractionType: $therapyInteractionType
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
     molecularProfileName: $molecularProfileName

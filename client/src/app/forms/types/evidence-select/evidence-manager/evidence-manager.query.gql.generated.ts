@@ -30,6 +30,7 @@ export type EvidenceManagerQueryVariables = Types.Exact<{
   phenotypeId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   diseaseId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   therapyId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
+  therapyInteractionType?: Types.InputMaybe<Types.TherapyInteraction>;
   sourceId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   clinicalTrialId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   molecularProfileName?: Types.InputMaybe<Types.Scalars['String']['input']>;
@@ -82,7 +83,7 @@ ${LinkableTherapyFragmentDoc}
 ${LinkableMolecularProfileFragmentDoc}
 ${MolecularProfileParsedNameFragmentDoc}`;
 export const EvidenceManagerDocument = gql`
-    query EvidenceManager($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+    query EvidenceManager($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $therapyInteractionType: TherapyInteraction, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -106,6 +107,7 @@ export const EvidenceManagerDocument = gql`
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
     therapyId: $therapyId
+    therapyInteractionType: $therapyInteractionType
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
     molecularProfileName: $molecularProfileName
