@@ -36,7 +36,8 @@ import {
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { NZ_MODAL_DATA, NzModalModule, NzModalRef } from 'ng-zorro-antd/modal'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
-import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
+import { CvcOrgSubmitButtonTypeModule } from '@app/forms/types/org-submit-button/org-submit-button.type.module'
+import { CvcRegionVariantSelectFieldsModule } from './region-variant-select-fields.module'
 
 type RegionVariantSelectModel = {
   name?: RegionVariantName
@@ -62,7 +63,8 @@ export interface RegionVariantSelectModalData {
     RouterModule,
     FormlyModule,
     CvcFeatureTagModule,
-    CvcSelectFieldsRegistryModule,
+    CvcOrgSubmitButtonTypeModule,
+    CvcRegionVariantSelectFieldsModule,
   ],
 })
 export class CvcRegionVariantSelectForm {

@@ -6,7 +6,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcFormFieldWrapperModule } from '@app/forms/wrappers/form-field/form-field.module'
-import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
+import { CvcMpFinderFieldsModule } from './mp-finder-fields.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
@@ -33,8 +33,9 @@ import { MpFinderComponent } from './mp-finder/mp-finder.component'
  * imported by the now-standalone molecular-profile-select field.
  *
  * mp-finder hosts a nested formly form containing the feature and variant
- * selects, so it imports the shared select registry — which is also why this
- * field was migrated last, after both of those.
+ * selects — which is why this field was migrated last, after both of those.
+ * Those two are registered by CvcMpFinderFieldsModule rather than by the shared
+ * registry, which would import this module back (see that file).
  *
  * Not a standalone conversion: like the two managers, these still render the
  * old cvc-entity-tag. This module only declares components; the field's
@@ -53,7 +54,7 @@ import { MpFinderComponent } from './mp-finder/mp-finder.component'
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcPipesModule,
-    CvcSelectFieldsRegistryModule,
+    CvcMpFinderFieldsModule,
     FormlyModule,
     FormsModule,
     LetDirective,

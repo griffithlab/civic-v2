@@ -41,5 +41,15 @@ describe('Query builder field array smoke test', () => {
     harness.detectChanges()
     expect(subfilters.field.fieldGroup?.length).toBe(1)
     expect(subfilters.field.model.length).toBe(1)
+
+    // The row's config comes from the query-subfilters type's `fieldArray`
+    // default (query-subfilters.module.ts), not from getQueryFieldConfig, which
+    // must not import getFieldOptions or it closes an import cycle. If that
+    // default stops being applied a row is still added — just an empty one — so
+    // assert the row is really built from the endpoint's field options.
+    const row = subfilters.field.fieldGroup![0]
+    expect(row.type).toBe('query-filter')
+    expect((row.props?.options as unknown[])?.length).toBeGreaterThan(0)
+    expect(row.fieldGroup?.length).toBeGreaterThan(0)
   })
 })
