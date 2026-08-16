@@ -11,7 +11,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Maybe, PageInfo } from '@app/generated/civic.apollo.types'
 import { NzTableComponent } from 'ng-zorro-antd/table'
 import { asyncScheduler } from 'rxjs'
-import { debounceTime, filter, map, take, tap, throttleTime } from 'rxjs/operators'
+import {
+  debounceTime,
+  filter,
+  map,
+  take,
+  tap,
+  throttleTime,
+} from 'rxjs/operators'
 
 /** phase of a scroll gesture; hosts use it to suspend expensive cell content */
 export type CvcScrollEvent = 'scroll' | 'stop' | 'bottom'
@@ -67,12 +74,10 @@ export class CvcTableScrollDirective {
     alias: 'cvcTableScrollToIndex',
   })
 
-  readonly scrollPhase = output<CvcScrollEvent>({
-    alias: 'cvcTableScrollPhase',
-  })
-  readonly fetchRequest = output<CvcScrollFetch>({
-    alias: 'cvcTableScrollFetch',
-  })
+  // named for their binding rather than aliased: @angular-eslint/no-output-rename
+  // is an error, and an alias here bought nothing the member name cannot
+  readonly cvcTableScrollPhase = output<CvcScrollEvent>()
+  readonly cvcTableScrollFetch = output<CvcScrollFetch>()
 
   /** the cursor a fetch has already been requested for, to avoid re-asking */
   private requestedCursor?: string
@@ -104,11 +109,11 @@ export class CvcTableScrollDirective {
           leading: true,
           trailing: true,
         }),
-        tap(() => this.scrollPhase.emit('scroll')),
+        tap(() => this.cvcTableScrollPhase.emit('scroll')),
         debounceTime(SCROLL_DEBOUNCE_MS),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => this.scrollPhase.emit('stop'))
+      .subscribe(() => this.cvcTableScrollPhase.emit('stop'))
 
     scrolled
       .pipe(
@@ -118,7 +123,7 @@ export class CvcTableScrollDirective {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
-        this.scrollPhase.emit('bottom')
+        this.cvcTableScrollPhase.emit('bottom')
         this.requestFetch()
       })
   }
@@ -167,10 +172,14 @@ export class CvcTableScrollDirective {
   }
 
   private requestFetch(): void {
-    const fetch = nextFetch(this.pageInfo(), this.fetchCount(), this.requestedCursor)
+    const fetch = nextFetch(
+      this.pageInfo(),
+      this.fetchCount(),
+      this.requestedCursor
+    )
     if (!fetch) return
     this.requestedCursor = fetch.after
-    this.fetchRequest.emit(fetch)
+    this.cvcTableScrollFetch.emit(fetch)
   }
 }
 
