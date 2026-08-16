@@ -108,6 +108,75 @@ jobs:
       - run: yarn build
         working-directory: ./client
 
+  # ESLint errors are a hard gate; warnings are ratcheted. The tree carries ~1036
+  # warnings (mostly prefer-standalone / prefer-inject from the Angular 22
+  # migration), so failing on any warning would fail on day one and teach people
+  # to ignore the job. --max-warnings pins the current count instead: new
+  # warnings fail, and the number only ever goes down. Lower it when you fix
+  # some — same ratchet as ALLOWED_CYCLES in check-import-cycles.mjs.
+  frontend_lint:
+    name: Frontend Lint
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: corepack enable
+        working-directory: ./client
+
+      - run: yarn install --immutable
+        working-directory: ./client
+
+      - run: yarn ng lint --max-warnings=1036
+        working-directory: ./client
+
+  # Playwright specs tagged @offline, which are the ones that hold with nothing
+  # behind /api — see the comment in client/playwright.config.ts. The rest of the
+  # suite (the entity-manager goldens, the select typeaheads) asserts against
+  # real API data and would need Rails, Postgres and Elasticsearch stood up the
+  # way backend_tests does; that is worth doing, but it is its own change.
+  e2e:
+    name: E2E (offline)
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: corepack enable
+        working-directory: ./client
+
+      - run: yarn install --immutable
+        working-directory: ./client
+
+      - name: Install Playwright browsers
+        working-directory: ./client
+        run: yarn playwright install --with-deps chromium
+
+      # webServer in playwright.config.ts starts the dev server itself and waits
+      # for baseURL, so there is no separate serve step here.
+      - run: yarn e2e:offline
+        working-directory: ./client
+
+      - name: Upload traces for failed specs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: client/test-results/
+          retention-days: 7
+
   # Circular imports between first-party modules can never be tree-shaken apart,
   # so importing any module in a cycle drags in all of them. This runs as its own
   # job rather than inside frontend_tests because it needs a --stats-json build,

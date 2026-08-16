@@ -5,7 +5,7 @@ import { expect, test } from '@playwright/test'
  * offline: no query, no login, no fixtures on the dev server. That is the point
  * — it stays green on a fresh checkout and in a second worktree.
  */
-test.describe('tag gallery', () => {
+test.describe('tag gallery', { tag: '@offline' }, () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/test/forms/selects')
     await expect(page.getByTestId('tag-gallery')).toBeVisible()

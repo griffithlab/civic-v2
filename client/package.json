@@ -23,6 +23,7 @@
     "generate-docs-rst": "yarn run generate-icon-data && yarn run generate-icon-rst",
     "test": "ng test",
     "e2e": "playwright test",
+    "e2e:offline": "playwright test --grep @offline",
     "e2e:ui": "playwright test --ui",
     "e2e:auth": "node e2e/save-auth-state.mjs",
     "lint": "ng lint"
