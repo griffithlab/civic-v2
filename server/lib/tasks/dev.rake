@@ -9,7 +9,7 @@ module DevImageRestore
   EXTENSION_CONTENT_TYPES = {
     ".png" => "image/png",
     ".jpg" => "image/jpeg",
-    ".jpeg" => "image/jpeg"
+    ".jpeg" => "image/jpeg",
   }.freeze
 
   module_function
