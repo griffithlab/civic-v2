@@ -12,6 +12,12 @@ module DevImageRestore
     ".jpeg" => "image/jpeg",
   }.freeze
 
+  # Users whose avatar is a fixed local file instead of a gravatar fetch.
+  # 48: the Illumina org logo, for historical reasons.
+  USER_AVATAR_OVERRIDES = {
+    48 => ORG_IMAGES_DIR.join("illumina.png").to_s,
+  }.freeze
+
   module_function
 
   def force? = ENV["FORCE"] == "1"
@@ -21,6 +27,15 @@ module DevImageRestore
   def image_intact?(record)
     image = record.profile_image
     image.attached? && image.blob.service.exist?(image.blob.key)
+  end
+
+  # An overridden user is intact only when the attached file is the override
+  # itself, so a prior gravatar-based run is corrected without FORCE=1.
+  def user_image_intact?(user)
+    return false unless image_intact?(user)
+
+    override = USER_AVATAR_OVERRIDES[user.id]
+    override.nil? || user.profile_image.filename.to_s == File.basename(override)
   end
 
   def gravatar_hash(user)
@@ -52,6 +67,16 @@ module DevImageRestore
       path = AVATAR_CACHE_DIR.join("#{hash}#{ext}").to_s
       File.binwrite(path, response.read)
       return [ path, true ]
+    end
+  end
+
+  # Returns [path, fetched] for the user's avatar: the override file when one
+  # exists, the (cached) gravatar download otherwise.
+  def user_avatar(user)
+    if (override = USER_AVATAR_OVERRIDES[user.id])
+      [ override, false ]
+    else
+      fetch_avatar(gravatar_hash(user))
     end
   end
 
@@ -110,6 +135,7 @@ namespace :dev do
     desc <<~DESC
       Restore user avatars from gravatar (real image when one exists, generated
       identicon otherwise; users without email are seeded from their username).
+      Exceptions in USER_AVATAR_OVERRIDES get a fixed local image instead.
       Downloads are cached in tmp/avatar_cache so repeat runs are offline/fast.
       Env: FORCE=1 re-attach users that already have an image; LIMIT=n stop
       after processing n users (smoke testing).
@@ -122,14 +148,14 @@ namespace :dev do
       User.find_each do |user|
         break if limit && processed >= limit
 
-        if DevImageRestore.image_intact?(user) && !DevImageRestore.force?
+        if DevImageRestore.user_image_intact?(user) && !DevImageRestore.force?
           skipped += 1
           next
         end
         processed += 1
 
         begin
-          path, fetched = DevImageRestore.fetch_avatar(DevImageRestore.gravatar_hash(user))
+          path, fetched = DevImageRestore.user_avatar(user)
           if DevImageRestore.attach_image(user, path)
             restored += 1
           else
