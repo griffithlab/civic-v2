@@ -1744,7 +1744,7 @@ type BrowseUser {
   orcid: String
   organizations: [Organization!]!
   organizationsWithApprovalPrivileges: [Organization!]!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   ranks: Ranks!
   revisionCount: Int!
   role: UserRole!
@@ -6976,7 +6976,7 @@ type LeaderboardOrganization {
   name: String!
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   rank: Int!
   ranks: Ranks!
   subGroups: [Organization!]!
@@ -7119,7 +7119,7 @@ type LeaderboardUser {
   orcid: String
   organizations: [Organization!]!
   organizationsWithApprovalPrivileges: [Organization!]!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   rank: Int!
   ranks: Ranks!
   role: UserRole!
@@ -8814,7 +8814,7 @@ type Organization {
   name: String!
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
@@ -14424,7 +14424,7 @@ type User {
   orcid: String
   organizations: [Organization!]!
   organizationsWithApprovalPrivileges: [Organization!]!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
