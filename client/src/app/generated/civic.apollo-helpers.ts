@@ -2415,9 +2415,10 @@ export type ScalarFieldDiffFieldPolicy = {
 	left?: FieldPolicy<any> | FieldReadFunction<any>,
 	right?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SearchResultKeySpecifier = ('id' | 'matchingText' | 'name' | 'resultType' | SearchResultKeySpecifier)[];
+export type SearchResultKeySpecifier = ('id' | 'link' | 'matchingText' | 'name' | 'resultType' | SearchResultKeySpecifier)[];
 export type SearchResultFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	matchingText?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>

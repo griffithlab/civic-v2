@@ -13,4 +13,5 @@ fragment QuicksearchResult on SearchResult {
   resultType
   name
   matchingText
+  link
 }
