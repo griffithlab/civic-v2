@@ -51,7 +51,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
         name: format_name(res.name, highlights),
         result_type: res.class.base_class,
         matching_text: format_highlights(highlights),
-        link: res.link
+        link: res.link,
       }
     end
   end
