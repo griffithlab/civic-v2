@@ -96,10 +96,10 @@ jobs:
         with:
           node-version: 24
 
-      - run: npm install -g yarn
+      - run: corepack enable
         working-directory: ./client
 
-      - run: yarn install
+      - run: yarn install --immutable
         working-directory: ./client
 
       - run: yarn build
