@@ -14,10 +14,10 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 
 @Component({
-    selector: 'cvc-features-summary',
-    templateUrl: './features-summary.page.html',
-    styleUrls: ['./features-summary.page.less'],
-    standalone: false
+  selector: 'cvc-features-summary',
+  templateUrl: './features-summary.page.html',
+  styleUrls: ['./features-summary.page.less'],
+  standalone: false,
 })
 export class FeaturesSummaryPage implements OnDestroy {
   feature$?: Observable<Maybe<FeatureSummaryFieldsFragment>>
@@ -36,10 +36,12 @@ export class FeaturesSummaryPage implements OnDestroy {
     this.routeSub = this.route.params.subscribe((params) => {
       this.viewer$ = this.viewerService.viewer$
 
-      let queryRef = this.gql.watch({ featureId: +params.featureId })
+      let queryRef = this.gql.watch({
+        variables: { featureId: +params.featureId },
+      })
       let observable = queryRef.valueChanges
 
-/*       this.subscribableEntity = {
+      /*       this.subscribableEntity = {
         id: +params.featureId,
         entityType: SubscribableEntities.Gene,
       } */

@@ -77,10 +77,11 @@ export class CvcFusionReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ featureId: this.featureId })
+      .fetch({ variables: { featureId: this.featureId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { feature } }) => {
+        next: ({ data }) => {
+          const feature = data?.feature
           if (feature) {
             let fields = fusionToModelFields(feature)
             if (fields) {

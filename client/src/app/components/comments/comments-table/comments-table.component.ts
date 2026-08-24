@@ -90,11 +90,13 @@ export class CvcCommentsTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      ids: this.ids,
-      first: this.initialPageSize,
-      sortBy: {
-        column: DateSortColumns.Created,
-        direction: SortDirection.Desc,
+      variables: {
+        ids: this.ids,
+        first: this.initialPageSize,
+        sortBy: {
+          column: DateSortColumns.Created,
+          direction: SortDirection.Desc,
+        },
       },
     })
 
@@ -192,5 +194,4 @@ export class CvcCommentsTableComponent implements OnInit, OnChanges {
   ): Maybe<number> {
     return data?.id
   }
-
 }

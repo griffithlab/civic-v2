@@ -13,11 +13,10 @@ import {
   UserRole,
 } from '@app/generated/civic.apollo'
 
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
 
 interface CommentTagSegmentWithId {
@@ -26,10 +25,10 @@ interface CommentTagSegmentWithId {
 }
 
 @Component({
-    selector: 'cvc-comment-list',
-    templateUrl: './comment-list.component.html',
-    styleUrls: ['./comment-list.component.less'],
-    standalone: false
+  selector: 'cvc-comment-list',
+  templateUrl: './comment-list.component.html',
+  styleUrls: ['./comment-list.component.less'],
+  standalone: false,
 })
 export class CvcCommentListComponent implements OnInit {
   @Input() commentable!: CommentableInput
@@ -52,33 +51,37 @@ export class CvcCommentListComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef$ = this.gql.watch({
-      subject: this.commentable,
-      last: this.pageSize,
-      sortBy: {
-        column: DateSortColumns.Created,
-        direction: SortDirection.Asc,
+      variables: {
+        subject: this.commentable,
+        last: this.pageSize,
+        sortBy: {
+          column: DateSortColumns.Created,
+          direction: SortDirection.Asc,
+        },
       },
     })
 
     let results = this.queryRef$.valueChanges
 
-    this.pageInfo$ = results.pipe(map(({ data }) => data.comments.pageInfo))
+    const data$ = results.pipe(onlyCompleteData())
+
+    this.pageInfo$ = data$.pipe(map(({ data }) => data.comments.pageInfo))
 
     this.loading$ = results.pipe(map(({ loading }) => loading))
 
-    this.comments$ = results.pipe(
+    this.comments$ = data$.pipe(
       map(({ data }) => data.comments.edges.map((e) => e.node))
     )
 
-    this.commenters$ = results.pipe(
+    this.commenters$ = data$.pipe(
       map(({ data }) => data.comments.uniqueCommenters)
     )
 
-    this.mentionedUsers$ = results.pipe(
+    this.mentionedUsers$ = data$.pipe(
       map(({ data }) => data.comments.mentionedUsers)
     )
 
-    this.mentionedRoles$ = results.pipe(
+    this.mentionedRoles$ = data$.pipe(
       map(({ data }) =>
         data.comments.mentionedRoles.map((t) => {
           return { id: `${t.entityId}-${t.tagType}`, tag: t }
@@ -86,7 +89,7 @@ export class CvcCommentListComponent implements OnInit {
       )
     )
 
-    this.mentionedEntities$ = results.pipe(
+    this.mentionedEntities$ = data$.pipe(
       map(({ data }) =>
         data.comments.mentionedEntities.map((t) => {
           return { id: `${t.entityId}-${t.tagType}`, tag: t }
@@ -94,8 +97,8 @@ export class CvcCommentListComponent implements OnInit {
       )
     )
 
-    this.unfilteredCount$ = results.pipe(
-      pluck('data', 'comments', 'unfilteredCountForSubject')
+    this.unfilteredCount$ = data$.pipe(
+      map(({ data }) => data.comments.unfilteredCountForSubject)
     )
   }
 

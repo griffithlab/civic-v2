@@ -13,10 +13,10 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-phenotypes-detail',
-    templateUrl: './phenotypes-detail.component.html',
-    styleUrls: ['./phenotypes-detail.component.less'],
-    standalone: false
+  selector: 'cvc-phenotypes-detail',
+  templateUrl: './phenotypes-detail.component.html',
+  styleUrls: ['./phenotypes-detail.component.less'],
+  standalone: false,
 })
 export class PhenotypesDetailComponent implements OnDestroy {
   routeSub: Subscription
@@ -35,7 +35,9 @@ export class PhenotypesDetailComponent implements OnDestroy {
       this.phenotypeId = +params.phenotypeId
 
       this.queryRef = this.gql.watch({
-        phenotypeId: this.phenotypeId,
+        variables: {
+          phenotypeId: this.phenotypeId,
+        },
       })
 
       let observable = this.queryRef.valueChanges

@@ -1,16 +1,23 @@
-import { Component, Input, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Maybe, OrganizationMembersQuery, OrganizationMembersFieldsFragment, OrganizationMembersGQL, OrganizationMembersQueryVariables, PageInfo } from "@app/generated/civic.apollo";
-import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
-import { QueryRef } from "apollo-angular";
-import { filter, map, pluck, startWith } from "rxjs/operators";
-import { isNotNullish } from "rxjs-etc";
-import { Observable, Subscription } from 'rxjs';
+import { Component, Input, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  Maybe,
+  OrganizationMembersQuery,
+  OrganizationMembersFieldsFragment,
+  OrganizationMembersGQL,
+  OrganizationMembersQueryVariables,
+  PageInfo,
+} from '@app/generated/civic.apollo'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
+import { filter, map, startWith } from 'rxjs/operators'
+import { isNotNullish } from 'rxjs-etc'
+import { Observable, Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-organizations-members',
-    templateUrl: './organizations-members.component.html',
-    standalone: false
+  selector: 'cvc-organizations-members',
+  templateUrl: './organizations-members.component.html',
+  standalone: false,
 })
 export class OrganizationsMembersComponent implements OnDestroy {
   queryRef?: QueryRef<
@@ -33,23 +40,29 @@ export class OrganizationsMembersComponent implements OnDestroy {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
-        organizationId: [+params.organizationId],
-        first: this.initialPageSize,
+        variables: {
+          organizationId: [+params.organizationId],
+          first: this.initialPageSize,
+        },
       })
 
       let observable = this.queryRef.valueChanges
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
+      this.loading$ = observable.pipe(
+        map(({ loading }) => loading),
+        startWith(true)
+      )
 
+      const data$ = observable.pipe(onlyCompleteData())
 
-      this.members$ = observable.pipe(
-        pluck('data', 'browseUsers', 'edges'),
+      this.members$ = data$.pipe(
+        map(({ data }) => data.browseUsers.edges),
         filter(isNotNullish),
         map((edges) => {
           return edges.map((e) => e.node)
         })
       )
 
-      this.pageInfo$ = observable.pipe(pluck('data', 'browseUsers', 'pageInfo'))
+      this.pageInfo$ = data$.pipe(map(({ data }) => data.browseUsers.pageInfo))
 
       this.viewer$ = this.viewerService.viewer$
     })

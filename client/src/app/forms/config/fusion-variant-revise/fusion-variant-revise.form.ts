@@ -30,10 +30,10 @@ import {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-fusion-variant-revise-form',
-    templateUrl: './fusion-variant-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-fusion-variant-revise-form',
+  templateUrl: './fusion-variant-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFusionVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number
@@ -66,10 +66,11 @@ export class CvcFusionVariantReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ variantId: this.variantId })
+      .fetch({ variables: { variantId: this.variantId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { variant } }) => {
+        next: ({ data }) => {
+          const variant = data?.variant
           if (
             variant &&
             variant.__typename == 'FusionVariant' &&

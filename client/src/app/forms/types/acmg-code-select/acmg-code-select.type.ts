@@ -38,6 +38,7 @@ import {
   Subject,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { Apollo } from 'apollo-angular'
 
 export type CvcAcmgCodeSelectFieldOptions = Partial<
   FieldTypeConfig<CvcAcmgCodeSelectFieldProps>
@@ -61,8 +62,7 @@ export interface CvcAcmgCodeSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcAcmgCodeSelectFieldConfig
-  extends FormlyFieldConfig<CvcAcmgCodeSelectFieldProps> {
+export interface CvcAcmgCodeSelectFieldConfig extends FormlyFieldConfig<CvcAcmgCodeSelectFieldProps> {
   type:
     | 'acmg-code-select'
     | 'acmg-code-multi-select'
@@ -213,9 +213,9 @@ export class CvcAcmgCodeSelectField
           else if (requiresAcmgCode) {
             this.props.required = true
             this.props.disabled = false
-            ;(this.props.description =
+            ;((this.props.description =
               'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.'),
-              (this.props.extraType = 'description')
+              (this.props.extraType = 'description'))
           }
           // field currently has a value, but state indicates no ACMG Code is required, or no type is
           // provided && type is required, so reset field
@@ -233,14 +233,14 @@ export class CvcAcmgCodeSelectField
     return { code: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<AcmgCodeSelectTypeaheadQuery>) {
-    return r.data.acmgCodesTypeahead
+  getTypeaheadResultsFn(r: Apollo.QueryResult<AcmgCodeSelectTypeaheadQuery>) {
+    return r.data?.acmgCodesTypeahead ?? []
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<AcmgCodeSelectTagQuery>
+    r: Apollo.QueryResult<AcmgCodeSelectTagQuery>
   ): Maybe<AcmgCodeSelectTypeaheadFieldsFragment> {
-    return r.data.acmgCode
+    return r.data?.acmgCode
   }
 
   getTagQueryVarsFn(id: number): AcmgCodeSelectTagQueryVariables {

@@ -17,10 +17,10 @@ import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-fusions-menu',
-    templateUrl: './fusions-menu.component.html',
-    styleUrls: ['./fusions-menu.component.less'],
-    standalone: false
+  selector: 'cvc-fusions-menu',
+  templateUrl: './fusions-menu.component.html',
+  styleUrls: ['./fusions-menu.component.less'],
+  standalone: false,
 })
 export class CvcFusionsMenuComponent implements OnInit {
   @Input() geneId?: number
@@ -51,7 +51,7 @@ export class CvcFusionsMenuComponent implements OnInit {
       first: this.pageSize,
     }
 
-    this.queryRef$ = this.gql.watch(this.initialQueryVars)
+    this.queryRef$ = this.gql.watch({ variables: this.initialQueryVars })
     this.result$ = this.queryRef$.valueChanges
 
     this.loading$ = this.result$.pipe(

@@ -60,8 +60,9 @@ export interface CvcMolecularProfileSelectFieldProps extends FormlyFieldProps {
   minSearchStrLength?: number
 }
 
-export interface CvcMolecularProfileSelectFieldConfig
-  extends FormlyFieldConfig<Partial<CvcMolecularProfileSelectFieldProps>> {
+export interface CvcMolecularProfileSelectFieldConfig extends FormlyFieldConfig<
+  Partial<CvcMolecularProfileSelectFieldProps>
+> {
   type:
     | 'molecular-profile-select'
     | 'molecular-profile-multi-select'
@@ -89,12 +90,12 @@ type SelectDisplayModel = {
 }
 
 @Component({
-    selector: '',
-    templateUrl: './molecular-profile-select.type.html',
-    styleUrls: ['./molecular-profile-select.type.less'],
-    animations: [slideMotion, fadeMotion],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: '',
+  templateUrl: './molecular-profile-select.type.html',
+  styleUrls: ['./molecular-profile-select.type.less'],
+  animations: [slideMotion, fadeMotion],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfileSelectField
   extends MolecularProfileSelectMixin
@@ -224,9 +225,9 @@ export class CvcMolecularProfileSelectField
   }
 
   getTypeaheadResultsFn(
-    r: ApolloQueryResult<MolecularProfileSelectTypeaheadQuery>
+    r: Apollo.QueryResult<MolecularProfileSelectTypeaheadQuery>
   ) {
-    return r.data.molecularProfiles.nodes
+    return r.data?.molecularProfiles.nodes ?? []
   }
 
   getTagQueryVarsFn(id: number): MolecularProfileSelectTagQueryVariables {
@@ -234,9 +235,9 @@ export class CvcMolecularProfileSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<MolecularProfileSelectTagQuery>
+    r: Apollo.QueryResult<MolecularProfileSelectTagQuery>
   ): Maybe<MolecularProfileSelectTypeaheadFieldsFragment> {
-    return r.data.molecularProfile
+    return r.data?.molecularProfile
   }
 
   getSelectedItemOptionFn(

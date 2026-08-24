@@ -7,17 +7,16 @@ import {
   CoordinatesCardQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-coordinates-card',
-    templateUrl: './coordinates-card.component.html',
-    styleUrls: ['./coordinates-card.component.less'],
-    standalone: false
+  selector: 'cvc-coordinates-card',
+  templateUrl: './coordinates-card.component.html',
+  styleUrls: ['./coordinates-card.component.less'],
+  standalone: false,
 })
 export class CvcCoordinatesCard implements OnInit {
   @Input() cvcVariantId?: number
@@ -40,14 +39,20 @@ export class CvcCoordinatesCard implements OnInit {
     }
 
     if (!this.cvcCoordinates && this.cvcVariantId) {
-      this.queryRef = this.gql.watch({ variantId: this.cvcVariantId })
+      this.queryRef = this.gql.watch({
+        variables: { variantId: this.cvcVariantId },
+      })
 
       let observable = this.queryRef.valueChanges
 
-      this.loading$ = observable.pipe(pluck('loading'), filter(isNonNulled))
+      this.loading$ = observable.pipe(
+        map(({ loading }) => loading),
+        filter(isNonNulled)
+      )
 
       this.variant$ = observable.pipe(
-        pluck('data', 'variant'),
+        onlyCompleteData(),
+        map(({ data }) => data.variant),
         filter(isNonNulled)
       )
     }

@@ -12,9 +12,7 @@ import {
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
-import {
-  SortDirectionEvent,
-} from '@app/core/utilities/datatable-helpers'
+import { SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
   RevisionSetConnection,
@@ -81,13 +79,16 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
   noMoreRows$: BehaviorSubject<boolean>
   queryRef!: QueryRef<RevisionsBrowseQuery, RevisionsBrowseQueryVariables>
   expandSet = new Set<number>()
-  expandDetails = new Map<number, Observable<Maybe<RevisionSetBrowseFieldsFragment>[]>>();
+  expandDetails = new Map<
+    number,
+    Observable<Maybe<RevisionSetBrowseFieldsFragment>[]>
+  >()
   detailRevision$: undefined | Observable<Maybe<RevisionFragment>> = undefined
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
   isScrolling: boolean = false
-  
+
   private debouncedQuery = new Subject<void>()
 
   isLoading$?: Observable<boolean>
@@ -126,7 +127,7 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
     private gql: RevisionsBrowseGQL,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private viewerService: ViewerService,
+    private viewerService: ViewerService
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
@@ -139,10 +140,14 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      first: this.initialPageSize,
-      ids: this.ids,
-      status: this.ids ? undefined : RevisionStatus.New,
-      excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
+      variables: {
+        first: this.initialPageSize,
+        ids: this.ids,
+        status: this.ids ? undefined : RevisionStatus.New,
+        excludeRevisionsFromUserId: this.excludeOwnRevisions
+          ? this.user()?.id
+          : undefined,
+      },
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -239,7 +244,9 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
     this.queryRef.refetch({
       fieldName: this.fieldNameInput,
       originatingUserName: this.originatingUserNameInput,
-      excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
+      excludeRevisionsFromUserId: this.excludeOwnRevisions
+        ? this.user()?.id
+        : undefined,
       organizationName: this.organizationNameInput,
       subjectType: this.subjectTypeInput ? this.subjectTypeInput : undefined,
       ids: this.ids ? this.ids : undefined,
@@ -263,10 +270,7 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
   }
 
   // virtual scroll helpers
-  trackByIndex(
-    _: number,
-    data: Maybe<RevisionSet>
-  ): Maybe<number> {
+  trackByIndex(_: number, data: Maybe<RevisionSet>): Maybe<number> {
     return data?.id
   }
 
@@ -277,22 +281,26 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
 
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
-      this.expandSet.add(id);
+      this.expandSet.add(id)
     } else {
-      this.expandSet.delete(id);
+      this.expandSet.delete(id)
     }
   }
 
-  queryRevisionDetails(setId: number): Observable<Maybe<RevisionSetBrowseFieldsFragment>[]> {
+  queryRevisionDetails(
+    setId: number
+  ): Observable<Maybe<RevisionSetBrowseFieldsFragment>[]> {
     if (this.expandDetails.has(setId)) {
       return this.expandDetails.get(setId)!
-    } else{
+    } else {
       const query = this.gql.fetch({
-        id: setId,
-        requestDetails: true,
+        variables: {
+          id: setId,
+          requestDetails: true,
+        },
       })
       const results = query.pipe(
-        pluck('data', 'revisionSets', 'edges'),
+        map((r) => r.data?.revisionSets.edges),
         filter(isNonNulled),
         map((edges) => edges.map((e) => e.node))
       )
@@ -300,15 +308,19 @@ export class CvcRevisionsTableComponent implements OnInit, OnChanges {
       return results
     }
   }
-  
-  castToRevisionActivityDetailFragment(revision: any): RevisionActivityDetailFragment {
+
+  castToRevisionActivityDetailFragment(
+    revision: any
+  ): RevisionActivityDetailFragment {
     return revision as RevisionActivityDetailFragment
   }
 
   revisionsToTagOverFlowInput(revisions: any[]): string[] {
-    return revisions.map(revision => {
-      if (revision.subject.__typename === 'ExonCoordinate' ) {
-        const coordinateType = new EnumToTitlePipe().transform(revision.subject.coordinateType)
+    return revisions.map((revision) => {
+      if (revision.subject.__typename === 'ExonCoordinate') {
+        const coordinateType = new EnumToTitlePipe().transform(
+          revision.subject.coordinateType
+        )
         return revision.fieldDisplayName + ' (' + coordinateType + ')'
       } else {
         return revision.fieldDisplayName
