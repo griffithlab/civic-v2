@@ -14,9 +14,9 @@ import { asyncScheduler, Observable } from 'rxjs'
 import {
   debounceTime,
   filter,
-  first,
   map,
   pairwise,
+  take,
   tap,
   throttleTime,
 } from 'rxjs/operators'
@@ -25,8 +25,8 @@ export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 
 @UntilDestroy()
 @Directive({
-    selector: '[cvcTableScroll]',
-    standalone: false
+  selector: '[cvcTableScroll]',
+  standalone: false,
 })
 export class TableScrollDirective implements AfterViewInit {
   @Output() cvcTableScrollOnScroll = new EventEmitter<ScrollEvent>()
@@ -87,7 +87,7 @@ export class TableScrollDirective implements AfterViewInit {
     // This fix calls viewport's check size function once, after initial rows have been rendered,
     // causing the viewport to resize to fit the its new container dimensions.
     this.rendered$
-      .pipe(first())
+      .pipe(take(1))
       .subscribe(() => this.viewport!.checkViewportSize())
 
     // emit 'scroll' event when scroll starts, 'stop' scrollStopDebounce ms after last event
