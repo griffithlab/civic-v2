@@ -344,9 +344,11 @@
                 <button
                   routerLink="/evidence/add/submit"
                   [queryParams]="{
-                    molecularProfileId: suggestion.molecularProfile?.id,
-                    sourceId: suggestion.source?.id,
-                    diseaseId: suggestion.disease?.id,
+                    molecularProfileId: $safeNavigationMigration(
+                      suggestion.molecularProfile?.id
+                    ),
+                    sourceId: $safeNavigationMigration(suggestion.source?.id),
+                    diseaseId: $safeNavigationMigration(suggestion.disease?.id),
                     therapyIds: getTherapyIdsQueryParam(suggestion),
                     therapyInteractionType:
                       getTherapyInteractionTypeQueryParam(suggestion),
@@ -433,7 +435,9 @@
         nzSpin></i>
       <span>Loading…</span>
     </nz-tag>
-    <cvc-table-downloader [vars]="queryRef.variables" tableName="source_suggestions"></cvc-table-downloader>
+    <cvc-table-downloader
+      [vars]="queryRef.variables"
+      tableName="source_suggestions"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
   </span>

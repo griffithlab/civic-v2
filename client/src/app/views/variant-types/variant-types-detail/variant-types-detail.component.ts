@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -16,6 +16,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-variant-types-detail',
   templateUrl: './variant-types-detail.component.html',
   styleUrls: ['./variant-types-detail.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class VariantTypesDetailComponent implements OnDestroy {

@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -52,6 +53,7 @@ export interface UsersTableFilters {
   selector: 'cvc-users-table',
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcUsersTableComponent implements OnInit, OnChanges {

@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
@@ -17,6 +22,7 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
   selector: 'cvc-features-summary',
   templateUrl: './features-summary.page.html',
   styleUrls: ['./features-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FeaturesSummaryPage implements OnDestroy {

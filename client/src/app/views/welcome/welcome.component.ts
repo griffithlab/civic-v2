@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { feedDefaultSettings } from '@app/components/activities/activity-feed/activity-feed.config'
@@ -15,6 +15,7 @@ interface GithubRelease {
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class WelcomeComponent implements OnInit {

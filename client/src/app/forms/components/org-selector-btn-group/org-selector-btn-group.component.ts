@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
@@ -27,6 +28,7 @@ import {
   selector: 'cvc-org-selector-btn-group2',
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {

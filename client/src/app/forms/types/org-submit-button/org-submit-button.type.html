@@ -7,9 +7,9 @@
 <div
   class="btn-aligner"
   [ngClass]="{
-  'btn-right': props.align === 'right',
-  'btn-left': props.align === 'left',
-  'btn-center': props.align === 'center',
+    'btn-right': props.align === 'right',
+    'btn-left': props.align === 'left',
+    'btn-center': props.align === 'center',
   }">
   <button
     *ngrxLet="mostRecentOrg$ as organization"
@@ -21,7 +21,7 @@
     nzType="primary"
     nz-tooltip
     [nzTooltipTrigger]="organization ? 'hover' : null"
-    [nzTooltipTitle]="'For ' + organization?.name">
+    [nzTooltipTitle]="'For ' + $safeNavigationMigration(organization?.name)">
     {{ props.submitLabel }}
   </button>
 </div>

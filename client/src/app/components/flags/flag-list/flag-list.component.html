@@ -58,7 +58,10 @@
                   <cvc-user-tag
                     [user]="flag.resolutionActivity.user"></cvc-user-tag>
                 }
-                {{ flag.resolutionActivity?.createdAt | timeAgo }}
+                {{
+                  $safeNavigationMigration(flag.resolutionActivity?.createdAt)
+                    | timeAgo
+                }}
               </nz-col>
             </nz-row>
           }
