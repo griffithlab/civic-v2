@@ -1,4 +1,9 @@
-import { Component, OnInit, input } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  input,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -13,6 +18,7 @@ import { Observable } from 'rxjs'
 @Component({
   selector: 'cvc-comment-display',
   templateUrl: './comment-display.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcCommentDisplayComponent implements OnInit {

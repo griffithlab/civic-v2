@@ -1,4 +1,10 @@
-import { Component, input, model, Signal } from '@angular/core'
+import {
+  Component,
+  input,
+  model,
+  Signal,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivityFeedFilterOptions } from '../../activity-feed.types'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CommonModule } from '@angular/common'
@@ -25,6 +31,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
     CvcPipesModule,
   ],
   templateUrl: './org-filter-select.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './org-filter-select.component.less',
 })
 export class CvcOrgFilterSelect {

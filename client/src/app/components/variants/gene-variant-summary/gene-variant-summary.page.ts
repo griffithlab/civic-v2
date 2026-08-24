@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -22,6 +27,7 @@ import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-s
   selector: 'cvc-gene-variant-summary',
   templateUrl: './gene-variant-summary.page.html',
   styleUrls: ['./gene-variant-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NzGridModule,
     NzDescriptionsModule,

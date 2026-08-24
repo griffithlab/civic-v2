@@ -10,7 +10,7 @@
       nzSize="default"
       nzShape="circle"
       nz-popover
-      [disabled]="field.props?.disabled"
+      [disabled]="$safeNavigationMigration(field.props?.disabled)"
       [nzPopoverTitle]="titleTemplate"
       [nzPopoverContent]="contentTemplate$ | ngrxPush">
       <span

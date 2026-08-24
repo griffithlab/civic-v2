@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -55,6 +55,7 @@ interface Checked {
   selector: 'cvc-users-notifications',
   templateUrl: './users-notifications.component.html',
   styleUrls: ['./users-notifications.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class UsersNotificationsComponent {

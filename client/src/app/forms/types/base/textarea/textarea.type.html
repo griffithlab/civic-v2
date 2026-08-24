@@ -1,7 +1,9 @@
 <textarea
   nz-input
-  [nzAutosize]="props.autosize"
+  [cdkTextareaAutosize]="!!props.autosize"
+  [cdkAutosizeMinRows]="autosizeMinRows"
+  [cdkAutosizeMaxRows]="autosizeMaxRows"
   [rows]="props.rows ? props.rows : 2"
   [formControl]="formControl"
-  [placeholder]="props.placeholder"
+  [placeholder]="props.placeholder ?? ''"
   [formlyAttributes]="field"></textarea>

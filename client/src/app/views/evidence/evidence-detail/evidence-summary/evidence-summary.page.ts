@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   EvidenceSummaryGQL,
@@ -19,6 +19,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-evidence-summary',
   templateUrl: './evidence-summary.page.html',
   styleUrls: ['./evidence-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class EvidenceSummaryPage {

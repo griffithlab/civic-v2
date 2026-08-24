@@ -16,7 +16,7 @@
               nz-button
               nzBlock
               nzType="default"
-              (click)="loadMore(pageInfo?.endCursor)"
+              (click)="loadMore($safeNavigationMigration(pageInfo?.endCursor))"
               *nzSpaceItem>
               Load More
             </button>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   VariantSummaryGQL,
@@ -18,6 +18,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-variants-summary',
   templateUrl: './variants-summary.page.html',
   styleUrls: ['./variants-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class VariantsSummaryPage {

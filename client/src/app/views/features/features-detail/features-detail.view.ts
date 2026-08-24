@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { startWith, takeUntil } from 'rxjs/operators'
@@ -17,6 +17,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'features-detail',
   templateUrl: './features-detail.view.html',
   styleUrls: ['./features-detail.view.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FeaturesDetailView implements OnDestroy {

@@ -156,7 +156,9 @@
                       [nzSelected]="viewer.mostRecentOrg?.id === org.id"
                       nz-menu-item>
                       <nz-avatar
-                        [nzSrc]="org?.profileImagePath"
+                        [nzSrc]="
+                          $safeNavigationMigration(org?.profileImagePath)
+                        "
                         [nzSize]="14"
                         [nzShape]="'square'"></nz-avatar>
                       <span class="org-name">{{ org.name }}</span>

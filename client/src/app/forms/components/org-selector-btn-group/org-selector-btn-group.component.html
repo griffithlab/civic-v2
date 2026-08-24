@@ -22,7 +22,7 @@
         [nzDropdownMenu]="orgMenu">
         <span>for</span>
         <nz-avatar
-          [nzSrc]="selectedOrg?.profileImagePath"
+          [nzSrc]="$safeNavigationMigration(selectedOrg?.profileImagePath)"
           [nzSize]="10"
           [nzShape]="'square'"></nz-avatar>
         <i
@@ -40,7 +40,7 @@
           [nzSelected]="selectedOrg?.id === org.id"
           (click)="selectOrg(org)">
           <nz-avatar
-            [nzSrc]="org?.profileImagePath"
+            [nzSrc]="$safeNavigationMigration(org?.profileImagePath)"
             [nzSize]="10"
             [nzShape]="'square'"
             style="background-color: #f0f5ff"></nz-avatar>

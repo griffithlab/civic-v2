@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { NzIconService } from 'ng-zorro-antd/icon'
 
 import { fullColorIcons } from '@app/icons-provider.module'
@@ -9,13 +9,17 @@ import { environment } from 'environments/environment'
 declare let gtag: Function
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.less'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AppComponent {
-  constructor(private iconService: NzIconService, private router: Router) {
+  constructor(
+    private iconService: NzIconService,
+    private router: Router
+  ) {
     this.addIcons(fullColorIcons)
     if (environment.production) {
       this.router.events.subscribe((event) => {

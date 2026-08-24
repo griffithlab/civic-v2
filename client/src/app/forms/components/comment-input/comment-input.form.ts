@@ -6,6 +6,7 @@ import {
   OnDestroy,
   Output,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 
 import { Subject, Observable } from 'rxjs'
@@ -39,6 +40,7 @@ interface WithDisplayNameAndValue {
   templateUrl: './comment-input.form.html',
   styleUrls: ['./comment-input.form.less'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcCommentInputForm implements OnDestroy, OnChanges {

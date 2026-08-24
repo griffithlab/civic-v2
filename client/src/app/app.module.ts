@@ -13,6 +13,7 @@ import {
   withInterceptorsFromDi,
   withJsonpSupport,
   withXsrfConfiguration,
+  withXhr,
 } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { LetDirective, PushPipe } from '@ngrx/component'
@@ -31,6 +32,7 @@ import { CvcForms2Module } from '@app/forms/forms.module'
 import { graphqlProvider } from './graphql/graphql.module'
 import { CvcEnvironmentBannerComponent } from './components/app/environment-banner/environment-banner.component'
 import { environment } from 'environments/environment'
+import { provideNzDateFnsAdapter } from 'ng-zorro-antd/core/time'
 
 registerLocaleData(en)
 
@@ -76,10 +78,12 @@ const initlializerProvider = provideAppInitializer(() => {
     },
     { provide: NZ_I18N, useValue: en_US },
     provideHttpClient(
+      withXhr(),
       withInterceptorsFromDi(),
       withJsonpSupport(),
       withXsrfConfiguration({ cookieName: 'XSRF-TOKEN' })
     ),
+    provideNzDateFnsAdapter(),
   ],
 })
 export class AppModule {}

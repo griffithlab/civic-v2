@@ -6,6 +6,7 @@ import {
   ContentChild,
   TemplateRef,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
@@ -14,10 +15,11 @@ export interface WithId {
 }
 
 @Component({
-    selector: 'cvc-participant-list',
-    templateUrl: './participant-list.component.html',
-    styleUrls: ['./participant-list.component.less'],
-    standalone: false
+  selector: 'cvc-participant-list',
+  templateUrl: './participant-list.component.html',
+  styleUrls: ['./participant-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcParticipantListComponent<T extends WithId> implements OnInit {
   @Input() participantList!: T[]

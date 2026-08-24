@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -35,6 +36,7 @@ import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
   selector: 'cvc-variantgroup-revise-form',
   templateUrl: './variantgroup-revise.form.html',
   styleUrls: ['./variantgroup-revise.form.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcVariantgroupReviseForm

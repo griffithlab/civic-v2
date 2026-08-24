@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 
@@ -19,6 +19,7 @@ const defaultWrapperOptions: QuerySubfiltersCardOptions = {
   selector: 'cvc-query-subfilters-card',
   templateUrl: './query-subfilters-card.wrapper.html',
   styleUrls: ['./query-subfilters-card.wrapper.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcQuerySubfiltersCardWrapper

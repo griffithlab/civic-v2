@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   Maybe,
@@ -22,6 +23,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-source-popover',
   templateUrl: './source-popover.component.html',
   styleUrls: ['./source-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcSourcePopoverComponent

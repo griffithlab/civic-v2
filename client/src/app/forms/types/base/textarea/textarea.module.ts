@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { CvcFormFieldWrapperModule } from '@app/forms/wrappers/form-field/form-field.module'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NzInputModule } from 'ng-zorro-antd/input'
+import { TextFieldModule } from '@angular/cdk/text-field'
 import { CvcTextareaField } from './textarea.type'
 
 const typeConfig: ConfigOption = {
@@ -23,6 +24,7 @@ const typeConfig: ConfigOption = {
     ReactiveFormsModule,
     FormlyModule.forChild(typeConfig),
     NzInputModule,
+    TextFieldModule,
     CvcFormFieldWrapperModule,
   ],
   exports: [CvcTextareaField],
