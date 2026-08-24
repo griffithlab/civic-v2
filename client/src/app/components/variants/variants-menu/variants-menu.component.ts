@@ -13,7 +13,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { map, debounceTime, filter, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { isNonNulled } from 'rxjs-etc'
@@ -22,10 +22,10 @@ import { LinkableFeature } from '@app/components/features/feature-tag/feature-ta
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variant-menu',
-    templateUrl: './variants-menu.component.html',
-    styleUrls: ['./variants-menu.component.less'],
-    standalone: false
+  selector: 'cvc-variant-menu',
+  templateUrl: './variants-menu.component.html',
+  styleUrls: ['./variants-menu.component.less'],
+  standalone: false,
 })
 export class CvcVariantsMenuComponent implements OnInit {
   @Input() feature?: LinkableFeature
@@ -67,7 +67,7 @@ export class CvcVariantsMenuComponent implements OnInit {
       first: this.pageSize,
     }
 
-    this.queryRef$ = this.gql.watch(this.initialQueryVars)
+    this.queryRef$ = this.gql.watch({ variables: this.initialQueryVars })
     this.result$ = this.queryRef$.valueChanges
 
     this.loading$ = this.result$.pipe(
@@ -77,6 +77,7 @@ export class CvcVariantsMenuComponent implements OnInit {
     )
 
     const connection$ = this.result$.pipe(
+      onlyCompleteData(),
       map((r) => r.data?.variants),
       filter(isNonNulled)
     )
@@ -97,8 +98,9 @@ export class CvcVariantsMenuComponent implements OnInit {
       .subscribe((_) => this.refresh())
 
     this.menuVariantTypes$ = this.variantTypeGql
-      .watch({ featureId: this.featureId })
+      .watch({ variables: { featureId: this.featureId } })
       .valueChanges.pipe(
+        onlyCompleteData(),
         map((c) => c.data?.variantTypes.edges?.map((e) => e.node)),
         filter(isNonNulled)
       )

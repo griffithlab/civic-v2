@@ -1,9 +1,6 @@
 import { TypePolicies } from '@apollo/client/cache'
-import {
-  ApolloClientOptions,
-  ApolloLink,
-  InMemoryCache,
-} from '@apollo/client/core'
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
+import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import result from '@app/generated/civic.possible-types'
 import { provideApollo } from 'apollo-angular'
 import { HttpLink } from 'apollo-angular/http'
@@ -15,7 +12,7 @@ const uri = '/api/graphql' // <-- URL of the GraphQL server
 
 const typePolicies: TypePolicies = CvcTypePolicies
 
-export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+export function createApollo(httpLink: HttpLink): ApolloClient.Options {
   let http = httpLink.create({ uri: uri, withCredentials: true })
 
   const analyticsLink = new ApolloLink((operation, forward) => {
@@ -26,10 +23,11 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     })
     return forward(operation)
   })
-  const errorHandler = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) console.error('GraphQL Error:', graphQLErrors)
-    if (networkError) {
-      console.error('Network Error:', networkError)
+  const errorHandler = onError(({ error }) => {
+    if (CombinedGraphQLErrors.is(error)) {
+      console.error('GraphQL Error:', error.errors)
+    } else {
+      console.error('Network Error:', error)
     }
   })
   return {
@@ -42,17 +40,15 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
       watchQuery: {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first',
-        errorPolicy: 'none',
         notifyOnNetworkStatusChange: true,
-        returnPartialData: false,
+        // errorPolicy: 'none' and returnPartialData: false are the AC4
+        // defaults; declaring them now requires DeclareDefaultOptions
+        // module augmentation, so they are omitted
       },
     },
   }
 }
 
 export const graphqlProvider = provideApollo(
-  (httpLink: HttpLink = inject(HttpLink)) => createApollo(httpLink),
-  {
-    useInitialLoading: true,
-  }
+  (httpLink: HttpLink = inject(HttpLink)) => createApollo(httpLink)
 )

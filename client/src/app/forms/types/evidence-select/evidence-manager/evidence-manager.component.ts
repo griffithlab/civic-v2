@@ -9,7 +9,9 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core'
+import { ErrorLike } from '@apollo/client'
 import { ApolloQueryResult, gql } from '@apollo/client/core'
+import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
@@ -197,7 +199,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
           this.queryError$.next({})
-          this.queryRef = this.queryGQL.watch(queryVars)
+          this.queryRef = this.queryGQL.watch({ variables: queryVars })
 
           // NOTE: refetch and fetchMore results from valueChanges do not
           // include network or queryGQL errors, so this extra queryError$ stuff
@@ -212,7 +214,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               this.queryResult$.next(result)
               // queryRef.valueChanges should be emitting errors,
               // but updating queryError$ just in case
-              if (result.error || result.errors) {
+              if (result.error) {
                 this.queryError$.next(this.getRequestErrors(result))
               }
             })
@@ -224,7 +226,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             this.queryRef
               .refetch(queryVars)
               .then((result) => {
-                if (result.error || result.errors) {
+                if (result.error) {
                   this.queryError$.next(this.getRequestErrors(result))
                 }
               })
@@ -234,7 +236,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           } else {
             this.isFetchMore$.next(true)
             this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
-              if (result.error || result.errors) {
+              if (result.error) {
                 this.queryError$.next(this.getRequestErrors(result))
               }
             })
@@ -512,13 +514,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return queryVars
   }
 
-  // helper fn for queryError$, transforms ApollQueryResult errors into custom
+  // helper fn for queryError$, transforms query result errors into custom
   // error object
-  getRequestErrors(
-    result: ApolloQueryResult<EvidenceManagerQuery>
-  ): RequestError {
+  getRequestErrors(result: { error?: ErrorLike }): RequestError {
     return {
-      query: result.errors,
+      query: CombinedGraphQLErrors.is(result.error)
+        ? result.error.errors
+        : undefined,
       network: result.error,
     }
   }

@@ -120,11 +120,13 @@ export class CvcFeatureDeprecateForm implements OnDestroy, OnInit {
     }
 
     let queryRef = this.variantsForFeatureGQL.fetch({
-      featureId: this.featureId,
+      variables: {
+        featureId: this.featureId,
+      },
     })
 
     this.undeprecatedVariants$ = queryRef.pipe(
-      map(({ data }) => data.variants.nodes),
+      map(({ data }) => data?.variants.nodes),
       filter(isNonNulled),
       map((variants) => variants.filter((variant) => !variant.deprecated))
     )
@@ -142,7 +144,7 @@ export class CvcFeatureDeprecateForm implements OnDestroy, OnInit {
     //  )
     //)
 
-    this.variantListLoading$ = queryRef.pipe(map(({ loading }) => loading))
+    this.variantListLoading$ = queryRef.pipe(map(() => false))
   }
 
   deprecateFeature(): void {

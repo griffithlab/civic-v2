@@ -182,25 +182,27 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      first: this.initialPageSize,
-      variantId: this.variantId,
-      molecularProfileId: this.molecularProfileId,
-      molecularProfileName: this.molecularProfileNameInput,
-      evidenceId: this.evidenceId,
-      organization: this.organizationFilter(this.organizationId),
-      approvingOrganizations: this.organizationFilter(
-        this.approvingOrganizationId
-      ),
-      userId: this.userId,
-      phenotypeId: this.phenotypeId,
-      diseaseId: this.diseaseId,
-      therapyId: this.therapyId,
-      status: this.status || EvidenceStatusFilter.NonRejected,
-      assertionType: this.assertionTypeInput,
-      assertionDirection: this.assertionDirectionInput,
-      significance: this.SignificanceInput,
-      diseaseName: this.diseaseNameInput,
-      ids: this.ids,
+      variables: {
+        first: this.initialPageSize,
+        variantId: this.variantId,
+        molecularProfileId: this.molecularProfileId,
+        molecularProfileName: this.molecularProfileNameInput,
+        evidenceId: this.evidenceId,
+        organization: this.organizationFilter(this.organizationId),
+        approvingOrganizations: this.organizationFilter(
+          this.approvingOrganizationId
+        ),
+        userId: this.userId,
+        phenotypeId: this.phenotypeId,
+        diseaseId: this.diseaseId,
+        therapyId: this.therapyId,
+        status: this.status || EvidenceStatusFilter.NonRejected,
+        assertionType: this.assertionTypeInput,
+        assertionDirection: this.assertionDirectionInput,
+        significance: this.SignificanceInput,
+        diseaseName: this.diseaseNameInput,
+        ids: this.ids,
+      },
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -349,7 +351,9 @@ export class CvcAssertionsTableComponent implements OnInit, OnChanges {
     this.statusFilterVisible = false
   }
 
-  private organizationFilter(organizationId: Maybe<number>): OrganizationFilter {
+  private organizationFilter(
+    organizationId: Maybe<number>
+  ): OrganizationFilter {
     return {
       ids: organizationId ? [organizationId] : [],
       includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,

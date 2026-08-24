@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   Component,
@@ -45,10 +46,13 @@ export class CvcFlagPopoverComponent
     if (this.flagId == undefined) {
       throw new Error('cvc-flag-popover requires valid flagId input.')
     }
-    this.flag$ = this.gql.watch({ flagId: this.flagId }).valueChanges.pipe(
-      map(({ data }) => data?.flag),
-      filter(isNonNulled)
-    )
+    this.flag$ = this.gql
+      .watch({ variables: { flagId: this.flagId } })
+      .valueChanges.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.flag),
+        filter(isNonNulled)
+      )
   }
   ngAfterViewInit() {
     this.resizeObserver.observe(this.elementRef.nativeElement)

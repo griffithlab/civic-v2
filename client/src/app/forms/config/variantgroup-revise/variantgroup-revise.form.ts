@@ -32,10 +32,10 @@ import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variantgroup-revise-form',
-    templateUrl: './variantgroup-revise.form.html',
-    styleUrls: ['./variantgroup-revise.form.less'],
-    standalone: false
+  selector: 'cvc-variantgroup-revise-form',
+  templateUrl: './variantgroup-revise.form.html',
+  styleUrls: ['./variantgroup-revise.form.less'],
+  standalone: false,
 })
 export class CvcVariantgroupReviseForm
   implements OnInit, AfterViewInit, OnDestroy
@@ -93,10 +93,11 @@ export class CvcVariantgroupReviseForm
   }
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ variantGroupId: this.variantGroupId })
+      .fetch({ variables: { variantGroupId: this.variantGroupId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { variantGroup } }) => {
+        next: ({ data }) => {
+          const variantGroup = data?.variantGroup
           if (variantGroup) {
             this.model = {
               id: variantGroup.id,

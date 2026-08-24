@@ -1,4 +1,11 @@
-import { Component, computed, effect, Input, signal, Signal } from '@angular/core'
+import {
+  Component,
+  computed,
+  effect,
+  Input,
+  signal,
+  Signal,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   AssertionSummaryGQL,
@@ -19,10 +26,10 @@ import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
-    selector: 'cvc-assertion-summary',
-    templateUrl: './assertions-summary.page.html',
-    styleUrls: ['./assertions-summary.page.less'],
-    standalone: false
+  selector: 'cvc-assertion-summary',
+  templateUrl: './assertions-summary.page.html',
+  styleUrls: ['./assertions-summary.page.less'],
+  standalone: false,
 })
 export class AssertionsSummaryPage {
   @Input() assertionId: Maybe<number>
@@ -36,26 +43,23 @@ export class AssertionsSummaryPage {
 
   subscribable: SubscribableInput
 
-  color = computed(() =>
-    getEntityColor('Approval')
-  )
-  assertionDescriptionDisplayMode: string = 'raw';
-  assertionDescriptionTagMode: string = 'eid';
+  color = computed(() => getEntityColor('Approval'))
+  assertionDescriptionDisplayMode: string = 'raw'
+  assertionDescriptionTagMode: string = 'eid'
 
   queryAssertionId: Signal<number>
 
-  constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
-
-
+  constructor(
+    private gql: AssertionSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     if (this.assertionId) {
       this.queryAssertionId = signal(this.assertionId)
     } else {
       this.queryAssertionId = toSignal(
-        this.route.params.pipe(
-          map(params => +params['assertionId']),
-        ),
+        this.route.params.pipe(map((params) => +params['assertionId'])),
         { requireSync: true }
-      );
+      )
     }
 
     if (this.queryAssertionId() == undefined) {
@@ -64,10 +68,12 @@ export class AssertionsSummaryPage {
       )
     }
 
-    this.queryRef = this.gql.watch({ assertionId: this.queryAssertionId() })
+    this.queryRef = this.gql.watch({
+      variables: { assertionId: this.queryAssertionId() },
+    })
 
     effect(() => {
-      this.queryRef.refetch({assertionId: this.queryAssertionId()})
+      this.queryRef.refetch({ assertionId: this.queryAssertionId() })
     })
 
     let observable = this.queryRef.valueChanges
