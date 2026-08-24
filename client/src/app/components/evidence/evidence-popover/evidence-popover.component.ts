@@ -43,10 +43,12 @@ export class CvcEvidencePopoverComponent
   }
 
   ngOnInit() {
-    this.evidence$ = this.gql.fetch({ evidenceId: this.evidenceId }).pipe(
-      map(({ data }) => data?.evidenceItem),
-      filter(isNonNulled)
-    )
+    this.evidence$ = this.gql
+      .fetch({ variables: { evidenceId: this.evidenceId } })
+      .pipe(
+        map(({ data }) => data?.evidenceItem),
+        filter(isNonNulled)
+      )
   }
 
   ngAfterViewInit() {

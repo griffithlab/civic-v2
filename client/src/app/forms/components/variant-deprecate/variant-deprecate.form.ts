@@ -85,10 +85,12 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
       throw new Error('Must pass a variant id into deprecate variant component')
     }
 
-    let queryRef = this.mpsForVariantGQL.fetch({ variantId: this.variantId })
+    let queryRef = this.mpsForVariantGQL.fetch({
+      variables: { variantId: this.variantId },
+    })
 
     this.mpsToDeprecate$ = queryRef.pipe(
-      map(({ data }) => data.molecularProfiles.nodes),
+      map(({ data }) => data?.molecularProfiles.nodes),
       filter(isNonNulled),
       map((mps) =>
         mps.filter(
@@ -101,7 +103,7 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
     )
 
     this.mpsWithEvidence$ = queryRef.pipe(
-      map(({ data }) => data.molecularProfiles.nodes),
+      map(({ data }) => data?.molecularProfiles.nodes),
       filter(isNonNulled),
       map((mps) =>
         mps.filter(
@@ -113,7 +115,7 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
       )
     )
 
-    this.mpListLoading$ = queryRef.pipe(map(({ loading }) => loading))
+    this.mpListLoading$ = queryRef.pipe(map(() => false))
   }
 
   deprecateVariant(): void {

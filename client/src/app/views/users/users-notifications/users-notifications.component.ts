@@ -26,7 +26,7 @@ import {
   UserNotificationsQuery,
   UserNotificationsQueryVariables,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map, startWith } from 'rxjs/operators'
@@ -52,10 +52,10 @@ interface Checked {
 }
 
 @Component({
-    selector: 'cvc-users-notifications',
-    templateUrl: './users-notifications.component.html',
-    styleUrls: ['./users-notifications.component.less'],
-    standalone: false
+  selector: 'cvc-users-notifications',
+  templateUrl: './users-notifications.component.html',
+  styleUrls: ['./users-notifications.component.less'],
+  standalone: false,
 })
 export class UsersNotificationsComponent {
   userId: number
@@ -134,8 +134,9 @@ export class UsersNotificationsComponent {
       includeRead: this.includeReadInput,
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryVars)
+    this.queryRef = this.gql.watch({ variables: this.initialQueryVars })
     this.results$ = this.queryRef.valueChanges
+    const data$ = this.queryRef.valueChanges.pipe(onlyCompleteData())
 
     this.connection$ = this.results$.pipe(
       map((r) => r.data?.notifications),
@@ -147,7 +148,7 @@ export class UsersNotificationsComponent {
       filter(isNonNulled)
     )
 
-    this.notificationStateObservable$ = this.results$.pipe(
+    this.notificationStateObservable$ = data$.pipe(
       map((r) => r.data),
       filter(isNonNulled),
       map(({ notifications }) => {
@@ -163,7 +164,7 @@ export class UsersNotificationsComponent {
       })
     )
 
-    this.notificationSubjects$ = this.results$.pipe(
+    this.notificationSubjects$ = data$.pipe(
       map((r) => r.data),
       filter(isNonNulled),
       map(({ notifications }) => {
@@ -176,13 +177,13 @@ export class UsersNotificationsComponent {
       })
     )
 
-    this.originatingUsers$ = this.results$.pipe(
+    this.originatingUsers$ = data$.pipe(
       map(({ data }) => {
         return data.notifications.originatingUsers
       })
     )
 
-    this.actions$ = this.results$.pipe(
+    this.actions$ = data$.pipe(
       map(({ data }) =>
         data.notifications.eventTypes.map((et) => {
           return { id: et }
@@ -190,7 +191,7 @@ export class UsersNotificationsComponent {
       )
     )
 
-    this.organizations$ = this.results$.pipe(
+    this.organizations$ = data$.pipe(
       map(({ data }) => {
         return data.notifications.organizations
       })

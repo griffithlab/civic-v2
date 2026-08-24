@@ -13,14 +13,13 @@ import {
   PageInfo,
   SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { Observable, Subject } from 'rxjs'
 import {
   distinctUntilChanged,
   filter,
   map,
-  pluck,
   take,
   takeUntil,
 } from 'rxjs/operators'
@@ -94,17 +93,19 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
       includeAutomatedEvents: this.includeAutomatedEvents,
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryVars)
+    this.queryRef = this.gql.watch({ variables: this.initialQueryVars })
 
     if (this.pollForNewEvents && environment.production) {
       this.newEventCount$ = this.eventCountGql
-        .watch(this.initialQueryVars, {
+        .watch({
+          variables: this.initialQueryVars,
           fetchPolicy: 'no-cache',
           pollInterval: 30000,
         })
         .valueChanges.pipe(
           filter(isNonNulled),
           map(({ data }) => data?.events?.unfilteredCount),
+          filter(isNonNulled),
           takeUntil(this.destroy$)
         )
     }
@@ -112,10 +113,12 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
     this.results$ = this.queryRef.valueChanges
     // .pipe(tag('event-feed results$'))
 
-    this.pageInfo$ = this.results$.pipe(map(({ data }) => data.events.pageInfo))
+    const data$ = this.results$.pipe(onlyCompleteData())
 
-    this.events$ = this.results$.pipe(
-      pluck('data', 'events', 'edges'),
+    this.pageInfo$ = data$.pipe(map(({ data }) => data.events.pageInfo))
+
+    this.events$ = data$.pipe(
+      map(({ data }) => data.events.edges),
       filter(isNonNulled),
       map((edges) => edges.map((e) => e.node))
     )
@@ -125,7 +128,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     )
 
-    this.unfilteredCount$ = this.results$.pipe(
+    this.unfilteredCount$ = data$.pipe(
       map((r) => r.data),
       filter(isNonNulled),
       map(({ events }) => events.unfilteredCount)
@@ -136,17 +139,17 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
       .subscribe((value) => (this.originalEventCount = value))
 
     if (this.showFilters) {
-      this.participants$ = this.results$.pipe(
+      this.participants$ = data$.pipe(
         filter(isNonNulled),
         map(({ data }) => data.events.uniqueParticipants)
       )
 
-      this.organizations$ = this.results$.pipe(
+      this.organizations$ = data$.pipe(
         filter(isNonNulled),
         map(({ data }) => data.events.participatingOrganizations)
       )
 
-      this.actions$ = this.results$.pipe(
+      this.actions$ = data$.pipe(
         filter(isNonNulled),
         map(
           ({ data }) =>
@@ -190,6 +193,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.queryRef.refetch().then(({ data }) => {
+      if (!data?.events) return
       this.originalEventCount = data.events.unfilteredCount
     })
   }

@@ -35,10 +35,10 @@ import {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-assertion-revise-form',
-    templateUrl: './assertion-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-assertion-revise-form',
+  templateUrl: './assertion-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAssertionReviseForm
   implements OnInit, AfterViewInit, OnDestroy
@@ -94,10 +94,11 @@ export class CvcAssertionReviseForm
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ assertionId: this.assertionId })
+      .fetch({ variables: { assertionId: this.assertionId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { assertion } }) => {
+        next: ({ data }) => {
+          const assertion = data?.assertion
           if (assertion) {
             this.model = {
               id: assertion.id,

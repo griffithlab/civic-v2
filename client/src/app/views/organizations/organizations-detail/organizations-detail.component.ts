@@ -64,7 +64,9 @@ export class OrganizationsDetailComponent implements OnDestroy {
 
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
-        organizationId: +params.organizationId,
+        variables: {
+          organizationId: +params.organizationId,
+        },
       })
 
       let observable = this.queryRef.valueChanges

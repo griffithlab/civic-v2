@@ -29,10 +29,10 @@ import { molecularProfileReviseFields } from './molecular-profile-revise.form.co
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-mp-revise-form',
-    templateUrl: './molecular-profile-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-mp-revise-form',
+  templateUrl: './molecular-profile-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
   @Input() molecularProfileId!: number
@@ -69,10 +69,11 @@ export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ molecularProfileId: this.molecularProfileId })
+      .fetch({ variables: { molecularProfileId: this.molecularProfileId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { molecularProfile } }) => {
+        next: ({ data }) => {
+          const molecularProfile = data?.molecularProfile
           if (molecularProfile) {
             this.options.formState.isSimpleMp = !molecularProfile.isComplex
 

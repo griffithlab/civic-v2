@@ -20,8 +20,8 @@ import { CommonModule } from '@angular/common'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFlagEntityActivity } from '@app/components/activities/activity-feed/feed-item-details/flag-entity/flag-entity-activity.component'
 import { CvcCommentActivity } from './comment/comment-activity.component'
-import { debounceTime, filter, Observable } from 'rxjs'
-import { QueryRef } from 'apollo-angular'
+import { debounceTime, filter, map, Observable } from 'rxjs'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAcceptRevisionsActivity } from '@app/components/activities/activity-feed/feed-item-details/accept-revisions/accept-revisions-activity.component'
 import { CvcCreateMpActivity } from '@app/components/activities/activity-feed/feed-item-details/create-molecular-profile/create-mp-activity.component'
@@ -104,8 +104,10 @@ export class CvcActivityFeedItemDetails implements OnInit {
   ngOnInit() {
     runInInjectionContext(this.injector, () => {
       this.queryRef = this.gql.watch({
-        id: this.cvcActivityId(),
-        requestDetails: true,
+        variables: {
+          id: this.cvcActivityId(),
+          requestDetails: true,
+        },
       })
       this.result$ = this.queryRef.valueChanges
 
@@ -120,7 +122,8 @@ export class CvcActivityFeedItemDetails implements OnInit {
       )
       this.$activity = toSignal(
         this.result$.pipe(
-          pluck('data', 'activity'),
+          onlyCompleteData(),
+          map(({ data }) => data.activity),
           // tag('feed-item-detail activity'),
           filter(isNonNulled)
         ),

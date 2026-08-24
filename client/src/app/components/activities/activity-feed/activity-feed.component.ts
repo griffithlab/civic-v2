@@ -64,7 +64,7 @@ import {
   Maybe,
   PageInfo,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import {
   Datasource,
   IAdapter,
@@ -231,7 +231,7 @@ export class CvcActivityFeed implements OnInit {
       switchMap((event: FeedQueryEvent) => {
         this.queryType$.next(event.type)
         if (!this.queryRef) {
-          this.queryRef = this.gql.watch(event.query)
+          this.queryRef = this.gql.watch({ variables: event.query })
         } else {
           if (event.type === 'refetch') {
             this.queryRef.refetch(event.query).then(() => {
@@ -268,12 +268,16 @@ export class CvcActivityFeed implements OnInit {
     )
 
     const connection$ = this.result$.pipe(
-      pluck('data', 'activities'),
+      onlyCompleteData(),
+      map(({ data }) => data.activities),
       filter(isNonNulled),
       shareReplay(1)
     )
 
-    this.pageInfo$ = connection$.pipe(pluck('pageInfo'), filter(isNonNulled))
+    this.pageInfo$ = connection$.pipe(
+      map((connection) => connection.pageInfo),
+      filter(isNonNulled)
+    )
 
     this.counts = toSignal(
       connection$.pipe(
@@ -298,7 +302,8 @@ export class CvcActivityFeed implements OnInit {
     )
 
     this.edge$ = this.result$.pipe(
-      pluck('data', 'activities'),
+      onlyCompleteData(),
+      map(({ data }) => data.activities),
       filter(isNonNulled),
       map((connection) => connection.edges as ActivityInterfaceEdge[])
       // tag('edge$ ++++++++++++++')
@@ -328,7 +333,7 @@ export class CvcActivityFeed implements OnInit {
 
     this.zeroRows = toSignal(
       this.result$.pipe(
-        map((result) => result.data?.activities?.edges.length === 0)
+        map((result) => result.data?.activities?.edges?.length === 0)
       ),
       { initialValue: false }
     )

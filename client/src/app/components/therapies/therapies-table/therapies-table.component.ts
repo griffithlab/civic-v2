@@ -107,11 +107,13 @@ export class CvcTherapiesTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      ids: this.ids,
-      first: this.initialPageSize,
-      sortBy: {
-        column: TherapySortColumns.EvidenceItemCount,
-        direction: SortDirection.Desc,
+      variables: {
+        ids: this.ids,
+        first: this.initialPageSize,
+        sortBy: {
+          column: TherapySortColumns.EvidenceItemCount,
+          direction: SortDirection.Desc,
+        },
       },
     })
 

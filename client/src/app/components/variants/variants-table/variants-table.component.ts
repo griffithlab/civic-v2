@@ -134,7 +134,7 @@ export class CvcVariantsTableComponent implements OnInit, OnChanges {
       },
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryArgs)
+    this.queryRef = this.gql.watch({ variables: this.initialQueryArgs })
 
     this.result$ = this.queryRef.valueChanges
 
@@ -258,5 +258,4 @@ export class CvcVariantsTableComponent implements OnInit, OnChanges {
     this.hasNoVariantTypeInput = value[0]
     this.filterChange$.next()
   }
-
 }

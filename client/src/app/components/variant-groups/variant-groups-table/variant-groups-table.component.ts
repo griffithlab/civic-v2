@@ -108,10 +108,12 @@ export class CvcVariantGroupsTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      first: this.initialPageSize,
-      sortBy: {
-        column: this.sortColumns.VariantCount,
-        direction: SortDirection.Desc,
+      variables: {
+        first: this.initialPageSize,
+        sortBy: {
+          column: this.sortColumns.VariantCount,
+          direction: SortDirection.Desc,
+        },
       },
     })
 
