@@ -16,7 +16,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
@@ -29,8 +29,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { RouterModule } from '@angular/router'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { FormsModule } from '@angular/forms';
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { FormsModule } from '@angular/forms'
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 
@@ -49,7 +49,7 @@ import { CvcEntityDescription } from '@app/components/shared/entity-description/
     NzTagModule,
     NzIconModule,
     NzDescriptionsModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopoverModule,
     NzAvatarModule,
     NzCardModule,

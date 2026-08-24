@@ -1,26 +1,27 @@
 <nz-row [nzGutter]="[8, 8]">
-  <nz-col
-    *ngIf="newActivities() > 0"
-    [@refreshAlertAnimation]
-    nzSpan="24">
-    <nz-alert
-      nzType="info"
-      [nzDescription]="msgTmpl"
-      [nzAction]="actionTmpl"></nz-alert>
-    <ng-template #msgTmpl>
-      {{ newActivities() }} new
-      {{ newActivities() > 1 ? 'activities' : 'activity' }} available
-    </ng-template>
-    <ng-template #actionTmpl>
-      <button
-        nz-button
-        nzSize="small"
-        nzType="default"
-        (click)="cvcFiltersChange.emit(cvcFilters())">
-        Refresh
-      </button>
-    </ng-template>
-  </nz-col>
+  @if (newActivities() > 0) {
+    <nz-col
+      [@refreshAlertAnimation]
+      nzSpan="24">
+      <nz-alert
+        nzType="info"
+        [nzDescription]="msgTmpl"
+        [nzAction]="actionTmpl"></nz-alert>
+      <ng-template #msgTmpl>
+        {{ newActivities() }} new
+        {{ newActivities() > 1 ? 'activities' : 'activity' }} available
+      </ng-template>
+      <ng-template #actionTmpl>
+        <button
+          nz-button
+          nzSize="small"
+          nzType="default"
+          (click)="cvcFiltersChange.emit(cvcFilters())">
+          Refresh
+        </button>
+      </ng-template>
+    </nz-col>
+  }
   <nz-col nzSpan="24">
     <ng-container
       *ngTemplateOutlet="
@@ -36,19 +37,26 @@
       [nzCustomTemplate]="activityTypeLabel"
       [nzOptionOverflowSize]="12"
       [nzOptionHeightPx]="28">
-      <nz-option
-        *ngFor="let activity of cvcFilterOptions().activityTypes | enumSort"
-        nzCustomContent
-        [nzLabel]="activity | enumToTitle"
-        [nzValue]="activity">
-        <ng-container
-          *ngTemplateOutlet="
-            activityTypeLabel;
-            context: {
-              $implicit: { nzLabel: activity | enumToTitle, nzValue: activity },
-            }
-          "></ng-container>
-      </nz-option>
+      @for (
+        activity of cvcFilterOptions().activityTypes | enumSort;
+        track activity
+      ) {
+        <nz-option
+          nzCustomContent
+          [nzLabel]="activity | enumToTitle"
+          [nzValue]="activity">
+          <ng-container
+            *ngTemplateOutlet="
+              activityTypeLabel;
+              context: {
+                $implicit: {
+                  nzLabel: activity | enumToTitle,
+                  nzValue: activity,
+                },
+              }
+            "></ng-container>
+        </nz-option>
+      }
       <ng-template
         #activityTypeLabel
         let-selected>
@@ -77,20 +85,27 @@
         [nzCustomTemplate]="subjectTypeLabel"
         [nzOptionHeightPx]="28"
         [nzOptionOverflowSize]="10">
-        <nz-option
-          *ngFor="let subject of cvcFilterOptions().subjectTypes | enumSort"
-          nzCustomContent
-          [nzLabel]="subject | enumToTitle"
-          [nzValue]="subject">
-          <ng-container
-            *ngTemplateOutlet="
-              subjectTypeLabel;
-              context: {
-                $implicit: { nzLabel: subject | enumToTitle, nzValue: subject },
-              }
-            ">
-          </ng-container>
-        </nz-option>
+        @for (
+          subject of cvcFilterOptions().subjectTypes | enumSort;
+          track subject
+        ) {
+          <nz-option
+            nzCustomContent
+            [nzLabel]="subject | enumToTitle"
+            [nzValue]="subject">
+            <ng-container
+              *ngTemplateOutlet="
+                subjectTypeLabel;
+                context: {
+                  $implicit: {
+                    nzLabel: subject | enumToTitle,
+                    nzValue: subject,
+                  },
+                }
+              ">
+            </ng-container>
+          </nz-option>
+        }
         <ng-template
           #subjectTypeLabel
           let-selected>
@@ -185,23 +200,24 @@
       [ngModel]="sortByDirection()"
       (ngModelChange)="sortByDirection.set($event)"
       [nzOptionHeightPx]="28">
-      <nz-option
-        *ngFor="let direction of cvcFilterOptions().sortDirections"
-        [nzLabel]="direction | enumToTitle"
-        [nzValue]="direction">
-      </nz-option>
+      @for (direction of cvcFilterOptions().sortDirections; track direction) {
+        <nz-option
+          [nzLabel]="direction | enumToTitle"
+          [nzValue]="direction">
+        </nz-option>
+      }
     </nz-select>
   </nz-col>
   <!-- <nz-col
-    nzSpan="24"
-    style="max-height: 200px; overflow-y: auto">
-    <h4>Filters</h4>
-    <pre>{{ cvcFilters() | json }}</pre>
-    <h4>
-      Unique Participants ({{ cvcFilterOptions().uniqueParticipants.length }})$
-    </h4>
-    <pre>{{ cvcFilterOptions().uniqueParticipants | json }}</pre>
-  </nz-col> -->
+nzSpan="24"
+style="max-height: 200px; overflow-y: auto">
+<h4>Filters</h4>
+<pre>{{ cvcFilters() | json }}</pre>
+<h4>
+  Unique Participants ({{ cvcFilterOptions().uniqueParticipants.length }})$
+</h4>
+<pre>{{ cvcFilterOptions().uniqueParticipants | json }}</pre>
+</nz-col> -->
 </nz-row>
 <!-- TEMPLATES -->
 

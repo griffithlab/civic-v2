@@ -26,7 +26,7 @@ import { UsersDetailRoutingModule } from './users-detail-routing.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzPipesModule } from 'ng-zorro-antd/pipes'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcUserApiKeysForm } from '@app/forms/components/user-api-keys/user-api-keys.form'
@@ -51,7 +51,7 @@ import { CvcUserApiKeysForm } from '@app/forms/components/user-api-keys/user-api
     NzStatisticModule,
     NzIconModule,
     NzTypographyModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopoverModule,
     NzButtonModule,
     CvcTagOverflowModule,
@@ -64,7 +64,7 @@ import { CvcUserApiKeysForm } from '@app/forms/components/user-api-keys/user-api
     CvcAvatarUploaderModule,
     CvcOrganizationTagModule,
     CvcStatsCardModule,
-    CvcUserApiKeysForm
+    CvcUserApiKeysForm,
   ],
 })
 export class UsersDetailModule {}

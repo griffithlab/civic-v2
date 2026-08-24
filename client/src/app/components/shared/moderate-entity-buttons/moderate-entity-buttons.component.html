@@ -1,16 +1,17 @@
 <ng-container *ngrxLet="viewer$ as viewer">
   <nz-spin [nzSpinning]="isSubmitting">
-    <button
-      *ngIf="viewer.canModerate"
-      nzType="primary"
-      nzSize="large"
-      nz-button
-      (click)="moderate(evidenceStatuses.Accepted)"
-      nz-tooltip
-      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
-      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
-      Accept {{ entityTypeDisplay }}
-    </button>
+    @if (viewer.canModerate) {
+      <button
+        nzType="primary"
+        nzSize="large"
+        nz-button
+        (click)="moderate(evidenceStatuses.Accepted)"
+        nz-tooltip
+        [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+        [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+        Accept {{ entityTypeDisplay }}
+      </button>
+    }
     &nbsp;
     <button
       nzDanger

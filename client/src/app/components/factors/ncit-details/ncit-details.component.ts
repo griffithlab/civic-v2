@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { Maybe, NcitDetailsFragment } from '@app/generated/civic.apollo'
@@ -9,18 +8,17 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 
 @Component({
-    selector: 'cvc-ncit-details',
-    templateUrl: './ncit-details.component.html',
-    styleUrls: ['./ncit-details.component.less'],
-    imports: [
-        CommonModule,
-        NzDescriptionsModule,
-        NzCardModule,
-        NzTagModule,
-        NzGridModule,
-        NzTabsModule,
-        CvcTagListModule,
-    ]
+  selector: 'cvc-ncit-details',
+  templateUrl: './ncit-details.component.html',
+  styleUrls: ['./ncit-details.component.less'],
+  imports: [
+    NzDescriptionsModule,
+    NzCardModule,
+    NzTagModule,
+    NzGridModule,
+    NzTabsModule,
+    CvcTagListModule,
+  ],
 })
 export class CvcNcitDetailsComponent implements OnInit {
   @Input() ncitDetails: Maybe<NcitDetailsFragment>

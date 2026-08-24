@@ -4,7 +4,7 @@ import { CvcEntityTagComponent } from './entity-tag.component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { RouterModule } from '@angular/router'
 import { EntityTagDirectivesModule } from './directives/directives.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
@@ -17,7 +17,7 @@ import { CvcEntityTagPopoverModule } from '../entity-tag-popover/entity-tag-popo
     RouterModule,
     NzIconModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopoverModule,
     EntityTagDirectivesModule,
     CvcPipesModule,

@@ -1,42 +1,45 @@
 <nz-spin [nzSpinning]="variantListLoading$ | ngrxPush">
   <nz-space nzDirection="vertical">
     <ng-container *ngrxLet="undeprecatedVariants$ as undeprecatedVariants">
-      <ng-container
-        *ngIf="undeprecatedVariants && undeprecatedVariants.length > 0">
+      @if (undeprecatedVariants && undeprecatedVariants.length > 0) {
         <nz-alert
           *nzSpaceItem
           nzType="warning"
           nzMessage="This action will also attempt to deprecate the following Variants and their Molecular Profiles:"
           [nzDescription]="variantsToDeprecateTpl">
           <ng-template #variantsToDeprecateTpl>
-            <ng-container *ngFor="let variant of undeprecatedVariants">
+            @for (variant of undeprecatedVariants; track variant) {
               <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
-            </ng-container>
+            }
           </ng-template>
         </nz-alert>
-      </ng-container>
+      }
     </ng-container>
   </nz-space>
 </nz-spin>
 
 <nz-card nzType="inner">
-  <nz-alert
-    *ngIf="success"
-    nzBanner
-    nzMessage="Feature deprecated"
-    nzType="success"
-    nzCloseable
-    (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-  <nz-alert
-    *ngIf="errorMessages.length > 0"
-    nzType="error"
-    nzShowIcon
-    [nzDescription]="errorContents"
-    nzMessage="Error Deprecating Feature">
-  </nz-alert>
+  @if (success) {
+    <nz-alert
+      nzBanner
+      nzMessage="Feature deprecated"
+      nzType="success"
+      nzCloseable
+      (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+  }
+  @if (errorMessages.length > 0) {
+    <nz-alert
+      nzType="error"
+      nzShowIcon
+      [nzDescription]="errorContents"
+      nzMessage="Error Deprecating Feature">
+    </nz-alert>
+  }
   <ng-template #errorContents>
     <ul>
-      <li *ngFor="let error of errorMessages">{{ error }}</li>
+      @for (error of errorMessages; track error) {
+        <li>{{ error }}</li>
+      }
     </ul>
   </ng-template>
   <nz-form-item>
@@ -67,17 +70,15 @@
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
             <cvc-form-buttons>
-              <ng-container
-                *ngIf="viewer.signedIn && viewer.isEditor; else notSignedIn">
+              @if (viewer.signedIn && viewer.isEditor) {
                 <ng-template *ngTemplateOutlet="submitButton"></ng-template>
-              </ng-container>
-              <ng-template #notSignedIn>
+              } @else {
                 <span
                   nz-tooltip
                   nzTooltipTitle="Must be signed in and an editor to deprecate Features.">
                   <ng-template *ngTemplateOutlet="submitButton"></ng-template>
                 </span>
-              </ng-template>
+              }
               <ng-template #submitButton>
                 <button
                   type="submit"
@@ -85,7 +86,12 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!(comment !== undefined && comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !reason "
+                  [disabled]="
+                    !(comment !== undefined && comment.length >= 10) ||
+                    !viewer.signedIn ||
+                    !viewer.isEditor ||
+                    !reason
+                  "
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
                   [nzTooltipTitle]="'For ' + selectedOrg?.name">

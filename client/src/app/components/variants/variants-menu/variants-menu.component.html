@@ -1,10 +1,10 @@
 <nz-spin [nzSpinning]="loading$ | ngrxPush">
-  <ng-container *ngIf="menuVariants$ | ngrxPush as variants">
+  @if (menuVariants$ | ngrxPush; as variants) {
     <nz-card
       [nzTitle]="cardTitle"
       [nzExtra]="cardExtra">
       <ng-template #cardTitle>
-        <ng-container *ngIf="totalVariants$ | ngrxPush as total">
+        @if (totalVariants$ | ngrxPush; as total) {
           <span
             nz-typography
             nzType="secondary">
@@ -14,20 +14,20 @@
             nz-typography
             nzType="secondary">
             &nbsp;
-            <cvc-feature-tag
-              *ngIf="feature"
-              [feature]="feature"></cvc-feature-tag>
+            @if (feature) {
+              <cvc-feature-tag [feature]="feature"></cvc-feature-tag>
+            }
             Variants
           </span>
-          <span
-            nz-typography
-            *ngIf="total > variants.length"
-            nzType="secondary"
-            >({{ variants.length }} displayed)</span
-          >
-        </ng-container>
+          @if (total > variants.length) {
+            <span
+              nz-typography
+              nzType="secondary"
+              >({{ variants.length }} displayed)</span
+            >
+          }
+        }
       </ng-template>
-
       <ng-template #cardExtra>
         <form
           nz-form
@@ -65,8 +65,7 @@
           <nz-form-item>
             <nz-form-label>Variant Type</nz-form-label>
             <nz-form-control>
-              <ng-container
-                *ngIf="menuVariantTypes$ | ngrxPush as variantTypes">
+              @if (menuVariantTypes$ | ngrxPush; as variantTypes) {
                 <nz-select
                   nzAllowClear
                   nzSize="small"
@@ -79,11 +78,12 @@
                   [(ngModel)]="variantTypeFilter"
                   (ngModelChange)="onModelUpdated()"
                   [nzCustomTemplate]="variantTypeTemplate">
-                  <nz-option
-                    *ngFor="let variantType of variantTypes"
-                    [nzLabel]="variantType!.name"
-                    [nzValue]="variantType">
-                  </nz-option>
+                  @for (variantType of variantTypes; track variantType) {
+                    <nz-option
+                      [nzLabel]="variantType!.name"
+                      [nzValue]="variantType">
+                    </nz-option>
+                  }
                 </nz-select>
                 <ng-template
                   #variantTypeTemplate
@@ -97,7 +97,7 @@
                     {{ selected.nzLabel }}
                   </div>
                 </ng-template>
-              </ng-container>
+              }
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -142,42 +142,42 @@
       <nz-row>
         <nz-col nzSpan="24">
           <cvc-tag-list size="sm">
-            <ng-container *ngFor="let v of variants">
-              <cvc-variant-tag
-                *ngIf="v"
-                [variant]="v"></cvc-variant-tag>
-            </ng-container>
+            @for (v of variants; track v) {
+              @if (v) {
+                <cvc-variant-tag [variant]="v"></cvc-variant-tag>
+              }
+            }
           </cvc-tag-list>
         </nz-col>
       </nz-row>
-      <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-        <nz-row
-          id="load-more-btn"
-          *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
-          <button
-            nz-button
-            nzType="default"
-            nzSize="small"
-            style="width: 95%"
-            (click)="fetchMore(pageInfo.endCursor)">
-            Load More
-          </button>
-          <nz-select
-            [(ngModel)]="pageSize"
-            style="width: 5%"
-            nzSize="small">
-            <nz-option
-              nzLabel="50"
-              [nzValue]="50"></nz-option>
-            <nz-option
-              nzLabel="100"
-              [nzValue]="100"></nz-option>
-            <nz-option
-              nzLabel="300"
-              [nzValue]="300"></nz-option>
-          </nz-select>
-        </nz-row>
-      </ng-container>
+      @if (pageInfo$ | ngrxPush; as pageInfo) {
+        @if (pageInfo.hasNextPage && pageInfo.endCursor) {
+          <nz-row id="load-more-btn">
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              style="width: 95%"
+              (click)="fetchMore(pageInfo.endCursor)">
+              Load More
+            </button>
+            <nz-select
+              [(ngModel)]="pageSize"
+              style="width: 5%"
+              nzSize="small">
+              <nz-option
+                nzLabel="50"
+                [nzValue]="50"></nz-option>
+              <nz-option
+                nzLabel="100"
+                [nzValue]="100"></nz-option>
+              <nz-option
+                nzLabel="300"
+                [nzValue]="300"></nz-option>
+            </nz-select>
+          </nz-row>
+        }
+      }
     </nz-card>
-  </ng-container>
+  }
 </nz-spin>

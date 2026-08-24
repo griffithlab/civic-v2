@@ -1,4 +1,4 @@
-<ng-container *ngIf="openCravatAnnotations && openCravatUrl">
+@if (openCravatAnnotations && openCravatUrl) {
   <nz-tabs
     nzSize="small"
     [nzAnimated]="true"
@@ -23,7 +23,8 @@
         [nzSize]="'small'">
         <nz-descriptions-item [nzTitle]="'ACMG/AMP Benign (BP4)'">
           @if (
-            (openCravatAnnotations.benignity_counts | keyvalue).length === 0
+            (($any(openCravatAnnotations.benignity_counts) | keyvalue)
+              ?.length ?? 0) === 0
           ) {
             <div
               nz-typography
@@ -32,7 +33,7 @@
             </div>
           }
           @for (
-            keypar of openCravatAnnotations.benignity_counts | keyvalue;
+            keypar of $any(openCravatAnnotations.benignity_counts) | keyvalue;
             track keypar.key
           ) {
             <div
@@ -40,17 +41,17 @@
               nzTooltipPlacement="topLeft"
               [nzTooltipTitle]="
                 openCravatAnnotations.benignity_counts_details[
-                  keypar.key + ''
+                  $any(keypar.key)
                 ].join(', ')
               ">
               {{ keypar.key }} ({{ keypar.value }})
             </div>
           }
         </nz-descriptions-item>
-
         <nz-descriptions-item [nzTitle]="'ACMG/AMP Pathogenic (PP3)'">
           @if (
-            (openCravatAnnotations.pathogenicity_counts | keyvalue).length === 0
+            (($any(openCravatAnnotations.pathogenicity_counts) | keyvalue)
+              ?.length ?? 0) === 0
           ) {
             <div
               nz-typography
@@ -59,7 +60,8 @@
             </div>
           }
           @for (
-            keypar of openCravatAnnotations.pathogenicity_counts | keyvalue;
+            keypar of $any(openCravatAnnotations.pathogenicity_counts)
+              | keyvalue;
             track keypar.key
           ) {
             <div
@@ -67,7 +69,7 @@
               nzTooltipPlacement="topLeft"
               [nzTooltipTitle]="
                 openCravatAnnotations.pathogenicity_counts_details[
-                  keypar.key + ''
+                  $any(keypar.key)
                 ].join(', ')
               ">
               {{ keypar.key }} ({{ keypar.value }})
@@ -77,82 +79,81 @@
       </nz-descriptions>
     </div>
     <!-- <div
-        nz-row
-        [nzGutter]="8">
-        <div
-          nz-col
-          nzXs="24"
-          nzSm="24"
-          nzMd="24"
-          nzLg="12"
-          nzXl="12">
-          <nz-card
-            nzTitle="ACMG/AMP Benign (BP4)"
-            nzSize="small">
-            @if (
-              (openCravatAnnotations.benignity_counts | keyvalue).length === 0
-            ) {
-              <div
-                nz-typography
-                nzType="secondary">
-                None found
-              </div>
-            }
-            @for (
-              keypar of openCravatAnnotations.benignity_counts | keyvalue;
-              track keypar.key
-            ) {
-              <div
-                nz-tooltip
-                nzTooltipPlacement="topLeft"
+    nz-row
+    [nzGutter]="8">
+    <div
+      nz-col
+      nzXs="24"
+      nzSm="24"
+      nzMd="24"
+      nzLg="12"
+      nzXl="12">
+      <nz-card
+        nzTitle="ACMG/AMP Benign (BP4)"
+        nzSize="small">
+        @if (
+          (($any(openCravatAnnotations.benignity_counts) | keyvalue)?.length ?? 0) === 0
+          ) {
+          <div
+            nz-typography
+            nzType="secondary">
+            None found
+          </div>
+        }
+        @for (
+          keypar of $any(openCravatAnnotations.benignity_counts) | keyvalue;
+          track keypar.key
+          ) {
+          <div
+            nz-tooltip
+            nzTooltipPlacement="topLeft"
                 [nzTooltipTitle]="
                   openCravatAnnotations.benignity_counts_details[
-                    keypar.key + ''
+                    $any(keypar.key)
                   ].join(', ')
                 ">
-                {{ keypar.key }} ({{ keypar.value }})
-              </div>
-            }
-          </nz-card>
-        </div>
-        <div
-          nz-col
-          nzXs="24"
-          nzSm="24"
-          nzMd="24"
-          nzLg="12"
-          nzXl="12">
-          <nz-card
-            nzTitle="ACMG/AMP Pathogenic (PP3)"
-            nzSize="small">
-            @if (
-              (openCravatAnnotations.pathogenicity_counts | keyvalue).length ===
-              0
-            ) {
-              <div
-                nz-typography
-                nzType="secondary">
-                None found
-              </div>
-            }
-            @for (
-              keypar of openCravatAnnotations.pathogenicity_counts | keyvalue;
-              track keypar.key
-            ) {
-              <div
-                nz-tooltip
-                nzTooltipPlacement="topLeft"
+            {{ keypar.key }} ({{ keypar.value }})
+          </div>
+        }
+      </nz-card>
+    </div>
+    <div
+      nz-col
+      nzXs="24"
+      nzSm="24"
+      nzMd="24"
+      nzLg="12"
+      nzXl="12">
+      <nz-card
+        nzTitle="ACMG/AMP Pathogenic (PP3)"
+        nzSize="small">
+        @if (
+          (($any(openCravatAnnotations.pathogenicity_counts) | keyvalue)?.length ?? 0) === 0
+          ) {
+          <div
+            nz-typography
+            nzType="secondary">
+            None found
+          </div>
+        }
+        @for (
+          keypar of $any(openCravatAnnotations.pathogenicity_counts) | keyvalue;
+          track keypar.key
+          ) {
+          <div
+            nz-tooltip
+            nzTooltipPlacement="topLeft"
                 [nzTooltipTitle]="
                   openCravatAnnotations.pathogenicity_counts_details[
-                    keypar.key + ''
+                    $any(keypar.key)
                   ].join(', ')
                 ">
-                {{ keypar.key }} ({{ keypar.value }})
-              </div>
-            }
-          </nz-card>
-        </div>
-      </div> -->
+            {{ keypar.key }} ({{ keypar.value }})
+          </div>
+        }
+      </nz-card>
+    </div>
+  </div> -->
     <!-- </div> -->
   </ng-template>
   <!-- Benignity tab -->
@@ -177,7 +178,7 @@
         </thead>
         <tbody>
           @for (
-            keypar of openCravatAnnotations.benignity | keyvalue;
+            keypar of $any(openCravatAnnotations.benignity) | keyvalue;
             track keypar.key
           ) {
             <tr>
@@ -214,7 +215,7 @@
         </thead>
         <tbody>
           @for (
-            keypar of openCravatAnnotations.pathogenicity | keyvalue;
+            keypar of $any(openCravatAnnotations.pathogenicity) | keyvalue;
             track keypar.key
           ) {
             <tr>
@@ -229,5 +230,5 @@
       * Predictor does not meet calibration standards for evidence strength.
     </div>
   </ng-template>
-</ng-container>
+}
 <!-- <pre style="font-size: 8px">{{ openCravatAnnotations | json }}</pre> -->

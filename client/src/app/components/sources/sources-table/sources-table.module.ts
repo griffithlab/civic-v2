@@ -17,7 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcSourceTagModule } from '../source-tag/source-tag.module'
 import { CvcSourcesTableComponent } from './sources-table.component'
@@ -36,7 +36,7 @@ import { CvcSourcesTableComponent } from './sources-table.component'
     NzSelectModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
 
     CvcPipesModule,

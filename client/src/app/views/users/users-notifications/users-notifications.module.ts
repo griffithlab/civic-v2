@@ -13,7 +13,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline'
 import { CvcEventTimelineItemModule } from '@app/components/events/event-timeline-item/event-timeline-item-module'
 import { FormsModule } from '@angular/forms'
 import { LetDirective, PushPipe } from '@ngrx/component'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 @NgModule({
@@ -23,7 +23,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
     FormsModule,
     LetDirective,
     PushPipe,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpinModule,
     NzGridModule,
     NzButtonModule,

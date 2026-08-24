@@ -10,7 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFlagAddForm } from './flag-add.form'
 
 @NgModule({
@@ -25,7 +25,7 @@ import { CvcFlagAddForm } from './flag-add.form'
     NzButtonModule,
     NzCardModule,
     NzAlertModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpinModule,
     CvcFormButtonsModule,
     CvcPipesModule,

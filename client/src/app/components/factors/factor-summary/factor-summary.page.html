@@ -12,20 +12,20 @@
           [nzColumn]="1">
           <!-- description -->
           <nz-descriptions-item nzTitle="Description">
-            <p
-              *ngIf="factor.description; else noDescription"
-              nz-typography
-              nzEllipsis
-              nzExpandable
-              [nzEllipsisRows]="8">
-              {{ factor.description }}
-            </p>
-
-            <!-- noDescription Tpl -->
-            <ng-template #noDescription>
+            @if (factor.description) {
+              <p
+                nz-typography
+                nzEllipsis
+                nzExpandable
+                [nzEllipsisRows]="8">
+                {{ factor.description }}
+              </p>
+            } @else {
               <cvc-empty-revisable notification="No description provided">
               </cvc-empty-revisable>
-            </ng-template>
+            }
+
+            <!-- noDescription Tpl -->
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
@@ -39,54 +39,51 @@
           nzBordered="true">
           <!-- sources -->
           <nz-descriptions-item nzTitle="Sources">
-            <ng-container *ngIf="factor.sources.length > 0; else noSources">
+            @if (factor.sources.length > 0) {
               <cvc-tag-list>
-                <cvc-source-tag
-                  *ngFor="let source of factor.sources"
-                  [source]="source"></cvc-source-tag>
+                @for (source of factor.sources; track source) {
+                  <cvc-source-tag [source]="source"></cvc-source-tag>
+                }
               </cvc-tag-list>
-            </ng-container>
-            <ng-template #noSources>
+            } @else {
               <span
                 nz-typography
                 nzType="secondary"
                 >None specified</span
               >
-            </ng-template>
+            }
           </nz-descriptions-item>
 
           <!-- aliases -->
           <nz-descriptions-item nzTitle="Aliases">
-            <ng-container
-              *ngIf="factor.featureAliases.length > 0; else noAliases">
-              <nz-tag *ngFor="let alias of factor.featureAliases">{{
-                alias
-              }}</nz-tag>
-            </ng-container>
+            @if (factor.featureAliases.length > 0) {
+              @for (alias of factor.featureAliases; track alias) {
+                <nz-tag>{{ alias }}</nz-tag>
+              }
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
+            }
           </nz-descriptions-item>
-          <ng-template #noAliases>
-            <span
-              nz-typography
-              nzType="secondary"
-              >None specified</span
-            >
-          </ng-template>
 
           <!-- resource links -->
-          <nz-descriptions-item
-            *ngIf="factor.ncitId"
-            nzTitle="Resources">
-            <cvc-tag-list>
-              <cvc-link-tag
-                [href]="
-                  'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' +
-                  factor.ncitId
-                "
-                [tooltip]="'View ' + factor.name + ' in the NCI Thesaurus'">
-                NCIt: {{ factor.ncitId }}
-              </cvc-link-tag>
-            </cvc-tag-list>
-          </nz-descriptions-item>
+          @if (factor.ncitId) {
+            <nz-descriptions-item nzTitle="Resources">
+              <cvc-tag-list>
+                <cvc-link-tag
+                  [href]="
+                    'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' +
+                    factor.ncitId
+                  "
+                  [tooltip]="'View ' + factor.name + ' in the NCI Thesaurus'">
+                  NCIt: {{ factor.ncitId }}
+                </cvc-link-tag>
+              </cvc-tag-list>
+            </nz-descriptions-item>
+          }
         </nz-descriptions>
       </nz-col>
     </nz-row>
@@ -101,7 +98,7 @@
       [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
       nzBordered="true">
       <!-- creation/deprecation curation events -->
-      <ng-container *ngIf="factor.creationActivity">
+      @if (factor.creationActivity) {
         <nz-descriptions-item [nzTitle]="createdTitle">
           by
           <cvc-user-tag [user]="factor.creationActivity.user"></cvc-user-tag>
@@ -114,8 +111,8 @@
             ({{ factor.creationActivity.createdAt | timeAgo }})
           </span>
         </ng-template>
-      </ng-container>
-      <ng-container *ngIf="factor.deprecationActivity">
+      }
+      @if (factor.deprecationActivity) {
         <nz-descriptions-item [nzTitle]="deprecatedTitle">
           by
           <cvc-user-tag [user]="factor.deprecationActivity.user"></cvc-user-tag>
@@ -128,7 +125,7 @@
             ({{ factor.deprecationActivity.createdAt | timeAgo }})
           </span>
         </ng-template>
-      </ng-container>
+      }
     </nz-descriptions>
     <br />
     <!-- clinical significance -->
@@ -141,7 +138,9 @@
         <td>
           <cvc-clinical-significance-counts
             [cvcEntityName]="factor.name"
-            [cvcClinicalSignificances]="factor.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+            [cvcClinicalSignificances]="
+              factor.detailedClinicalSignificanceCounts
+            "></cvc-clinical-significance-counts>
         </td>
       </nz-descriptions-item>
     </nz-descriptions>

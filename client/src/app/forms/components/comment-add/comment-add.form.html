@@ -1,19 +1,22 @@
 <nz-card>
-  <nz-alert
-    *ngIf="success"
-    nzBanner
-    nzMessage="Comment submitted"
-    nzType="success"
-    nzCloseable
-    (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+  @if (success) {
+    <nz-alert
+      nzBanner
+      nzMessage="Comment submitted"
+      nzType="success"
+      nzCloseable
+      (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+  }
   <form
     nz-form
     (ngSubmit)="submitComment()"
     nzLayout="vertical">
-    <nz-form-item *ngIf="errorMessages.length > 0">
-      <cvc-form-errors-alert [errors]="errorMessages">
-      </cvc-form-errors-alert>
-    </nz-form-item>
+    @if (errorMessages.length > 0) {
+      <nz-form-item>
+        <cvc-form-errors-alert [errors]="errorMessages">
+        </cvc-form-errors-alert>
+      </nz-form-item>
+    }
     <cvc-comment-input-form [(comment)]="commentText"></cvc-comment-input-form>
     <nz-spin
       nzTip="Submitting"
@@ -27,7 +30,10 @@
               cvcOrgSelectorBtn
               nzType="primary"
               nzSize="small"
-              [disabled]="loading || !(commentText !== undefined && commentText.length >= 10)"
+              [disabled]="
+                loading ||
+                !(commentText !== undefined && commentText.length >= 10)
+              "
               nz-tooltip
               [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
               [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
