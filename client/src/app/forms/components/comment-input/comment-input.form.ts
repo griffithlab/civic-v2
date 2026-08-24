@@ -147,6 +147,11 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
         return `SID${id}`
       case TaggableEntity.Role:
         return Object.keys(UserRole)[id]
+      // organizations are mentioned as @name and have no id-tag form. This
+      // typeahead resolves through ExtractReferences, whose extract_type emits
+      // only the eight #-reference types, so this case is unreachable here.
+      case TaggableEntity.Organization:
+        return ''
     }
   }
 

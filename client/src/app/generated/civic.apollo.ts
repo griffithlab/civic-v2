@@ -8284,6 +8284,7 @@ export enum TaggableEntity {
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
   MolecularProfile = 'MOLECULAR_PROFILE',
+  Organization = 'ORGANIZATION',
   Revision = 'REVISION',
   Role = 'ROLE',
   Source = 'SOURCE',
@@ -21100,7 +21101,7 @@ export const NewsItemsPageDocument = gql`
   })
   export class NewsItemsPageGQL extends Apollo.Query<NewsItemsPageQuery, NewsItemsPageQueryVariables> {
     document = NewsItemsPageDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
