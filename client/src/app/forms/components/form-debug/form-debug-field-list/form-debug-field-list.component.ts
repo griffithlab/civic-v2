@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { AbstractControl, UntypedFormGroup } from '@angular/forms'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-form-debug-field-list',

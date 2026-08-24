@@ -8,11 +8,13 @@ import {
 } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
-  CoordinateIdsForVariantGQL,
   ModeratedEntities,
   ModeratedInput,
+} from '@app/generated/civic.apollo.types'
+import {
+  CoordinateIdsForVariantGQL,
   VariantCoordinateIdsFragment,
-} from '@app/generated/civic.apollo'
+} from './coordinate-ids-for-variant.gql.generated'
 import { Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

@@ -1,4 +1,4 @@
-import { Direction, ReferenceBuild } from '@app/generated/civic.apollo'
+import { Direction, ReferenceBuild } from '@app/generated/civic.apollo.types'
 
 export type FusionVariantFields = {
   aliases?: string[]

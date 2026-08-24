@@ -11,10 +11,12 @@ import { pluck } from 'rxjs-etc/operators'
 import {
   SubscribableEntities,
   SubscribableInput,
+  Maybe,
+} from '@app/generated/civic.apollo.types'
+import {
   FeaturesSummaryGQL,
   FeatureSummaryFieldsFragment,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './features-summary.query.gql.generated'
 
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 

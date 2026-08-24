@@ -7,15 +7,15 @@ import {
 } from '@angular/core'
 import { Router } from '@angular/router'
 import { MutationState } from '@app/core/utilities/mutation-state-wrapper'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-form-submission-status-display',
-    templateUrl: './form-submission-status-display.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-form-submission-status-display',
+  templateUrl: './form-submission-status-display.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
   private _mutationState?: MutationState

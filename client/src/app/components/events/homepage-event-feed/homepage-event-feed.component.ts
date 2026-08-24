@@ -2,13 +2,15 @@ import { Component, Input, OnInit } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   EventFeedGQL,
-  EventFeedMode,
   EventFeedNodeFragment,
   EventFeedQuery,
   EventFeedQueryVariables,
+} from '@app/components/events/event-feed/event-feed.gql.generated'
+import {
+  EventFeedMode,
   Maybe,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { QueryRef } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { Observable } from 'rxjs'
@@ -23,10 +25,10 @@ export type EventDisplayOption =
   | 'displayAll'
 
 @Component({
-    selector: 'cvc-homepage-event-feed',
-    templateUrl: './homepage-event-feed.component.html',
-    styleUrls: ['./homepage-event-feed.component.less'],
-    standalone: false
+  selector: 'cvc-homepage-event-feed',
+  templateUrl: './homepage-event-feed.component.html',
+  styleUrls: ['./homepage-event-feed.component.less'],
+  standalone: false,
 })
 export class CvcHomepageEventFeedComponent implements OnInit {
   @Input() pageSize = 15

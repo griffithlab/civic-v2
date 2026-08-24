@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BaseState } from '@app/forms/states/base.state'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
 import { BehaviorSubject, filter, map, Observable, tap } from 'rxjs'

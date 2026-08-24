@@ -29,7 +29,7 @@ import {
   TherapyInteractionTypeSearchInput,
   TherapySearchFilter,
   UserSearchFilter,
-} from '@generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
 
 export type EvidenceItemSearchFilterREF = {

@@ -4,15 +4,15 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { Maybe, Ranks, Stats } from '@app/generated/civic.apollo'
+import { Maybe, Ranks, Stats } from '@app/generated/civic.apollo.types'
 import { BehaviorSubject } from 'rxjs'
 
 @Component({
-    selector: 'cvc-stats-card',
-    templateUrl: './stats-card.component.html',
-    styleUrls: ['./stats-card.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-stats-card',
+  templateUrl: './stats-card.component.html',
+  styleUrls: ['./stats-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcStatsCardComponent implements OnInit {
   @Input() cvcStats!: Stats

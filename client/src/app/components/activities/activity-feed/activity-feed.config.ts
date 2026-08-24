@@ -3,7 +3,7 @@ import {
   DateSortColumns,
   EventFeedMode,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import {
   ActivityFeedFilterOptions,
   ActivityFeedFilters,

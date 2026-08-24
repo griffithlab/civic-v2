@@ -5,7 +5,7 @@ import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-button/org-submit-button.type'
-import { FeatureInstanceTypes } from '@app/generated/civic.apollo'
+import { FeatureInstanceTypes } from '@app/generated/civic.apollo.types'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {

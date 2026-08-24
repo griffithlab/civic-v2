@@ -9,13 +9,13 @@ import {
   runInInjectionContext,
   Signal,
 } from '@angular/core'
+import { ActivityFeedItemFragment } from '@app/components/activities/activity-feed/activity-feed.query.gql.generated'
 import {
-  ActivityFeedItemFragment,
   ActivityFeedItemGQL,
   ActivityFeedItemQuery,
   ActivityFeedItemQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from '@app/components/activities/activity-feed/feed-item/feed-item.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { CommonModule } from '@angular/common'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFlagEntityActivity } from '@app/components/activities/activity-feed/feed-item-details/flag-entity/flag-entity-activity.component'

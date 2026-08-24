@@ -9,7 +9,7 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core'
-import { EvidenceStatusFilter, Maybe } from '@app/generated/civic.apollo'
+import { EvidenceStatusFilter, Maybe } from '@app/generated/civic.apollo.types'
 import { ErrorLike } from '@apollo/client'
 import { CombinedGraphQLErrors, ServerError } from '@apollo/client/errors'
 import { GraphQLFormattedError } from 'graphql'

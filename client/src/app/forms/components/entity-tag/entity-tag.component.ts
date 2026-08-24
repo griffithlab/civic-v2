@@ -18,7 +18,7 @@ import {
   FlagState,
   Maybe,
   RevisionStatus,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { Apollo, gql } from 'apollo-angular'
 import {
   EntityTagPopoverInput,

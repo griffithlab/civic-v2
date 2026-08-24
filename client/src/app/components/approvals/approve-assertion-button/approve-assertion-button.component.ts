@@ -17,18 +17,18 @@ import {
   MutationState,
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
+import { ApprovalListGQL } from '@app/components/approvals/approval-list/approval-list.query.gql.generated'
 import {
-  AssertionDetailGQL,
   ApproveAssertionGQL,
   ApproveAssertionMutation,
   ApproveAssertionMutationVariables,
-  ApprovalListGQL,
-  Maybe,
   RevokeApprovalGQL,
   RevokeApprovalMutation,
   RevokeApprovalMutationVariables,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from './approve-assertion-button.gql.generated'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { AssertionDetailGQL } from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzButtonModule, NzButtonType } from 'ng-zorro-antd/button'
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types'

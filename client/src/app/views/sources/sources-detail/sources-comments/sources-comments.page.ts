@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
   CommentableInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-sources-comments',

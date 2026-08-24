@@ -10,7 +10,7 @@ import {
 import { SourceTypeDisplayPipe } from '@app/core/pipes/source-type-display.pipe'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 
-import { Maybe, SourceSource } from '@app/generated/civic.apollo'
+import { Maybe, SourceSource } from '@app/generated/civic.apollo.types'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableSource {

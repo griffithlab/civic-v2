@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { EventAction } from '@app/generated/civic.apollo'
+import { EventAction } from '@app/generated/civic.apollo.types'
 
 @Pipe({
-    name: 'iconNameForEventAction',
-    pure: true,
-    standalone: false
+  name: 'iconNameForEventAction',
+  pure: true,
+  standalone: false,
 })
 export class IconNameForEventActionPipe implements PipeTransform {
   transform(a: EventAction): string {

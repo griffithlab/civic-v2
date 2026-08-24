@@ -1,6 +1,6 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcInputEnum } from '@app/forms/forms.types'
-import { VariantsSortColumns } from '@app/generated/civic.apollo'
+import { VariantsSortColumns } from '@app/generated/civic.apollo.types'
 import { NzTableFilterList } from 'ng-zorro-antd/table'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { EnumWrapper } from 'ts-enum-util'

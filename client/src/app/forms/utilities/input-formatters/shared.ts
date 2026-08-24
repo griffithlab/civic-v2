@@ -1,4 +1,4 @@
-import { Maybe, NullableStringInput } from '@app/generated/civic.apollo'
+import { Maybe, NullableStringInput } from '@app/generated/civic.apollo.types'
 
 export function toNullableString(str: Maybe<string>): NullableStringInput {
   let nStr: NullableStringInput = { value: undefined, unset: undefined }

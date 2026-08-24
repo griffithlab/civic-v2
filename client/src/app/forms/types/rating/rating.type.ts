@@ -7,7 +7,7 @@ import {
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
@@ -38,8 +38,7 @@ interface CvcRatingFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcRatingSelectFieldConfig
-  extends FormlyFieldConfig<CvcRatingFieldProps> {
+export interface CvcRatingSelectFieldConfig extends FormlyFieldConfig<CvcRatingFieldProps> {
   type: 'rating' | Type<CvcRatingField>
 }
 
@@ -49,11 +48,11 @@ const RatingMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-rating',
-    templateUrl: './rating.type.html',
-    styleUrls: ['./rating.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-rating',
+  templateUrl: './rating.type.html',
+  styleUrls: ['./rating.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcRatingField extends RatingMixin implements AfterViewInit {
   // LOCAL SOURCE STREAMS

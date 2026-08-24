@@ -5,14 +5,14 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 @Component({
-    selector: 'cvc-clearable-input-filter',
-    templateUrl: './clearable-input-filter.component.html',
-    styleUrls: ['./clearable-input-filter.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-clearable-input-filter',
+  templateUrl: './clearable-input-filter.component.html',
+  styleUrls: ['./clearable-input-filter.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcClearableInputFilterComponent {
   @Input() placeholderText?: Maybe<string>

@@ -1,8 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import {
-  AssertionDetailFieldsFragment,
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { AssertionDetailFieldsFragment } from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { canCreateApproval } from './approval.functions'
 

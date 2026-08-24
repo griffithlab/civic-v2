@@ -5,7 +5,7 @@ import {
   AssertionType,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 export type AssertionFields = {
   /** List of CIViC IDs for the ACMG/AMP codes associated with this Assertion */

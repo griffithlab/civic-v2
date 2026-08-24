@@ -4,14 +4,14 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { OrganizationGroupsFieldsFragment } from '@app/generated/civic.apollo'
+import { OrganizationGroupsFieldsFragment } from '@app/views/organizations/organizations-groups/organizations-groups.query.gql.generated'
 
 @Component({
-    selector: 'cvc-organization-card',
-    templateUrl: './organization-card.component.html',
-    styleUrls: ['./organization-card.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-organization-card',
+  templateUrl: './organization-card.component.html',
+  styleUrls: ['./organization-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrganizationCardComponent implements OnInit {
   @Input() organization!: OrganizationGroupsFieldsFragment

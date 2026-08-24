@@ -1,12 +1,12 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
   SourceSummaryGQL,
-  Maybe,
   SourceSummaryQuery,
   SourceSummaryQueryVariables,
   SourceSummaryFieldsFragment,
-} from '@app/generated/civic.apollo'
+} from './sources-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

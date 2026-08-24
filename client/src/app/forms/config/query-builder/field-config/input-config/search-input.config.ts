@@ -8,7 +8,7 @@ import {
   OntologyTermSearchOperator,
   StringSearchOperator,
   VariantDeprecationReason,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 const SEARCH_NO_VALUE_OPERATORS = new Set(['IS_NULL', 'IS_NOT_NULL'])
 

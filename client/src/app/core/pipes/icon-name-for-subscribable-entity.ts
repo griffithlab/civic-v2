@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { SubscribableEntities } from '@app/generated/civic.apollo'
+import { SubscribableEntities } from '@app/generated/civic.apollo.types'
 
 @Pipe({
-    name: 'iconNameForSubscribableEntity',
-    pure: true,
-    standalone: false
+  name: 'iconNameForSubscribableEntity',
+  pure: true,
+  standalone: false,
 })
 export class IconNameForSubscribableEntity implements PipeTransform {
   transform(e: SubscribableEntities | string): string {

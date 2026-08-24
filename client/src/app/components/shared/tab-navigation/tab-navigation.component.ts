@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { Maybe, SubscribableInput } from '@app/generated/civic.apollo'
+import { Maybe, SubscribableInput } from '@app/generated/civic.apollo.types'
 import { Router } from '@angular/router'
 
 export interface RouteableTab {

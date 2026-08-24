@@ -11,7 +11,7 @@ import {
   CommentTagSegmentDeprecated,
   CommentTagSegmentFlaggedAndWithStatus,
   CommentTextSegment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 interface CommentBodyUserSegment {
   __typename: 'User'

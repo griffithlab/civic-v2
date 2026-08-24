@@ -1,7 +1,7 @@
 // Add 'BREAK' and 'valueFromASTUntyped' to your imports
 // 'Kind' is no longer strictly needed, but see note 3
 import { BREAK, Kind, parse, valueFromASTUntyped, visit } from 'graphql'
-import { Maybe } from '@generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 /**
  * Parses a GraphQL query string and extracts the 'query'

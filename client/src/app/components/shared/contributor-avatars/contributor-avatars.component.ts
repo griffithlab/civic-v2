@@ -7,9 +7,8 @@ import {
 import {
   ContributorAvatarsGQL,
   ContributorFieldsFragment,
-  Maybe,
-  SubscribableInput,
-} from '@app/generated/civic.apollo'
+} from './contributor-avatars.query.gql.generated'
+import { Maybe, SubscribableInput } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 

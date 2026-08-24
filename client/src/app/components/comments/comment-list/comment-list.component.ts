@@ -5,18 +5,20 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import {
-  CommentableInput,
   CommentListGQL,
   CommentListNodeFragment,
   CommentListQuery,
   CommentListQueryVariables,
+} from './comment-list.query.gql.generated'
+import {
+  CommentableInput,
   CommentTagSegment,
   DateSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
   UserRole,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 

@@ -17,7 +17,7 @@ import {
   RevisionStatusSearchInput,
   StringSearchInput,
   UserSearchFilter,
-} from '@generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 export type RevisionSearchFilterREF = {
   booleanOperator?: InputMaybe<BooleanOperator>

@@ -11,13 +11,15 @@ import {
   UntypedFormGroup,
 } from '@angular/forms'
 import {
-  FeatureInstanceTypes,
-  FusionPartnerStatus,
-  Maybe,
   SelectOrCreateFusionGQL,
   SelectOrCreateFusionMutation,
   SelectOrCreateFusionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './fusion-add.query.gql.generated'
+import {
+  FeatureInstanceTypes,
+  FusionPartnerStatus,
+  Maybe,
+} from '@app/generated/civic.apollo.types'
 import {
   FormlyFieldConfig,
   FormlyFormOptions,

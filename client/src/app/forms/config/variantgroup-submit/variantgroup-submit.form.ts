@@ -12,11 +12,11 @@ import {
 import { VariantGroupSubmitModel } from '@app/forms/models/variant-group-submit.model'
 import { variantGroupFormModelToInput } from '@app/forms/utilities/variant-group-to-model-fields'
 import {
-  Maybe,
   SubmitVariantGroupGQL,
   SubmitVariantGroupMutation,
   SubmitVariantGroupMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './variantgroup-submit.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { variantgroupSuggestFields } from './variantgroup-submit.form.config'

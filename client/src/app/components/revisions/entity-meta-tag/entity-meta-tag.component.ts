@@ -17,7 +17,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 
 /** Minimal ModeratedObjectField shape required to render an entity tag.

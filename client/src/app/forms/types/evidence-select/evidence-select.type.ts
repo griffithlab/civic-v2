@@ -12,8 +12,8 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
+import { SubmitAssertionMutationVariables } from '@app/forms/config/assertion-submit/assertion-submit.query.gql.generated'
 import {
-  AssertionFields,
   EvidenceSelectTagGQL,
   EvidenceSelectTagQuery,
   EvidenceSelectTagQueryVariables,
@@ -21,9 +21,8 @@ import {
   EvidenceSelectTypeaheadGQL,
   EvidenceSelectTypeaheadQuery,
   EvidenceSelectTypeaheadQueryVariables,
-  Maybe,
-  SubmitAssertionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './evidence-select.query.gql.generated'
+import { AssertionFields, Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

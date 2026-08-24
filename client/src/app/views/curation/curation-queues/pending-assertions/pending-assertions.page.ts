@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
-import { EvidenceStatusFilter } from '@app/generated/civic.apollo'
+import { EvidenceStatusFilter } from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-pending-assertions-page',

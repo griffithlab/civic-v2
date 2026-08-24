@@ -16,6 +16,7 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
+import { QuickAddDiseaseMutationVariables } from '@app/forms/types/disease-select/disease-quick-add/disease-quick-add.query.gql.generated'
 import {
   DiseaseSelectTagGQL,
   DiseaseSelectTagQuery,
@@ -24,9 +25,8 @@ import {
   DiseaseSelectTypeaheadGQL,
   DiseaseSelectTypeaheadQuery,
   DiseaseSelectTypeaheadQueryVariables,
-  Maybe,
-  QuickAddDiseaseMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './disease-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

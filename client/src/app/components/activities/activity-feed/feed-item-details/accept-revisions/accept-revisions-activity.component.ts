@@ -4,10 +4,8 @@ import {
   computed,
   input,
 } from '@angular/core'
-import {
-  AcceptRevisionsActivityDetailFragment,
-  RevisionActivityDetailFragment,
-} from '@app/generated/civic.apollo'
+import { RevisionActivityDetailFragment } from '@app/components/activities/activity-feed/activity-feed.fragments.gql.generated'
+import { AcceptRevisionsActivityDetailFragment } from './accept-revisions-activity.query.gql.generated'
 
 import { CvcActivityRevision } from '../shared/activity-revision/activity-revision.component'
 

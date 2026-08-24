@@ -5,7 +5,7 @@ import {
   TherapiesSummaryQueryVariables,
   TherapiesSummaryFieldsFragment,
   TherapiesSummaryGQL,
-} from '@app/generated/civic.apollo'
+} from './therapies-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { Observable, Subscription } from 'rxjs'

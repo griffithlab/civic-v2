@@ -10,13 +10,13 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms'
+import { FeatureSelectTypeaheadFieldsFragment } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
 import {
-  FeatureSelectTypeaheadFieldsFragment,
   SelectOrCreateRegionVariantGQL,
   SelectOrCreateRegionVariantMutation,
   SelectOrCreateRegionVariantMutationVariables,
-  RegionVariantName,
-} from '@app/generated/civic.apollo'
+} from './region-variant-add.query.gql.generated'
+import { RegionVariantName } from '@app/generated/civic.apollo.types'
 import {
   FormlyFieldConfig,
   FormlyFormOptions,
@@ -62,8 +62,8 @@ export interface RegionVariantSelectModalData {
     RouterModule,
     FormlyModule,
     CvcFeatureTagModule,
-    CvcRegionVariantNameSelectModule
-],
+    CvcRegionVariantNameSelectModule,
+  ],
 })
 export class CvcRegionVariantSelectForm {
   @Output() onVariantSelected = new EventEmitter<number>()

@@ -10,25 +10,27 @@ import {
   RevisionsGQL,
   RevisionsQuery,
   RevisionsQueryVariables,
+} from './revisions-list-and-filter.query.gql.generated'
+import {
   Maybe,
   ModeratedEntities,
   RevisionStatus,
   PageInfo,
-  VariantDetailGQL,
-  AssertionDetailGQL,
-  EvidenceDetailGQL,
-  VariantGroupDetailGQL,
-  VariantSummaryGQL,
-  VariantGroupsSummaryGQL,
-  AssertionSummaryGQL,
-  EvidenceSummaryGQL,
-  MolecularProfileDetailGQL,
-  MolecularProfileSummaryGQL,
   Revision,
-  FeatureDetailGQL,
-  FeaturesSummaryGQL,
   ModeratedInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { AssertionDetailGQL } from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
+import { AssertionSummaryGQL } from '@app/views/assertions/assertions-detail/assertions-summary/assertions-summary.query.gql.generated'
+import { EvidenceDetailGQL } from '@app/views/evidence/evidence-detail/evidence-detail.query.gql.generated'
+import { EvidenceSummaryGQL } from '@app/views/evidence/evidence-detail/evidence-summary/evidence-summary.query.gql.generated'
+import { FeatureDetailGQL } from '@app/views/features/features-detail/features-detail.query.gql.generated'
+import { FeaturesSummaryGQL } from '@app/views/features/features-detail/features-summary/features-summary.query.gql.generated'
+import { MolecularProfileDetailGQL } from '@app/views/molecular-profiles/molecular-profiles-detail/molecular-profiles-detail.query.gql.generated'
+import { MolecularProfileSummaryGQL } from '@app/views/molecular-profiles/molecular-profiles-detail/molecular-profiles-summary/molecular-profiles-summary.query.gql.generated'
+import { VariantGroupDetailGQL } from '@app/views/variant-groups/variant-groups-detail/variant-groups-detail.query.gql.generated'
+import { VariantGroupsSummaryGQL } from '@app/views/variant-groups/variant-groups-detail/variant-groups-summary/variant-groups-summary.query.gql.generated'
+import { VariantDetailGQL } from '@app/views/variants/variants-detail/variants-detail.query.gql.generated'
+import { VariantSummaryGQL } from '@app/views/variants/variants-detail/variants-summary/variants-summary.query.gql.generated'
 import { Observable, Subscription } from 'rxjs'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { map, startWith } from 'rxjs/operators'

@@ -9,11 +9,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import {
-  Maybe,
-  Organization,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import { Maybe, Organization } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { map, tap } from 'rxjs/operators'

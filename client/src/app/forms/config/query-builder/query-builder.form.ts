@@ -12,10 +12,8 @@ import {
 } from '@angular/core'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { UntypedFormGroup } from '@angular/forms'
-import {
-  BooleanOperator,
-  GetOriginalQueryGQL,
-} from '@app/generated/civic.apollo'
+import { GetOriginalQueryGQL } from './query-builder.query.gql.generated'
+import { BooleanOperator } from '@app/generated/civic.apollo.types'
 import {
   AdvancedSearchEndpoint,
   AdvancedSearchService,

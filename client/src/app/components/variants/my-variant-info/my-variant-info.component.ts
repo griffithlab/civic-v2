@@ -4,8 +4,8 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
-import { MyVariantInfoFieldsFragment } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { MyVariantInfoFieldsFragment } from '@app/views/variants/variants-detail/variants-summary/variants-summary.query.gql.generated'
 
 @Component({
   selector: 'cvc-my-variant-info',

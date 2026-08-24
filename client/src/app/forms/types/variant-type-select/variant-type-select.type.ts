@@ -14,7 +14,6 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
 import {
-  Maybe,
   VariantTypeSelectTagGQL,
   VariantTypeSelectTagQuery,
   VariantTypeSelectTagQueryVariables,
@@ -22,7 +21,8 @@ import {
   VariantTypeSelectTypeaheadGQL,
   VariantTypeSelectTypeaheadQuery,
   VariantTypeSelectTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './variant-type-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
