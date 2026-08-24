@@ -14,21 +14,19 @@
             nzBordered="true">
             <!-- aliases -->
             <nz-descriptions-item nzTitle="Aliases">
-              <ng-container
-                *ngIf="variant.variantAliases.length > 0; else noAliases">
+              @if (variant.variantAliases.length > 0) {
                 <cvc-tag-list>
-                  <nz-tag *ngFor="let alias of variant.variantAliases">{{
-                    alias
-                  }}</nz-tag>
+                  @for (alias of variant.variantAliases; track alias) {
+                    <nz-tag>{{ alias }}</nz-tag>
+                  }
                 </cvc-tag-list>
-              </ng-container>
-              <ng-template #noAliases>
+              } @else {
                 <span
                   nz-typography
                   nzType="secondary"
                   >None specified</span
                 >
-              </ng-template>
+              }
             </nz-descriptions-item>
 
             <!-- variant type(s) -->
@@ -38,23 +36,20 @@
                   ? 'Variant Types'
                   : 'Variant Type'
               ">
-              <ng-container
-                *ngIf="variant.variantTypes.length > 0; else noTypes">
+              @if (variant.variantTypes.length > 0) {
                 <cvc-tag-list>
-                  <cvc-variant-type-tag
-                    [variantType]="type"
-                    *ngFor="
-                      let type of variant.variantTypes
-                    "></cvc-variant-type-tag>
+                  @for (type of variant.variantTypes; track type) {
+                    <cvc-variant-type-tag
+                      [variantType]="type"></cvc-variant-type-tag>
+                  }
                 </cvc-tag-list>
-              </ng-container>
-              <ng-template #noTypes>
+              } @else {
                 <span
                   nz-typography
                   nzType="secondary"
                   >None specified</span
                 >
-              </ng-template>
+              }
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
@@ -67,44 +62,45 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: creation and deprecation events -->
         <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzLayout="vertical"
-            nzSize="small"
-            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true"
-            *ngIf="variant.creationActivity || variant.deprecationActivity">
-            <!-- creation/deprecation curation events -->
-            <ng-container *ngIf="variant.creationActivity">
-              <nz-descriptions-item [nzTitle]="createdTitle">
-                by
-                <cvc-user-tag
-                  [user]="variant.creationActivity.user"></cvc-user-tag>
-              </nz-descriptions-item>
-              <ng-template #createdTitle>
-                Created
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  ({{ variant.creationActivity.createdAt | timeAgo }})
-                </span>
-              </ng-template>
-            </ng-container>
-            <ng-container *ngIf="variant.deprecationActivity">
-              <nz-descriptions-item [nzTitle]="deprecatedTitle">
-                by
-                <cvc-user-tag
-                  [user]="variant.deprecationActivity.user"></cvc-user-tag>
-              </nz-descriptions-item>
-              <ng-template #deprecatedTitle>
-                Deprecated
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  ({{ variant.deprecationActivity.createdAt | timeAgo }})
-                </span>
-              </ng-template>
-            </ng-container>
-          </nz-descriptions>
+          @if (variant.creationActivity || variant.deprecationActivity) {
+            <nz-descriptions
+              nzLayout="vertical"
+              nzSize="small"
+              [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+              nzBordered="true">
+              <!-- creation/deprecation curation events -->
+              @if (variant.creationActivity) {
+                <nz-descriptions-item [nzTitle]="createdTitle">
+                  by
+                  <cvc-user-tag
+                    [user]="variant.creationActivity.user"></cvc-user-tag>
+                </nz-descriptions-item>
+                <ng-template #createdTitle>
+                  Created
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ variant.creationActivity.createdAt | timeAgo }})
+                  </span>
+                </ng-template>
+              }
+              @if (variant.deprecationActivity) {
+                <nz-descriptions-item [nzTitle]="deprecatedTitle">
+                  by
+                  <cvc-user-tag
+                    [user]="variant.deprecationActivity.user"></cvc-user-tag>
+                </nz-descriptions-item>
+                <ng-template #deprecatedTitle>
+                  Deprecated
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ variant.deprecationActivity.createdAt | timeAgo }})
+                  </span>
+                </ng-template>
+              }
+            </nz-descriptions>
+          }
         </nz-col>
 
         <!-- clinical significance -->
@@ -118,7 +114,9 @@
               <td>
                 <cvc-clinical-significance-counts
                   [cvcEntityName]="variant.feature.name + ' ' + variant.name"
-                  [cvcClinicalSignificances]="variant.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+                  [cvcClinicalSignificances]="
+                    variant.detailedClinicalSignificanceCounts
+                  "></cvc-clinical-significance-counts>
               </td>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -145,34 +143,34 @@
             </nz-descriptions-item>
 
             <nz-descriptions-item nzTitle="5' Partner">
-              <cvc-feature-tag
-                *ngIf="variant.fusion.fivePrimeGene; else no5Partner"
-                [feature]="variant.fusion.fivePrimeGene"></cvc-feature-tag>
+              @if (variant.fusion.fivePrimeGene) {
+                <cvc-feature-tag
+                  [feature]="variant.fusion.fivePrimeGene"></cvc-feature-tag>
+              } @else {
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >{{
+                    variant.fusion.fivePrimePartnerStatus | enumToTitle
+                  }}</span
+                >
+              }
             </nz-descriptions-item>
 
             <nz-descriptions-item nzTitle="3' Partner">
-              <cvc-feature-tag
-                *ngIf="variant.fusion.threePrimeGene; else no3Partner"
-                [feature]="variant.fusion.threePrimeGene"></cvc-feature-tag>
+              @if (variant.fusion.threePrimeGene) {
+                <cvc-feature-tag
+                  [feature]="variant.fusion.threePrimeGene"></cvc-feature-tag>
+              } @else {
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >{{
+                    variant.fusion.threePrimePartnerStatus | enumToTitle
+                  }}</span
+                >
+              }
             </nz-descriptions-item>
-
-            <ng-template #no5Partner>
-              <span
-                nz-typography
-                nzType="secondary"
-                >{{ variant.fusion.fivePrimePartnerStatus | enumToTitle }}</span
-              >
-            </ng-template>
-
-            <ng-template #no3Partner>
-              <span
-                nz-typography
-                nzType="secondary"
-                >{{
-                  variant.fusion.threePrimePartnerStatus | enumToTitle
-                }}</span
-              >
-            </ng-template>
           </nz-descriptions>
         </nz-col>
       </nz-row>

@@ -5,7 +5,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -31,7 +31,7 @@ import { CvcMyChemInfoModule } from '@app/components/therapies/my-chem-info/my-c
     NzTagModule,
     NzIconModule,
     NzDescriptionsModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CvcTagListModule,
     CvcAutoHeightDivModule,
     CvcPipesModule,

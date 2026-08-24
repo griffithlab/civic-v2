@@ -10,56 +10,60 @@
   [nzShowArrow]="false"
   [nzDropdownRender]="searchEntities"
   [nzDropdownMatchSelectWidth]="false">
-  <nz-option
-    *ngFor="let o of (option$ | ngrxPush)"
-    nzCustomContent
-    [nzValue]="o.result">
-    <i
-      nz-icon
-      style="margin-right: 0.5em"
-      nzTheme="twotone"
-      [nzTwotoneColor]="converter(o.result.resultType) | entityColor"
-      [nzType]="o.result.resultType | iconNameForSubscribableEntity"></i>
-    <span innerHTML="{{o.result.name}}"></span>
-    <span
-      *ngIf="o.result.matchingText"
-      nz-typography
-      nzType="secondary">
-      &mdash;
-      <span innerHTML="{{o.result.matchingText}}"></span>
-    </span>
-  </nz-option>
-  <nz-option
-    *ngIf="isLoading$ | ngrxPush"
-    nzDisabled
-    nzCustomContent>
-    <i
-      nz-icon
-      nzType="loading"
-      class="loading-icon"></i>
-    Loading Data...
-  </nz-option>
+  @for (o of option$ | ngrxPush; track o) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="o.result">
+      <i
+        nz-icon
+        style="margin-right: 0.5em"
+        nzTheme="twotone"
+        [nzTwotoneColor]="converter(o.result.resultType) | entityColor"
+        [nzType]="o.result.resultType | iconNameForSubscribableEntity"></i>
+      <span innerHTML="{{ o.result.name }}"></span>
+      @if (o.result.matchingText) {
+        <span
+          nz-typography
+          nzType="secondary">
+          &mdash;
+          <span innerHTML="{{ o.result.matchingText }}"></span>
+        </span>
+      }
+    </nz-option>
+  }
+  @if (isLoading$ | ngrxPush) {
+    <nz-option
+      nzDisabled
+      nzCustomContent>
+      <i
+        nz-icon
+        nzType="loading"
+        class="loading-icon"></i>
+      Loading Data...
+    </nz-option>
+  }
 </nz-select>
 
 <ng-template #searchEntities>
   <hr />
-  <nz-checkbox-wrapper (nzOnChange)="selectedEntitiesChanged($event)">
+  <nz-checkbox-group
+    [ngModel]="selectedEntityKeys"
+    (ngModelChange)="selectedEntitiesChanged($event)">
     <div class="entity-select">
-      @for(entity of searchableEntities; track entity) {
-      <label
-        nz-checkbox
-        [nzValue]="entity"
-        nz-tooltip
-        [nzTooltipTitle]="entity"
-        [ngModel]="isSelected(entity)">
-        <i
-          nz-icon
-          nzTheme="twotone"
-          nzTool
-          [nzTwotoneColor]="entity | entityColor"
-          [nzType]="entity | iconNameForSubscribableEntity"></i>
-      </label>
+      @for (entity of searchableEntities; track entity) {
+        <label
+          nz-checkbox
+          [nzValue]="entity"
+          nz-tooltip
+          [nzTooltipTitle]="entity">
+          <i
+            nz-icon
+            nzTheme="twotone"
+            nzTool
+            [nzTwotoneColor]="entity | entityColor"
+            [nzType]="entity | iconNameForSubscribableEntity"></i>
+        </label>
       }
     </div>
-  </nz-checkbox-wrapper>
+  </nz-checkbox-group>
 </ng-template>

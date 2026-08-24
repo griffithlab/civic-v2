@@ -9,25 +9,31 @@
         <ng-container [ngTemplateOutlet]="tabBarExtraContent || null">
         </ng-container>
       </ng-template>
-      <nz-tab *ngFor="let tab of tabs">
-        <a
-          *nzTabLink
-          nz-tab-link
-          [routerLink]="tab.routeName"
-          queryParamsHandling="merge">
-          <i
-            nz-icon
-            [nzType]="tab.iconName"></i>
-          {{ tab.tabLabel }}
-          <nz-badge
-            *ngIf="tab.badgeCount && tab.badgeCount > 0"
-            nzStandalone
-            [nzCount]="tab.badgeCount"
-            nzTitle="{{ tab.badgeCount }} {{ tab.tabLabel }}(s)."
-            [nzStyle]="{ transform: 'scale(0.75, 0.75) translate(0, -2px)', backgroundColor: tab.badgeColor || '#ff4d4f'}">
-          </nz-badge>
-        </a>
-      </nz-tab>
+      @for (tab of tabs; track tab) {
+        <nz-tab>
+          <a
+            *nzTabLink
+            nz-tab-link
+            [routerLink]="tab.routeName"
+            queryParamsHandling="merge">
+            <i
+              nz-icon
+              [nzType]="tab.iconName"></i>
+            {{ tab.tabLabel }}
+            @if (tab.badgeCount && tab.badgeCount > 0) {
+              <nz-badge
+                nzStandalone
+                [nzCount]="tab.badgeCount"
+                nzTitle="{{ tab.badgeCount }} {{ tab.tabLabel }}(s)."
+                [nzStyle]="{
+                  transform: 'scale(0.75, 0.75) translate(0, -2px)',
+                  backgroundColor: tab.badgeColor || '#ff4d4f',
+                }">
+              </nz-badge>
+            }
+          </a>
+        </nz-tab>
+      }
     </nz-tabs>
   </nz-col>
 </nz-row>

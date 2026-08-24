@@ -164,4 +164,8 @@ export class CvcQuicksearchComponent {
     const x = SearchableEntities[entity as keyof typeof SearchableEntities]
     return this.selectedEntities.includes(x)
   }
+
+  get selectedEntityKeys(): string[] {
+    return Object.keys(SearchableEntities).filter((k) => this.isSelected(k))
+  }
 }

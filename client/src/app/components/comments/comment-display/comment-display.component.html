@@ -4,15 +4,15 @@
   *ngrxLet="comment() as comment"
   [nzAuthor]="comment.commenter.displayName"
   [nzDatetime]="comment.createdAt | timeAgo">
-  <nz-avatar
-    *ngIf="comment.commenter.profileImagePath; else noAvatar"
-    nz-comment-avatar
-    [nzSrc]="comment.commenter.profileImagePath"></nz-avatar>
-  <ng-template #noAvatar>
+  @if (comment.commenter.profileImagePath) {
+    <nz-avatar
+      nz-comment-avatar
+      [nzSrc]="comment.commenter.profileImagePath"></nz-avatar>
+  } @else {
     <nz-avatar
       nz-comment-avatar
       nzIcon="civic:curator"></nz-avatar>
-  </ng-template>
+  }
   @if (
     viewer &&
     viewer.signedIn &&

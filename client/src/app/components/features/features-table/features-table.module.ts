@@ -19,7 +19,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcFeatureTagModule } from '../feature-tag/feature-tag.module'
 import { CvcFeaturesTableComponent } from './features-table.component'
@@ -40,7 +40,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
     NzInputModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzSelectModule,
 

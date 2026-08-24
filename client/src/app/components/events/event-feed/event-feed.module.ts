@@ -18,7 +18,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
 @NgModule({
   declarations: [CvcEventFeedComponent],
@@ -39,7 +39,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
     NzAvatarModule,
     NzSpinModule,
     NzBadgeModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CvcEventTimelineModule,
     CvcPipesModule,
     CvcParticipantListModule,

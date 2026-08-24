@@ -4,13 +4,15 @@
 </nz-empty>
 
 <ng-template #notFound>
-  <span
-    *ngIf="notification; else defaultNotification"
-    nz-typography
-    nzType="secondary"
-    >{{ notification }}</span
-  >
-  <ng-template #defaultNotification> Not specified </ng-template>
+  @if (notification) {
+    <span
+      nz-typography
+      nzType="secondary"
+      >{{ notification }}</span
+    >
+  } @else {
+    Not specified
+  }
 </ng-template>
 <ng-template #notFoundImg>
   @if (reviseFormPath) {

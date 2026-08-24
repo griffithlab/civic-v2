@@ -25,7 +25,7 @@ import {
   fusionToModelFields,
 } from '@app/forms/utilities/fusion-to-model-fields'
 import { fusionReviseFields } from './fusion-revise.form.config'
-import { CommonModule } from '@angular/common'
+
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcForms2Module } from '@app/forms/forms.module'
@@ -38,7 +38,6 @@ import { FusionReviseModel } from '@app/forms/models/fusion-revise.model'
   templateUrl: './fusion-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     NzFormModule,
     NzButtonModule,
     CvcForms2Module,

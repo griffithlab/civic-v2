@@ -11,7 +11,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFlagResolveForm } from './flag-resolve.form'
 
 @NgModule({
@@ -28,7 +28,7 @@ import { CvcFlagResolveForm } from './flag-resolve.form'
     NzCardModule,
     NzPopoverModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpinModule,
     CvcCommentInputFormModule,
     CvcFormButtonsModule,

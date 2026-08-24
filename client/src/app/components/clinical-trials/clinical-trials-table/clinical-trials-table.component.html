@@ -1,5 +1,5 @@
 <!-- if cvcHeight not specified, render table without card height container & viewport target -->
-<ng-container *ngIf="!cvcHeight; else setHeightCard">
+@if (!cvcHeight) {
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
   <nz-card
     [nzTitle]="titleTemplate"
@@ -9,10 +9,7 @@
     cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
-</ng-container>
-
-<!-- if cvcHeight is specified, render table in container w/ specified height-->
-<ng-template #setHeightCard>
+} @else {
   <div
     class="card-container"
     [ngStyle]="{ height: cvcHeight }">
@@ -24,7 +21,9 @@
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
-</ng-template>
+}
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
 
 <ng-template #table>
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
@@ -143,12 +142,12 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <ng-container *ngIf="cvcTitleTemplate">
+  @if (cvcTitleTemplate) {
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
-  </ng-container>
-  <ng-container *ngIf="cvcTitle">
+  }
+  @if (cvcTitle) {
     {{ cvcTitle }}
-  </ng-container>
+  }
 
   <span class="table-info">
     <cvc-table-counts
@@ -159,16 +158,18 @@
 <!-- card's extra template -->
 <ng-template #extraTemplate>
   <span class="table-actions">
-    <nz-tag
-      *ngIf="moreLoading$ | ngrxPush"
-      nzColor="processing">
-      <i
-        nz-icon
-        nzType="sync"
-        nzSpin></i>
-      <span>Loading…</span>
-    </nz-tag>
-    <cvc-table-downloader [vars]="queryRef.variables" tableName="clinical_trials"></cvc-table-downloader>
+    @if (moreLoading$ | ngrxPush) {
+      <nz-tag nzColor="processing">
+        <i
+          nz-icon
+          nzType="sync"
+          nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+    }
+    <cvc-table-downloader
+      [vars]="queryRef.variables"
+      tableName="clinical_trials"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
   </span>

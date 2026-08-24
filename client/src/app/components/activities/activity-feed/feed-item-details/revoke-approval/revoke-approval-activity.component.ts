@@ -6,7 +6,7 @@ import {
   Signal,
 } from '@angular/core'
 import { RevokeApprovalActivityDetailFragment } from '@app/generated/civic.apollo'
-import { CommonModule } from '@angular/common'
+
 import {
   ScrollerState,
   ScrollerStateService,
@@ -17,7 +17,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'cvc-revoke-approval-activity-details',
-  imports: [CommonModule, CvcCommentBodyModule, NzTypographyModule],
+  imports: [CvcCommentBodyModule, NzTypographyModule],
   templateUrl: './revoke-approval-activity.component.html',
   styleUrl: './revoke-approval-activity.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

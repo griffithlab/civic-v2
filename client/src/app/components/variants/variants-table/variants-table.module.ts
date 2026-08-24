@@ -17,7 +17,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcVariantTagModule } from '../variant-tag/variant-tag.module'
 import { CvcVariantsTableComponent } from './variants-table.component'
@@ -37,7 +37,7 @@ import { FormsModule } from '@angular/forms'
     NzIconModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzSelectModule,
 

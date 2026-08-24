@@ -5,9 +5,9 @@ import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { NzButtonModule } from 'ng-zorro-antd/button'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcOrgSubmitButtonDirective } from './org-submit-button.directive'
 import { CvcOrgSubmitButtonComponent } from './org-submit-button.type'
 
@@ -28,8 +28,8 @@ const typeConfig = {
     NzIconModule,
     NzAvatarModule,
     NzButtonModule,
-    NzDropDownModule,
-    NzToolTipModule,
+    NzDropdownModule,
+    NzTooltipModule,
   ],
   exports: [CvcOrgSubmitButtonComponent, CvcOrgSubmitButtonDirective],
 })

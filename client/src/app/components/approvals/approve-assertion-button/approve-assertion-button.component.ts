@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import {
   Component,
   computed,
@@ -38,7 +37,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
 export type ApprovalMode = 'approve' | 'revoke' | 'approveChanges'
 export type ApprovalResult = {
@@ -65,13 +64,12 @@ type ButtonConfig = {
   styleUrls: ['./approve-assertion-button.component.less'],
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NzInputModule,
     NzButtonModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzModalModule,
     NzSpinModule,
     NzSpaceModule,

@@ -1,70 +1,66 @@
-<div
-  class="alert-container"
-  *ngIf="errors.networkError$ | ngrxPush as error">
-  <nz-alert
-    nzBanner
-    nzType="error"
-    [nzMessage]="alertMessage"
-    [nzDescription]="alertDescription"
-    nzCloseable
-    (nzOnClose)="onClose()"></nz-alert>
-
-  <!-- alert message title -->
-  <ng-template #alertMessage>
-    {{ error.name }} {{ error.message }}
-  </ng-template>
-
-  <!-- alert message logic - one or many errors to display? -->
-  <ng-template #alertDescription>
-      <ng-container
-        *ngTemplateOutlet="errorDisplay; context: { error: error }">
+@if (errors.networkError$ | ngrxPush; as error) {
+  <div class="alert-container">
+    <nz-alert
+      nzBanner
+      nzType="error"
+      [nzMessage]="alertMessage"
+      [nzDescription]="alertDescription"
+      nzCloseable
+      (nzOnClose)="onClose()"></nz-alert>
+    <!-- alert message title -->
+    <ng-template #alertMessage>
+      {{ error.name }} {{ error.message }}
+    </ng-template>
+    <!-- alert message logic - one or many errors to display? -->
+    <ng-template #alertDescription>
+      <ng-container *ngTemplateOutlet="errorDisplay; context: { error: error }">
       </ng-container>
-  </ng-template>
-
-  <!-- alert message item -->
-  <ng-template
-    #errorDisplay
-    let-e="error">
-    {{ e.message }}
-    <button
-      *ngIf="e.backtrace.length > 0"
-      nz-button
-      (click)="
-        showModal(
-          'Backtrace for \'' + e.message + '\'',
-          e.backtrace,
-          modalFooter,
-          modalContent
-        )
-      "
-      nzSize="small"
-      nzType="link">
-      View Backtrace
-    </button>
-  </ng-template>
-
-  <!-- modal templates passed in showModal() -->
-  <ng-template
-    #modalContent
-    let-params>
-    <pre style="white-space: pre-wrap; font-size: 80%">{{
-      params.backtrace
-    }}</pre>
-  </ng-template>
-  <ng-template
-    #modalFooter
-    let-ref="modalRef">
-    <button
-      nz-button
-      nzType="default"
-      (click)="copyToClipboard()">
-      Copy to Clipboard
-    </button>
-    <button
-      nz-button
-      nzType="primary"
-      (click)="hideModal(ref)">
-      OK
-    </button>
-  </ng-template>
-</div>
+    </ng-template>
+    <!-- alert message item -->
+    <ng-template
+      #errorDisplay
+      let-e="error">
+      {{ e.message }}
+      @if (e.backtrace.length > 0) {
+        <button
+          nz-button
+          (click)="
+            showModal(
+              'Backtrace for \'' + e.message + '\'',
+              e.backtrace,
+              modalFooter,
+              modalContent
+            )
+          "
+          nzSize="small"
+          nzType="link">
+          View Backtrace
+        </button>
+      }
+    </ng-template>
+    <!-- modal templates passed in showModal() -->
+    <ng-template
+      #modalContent
+      let-params>
+      <pre style="white-space: pre-wrap; font-size: 80%">{{
+        params.backtrace
+      }}</pre>
+    </ng-template>
+    <ng-template
+      #modalFooter
+      let-ref="modalRef">
+      <button
+        nz-button
+        nzType="default"
+        (click)="copyToClipboard()">
+        Copy to Clipboard
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        (click)="hideModal(ref)">
+        OK
+      </button>
+    </ng-template>
+  </div>
+}

@@ -32,7 +32,7 @@ import { filter, takeUntil } from 'rxjs/operators'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { isNonNulled } from 'rxjs-etc'
 import { onlyCompleteData } from 'apollo-angular'
 import { NzMessageService } from 'ng-zorro-antd/message'
@@ -51,7 +51,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
     NzListModule,
     NzTypographyModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CvcFormErrorsAlertModule,
   ],
   selector: 'cvc-user-api-keys-form',

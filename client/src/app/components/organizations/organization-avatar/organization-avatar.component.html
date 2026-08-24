@@ -1,12 +1,12 @@
-<nz-avatar
-  *ngIf="organization.profileImagePath; else noAvatar"
-  [nzSrc]="organization.profileImagePath"
-  [nzShape]="shape ? shape : 'circle'"
-  [nzSize]="size">
-</nz-avatar>
-<ng-template #noAvatar>
+@if (organization.profileImagePath) {
+  <nz-avatar
+    [nzSrc]="organization.profileImagePath"
+    [nzShape]="shape ? shape : 'circle'"
+    [nzSize]="size">
+  </nz-avatar>
+} @else {
   <nz-avatar
     [nzShape]="shape ? shape : 'circle'"
     [nzText]="organization.name"
     [nzSize]="size"></nz-avatar>
-</ng-template>
+}
