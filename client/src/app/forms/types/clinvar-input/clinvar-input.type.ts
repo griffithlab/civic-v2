@@ -1,60 +1,76 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  Injector,
   Type,
+  effect,
+  inject,
+  signal,
 } from '@angular/core'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { StringTagField } from '@app/forms/mixins/string-input-field.mixin'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ClinvarOptions } from '@app/forms/utilities/input-formatters'
+import { CvcFieldBase } from '@app/forms/select'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
   FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import {
-  BehaviorSubject,
-  Subject,
-  map,
-  Observable,
-  withLatestFrom,
-  combineLatest,
-  tap,
-} from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
-export type CvcBaseInputFieldOptions = Partial<
+export type CvcClinvarInputFieldOptions = Partial<
   FieldTypeConfig<CvcClinvarInputFieldProps>
 >
+
 export interface CvcClinvarInputFieldProps extends FormlyFieldProps {
-  description?: string
+  /** rendered inside a repeat-field, which supplies its own label */
+  isRepeatItem?: boolean
+  /** offer the Unspecified/NA/Not Found/Found radio group */
+  showExistenceOptions?: boolean
 }
 
-export interface CvcBaseInputFieldConfig extends FormlyFieldConfig<CvcClinvarInputFieldProps> {
-  type: 'clinvar-input' | 'clinvar-input-item' | Type<CvcClinvarInputField>
+export interface CvcClinvarInputFieldConfig
+  extends FormlyFieldConfig<CvcClinvarInputFieldProps> {
+  type: 'clinvar-input' | 'clinvar-multi-input' | Type<CvcClinvarInputField>
 }
 
-const BaseInputMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcClinvarInputFieldProps>, string[]>(),
-  StringTagField
-)
+/** the two sentinels the API uses in place of a list of IDs */
+const NONE_FOUND = 'NONE FOUND'
+const NOT_APPLICABLE = 'NA'
 
-@UntilDestroy()
+/**
+ * ClinVar IDs are a list of strings, but "we looked and found none" and "this
+ * variant cannot have any" are answers too, and the API encodes them as
+ * sentinel entries in that same list. The radio group and the tag input are
+ * therefore two views of one control.
+ */
 @Component({
   selector: 'cvc-clinvar-input',
-  templateUrl: './clinvar-input.type.html',
-  styleUrls: ['./clinvar-input.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    NzGridModule,
+    NzRadioModule,
+    NzSelectModule,
+    NzTooltipModule,
+  ],
+  templateUrl: './clinvar-input.type.html',
+  styleUrl: './clinvar-input.type.less',
 })
-export class CvcClinvarInputField
-  extends BaseInputMixin
-  implements AfterViewInit
-{
-  defaultOptions: Partial<FieldTypeConfig<CvcClinvarInputFieldProps>> = {
+export class CvcClinvarInputField extends CvcFieldBase<
+  Maybe<string[]>,
+  FieldTypeConfig<CvcClinvarInputFieldProps>
+> {
+  private readonly injector = inject(Injector)
+
+  defaultOptions: CvcClinvarInputFieldOptions = {
     modelOptions: {
       // update model when focus leaves field
       // (template's keydown.enter listener blurs the field, updating the model)
@@ -68,17 +84,10 @@ export class CvcClinvarInputField
     },
   }
 
-  clinvarIds$ = new BehaviorSubject<string[]>([])
-  values = new Set<string>()
+  protected readonly existence = signal<Maybe<ClinvarOptions>>(undefined)
+  protected readonly showTagSelect = signal(false)
 
-  showClinvarIdEntry$ = new BehaviorSubject<boolean>(false)
-  selectModel: Maybe<ClinvarOptions> = undefined
-
-  existenceChange$: Subject<Maybe<ClinvarOptions>>
-  existenceModel$: BehaviorSubject<Maybe<ClinvarOptions>>
-  showTagSelect$: BehaviorSubject<boolean>
-
-  selectOptions = [
+  protected readonly selectOptions = [
     {
       value: undefined,
       label: 'Unspecified',
@@ -102,73 +111,56 @@ export class CvcClinvarInputField
     },
   ]
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super()
-    this.existenceChange$ = new Subject<Maybe<ClinvarOptions>>()
-    this.existenceModel$ = new BehaviorSubject<Maybe<ClinvarOptions>>(undefined)
-    this.showTagSelect$ = new BehaviorSubject<boolean>(false)
-
-    // this.existenceChange$.pipe(
-    //   withLatestFrom(this.formControl.valueChanges),
-    //   map(([opts, value]: [Maybe<ClinvarOptions>, Maybe<string[]>]) => {
-    //     return opts === ClinvarOptions.Found || this.formControl.value
-    //   })
-    // )
+  override ngOnInit(): void {
+    super.ngOnInit()
+    effect(() => this.readValue(this.value()), { injector: this.injector })
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField()
-    this.configureStringTagField()
+  /** the radio group reports which of the four answers the curator picked */
+  protected onExistenceChange(option: Maybe<ClinvarOptions>): void {
+    const value = this.formControl.value as Maybe<string[]>
 
-    // show id select based on form field value
-    // if undefined or array contains NOT FOUND or NA set false
-    // else set true
-    this.onValueChange$.pipe(untilDestroyed(this)).subscribe((value) => {
-      if (value === undefined) {
-        this.existenceModel$.next(undefined)
-        this.showTagSelect$.next(false)
-      } else if (value.includes('NONE FOUND') || value.includes('NA')) {
-        if (value.includes('NONE FOUND')) {
-          this.existenceModel$.next(ClinvarOptions.NoneFound)
-        } else if (value.includes('NA')) {
-          this.existenceModel$.next(ClinvarOptions.NotApplicable)
-        }
-        this.showTagSelect$.next(false)
-      } else {
-        this.existenceModel$.next(ClinvarOptions.Found)
-        this.showTagSelect$.next(true)
+    if (option === undefined) {
+      if (value !== undefined) this.formControl.setValue(undefined)
+      return
+    }
+    if (option === ClinvarOptions.NoneFound) {
+      if (!value?.includes(NONE_FOUND)) this.formControl.setValue([NONE_FOUND])
+      return
+    }
+    if (option === ClinvarOptions.NotApplicable) {
+      if (!value?.includes(NOT_APPLICABLE)) {
+        this.formControl.setValue([NOT_APPLICABLE])
       }
-    })
+      return
+    }
+    // Found: clear a sentinel out of the way so IDs can be typed
+    if (
+      value === undefined ||
+      value.includes(NONE_FOUND) ||
+      value.includes(NOT_APPLICABLE)
+    ) {
+      this.formControl.setValue([])
+    }
+  }
 
-    // set form control value when existenceChange$ updates
-    this.existenceChange$
-      .pipe(
-        map((option) => {
-          const value = this.formControl.value
-          if (option === undefined && this.formControl.value !== undefined) {
-            this.formControl.setValue(undefined)
-          } else if (
-            option === ClinvarOptions.NoneFound &&
-            !value.includes('NONE FOUND')
-          ) {
-            this.formControl.setValue(['NONE FOUND'])
-          } else if (
-            option === ClinvarOptions.NotApplicable &&
-            !value.includes('NA')
-          ) {
-            this.formControl.setValue(['NA'])
-          } else if (option === ClinvarOptions.Found) {
-            if (
-              value === undefined ||
-              value.includes('NONE FOUND') ||
-              value.includes('NA')
-            ) {
-              this.formControl.setValue([])
-            }
-          }
-        }),
-        untilDestroyed(this)
-      )
-      .subscribe()
+  private readValue(value: Maybe<string[]>): void {
+    if (value === undefined) {
+      this.existence.set(undefined)
+      this.showTagSelect.set(false)
+      return
+    }
+    if (value.includes(NONE_FOUND)) {
+      this.existence.set(ClinvarOptions.NoneFound)
+      this.showTagSelect.set(false)
+      return
+    }
+    if (value.includes(NOT_APPLICABLE)) {
+      this.existence.set(ClinvarOptions.NotApplicable)
+      this.showTagSelect.set(false)
+      return
+    }
+    this.existence.set(ClinvarOptions.Found)
+    this.showTagSelect.set(true)
   }
 }
