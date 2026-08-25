@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms'
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAttributeTagModule } from '@app/forms/components/attribute-tag/attribute-tag.module'
-import { CvcEntitySelectModule } from '@app/forms/components/entity-select/entity-select.module'
+import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { CvcEntityCollectionTagModule } from '@app/forms/components/entity-collection-tag/entity-collection-tag.module'
 import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
+import { CvcEntityTagListModule } from '@app/forms/components/entity-tag-list/entity-tag-list.module'
 import { CvcTableCounts2Module } from '@app/forms/components/tables/table-counts/table-counts.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
-import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
@@ -19,48 +20,28 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
-import { TableScrollerDirective } from './evidence-manager/table-scroller.directive'
-import {
-  CvcEvidenceSelectField,
-  CvcEvidenceSelectFieldProps,
-} from './evidence-select.type'
-import { TableFilterInputComponent } from './evidence-manager/table-filter-input/table-filter-input.component'
-import { EnumFilterMenuComponent } from './evidence-manager/enum-filter-menu/enum-filter-menu.component'
-import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
-import { CvcEntityTagListModule } from '@app/forms/components/entity-tag-list/entity-tag-list.module'
-import { CvcEntityCollectionTagModule } from '@app/forms/components/entity-collection-tag/entity-collection-tag.module'
-import { NzSpaceCompactComponent } from 'ng-zorro-antd/space'
+import { EnumFilterMenuComponent } from './enum-filter-menu/enum-filter-menu.component'
+import { TableFilterInputComponent } from './table-filter-input/table-filter-input.component'
+import { TableScrollerDirective } from './table-scroller.directive'
+import { CvcVariantManagerComponent } from './variant-manager.component'
 
-const typeConfig: ConfigOption = {
-  types: [
-    {
-      name: 'evidence-select',
-      wrappers: ['form-field'],
-      component: CvcEvidenceSelectField,
-    },
-    {
-      name: 'evidence-multi-select',
-      wrappers: ['form-field'],
-      component: CvcEvidenceSelectField,
-      defaultOptions: <Partial<FieldTypeConfig<CvcEvidenceSelectFieldProps>>>{
-        props: {
-          label: 'Evidence Items',
-          isMultiSelect: true,
-        },
-      },
-    },
-  ],
-}
-
+/**
+ * The variant manager and its private table pieces, kept as an NgModule and
+ * imported by the now-standalone variant-select field.
+ *
+ * Not a standalone conversion, for the same reason as the evidence manager:
+ * it still renders cvc-entity-tag-list and cvc-entity-collection-tag, which
+ * have no equivalent in app/tags yet. This module only declares components;
+ * the field's formly registration lives in the shared select registry.
+ */
 @NgModule({
   declarations: [
-    CvcEvidenceSelectField,
-    CvcEvidenceManagerComponent,
+    CvcVariantManagerComponent,
     TableScrollerDirective,
     TableFilterInputComponent,
     EnumFilterMenuComponent,
@@ -70,13 +51,11 @@ const typeConfig: ConfigOption = {
     CvcAttributeTagModule,
     CvcEmptyValueModule,
     CvcEntityCollectionTagModule,
-    CvcEntitySelectModule,
     CvcEntityTagListModule,
     CvcEntityTagModule,
     CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcTableCounts2Module,
-    FormlyModule.forChild(typeConfig),
     FormsModule,
     LetDirective,
     NzButtonModule,
@@ -89,13 +68,13 @@ const typeConfig: ConfigOption = {
     NzInputModule,
     NzInputNumberModule,
     NzPopoverModule,
+    NzSpaceModule,
     NzTableModule,
     NzTagModule,
     NzTooltipModule,
     NzTypographyModule,
     PushPipe,
-    NzSpaceCompactComponent,
   ],
-  exports: [CvcEvidenceSelectField],
+  exports: [CvcVariantManagerComponent],
 })
-export class CvcEvidenceSelectFieldModule {}
+export class CvcVariantManagerModule {}

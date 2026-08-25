@@ -39,7 +39,6 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcActivityRevision } from '@app/components/activities/activity-feed/feed-item-details/shared/activity-revision/activity-revision.component'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
-import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
 
 @NgModule({
   declarations: [CvcRevisionsTableComponent],
@@ -87,7 +86,6 @@ import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.
     CvcUserTagModule,
     CvcOrganizationTagModule,
     CvcActivityRevision,
-    CvcEntityTagModule,
   ],
   exports: [CvcRevisionsTableComponent],
 })

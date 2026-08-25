@@ -1,21 +1,20 @@
-<ng-container *ngrxLet="formMessageDisplay$ as display">
-  @if (display.showSpinner) {
-    <span
-      nz-icon
-      [nzType]="'loading'"></span>
-  }
-  &nbsp;
-  <span>{{ display.message }}</span>
-</ng-container>
+@if (display().showSpinner) {
+  <span
+    nz-icon
+    nzType="loading"></span>
+}
+&nbsp;
+<span>{{ display().message }}</span>
+
 <cvc-form-submission-status-display
-  [mutationState]="mutationState"
   entityType="Source"
+  [mutationState]="mutationState"
   [successMessage]="success">
   <ng-template #success>{{ successMessage }}</ng-template>
   <form
-    [formGroup]="form"
     nz-form
     nzLayout="horizontal"
+    [formGroup]="form"
     (ngSubmit)="onSubmit$.next(model)">
     <nz-row [nzGutter]="[0, 0]">
       <nz-col nzSpan="24">
@@ -28,14 +27,15 @@
         </formly-form>
       </nz-col>
       <nz-col nzSpan="24">
-        <button
-          *ngrxLet="checkResult$ as result"
-          nz-button
-          nzType="primary"
-          [disabled]="result.citation === null"
-          nzBlock>
-          Add Source
-        </button>
+        @if (checkResult(); as result) {
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            [disabled]="result.citation === null">
+            Add Source
+          </button>
+        }
       </nz-col>
     </nz-row>
   </form>

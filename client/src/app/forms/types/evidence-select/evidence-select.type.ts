@@ -1,350 +1,223 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  QueryList,
-  TemplateRef,
   Type,
-  ViewChildren,
+  computed,
+  inject,
+  signal,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { SubmitAssertionMutationVariables } from '@app/forms/config/assertion-submit/assertion-submit.query.gql.generated'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ReactiveFormsModule } from '@angular/forms'
 import {
-  EvidenceSelectTagGQL,
-  EvidenceSelectTagQuery,
-  EvidenceSelectTagQueryVariables,
-  EvidenceSelectTypeaheadFieldsFragment,
-  EvidenceSelectTypeaheadGQL,
-  EvidenceSelectTypeaheadQuery,
-  EvidenceSelectTypeaheadQueryVariables,
-} from './evidence-select.query.gql.generated'
+  CvcEntitySelectDirective,
+  CvcEntitySelectFieldBase,
+  CvcEntitySelectFieldProps,
+  CvcSelectMessagesComponent,
+  entitySelectConfig,
+} from '@app/forms/select'
 import { AssertionFields, Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { Apollo } from 'apollo-angular'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import {
-  combineLatest,
-  debounceTime,
-  map,
-  Observable,
-  ReplaySubject,
-  scan,
-  shareReplay,
-  Subject,
-  withLatestFrom,
-} from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
+import { Observable, combineLatest, debounceTime, map } from 'rxjs'
 import { EvidenceManagerSettings } from './evidence-manager/evidence-manager.component'
+import { CvcEvidenceManagerModule } from './evidence-manager/evidence-manager.module'
 import {
   ColumnPrefsOption,
   CvcFilterChange,
   EvidenceManagerRowData,
 } from './evidence-manager/evidence-manager.types'
+import {
+  EvidenceSelectTagGQL,
+  EvidenceSelectTypeaheadFieldsFragment,
+  EvidenceSelectTypeaheadGQL,
+} from './evidence-select.query.gql.generated'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
   FieldTypeConfig<CvcEvidenceSelectFieldProps>
 >
 
-export interface CvcEvidenceSelectFieldProps extends FormlyFieldProps {
-  isMultiSelect: boolean // is child of a repeat-field type
-  entityName: CvcSelectEntityName
-  placeholder: string
-  tooltip?: string
-  description?: string
-  minSearchStrLength: number
+export interface CvcEvidenceSelectFieldProps extends CvcEntitySelectFieldProps {
+  /** renders the evidence manager alongside the select */
   showManager?: boolean
 }
 
-export interface CvcEvidenceSelectFieldConfig extends FormlyFieldConfig<
-  Partial<CvcEvidenceSelectFieldProps>
-> {
+// NOTE: any multi-select field must have the string 'multi' in its type name,
+// as UI logic (currently in base-field) depends on its presence to differentiate
+// field types in some expressions
+export interface CvcEvidenceSelectFieldConfig
+  extends FormlyFieldConfig<CvcEvidenceSelectFieldProps> {
   type:
     | 'evidence-select'
     | 'evidence-multi-select'
     | Type<CvcEvidenceSelectField>
 }
 
-type FieldChange = {
-  key: keyof AssertionFields
-  value: SubmitAssertionMutationVariables | null
-}
+/**
+ * Manager table columns kept in sync with the form's own field values.
+ *
+ * The manager filters entity columns by NAME, not id (only 'id'/EID is
+ * numeric), so it resolves each id to a name out of the Apollo cache.
+ */
+const SYNCHRONIZED_FIELD_TO_COL = new Map<
+  keyof AssertionFields,
+  keyof Omit<EvidenceManagerRowData, 'id' | 'status'>
+>([
+  ['molecularProfileId', 'molecularProfile'],
+  ['diseaseId', 'disease'],
+  ['therapyIds', 'therapies'],
+])
 
-type RequiredChange = {
-  key: keyof EvidenceManagerRowData
-  required: boolean
-}
+/** manager columns shown/hidden in step with whether their field is required */
+const REQUIRED_FIELD_TO_COL = new Map<keyof EvidenceManagerRowData, string>([
+  ['disease', 'requiresDisease$'],
+  ['therapies', 'requiresTherapy$'],
+])
 
-const EvidenceSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcEvidenceSelectFieldProps>,
-    Maybe<number | number[]>
-  >(),
-  EntitySelectField<
-    EvidenceSelectTypeaheadQuery,
-    EvidenceSelectTypeaheadQueryVariables,
-    EvidenceSelectTypeaheadFieldsFragment,
-    EvidenceSelectTagQuery,
-    EvidenceSelectTagQueryVariables,
-    Maybe<number>
-  >()
-)
+/** an EID typed with or without its prefix; anything else matches nothing */
+const EID_PATTERN = /^(?:EID)?(\d+)$/i
 
+/**
+ * Selects Evidence Items by EID, optionally alongside the evidence manager.
+ *
+ * Two things make this field unlike the others on this base. Its typeahead is
+ * an ID lookup rather than a name search. And it reads the form state not to
+ * gate itself but to drive the manager: the values and required-flags of the
+ * sibling molecular profile, disease and therapy fields become the manager's
+ * column filters and column preferences.
+ */
 @Component({
   selector: 'cvc-evidence-select',
-  templateUrl: './evidence-select.type.html',
-  styleUrls: ['./evidence-select.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzButtonModule,
+    NzGridModule,
+    NzIconModule,
+    NzSelectModule,
+    NzTooltipModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcSelectMessagesComponent,
+    CvcEvidenceManagerModule,
+  ],
+  templateUrl: './evidence-select.type.html',
+  styleUrl: './evidence-select.type.less',
 })
-export class CvcEvidenceSelectField
-  extends EvidenceSelectMixin
-  implements AfterViewInit
-{
-  // SOURCE STREAMS
-  onEid$: ReplaySubject<Maybe<number[]>>
-  onShowMgrClick$: Subject<void>
+export class CvcEvidenceSelectField extends CvcEntitySelectFieldBase<
+  EvidenceSelectTypeaheadFieldsFragment,
+  void,
+  CvcEvidenceSelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(EvidenceSelectTypeaheadGQL)
+  private readonly tagGQL = inject(EvidenceSelectTagGQL)
 
-  // PRESENTATION STREAMS
-  showMgr$: Observable<boolean>
+  protected readonly select = entitySelectConfig({
+    entityName: { singular: 'Evidence Item', plural: 'Evidence Items' },
+    typename: 'EvidenceItem',
+    typeahead: this.typeaheadGQL,
+    typeaheadVars: (search: string) => {
+      const match = search.trim().match(EID_PATTERN)
+      return { eid: match ? +match[1] : 0 }
+    },
+    typeaheadResults: (data) => data?.evidenceItems.nodes ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (eid: number) => ({ eid }),
+      result: (data) => data?.evidenceItem,
+    },
+    minSearchStrLength: 1,
+  })
 
-  // arrays containing field value change, field required change streams
-  synchronizedFields$: Observable<FieldChange>[] = []
-  synchronizedRequired$: Observable<RequiredChange>[] = []
+  /** the manager is a drawer below the select, toggled by its own button */
+  protected readonly showManager = signal(false)
 
-  // emits all synchronized field changes when any updated
-  onFieldsChange$!: Observable<CvcFilterChange[]>
-  // emits all synchronized field required changes when any updated
-  onRequiredChange$!: Observable<Partial<ColumnPrefsOption>[]>
+  /** column filters and preferences derived from the sibling fields' state */
+  protected readonly tableSettings = signal<Maybe<EvidenceManagerSettings>>(
+    undefined
+  )
 
-  // munges field, required streams into table settings formatted config obj
-  tableSettingsChange$!: Observable<EvidenceManagerSettings>
+  protected readonly selected = computed(() => this.selectedIds())
 
   defaultOptions: CvcEvidenceSelectFieldOptions = {
     props: {
       label: 'Evidence Items',
       placeholder: 'Select Evidence Items',
-      isMultiSelect: true,
+      entityName: { singular: 'Evidence Item', plural: 'Evidence Items' },
+      isMultiSelect: false,
       showManager: true,
       description:
         'Select Evidence by ID, or use the manager to select with filtering',
-      entityName: {
-        singular: 'Evidence Item',
-        plural: 'Evidence Items',
-      },
-      minSearchStrLength: 1,
     },
   }
 
-  // list of manager table columns that should be kept synchronized with field values
-
-  // NOTE: evidence-manager table filters do not filter by entity ID (except for
-  // 'id' (EID)). Instead, entity columns are filtered by their entity name. Therefore
-  // the manager will use the provided entity ids to fetch their entity names
-  // from the cache, and set the column filter to that name.
-  synchronizedFieldToColMap = new Map<
-    keyof AssertionFields,
-    keyof Omit<EvidenceManagerRowData, 'id' | 'status'>
-  >([
-    ['molecularProfileId', 'molecularProfile'],
-    ['diseaseId', 'disease'],
-    ['therapyIds', 'therapies'],
-  ])
-
-  // list of manager table columns to be visible/hidden
-  // in sync with the required state of their fields
-  requiredFieldToColMap = new Map<keyof EvidenceManagerRowData, string>([
-    ['disease', 'requiresDisease$'],
-    ['therapies', 'requiresTherapy$'],
-    // ['therapyInteractionType', 'requiresTherapyInteractionType$'],
-  ])
-
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  constructor(
-    private taq: EvidenceSelectTypeaheadGQL,
-    private tq: EvidenceSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef,
-    private apollo: Apollo
-  ) {
-    super()
-    this.onEid$ = new ReplaySubject<Maybe<number[]>>()
-    this.onShowMgrClick$ = new Subject<void>()
-    this.showMgr$ = this.onShowMgrClick$.pipe(
-      // startWith(true),
-      scan((acc, _) => !acc, false)
-    )
+  override ngOnInit(): void {
+    super.ngOnInit()
+    this.connectTableSettings()
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEntitySelectField({
-      typeaheadQuery: this.taq,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent,
-    })
-
-    // this.onEid$
-    //   .pipe(tag('evidence-select onEid$'), untilDestroyed(this))
-    //   .subscribe()
-
-    // if form value exists on init, emit it so evidence manager will be updated
-    if (
-      this.formControl.value !== undefined &&
-      this.formControl.value.length !== 0
-    ) {
-      this.onEid$.next(this.formControl.value)
-    }
-
-    this.onValueChange$
-      .pipe(
-        withLatestFrom(this.onEid$),
-        // tag('evidence-select onValueChange$'),
-        untilDestroyed(this)
-      )
-      .subscribe(([current, old]) => {
-        if (Array.isArray(current)) this.onEid$.next(current)
-      })
+  protected toggleManager(): void {
+    this.showManager.update((shown) => !shown)
   }
 
-  private configureStateConnections() {
+  /**
+   * The manager emits the complete selection, so this replaces the value
+   * rather than appending to it the way a quick-add does. The tag records are
+   * fetched because nz-select will not render a selected item it has never
+   * seen as an option.
+   */
+  protected onManagerSelection(ids: Maybe<number[]>): void {
+    const value = ids ?? []
+    this.formControl.setValue(value)
+    this.fetchTagRecords(value).subscribe()
+  }
+
+  private connectTableSettings(): void {
     if (!this.state) return
 
-    // for each synchronized field specified, find its state.field stream,
-    // add it to the synchronized fields array
-    this.synchronizedFieldToColMap.forEach((column, field) => {
-      // console.log('column', column, 'field', field)
-      const stream = this.state!.fields[`${field}$`]
+    // a form may declare either map without the other, so neither is assumed
+    const fields = this.state.fields ?? {}
+    const requires = this.state.requires ?? {}
+
+    const fieldChanges: Observable<CvcFilterChange>[] = []
+    SYNCHRONIZED_FIELD_TO_COL.forEach((column, field) => {
+      const stream = fields[`${field}$`]
       if (!stream) return
-      this.synchronizedFields$.push(
-        stream.pipe(
-          map((v) => {
-            return { key: field, value: v ?? null }
-          })
-          // tag(`synchronizedFields$ ${field} stream`)
-        )
+      fieldChanges.push(
+        stream.pipe(map((v) => ({ key: column, value: v ?? null })))
       )
     })
 
-    // for each synchronized field specified, find its state.requires stream,
-    // add it to the synchronized synchronizedRequired array
-    this.requiredFieldToColMap.forEach((requires, field) => {
-      // console.log('requires', requires, 'field', field)
-      const stream = this.state!.requires[requires]
+    const requiredChanges: Observable<Partial<ColumnPrefsOption>[]>[] = []
+    REQUIRED_FIELD_TO_COL.forEach((requiresKey, column) => {
+      const stream = requires[requiresKey]
       if (!stream) return
-      this.synchronizedRequired$.push(
-        stream.pipe(
-          map((v) => {
-            return { key: field, required: v }
-          })
-          // tag(`synchronizedRequired$ ${field} stream`)
-        )
+      requiredChanges.push(
+        stream.pipe(map((required) => [{ value: column, checked: required }]))
       )
     })
 
-    // combine all synchronized required updates, emit table filter changes array
-    this.onFieldsChange$ = combineLatest(this.synchronizedFields$).pipe(
-      map((fields) => {
-        const newFilters: CvcFilterChange[] = []
-        fields.forEach((field) => {
-          const colKey = this.synchronizedFieldToColMap.get(field.key)
-          if (colKey) {
-            newFilters.push({
-              key: colKey,
-              value: field.value,
-            })
-          }
-        })
-        return newFilters
-      })
-      // tag('onFieldsChange$')
-    )
+    if (fieldChanges.length === 0 || requiredChanges.length === 0) return
 
-    // combine all synchronized required updates, emit table prefs array
-    this.onRequiredChange$ = combineLatest(this.synchronizedRequired$).pipe(
-      map((fields) => {
-        const newPrefs: Partial<ColumnPrefsOption>[] = []
-        fields.forEach((change) => {
-          newPrefs.push({
-            value: change.key,
-            checked: change.required,
-          })
-        })
-        return newPrefs
-      })
-      // tag(`onRequiredChange$ stream`)
-    )
-
-    this.tableSettingsChange$ = combineLatest([
-      this.onFieldsChange$,
-      this.onRequiredChange$,
-    ]).pipe(
-      map(([filters, prefs]) => {
-        return { filters: filters, preferences: prefs }
-      }),
-      // waitUntil(this.state.formReady$),
-      // tag('tableSettingsChange$'),
-      debounceTime(100),
-      shareReplay(1)
-    )
-  }
-
-  getTypeaheadVarsFn(id: string, param: Maybe<number>) {
-    const match = id.trim().match(/^(?:EID)?(\d+)$/i)
-    return {
-      eid: match ? +match[1] : 0,
-    }
-  }
-
-  getTypeaheadResultsFn(r: Apollo.QueryResult<EvidenceSelectTypeaheadQuery>) {
-    return r.data?.evidenceItems.nodes ?? []
-  }
-
-  getTagQueryVarsFn(id: number): EvidenceSelectTagQueryVariables {
-    return { eid: id }
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<EvidenceSelectTagQuery>
-  ): Maybe<EvidenceSelectTypeaheadFieldsFragment> {
-    return r.data?.evidenceItem
-  }
-
-  getSelectedItemOptionFn(
-    evidenceItem: EvidenceSelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: evidenceItem.id, label: `EID${evidenceItem.id}` }
-  }
-
-  getSelectOptionsFn(
-    results: EvidenceSelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (evidenceItem: EvidenceSelectTypeaheadFieldsFragment, index: number) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || `EID${evidenceItem.id}`,
-          value: evidenceItem.id,
-        }
-      }
-    )
+    combineLatest([
+      combineLatest(fieldChanges),
+      combineLatest(requiredChanges).pipe(map((prefs) => prefs.flat())),
+    ])
+      .pipe(
+        map(([filters, preferences]) => ({ filters, preferences })),
+        debounceTime(100),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((settings) => this.tableSettings.set(settings))
   }
 }

@@ -12,11 +12,10 @@ query MolecularProfileSelectTag($molecularProfileId: Int!) {
   }
 }
 
+# Spreads LinkableMolecularProfile so a selected MP lands in the cache in
+# exactly the shape cvc-tag's watchFragment reads; aliases are the extra
+# metadata the dropdown option shows.
 fragment MolecularProfileSelectTypeaheadFields on MolecularProfile {
-  id
-  name
-  link
+  ...LinkableMolecularProfile
   molecularProfileAliases
-  deprecated
-  flagged
 }
