@@ -2133,10 +2133,14 @@ export type DiseasePopover = {
 };
 
 export type DiseaseSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   deprecated?: InputMaybe<BooleanSearchInput>;
   diseaseAliases?: InputMaybe<StringSearchInput>;
   doid?: InputMaybe<OntologyTermSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
   subFilters?: InputMaybe<Array<DiseaseSearchFilter>>;
@@ -2516,6 +2520,7 @@ export type EvidenceItemSearchFilter = {
   evidenceLevel?: InputMaybe<EvidenceLevelTypeSearchInput>;
   evidenceRating?: InputMaybe<IntSearchInput>;
   evidenceType?: InputMaybe<EvidenceTypeTypeSearchInput>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;
   moderatingUser?: InputMaybe<UserSearchFilter>;
@@ -5479,8 +5484,12 @@ export type PhenotypePopover = {
 };
 
 export type PhenotypeSearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   description?: InputMaybe<StringSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   hpoId?: InputMaybe<OntologyTermSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
@@ -7422,6 +7431,7 @@ export type SourceSearchFilter = {
   citationId?: InputMaybe<StringSearchInput>;
   comment?: InputMaybe<CommentSearchFilter>;
   deprecated?: InputMaybe<BooleanSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
   id?: InputMaybe<IntSearchInput>;
   isRetracted?: InputMaybe<BooleanSearchInput>;
   journal?: InputMaybe<StringSearchInput>;
@@ -8365,8 +8375,12 @@ export type TherapyPopover = {
 };
 
 export type TherapySearchFilter = {
+  assertion?: InputMaybe<AssertionSearchFilter>;
   booleanOperator?: InputMaybe<BooleanOperator>;
   deprecated?: InputMaybe<BooleanSearchInput>;
+  evidenceItems?: InputMaybe<EvidenceItemSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
+  hasEvidenceItem?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   name?: InputMaybe<StringSearchInput>;
   ncitId?: InputMaybe<OntologyTermSearchInput>;
@@ -9153,6 +9167,7 @@ export type VariantSearchFilter = {
   deprecatingUser?: InputMaybe<UserSearchFilter>;
   deprecationReason?: InputMaybe<VariantDeprecationReasonTypeSearchInput>;
   feature?: InputMaybe<FeatureSearchFilter>;
+  hasAssertion?: InputMaybe<BooleanSearchInput>;
   id?: InputMaybe<IntSearchInput>;
   isDeprecated?: InputMaybe<BooleanSearchInput>;
   isFlagged?: InputMaybe<BooleanSearchInput>;

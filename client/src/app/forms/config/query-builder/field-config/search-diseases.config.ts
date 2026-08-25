@@ -4,8 +4,10 @@ import {
   sortByLabel,
   withHideExpression,
   withStatic,
+  withRecursive
 } from '@app/forms/config/query-builder/field-config/functions/field-config-helpers'
 import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
 
 export const searchDiseasesDefaultKey = 'name'
 export const searchDiseasesFieldOptions: FormlyFieldConfig[] =
@@ -45,6 +47,24 @@ export const searchDiseasesFieldOptions: FormlyFieldConfig[] =
           props: { label: 'Deprecation Status' },
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
         },
+        {
+          key: 'hasAssertion',
+          props: { label: 'Has Assertion' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
+          key: 'hasEvidenceItem',
+          props: { label: 'Has EvidenceItem' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+      ]),
+      ...withRecursive([
+        ...getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion'),
+        ...getQueryFieldConfig(
+          'evidenceItems',
+          'searchEvidenceItems',
+          'Evidence Items'
+        ),
       ]),
     ]),
   ])

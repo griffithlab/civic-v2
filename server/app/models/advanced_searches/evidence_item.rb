@@ -23,6 +23,7 @@ module AdvancedSearches
         resolve_evidence_level_filter(node),
         resolve_evidence_rating_filter(node),
         resolve_evidence_type_filter(node),
+        resolve_has_assertion_filter(node),
         resolve_is_flagged_filter(node),
         resolve_significance_filter(node),
         resolve_evidence_source_filter(node),
@@ -71,6 +72,21 @@ module AdvancedSearches
       return nil if node.evidence_type.nil?
       node.evidence_type.resolve_query_for_activerecord_enum(base_query, "evidence_items.evidence_type")
     end
+
+    def resolve_has_assertion_filter(node)
+      if node.has_assertion.nil?
+        return nil
+      end
+
+      matching_ids = ::Assertion.joins(:evidence_items).distinct.pluck("evidence_items.id")
+
+      if node.has_assertion.value
+        base_query.where(id: matching_ids)
+      else
+        base_query.where.not(id: matching_ids)
+      end
+    end
+
 
     def resolve_significance_filter(node)
       return nil if node.significance.nil?

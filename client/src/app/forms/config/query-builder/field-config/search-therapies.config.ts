@@ -13,8 +13,10 @@ import {
   sortByLabel,
   withHideExpression,
   withStatic,
+  withRecursive
 } from './functions/field-config-helpers'
 import { SELECT_FIELD_CONFIG } from './input-config/search-select.config'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
 
 export type TherapySearchFilterREF = {
   booleanOperator?: InputMaybe<BooleanOperator>
@@ -58,6 +60,24 @@ export const searchTherapiesFieldOptions: FormlyFieldConfig[] =
           props: { label: 'NCIT ID' },
           fieldGroup: INPUT_FIELD_CONFIG['OntologyTermSearchInput'],
         },
+        {
+          key: 'hasAssertion',
+          props: { label: 'Has Assertion' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
+          key: 'hasEvidenceItem',
+          props: { label: 'Has EvidenceItem' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+      ]),
+      ...withRecursive([
+        ...getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion'),
+        ...getQueryFieldConfig(
+          'evidenceItems',
+          'searchEvidenceItems',
+          'Evidence Items'
+        ),
       ]),
     ]),
   ])

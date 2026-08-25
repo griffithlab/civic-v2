@@ -13,6 +13,7 @@ module Types
       argument :evidence_level, Types::AdvancedSearch::EnumSearchInput.for(Types::EvidenceLevelType, is_activerecord_enum: true), required: false
       argument :evidence_rating, Types::AdvancedSearch::IntSearchInput, required: false
       argument :evidence_type, Types::AdvancedSearch::EnumSearchInput.for(Types::EvidenceTypeType, is_activerecord_enum: true), required: false
+      argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :molecular_profile, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: false

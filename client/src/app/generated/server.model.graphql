@@ -3214,10 +3214,14 @@ type DiseasePopover {
 }
 
 input DiseaseSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
   doid: OntologyTermSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
@@ -3871,6 +3875,7 @@ input EvidenceItemSearchFilter {
   evidenceLevel: EvidenceLevelTypeSearchInput
   evidenceRating: IntSearchInput
   evidenceType: EvidenceTypeTypeSearchInput
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
   moderatingUser: UserSearchFilter
@@ -9092,8 +9097,12 @@ type PhenotypePopover {
 }
 
 input PhenotypeSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   description: StringSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
@@ -12779,6 +12788,7 @@ input SourceSearchFilter {
   citationId: StringSearchInput
   comment: CommentSearchFilter
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
   id: IntSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput
@@ -14135,8 +14145,12 @@ type TherapyPopover {
 }
 
 input TherapySearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   ncitId: OntologyTermSearchInput
@@ -15654,6 +15668,7 @@ input VariantSearchFilter {
   deprecatingUser: UserSearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isDeprecated: BooleanSearchInput
   isFlagged: BooleanSearchInput

@@ -19,6 +19,10 @@ module AdvancedSearches
         resolve_is_deprecated_filter(node),
         resolve_ncit_id_filter(node),
         resolve_therapy_aliases_filter(node),
+        resolve_has_assertion_filter(node),
+        resolve_assertion_filter(node),
+        resolve_has_evidence_item_filter(node),
+        resolve_evidence_items_filter(node),
       ]
     end
 
@@ -39,6 +43,48 @@ module AdvancedSearches
       return nil if node.therapy_aliases.nil?
       clause, value = node.therapy_aliases.resolve_query_for_type("therapy_aliases.name")
       base_query.where(clause, value)
+    end
+
+    def resolve_has_assertion_filter(node)
+      if node.has_assertion.nil?
+        return nil
+      end
+
+      matching_ids = ::Assertion.joins(:therapies).distinct.pluck("therapies.id")
+
+      if node.has_assertion.value
+        base_query.where(id: matching_ids)
+      else
+        base_query.where.not(id: matching_ids)
+      end
+    end
+
+    def resolve_assertion_filter(node)
+      return nil if node.assertion.nil?
+      assertion_ids = ::AdvancedSearches::Assertion.new(query: node.assertion).results
+      therapy_ids = ::Therapy.joins(:assertions).where(assertions: { id: assertion_ids }).select(:id)
+      base_query.where(id: therapy_ids)
+    end
+
+    def resolve_has_evidence_item_filter(node)
+      if node.has_evidence_item.nil?
+        return nil
+      end
+
+      matching_ids = ::EvidenceItem.joins(:therapies).distinct.pluck("therapies.id")
+
+      if node.has_evidence_item.value
+        base_query.where(id: matching_ids)
+      else
+        base_query.where.not(id: matching_ids)
+      end
+    end
+
+    def resolve_evidence_items_filter(node)
+      return nil if node.evidence_items.nil?
+      matching_ids = ::AdvancedSearches::EvidenceItem.new(query: node.evidence_items).results
+      therapy_ids = ::Therapy.joins(:evidence_items).where(evidence_items: { id: matching_ids }).select(:id)
+      base_query.where(id: therapy_ids)
     end
   end
 end

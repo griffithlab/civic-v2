@@ -96,6 +96,11 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['EvidenceTypeTypeSearchInput'],
         },
         {
+          key: 'hasAssertion',
+          props: { label: 'Has Assertion' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
           key: 'isFlagged',
           props: { label: 'Is Flagged' },
           fieldGroup: INPUT_FIELD_CONFIG['FlaggedSearchInput'],
