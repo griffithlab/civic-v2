@@ -1,70 +1,52 @@
-<cvc-entity-select
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcEntityName]="props.entityName"
-  [cvcPlaceholder]="placeholder$ | ngrxPush"
-  [cvcResults]="result$ | ngrxPush"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="onRequiresAcmgCode$ && !(onRequiresAcmgCode$ | ngrxPush)"
-  [cvcLoading]="isLoading$ | ngrxPush"
-  (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"
-  (cvcOnModelChange)="props.change && props.change(field, $event)">
-</cvc-entity-select>
-
-<!--  <nz-select
-[nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
-[nzCustomTemplate]="selectedTemplate"
-[formControl]="formControl"
-[formlyAttributes]="field"
-[nzPlaceHolder]="defaultOptions.props?.placeholders?.default || 'Select an ACMG Code'"
-[nzDisabled]="onRequiresAcmgCode$ && !(onRequiresAcmgCode$ | ngrxPush)"
-[nzOptions]="(selectOption$ | ngrxPush) || []"
-(nzOpenChange)="onOpenChange$.next($event)"
-(nzOnSearch)="onSearch$.next($event)"
-(nzOnModelChange)="props.change && props.change(field, $event)"
-[nzLoading]="isLoading$ | ngrxPush">
-</nz-select> -->
-
-<!-- select option templates -->
-<!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
-<ng-container *ngrxLet="onSearch$ as searchString">
-  @for (result of result$ | ngrxPush; track result; let i = $index) {
-    <ng-template #optionTemplates>
-      <nz-tag nz-tooltip>{{ result.code }}</nz-tag>
-      <span
-        nz-typography
-        nzType="secondary">
-        @if (result.description) {
-          <em>
-            <span
-              nz-typography
-              nzType="secondary"
-              >{{ result.description }}</span
-            ></em
-          >
-        }
-      </span>
-    </ng-template>
+<nz-select
+  cvcEntitySelect
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.ng-dirty]="showError"
+  [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [nzPlaceHolder]="props.placeholder ?? 'Search ' + props.entityName.plural"
+  [nzDisabled]="!!props.disabled"
+  [nzLoading]="isLoading()"
+  [nzOpen]="open()!"
+  [nzCustomTemplate]="selectedTpl"
+  [nzNotFoundContent]="notFoundTpl"
+  (nzOnSearch)="search.set($event)"
+  (nzOpenChange)="onOpenChange($event)">
+  @for (result of results(); track result.id) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="result.id"
+      [nzLabel]="result.code">
+      <cvc-tag
+        [ref]="refFor(result)"
+        [linked]="false"
+        [emphasize]="searchTerm()" />
+      @if (result.description) {
+        <span
+          nz-typography
+          nzType="secondary">
+          <em>{{ result.description }}</em>
+        </span>
+      }
+    </nz-option>
   }
-</ng-container>
+</nz-select>
 
-<!-- selected option item template -->
-<!-- displays entity tag, specifying context and mode depending on
-  if field is multi-select or single -->
+<!-- selected item(s): nz-select hands back only the bare id, the tag renders
+     itself from the Apollo cache, tooltip included -->
 <ng-template
-  #selectedTemplate
+  #selectedTpl
   let-selected>
   <div class="ant-select-selection-item-content">
-    <cvc-entity-tag
-      [cvcDisableLink]="true"
-      [cvcHasTooltip]="true"
-      [cvcCacheId]="'AcmgCode:' + selected.nzValue"
-      [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
-      [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
-      (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+    @if (refForId(selected.nzValue); as ref) {
+      <cvc-tag
+        [ref]="ref"
+        [context]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
+        (closed)="onTagClose()" />
+    }
   </div>
+</ng-template>
+
+<ng-template #notFoundTpl>
+  <cvc-select-messages [display]="notFound()" />
 </ng-template>

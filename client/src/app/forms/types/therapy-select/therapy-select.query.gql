@@ -10,10 +10,11 @@ query TherapySelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableTherapy so every Therapy this field writes to the cache
+# satisfies cvc-tag's watchFragment read without a second round-trip
+# (see src/app/tags/linkable.fragments.gql).
 fragment TherapySelectTypeaheadFields on Therapy {
-  id
-  name
-  link
+  ...LinkableTherapy
   ncitId
   therapyAliases
 }
