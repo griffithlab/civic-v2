@@ -1,0 +1,10 @@
+<nz-card
+  [nzTitle]="cardTitle"
+  [nzBordered]="false"
+  nzSize="small">
+  <formly-field
+    *ngFor="let field of field.fieldGroup"
+    [field]="field"></formly-field>
+</nz-card>
+
+<ng-template #cardTitle> {{ wrapperOptions.title }} </ng-template>

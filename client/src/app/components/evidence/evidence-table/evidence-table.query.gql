@@ -6,18 +6,18 @@ query EvidenceBrowse(
   $diseaseName: String
   $therapyName: String
   $id: Int
+  $ids: [Int!]
   $description: String
   $evidenceLevel: EvidenceLevel
   $evidenceDirection: EvidenceDirection
   $significance: EvidenceSignificance
   $evidenceType: EvidenceType
-  $rating: Int
+  $evidenceRating: Int
   $variantOrigin: VariantOrigin
   $variantId: Int
   $molecularProfileId: Int
   $assertionId: Int
-  $organizationId: [Int!]
-  $includeSubgroups: Boolean
+  $organization: OrganizationFilter
   $userId: Int
   $sortBy: EvidenceSort
   $phenotypeId: Int
@@ -36,17 +36,18 @@ query EvidenceBrowse(
     diseaseName: $diseaseName
     therapyName: $therapyName
     id: $id
+    ids: $ids
     description: $description
     evidenceLevel: $evidenceLevel
     evidenceDirection: $evidenceDirection
     significance: $significance
     evidenceType: $evidenceType
-    evidenceRating: $rating
+    evidenceRating: $evidenceRating
     variantOrigin: $variantOrigin
     variantId: $variantId
     molecularProfileId: $molecularProfileId
     assertionId: $assertionId
-    organization: { ids: $organizationId, includeSubgroups: $includeSubgroups }
+    organization: $organization
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId

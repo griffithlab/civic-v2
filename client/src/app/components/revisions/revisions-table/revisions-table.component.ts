@@ -4,6 +4,8 @@ import {
   Component,
   Input,
   OnInit,
+  OnChanges,
+  SimpleChanges,
   TemplateRef,
   Signal,
   computed,
@@ -27,6 +29,7 @@ import {
   RevisionFragment,
   RevisionSetBrowseFieldsFragment,
   RevisionActivityDetailFragment,
+  RevisionStatus,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -56,10 +59,11 @@ import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcRevisionsTableComponent implements OnInit {
+export class CvcRevisionsTableComponent implements OnInit, OnChanges {
   @Input() cvcHeight: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() ids: Maybe<number[]>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -136,6 +140,8 @@ export class CvcRevisionsTableComponent implements OnInit {
   ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
+      ids: this.ids,
+      status: this.ids ? undefined : RevisionStatus.New,
       excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
     })
 
@@ -215,6 +221,12 @@ export class CvcRevisionsTableComponent implements OnInit {
       })
   } // ngOnInit()
 
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes && this.queryRef) {
+      this.refresh()
+    }
+  }
+
   // filtering, sorting callbacks
   onModelChanged() {
     this.debouncedQuery.next()
@@ -230,6 +242,8 @@ export class CvcRevisionsTableComponent implements OnInit {
       excludeRevisionsFromUserId: this.excludeOwnRevisions ? this.user()?.id : undefined,
       organizationName: this.organizationNameInput,
       subjectType: this.subjectTypeInput ? this.subjectTypeInput : undefined,
+      ids: this.ids ? this.ids : undefined,
+      status: this.ids ? undefined : RevisionStatus.New,
     })
   }
 

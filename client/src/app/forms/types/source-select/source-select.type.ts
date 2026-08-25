@@ -45,6 +45,7 @@ export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: string
+  showAddEntity?: boolean
 }
 
 export interface CvcSourceSelectFieldConfig
@@ -79,11 +80,11 @@ const SourceSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-source-select',
-    templateUrl: './source-select.type.html',
-    styleUrls: ['./source-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-source-select',
+  templateUrl: './source-select.type.html',
+  styleUrls: ['./source-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourceSelectField
   extends SourceSelectMixin
@@ -118,6 +119,7 @@ export class CvcSourceSelectField
         },
       },
       description: 'Select Source type, then enter its ID to search Sources',
+      showAddEntity: true,
     },
   }
 

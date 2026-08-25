@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>CIViC GraphiQL</title>
   <link rel="stylesheet" href="https://esm.sh/graphiql/dist/style.css"/>
   <link
@@ -14,15 +14,15 @@
     href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css"
     />
   <style>
-      body {
+      html, body {
           height: 100%;
-          margin: 0;
           width: 100%;
-          overflow: hidden;
+          margin: 0;
+          overflow: hidden;          /* important: also set on html */
       }
 
       #graphiql {
-          height: calc(100dvh - 80px);
+          height: calc(100dvh - 48px);
       }
 
       .loading {

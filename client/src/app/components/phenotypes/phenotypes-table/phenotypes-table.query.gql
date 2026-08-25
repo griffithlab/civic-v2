@@ -1,4 +1,5 @@
 query PhenotypesBrowse(
+  $ids: [Int!]
   $first: Int
   $last: Int
   $before: String
@@ -8,6 +9,7 @@ query PhenotypesBrowse(
   $sortBy: PhenotypeSort
 ) {
   browsePhenotypes(
+    ids: $ids
     first: $first
     last: $last
     before: $before

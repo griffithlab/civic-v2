@@ -17,8 +17,7 @@ module AdvancedSearches
         resolve_created_at_filter(node),
         resolve_username_filter(node),
         resolve_name_filter(node),
-        resolve_organization_name_filter(node),
-        resolve_organization_id_filter(node),
+        resolve_organizations_filter(node),
       ]
     end
 
@@ -34,22 +33,11 @@ module AdvancedSearches
       base_query.where(clause, value)
     end
 
-    def resolve_organization_name_filter(node)
-      return nil if node.organization_name.nil?
-      clause, value = node.organization_name.resolve_query_for_type("organizations.name")
-      ids = base_query.joins(:organizations)
-        .where(clause, value)
-        .select(:id)
-      base_query.where(id: ids)
-    end
-
-    def resolve_organization_id_filter(node)
-      return nil if node.organization_id.nil?
-      clause, value = node.organization_id.resolve_query_for_type("organizations.id")
-      ids = base_query.joins(:organizations)
-        .where(clause, value)
-        .select(:id)
-      base_query.where(id: ids)
+    def resolve_organizations_filter(node)
+      return nil if node.organizations.nil?
+      organization_ids = ::AdvancedSearches::Organization.new(query: node.organizations).results
+      user_ids = ::User.joins(:organizations).where(organizations: { id: organization_ids }).select(:id)
+      base_query.where(id: user_ids)
     end
   end
 end

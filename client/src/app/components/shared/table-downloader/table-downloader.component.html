@@ -1,0 +1,18 @@
+<button
+  nz-button
+  class="download-button"
+  nzSize="small"
+  (click)="downloadTable()"
+  [disabled]="downloading | async">
+  <span
+    *ngIf="!(downloading | async)"
+    nz-icon
+    nzType="download"
+    nzTheme="outline"></span>
+  <span
+    *ngIf="downloading | async"
+    nz-icon
+    nzType="sync"
+    [nzSpin]="true"></span>
+  Download
+</button>

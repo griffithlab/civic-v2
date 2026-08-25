@@ -72,6 +72,7 @@ class SubmitClinvarBatches < ApplicationJob
       ClinvarBatchSubmission.create!(
         organization_id: organization.id,
         status: "submitted",
+        release_status: "not released",
         batch_name: batch_name,
         submitted_at: DateTime.now,
         submission_id: submission_id

@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -29,12 +31,12 @@ import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import {
-  takeWhile,
   debounceTime,
   distinctUntilChanged,
   filter,
   map,
   skip,
+  takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
@@ -55,7 +57,8 @@ export interface BrowseFeaturesTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcFeaturesTableComponent implements OnInit {
+export class CvcFeaturesTableComponent implements OnInit, OnChanges {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -115,6 +118,7 @@ export class CvcFeaturesTableComponent implements OnInit {
   ngOnInit() {
     this.queryRef = this.query.watch({
       first: this.initialPageSize,
+      ids: this.ids,
       sortBy: {
         column: FeaturesSortColumns.VariantCount,
         direction: SortDirection.Desc,
@@ -201,6 +205,7 @@ export class CvcFeaturesTableComponent implements OnInit {
   } // ngOnInit()
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
         featureName: this.nameInput,
@@ -209,6 +214,7 @@ export class CvcFeaturesTableComponent implements OnInit {
         diseaseName: this.diseaseInput,
         therapyName: this.therapyInput,
         featureType: this.typeInput,
+        ids: this.ids ? this.ids : undefined,
       })
       .then(() => this.scrollIndex$.next(0))
 
@@ -217,6 +223,12 @@ export class CvcFeaturesTableComponent implements OnInit {
 
   onModelUpdated(_: Maybe<string>) {
     this.debouncedQuery.next()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   // virtual scroll helpers

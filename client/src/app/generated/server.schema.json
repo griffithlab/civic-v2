@@ -995,6 +995,109 @@
           "possibleTypes": null
         },
         {
+          "kind": "INPUT_OBJECT",
+          "name": "ActivitySearchFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "subFilters",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ActivitySearchFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "booleanOperator",
+              "description": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "BooleanOperator",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "OrganizationSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DateSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "ENUM",
           "name": "ActivitySubjectInput",
           "description": null,
@@ -1640,6 +1743,34 @@
           "description": null,
           "fields": [
             {
+              "name": "originalQuery",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "JSON",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "originalVariables",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "permalinkId",
               "description": null,
               "args": [],
@@ -1893,6 +2024,30 @@
                   "name": "Assertion",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clinvarAccession",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clinvarAccessionVisible",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4639,11 +4794,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "submissionActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -4651,11 +4806,11 @@
               "deprecationReason": null
             },
             {
-              "name": "moderatingUser",
+              "name": "lastModerationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -4668,6 +4823,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "RevisionSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -11972,6 +12139,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "commenter",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
@@ -17094,6 +17273,54 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "assertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "AssertionSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hasEvidenceItem",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceItems",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "EvidenceItemSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
@@ -17216,13 +17443,9 @@
               "name": "value",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -20284,6 +20507,18 @@
               "deprecationReason": null
             },
             {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "isFlagged",
               "description": null,
               "type": {
@@ -20380,11 +20615,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "submissionActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -20392,11 +20627,11 @@
               "deprecationReason": null
             },
             {
-              "name": "moderatingUser",
+              "name": "lastModerationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -25747,11 +25982,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -25759,11 +25994,23 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecatingUser",
+              "name": "deprecationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -37725,6 +37972,18 @@
               "deprecationReason": null
             },
             {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": null,
               "type": {
@@ -37754,6 +38013,18 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revisions",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "RevisionSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -37821,11 +38092,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -37833,11 +38104,23 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecatingUser",
+              "name": "deprecationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -41072,6 +41355,152 @@
         },
         {
           "kind": "OBJECT",
+          "name": "NewsItemConnection",
+          "description": "The connection type for NewsItem.",
+          "fields": [
+            {
+              "name": "edges",
+              "description": "A list of edges.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "NewsItemEdge",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "nodes",
+              "description": "A list of nodes.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "NewsItem",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageInfo",
+              "description": "Information to aid in pagination.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PageInfo",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "totalCount",
+              "description": "The total number of records in this filtered collection.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NewsItemEdge",
+          "description": "An edge in a connection.",
+          "fields": [
+            {
+              "name": "cursor",
+              "description": "A cursor for use in pagination.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": "The item at the end of the edge.",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "NewsItem",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "Notification",
           "description": null,
           "fields": [
@@ -41963,13 +42392,9 @@
               "name": "value",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -42027,6 +42452,18 @@
             {
               "name": "EQ_SELF_AND_SIBLINGS",
               "description": "Include the matched term and any sibling terms",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NULL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NOT_NULL",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -43013,6 +43450,97 @@
         },
         {
           "kind": "INPUT_OBJECT",
+          "name": "OrganizationSearchFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "subFilters",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationSearchFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "booleanOperator",
+              "description": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "BooleanOperator",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parentOrganization",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "OrganizationSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DateSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
           "name": "OrganizationSort",
           "description": null,
           "fields": null,
@@ -43642,6 +44170,54 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "assertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "AssertionSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hasEvidenceItem",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceItems",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "EvidenceItemSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -48578,23 +49154,64 @@
             },
             {
               "name": "newsItems",
-              "description": null,
-              "args": [],
+              "description": "List published news items.",
+              "args": [
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "NewsItem",
-                      "ofType": null
-                    }
-                  }
+                  "kind": "OBJECT",
+                  "name": "NewsItemConnection",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -49595,6 +50212,26 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "ids",
+                  "description": "Filter by internal CIViC ids",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "id",
                   "description": "Return the revision set with the given CIViC ID.",
                   "type": {
@@ -49910,6 +50547,51 @@
               "deprecationReason": null
             },
             {
+              "name": "searchActivities",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ActivitySearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "searchAssertions",
               "description": null,
               "args": [
@@ -49971,6 +50653,51 @@
                     }
                   },
                   "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "searchComments",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "CommentSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
                   "isDeprecated": false,
                   "deprecationReason": null
                 }
@@ -50168,6 +50895,51 @@
               "deprecationReason": null
             },
             {
+              "name": "searchOrganizations",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "OrganizationSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "searchPhenotypes",
               "description": null,
               "args": [
@@ -50180,6 +50952,51 @@
                     "ofType": {
                       "kind": "INPUT_OBJECT",
                       "name": "PhenotypeSearchFilter",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "createPermalink",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AdvancedSearchResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "searchRevisions",
+              "description": null,
+              "args": [
+                {
+                  "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "RevisionSearchFilter",
                       "ofType": null
                     }
                   },
@@ -56365,11 +57182,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -56377,11 +57194,23 @@
               "deprecationReason": null
             },
             {
-              "name": "moderatingUser",
+              "name": "moderationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -57352,6 +58181,22 @@
               "deprecationReason": null
             },
             {
+              "name": "link",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "matchingText",
               "description": null,
               "args": [],
@@ -57516,7 +58361,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -58306,7 +59151,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -58982,6 +59827,18 @@
               "deprecationReason": null
             },
             {
+              "name": "deprecated",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "type": {
@@ -58995,6 +59852,30 @@
             },
             {
               "name": "abstract",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "authorFirstName",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "authorLastName",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -59071,6 +59952,30 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "CommentSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceItems",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "EvidenceItemSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -59168,7 +60073,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -60153,13 +61058,9 @@
               "name": "value",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -60204,6 +61105,18 @@
             },
             {
               "name": "STARTS_WITH",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NULL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "IS_NOT_NULL",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -64277,6 +65190,54 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "assertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "AssertionSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hasEvidenceItem",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceItems",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "EvidenceItemSearchFilter",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,
@@ -66245,7 +67206,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CommentSearchFilter",
+                    "name": "UserSearchFilter",
                     "ofType": null
                   }
                 }
@@ -66315,23 +67276,11 @@
               "deprecationReason": null
             },
             {
-              "name": "organizationName",
+              "name": "organizations",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organizationId",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "IntSearchInput",
+                "name": "OrganizationSearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -70596,6 +71545,18 @@
               "deprecationReason": null
             },
             {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "isFlagged",
               "description": null,
               "type": {
@@ -70716,11 +71677,11 @@
               "deprecationReason": null
             },
             {
-              "name": "creatingUser",
+              "name": "creationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,
@@ -70728,11 +71689,11 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecatingUser",
+              "name": "deprecationActivity",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserSearchFilter",
+                "name": "ActivitySearchFilter",
                 "ofType": null
               },
               "defaultValue": null,

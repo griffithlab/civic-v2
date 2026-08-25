@@ -110,11 +110,8 @@ export class EvidenceManagerConfig {
           inputType: 'default',
           options: [{ key: 'EID', value: null }],
           transform: (v) => {
-            if (v) {
-              return +v.toString().replace(/EID/i, '')
-            } else {
-              return null
-            }
+            const match = v?.toString().trim().match(/^(?:EID)?(\d+)$/i)
+            return match ? +match[1] : null
           },
         },
       },
@@ -132,7 +129,7 @@ export class EvidenceManagerConfig {
           typename: 'MolecularProfile',
           options: [
             {
-              key: 'Filter Therapy Names',
+              key: 'Filter Molecular Profiles',
               value: null,
             },
           ],

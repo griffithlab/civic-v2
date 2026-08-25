@@ -155,6 +155,16 @@ type ActivityInterfaceEdge {
   node: ActivityInterface
 }
 
+input ActivitySearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  organization: OrganizationSearchFilter
+  subFilters: [ActivitySearchFilter!]
+  type: StringSearchInput
+  user: UserSearchFilter
+}
+
 enum ActivitySubjectInput {
   ASSERTION
   COMMENT
@@ -358,6 +368,8 @@ type AddTherapyPayload {
 }
 
 type AdvancedSearchResult {
+  originalQuery: JSON!
+  originalVariables: JSON
   permalinkId: String
   resultIds: [Int!]!
   searchEndpoint: String!
@@ -388,6 +400,8 @@ type ApiKey {
 type Approval {
   approvalActivity: ApproveAssertionActivity!
   assertion: Assertion!
+  clinvarAccession: String
+  clinvarAccessionVisible: Boolean
   createdAt: ISO8601DateTime!
   id: Int!
   lastReviewed: ISO8601DateTime!
@@ -939,7 +953,7 @@ input AssertionSearchFilter {
   assertionDirection: AssertionDirectionTypeSearchInput
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
-  creatingUser: UserSearchFilter
+  comment: CommentSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceItemCount: IntSearchInput
@@ -947,7 +961,7 @@ input AssertionSearchFilter {
   fdaCompanionTest: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -956,6 +970,7 @@ input AssertionSearchFilter {
   significance: AssertionSignificanceTypeSearchInput
   status: EvidenceStatusTypeSearchInput
   subFilters: [AssertionSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   variantOrigin: VariantOriginTypeSearchInput
 }
@@ -2273,6 +2288,7 @@ type CommentEdge {
 input CommentSearchFilter {
   booleanOperator: BooleanOperator
   comment: StringSearchInput
+  commenter: UserSearchFilter
   createdAt: DateSearchInput
   id: IntSearchInput
   subFilters: [CommentSearchFilter!]
@@ -3208,10 +3224,14 @@ type DiseasePopover {
 }
 
 input DiseaseSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
   doid: OntologyTermSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
@@ -3243,7 +3263,7 @@ String search input that only accepts DNA bases (A, C, T, G, /)
 """
 input DnaBaseStringInput {
   operator: StringSearchOperator!
-  value: String!
+  value: String
 }
 
 type DownloadableFile {
@@ -3858,16 +3878,16 @@ input EvidenceItemSearchFilter {
   assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceDirection: EvidenceDirectionTypeSearchInput
   evidenceLevel: EvidenceLevelTypeSearchInput
   evidenceRating: IntSearchInput
   evidenceType: EvidenceTypeTypeSearchInput
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   openRevisionCount: IntSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -3876,6 +3896,7 @@ input EvidenceItemSearchFilter {
   source: SourceSearchFilter
   status: EvidenceStatusTypeSearchInput
   subFilters: [EvidenceItemSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   therapyInteractionType: TherapyInteractionTypeSearchInput
 }
@@ -5095,8 +5116,9 @@ input FeatureInstanceTypesSearchInput {
 input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  comment: CommentSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
   description: StringSearchInput
   entrezId: IntSearchInput
@@ -7783,14 +7805,17 @@ type MolecularProfileNamePreview {
 input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  comment: CommentSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   description: StringSearchInput
   evidenceItemsCount: IntSearchInput
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
+  name: StringSearchInput
   openRevisionCount: IntSearchInput
+  revisions: RevisionSearchFilter
   score: FloatSearchInput
   source: SourceSearchFilter
   subFilters: [MolecularProfileSearchFilter!]
@@ -8430,6 +8455,51 @@ type NewsItem {
   title: String!
 }
 
+"""
+The connection type for NewsItem.
+"""
+type NewsItemConnection {
+  """
+  A list of edges.
+  """
+  edges: [NewsItemEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [NewsItem!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type NewsItemEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: NewsItem
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -8662,7 +8732,7 @@ type ObjectFieldDiff {
 
 input OntologyTermSearchInput {
   operator: OntologyTermSearchOperator!
-  value: String!
+  value: String
 }
 
 enum OntologyTermSearchOperator {
@@ -8695,6 +8765,8 @@ enum OntologyTermSearchOperator {
   Include the matched term and its direct parent terms
   """
   EQ_SELF_OR_DIRECT_PARENTS
+  IS_NOT_NULL
+  IS_NULL
 
   """
   Does not equal
@@ -8923,6 +8995,15 @@ type OrganizationLeaderboards {
   ): LeaderboardOrganizationConnection!
 }
 
+input OrganizationSearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  parentOrganization: OrganizationSearchFilter
+  subFilters: [OrganizationSearchFilter!]
+}
+
 input OrganizationSort {
   """
   Available columns for sorting
@@ -9035,8 +9116,12 @@ type PhenotypePopover {
 }
 
 input PhenotypeSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   description: StringSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
@@ -10400,7 +10485,31 @@ type Query {
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
-  newsItems: [NewsItem!]!
+
+  """
+  List published news items.
+  """
+  newsItems(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): NewsItemConnection!
 
   """
   List and filter notifications for the logged in user.
@@ -10642,6 +10751,11 @@ type Query {
     id: Int
 
     """
+    Filter by internal CIViC ids
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -10767,13 +10881,17 @@ type Query {
     """
     types: [SearchableEntities!]
   ): [SearchResult!]!
+  searchActivities(createPermalink: Boolean = false, query: ActivitySearchFilter!): AdvancedSearchResult!
   searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
+  searchComments(createPermalink: Boolean = false, query: CommentSearchFilter!): AdvancedSearchResult!
   searchDiseases(createPermalink: Boolean = false, query: DiseaseSearchFilter!): AdvancedSearchResult!
   searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
   searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
+  searchOrganizations(createPermalink: Boolean = false, query: OrganizationSearchFilter!): AdvancedSearchResult!
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
+  searchRevisions(createPermalink: Boolean = false, query: RevisionSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
   searchTherapies(createPermalink: Boolean = false, query: TherapySearchFilter!): AdvancedSearchResult!
   searchUsers(createPermalink: Boolean = false, query: UserSearchFilter!): AdvancedSearchResult!
@@ -12175,10 +12293,11 @@ type RevisionResult {
 
 input RevisionSearchFilter {
   booleanOperator: BooleanOperator
+  comment: CommentSearchFilter
   createdAt: DateSearchInput
-  creatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
   fieldName: StringSearchInput
-  moderatingUser: UserSearchFilter
+  moderationActivity: ActivitySearchFilter
   status: RevisionStatusSearchInput
   subFilters: [RevisionSearchFilter!]
   subjectId: IntSearchInput
@@ -12384,6 +12503,7 @@ type ScalarFieldDiff {
 
 type SearchResult {
   id: Int!
+  link: String!
   matchingText: String!
   name: String!
   resultType: SearchableEntities!
@@ -12408,7 +12528,7 @@ enum SortDirection {
 
 type Source implements Commentable & EventSubject {
   abstract: String
-  ascoAbstractId: Int
+  ascoAbstractId: String
   authorString: String
   citation: String
   citationId: String!
@@ -12567,7 +12687,7 @@ type SourceEdge {
 
 type SourcePopover implements Commentable & EventSubject {
   abstract: String
-  ascoAbstractId: Int
+  ascoAbstractId: String
   authorString: String
   citation: String
   citationId: String!
@@ -12682,9 +12802,14 @@ type SourcePopover implements Commentable & EventSubject {
 
 input SourceSearchFilter {
   abstract: StringSearchInput
+  authorFirstName: StringSearchInput
+  authorLastName: StringSearchInput
   booleanOperator: BooleanOperator
   citation: StringSearchInput
   citationId: StringSearchInput
+  comment: CommentSearchFilter
+  deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
   id: IntSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput
@@ -12705,7 +12830,7 @@ input SourceSourceTypeSearchInput {
 }
 
 type SourceStub {
-  citationId: Int!
+  citationId: String!
   id: Int!
   sourceType: SourceSource!
 }
@@ -12883,13 +13008,15 @@ type Stats {
 
 input StringSearchInput {
   operator: StringSearchOperator!
-  value: String!
+  value: String
 }
 
 enum StringSearchOperator {
   CONTAINS
   DOES_NOT_CONTAIN
   EQ
+  IS_NOT_NULL
+  IS_NULL
   NE
   STARTS_WITH
 }
@@ -14039,8 +14166,12 @@ type TherapyPopover {
 }
 
 input TherapySearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   ncitId: OntologyTermSearchInput
@@ -14493,9 +14624,8 @@ input UserSearchFilter {
   createdAt: DateSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  organizationId: IntSearchInput
-  organizationName: StringSearchInput
-  subFilters: [CommentSearchFilter!]
+  organizations: OrganizationSearchFilter
+  subFilters: [UserSearchFilter!]
   username: StringSearchInput
 }
 
@@ -15554,10 +15684,11 @@ input VariantSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   coordinates: CoordinateSearchInput
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isDeprecated: BooleanSearchInput
   isFlagged: BooleanSearchInput

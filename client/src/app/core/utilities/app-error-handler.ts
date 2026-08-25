@@ -4,6 +4,7 @@ import { environment } from 'environments/environment'
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
   handleError(error: any): void {
+    console.error(error)
     if (environment.production) {
       const chunkFailedMessage = /Loading chunk [\d]+ failed/
       if (chunkFailedMessage.test(error.message)) {

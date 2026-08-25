@@ -7,6 +7,7 @@ module Types
       argument :is_deprecated, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :deprecation_reason, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantDeprecationReasonType, is_activerecord_enum: true), required: false
       argument :feature, Types::AdvancedSearch::FeatureSearchFilterType, required: false
+      argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :molecular_profile, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: false
@@ -17,8 +18,8 @@ module Types
       argument :variant_type, Types::AdvancedSearch::VariantTypeSearchFilterType, required: false
       argument :coordinates, Types::AdvancedSearch::CoordinateSearchInput, required: false
       argument :revisions, Types::AdvancedSearch::RevisionSearchFilterType, required: false
-      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
-      argument :deprecating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :creation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
+      argument :deprecation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
     end
   end
 end

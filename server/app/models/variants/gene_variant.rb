@@ -1,5 +1,7 @@
 module Variants
   class GeneVariant < Variant
+    validate :name_does_not_use_fusion_syntax
+
     has_one :gene, through: :feature,
       source: :feature_instance, source_type: "Features::Gene"
 
@@ -43,6 +45,14 @@ module Variants
         if coord.coordinate_type != "Gene Variant Coordinate"
           errors.add(:variant_coordinates, "Incorrect coordinate type #{coord.coordinate_type} for a Gene Variant")
         end
+      end
+    end
+
+    def name_does_not_use_fusion_syntax
+      return if name.blank?
+
+      if name.include?("::") || name.match?(/fusion/i)
+        errors.add(:name, "cannot contain fusion syntax or the word Fusion; use a Fusion Variant instead")
       end
     end
   end

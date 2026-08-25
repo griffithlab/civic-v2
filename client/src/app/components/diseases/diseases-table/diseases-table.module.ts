@@ -4,6 +4,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module'
+import { CvcTableDownloaderComponent } from '@app/components/shared/table-downloader/table-downloader.component'
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
@@ -45,6 +46,7 @@ import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-over
     CvcLinkTagModule,
     CvcNoMoreRowsModule,
     CvcTableCountsModule,
+    CvcTableDownloaderComponent,
     CvcTableScrollModule,
     CvcTagOverflowModule,
     CvcPlainTagOverflowModule,

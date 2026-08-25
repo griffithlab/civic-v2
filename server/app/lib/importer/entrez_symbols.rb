@@ -33,7 +33,7 @@ module Importer
         feature = Feature.create!(
           name: line["Symbol_from_nomenclature_authority"],
           full_name: line["description"],
-          description: "",
+          description: nil,
           feature_instance: gene
         )
         feature.save(validate: false)
@@ -60,7 +60,7 @@ module Importer
       end
 
       if feature.description.blank?
-        feature.description = ""
+        feature.description = nil
       end
 
       gene.save(validate: false)

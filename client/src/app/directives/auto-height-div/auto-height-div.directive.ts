@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
-import { Subject } from 'rxjs'
+import { fromEvent, Subject, Subscription } from 'rxjs'
 import { throttleTime } from 'rxjs/operators'
 
 export type AutoHeightTarget = Maybe<
@@ -53,6 +53,7 @@ export class CvcAutoHeightDivDirective implements OnInit {
 
   private resizeObserver: ResizeObserver
   private onResized$: Subject<boolean>
+  private windowResizeSub: Subscription
 
   constructor(
     private el: ElementRef,
@@ -65,6 +66,12 @@ export class CvcAutoHeightDivDirective implements OnInit {
         this.onResized$.next(true)
       })
     })
+
+    // catch top-edge shifts that the ResizeObserver can't see (e.g. a sibling
+    // resizing pushes this div down); callers broadcast a window resize.
+    this.windowResizeSub = fromEvent(window, 'resize').subscribe(() =>
+      this.onResized$.next(true)
+    )
 
     this.onResized$.pipe(throttleTime(10)).subscribe((_) => {
       this.resizeToFitContent()
@@ -125,6 +132,7 @@ export class CvcAutoHeightDivDirective implements OnInit {
     return value instanceof HTMLElement
   }
   ngOnDestroy(): void {
+    this.windowResizeSub.unsubscribe()
     this.onResized$.unsubscribe()
     this.resizeObserver.unobserve(this.el.nativeElement)
   }

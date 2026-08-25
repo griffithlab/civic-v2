@@ -79,8 +79,11 @@ export type AddTherapyPayloadFieldPolicy = {
 	new?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapy?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AdvancedSearchResultKeySpecifier = ('permalinkId' | 'resultIds' | 'searchEndpoint' | AdvancedSearchResultKeySpecifier)[];
+export type AdvancedSearchResultKeySpecifier = ('formQuery' | 'originalQuery' | 'originalVariables' | 'permalinkId' | 'resultIds' | 'searchEndpoint' | AdvancedSearchResultKeySpecifier)[];
 export type AdvancedSearchResultFieldPolicy = {
+	formQuery?: FieldPolicy<any> | FieldReadFunction<any>,
+	originalQuery?: FieldPolicy<any> | FieldReadFunction<any>,
+	originalVariables?: FieldPolicy<any> | FieldReadFunction<any>,
 	permalinkId?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultIds?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchEndpoint?: FieldPolicy<any> | FieldReadFunction<any>
@@ -92,10 +95,12 @@ export type ApiKeyFieldPolicy = {
 	reminder?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ApprovalKeySpecifier = ('approvalActivity' | 'assertion' | 'createdAt' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | ApprovalKeySpecifier)[];
+export type ApprovalKeySpecifier = ('approvalActivity' | 'assertion' | 'clinvarAccession' | 'clinvarAccessionVisible' | 'createdAt' | 'id' | 'lastReviewed' | 'organization' | 'readyForClinvarSubmission' | 'revocationActivity' | 'status' | 'updatedAt' | 'user' | ApprovalKeySpecifier)[];
 export type ApprovalFieldPolicy = {
 	approvalActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarAccession?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarAccessionVisible?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1926,6 +1931,19 @@ export type NewsItemFieldPolicy = {
 	publishedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type NewsItemConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | NewsItemConnectionKeySpecifier)[];
+export type NewsItemConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type NewsItemEdgeKeySpecifier = ('cursor' | 'node' | NewsItemEdgeKeySpecifier)[];
+export type NewsItemEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type NotificationKeySpecifier = ('createdAt' | 'event' | 'id' | 'notifiedUser' | 'originatingUser' | 'seen' | 'subscription' | 'type' | 'updatedAt' | NotificationKeySpecifier)[];
 export type NotificationFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2051,7 +2069,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'region' | 'regionVariantNamesForFeatureId' | 'regions' | 'remoteCitation' | 'revision' | 'revisionSets' | 'revisions' | 'search' | 'searchAssertions' | 'searchByPermalink' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchPhenotypes' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'region' | 'regionVariantNamesForFeatureId' | 'regions' | 'remoteCitation' | 'revision' | 'revisionSets' | 'revisions' | 'search' | 'searchActivities' | 'searchAssertions' | 'searchByPermalink' | 'searchComments' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchOrganizations' | 'searchPhenotypes' | 'searchRevisions' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2122,13 +2140,17 @@ export type QueryFieldPolicy = {
 	revisionSets?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	search?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchActivities?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchComments?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchDiseases?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchFeatures?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchMolecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchOrganizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchPhenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
+	searchRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchSources?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchTherapies?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchUsers?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2395,9 +2417,10 @@ export type ScalarFieldDiffFieldPolicy = {
 	left?: FieldPolicy<any> | FieldReadFunction<any>,
 	right?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SearchResultKeySpecifier = ('id' | 'matchingText' | 'name' | 'resultType' | SearchResultKeySpecifier)[];
+export type SearchResultKeySpecifier = ('id' | 'link' | 'matchingText' | 'name' | 'resultType' | SearchResultKeySpecifier)[];
 export type SearchResultFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	matchingText?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>
@@ -3700,6 +3723,14 @@ export type StrictTypedTypePolicies = {
 	NewsItem?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NewsItemKeySpecifier | (() => undefined | NewsItemKeySpecifier),
 		fields?: NewsItemFieldPolicy,
+	},
+	NewsItemConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NewsItemConnectionKeySpecifier | (() => undefined | NewsItemConnectionKeySpecifier),
+		fields?: NewsItemConnectionFieldPolicy,
+	},
+	NewsItemEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NewsItemEdgeKeySpecifier | (() => undefined | NewsItemEdgeKeySpecifier),
+		fields?: NewsItemEdgeFieldPolicy,
 	},
 	Notification?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NotificationKeySpecifier | (() => undefined | NotificationKeySpecifier),

@@ -1,10 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -52,7 +52,8 @@ export interface TherapyTableUserFilters {
   styleUrls: ['./therapies-table.component.less'],
   standalone: false,
 })
-export class CvcTherapiesTableComponent implements OnInit {
+export class CvcTherapiesTableComponent implements OnInit, OnChanges {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -106,6 +107,7 @@ export class CvcTherapiesTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
+      ids: this.ids,
       first: this.initialPageSize,
       sortBy: {
         column: TherapySortColumns.EvidenceItemCount,
@@ -194,8 +196,10 @@ export class CvcTherapiesTableComponent implements OnInit {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
+        ids: this.ids,
         name: this.nameFilter,
         ncitId: this.ncitIdFilter,
         therapyAlias: this.therapyAliasFilter,
@@ -203,6 +207,12 @@ export class CvcTherapiesTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   trackByIndex(

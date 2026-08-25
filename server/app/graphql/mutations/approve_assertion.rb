@@ -38,7 +38,11 @@ class Mutations::ApproveAssertion < Mutations::MutationWithOrg
   end
 
   def authorized?(organization_id: nil, **_)
-    validate_user_approving_as_org(user: context[:current_user],  organization_id: organization_id)
+    current_user = context[:current_user]
+    validate_user_approving_as_org(user: current_user,  organization_id: organization_id)
+    if !current_user.has_valid_coi_statement?
+      raise GraphQL::ExecutionError, "User must have a valid conflict of interest statement on file."
+    end
     return true
   end
 

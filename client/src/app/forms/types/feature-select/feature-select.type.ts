@@ -177,6 +177,7 @@ export class CvcFeatureSelectField
     return { value: feature.id, label: feature.name }
   }
 
+  // NOTE: to handle polymorphic types, the title attribute is overloaded below to get the feature typename into its #selectedTemplate's context, which is limited to NzSelectOptionInterface
   getSelectOptionsFn(
     results: FeatureSelectTypeaheadFieldsFragment[],
     tplRefs: QueryList<TemplateRef<any>>
@@ -186,6 +187,7 @@ export class CvcFeatureSelectField
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || feature.name,
           value: feature.id,
+          title: feature.__typename,
         }
       }
     )

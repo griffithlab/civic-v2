@@ -73,6 +73,24 @@ class CreateVariantTest < ActiveSupport::TestCase
     assert_graphql_error(response, /name|blank|empty/i)
   end
 
+  test "rejects gene variant name containing fusion syntax" do
+    response = execute_mutation(
+      @create_variant_mutation,
+      user: @user,
+      variables: { name: "EML4::ALK", featureId: @braf.id, organizationId: @org.id },
+    )
+    assert_graphql_error(response, /fusion syntax|Fusion Variant/i)
+  end
+
+  test "rejects gene variant name containing fusion case insensitively" do
+    response = execute_mutation(
+      @create_variant_mutation,
+      user: @user,
+      variables: { name: "eml4 fusion alk", featureId: @braf.id, organizationId: @org.id },
+    )
+    assert_graphql_error(response, /fusion syntax|Fusion Variant/i)
+  end
+
   test "rejects user acting for wrong org" do
     response = execute_mutation(
       @create_variant_mutation,

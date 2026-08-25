@@ -1,0 +1,10 @@
+:host {
+  // force evidence-select to 100% width
+  // NOTE: entity-select.component.less should do this, not sure why its .layout-horizontal selector isn't working here
+  cvc-entity-select {
+    ::ng-deep > nz-select {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}

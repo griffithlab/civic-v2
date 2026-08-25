@@ -29,6 +29,18 @@
       [ngClass]="{ 'is-collapsed': isCollapsed }"
       [nzInlineCollapsed]="isCollapsed">
       <li
+        nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Advanced Search' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i
+          nz-icon
+          nzType="search"></i>
+        <a routerLink="/search"><span>Advanced Search</span></a>
+      </li>
+      <li
         nz-menu-group
         [nzTitle]="isCollapsed ? 'KNOW' : 'KNOWLEDGEBASE'">
         <ul>
@@ -362,6 +374,16 @@
               <a routerLink="/pages/about">{{
                 isCollapsed ? 'About' : 'About CIViC'
               }}</a>
+            </li>
+            <li
+              nz-menu-item
+              nzSelected
+              nzMatchRouter>
+              <a
+                routerLink="/news"
+                id="news">
+                {{ isCollapsed ? 'News' : 'News & Events' }}
+              </a>
             </li>
             <li
               nz-menu-item

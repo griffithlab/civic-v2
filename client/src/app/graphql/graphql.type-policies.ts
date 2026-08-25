@@ -1,5 +1,6 @@
 import { relayStylePagination } from '@apollo/client/utilities'
 import { StrictTypedTypePolicies } from '@app/generated/civic.apollo-helpers'
+import { CvcAdvancedSearchResultPolicy } from '@app/graphql/policies/advanced-search-result.policy'
 
 export const CvcTypePolicies: StrictTypedTypePolicies = {
   Gene: {
@@ -87,6 +88,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'eventType',
       ]),
       variants: relayStylePagination(['featureId', 'name']),
+      newsItems: relayStylePagination(),
       molecularProfiles: relayStylePagination([
         'featureId',
         'name',
@@ -189,7 +191,8 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'organizatioName',
         'subjectType',
         'id',
-      ])
+      ]),
     },
   },
+  AdvancedSearchResult: CvcAdvancedSearchResultPolicy as any,
 }

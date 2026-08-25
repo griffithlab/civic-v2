@@ -1,14 +1,16 @@
 query TherapiesBrowse(
+  $ids: [Int!]
   $first: Int
   $last: Int
   $before: String
   $after: String
   $name: String
   $ncitId: String
-  $therapyAlias: String,
+  $therapyAlias: String
   $sortBy: TherapySort
 ) {
   browseTherapies(
+    ids: $ids
     first: $first
     last: $last
     before: $before

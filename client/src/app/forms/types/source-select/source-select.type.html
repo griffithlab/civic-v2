@@ -27,7 +27,7 @@
     class="prefix">
     <ng-container [ngSwitch]="sourceType$ | ngrxPush">
       <div *ngSwitchCase="'PUBMED'">PMID:</div>
-      <div *ngSwitchCase="'ASCO'">ID:</div>
+      <div *ngSwitchCase="'ASCO'">doi.org/</div>
       <div *ngSwitchCase="'ASH'">doi.org/</div>
     </ng-container>
   </nz-col>
@@ -46,7 +46,7 @@
       [cvcShowError]="showError"
       [cvcDisabled]="props.disabled"
       [cvcLoading]="isLoading$ | ngrxPush"
-      [cvcAddEntity]="addSource"
+      [cvcAddEntity]="props.showAddEntity ? addSource : null"
       [cvcAddEntityModel]="onModel$ | ngrxPush"
       [cvcSelectOpen]="selectOpen$ | ngrxPush"
       (cvcOnSearch)="onSearch$.next($event)"
@@ -72,7 +72,7 @@
           nz-typography
           nzType="secondary"
           [innerHtml]="
-            result.citationId.toString() | highlightTypeahead : searchString
+            result.citationId.toString() | highlightTypeahead: searchString
           "></span>
       </span>
     </ng-template>

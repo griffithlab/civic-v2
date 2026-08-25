@@ -1,0 +1,48 @@
+@let isRootFilter = field.parent?.props?.isRootFilter;
+<nz-row
+  [nzGutter]="[4, 0]"
+  class="filter-row">
+  <nz-col
+    nzFlex="175px"
+    [ngClass]="{ 'anchor-col': isRootFilter }">
+    <nz-form-control>
+      <nz-select
+        [ngModel]="props.selectedKey"
+        [nzSize]="isRootFilter ? 'default' : 'small'"
+        (ngModelChange)="onKeyChange($event)"
+        [nzOptionOverflowSize]="props.optionOverflowSize || 12"
+        [nzOptionHeightPx]="28"
+        nzPlaceHolder="Select Attribute"
+        class="filter-select">
+        @for (option of filterSelectOptions(); track option.value) {
+          <nz-option
+            [nzLabel]="option.label"
+            [nzValue]="option.value">
+          </nz-option>
+        }
+      </nz-select>
+    </nz-form-control>
+  </nz-col>
+  <nz-col
+    nzFlex="3 0 auto"
+    class="field-col">
+    @if (props.selectedKey === null) {
+      <div
+        class="filter-prompt"
+        [ngClass]="{ isRootFilter: isRootFilter, 'filter-error': showError }">
+        <nz-icon
+          nzType="arrow-left"
+          nzTheme="outline" />
+        @if (showError) {
+          Select an attribute or remove this filter.
+        } @else {
+          Select an attribute filter.
+        }
+      </div>
+    } @else {
+      @for (childField of field.fieldGroup; track childField.key) {
+        <formly-field [field]="childField"></formly-field>
+      }
+    }
+  </nz-col>
+</nz-row>

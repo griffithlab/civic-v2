@@ -9,6 +9,8 @@ query RevisionsBrowse(
   $organizationName: String
   $subjectType: ActivitySubjectInput
   $id: Int
+  $ids: [Int!]
+  $status: RevisionStatus
   $requestDetails: Boolean = false
 ) {
   revisionSets(
@@ -16,13 +18,14 @@ query RevisionsBrowse(
     last: $last
     before: $before
     after: $after
-    status: NEW
+    status: $status
     fieldName: $fieldName
     originatingUserName: $originatingUserName
     excludeRevisionsFromUserId: $excludeRevisionsFromUserId
     organizationName: $organizationName
     subjectType: $subjectType
     id: $id
+    ids: $ids
   ) {
     totalCount
     pageInfo {

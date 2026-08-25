@@ -1,0 +1,44 @@
+@import 'ng-zorro-antd/style/color/colors.less';
+:host {
+  nz-select {
+    width: 100%;
+    //margin-top: 4px;
+  }
+  ::ng-deep .ant-form-item.ant-row:first-child {
+    margin-right: 0;
+  }
+  ::ng-deep .ant-form-item-extra {
+    display: none;
+  }
+  ::ng-deep .filter-select .ant-select-selector {
+    border-radius: 20px;
+    padding-left: 12px !important;
+  }
+}
+.anchor-col {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: @blue-2;
+}
+.filter-row {
+  flex-wrap: nowrap;
+}
+.filter-prompt {
+  color: #666;
+  display: block;
+  line-height: 28px;
+  background-color: #fff;
+  border-color: #669;
+  border-radius: 4px;
+  padding: 0 8px;
+  .isSubFilter {
+    border-color: red;
+  }
+  &.filter-error {
+    color: #ff4d4f;
+    margin: -1px;
+    border: 1px solid #ff4d4f;
+    background-color: #fff2f0;
+  }
+}

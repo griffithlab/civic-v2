@@ -53,7 +53,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/graph/has_graph_structure.rb",
-      "line": 166,
+      "line": 175,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "self.class.where(\"#{self.class.table_name}.id IN (#{query})\")",
       "render_path": null,
@@ -68,6 +68,29 @@
         89
       ],
       "note": "self.class.table_name is internal to the application, and \"query\" is generated safely by the application with no unescaped user input."
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "4f972bef0e2a6bfe2c7e379bbc1a91046710692718e86dc9cd2b31b2f98e85b3",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/graphql/types/advanced_search/ontology_term_search_input.rb",
+      "line": 73,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "base_query.where(\"(#{column_name} IS NOT NULL AND #{column_name} != '')\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Types::AdvancedSearch::OntologyTermSearchInput",
+        "method": "resolve_ontology_query"
+      },
+      "user_input": "column_name",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "Column name is not user supplied but hardcoded in the model"
     },
     {
       "warning_type": "Command Injection",
@@ -91,6 +114,29 @@
         77
       ],
       "note": "all interpolated variables are controlled, not user supplied"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "84745f638e3fc3d737924ecefb310a1a58478982559e1e4020582be80bda3e5f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/graphql/types/advanced_search/ontology_term_search_input.rb",
+      "line": 71,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "base_query.where(\"(#{column_name} IS NULL OR #{column_name} = '')\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Types::AdvancedSearch::OntologyTermSearchInput",
+        "method": "resolve_ontology_query"
+      },
+      "user_input": "column_name",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "Column name is not user supplied but hardcoded in the model"
     },
     {
       "warning_type": "SQL Injection",
@@ -162,5 +208,5 @@
       "note": "ruby_executable is derived from RbConfig, not user supplied"
     }
   ],
-  "brakeman_version": "7.1.0"
+  "brakeman_version": "8.0.4"
 }

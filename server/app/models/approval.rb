@@ -2,6 +2,7 @@ class Approval < ApplicationRecord
   belongs_to :organization
   belongs_to :user
   belongs_to :assertion
+  has_many :clinvar_batch_entries
 
   has_many :activities_linked_entities,
     ->() { where(entity_type: "Approval") },
