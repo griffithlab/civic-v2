@@ -108,10 +108,8 @@ export class CvcAssertionReviseForm
           }
         },
         error: (error) => {
-          console.log('Error retrieving Assertion')
-          console.log(error)
-        },
-        complete: () => {
+          console.error('Error retrieving Assertion')
+          console.error(error)
         },
       })
   }
