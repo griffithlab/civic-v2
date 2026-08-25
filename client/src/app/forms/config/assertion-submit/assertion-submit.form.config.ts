@@ -9,16 +9,12 @@ import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-butto
 import { CvcOriginSelectFieldOptions } from '@app/forms/types/origin-select/origin-select.type'
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcTherapySelectFieldOptions } from '@app/forms/types/therapy-select/therapy-select.type'
+import { assertionRequiresEvidenceItems } from '@app/forms/utilities/assertion-requires-evidence-items'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
-import { AssertionType } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-
-function assertionRequiresEvidenceItems(model?: AssertionFields): boolean {
-  return model?.assertionType !== AssertionType.Oncogenic
-}
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
