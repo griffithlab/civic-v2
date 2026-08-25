@@ -3,13 +3,17 @@ import {
   Component,
   Input,
   OnInit,
+  Signal,
 } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { ActivatedRoute } from '@angular/router'
 import { TagInfo } from '@app/components/shared/tag-overflow/tag-overflow.component'
 import {
   Maybe,
   OrganizationMembersFieldsFragment,
   UserRole,
 } from '@app/generated/civic.apollo'
+import { map } from 'rxjs/operators'
 
 @Component({
     selector: 'cvc-user-card',
@@ -23,6 +27,19 @@ export class CvcUserCardComponent implements OnInit {
 
   icon!: string
   organizations: TagInfo[] = []
+  currentOrganizationId: Signal<number>
+  isApprover: boolean = false
+  constructor(
+    private route: ActivatedRoute
+  ) {
+    this.currentOrganizationId = toSignal(
+      this.route.params.pipe(
+        map(params => +params['organizationId']),
+      ),
+      { requireSync: true }
+    );
+  }
+
   ngOnInit() {
     if (this.user == undefined) {
       throw new Error('Must pass a user into user card')
@@ -45,5 +62,10 @@ export class CvcUserCardComponent implements OnInit {
       // convert user Organization into TagInfo
       this.organizations.push({ id: org.id, name: org.name, link: org.url })
     })
+
+
+    if (this.user.organizationsWithApprovalPrivileges.map((org) => org.id).includes(this.currentOrganizationId())) {
+      this.isApprover = true
+    }
   }
 }
