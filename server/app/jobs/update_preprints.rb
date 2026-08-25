@@ -39,7 +39,14 @@ class UpdatePreprints < ApplicationJob
           originating_user: civicbot_user,
           organization_id: nil,
           note: "Update preprint source to peer-reviewed source"
-        ).perform
+        )
+
+        res = cmd.perform
+
+        if !res.succeeded?
+          Rails.logger.error("Failed to suggest revision to update preprint from SID#{source.id} to #{update_source.source_type} #{update_source.citation_id} for EID#{evidence.id}")
+          raise StandardError.new(res.errors.join(", "))
+        end
       end
     end
   end
