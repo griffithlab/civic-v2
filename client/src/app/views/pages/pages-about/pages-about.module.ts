@@ -7,6 +7,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { CvcPreferredCitationsComponent } from '@app/components/shared/preferred-citations/preferred-citations.component'
 
 @NgModule({
   declarations: [PagesAboutPage],
@@ -18,6 +19,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
     NzSpaceModule,
     NzCardModule,
     NzTableModule,
+    CvcPreferredCitationsComponent,
   ],
 })
 export class PagesAboutModule {}

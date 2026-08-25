@@ -1,0 +1,49 @@
+<section id="preferred-citations">
+  <nz-card
+    nzType="inner"
+    nzTitle="If you find CIViC useful, please cite our core manuscripts."
+    [nzExtra]="allPublicationsLink"
+    style="width: 100%">
+    <ol class="citation-list">
+      @for (citation of citations; track citation.id) {
+        <li>
+          <article class="citation-entry">
+            <nz-card-meta
+              [nzTitle]="citation.label"
+              [nzDescription]="citationDescription"></nz-card-meta>
+            <ng-template #citationDescription>
+              <p>
+                {{ citation.authors }}
+                <cite>{{ citation.title }}</cite>
+                {{ citation.publicationDetails }}
+              </p>
+              <div class="publication-links">
+                <a
+                  [href]="citation.doiUrl"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  DOI: {{ citation.doi }}
+                </a>
+                <a
+                  [href]="citation.pubmedUrl"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  PubMed: {{ citation.pmid }}
+                </a>
+              </div>
+            </ng-template>
+          </article>
+        </li>
+      }
+    </ol>
+  </nz-card>
+
+  <ng-template #allPublicationsLink>
+    <a
+      [href]="citationsPageUrl"
+      target="_blank"
+      rel="noopener noreferrer">
+      All publications
+    </a>
+  </ng-template>
+</section>

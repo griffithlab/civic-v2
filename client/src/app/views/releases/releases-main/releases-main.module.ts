@@ -13,6 +13,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [ReleasesMainComponent],
@@ -29,6 +30,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
     NzTypographyModule,
     NzAlertModule,
     NzCardModule,
+    RouterModule,
     CvcSectionNavigationModule,
     CvcLinkTagModule,
   ],
