@@ -24,7 +24,6 @@ import {
   MutationState,
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
-import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
   QuicksearchQuery,
   QuicksearchQueryVariables,
@@ -47,6 +46,7 @@ import {
   Organization,
   Variant,
 } from '@app/generated/civic.apollo.types'
+import { tagSpecFor } from '@app/tags'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, onlyCompleteData, QueryRef } from 'apollo-angular'
 import {
@@ -66,7 +66,8 @@ import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
 type AppendableValue = 'AND' | 'OR' | 'NOT' | '(' | ')'
 type AppendVariant = { variant: Variant; prependNot: boolean }
 type ExampleExpression = {
-  mp: LinkableEntity
+  /** illustrative only — these profiles do not exist, so they are not tagged */
+  name: string
   expression: string
   description: string
 }
@@ -120,52 +121,35 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     initial: 'Use the editor below to construct a molecular profile.',
   }
 
+  /** same source of truth the real MP tags use */
+  readonly mpColor = tagSpecFor('MolecularProfile').color
+
   exampleExpressions: ExampleExpression[] = [
     {
-      mp: {
-        __typename: 'MolecularProfile',
-        id: 9999,
-        name: 'BRAF V600E AND EGFR L858R AND EGFR T790M',
-      },
+      name: 'BRAF V600E AND EGFR L858R AND EGFR T790M',
       expression: '#VID12 AND #VID33 AND #VID34',
       description:
         'BRAF V600E, EGFR L858R, and EGFR T790M must all be observed.',
     },
     {
-      mp: {
-        __typename: 'MolecularProfile',
-        id: 9999,
-        name: 'BRAF V600E AND NOT EGFR L858R',
-      },
+      name: 'BRAF V600E AND NOT EGFR L858R',
       expression: '#VID12 AND NOT #VID33',
       description: 'BRAF V600E must be observed and EGFR L858R must be absent.',
     },
     {
-      mp: {
-        __typename: 'MolecularProfile',
-        id: 9999,
-        name: 'BRAF V600E OR EGFR L858R OR EGFR T790M',
-      },
+      name: 'BRAF V600E OR EGFR L858R OR EGFR T790M',
       expression: '#VID12 OR #VID33 OR #VID34',
       description:
         'Either BRAF V600E, or EGFR L858R, or EGFR T790M must be observed.',
     },
     {
-      mp: {
-        __typename: 'MolecularProfile',
-        id: 9999,
-        name: 'BRAF V600E AND (EGFR L858R OR EGFR T790M)',
-      },
+      name: 'BRAF V600E AND (EGFR L858R OR EGFR T790M)',
       expression: '#VID12 AND (#VID33 OR #VID34)',
       description:
         'BRAF V600E must be observed and either EGFR L858R or EGFR T790M must be observed.',
     },
     {
-      mp: {
-        __typename: 'MolecularProfile',
-        id: 9999,
-        name: 'NOT KIT D816V',
-      },
+      name: 'NOT KIT D816V',
       expression: 'NOT #VID4353',
       description: 'KIT D816V must be absent.',
     },

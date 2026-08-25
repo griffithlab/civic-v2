@@ -1,0 +1,73 @@
+<div class="test-page">
+  <h1>Form select fields — dev bench</h1>
+  <p class="lede">
+    Every migrated field in isolation, driven by a real form state. Dev builds
+    only.
+  </p>
+
+  <nz-card
+    nzTitle="Tag gallery"
+    data-testid="tag-gallery">
+    <p class="hint">
+      Seeded directly into the Apollo cache, so these render with no query and no
+      login.
+    </p>
+    <div class="tag-grid">
+      @for (ref of tagRefs; track ref.__typename + ref.id) {
+        <span
+          class="tag-cell"
+          data-testid="tag"
+          [attr.data-typename]="ref.__typename"
+          [attr.data-id]="ref.id">
+          <cvc-tag
+            [ref]="ref"
+            [popover]="true" />
+        </span>
+      }
+    </div>
+  </nz-card>
+
+  <nz-card
+    nzTitle="Evidence fields"
+    data-testid="evidence-fields">
+    <p class="hint">
+      Backed by a real EvidenceState: pick an Evidence Type to watch direction,
+      significance and the therapy fields gate themselves.
+    </p>
+    @for (b of evidenceBench; track b.key) {
+      <div
+        class="field-cell"
+        data-testid="field"
+        [attr.data-key]="b.key"
+        [attr.data-type]="b.type">
+        <formly-form
+          [form]="b.form"
+          [fields]="b.fields"
+          [model]="b.model"
+          [options]="b.options" />
+      </div>
+    }
+  </nz-card>
+
+  <nz-card
+    nzTitle="Assertion fields"
+    data-testid="assertion-fields">
+    <p class="hint">
+      Backed by a real AssertionState. The FDA checkboxes chain: type enables
+      regulatory approval, which enables the companion test.
+    </p>
+    @for (b of assertionBench; track b.key) {
+      <div
+        class="field-cell"
+        data-testid="field"
+        [attr.data-key]="b.key"
+        [attr.data-type]="b.type">
+        <formly-form
+          [form]="b.form"
+          [fields]="b.fields"
+          [model]="b.model"
+          [options]="b.options" />
+      </div>
+    }
+  </nz-card>
+</div>

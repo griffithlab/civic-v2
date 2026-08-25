@@ -39,7 +39,6 @@ const DEFAULT_DESCRIPTION =
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FormlyModule, NzCheckboxModule],
   templateUrl: './fda-regulatory-approval-checkbox.type.html',
-  styleUrl: './fda-regulatory-approval-checkbox.type.less',
 })
 export class CvcFdaRegulatoryApprovalCheckboxField extends CvcFieldBase<
   Maybe<boolean>,

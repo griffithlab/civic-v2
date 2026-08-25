@@ -1,0 +1,47 @@
+<nz-tag
+  nz-popover
+  [nzPopoverContent]="tagListPopover"
+  nzPopoverPlacement="top"
+  nzPopoverTrigger="hover">
+  <span
+    class="plus-sign"
+    nz-typography
+    nzType="secondary">
+    <strong>+</strong>
+  </span>
+
+  @if (showAllIcons()) {
+    @for (spec of icons(); track $index) {
+      <span
+        class="entity-icon"
+        nz-icon
+        [nzType]="spec.icon"
+        nzTheme="twotone"
+        [nzTwotoneColor]="spec.color"></span>
+    }
+  } @else {
+    <span
+      class="entity-count"
+      nz-typography
+      nzType="secondary">
+      <strong>{{ refs().length }}</strong>
+    </span>
+    <span
+      class="entity-icon"
+      nz-icon
+      [nzType]="icons()[0].icon"
+      nzTheme="twotone"
+      [nzTwotoneColor]="icons()[0].color"></span>
+  }
+</nz-tag>
+
+<ng-template #tagListPopover>
+  <div class="popover-container">
+    <!-- labels are never truncated here: the popover is where the full names
+         are meant to be readable -->
+    <cvc-tag-list
+      [refs]="refs()"
+      [emphasize]="emphasize()"
+      [popover]="popover()" />
+  </div>
+</ng-template>

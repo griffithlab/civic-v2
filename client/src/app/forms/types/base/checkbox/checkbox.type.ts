@@ -29,7 +29,6 @@ export interface FormlyCheckboxFieldConfig
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FormlyModule, NzCheckboxModule],
   templateUrl: './checkbox.type.html',
-  styleUrl: './checkbox.type.less',
 })
 export class CvcBaseCheckboxField extends CvcFieldBase<
   Maybe<boolean>,
