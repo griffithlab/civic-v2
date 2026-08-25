@@ -1,5 +1,5 @@
 module Chats
-  class ChatResponseJob < ApplicationJob
+  class ChatResponseJob < ChatJob
     def perform(chat_id)
       chat = Chats::Chat.find(chat_id)
 

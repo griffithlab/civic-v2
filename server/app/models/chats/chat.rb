@@ -39,36 +39,18 @@ module Chats
       name.presence || model&.name || "Chat"
     end
 
-    def broadcast_name_update(current_chat: nil)
-      # Update sidebar on the chat-specific stream (for the show page)
-      Turbo::StreamsChannel.broadcast_replace_to(
-        user, self,
-        target: "sidebar_chat_#{id}",
-        partial: "chats/chats/sidebar_chat",
-        locals: { chat: self, current_chat: current_chat || self },
-      )
-
-      # Update header name on the chat-specific stream
-      Turbo::StreamsChannel.broadcast_replace_to(
-        user, self,
-        target: "chat_header_name",
-        partial: "chats/chats/header_name",
+    def broadcast_renamed
+      Turbo::StreamsChannel.broadcast_render_to(
+        user,
+        self,
+        template: "chats/chats/name_updated_chat_stream",
         locals: { chat: self },
       )
 
-      # Update sidebar on the global chats stream (for other pages)
-      Turbo::StreamsChannel.broadcast_replace_to(
-        user, "chats",
-        target: "sidebar_chat_#{id}",
-        partial: "chats/chats/sidebar_chat",
-        locals: { chat: self, current_chat: nil },
-      )
-
-      # Update index page card on the global chats stream
-      Turbo::StreamsChannel.broadcast_replace_to(
-        user, "chats",
-        target: "index_chat_#{id}",
-        partial: "chats/chats/index_chat",
+      Turbo::StreamsChannel.broadcast_render_to(
+        user,
+        "chats",
+        template: "chats/chats/name_updated_global_stream",
         locals: { chat: self },
       )
     end

@@ -29,7 +29,7 @@ module Chats
 
     def update
       @chat.update!(chat_params)
-      @chat.broadcast_name_update
+      @chat.broadcast_renamed
       head :ok
     end
 

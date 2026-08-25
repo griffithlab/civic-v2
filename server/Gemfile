@@ -133,3 +133,4 @@ gem "stimulus-rails"
 
 gem "ruby_llm-mcp"
 gem "rails-schema"
+gem "aws-sdk-core", "~> 3.0"

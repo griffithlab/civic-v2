@@ -1,0 +1,11 @@
+<%= turbo_stream.replace "sidebar_chat_#{chat.id}" do %>
+  <%= render "chats/chats/sidebar_chat", chat: chat, current_chat: chat %>
+<% end %>
+
+<%= turbo_stream.replace "chat_header_name" do %>
+  <%= render "chats/chats/header_name", chat: chat %>
+<% end %>
+
+<%= turbo_stream.replace "page_title" do %>
+  <title id="page_title"><%= chat.display_name %></title>
+<% end %>

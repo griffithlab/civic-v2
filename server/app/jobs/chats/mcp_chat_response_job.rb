@@ -1,5 +1,5 @@
 module Chats
-  class McpChatResponseJob < ApplicationJob
+  class McpChatResponseJob < ChatJob
     def perform(chat_id)
       chat = Chats::Chat.find(chat_id)
       RubyLLM::MCP.establish_connection do |clients|

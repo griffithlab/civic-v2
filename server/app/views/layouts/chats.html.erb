@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="h-full">
   <head>
-    <title><%= content_for(:title) || "CIViC Curation Chat" %></title>
+    <title id="page_title"><%= content_for(:title) || "CIViC Curation Chat" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="CIViC Curation Chat">
@@ -39,19 +39,21 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-full bg-gray-50 text-gray-900 antialiased">
-    <div class="flex h-full">
+  <body class="h-full bg-gray-50 text-gray-900 antialiased overflow-x-hidden" data-action="keydown@window->sidebar#closeOnEscape">
+    <div class="flex h-full" data-controller="sidebar">
       <% if content_for?(:hide_sidebar) %>
         <main id="main_content" class="flex-1 flex flex-col h-full overflow-hidden">
           <%= render "chats/shared/flash" %>
           <%= yield %>
         </main>
       <% else %>
+        <div data-sidebar-target="backdrop" data-action="click->sidebar#close" class="hidden fixed inset-0 z-30 bg-slate-900/50 lg:hidden"></div>
+
         <%# Sidebar %>
         <%= render "layouts/chats_sidebar" %>
 
         <%# Main content %>
-        <main id="main_content" class="flex-1 flex flex-col h-full overflow-hidden">
+        <main id="main_content" class="flex-1 flex flex-col h-full overflow-hidden min-w-0">
           <%= render "chats/shared/flash" %>
           <%= yield %>
         </main>
