@@ -7,8 +7,7 @@
     "start:production": "ng serve --hmr --configuration production --watch --port 4210",
     "build": "ng build --configuration production",
     "build:watch": "ng build --watch --configuration production",
-    "build:generate-stats": "ng build --configuration production --stats-json && webpack-bundle-analyzer ../server/public/stats.json",
-    "build:analyze-stats": "yarn run build:generate-stats && webpack-bundle-analyzer ../server/public/stats.json",
+    "build:stats": "ng build --configuration production --stats-json --output-path dist/stats-build",
     "optimize-icon-svg": "svgo --config .svgo.config.js -f ./src/assets/icons/ -r -o ./src/assets/icons/.tmp",
     "generate-icon-ts": "svg-to-ts-constants",
     "generate-icons": "yarn run optimize-icon-svg && yarn run generate-icon-ts",
@@ -94,7 +93,6 @@
     "ts-node": "~10.9.1",
     "tslib": "^2.3.1",
     "typescript": "6.0.3",
-    "vitest": "^4.1.10",
-    "webpack-bundle-analyzer": "^4.5.0"
+    "vitest": "^4.1.10"
   }
 }
