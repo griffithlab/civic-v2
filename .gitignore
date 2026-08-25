@@ -1,1 +1,12 @@
 docs/build
+
+# Angular resolves its build cache to <mainRepoRoot>/.angular/cache when .git is
+# a file rather than a directory, which is the case in every git worktree — so
+# worktree builds drop a cache here, at the repo root, not under client/.
+.angular/
+
+# 1Password mounts the local secrets here (PGUSER/PGPASSWORD and the OAuth keys).
+# It is currently a FIFO, which git cannot track, so it never appears in status —
+# but that is a property of the mount, not a guarantee. Ignore it explicitly so a
+# regular-file copy can never be committed.
+.env

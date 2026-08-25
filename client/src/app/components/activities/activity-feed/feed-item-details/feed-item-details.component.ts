@@ -42,7 +42,7 @@ import { CvcSubmitEvidenceActivity } from '@app/components/activities/activity-f
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { startWith } from 'rxjs/operators'
-import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
+import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.tokens'
 import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { CvcDeprecateFeatureActivity } from './deprecate-feature/deprecate-feature-activity.component'
 import { CvcDeleteCommentActivity } from './delete-comment/delete-comment-activity.component'
