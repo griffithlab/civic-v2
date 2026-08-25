@@ -7243,6 +7243,7 @@ export type ScalarFieldDiff = {
 export type SearchResult = {
   __typename: 'SearchResult';
   id: Scalars['Int']['output'];
+  link: Scalars['String']['output'];
   matchingText: Scalars['String']['output'];
   name: Scalars['String']['output'];
   resultType: SearchableEntities;
@@ -9842,9 +9843,9 @@ export type QuicksearchQueryVariables = Exact<{
 }>;
 
 
-export type QuicksearchQuery = { __typename: 'Query', search: Array<{ __typename: 'SearchResult', id: number, resultType: SearchableEntities, name: string, matchingText: string }> };
+export type QuicksearchQuery = { __typename: 'Query', search: Array<{ __typename: 'SearchResult', id: number, resultType: SearchableEntities, name: string, matchingText: string, link: string }> };
 
-export type QuicksearchResultFragment = { __typename: 'SearchResult', id: number, resultType: SearchableEntities, name: string, matchingText: string };
+export type QuicksearchResultFragment = { __typename: 'SearchResult', id: number, resultType: SearchableEntities, name: string, matchingText: string, link: string };
 
 export type MolecularProfilePopoverQueryVariables = Exact<{
   molecularProfileId: Scalars['Int']['input'];
@@ -13283,6 +13284,7 @@ export const QuicksearchResultFragmentDoc = gql`
   resultType
   name
   matchingText
+  link
 }
     `;
 export const MolecularProfilePopoverFieldsFragmentDoc = gql`
