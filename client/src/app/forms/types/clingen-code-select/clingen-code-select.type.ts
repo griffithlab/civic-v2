@@ -93,7 +93,7 @@ export class CvcClingenCodeSelectField extends CvcTypeGatedSelectFieldBase<
   })
 
   protected readonly typeGate: CvcTypeGateConfig = {
-    requiresKey: 'requiresClingenCodes$',
+    requiresKey: 'requiresClingenCodes',
     excludedDescription: (entityType, entityName) =>
       `${entityType} ${entityName} does not include associated ClinGen/CGC/VICC Code(s)`,
   }

@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { FeatureInstanceRefFragmentDoc } from '../../../graphql/feature-instance.fragments.gql.generated';
 import { ExonCoordinateFieldsFragmentDoc } from '../../../components/variants/coordinates-card/coordinates-card.query.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
@@ -13,10 +14,10 @@ export type FusionVariantRevisableFieldsQueryVariables = Types.Exact<{
 export type FusionVariantRevisableFieldsQuery = { __typename: 'Query', variant?:
     | { __typename: 'FactorVariant', id: number }
     | { __typename: 'FusionVariant', id: number, name: string, variantAliases: Array<string>, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, featureInstance:
-          | { __typename: 'Factor' }
-          | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus }
-          | { __typename: 'Gene' }
-          | { __typename: 'Region' }
+          | { __typename: 'Factor', id: number }
+          | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus, id: number }
+          | { __typename: 'Gene', id: number }
+          | { __typename: 'Region', id: number }
          }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: Types.ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Types.Direction | undefined, ensemblId?: string | undefined, strand?: Types.Direction | undefined, coordinateType: Types.ExonCoordinateType } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: Types.ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Types.Direction | undefined, ensemblId?: string | undefined, strand?: Types.Direction | undefined, coordinateType: Types.ExonCoordinateType } | undefined }
     | { __typename: 'GeneVariant', id: number }
     | { __typename: 'RegionVariant', id: number }
@@ -24,10 +25,10 @@ export type FusionVariantRevisableFieldsQuery = { __typename: 'Query', variant?:
    | undefined };
 
 export type RevisableFusionVariantFieldsFragment = { __typename: 'FusionVariant', name: string, variantAliases: Array<string>, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, featureInstance:
-      | { __typename: 'Factor' }
-      | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus }
-      | { __typename: 'Gene' }
-      | { __typename: 'Region' }
+      | { __typename: 'Factor', id: number }
+      | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus, id: number }
+      | { __typename: 'Gene', id: number }
+      | { __typename: 'Region', id: number }
      }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: Types.ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Types.Direction | undefined, ensemblId?: string | undefined, strand?: Types.Direction | undefined, coordinateType: Types.ExonCoordinateType } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', referenceBuild?: Types.ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Types.Direction | undefined, ensemblId?: string | undefined, strand?: Types.Direction | undefined, coordinateType: Types.ExonCoordinateType } | undefined };
 
 export type SuggestFusionVariantRevisionMutationVariables = Types.Exact<{
@@ -47,6 +48,7 @@ export const RevisableFusionVariantFieldsFragmentDoc = gql`
     deprecated
     flagged
     featureInstance {
+      ...FeatureInstanceRef
       ... on Fusion {
         fivePrimePartnerStatus
         threePrimePartnerStatus
@@ -66,7 +68,8 @@ export const RevisableFusionVariantFieldsFragmentDoc = gql`
     ...ExonCoordinateFields
   }
 }
-    ${ExonCoordinateFieldsFragmentDoc}`;
+    ${FeatureInstanceRefFragmentDoc}
+${ExonCoordinateFieldsFragmentDoc}`;
 export const FusionVariantRevisableFieldsDocument = gql`
     query FusionVariantRevisableFields($variantId: Int!) {
   variant(id: $variantId) {

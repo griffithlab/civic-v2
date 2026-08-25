@@ -94,7 +94,6 @@ export class CvcEvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           console.error(error)
         },
         complete: () => {
-          this.state.formReady$.next(true)
           console.log('evidence item retrieved.')
         },
       })

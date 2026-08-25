@@ -7,7 +7,7 @@ module Types::Queries
       end
 
       def evidence_item(id:)
-        EvidenceItem.find_by(id: id)
+        Loaders::RecordLoader.for(EvidenceItem).load(id)
       end
     end
   end

@@ -82,7 +82,7 @@ export class CvcDiseaseSelectField extends CvcTypeGatedSelectFieldBase<
   })
 
   protected readonly typeGate: CvcTypeGateConfig = {
-    requiresKey: 'requiresDisease$',
+    requiresKey: 'requiresDisease',
     excludedDescription: (entityType, entityName) =>
       `${entityType} ${entityName} does not include associated diseases`,
   }

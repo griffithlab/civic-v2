@@ -1,5 +1,5 @@
 import { OverlayContainer } from '@angular/cdk/overlay'
-import { Type } from '@angular/core'
+import { Type, signal } from '@angular/core'
 import { ComponentFixture } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { provideNoopAnimations } from '@angular/platform-browser/animations'
@@ -190,21 +190,20 @@ export function describeEnumSelectContract<TField>(
       h.destroy()
     })
 
-    it('propagates its value to the form-state subject named after its key', async () => {
-      const { BehaviorSubject } = await import('rxjs')
-      const subject = new BehaviorSubject<string | undefined>(undefined)
+    it('publishes its value into the form state under its own key', async () => {
+      const stateField = signal<string | undefined>(undefined)
       const base = config.formState?.() ?? {}
       const h = await setup({
         formState: {
           ...base,
-          fields: { ...(base.fields ?? {}), [`${config.key}$`]: subject },
+          fields: { ...(base.fields ?? {}), [config.key]: stateField },
         },
       })
       h.openDropdown()
       await h.settle()
       h.optionItems()[0].click()
       await h.settle()
-      expect(subject.value).toBe(config.values[0])
+      expect(stateField()).toBe(config.values[0])
       h.destroy()
     })
   })

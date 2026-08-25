@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Type,
+  effect,
+} from '@angular/core'
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms'
 import { CvcFieldBase } from '@app/forms/select'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
@@ -11,7 +15,6 @@ import {
 } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { filter, take } from 'rxjs'
 
 export type CvcNccnGuidelineVersionFieldOptions = Partial<
   FieldTypeConfig<CvcNccnGuidelineFieldProps>
@@ -68,19 +71,16 @@ export class CvcNccnGuidelineVersionField extends CvcFieldBase<
 
   override ngOnInit(): void {
     super.ngOnInit()
-    if (!this.state?.formReady$) {
-      this.connectGuideline()
-      return
-    }
-    this.state.formReady$
-      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.connectGuideline())
+    this.connectGuideline()
   }
 
+  /** see the FDA checkboxes: no barrier needed, effects flush late */
   private connectGuideline(): void {
-    this.state?.fields.nccnGuidelineId$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((guidelineId: Maybe<number>) => {
+    const guideline = this.state?.fields.nccnGuidelineId
+    if (!guideline) return
+    effect(
+      () => {
+        const guidelineId: Maybe<number> = guideline()
         if (guidelineId) {
           this.props.disabled = false
           this.props.required = true
@@ -94,6 +94,8 @@ export class CvcNccnGuidelineVersionField extends CvcFieldBase<
             'NCCN Guideline Version is only required when NCCN Guideline is specified.'
           this.formControl.setValue(undefined)
         }
-      })
+      },
+      { injector: this.injector }
+    )
   }
 }
