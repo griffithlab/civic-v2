@@ -47,6 +47,7 @@ module Scrapers
         ::ClinicalTrial.where(nct_id: nct_id).first_or_create!
       end
       source.clinical_trials = clinical_trials
+      source.is_preprint = resp.is_preprint
       source.save
     end
 

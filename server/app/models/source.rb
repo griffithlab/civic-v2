@@ -31,7 +31,17 @@ class Source < ActiveRecord::Base
   end
 
   def display_name
-    "#{self.display_type}: #{self.citation}"
+    if self.citation
+      n = "#{self.display_type}: #{self.citation}"
+    else
+      n = "#{self.display_type}: #{self.id}"
+    end
+
+    if self.is_preprint
+      "#{n} (preprint)"
+    else
+      n
+    end
   end
 
   def link

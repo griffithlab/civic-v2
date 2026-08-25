@@ -12553,6 +12553,7 @@ type Source implements Commentable & EventSubject {
     sortBy: DateSort
   ): CommentConnection!
   deprecated: Boolean!
+  displayName: String!
   displayType: String!
 
   """
@@ -12590,6 +12591,7 @@ type Source implements Commentable & EventSubject {
   fullJournalTitle: String
   fullyCurated: Boolean!
   id: Int!
+  isPreprint: Boolean!
   journal: String
   lastCommentEvent: Event
   link: String!
@@ -12712,6 +12714,7 @@ type SourcePopover implements Commentable & EventSubject {
     sortBy: DateSort
   ): CommentConnection!
   deprecated: Boolean!
+  displayName: String!
   displayType: String!
 
   """
@@ -12750,6 +12753,7 @@ type SourcePopover implements Commentable & EventSubject {
   fullJournalTitle: String
   fullyCurated: Boolean!
   id: Int!
+  isPreprint: Boolean!
   journal: String
   lastCommentEvent: Event
   link: String!
@@ -12779,6 +12783,7 @@ input SourceSearchFilter {
   comment: CommentSearchFilter
   deprecated: BooleanSearchInput
   id: IntSearchInput
+  isPreprint: BooleanSearchInput
   isRetracted: BooleanSearchInput
   journal: StringSearchInput
   sourceType: SourceSourceTypeSearchInput

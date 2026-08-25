@@ -5,6 +5,7 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :display_name, String, null: false
     field :title, String, null: true
     field :citation, String, null: true
     field :citation_id, String, null: false
@@ -29,6 +30,7 @@ module Types::Entities
     field :retraction_date, GraphQL::Types::ISO8601DateTime, null: true
     field :retraction_reasons, String, null: true
     field :deprecated, Boolean, null: false
+    field :is_preprint, Boolean, null: false
 
     def deprecated
       object&.retraction_nature == "Retraction" || object.deprecated
@@ -36,14 +38,6 @@ module Types::Entities
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
-    end
-
-    def name
-      if object.citation
-        return "#{object.source_type}: #{object.citation}"
-      else
-        return "#{object.source_type}: #{object.id}"
-      end
     end
 
     def link
