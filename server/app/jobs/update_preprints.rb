@@ -18,6 +18,7 @@ class UpdatePreprints < ApplicationJob
           update_source = create_update_source("PubMed", update_pmid)
           create_revisions(source, update_source)
         end
+        sleep(1)
       end
     end
   end
@@ -36,6 +37,7 @@ class UpdatePreprints < ApplicationJob
             create_revisions(source, update_source)
           end
         end
+        sleep(1)
       end
     end
   end
@@ -54,6 +56,7 @@ class UpdatePreprints < ApplicationJob
             create_revisions(source, update_source)
           end
         end
+        sleep(1)
       end
     end
   end
