@@ -27,7 +27,7 @@
     class="prefix">
     <ng-container [ngSwitch]="sourceType$ | ngrxPush">
       <div *ngSwitchCase="'PUBMED'">PMID:</div>
-      <div *ngSwitchCase="'ASCO'">ID:</div>
+      <div *ngSwitchCase="'ASCO'">doi.org/</div>
       <div *ngSwitchCase="'ASH'">doi.org/</div>
     </ng-container>
   </nz-col>

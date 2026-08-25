@@ -1035,7 +1035,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_22_234000) do
 
   create_table "sources", id: :serial, force: :cascade do |t|
     t.text "abstract"
-    t.integer "asco_abstract_id"
+    t.string "asco_abstract_id"
     t.text "asco_presenter"
     t.text "citation"
     t.string "citation_id", null: false

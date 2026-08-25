@@ -24,7 +24,7 @@ module Types::Queries
 
         citation = case source_type
         when "ASCO"
-          Scrapers::Asco.get_citation_from_asco_id(citation_id)
+          Scrapers::Asco.get_citation_from_doi(doi: citation_id)
         when "PubMed"
           Scrapers::PubMed.get_citation_from_pubmed_id(citation_id)
         when "ASH"
