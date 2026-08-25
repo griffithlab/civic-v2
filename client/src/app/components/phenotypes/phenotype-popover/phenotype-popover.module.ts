@@ -8,8 +8,8 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 
 @NgModule({
-  declarations: [CvcPhenotypePopoverComponent],
   imports: [
+    CvcPhenotypePopoverComponent,
     CommonModule,
     LetDirective,
     PushPipe,

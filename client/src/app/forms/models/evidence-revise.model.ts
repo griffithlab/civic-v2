@@ -11,7 +11,6 @@ export const evidenceItemReviseFieldsDefaults = <EvidenceItemFields>{
   significance: undefined,
   description: undefined,
   diseaseId: undefined,
-  drugIds: [],
   therapyInteractionType: undefined,
   evidenceDirection: undefined,
   evidenceLevel: undefined,

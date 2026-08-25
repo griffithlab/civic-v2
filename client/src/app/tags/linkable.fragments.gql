@@ -1,0 +1,115 @@
+# Linkable* fragments: the canonical per-type cache shape watched by CvcTag.
+#
+# Invariant: every query that can place a taggable entity in the Apollo cache
+# spreads that type's Linkable* fragment, so CvcTag's watchFragment read is
+# complete without a network round-trip.
+#
+# Fields vary per type (NccnGuideline and CytogeneticRegion have no link;
+# AcmgCode and ClingenCode have a tooltip). Check
+# src/app/generated/server.model.graphql before copying a shape.
+
+fragment LinkableAcmgCode on AcmgCode {
+  id
+  name
+  tooltip
+}
+
+fragment LinkableAssertion on Assertion {
+  id
+  name
+  link
+  flagged
+  status
+}
+
+fragment LinkableClingenCode on ClingenCode {
+  id
+  name
+  tooltip
+}
+
+fragment LinkableCytogeneticRegion on CytogeneticRegion {
+  id
+  name
+}
+
+fragment LinkableDisease on Disease {
+  id
+  name
+  link
+  deprecated
+}
+
+fragment LinkableEvidenceItem on EvidenceItem {
+  id
+  name
+  link
+  flagged
+  status
+}
+
+fragment LinkableFeature on Feature {
+  id
+  name
+  link
+  flagged
+  deprecated
+  featureType
+}
+
+fragment LinkableGene on Gene {
+  id
+  name
+  link
+  flagged
+  deprecated
+}
+
+fragment LinkableMolecularProfile on MolecularProfile {
+  id
+  name
+  link
+  flagged
+  deprecated
+}
+
+fragment LinkableNccnGuideline on NccnGuideline {
+  id
+  name
+}
+
+fragment LinkablePhenotype on Phenotype {
+  id
+  name
+  link
+}
+
+fragment LinkableSource on Source {
+  id
+  name
+  link
+  deprecated
+  citation
+  sourceType
+}
+
+fragment LinkableTherapy on Therapy {
+  id
+  name
+  link
+  deprecated
+}
+
+fragment LinkableVariant on VariantInterface {
+  id
+  name
+  link
+  flagged
+  deprecated
+}
+
+fragment LinkableVariantType on VariantType {
+  id
+  name
+  link
+}
