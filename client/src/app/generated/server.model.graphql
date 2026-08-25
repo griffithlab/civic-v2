@@ -12794,6 +12794,8 @@ input SourceSearchFilter {
 enum SourceSource {
   ASCO
   ASH
+  BIORXIV
+  MEDRXIV
   PUBMED
 }
 

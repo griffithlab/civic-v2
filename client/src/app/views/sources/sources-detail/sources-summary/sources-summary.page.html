@@ -65,9 +65,11 @@
           nzTitle="ASCO Abstract ID">
           {{ source.ascoAbstractId }}
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Journal"
-          >{{ source.fullJournalTitle }}
-        </nz-descriptions-item>
+        @if (source.displayType != "bioRxiv" && source.displayType != "medRxiv") {
+          <nz-descriptions-item nzTitle="Journal"
+            >{{ source.fullJournalTitle }}
+          </nz-descriptions-item>
+        }
         <nz-descriptions-item nzTitle="PMC ID">
           <ng-container *ngIf="source.pmcId; else notAvailable">
             <cvc-link-tag
