@@ -14,18 +14,22 @@ import { searchVariantsFieldOptions } from '@app/forms/config/query-builder/fiel
 import { withSmallSize } from './field-config-helpers'
 import { searchRevisionsFieldOptions } from '../search-revisions.config'
 import { searchCommentsFieldOptions } from '../search-comments.config'
+import { searchOrganizationsFieldOptions } from '../search-organizations.config'
+import { searchActivitiesFieldOptions } from '../search-activities.config'
 
 export function getFieldOptions(
   endpoint: AdvancedSearchEndpoint,
   isRootFilter?: boolean
 ): FormlyFieldConfig[] {
   const FILTER_OPTIONS: Record<string, FormlyFieldConfig[]> = {
+    searchActivities: searchActivitiesFieldOptions,
     searchComments: searchCommentsFieldOptions,
     searchDiseases: searchDiseasesFieldOptions,
     searchFeatures: searchFeaturesFieldOptions,
     searchAssertions: searchAssertionsFieldOptions,
     searchMolecularProfiles: searchMolecularProfilesFieldOptions,
     searchEvidenceItems: searchEvidenceItemsFieldOptions,
+    searchOrganizations: searchOrganizationsFieldOptions,
     searchPhenotypes: searchPhenotypesFieldOptions,
     searchSources: searchSourcesFieldOptions,
     searchTherapies: searchTherapiesFieldOptions,

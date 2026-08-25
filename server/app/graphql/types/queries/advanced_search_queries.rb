@@ -56,6 +56,11 @@ module Types::Queries
         argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
       end
 
+      klass.field :search_organizations, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::OrganizationSearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
       klass.field :search_revisions, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
         argument :query, Types::AdvancedSearch::RevisionSearchFilterType, required: true
         argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
@@ -63,6 +68,11 @@ module Types::Queries
 
       klass.field :search_comments, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
         argument :query, Types::AdvancedSearch::CommentSearchFilterType, required: true
+        argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
+      end
+
+      klass.field :search_activities, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+        argument :query, Types::AdvancedSearch::ActivitySearchFilterType, required: true
         argument :create_permalink, GraphQL::Types::Boolean, required: false, default_value: false
       end
 

@@ -68,12 +68,8 @@ export const searchMolecularProfilesFieldOptions: FormlyFieldConfig[] =
         },
       ]),
       ...withRecursive([
-        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
-        ...getQueryFieldConfig(
-          'deprecatingUser',
-          'searchUsers',
-          'Deprecating User'
-        ),
+        ...getQueryFieldConfig('creationActivity', 'searchActivities', 'Creation Activity'),
+        ...getQueryFieldConfig('deprecationActivity', 'searchActivities', 'Deprecation Activity'),
         ...getQueryFieldConfig('source', 'searchSources', 'Sources'),
         ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
       ]),

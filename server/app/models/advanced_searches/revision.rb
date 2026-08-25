@@ -1,7 +1,6 @@
 module AdvancedSearches
   class Revision < AdvancedSearches::Base
     include AdvancedSearches::Shared::CreatedAt
-    include AdvancedSearches::Shared::Activities
 
     def results
       process_node(query).distinct.pluck(:revision_set_id)
@@ -22,10 +21,17 @@ module AdvancedSearches
         resolve_created_at_filter(node),
         resolve_status_filter(node),
         resolve_field_name_filter(node),
-        resolve_activity_user(node.creating_user, "SuggestRevisionSetActivity"),
-        resolve_activity_user(node.moderating_user, [ "AcceptRevisionsActivity",  "RejectRevisionsActivity" ]),
+        resolve_activity(node.creation_activity, "SuggestRevisionSetActivity"),
+        resolve_activity(node.moderation_activity, [ "AcceptRevisionsActivity", "RejectRevisionsActivity" ]),
         resolve_comment_filter(node),
       ]
+    end
+
+    def resolve_activity(node_value, activity_types)
+      return nil if node_value.nil?
+      activity_ids = AdvancedSearches::Activity.new(query: node_value).results
+      base_ids = base_query.joins(:activities).where(activities: { id: activity_ids, type: Array(activity_types) }).select(:id)
+      base_query.where(id: base_ids)
     end
 
     def resolve_subject_type_filter(node)
