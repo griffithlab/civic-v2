@@ -18,7 +18,7 @@ import {
   TimeWindow,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { QueryRef, WatchQueryOptionsAlone } from 'apollo-angular'
+import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, map } from 'rxjs'
 import { TagLinkableOrganization } from '../organization-tag/organization-tag.component'
 
@@ -102,11 +102,6 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
   initialRows: number = 25
   initialWindow: TimeWindow = TimeWindow.AllTime
 
-  fetchPolicy: WatchQueryOptionsAlone = {
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  }
-
   constructor(
     private commentsGQL: OrganizationCommentsLeaderboardGQL,
     private revisionsGQL: OrganizationRevisionsLeaderboardGQL,
@@ -115,6 +110,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
   ) {
     this.timeWindow$ = new BehaviorSubject<TimeWindow>(this.initialWindow)
     this.timeWindow$.pipe(untilDestroyed(this)).subscribe((window) => {
+      // BehaviorSubject emits synchronously on subscribe, before ngOnInit
+      // has created the query refs; that initial window is already passed
+      // to the watch() calls
+      if (!this.commentsQueryRef) return
       this.commentsQueryRef.refetch({ window: window })
       this.revisionsQueryRef.refetch({ window: window })
       this.moderationQueryRef.refetch({ window: window })
@@ -153,13 +152,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     /*
      * REVISIONS
      */
-    this.commentsQueryRef = this.commentsGQL.watch(
-      {
-        first: this.initialRows,
-        window: this.initialWindow,
-      },
-      this.fetchPolicy
-    )
+    this.commentsQueryRef = this.commentsGQL.watch({
+      first: this.initialRows,
+      window: this.initialWindow,
+    })
 
     this.commentsQueryRef.valueChanges
       .pipe(
@@ -193,13 +189,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     /*
      * MODERATIONS
      */
-    this.moderationQueryRef = this.moderationGQL.watch(
-      {
-        first: this.initialRows,
-        window: this.initialWindow,
-      },
-      this.fetchPolicy
-    )
+    this.moderationQueryRef = this.moderationGQL.watch({
+      first: this.initialRows,
+      window: this.initialWindow,
+    })
 
     this.moderationQueryRef.valueChanges
       .pipe(
@@ -235,13 +228,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     // /*
     //  * REVISIONS
     //  */
-    this.revisionsQueryRef = this.revisionsGQL.watch(
-      {
-        first: this.initialRows,
-        window: this.initialWindow,
-      },
-      this.fetchPolicy
-    )
+    this.revisionsQueryRef = this.revisionsGQL.watch({
+      first: this.initialRows,
+      window: this.initialWindow,
+    })
 
     this.revisionsQueryRef.valueChanges
       .pipe(
@@ -277,13 +267,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     /*
      * SUBMISSIONS
      */
-    this.submissionsQueryRef = this.submissionsGQL.watch(
-      {
-        first: this.initialRows,
-        window: this.initialWindow,
-      },
-      this.fetchPolicy
-    )
+    this.submissionsQueryRef = this.submissionsGQL.watch({
+      first: this.initialRows,
+      window: this.initialWindow,
+    })
 
     this.submissionsQueryRef.valueChanges
       .pipe(
