@@ -55,5 +55,18 @@
         <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
       }
     </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Therapy Interaction">
+      @if (activity().sourceSuggestion.therapyInteractionType) {
+        <nz-tag>
+          {{
+            activity().sourceSuggestion.therapyInteractionType
+              | therapyInteractionEnumDisplay
+          }}
+        </nz-tag>
+      } @else {
+        <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+      }
+    </nz-descriptions-item>
   </nz-descriptions>
 </div>

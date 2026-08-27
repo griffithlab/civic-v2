@@ -8,6 +8,8 @@ class SourceSuggestion < ActiveRecord::Base
   belongs_to :molecular_profile, optional: true
   has_and_belongs_to_many :therapies
 
+  enum :therapy_interaction_type, Constants::THERAPY_INTERACTION_TYPES
+
   validates :status, inclusion: { in: [ "new", "curated", "rejected" ] }
 
   has_activity :creation_activity, activity_type: "SuggestSourceActivity"

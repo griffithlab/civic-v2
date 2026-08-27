@@ -271,6 +271,14 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
     return JSON.stringify(suggestion?.therapies.map((t) => t.id) || [])
   }
 
+  getTherapyInteractionTypeQueryParam(
+    suggestion: Maybe<BrowseSourceSuggestionRowFieldsFragment>
+  ): Maybe<string> {
+    return suggestion?.therapyInteractionType
+      ? JSON.stringify(suggestion.therapyInteractionType)
+      : undefined
+  }
+
   // virtual scroll helpers
   trackByIndex(_: number, data: Maybe<BrowseSourceSuggestionRowFieldsFragment>): Maybe<number> {
     return data?.id

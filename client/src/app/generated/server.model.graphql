@@ -12782,6 +12782,7 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
   source: Source
   status: SourceSuggestionStatus!
   therapies: [Therapy!]!
+  therapyInteractionType: TherapyInteraction
   user: User
 }
 
@@ -13886,6 +13887,11 @@ input SuggestSourceInput {
   List of IDs of CIViC Therapy entries for this Source Suggestion. An empty list indicates none.
   """
   therapyIds: [Int!]!
+
+  """
+  Therapy interaction type for cases where more than one Therapy ID is provided.
+  """
+  therapyInteractionType: TherapyInteraction
 }
 
 """

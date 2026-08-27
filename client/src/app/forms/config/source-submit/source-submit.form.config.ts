@@ -1,4 +1,5 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
+import { CvcInteractionSelectFieldOptions } from '@app/forms/types/interaction-select/interaction-select.type'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
@@ -45,6 +46,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
               description:
                 'Select one or more Therapies for this Source Suggestion, if applicable.',
             },
+          },
+          <CvcInteractionSelectFieldOptions>{
+            key: 'therapyInteractionType',
+            type: 'interaction-select',
+            props: {},
           },
           {
             key: 'sourceId',

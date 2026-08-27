@@ -60110,6 +60110,18 @@
             "deprecationReason": null
           },
           {
+            "name": "therapyInteractionType",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "TherapyInteraction",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user",
             "description": null,
             "args": [],
@@ -64007,6 +64019,18 @@
                   }
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "therapyInteractionType",
+            "description": "Therapy interaction type for cases where more than one Therapy ID is provided.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TherapyInteraction",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,

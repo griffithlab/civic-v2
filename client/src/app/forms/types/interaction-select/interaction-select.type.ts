@@ -18,8 +18,9 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map } from 'rxjs'
+import { BehaviorSubject, map, Observable, startWith } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { $enum } from 'ts-enum-util'
 
 const optionText: { [option: string]: string } = {
   COMBINATION:
@@ -70,7 +71,7 @@ export class CvcInteractionSelectField
   //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. TherapyInteraction instead of CvcInputEnum
   // STATE SOURCE STREAMS
   interactionEnum$: BehaviorSubject<CvcInputEnum[]>
-  onTherapies$?: BehaviorSubject<Maybe<number[]>>
+  onTherapies$?: Observable<Maybe<number[]>>
 
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
@@ -110,31 +111,29 @@ export class CvcInteractionSelectField
   } // ngAfterViewInit()
 
   configureStateConnections(): void {
-    if (!this.state) {
-      console.error(
-        `${this.field.id} requires a form state to populate its options, none was found.`
-      )
-      this.placeholder$.next('ERROR: Form state not found')
-      return
-    }
-
     // CONFIGURE PLACEHOLDER PROMPT
     this.placeholder$.next(this.props.placeholder)
 
     // CONFIGURE STATE INPUTS
     // connect to state clinicalInteractionOptions$
-    if (!this.state.enums.interaction$) {
-      console.error(
-        `${this.field.id} could not find form state's interaction$ to populate select.`
+    if (this.state) {
+      if (!this.state.enums.interaction$) {
+        console.error(
+          `${this.field.id} could not find form state's interaction$ to populate select.`
+        )
+        return
+      }
+      // update interaction enums when state clinicalInteraction$ emits
+      this.state.enums.interaction$
+        .pipe(untilDestroyed(this))
+        .subscribe((enums: CvcInputEnum[]) => {
+          this.interactionEnum$.next(enums)
+        })
+    } else {
+      this.interactionEnum$.next(
+        $enum(TherapyInteraction).map((value) => value)
       )
-      return
     }
-    // update interaction enums when state clinicalInteraction$ emits
-    this.state.enums.interaction$
-      .pipe(untilDestroyed(this))
-      .subscribe((enums: CvcInputEnum[]) => {
-        this.interactionEnum$.next(enums)
-      })
 
     // set up optionTemplates Observable
     if (!this.optionTemplates) {
@@ -149,11 +148,22 @@ export class CvcInteractionSelectField
       })
     )
 
-    this.onTherapies$ = this.state.fields.therapyIds$
-    if (!this.optionTemplates) {
-      console.warn(
-        `${this.field.id} could not find state's fields.therapyIds$ to handle its required & disabled states.`
+    if (this.state) {
+      this.onTherapies$ = this.state.fields.therapyIds$
+    } else {
+      const therapyIdsControl = this.form.get('therapyIds')
+      if (therapyIdsControl) {
+        this.onTherapies$ = therapyIdsControl.valueChanges.pipe(
+          startWith(therapyIdsControl.value)
+        )
+      }
+    }
+
+    if (!this.onTherapies$) {
+      console.error(
+        `${this.field.id} could not find a therapyIds control to handle its required and disabled states.`
       )
+      return
     }
 
     this.onTherapies$

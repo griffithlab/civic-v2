@@ -72,6 +72,7 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     link
     deprecated
   }
+  therapyInteractionType
   source {
     link
     id

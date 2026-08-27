@@ -29,6 +29,7 @@ fragment SuggestSourceActivityDetail on SuggestSourceActivity {
       link
       deprecated
     }
+    therapyInteractionType
   }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents

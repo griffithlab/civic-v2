@@ -11,6 +11,7 @@ module Types::Entities
     field :molecular_profile, Types::Entities::MolecularProfileType, null: true
     field :disease, Types::Entities::DiseaseType, null: true
     field :therapies, [ Types::Entities::TherapyType ], null: false
+    field :therapy_interaction_type, Types::TherapyInteractionType, null: true
     field :initial_comment, String, null: false
     field :creation_activity, Types::Activities::SuggestSourceActivityType, null: false
     field :last_status_update_activity, Types::Activities::UpdateSourceSuggestionStatusActivityType, null: true
