@@ -4,20 +4,20 @@ import {
   Component,
   Input,
   QueryList,
-  signal,
   ViewChildren,
-  WritableSignal,
 } from '@angular/core'
 
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
-import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
+import { EvidenceStatus } from '@app/generated/civic.apollo'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableEvidence {
   id: number
   name: string
-  status: EvidenceStatus
+  // optional: sources without status data (e.g. revision diff objects) render
+  // with default styling
+  status?: EvidenceStatus
   flagged: boolean
   link: string
 }

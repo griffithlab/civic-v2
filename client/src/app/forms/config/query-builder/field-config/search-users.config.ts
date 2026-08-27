@@ -11,8 +11,10 @@ import {
 import {
   sortByKey,
   withHideExpression,
+  withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
 
 export type UserSearchFilterREF = {
   booleanOperator?: InputMaybe<BooleanOperator>
@@ -44,16 +46,9 @@ export const searchUsersFieldOptions: FormlyFieldConfig[] = withHideExpression(
         props: { label: 'User ID' },
         fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
       },
-      {
-        key: 'organizationName',
-        props: { label: 'Organization Name' },
-        fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
-      },
-      {
-        key: 'organizationId',
-        props: { label: 'Organization ID' },
-        fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
-      },
+    ]),
+    ...withRecursive([
+      ...getQueryFieldConfig('organizations', 'searchOrganizations', 'Organization'),
     ]),
   ])
 )

@@ -32,18 +32,18 @@ class AddRemoteCitationTest < ActiveSupport::TestCase
     )
     result = response.dig("data", "addRemoteCitation", "newSource")
     assert_not_nil result
-    assert_equal 99999999, result["citationId"]
+    assert_equal "99999999", result["citationId"]
   end
 
   test "creates a new source with ASCO type" do
     response = execute_mutation(
       @add_citation_mutation,
       user: @user,
-      variables: { citationId: "88888888", sourceType: "ASCO" },
+      variables: { citationId: "10.1200/JCO.2018.36.15_suppl.4503", sourceType: "ASCO" },
     )
     result = response.dig("data", "addRemoteCitation", "newSource")
     assert_not_nil result
-    assert_equal 88888888, result["citationId"]
+    assert_equal "10.1200/JCO.2018.36.15_suppl.4503", result["citationId"]
   end
 
   test "returns existing source if citation_id and source_type match" do

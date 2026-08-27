@@ -24,6 +24,11 @@ fragment UserDetailFields on User {
     name
     url
   }
+  organizationsWithApprovalPrivileges {
+    id
+    name
+    url
+  }
   country {
     id
     name

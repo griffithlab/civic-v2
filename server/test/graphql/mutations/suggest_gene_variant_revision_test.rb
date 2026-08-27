@@ -71,6 +71,31 @@ class SuggestGeneVariantRevisionTest < ActiveSupport::TestCase
     assert result["results"].any?, "Expected at least one revision result"
   end
 
+  test "does not suggest an HGVS revision for whitespace-only differences" do
+    expression = "NM_004333.6:c.1799T>A"
+    hgvs_description = HgvsDescription.create!(description: expression)
+    @variant.hgvs_descriptions << hgvs_description
+    @variant.clinvar_entries << clinvar_entries(:none_found)
+
+    response = assert_no_difference "HgvsDescription.count" do
+      execute_mutation(
+        @mutation,
+        user: @user,
+        variables: {
+          id: @variant.id,
+          fields: default_fields.merge(
+            hgvsDescriptions: [ " \t#{expression} \n" ],
+          ),
+          comment: "Submitting the same HGVS expression with whitespace.",
+          organizationId: @org.id,
+        },
+      )
+    end
+
+    assert_graphql_error(response, /change at least one field/i)
+    assert_equal [ hgvs_description.id ], @variant.reload.hgvs_description_ids
+  end
+
   test "requires authentication" do
     response = execute_mutation(
       @mutation,

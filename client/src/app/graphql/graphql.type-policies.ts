@@ -2,7 +2,46 @@ import { relayStylePagination } from '@apollo/client/utilities'
 import { StrictTypedTypePolicies } from '@app/generated/civic.apollo-helpers'
 import { CvcAdvancedSearchResultPolicy } from '@app/graphql/policies/advanced-search-result.policy'
 
+/**
+ * Embed a type in whatever query result fetched it instead of normalizing it.
+ *
+ * Apply to "row" types that carry an entity's `id` alongside fields scoped to
+ * the query that produced them — a leaderboard row is user 12 *plus* that
+ * board's rank and actionCount for one time window. Normalization treats id as
+ * global identity: every board and every window would fold into one
+ * `LeaderboardUser:12` object, and whichever query wrote last would clobber
+ * the others' rank. `keyFields: false` keeps each row inside its own
+ * connection entry, which the default field keying already partitions by
+ * board field and arguments. (Value types with no id at all — ContributingUser,
+ * Ranks — get this behavior by default and need no policy.)
+ */
+function embeddedRow(): { keyFields: false } {
+  return { keyFields: false }
+}
+
+/**
+ * Deep-merge writes to a keyless singleton instead of replacing it.
+ *
+ * Apply to namespace objects — id-less types that exist once under ROOT_QUERY
+ * and whose fields are populated by separate queries (the four leaderboard
+ * queries each write one board field of `userLeaderboards`). Apollo's default
+ * for a keyless object is replacement, so the last query to respond would
+ * discard every other query's fields ("Cache data may be lost..." warning).
+ */
+function mergedNamespace(): { merge: true } {
+  return { merge: true }
+}
+
 export const CvcTypePolicies: StrictTypedTypePolicies = {
+  // leaderboard rows carry per-board, per-window rank/actionCount on an
+  // entity id; see embeddedRow. Before these policies the leaderboard
+  // components masked the collision with no-cache fetch policies.
+  LeaderboardUser: embeddedRow(),
+  LeaderboardOrganization: embeddedRow(),
+  // the four user/org leaderboard queries each write one field of these
+  // keyless singletons; see mergedNamespace
+  UserLeaderboards: mergedNamespace(),
+  OrganizationLeaderboards: mergedNamespace(),
   Gene: {
     fields: {
       comments: relayStylePagination(),
@@ -88,6 +127,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'eventType',
       ]),
       variants: relayStylePagination(['featureId', 'name']),
+      newsItems: relayStylePagination(),
       molecularProfiles: relayStylePagination([
         'featureId',
         'name',
@@ -190,7 +230,7 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'organizatioName',
         'subjectType',
         'id',
-      ])
+      ]),
     },
   },
   AdvancedSearchResult: CvcAdvancedSearchResultPolicy as any,

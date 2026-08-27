@@ -1,5 +1,6 @@
 module Reports
   AVAILABLE_REPORTS = [
+    EvidenceItemSubmissionCounts,
     OrganizationContributions,
     EidsWithOnsetTerms,
     EidsBySource,

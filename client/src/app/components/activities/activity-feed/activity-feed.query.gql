@@ -1,3 +1,8 @@
+# One query serves every feed context; boolean variables gate optional
+# sections so the list view stays cheap — $showFilters requests filter-option
+# metadata, $includeConnection/$includePageInfo request edges/pagination, and
+# $requestDetails pulls the per-activity-type detail fragments (only set true
+# by feed-item-details when a single activity is expanded).
 query ActivityFeed(
   $subject: [SubscribableQueryInput!]
   $first: Int
@@ -176,6 +181,8 @@ fragment ActivityFeedItemBase on ActivityInterface {
   }
 }
 
+# base row data plus per-activity-type detail fragments, each defined in its
+# detail component's .query.gql under feed-item-details/
 fragment ActivityFeedItem on ActivityInterface {
   ...ActivityFeedItemBase
   ...AcceptRevisionsActivityDetail @include(if: $requestDetails)
@@ -201,6 +208,9 @@ fragment ActivityFeedItem on ActivityInterface {
   ...RevokeApprovalActivityDetail @include(if: $requestDetails)
 }
 
+# revision data for suggest/accept/reject-revisions details. NOTE:
+# revisionLinkoutData is shared with the revisions components — it is defined
+# in revisions-list-and-filter.query.gql
 fragment RevisionActivityDetail on Revision {
   id
   name

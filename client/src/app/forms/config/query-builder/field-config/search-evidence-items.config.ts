@@ -96,6 +96,11 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['EvidenceTypeTypeSearchInput'],
         },
         {
+          key: 'hasAssertion',
+          props: { label: 'Has Assertion' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
           key: 'isFlagged',
           props: { label: 'Is Flagged' },
           fieldGroup: INPUT_FIELD_CONFIG['FlaggedSearchInput'],
@@ -124,17 +129,13 @@ export const searchEvidenceItemsFieldOptions: FormlyFieldConfig[] =
       ...withRecursive([
         ...getQueryFieldConfig('assertion', 'searchAssertions', 'Assertion'),
         ...getQueryFieldConfig('comment', 'searchComments', 'Comments'),
-        ...getQueryFieldConfig('creatingUser', 'searchUsers', 'Creating User'),
+        ...getQueryFieldConfig('submissionActivity', 'searchActivities', 'Submission Activity'),
+        ...getQueryFieldConfig('lastModerationActivity', 'searchActivities', 'Last Moderation Activity'),
         ...getQueryFieldConfig('disease', 'searchDiseases', 'Disease'),
         ...getQueryFieldConfig(
           'molecularProfile',
           'searchMolecularProfiles',
           'Molecular Profile'
-        ),
-        ...getQueryFieldConfig(
-          'moderatingUser',
-          'searchUsers',
-          'Moderating User'
         ),
         ...getQueryFieldConfig('phenotypes', 'searchPhenotypes', 'Phenotypes'),
         ...getQueryFieldConfig('revisions', 'searchRevisions', 'Revisions'),

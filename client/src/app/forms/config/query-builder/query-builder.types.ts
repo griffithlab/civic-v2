@@ -1,9 +1,11 @@
 import {
+  ActivitySearchFilter,
   AssertionSearchFilter,
   DiseaseSearchFilter,
   EvidenceItemSearchFilter,
   FeatureSearchFilter,
   MolecularProfileSearchFilter,
+  OrganizationSearchFilter,
   PhenotypeSearchFilter,
   RevisionSearchFilter,
   SourceSearchFilter,
@@ -25,6 +27,7 @@ export type AdvancedSearchAttribute<
 > = (typeof ADVANCED_SEARCH_ENDPOINTS)[E]['attribute']
 
 interface EndpointFilterTypes {
+  searchActivities: ActivitySearchFilter
   searchAssertions: AssertionSearchFilter
   searchComments: AssertionSearchFilter
   searchDiseases: DiseaseSearchFilter
@@ -38,6 +41,7 @@ interface EndpointFilterTypes {
   searchVariants: VariantSearchFilter
   searchVariantTypes: VariantTypeSearchFilter
   searchRevisions: RevisionSearchFilter
+  searchOrganizations: OrganizationSearchFilter
 }
 
 export type AdvancedSearchFilter<

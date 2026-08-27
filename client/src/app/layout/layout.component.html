@@ -379,6 +379,16 @@
               nz-menu-item
               nzSelected
               nzMatchRouter>
+              <a
+                routerLink="/news"
+                id="news">
+                {{ isCollapsed ? 'News' : 'News & Events' }}
+              </a>
+            </li>
+            <li
+              nz-menu-item
+              nzSelected
+              nzMatchRouter>
               <a routerLink="/pages/help">Help</a>
             </li>
             <li

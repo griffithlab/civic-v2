@@ -13,6 +13,7 @@ module Types
       argument :evidence_level, Types::AdvancedSearch::EnumSearchInput.for(Types::EvidenceLevelType, is_activerecord_enum: true), required: false
       argument :evidence_rating, Types::AdvancedSearch::IntSearchInput, required: false
       argument :evidence_type, Types::AdvancedSearch::EnumSearchInput.for(Types::EvidenceTypeType, is_activerecord_enum: true), required: false
+      argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :molecular_profile, Types::AdvancedSearch::MolecularProfileSearchFilterType, required: false
@@ -21,8 +22,8 @@ module Types
       argument :source, Types::AdvancedSearch::SourceSearchFilterType, required: false
       argument :therapies, Types::AdvancedSearch::TherapySearchFilterType, required: false
       argument :therapy_interaction_type, Types::AdvancedSearch::EnumSearchInput.for(Types::TherapyInteractionType, is_activerecord_enum: true), required: false
-      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
-      argument :moderating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :submission_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
+      argument :last_moderation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
       argument :revisions, Types::AdvancedSearch::RevisionSearchFilterType, required: false
     end
   end
