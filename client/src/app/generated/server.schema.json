@@ -51450,6 +51450,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "therapyName",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "comment",
                   "description": null,
                   "type": {
@@ -60409,6 +60421,42 @@
               "deprecationReason": null
             },
             {
+              "name": "therapies",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Therapy",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "therapyInteractionType",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "ENUM",
+                "name": "TherapyInteraction",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "user",
               "description": null,
               "args": [],
@@ -64229,6 +64277,42 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "therapyIds",
+              "description": "List of IDs of CIViC Therapy entries for this Source Suggestion. An empty list indicates none.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "therapyInteractionType",
+              "description": "Therapy interaction type for cases where more than one Therapy ID is provided.",
+              "type": {
+                "kind": "ENUM",
+                "name": "TherapyInteraction",
                 "ofType": null
               },
               "defaultValue": null,
