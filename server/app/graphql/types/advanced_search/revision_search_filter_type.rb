@@ -8,8 +8,8 @@ module Types
       argument :subject_id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :status, Types::AdvancedSearch::EnumSearchInput.for(Types::Revisions::RevisionStatus), required: false
       argument :field_name, Types::AdvancedSearch::StringSearchInput, required: false
-      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
-      argument :moderating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :creation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
+      argument :moderation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
       argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
     end
   end

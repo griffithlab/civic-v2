@@ -25,6 +25,7 @@ module AdvancedSearches
         resolve_is_retracted_filter(node),
         resolve_comment_filter(node),
         resolve_is_preprint_filter(node),
+        resolve_evidence_items_filter(node),
       ]
     end
 
@@ -131,6 +132,13 @@ module AdvancedSearches
       end
       clause, value = node.is_preprint.resolve_query_for_type("sources.is_preprint")
       base_query.where(clause, value)
+    end
+
+    def resolve_evidence_items_filter(node)
+      return nil if node.evidence_items.nil?
+      matching_ids = ::AdvancedSearches::EvidenceItem.new(query: node.evidence_items).results
+      source_ids = ::Source.joins(:evidence_items).where(evidence_items: { id: matching_ids }).select(:id)
+      base_query.where(id: source_ids)
     end
   end
 end

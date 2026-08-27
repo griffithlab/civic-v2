@@ -155,6 +155,16 @@ type ActivityInterfaceEdge {
   node: ActivityInterface
 }
 
+input ActivitySearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  organization: OrganizationSearchFilter
+  subFilters: [ActivitySearchFilter!]
+  type: StringSearchInput
+  user: UserSearchFilter
+}
+
 enum ActivitySubjectInput {
   ASSERTION
   COMMENT
@@ -944,7 +954,6 @@ input AssertionSearchFilter {
   assertionType: AssertionTypeTypeSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceItemCount: IntSearchInput
@@ -952,7 +961,7 @@ input AssertionSearchFilter {
   fdaCompanionTest: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   name: StringSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -961,6 +970,7 @@ input AssertionSearchFilter {
   significance: AssertionSignificanceTypeSearchInput
   status: EvidenceStatusTypeSearchInput
   subFilters: [AssertionSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   variantOrigin: VariantOriginTypeSearchInput
 }
@@ -1744,7 +1754,7 @@ type BrowseUser {
   orcid: String
   organizations: [Organization!]!
   organizationsWithApprovalPrivileges: [Organization!]!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   ranks: Ranks!
   revisionCount: Int!
   role: UserRole!
@@ -3214,10 +3224,14 @@ type DiseasePopover {
 }
 
 input DiseaseSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
   diseaseAliases: StringSearchInput
   doid: OntologyTermSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   subFilters: [DiseaseSearchFilter!]
@@ -3864,16 +3878,16 @@ input EvidenceItemSearchFilter {
   assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
   description: StringSearchInput
   disease: DiseaseSearchFilter
   evidenceDirection: EvidenceDirectionTypeSearchInput
   evidenceLevel: EvidenceLevelTypeSearchInput
   evidenceRating: IntSearchInput
   evidenceType: EvidenceTypeTypeSearchInput
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isFlagged: BooleanSearchInput
-  moderatingUser: UserSearchFilter
+  lastModerationActivity: ActivitySearchFilter
   molecularProfile: MolecularProfileSearchFilter
   openRevisionCount: IntSearchInput
   phenotypes: PhenotypeSearchFilter
@@ -3882,6 +3896,7 @@ input EvidenceItemSearchFilter {
   source: SourceSearchFilter
   status: EvidenceStatusTypeSearchInput
   subFilters: [EvidenceItemSearchFilter!]
+  submissionActivity: ActivitySearchFilter
   therapies: TherapySearchFilter
   therapyInteractionType: TherapyInteractionTypeSearchInput
 }
@@ -5102,8 +5117,8 @@ input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: FeatureDeprecationReasonTypeSearchInput
   description: StringSearchInput
   entrezId: IntSearchInput
@@ -6976,7 +6991,7 @@ type LeaderboardOrganization {
   name: String!
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   rank: Int!
   ranks: Ranks!
   subGroups: [Organization!]!
@@ -7119,7 +7134,7 @@ type LeaderboardUser {
   orcid: String
   organizations: [Organization!]!
   organizationsWithApprovalPrivileges: [Organization!]!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   rank: Int!
   ranks: Ranks!
   role: UserRole!
@@ -7791,8 +7806,8 @@ input MolecularProfileSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   description: StringSearchInput
   evidenceItemsCount: IntSearchInput
   hasAssertion: BooleanSearchInput
@@ -8814,7 +8829,7 @@ type Organization {
   name: String!
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
@@ -8980,6 +8995,15 @@ type OrganizationLeaderboards {
   ): LeaderboardOrganizationConnection!
 }
 
+input OrganizationSearchFilter {
+  booleanOperator: BooleanOperator
+  createdAt: DateSearchInput
+  id: IntSearchInput
+  name: StringSearchInput
+  parentOrganization: OrganizationSearchFilter
+  subFilters: [OrganizationSearchFilter!]
+}
+
 input OrganizationSort {
   """
   Available columns for sorting
@@ -9092,8 +9116,12 @@ type PhenotypePopover {
 }
 
 input PhenotypeSearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   description: StringSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   hpoId: OntologyTermSearchInput
   id: IntSearchInput
   name: StringSearchInput
@@ -10853,6 +10881,7 @@ type Query {
     """
     types: [SearchableEntities!]
   ): [SearchResult!]!
+  searchActivities(createPermalink: Boolean = false, query: ActivitySearchFilter!): AdvancedSearchResult!
   searchAssertions(createPermalink: Boolean = false, query: AssertionSearchFilter!): AdvancedSearchResult!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchComments(createPermalink: Boolean = false, query: CommentSearchFilter!): AdvancedSearchResult!
@@ -10860,6 +10889,7 @@ type Query {
   searchEvidenceItems(createPermalink: Boolean = false, query: EvidenceItemSearchFilter!): AdvancedSearchResult!
   searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
   searchMolecularProfiles(createPermalink: Boolean = false, query: MolecularProfileSearchFilter!): AdvancedSearchResult!
+  searchOrganizations(createPermalink: Boolean = false, query: OrganizationSearchFilter!): AdvancedSearchResult!
   searchPhenotypes(createPermalink: Boolean = false, query: PhenotypeSearchFilter!): AdvancedSearchResult!
   searchRevisions(createPermalink: Boolean = false, query: RevisionSearchFilter!): AdvancedSearchResult!
   searchSources(createPermalink: Boolean = false, query: SourceSearchFilter!): AdvancedSearchResult!
@@ -10918,6 +10948,7 @@ type Query {
     status: SourceSuggestionStatus
     submitter: String
     submitterId: Int
+    therapyName: String
   ): SourceSuggestionConnection!
 
   """
@@ -12265,9 +12296,9 @@ input RevisionSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   createdAt: DateSearchInput
-  creatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
   fieldName: StringSearchInput
-  moderatingUser: UserSearchFilter
+  moderationActivity: ActivitySearchFilter
   status: RevisionStatusSearchInput
   subFilters: [RevisionSearchFilter!]
   subjectId: IntSearchInput
@@ -12473,6 +12504,7 @@ type ScalarFieldDiff {
 
 type SearchResult {
   id: Int!
+  link: String!
   matchingText: String!
   name: String!
   resultType: SearchableEntities!
@@ -12782,6 +12814,7 @@ input SourceSearchFilter {
   citationId: StringSearchInput
   comment: CommentSearchFilter
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
   id: IntSearchInput
   isPreprint: BooleanSearchInput
   isRetracted: BooleanSearchInput
@@ -12856,6 +12889,8 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
   reason: String
   source: Source
   status: SourceSuggestionStatus!
+  therapies: [Therapy!]!
+  therapyInteractionType: TherapyInteraction
   user: User
 }
 
@@ -13955,6 +13990,16 @@ input SuggestSourceInput {
   Internal CIViC ID for the source to suggest. Use the AddRemoteCitation mutation to populate this if needed.
   """
   sourceId: Int!
+
+  """
+  List of IDs of CIViC Therapy entries for this Source Suggestion. An empty list indicates none.
+  """
+  therapyIds: [Int!]!
+
+  """
+  Therapy interaction type for cases where more than one Therapy ID is provided.
+  """
+  therapyInteractionType: TherapyInteraction
 }
 
 """
@@ -14141,8 +14186,12 @@ type TherapyPopover {
 }
 
 input TherapySearchFilter {
+  assertion: AssertionSearchFilter
   booleanOperator: BooleanOperator
   deprecated: BooleanSearchInput
+  evidenceItems: EvidenceItemSearchFilter
+  hasAssertion: BooleanSearchInput
+  hasEvidenceItem: BooleanSearchInput
   id: IntSearchInput
   name: StringSearchInput
   ncitId: OntologyTermSearchInput
@@ -14431,7 +14480,7 @@ type User {
   orcid: String
   organizations: [Organization!]!
   organizationsWithApprovalPrivileges: [Organization!]!
-  profileImagePath(size: Int = 56): String
+  profileImagePath(size: Int = 64): String
   ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
@@ -14595,8 +14644,7 @@ input UserSearchFilter {
   createdAt: DateSearchInput
   id: IntSearchInput
   name: StringSearchInput
-  organizationId: IntSearchInput
-  organizationName: StringSearchInput
+  organizations: OrganizationSearchFilter
   subFilters: [UserSearchFilter!]
   username: StringSearchInput
 }
@@ -15656,10 +15704,11 @@ input VariantSearchFilter {
   booleanOperator: BooleanOperator
   comment: CommentSearchFilter
   coordinates: CoordinateSearchInput
-  creatingUser: UserSearchFilter
-  deprecatingUser: UserSearchFilter
+  creationActivity: ActivitySearchFilter
+  deprecationActivity: ActivitySearchFilter
   deprecationReason: VariantDeprecationReasonTypeSearchInput
   feature: FeatureSearchFilter
+  hasAssertion: BooleanSearchInput
   id: IntSearchInput
   isDeprecated: BooleanSearchInput
   isFlagged: BooleanSearchInput

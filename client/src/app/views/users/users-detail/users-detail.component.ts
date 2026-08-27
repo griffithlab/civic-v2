@@ -30,6 +30,7 @@ export class UsersDetailComponent implements OnDestroy {
   loading$?: Observable<boolean>
   viewer$?: Observable<Viewer>
   organization$ = new BehaviorSubject<Maybe<TagInfo[]>>([])
+  organizationsWithApprovalPrivileges$ = new BehaviorSubject<Maybe<TagInfo[]>>([])
   ownProfile$ = new BehaviorSubject<boolean>(false)
   uploadError = false
   updateSuccess = false
@@ -99,6 +100,21 @@ export class UsersDetailComponent implements OnDestroy {
         )
         .subscribe((orgs) => {
           this.organization$.next(orgs)
+        })
+
+      this.user$
+        .pipe(
+          map((user) => {
+            if (!user) return []
+            return user.organizationsWithApprovalPrivileges.map((org) => {
+              // convert user organizationsWithApprovalPrivileges into TagInfo
+              return { id: org.id, name: org.name, link: org.url }
+            })
+          }),
+          untilDestroyed(this)
+        )
+        .subscribe((orgs) => {
+          this.organizationsWithApprovalPrivileges$.next(orgs)
         })
 
       this.viewerSub = this.viewerService.viewer$.subscribe((v) => {

@@ -18,6 +18,7 @@ module AdvancedSearches
       [
         resolve_id_filter(node),
         resolve_name_filter(node),
+        resolve_has_assertion_filter(node),
         resolve_is_flagged_filter(node),
         resolve_is_deprecated_filter(node),
         resolve_deprecation_reason_filter(node),
@@ -30,9 +31,23 @@ module AdvancedSearches
         resolve_variant_type_filter(node),
         resolve_coordinates_filter(node),
         resolve_revisions_filter(node),
-        resolve_activity_user(node.creating_user, "CreateVariantActivity"),
-        resolve_activity_user(node.deprecating_user, "DeprecateVariantActivity"),
+        resolve_activity(node.creation_activity, :creation_activity),
+        resolve_activity(node.deprecation_activity, :deprecation_activity),
       ]
+    end
+
+    def resolve_has_assertion_filter(node)
+      if node.has_assertion.nil?
+        return nil
+      end
+
+      matching_ids = ::Assertion.joins(molecular_profile: [ :variants ]).distinct.pluck("variants.id")
+
+      if node.has_assertion.value
+        base_query.where(id: matching_ids)
+      else
+        base_query.where.not(id: matching_ids)
+      end
     end
 
     def resolve_variant_alias_filter(node)

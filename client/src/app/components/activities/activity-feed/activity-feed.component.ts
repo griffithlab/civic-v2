@@ -88,7 +88,6 @@ import { NzResultModule } from 'ng-zorro-antd/result'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzBreakpointService } from 'ng-zorro-antd/core/services'
 import { AutoHeightTarget } from '@app/directives/auto-height-div/auto-height-div.directive'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
@@ -168,12 +167,26 @@ export class CvcActivityFeed implements OnInit {
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
   scrollerRoutines: any
 
+  // Query orchestration: settings + filters changes combine into
+  // refreshChange$ ('refetch' events carrying fresh query variables), while
+  // fetchMore$ (scroll pagination) and poll$ (live updates) merge into
+  // 'fetchMore' events carrying cursor params. result$ lazily creates the
+  // watch queryRef on the first event, routes refetches through
+  // queryRef.refetch() (reloading the vscroll adapter on resolve) and
+  // pagination through queryRef.fetchMore(), and re-emits
+  // queryRef.valueChanges. Everything rendered (edge$, counts,
+  // feedFilterOptions, pageInfo$, refetchLoading, zeroRows, showOrganization)
+  // derives from result$.
+  //
+  // vscroll's Datasource/Adapter require data to exist before construction, so
+  // configureDatasource()/configureAdapter() run once after edge$ first
+  // emits; init$.next() at the end of the constructor kicks off the initial
+  // query.
   constructor(
     private gql: ActivityFeedGQL,
     private injector: Injector,
     @Inject(FEED_SCROLL_SERVICE_TOKEN)
-    private scrollerState: ScrollerStateService,
-    private breakpoints: NzBreakpointService
+    private scrollerState: ScrollerStateService
   ) {
     this.onSettingChange$ = new Subject()
     this.onFilterChange$ = new Subject()
@@ -187,11 +200,6 @@ export class CvcActivityFeed implements OnInit {
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
-
-    this.showOrganization = toSignal(
-      this.onSettingChange$.pipe(map((settings) => settings.showOrganization)),
-      { initialValue: feedDefaultSettings.showOrganization }
-    )
 
     this.refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -226,7 +234,7 @@ export class CvcActivityFeed implements OnInit {
           this.queryRef = this.gql.watch(event.query)
         } else {
           if (event.type === 'refetch') {
-            this.queryRef.refetch(event.query).then((data) => {
+            this.queryRef.refetch(event.query).then(() => {
               this.onQueryComplete$.next(true)
               if (this.scrollAdapter) this.scrollAdapter.reload()
             })
@@ -236,9 +244,8 @@ export class CvcActivityFeed implements OnInit {
                 .fetchMore({
                   variables: event.fetch,
                 })
-                .then((data) => {
+                .then(() => {
                   this.onQueryComplete$.next(true)
-                  console.log('fetchMore complete', data)
                 })
             }
           }
@@ -312,8 +319,7 @@ export class CvcActivityFeed implements OnInit {
       combineLatest([this.onSettingChange$, this.onFilterChange$]).pipe(
         map(([settings, filters]) => {
           return (
-            settings.showOrganization === true ||
-            filters.organizationId.length > 0
+            settings.showOrganization || filters.organizationId.length > 0
           )
         })
       ),
@@ -341,7 +347,7 @@ export class CvcActivityFeed implements OnInit {
             // at top of results, all rows loaded & cached, more edges requested than available
             if (
               index === 0 &&
-              hasNextPage === false &&
+              !hasNextPage &&
               edges.length <= edgesRequired
             ) {
               return of(edges)
