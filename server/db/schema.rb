@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_27_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -1028,14 +1028,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.text "reason"
     t.integer "source_id"
     t.text "status"
+    t.integer "therapy_interaction_type"
     t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
   end
 
   create_table "source_suggestions_therapies", id: false, force: :cascade do |t|
-    t.integer "source_suggestion_id", null: false
-    t.integer "therapy_id", null: false
+    t.bigint "source_suggestion_id", null: false
+    t.bigint "therapy_id", null: false
     t.index ["source_suggestion_id", "therapy_id"], name: "idx_source_suggestions_therapies", unique: true
     t.index ["therapy_id", "source_suggestion_id"], name: "idx_therapies_source_suggestions"
   end
