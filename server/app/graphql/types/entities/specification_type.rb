@@ -1,7 +1,7 @@
 module Types::Entities
   class SpecificationEvaluationMethodType < Types::BaseEnum
     value "ONE", value: "one"
-    value "ALL", value: "ALL"
+    value "ALL", value: "all"
   end
 
   class SpecificationType < Types::BaseObject

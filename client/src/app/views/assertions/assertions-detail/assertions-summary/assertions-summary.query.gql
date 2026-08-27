@@ -59,6 +59,7 @@ fragment AssertionSummaryFields on Assertion {
       version
       evaluationMethod
       specificationUrl
+      specificationType
     }
     evaluations {
       id
@@ -66,6 +67,9 @@ fragment AssertionSummaryFields on Assertion {
       justification
       modifier
       evaluation
+      specificationCriterium {
+        description
+      }
     }
   }
   nccnGuideline {

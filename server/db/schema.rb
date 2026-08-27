@@ -1110,7 +1110,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_161819) do
     t.string "modifier"
     t.bigint "specification_criterium_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["assertion_id", "specification_criterium_id"], name: "idx_on_assertion_id_specification_criterium_id_58b1f01de2", unique: true
     t.index ["assertion_id"], name: "index_specification_evaluations_on_assertion_id"
     t.index ["specification_criterium_id"], name: "index_specification_evaluations_on_specification_criterium_id"
   end
@@ -1422,10 +1421,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_161819) do
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "source_suggestions_therapies", "source_suggestions"
   add_foreign_key "source_suggestions_therapies", "therapies"
-  add_foreign_key "specification_criteria", "specifications"
-  add_foreign_key "specification_evaluations", "assertions"
-  add_foreign_key "specification_evaluations", "specification_criteria"
-  add_foreign_key "specifications", "organizations"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
   add_foreign_key "user_mentions", "comments"

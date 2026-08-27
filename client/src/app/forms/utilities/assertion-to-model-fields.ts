@@ -6,8 +6,8 @@ import { AssertionSubmitModel } from "../models/assertion-submit.model";
 
 export function assertionToModelFields(a: RevisableAssertionFieldsFragment): AssertionFields {
   return {
-    specificationId: a.specification?.id,
-    specificationCriteriumIds: a.specificationCriteria.map(s => s.id),
+    //specificationId: a.specification?.id,
+    specificationCriteriumIds: [],
     assertionDirection: a.assertionDirection,
     assertionType: a.assertionType,
     significance: a.significance,
