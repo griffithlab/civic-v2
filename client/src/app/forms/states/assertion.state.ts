@@ -18,6 +18,7 @@ import { EvidenceRequires } from './evidence.state'
 export type AssertionFields = {
   molecularProfileId$: BehaviorSubject<Maybe<number>>
   evidenceItemIds$: BehaviorSubject<Maybe<number[]>>
+  specificationCriteriumIds$: BehaviorSubject<Maybe<number[]>>
   geneId$: BehaviorSubject<Maybe<number>>
   variantId$: BehaviorSubject<Maybe<number>>
   variantMolecularProfile$: BehaviorSubject<Maybe<MolecularProfile>>
@@ -73,6 +74,9 @@ class AssertionState extends BaseState {
       ),
       evidenceItemIds$: new BehaviorSubject<Maybe<number[]>>(
         def.evidenceItemIds
+      ),
+      specificationCriteriumIds$: new BehaviorSubject<Maybe<number[]>>(
+        def.specificationCriteriumIds
       ),
       significance$: new BehaviorSubject<Maybe<AssertionSignificance>>(
         def.significance

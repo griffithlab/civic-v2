@@ -36,12 +36,21 @@ fragment RevisableAssertionFields on Assertion {
     hpoId
     name
   }
-  specificationCriteria {
-    id
-    criterium
-    description
-    tooltip: description
-    name: criterium
+  specificationsWithEvaluations {
+    specification {
+      id
+      name
+      version
+      evaluationMethod
+      specificationUrl
+    }
+    evaluations {
+      id
+      code
+      justification
+      modifier
+      evaluation
+    }
   }
   nccnGuideline {
     id

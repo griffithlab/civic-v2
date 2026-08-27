@@ -12,13 +12,14 @@ Assertion.all.each do |assertion|
       raise StandardError.new("Found multiple possible criteria where one was expected")
     end
 
-    criterium = possible_criteria.first
+    met_criterium = possible_criteria.first
 
-    assertion.specification_criteria = [ criterium ]
-    if assertion.status == 'accepted'
-      assertion.save!
-    else
-      assertion.save(validate: false)
+    spec.specification_criterium.each do |criterium|
+      SpecificationEvaluation.create!(
+        assertion: assertion,
+        specification_criterium: criterium,
+        evaluation: met_criterium == criterium ? "met" : "not_met"
+      )
     end
   end
 
@@ -30,16 +31,26 @@ Assertion.all.each do |assertion|
 
     spec = possible_specs.first
 
-    possible_criteria = spec.specification_criterium.where(criterium: assertion.clingen_codes.map(&:code))
+
+    criteria_with_modifiers = {}
+    assertion.clingen_codes.each do |cc|
+      values = cc.code.split("_")
+      criteria_with_modifiers[values.first] = values.second
+    end
+    possible_criteria = spec.specification_criterium.where(criterium: criteria_with_modifiers.keys)
     if possible_criteria.uniq.size != assertion.clingen_codes.size
       raise StandardError.new("Mismatch between expected number of ClinGen Codes AID#{assertion.id}.")
     end
 
-    assertion.specification_criteria = possible_criteria
-    if assertion.status == 'accepted'
-      assertion.save!
-    else
-      assertion.save(validate: false)
+    spec.specification_criterium.each do |criterium|
+      met = criteria_with_modifiers.has_key?(criterium.criterium) ? "met" : "not_met"
+      modifier = criteria_with_modifiers[criterium.criterium]
+      SpecificationEvaluation.create!(
+        assertion: assertion,
+        specification_criterium: criterium,
+        evaluation: met,
+        modifier: modifier
+      )
     end
   end
 
@@ -50,17 +61,25 @@ Assertion.all.each do |assertion|
     end
 
     spec = possible_specs.first
-
-    possible_criteria = spec.specification_criterium.where(criterium: assertion.acmg_codes.map(&:code))
+    criteria_with_modifiers = {}
+    assertion.acmg_codes.each do |ac|
+      values = ac.code.split("_")
+      criteria_with_modifiers[values.first] = values.second
+    end
+    possible_criteria = spec.specification_criterium.where(criterium: criteria_with_modifiers.keys)
     if possible_criteria.uniq.size != assertion.acmg_codes.size
       raise StandardError.new("Mismatch between expected number of ACMG Codes AID#{assertion.id}.")
     end
 
-    assertion.specification_criteria = possible_criteria
-    if assertion.status == 'accepted'
-      assertion.save!
-    else
-      assertion.save(validate: false)
+    spec.specification_criterium.each do |criterium|
+      met = criteria_with_modifiers.has_key?(criterium.criterium) ? "met" : "not_met"
+      modifier = criteria_with_modifiers[criterium.criterium]
+      SpecificationEvaluation.create!(
+        assertion: assertion,
+        specification_criterium: criterium,
+        evaluation: met,
+        modifier: modifier
+      )
     end
   end
 end

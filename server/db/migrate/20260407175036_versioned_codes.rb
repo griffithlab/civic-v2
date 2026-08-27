@@ -22,14 +22,14 @@ class VersionedCodes < ActiveRecord::Migration[8.1]
       t.text :specification_url, null: false
       t.integer :sop_pubmed_id, null: true
       t.date :published_on, null: false
-      t.references :organization, null: true
+      t.references :organization, null: true, foreign_key: true
       t.timestamps
     end
 
     create_table :specification_criteria do |t|
       t.text :criterium, null: false
       t.text :description, null: false
-      t.references :specification, null: false
+      t.references :specification, null: false, foreign_key: true
       t.timestamps
     end
   end

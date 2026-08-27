@@ -1,4 +1,9 @@
 module Types::Entities
+  class SpecificationEvaluationMethodType < Types::BaseEnum
+    value "ONE", value: "one"
+    value "ALL", value: "ALL"
+  end
+
   class SpecificationType < Types::BaseObject
     field :id, Int, null: false
     field :name, String, null: false
@@ -11,6 +16,7 @@ module Types::Entities
     field :organization, Types::Entities::OrganizationType, null: true
     field :organization_id, Int, null: true
     field :specification_criterium, [ Types::Entities::SpecificationCriteriumType ], null: false
+    field :evaluation_method, Types::Entities::SpecificationEvaluationMethodType, null: false
 
     def organization
       Loaders::AssociationLoader.for(Specification, :organization).load(object)

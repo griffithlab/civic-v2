@@ -109,7 +109,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'phenotype-multi-select',
                 props: {},
               },
-            ]
+            ],
           },
           {
             wrappers: ['form-row'],
@@ -122,6 +122,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               {
                 key: 'specificationCriteriumIds',
                 type: 'specification-criteria-select',
+                expressions: {
+                  'props.initialSpecificationId': 'model.specificationId',
+                },
               },
             ],
           },

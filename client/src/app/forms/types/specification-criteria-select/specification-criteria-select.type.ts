@@ -31,7 +31,7 @@ import {
   SpecificationCriteriumSelectTypeaheadFieldsFragment,
   AssertionType,
   ValidSpecificationsGQL,
-  SpecificationSelectFieldsFragment
+  SpecificationSelectFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -40,9 +40,7 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import {
-  BehaviorSubject,
-} from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type SpecificationSelectFieldOptions = Partial<
@@ -60,13 +58,13 @@ export interface CvcSpecificationCriteriaSelectFieldProps extends FormlyFieldPro
   tooltip?: string
   description?: string
   extraType?: string
+  initialSpecificationId?: number
 }
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcSpecificationCriteriaSelectFieldConfig
-  extends FormlyFieldConfig<CvcSpecificationCriteriaSelectFieldProps> {
+export interface CvcSpecificationCriteriaSelectFieldConfig extends FormlyFieldConfig<CvcSpecificationCriteriaSelectFieldProps> {
   type:
     | 'specification-criteria-select'
     | 'specification-criteria-multi-select'
@@ -99,20 +97,23 @@ export class CvcSpecificationCriteriaSelectField
   extends SpecificationCriteriaSelectMixin
   implements AfterViewInit
 {
-
   placeholder$: BehaviorSubject<Maybe<string>>
 
   // FieldTypeConfig defaults
   defaultOptions: SpecificationSelectFieldOptions = {
     props: {
-      entityName: { singular: 'Specification Criteria', plural: 'Specification Criteria' },
+      entityName: {
+        singular: 'Specification Criteria',
+        plural: 'Specification Criteria',
+      },
       disabled: true,
-      label: "Specification Criteria",
+      label: 'Specification Criteria',
       isMultiSelect: false,
       requireType: true,
       extraType: 'description',
       description: '',
-      tooltip: 'Specification Criteria Depend on the Type of Assertion being curated.',
+      tooltip:
+        'Specification Criteria Depend on the Type of Assertion being curated.',
       placeholder: 'Search Criteria',
       requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
         `Select an ${entityName} Type To Search Specification Criteria`,
@@ -126,10 +127,18 @@ export class CvcSpecificationCriteriaSelectField
 
   viewer: Signal<Maybe<Viewer>>
   entityType: WritableSignal<Maybe<EntityType>> = signal(undefined)
-  selectedOrgId: Signal<Maybe<number>> = computed(() => this.viewer()?.mostRecentOrg?.id)
-  formProps: Signal<SpecificationSelectFieldOptions> = signal(this.defaultOptions)
-  validSpecifications: WritableSignal<Maybe<SpecificationSelectFieldsFragment[]>> = signal([])
+  selectedOrgId: Signal<Maybe<number>> = computed(
+    () => this.viewer()?.mostRecentOrg?.id
+  )
+  formProps: Signal<SpecificationSelectFieldOptions> = signal(
+    this.defaultOptions
+  )
+  validSpecifications: WritableSignal<
+    Maybe<SpecificationSelectFieldsFragment[]>
+  > = signal([])
+  didInitializeTypeEffect = false
   selectedSpecificationId?: number
+  hasHydratedInitialSpecification = false
 
   formOptions = new Map<EntityType, SpecificationSelectFieldOptions>()
 
@@ -146,28 +155,32 @@ export class CvcSpecificationCriteriaSelectField
 
     this.formOptions.set(AssertionType.Predisposing, {
       props: {
-      entityName: { singular: 'ACMG/AMP Code', plural: 'ACMG/AMP Codes' },
-      label: "Specification Criteria: ACMG/AMP Code(s)",
-      isMultiSelect: true,
-      requireType: true,
-      required: true,
-      disabled: false,
-      tooltip:
-        'If applicable, please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP.',
-      placeholder: 'Search ACMG/AMP Codes',
-      requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
-        `Select an ${entityName} Type to search associated ACMG Code(s)`,
-      }
+        entityName: { singular: 'ACMG/AMP Code', plural: 'ACMG/AMP Codes' },
+        label: 'Specification Criteria: ACMG/AMP Code(s)',
+        isMultiSelect: true,
+        requireType: true,
+        required: true,
+        disabled: false,
+        tooltip:
+          'If applicable, please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP.',
+        placeholder: 'Search ACMG/AMP Codes',
+        requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
+          `Select an ${entityName} Type to search associated ACMG Code(s)`,
+      },
     })
     this.formOptions.set(AssertionType.Diagnostic, {
       props: {
-        entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
-        label: "Specification Criteria: AMP/ASCO/CAP Category",
+        entityName: {
+          singular: 'AMP/ASCO/CAP Category',
+          plural: 'AMP/ASCO/CAP Categories',
+        },
+        label: 'Specification Criteria: AMP/ASCO/CAP Category',
         isMultiSelect: false,
         requireType: true,
         required: true,
         disabled: false,
-        tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
+        tooltip:
+          'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
         placeholder: 'Search AMP/ASCO/CAP Categories',
         requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
           `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
@@ -175,13 +188,17 @@ export class CvcSpecificationCriteriaSelectField
     })
     this.formOptions.set(AssertionType.Prognostic, {
       props: {
-        entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
-        label: "Specification Criteria: AMP/ASCO/CAP Category",
+        entityName: {
+          singular: 'AMP/ASCO/CAP Category',
+          plural: 'AMP/ASCO/CAP Categories',
+        },
+        label: 'Specification Criteria: AMP/ASCO/CAP Category',
         isMultiSelect: false,
         requireType: true,
         required: true,
         disabled: false,
-        tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
+        tooltip:
+          'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
         placeholder: 'Search AMP/ASCO/CAP Categories',
         requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
           `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
@@ -189,13 +206,17 @@ export class CvcSpecificationCriteriaSelectField
     })
     this.formOptions.set(AssertionType.Predictive, {
       props: {
-        entityName: { singular: 'AMP/ASCO/CAP Category', plural: 'AMP/ASCO/CAP Categories' },
-        label: "Specification Criteria: AMP/ASCO/CAP Category",
+        entityName: {
+          singular: 'AMP/ASCO/CAP Category',
+          plural: 'AMP/ASCO/CAP Categories',
+        },
+        label: 'Specification Criteria: AMP/ASCO/CAP Category',
         isMultiSelect: false,
         requireType: true,
         required: true,
         disabled: false,
-        tooltip: 'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
+        tooltip:
+          'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.',
         placeholder: 'Search AMP/ASCO/CAP Categories',
         requireTypePromptFn: (entityName: string, _isMultiSelect?: boolean) =>
           `Select an ${entityName} Type to search associated AMP/ASCO/CAP Categories`,
@@ -207,7 +228,7 @@ export class CvcSpecificationCriteriaSelectField
           singular: 'ClinGen/CGC/VICC Code',
           plural: 'ClinGen/CGC/VICC Codes',
         },
-        label: "Specification Criteria: ClinGen/CGC/VICC Code(s)",
+        label: 'Specification Criteria: ClinGen/CGC/VICC Code(s)',
         isMultiSelect: true,
         requireType: true,
         required: true,
@@ -222,7 +243,14 @@ export class CvcSpecificationCriteriaSelectField
 
     effect(() => {
       const selectedType = this.entityType()
-      this.resetField()
+      if (this.didInitializeTypeEffect) {
+        this.resetField()
+        this.selectedSpecificationId = undefined
+        this.hasHydratedInitialSpecification = false
+      } else {
+        this.didInitializeTypeEffect = true
+      }
+
       if (selectedType) {
         const newConfig = this.formOptions.get(selectedType)
         if (newConfig) {
@@ -238,23 +266,43 @@ export class CvcSpecificationCriteriaSelectField
     effect(() => {
       const selectedType = this.entityType()
       const selectedOrgId = this.selectedOrgId()
-      this.selectedSpecificationId = undefined
 
       if (selectedType) {
-        this.vsq.fetch({
-          orgId: selectedOrgId,
-          assertionType: selectedType as AssertionType
-        }).pipe(untilDestroyed(this)).subscribe(
-          (res) => {
-            if(res.data) {
-              this.validSpecifications.set(res.data.specifications)
+        this.vsq
+          .fetch({
+            orgId: selectedOrgId,
+            assertionType: selectedType as AssertionType,
+          })
+          .pipe(untilDestroyed(this))
+          .subscribe((res) => {
+            if (res.data) {
+              const specs = res.data.specifications
+              this.validSpecifications.set(specs)
+
+              const initialId = this.props.initialSpecificationId
+              if (!this.hasHydratedInitialSpecification && initialId) {
+                const exists = specs.some((s) => s.id === initialId)
+                if (exists) {
+                  this.selectedSpecificationId = initialId
+                  this.hasHydratedInitialSpecification = true
+                }
+              }
             }
-          }
-        )
+          })
       } else {
         this.validSpecifications.set([])
+        this.selectedSpecificationId = undefined
+        this.hasHydratedInitialSpecification = false
       }
     })
+  }
+
+  onSpecificationSelectionChange(specificationId: Maybe<number>): void {
+    const nextId = specificationId === null ? undefined : specificationId
+    if (nextId !== this.selectedSpecificationId) {
+      this.selectedSpecificationId = nextId
+      this.resetField()
+    }
   }
 
   ngAfterViewInit(): void {
@@ -288,11 +336,11 @@ export class CvcSpecificationCriteriaSelectField
           `${this.field.id} requireType is true, however form state does not provide Subject ${etName}.`
         )
       } else {
-        this.state.fields[etName].pipe(untilDestroyed(this)).subscribe(
-          (selectedType : EntityType) => {
+        this.state.fields[etName]
+          .pipe(untilDestroyed(this))
+          .subscribe((selectedType: EntityType) => {
             this.entityType.set(selectedType)
-          }
-        )
+          })
       }
     }
   }
@@ -301,11 +349,15 @@ export class CvcSpecificationCriteriaSelectField
     this.placeholder$.next(this.props.placeholders)
   }
 
-  getTypeaheadVarsFn(str: string): SpecificationCriteriumSelectTypeaheadQueryVariables {
+  getTypeaheadVarsFn(
+    str: string
+  ): SpecificationCriteriumSelectTypeaheadQueryVariables {
     return { code: str, specification: this.selectedSpecificationId }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<SpecificationCriteriumSelectTypeaheadQuery>) {
+  getTypeaheadResultsFn(
+    r: ApolloQueryResult<SpecificationCriteriumSelectTypeaheadQuery>
+  ) {
     return r.data.specificationCriteriumTypeahead
   }
 
@@ -322,7 +374,10 @@ export class CvcSpecificationCriteriaSelectField
   getSelectedItemOptionFn(
     specificationCriterium: SpecificationCriteriumSelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
-    return { value: specificationCriterium.id, label: specificationCriterium.code }
+    return {
+      value: specificationCriterium.id,
+      label: specificationCriterium.code,
+    }
   }
 
   getSelectOptionsFn(
@@ -330,7 +385,10 @@ export class CvcSpecificationCriteriaSelectField
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (specificationCriterium: SpecificationCriteriumSelectTypeaheadFieldsFragment, index: number) => {
+      (
+        specificationCriterium: SpecificationCriteriumSelectTypeaheadFieldsFragment,
+        index: number
+      ) => {
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || specificationCriterium.code,
           value: specificationCriterium.id,

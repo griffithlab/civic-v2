@@ -37,8 +37,9 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
-    field :specification_criteria, [ Types::Entities::SpecificationCriteriumType ], null: false
-    field :specification, Types::Entities::SpecificationType, null: true
+    field :specifications, [ Types::Entities::SpecificationType ], null: true
+    field :specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false
+    field :specifications_with_evaluations, [ Types::Entities::SpecificationWithEvaluationsType ], null: false
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -50,6 +51,24 @@ module Types::Entities
 
     def phenotypes
       Loaders::AssociationLoader.for(Assertion, :phenotypes).load(object)
+    end
+
+    def specification_evaluations
+      Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object)
+    end
+
+    def specifications_with_evaluations
+      specifications.then do |specs|
+        specification_evaluations.then do |se|
+          grouped = se.group_by { |s| s.specification_criterium.specification_id }
+          specs.map do |spec|
+            {
+              specification: spec,
+              evaluations: grouped[spec.id],
+            }
+          end
+        end
+      end
     end
 
     def acmg_codes
@@ -124,13 +143,9 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :approvals).load(object)
     end
 
-    def specification_criteria
-      Loaders::AssociationLoader.for(Assertion, :specification_criteria).load(object)
-    end
-
-    def specification
+    def specifications
       Loaders::AssociationLoader.for(Assertion, :specifications).load(object).then do |specs|
-        specs.first
+        specs.distinct
       end
     end
 

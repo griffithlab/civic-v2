@@ -6,7 +6,12 @@ class Specification < ApplicationRecord
     amp_tiers: "amp_tiers",
     clingen_codes: "clingen_codes",
     acmg_codes: "acmg_codes",
-  }
+  }, suffix: true
+
+  enum :evaluation_method, {
+    all: "all",
+    one: "one",
+  }, suffix: true
 
   enum :assertion_type, {
     Diagnostic: "Diagnostic",

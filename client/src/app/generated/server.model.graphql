@@ -770,8 +770,9 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     status: RevisionStatus
   ): RevisionConnection!
   significance: AssertionSignificance!
-  specification: Specification
-  specificationCriteria: [SpecificationCriterium!]!
+  specificationEvaluations: [SpecificationEvaluation!]!
+  specifications: [Specification!]
+  specificationsWithEvaluations: [SpecificationWithEvaluations!]!
   status: EvidenceStatus!
   submissionActivity: SubmitAssertionActivity!
   submissionEvent: Event
@@ -12869,6 +12870,7 @@ enum SourcesSortColumns {
 
 type Specification {
   assertionType: AssertionType!
+  evaluationMethod: SpecificationEvaluationMethod!
   id: Int!
   name: String!
   organization: Organization
@@ -12886,12 +12888,43 @@ type SpecificationCriterium {
   description: String!
   exclusive: Boolean!
   id: Int!
+  modifiers: [String!]!
+  score: Int
+  specification: Specification!
+}
+
+type SpecificationEvaluation {
+  assertion: Assertion!
+  code: String!
+  createdAt: ISO8601DateTime
+  evaluation: SpecificationEvaluationStatus!
+  id: Int!
+  justification: String
+  modifier: String
+  specificationCriterium: SpecificationCriterium!
+  updatedAt: ISO8601DateTime
+}
+
+enum SpecificationEvaluationMethod {
+  ALL
+  ONE
+}
+
+enum SpecificationEvaluationStatus {
+  MET
+  NOT_EVALUATED
+  NOT_MET
 }
 
 enum SpecificationType {
   ACMG_CODES
   AMP_TIERS
   CLINGEN_CODES
+}
+
+type SpecificationWithEvaluations {
+  evaluations: [SpecificationEvaluation!]!
+  specification: Specification!
 }
 
 type Stats {

@@ -420,8 +420,9 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   /** List and filter revisions. */
   revisions: RevisionConnection;
   significance: AssertionSignificance;
-  specification?: Maybe<Specification>;
-  specificationCriteria: Array<SpecificationCriterium>;
+  specificationEvaluations: Array<SpecificationEvaluation>;
+  specifications?: Maybe<Array<Specification>>;
+  specificationsWithEvaluations: Array<SpecificationWithEvaluations>;
   status: EvidenceStatus;
   submissionActivity: SubmitAssertionActivity;
   submissionEvent?: Maybe<Event>;
@@ -7505,6 +7506,7 @@ export enum SourcesSortColumns {
 export type Specification = {
   __typename: 'Specification';
   assertionType: AssertionType;
+  evaluationMethod: SpecificationEvaluationMethod;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   organization?: Maybe<Organization>;
@@ -7523,13 +7525,46 @@ export type SpecificationCriterium = {
   description: Scalars['String']['output'];
   exclusive: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  modifiers: Array<Scalars['String']['output']>;
+  score?: Maybe<Scalars['Int']['output']>;
+  specification: Specification;
 };
+
+export type SpecificationEvaluation = {
+  __typename: 'SpecificationEvaluation';
+  assertion: Assertion;
+  code: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['ISO8601DateTime']['output']>;
+  evaluation: SpecificationEvaluationStatus;
+  id: Scalars['Int']['output'];
+  justification?: Maybe<Scalars['String']['output']>;
+  modifier?: Maybe<Scalars['String']['output']>;
+  specificationCriterium: SpecificationCriterium;
+  updatedAt?: Maybe<Scalars['ISO8601DateTime']['output']>;
+};
+
+export enum SpecificationEvaluationMethod {
+  All = 'ALL',
+  One = 'ONE'
+}
+
+export enum SpecificationEvaluationStatus {
+  Met = 'MET',
+  NotEvaluated = 'NOT_EVALUATED',
+  NotMet = 'NOT_MET'
+}
 
 export enum SpecificationType {
   AcmgCodes = 'ACMG_CODES',
   AmpTiers = 'AMP_TIERS',
   ClingenCodes = 'CLINGEN_CODES'
 }
+
+export type SpecificationWithEvaluations = {
+  __typename: 'SpecificationWithEvaluations';
+  evaluations: Array<SpecificationEvaluation>;
+  specification: Specification;
+};
 
 export type Stats = {
   __typename: 'Stats';
@@ -9492,14 +9527,14 @@ export type ApproveAssertionMutationVariables = Exact<{
 }>;
 
 
-export type ApproveAssertionMutation = { __typename: 'Mutation', approveAssertion?: { __typename: 'ApproveAssertionPayload', assertion: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationCriteria: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string }>, specification?: { __typename: 'Specification', id: number, name: string } | undefined, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } } } | undefined };
+export type ApproveAssertionMutation = { __typename: 'Mutation', approveAssertion?: { __typename: 'ApproveAssertionPayload', assertion: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } } } | undefined };
 
 export type RevokeApprovalMutationVariables = Exact<{
   input: RevokeApprovalInput;
 }>;
 
 
-export type RevokeApprovalMutation = { __typename: 'Mutation', revokeApproval?: { __typename: 'RevokeApprovalPayload', assertion: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationCriteria: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string }>, specification?: { __typename: 'Specification', id: number, name: string } | undefined, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } } } | undefined };
+export type RevokeApprovalMutation = { __typename: 'Mutation', revokeApproval?: { __typename: 'RevokeApprovalPayload', assertion: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } } } | undefined };
 
 export type AssertionPopoverQueryVariables = Exact<{
   assertionId: Scalars['Int']['input'];
@@ -10548,9 +10583,9 @@ export type AssertionRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, specificationCriteria: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, tooltip: string, name: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
+export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
 
-export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, specificationCriteria: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, tooltip: string, name: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
+export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
 
 export type SuggestAssertionRevisionMutationVariables = Exact<{
   input: SuggestAssertionRevisionInput;
@@ -10826,61 +10861,6 @@ export type EntityTagsTestQueryVariables = Exact<{
 
 export type EntityTagsTestQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, link: string } | undefined, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'RegionVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined, therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
 
-export type AcmgCodeSelectTypeaheadQueryVariables = Exact<{
-  code: Scalars['String']['input'];
-}>;
-
-
-export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
-
-export type AcmgCodeSelectTagQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
-
-export type SpecificationCriteriumSelectTypeaheadFieldsFragment = { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string };
-
-export type SpecificationCriteriumSelectTypeaheadQueryVariables = Exact<{
-  code: Scalars['String']['input'];
-  specification?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type SpecificationCriteriumSelectTypeaheadQuery = { __typename: 'Query', specificationCriteriumTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
-
-export type SpecificationCriteriumSelectTagQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type SpecificationCriteriumSelectTagQuery = { __typename: 'Query', specificationCriterium?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
-
-export type ValidSpecificationsQueryVariables = Exact<{
-  orgId?: InputMaybe<Scalars['Int']['input']>;
-  assertionType: AssertionType;
-}>;
-
-
-export type ValidSpecificationsQuery = { __typename: 'Query', specifications: Array<{ __typename: 'Specification', id: number, name: string, version: string }> };
-
-export type SpecificationSelectFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string };
-
-export type ClingenCodeSelectTypeaheadQueryVariables = Exact<{
-  code: Scalars['String']['input'];
-}>;
-
-
-export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
-
-export type ClingenCodeSelectTagQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
-
 export type CytogeneticRegionSelectTypeaheadQueryVariables = Exact<{
   queryTerm: Scalars['String']['input'];
 }>;
@@ -11139,6 +11119,33 @@ export type SourceSelectTagQuery = { __typename: 'Query', source?: { __typename:
 
 export type SourceSelectTypeaheadFieldsFragment = { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource, deprecated: boolean };
 
+export type SpecificationCriteriumSelectTypeaheadQueryVariables = Exact<{
+  code: Scalars['String']['input'];
+  specification?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type SpecificationCriteriumSelectTypeaheadQuery = { __typename: 'Query', specificationCriteriumTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
+
+export type SpecificationCriteriumSelectTagQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type SpecificationCriteriumSelectTagQuery = { __typename: 'Query', specificationCriterium?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
+
+export type ValidSpecificationsQueryVariables = Exact<{
+  orgId?: InputMaybe<Scalars['Int']['input']>;
+  assertionType: AssertionType;
+}>;
+
+
+export type ValidSpecificationsQuery = { __typename: 'Query', specifications: Array<{ __typename: 'Specification', id: number, name: string, version: string }> };
+
+export type SpecificationSelectFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string };
+
+export type SpecificationCriteriumSelectTypeaheadFieldsFragment = { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string };
+
 export type QuickAddTherapyMutationVariables = Exact<{
   name: Scalars['String']['input'];
   ncitId?: InputMaybe<Scalars['String']['input']>;
@@ -11277,9 +11284,9 @@ export type AssertionSummaryQueryVariables = Exact<{
 }>;
 
 
-export type AssertionSummaryQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationCriteria: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string }>, specification?: { __typename: 'Specification', id: number, name: string } | undefined, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } } | undefined };
+export type AssertionSummaryQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } } | undefined };
 
-export type AssertionSummaryFieldsFragment = { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationCriteria: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string }>, specification?: { __typename: 'Specification', id: number, name: string } | undefined, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } };
+export type AssertionSummaryFieldsFragment = { __typename: 'Assertion', id: number, name: string, summary: string, description: string, descriptionReplaceEidWithSource: string, descriptionWithNames: string, descriptionWithNamesReplaceEidWithSource: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, descriptionWithTags: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, descriptionWithTagsReplaceEidWithSource: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number, deprecated: boolean }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, activeApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, requiresReviewApprovals: { __typename: 'ApprovalConnection', totalCount: number, nodes: Array<{ __typename: 'Approval', id: number, status: ApprovalStatus, lastReviewed: any, clinvarAccession?: string | undefined, organization: { __typename: 'Organization', id: number, name: string, isApprovedVcep: boolean, isClinvarSubmitter: boolean } }> }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, user: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> } } };
 
 export type ClinicalTrialDetailQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int']['input'];
@@ -13804,12 +13811,21 @@ export const RevisableAssertionFieldsFragmentDoc = gql`
     hpoId
     name
   }
-  specificationCriteria {
-    id
-    criterium
-    description
-    tooltip: description
-    name: criterium
+  specificationsWithEvaluations {
+    specification {
+      id
+      name
+      version
+      evaluationMethod
+      specificationUrl
+    }
+    evaluations {
+      id
+      code
+      justification
+      modifier
+      evaluation
+    }
   }
   nccnGuideline {
     id
@@ -14155,23 +14171,6 @@ export const SubmittableVariantGroupFieldsFragmentDoc = gql`
     citation
     sourceType
   }
-}
-    `;
-export const SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc = gql`
-    fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {
-  id
-  code: criterium
-  name: criterium
-  description
-  tooltip: description
-  exclusive
-}
-    `;
-export const SpecificationSelectFieldsFragmentDoc = gql`
-    fragment SpecificationSelectFields on Specification {
-  id
-  name
-  version
 }
     `;
 export const CytogeneticRegionSelectTypeaheadFieldsFragmentDoc = gql`
@@ -14582,6 +14581,23 @@ export const NccnGuidelineSelectTypeaheadFieldsFragmentDoc = gql`
   name
 }
     `;
+export const SpecificationSelectFieldsFragmentDoc = gql`
+    fragment SpecificationSelectFields on Specification {
+  id
+  name
+  version
+}
+    `;
+export const SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {
+  id
+  code: criterium
+  name: criterium
+  description
+  tooltip: description
+  exclusive
+}
+    `;
 export const QuickAddTherapyFieldsFragmentDoc = gql`
     fragment QuickAddTherapyFields on AddTherapyPayload {
   new
@@ -14765,14 +14781,21 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     link
   }
   therapyInteractionType
-  specificationCriteria {
-    id
-    criterium
-    description
-  }
-  specification {
-    id
-    name
+  specificationsWithEvaluations {
+    specification {
+      id
+      name
+      version
+      evaluationMethod
+      specificationUrl
+    }
+    evaluations {
+      id
+      code
+      justification
+      modifier
+      evaluation
+    }
   }
   nccnGuideline {
     id
@@ -19428,135 +19451,6 @@ export const EntityTagsTestDocument = gql`
       super(apollo);
     }
   }
-export const AcmgCodeSelectTypeaheadDocument = gql`
-    query AcmgCodeSelectTypeahead($code: String!) {
-  acmgCodesTypeahead(queryTerm: $code) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcmgCodeSelectTypeaheadGQL extends Apollo.Query<AcmgCodeSelectTypeaheadQuery, AcmgCodeSelectTypeaheadQueryVariables> {
-    document = AcmgCodeSelectTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AcmgCodeSelectTagDocument = gql`
-    query AcmgCodeSelectTag($id: Int!) {
-  acmgCode(id: $id) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcmgCodeSelectTagGQL extends Apollo.Query<AcmgCodeSelectTagQuery, AcmgCodeSelectTagQueryVariables> {
-    document = AcmgCodeSelectTagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SpecificationCriteriumSelectTypeaheadDocument = gql`
-    query SpecificationCriteriumSelectTypeahead($code: String!, $specification: Int) {
-  specificationCriteriumTypeahead(
-    queryTerm: $code
-    specificationId: $specification
-  ) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SpecificationCriteriumSelectTypeaheadGQL extends Apollo.Query<SpecificationCriteriumSelectTypeaheadQuery, SpecificationCriteriumSelectTypeaheadQueryVariables> {
-    document = SpecificationCriteriumSelectTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SpecificationCriteriumSelectTagDocument = gql`
-    query specificationCriteriumSelectTag($id: Int!) {
-  specificationCriterium(id: $id) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SpecificationCriteriumSelectTagGQL extends Apollo.Query<SpecificationCriteriumSelectTagQuery, SpecificationCriteriumSelectTagQueryVariables> {
-    document = SpecificationCriteriumSelectTagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ValidSpecificationsDocument = gql`
-    query ValidSpecifications($orgId: Int, $assertionType: AssertionType!) {
-  specifications(organizationId: $orgId, assertionType: $assertionType) {
-    ...SpecificationSelectFields
-  }
-}
-    ${SpecificationSelectFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ValidSpecificationsGQL extends Apollo.Query<ValidSpecificationsQuery, ValidSpecificationsQueryVariables> {
-    document = ValidSpecificationsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ClingenCodeSelectTypeaheadDocument = gql`
-    query ClingenCodeSelectTypeahead($code: String!) {
-  clingenCodesTypeahead(queryTerm: $code) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ClingenCodeSelectTypeaheadGQL extends Apollo.Query<ClingenCodeSelectTypeaheadQuery, ClingenCodeSelectTypeaheadQueryVariables> {
-    document = ClingenCodeSelectTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ClingenCodeSelectTagDocument = gql`
-    query ClingenCodeSelectTag($id: Int!) {
-  clingenCode(id: $id) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ClingenCodeSelectTagGQL extends Apollo.Query<ClingenCodeSelectTagQuery, ClingenCodeSelectTagQueryVariables> {
-    document = ClingenCodeSelectTagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const CytogeneticRegionSelectTypeaheadDocument = gql`
     query CytogeneticRegionSelectTypeahead($queryTerm: String!) {
   cytogeneticRegionTypeahead(queryTerm: $queryTerm) {
@@ -20128,6 +20022,63 @@ export const SourceSelectTagDocument = gql`
   })
   export class SourceSelectTagGQL extends Apollo.Query<SourceSelectTagQuery, SourceSelectTagQueryVariables> {
     document = SourceSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SpecificationCriteriumSelectTypeaheadDocument = gql`
+    query SpecificationCriteriumSelectTypeahead($code: String!, $specification: Int) {
+  specificationCriteriumTypeahead(
+    queryTerm: $code
+    specificationId: $specification
+  ) {
+    ...SpecificationCriteriumSelectTypeaheadFields
+  }
+}
+    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SpecificationCriteriumSelectTypeaheadGQL extends Apollo.Query<SpecificationCriteriumSelectTypeaheadQuery, SpecificationCriteriumSelectTypeaheadQueryVariables> {
+    document = SpecificationCriteriumSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SpecificationCriteriumSelectTagDocument = gql`
+    query specificationCriteriumSelectTag($id: Int!) {
+  specificationCriterium(id: $id) {
+    ...SpecificationCriteriumSelectTypeaheadFields
+  }
+}
+    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SpecificationCriteriumSelectTagGQL extends Apollo.Query<SpecificationCriteriumSelectTagQuery, SpecificationCriteriumSelectTagQueryVariables> {
+    document = SpecificationCriteriumSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidSpecificationsDocument = gql`
+    query ValidSpecifications($orgId: Int, $assertionType: AssertionType!) {
+  specifications(organizationId: $orgId, assertionType: $assertionType) {
+    ...SpecificationSelectFields
+  }
+}
+    ${SpecificationSelectFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidSpecificationsGQL extends Apollo.Query<ValidSpecificationsQuery, ValidSpecificationsQueryVariables> {
+    document = ValidSpecificationsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

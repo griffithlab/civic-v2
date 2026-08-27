@@ -1,3 +1,6 @@
+clingen_code_modifiers = ClingenCode.all.map { |c| c.code.split("_") }.group_by { |(code, _)| code }.map { |code, groups| [ code, groups.flat_map { |x| x[1] }.compact ] }.to_h
+acmg_code_modifiers = AcmgCode.all.map { |c| c.code.split("_") }.group_by { |(code, _)| code }.map { |code, groups| [ code, groups.flat_map { |x| x[1] }.compact ] }.to_h
+
 specifications = [
   {
     name: "NTRK SC-VCEP AMP/ASCO/CAP specifications",
@@ -9,6 +12,7 @@ specifications = [
     specification_url: "https://www.clinicalgenome.org/site/assets/files/10891/ntrk_ampascocap_specifications_v6_2926.pdf",
     # maybe?
     sop_pubmed_id: 35366592,
+    evaluation_method: "one",
     specification_criteria: [
       {
         criterium: "Tier I - Level A",
@@ -26,6 +30,7 @@ specifications = [
     specification_url: "https://www.clinicalgenome.org/site/assets/files/10892/ntrk_scvcep_step_2_rules_specifications_v4_11524.pdf",
     # maybe?
     sop_pubmed_id: 35366592,
+    evaluation_method: "all",
     specification_criteria: [
       {
         criterium: "FG1",
@@ -77,6 +82,7 @@ specifications = [
     assertion_type: :Predictive,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/27993330/",
     sop_pubmed_id: 27993330,
+    evaluation_method: "one",
     specification_criteria: [
       {
         criterium: "Tier I - Level A",
@@ -116,6 +122,7 @@ specifications = [
     assertion_type: :Prognostic,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/27993330/",
     sop_pubmed_id: 27993330,
+    evaluation_method: "one",
     specification_criteria: [
       {
         criterium: "Tier I - Level A",
@@ -155,6 +162,7 @@ specifications = [
     assertion_type: :Diagnostic,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/27993330/",
     sop_pubmed_id: 27993330,
+    evaluation_method: "one",
     specification_criteria: [
       {
         criterium: "Tier I - Level A",
@@ -194,10 +202,16 @@ specifications = [
     assertion_type: :Oncogenic,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/35101336/",
     sop_pubmed_id: 35101336,
-    specification_criteria: ClingenCode.all.map do |code|
+    evaluation_method: "all",
+    specification_criteria: ClingenCode.all.reject { |code| code.code.include?("_") }.map do |code|
       {
         criterium: code.code,
         description: code.description,
+        modifiers: Hash.new.tap do |h|
+          clingen_code_modifiers[code.code].each do |modifier|
+            h[modifier] = nil
+          end
+        end,
       }
     end,
   },
@@ -209,10 +223,16 @@ specifications = [
     assertion_type: :Predisposing,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/25741868/",
     sop_pubmed_id: 25741868,
-    specification_criteria: AcmgCode.all.map do |code|
+    evaluation_method: "all",
+    specification_criteria: AcmgCode.all.reject { |code| code.code.include?("_") }.map do |code|
       {
         criterium: code.code,
         description: code.description,
+        modifiers: Hash.new.tap do |h|
+          acmg_code_modifiers[code.code].each do |modifier|
+            h[modifier] = nil
+          end
+        end,
       }
     end,
   },
@@ -225,7 +245,8 @@ specifications.each do |spec|
     SpecificationCriterium.where(
       specification: db_spec,
       criterium: criterium[:criterium],
-      description: criterium[:description]
+      description: criterium[:description],
+      modifiers: criterium[:modifiers] || {}
     ).first_or_create!
   end
 end

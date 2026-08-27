@@ -6,7 +6,8 @@
       nzSize="default"
       nzBlock
       [disabled]="!entityType()"
-      [(ngModel)]="selectedSpecificationId"
+      [ngModel]="selectedSpecificationId"
+      (ngModelChange)="onSpecificationSelectionChange($event)"
       [nzOptionHeightPx]="28">
       @for (spec of this.validSpecifications(); track spec.id) {
         <nz-option
