@@ -35,6 +35,25 @@ fragment EvidenceDetailFields on EvidenceItem {
   comments {
     totalCount
   }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    displayType
+    displayName
+    sourceUrl
+    ascoAbstractId
+    link
+    clinicalTrials {
+      nctId
+      id
+      link
+    }
+    retractionNature
+    deprecated
+    isPreprint
+  }
   ...evidenceSubmissionActivity
 }
 

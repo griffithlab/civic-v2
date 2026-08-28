@@ -1051,6 +1051,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_27_120000) do
     t.boolean "deprecated", default: false, null: false
     t.string "full_journal_title"
     t.boolean "fully_curated", default: false, null: false
+    t.boolean "is_preprint", default: false, null: false
     t.boolean "is_review"
     t.text "journal"
     t.boolean "open_access"

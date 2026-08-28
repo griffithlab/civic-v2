@@ -11,7 +11,7 @@ class EidsBySource < Report
 
   def self.inputs
     {
-      source_type: [ "PubMed", "ASCO", "ASH" ],
+      source_type: [ "PubMed", "ASCO", "ASH", "bioRxiv", "medRxiv" ],
       source_id: :text,
     }
   end

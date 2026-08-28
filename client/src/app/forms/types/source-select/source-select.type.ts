@@ -111,9 +111,9 @@ export class CvcSourceSelectField
       isMultiSelect: false,
       minSearchStrLength: 2,
       tooltip:
-        'PubMed, ASCO, or ASH Abstract Source(s) that support items, statements or descriptions.',
+        'PubMed, ASCO, ASH, bioRxiv, or medRxiv Abstract Source(s) that support items, statements or descriptions.',
       placeholders: {
-        default: 'Search PubMed, ASCO, and ASH Sources',
+        default: 'Search PubMed, ASCO, ASH, bioRxiv, and medRxiv Sources',
         contextualFn: (sourceName: string) => {
           return `Search ${sourceName} Sources`
         },

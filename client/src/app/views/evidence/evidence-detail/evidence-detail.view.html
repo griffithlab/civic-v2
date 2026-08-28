@@ -144,6 +144,11 @@
           nzMessage="This Evidence Item has been rejected."
           nzType="error">
         </nz-alert>
+        <nz-alert
+          *ngIf="evidence.source.isPreprint"
+          nzBanner
+          nzMessage="This Evidence Item is based on a preprint. The findings of that source are not peer-reviewed and may not be final."
+          nzType="warning"></nz-alert>
         <cvc-tab-navigation [tabs]="tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">

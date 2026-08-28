@@ -14,4 +14,5 @@ fragment SourceDetailFields on Source {
   comments {
     totalCount
   }
+  isPreprint
 }

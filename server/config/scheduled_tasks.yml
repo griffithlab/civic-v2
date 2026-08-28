@@ -139,3 +139,9 @@ GenerateNightlyUniprotFile:
   description: Update the nightly Uniprot id to gene mapping file
   queue: default
   class: GenerateNightlyUniprotFile
+
+UpdatePreprints:
+  cron: '0 0 * * *'
+  description: Check whether preprint sources have a peer-reviewed publication and make a revision to update EIDs to use peer-reviewed source
+  queue: default
+  class: UpdatePreprints

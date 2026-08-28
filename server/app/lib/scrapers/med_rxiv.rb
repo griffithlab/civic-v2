@@ -3,31 +3,23 @@ require "uri"
 require "nokogiri"
 
 module Scrapers
-  class Asco
-    def self.run
-      ActiveRecord::Base.transaction do
-        ::Source.all.each do |source|
-          populate_source_fields(source)
-        end
-      end
-    end
-
+  class MedRxiv
     def self.get_citation_from_doi(doi:)
-      resp = fetch_asco_page(doi: doi)
+      resp = fetch_medrxiv_page(doi: doi)
       resp.citation
     end
 
-    def self.fetch_asco_page(doi:)
+    def self.fetch_medrxiv_page(doi:)
       resp = Util.make_get_request("https://api.crossref.org/works/#{doi}")
       response = CrossrefWorkResponse.new(resp)
-      if response.json["message"]["publisher"] != "American Society of Clinical Oncology (ASCO)"
-        raise StandardError.new("Publisher not 'American Society of Clinical Oncology (ASCO)': #{response.json['message']['publisher']}")
+      if response.json["message"]["institution"][0]["name"] != "medRxiv"
+        raise StandardError.new("Institution not 'medRxiv': #{response.json['message']['institution'][0]["name"]}")
       end
       response
     end
 
     def self.populate_source_fields(source)
-      resp = fetch_asco_page(doi: source.citation_id)
+      resp = fetch_medrxiv_page(doi: source.citation_id)
 
       resp.authors.each do |author|
         author_obj = Author.where(
@@ -41,19 +33,15 @@ module Scrapers
         ).first_or_create!
       end
 
-      source.asco_presenter = resp.asco_presenter
-      source.asco_abstract_id = resp.asco_abstract_id
       source.publication_day = resp.day
       source.publication_month = resp.month
       source.publication_year = resp.year
       if !resp.abstract.blank?
-        source.abstract = Nokogiri::HTML(resp.abstract).text.strip.sub(/\A#{resp.asco_abstract_id}/, "").strip
+        source.abstract = Nokogiri::HTML(resp.abstract).text.strip.split("Disclosures").first.sub(/\AAbstract/, "").strip
       end
-      source.journal = resp.journal
       source.title = resp.article_title
-      source.full_journal_title = resp.full_journal_title
       source.citation = resp.citation
-      source.is_preprint = false
+      source.is_preprint = true
 
       source.save!
     end
