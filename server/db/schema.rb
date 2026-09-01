@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_26_161819) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_192144) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -1092,6 +1092,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_161819) do
   end
 
   create_table "specification_criteria", force: :cascade do |t|
+    t.string "assessment_group"
     t.datetime "created_at", null: false
     t.text "criterium", null: false
     t.text "description", null: false
@@ -1117,6 +1118,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_161819) do
 
   create_table "specifications", force: :cascade do |t|
     t.enum "assertion_type", null: false, enum_type: "assertion_types"
+    t.hstore "assessment_groups"
     t.datetime "created_at", null: false
     t.enum "evaluation_method", default: "all", enum_type: "specification_evaluation_methods"
     t.text "name", null: false

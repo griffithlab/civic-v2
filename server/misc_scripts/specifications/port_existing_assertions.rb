@@ -1,3 +1,4 @@
+# run order: 2
 Assertion.all.each do |assertion|
   if assertion.amp_level.present?
     possible_specs = Specification.where(specification_type: "amp_tiers", assertion_type: assertion.assertion_type, organization_id: nil)
