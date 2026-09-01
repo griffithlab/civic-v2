@@ -8342,6 +8342,7 @@ export enum TaggableEntity {
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
   MolecularProfile = 'MOLECULAR_PROFILE',
+  Organization = 'ORGANIZATION',
   Revision = 'REVISION',
   Role = 'ROLE',
   Source = 'SOURCE',
