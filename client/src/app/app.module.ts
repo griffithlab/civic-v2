@@ -29,6 +29,10 @@ import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert
 import { firstValueFrom, Observable, tap } from 'rxjs'
 import { AppErrorHandler } from './core/utilities/app-error-handler'
 import { CvcForms2Module } from '@app/forms/forms.module'
+import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core'
+import { CvcFormlyConfig2 } from '@app/forms/forms.options'
+import { registerCvcExtensions } from '@app/forms/extensions/form-extensions.config'
+import { ActivatedRoute } from '@angular/router'
 import { graphqlProvider } from './graphql/graphql.module'
 import { CvcEnvironmentBannerComponent } from './components/app/environment-banner/environment-banner.component'
 import { environment } from 'environments/environment'
@@ -63,6 +67,8 @@ const initlializerProvider = provideAppInitializer(() => {
     BrowserModule,
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
+    // forRoot must live at the root injector ONLY — see note in forms.module.ts
+    FormlyModule.forRoot(CvcFormlyConfig2),
     CvcForms2Module,
     LetDirective,
     PushPipe,
@@ -72,6 +78,13 @@ const initlializerProvider = provideAppInitializer(() => {
   providers: [
     initlializerProvider,
     graphqlProvider,
+    {
+      // inject deps, instantiate and register formly expression extensions
+      provide: FORMLY_CONFIG,
+      multi: true,
+      useFactory: registerCvcExtensions,
+      deps: [ActivatedRoute],
+    },
     {
       provide: ErrorHandler,
       useClass: AppErrorHandler,
