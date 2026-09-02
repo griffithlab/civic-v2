@@ -7,6 +7,7 @@ module Types::Entities
     field :score, Int, null: true
     field :modifiers, [ String ], null: false
     field :specification, Types::Entities::SpecificationType, null: false
+    field :assessment_group, String, null: true
 
     def exclusive
       object.specification.specification_type == "clingen_codes" && object.criterium == "N/A"

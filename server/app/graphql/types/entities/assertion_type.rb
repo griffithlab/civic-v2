@@ -37,8 +37,9 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
-    field :specifications, [ Types::Entities::SpecificationType ], null: true
+    field :specification, Types::Entities::SpecificationType , null: true
     field :specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false
+    #todo I think we no longer need this (still currently used in the revise form but that should go away)
     field :specifications_with_evaluations, [ Types::Entities::SpecificationWithEvaluationsType ], null: false
 
     def disease
@@ -53,6 +54,14 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :phenotypes).load(object)
     end
 
+    #todo once we allow specifications to be switched, this should return the currently "active" specification
+    def specification
+      specifications.then do |specs|
+        specs.first
+      end
+    end
+
+    #todo once we allow specifications to be switched, this should return only the "active" evaluations
     def specification_evaluations
       Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object)
     end

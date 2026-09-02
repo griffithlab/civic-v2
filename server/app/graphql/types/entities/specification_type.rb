@@ -17,6 +17,7 @@ module Types::Entities
     field :organization_id, Int, null: true
     field :specification_criterium, [ Types::Entities::SpecificationCriteriumType ], null: false
     field :evaluation_method, Types::Entities::SpecificationEvaluationMethodType, null: false
+    field :assessment_groups, [ Types::Entities::AssessmentGroupType ], null: false
 
     def organization
       Loaders::AssociationLoader.for(Specification, :organization).load(object)
@@ -24,6 +25,10 @@ module Types::Entities
 
     def specification_criterium
       Loaders::AssociationLoader.for(Specification, :specification_criterium).load(object)
+    end
+
+    def assessment_groups
+      object.assessment_groups.map { |k, v| { group: k, description: v } }
     end
   end
 end

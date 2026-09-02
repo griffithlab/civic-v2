@@ -770,8 +770,8 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     status: RevisionStatus
   ): RevisionConnection!
   significance: AssertionSignificance!
+  specification: Specification
   specificationEvaluations: [SpecificationEvaluation!]!
-  specifications: [Specification!]
   specificationsWithEvaluations: [SpecificationWithEvaluations!]!
   status: EvidenceStatus!
   submissionActivity: SubmitAssertionActivity!
@@ -1012,6 +1012,11 @@ enum AssertionType {
 input AssertionTypeTypeSearchInput {
   operator: EnumSearchOperator!
   value: AssertionType!
+}
+
+type AssessmentGroup {
+  description: String!
+  group: String!
 }
 
 enum AssociatedEvidenceStatusFilter {
@@ -12870,6 +12875,7 @@ enum SourcesSortColumns {
 
 type Specification {
   assertionType: AssertionType!
+  assessmentGroups: [AssessmentGroup!]!
   evaluationMethod: SpecificationEvaluationMethod!
   id: Int!
   name: String!
@@ -12884,6 +12890,7 @@ type Specification {
 }
 
 type SpecificationCriterium {
+  assessmentGroup: String
   criterium: String!
   description: String!
   exclusive: Boolean!

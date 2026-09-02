@@ -137,7 +137,7 @@ export type ApproveAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampCategory' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'specificationEvaluations' | 'specifications' | 'specificationsWithEvaluations' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampCategory' | 'ampLevel' | 'approvals' | 'assertionDirection' | 'assertionType' | 'clingenCodes' | 'comments' | 'description' | 'descriptionReplaceEidWithSource' | 'descriptionWithNames' | 'descriptionWithNamesReplaceEidWithSource' | 'descriptionWithTags' | 'descriptionWithTagsReplaceEidWithSource' | 'disease' | 'events' | 'evidenceItems' | 'evidenceItemsCount' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'openRevisionCount' | 'phenotypes' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'rejectionEvent' | 'revisions' | 'significance' | 'specification' | 'specificationEvaluations' | 'specificationsWithEvaluations' | 'status' | 'submissionActivity' | 'submissionEvent' | 'summary' | 'therapies' | 'therapyInteractionType' | 'variantOrigin' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -178,8 +178,8 @@ export type AssertionFieldPolicy = {
 	rejectionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	significance?: FieldPolicy<any> | FieldReadFunction<any>,
+	specification?: FieldPolicy<any> | FieldReadFunction<any>,
 	specificationEvaluations?: FieldPolicy<any> | FieldReadFunction<any>,
-	specifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	specificationsWithEvaluations?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	submissionActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -201,6 +201,11 @@ export type AssertionEdgeKeySpecifier = ('cursor' | 'node' | AssertionEdgeKeySpe
 export type AssertionEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type AssessmentGroupKeySpecifier = ('description' | 'group' | AssessmentGroupKeySpecifier)[];
+export type AssessmentGroupFieldPolicy = {
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	group?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseClinicalTrialKeySpecifier = ('evidenceCount' | 'id' | 'link' | 'name' | 'nctId' | 'sourceCount' | 'url' | BrowseClinicalTrialKeySpecifier)[];
 export type BrowseClinicalTrialFieldPolicy = {
@@ -2531,9 +2536,10 @@ export type SourceSuggestionValuesFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationKeySpecifier = ('assertionType' | 'evaluationMethod' | 'id' | 'name' | 'organization' | 'organizationId' | 'publishedOn' | 'sopPubmedId' | 'specificationCriterium' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
+export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'name' | 'organization' | 'organizationId' | 'publishedOn' | 'sopPubmedId' | 'specificationCriterium' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
 export type SpecificationFieldPolicy = {
 	assertionType?: FieldPolicy<any> | FieldReadFunction<any>,
+	assessmentGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	evaluationMethod?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2546,8 +2552,9 @@ export type SpecificationFieldPolicy = {
 	specificationUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationCriteriumKeySpecifier = ('criterium' | 'description' | 'exclusive' | 'id' | 'modifiers' | 'score' | 'specification' | SpecificationCriteriumKeySpecifier)[];
+export type SpecificationCriteriumKeySpecifier = ('assessmentGroup' | 'criterium' | 'description' | 'exclusive' | 'id' | 'modifiers' | 'score' | 'specification' | SpecificationCriteriumKeySpecifier)[];
 export type SpecificationCriteriumFieldPolicy = {
+	assessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	criterium?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	exclusive?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3115,6 +3122,10 @@ export type StrictTypedTypePolicies = {
 	AssertionEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AssertionEdgeKeySpecifier | (() => undefined | AssertionEdgeKeySpecifier),
 		fields?: AssertionEdgeFieldPolicy,
+	},
+	AssessmentGroup?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AssessmentGroupKeySpecifier | (() => undefined | AssessmentGroupKeySpecifier),
+		fields?: AssessmentGroupFieldPolicy,
 	},
 	BrowseClinicalTrial?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BrowseClinicalTrialKeySpecifier | (() => undefined | BrowseClinicalTrialKeySpecifier),

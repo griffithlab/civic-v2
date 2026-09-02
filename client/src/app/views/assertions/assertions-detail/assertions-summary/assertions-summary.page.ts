@@ -9,6 +9,10 @@ import {
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
+  SpecificationWithEvaluations,
+  SpecificationEvaluation,
+  SpecificationEvaluationStatus,
+  Specification,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { map, startWith } from 'rxjs/operators'
@@ -33,6 +37,7 @@ export class AssertionsSummaryPage {
 
   assertionRules = new AssertionState()
   statusValues = EvidenceStatus
+  evaluationStatus = SpecificationEvaluationStatus
 
   subscribable: SubscribableInput
 
@@ -43,6 +48,9 @@ export class AssertionsSummaryPage {
   assertionDescriptionTagMode: string = 'eid';
 
   queryAssertionId: Signal<number>
+  $specification: Signal<Maybe<Specification>>
+  $evaluations: Signal<SpecificationEvaluation[]>
+  $groupedEvaluations: Signal<any[]>
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
 
@@ -76,9 +84,33 @@ export class AssertionsSummaryPage {
 
     this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
+    this.$specification = toSignal(
+      observable.pipe(
+        pluck('data', 'assertion', 'specification'),
+      ),
+      { initialValue: undefined }
+    )
+
+    this.$evaluations = toSignal(
+      observable.pipe(
+        pluck('data', 'assertion', 'specificationEvaluations'),
+      ),
+      { initialValue: [] }
+    )
+
+    this.$groupedEvaluations = computed (() => (Object as any).groupBy(this.$evaluations(), (evaluation: any) => evaluation.specificationCriterium.assessmentGroup))
+
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,
       id: this.queryAssertionId(),
     }
+  }
+
+  getEvaluationsForStatus(evaluations: SpecificationEvaluation[], selectedEvaluation: SpecificationEvaluationStatus): SpecificationEvaluation[] {
+    return evaluations.filter((evaluation) => evaluation.evaluation == selectedEvaluation)
+  }
+
+  descriptionForGroup(selectedGroup: string): string | undefined {
+    return this.$specification()?.assessmentGroups.find((g) => g.group == selectedGroup)?.description
   }
 }

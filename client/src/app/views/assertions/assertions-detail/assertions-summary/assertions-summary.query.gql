@@ -52,24 +52,27 @@ fragment AssertionSummaryFields on Assertion {
     link
   }
   therapyInteractionType
-  specificationsWithEvaluations {
-    specification {
-      id
-      name
-      version
-      evaluationMethod
-      specificationUrl
-      specificationType
+  specification {
+    id
+    name
+    version
+    evaluationMethod
+    specificationUrl
+    specificationType
+    assessmentGroups {
+      group
+      description
     }
-    evaluations {
-      id
-      code
-      justification
-      modifier
-      evaluation
-      specificationCriterium {
-        description
-      }
+  }
+  specificationEvaluations {
+    id
+    code
+    justification
+    modifier
+    evaluation
+    specificationCriterium {
+      assessmentGroup
+      description
     }
   }
   nccnGuideline {

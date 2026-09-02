@@ -33,6 +33,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzListModule } from 'ng-zorro-antd/list'
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 import { CvcSpecificationPopoverComponent } from '@app/components/specifications/cvc-specification-popover/cvc-specification-popover.component'
@@ -61,6 +62,7 @@ import { CvcSpecificationPopoverComponent } from '@app/components/specifications
     FormsModule,
     NzCollapseModule,
     NzTableModule,
+    NzListModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,
