@@ -20,10 +20,10 @@
 
 <!-- select option templates -->
 <!-- each search result$ creates an individual template, which is
-    dynamically attached to an NzSelectOptionTemplateInterface object in
-    optionTemplates.changes.subscribe()-->
+dynamically attached to an NzSelectOptionTemplateInterface object in
+optionTemplates.changes.subscribe()-->
 <ng-container *ngrxLet="onSearch$ as searchString">
-  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+  @for (result of result$ | ngrxPush; track result; let i = $index) {
     <ng-template #optionTemplates>
       <cvc-entity-tag
         [cvcDisableLink]="true"
@@ -32,14 +32,12 @@
       <span
         nz-typography
         nzType="secondary">
-        <ng-container *ngIf="result.doid">
+        @if (result.doid) {
           <strong>DOID:</strong>
           <span
-            [innerHtml]="
-              result.doid | highlightTypeahead : searchString
-            "></span>
-        </ng-container>
-        <ng-container *ngIf="result.diseaseAliases.length > 0">
+            [innerHtml]="result.doid | highlightTypeahead: searchString"></span>
+        }
+        @if (result.diseaseAliases.length > 0) {
           &nbsp;
           <strong>Aliases: </strong>
           <em>
@@ -50,19 +48,19 @@
               [nzTooltipTitle]="result.diseaseAliases.join(', ')"
               [innerHtml]="
                 result.diseaseAliases.join(', ')
-                  | highlightTypeahead : searchString
+                  | highlightTypeahead: searchString
               "></span
           ></em>
-        </ng-container>
+        }
         {{ searchString }}
       </span>
     </ng-template>
-  </ng-container>
+  }
 </ng-container>
 
 <!-- selected option item template -->
 <!-- displays entity tag, specifying context and mode depending on
-    if field is multi-select or single -->
+  if field is multi-select or single -->
 <ng-template
   #selectedTemplate
   let-selected>

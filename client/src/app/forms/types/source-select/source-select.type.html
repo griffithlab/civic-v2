@@ -1,42 +1,49 @@
 <nz-row
   [nzGutter]="[6, 6]"
   class="select-layout">
-  <nz-col
-    nzFlex="80px"
-    *ngIf="showTypeSelect$ | ngrxPush">
-    <nz-select
-      nzSize="default"
-      nzBlock
-      [nzOptionHeightPx]="28"
-      [ngModel]="sourceType$ | ngrxPush"
-      (ngModelChange)="sourceType$.next($event)">
-      <nz-option
-        nzValue="PUBMED"
-        nzLabel="PubMed"></nz-option>
-      <nz-option
-        nzValue="ASCO"
-        nzLabel="ASCO"></nz-option>
-      <nz-option
-        nzValue="ASH"
-        nzLabel="ASH"></nz-option>
-      <nz-option
-        nzValue="BIORXIV"
-        nzLabel="bioRxiv"></nz-option>
-      <nz-option
-        nzValue="MEDRXIV"
-        nzLabel="medRxiv"></nz-option>
-    </nz-select>
-  </nz-col>
-  <nz-col
-    *ngIf="showTypeSelect$ | ngrxPush"
-    nzFlex="60px"
-    class="prefix">
-    <ng-container [ngSwitch]="sourceType$ | ngrxPush">
-      <div *ngSwitchCase="'PUBMED'">PMID:</div>
-      <div *ngSwitchCase="'ASCO'">doi.org/</div>
-      <div *ngSwitchCase="'ASH'">doi.org/</div>
-    </ng-container>
-  </nz-col>
+  @if (showTypeSelect$ | ngrxPush) {
+    <nz-col nzFlex="80px">
+      <nz-select
+        nzSize="default"
+        nzBlock
+        [nzOptionHeightPx]="28"
+        [ngModel]="sourceType$ | ngrxPush"
+        (ngModelChange)="sourceType$.next($event)">
+        <nz-option
+          nzValue="PUBMED"
+          nzLabel="PubMed"></nz-option>
+        <nz-option
+          nzValue="ASCO"
+          nzLabel="ASCO"></nz-option>
+        <nz-option
+          nzValue="ASH"
+          nzLabel="ASH"></nz-option>
+        <nz-option
+          nzValue="BIORXIV"
+          nzLabel="bioRxiv"></nz-option>
+        <nz-option
+          nzValue="MEDRXIV"
+          nzLabel="medRxiv"></nz-option>
+      </nz-select>
+    </nz-col>
+  }
+  @if (showTypeSelect$ | ngrxPush) {
+    <nz-col
+      nzFlex="60px"
+      class="prefix">
+      @switch (sourceType$ | ngrxPush) {
+        @case ('PUBMED') {
+          <div>PMID:</div>
+        }
+        @case ('ASCO') {
+          <div>doi.org/</div>
+        }
+        @case ('ASH') {
+          <div>doi.org/</div>
+        }
+      }
+    </nz-col>
+  }
   <nz-col nzFlex="auto">
     <cvc-entity-select
       [cvcMinSearchStrLength]="props.minSearchStrLength"
@@ -64,7 +71,7 @@
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
 <ng-container *ngrxLet="onSearch$ as searchString">
-  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+  @for (result of result$ | ngrxPush; track result; let i = $index) {
     <ng-template #optionTemplates>
       <cvc-entity-tag
         [cvcDisableLink]="true"
@@ -82,12 +89,12 @@
           "></span>
       </span>
     </ng-template>
-  </ng-container>
+  }
 </ng-container>
 
 <!-- selected option item template -->
 <!-- displays entity tag, specifying context and mode depending on
-    if field is multi-select or single -->
+if field is multi-select or single -->
 <ng-template
   #selectedTemplate
   let-selected>

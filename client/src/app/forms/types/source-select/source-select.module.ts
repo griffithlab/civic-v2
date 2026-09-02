@@ -21,7 +21,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcSourceSelectField,
@@ -75,7 +75,7 @@ const typeConfig: ConfigOption = {
     NzIconModule,
     NzInputModule,
     NzGridModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpaceModule,
     NzFormModule,
     NzAutocompleteModule,

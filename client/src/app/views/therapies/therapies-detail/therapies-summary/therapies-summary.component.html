@@ -1,13 +1,19 @@
 <div class="summary-container">
-  <ng-container *ngIf="therapy$ | ngrxPush as therapy">
+  @if (therapy$ | ngrxPush; as therapy) {
     <!-- grid with 8px horizontal gutter, 16px vertical gutter -->
     <nz-row [nzGutter]="[8, 16]">
       <!-- summary details -->
       <nz-col [nzSpan]="24">
-        <nz-space nzDirection="vertical" style="width: 100%;">
-          <nz-descriptions *nzSpaceItem [nzBordered]="true" nzLayout="vertical" [nzColumn]="1">
+        <nz-space
+          nzDirection="vertical"
+          style="width: 100%">
+          <nz-descriptions
+            *nzSpaceItem
+            [nzBordered]="true"
+            nzLayout="vertical"
+            [nzColumn]="1">
             <nz-descriptions-item nzTitle="Definition">
-              {{therapy.description | ifEmpty: '--'}}
+              {{ therapy.description | ifEmpty: '--' }}
             </nz-descriptions-item>
           </nz-descriptions>
           <p *nzSpaceItem></p>
@@ -15,33 +21,34 @@
       </nz-col>
       <cvc-my-chem-info [chemInfo]="therapy.myChemInfo"></cvc-my-chem-info>
       <nz-col [nzSpan]="24">
-        <nz-descriptions nzSize="small"
+        <nz-descriptions
+          nzSize="small"
           nzLayout="vertical"
           [nzColumn]="1"
           nzBordered="true">
           <nz-descriptions-item
             nzTitle="Aliases"
             nzSpan="1">
-            <cvc-tag-list
-              *ngIf="therapy.therapyAliases.length > 0; else noAliases">
-              <nz-tag
-                nz-tooltip
-                [nzTooltipTitle]="alias"
-                *ngFor="let alias of therapy.therapyAliases">
-                {{ alias | truncate }}
-              </nz-tag>
-            </cvc-tag-list>
-            <ng-template #noAliases>
+            @if (therapy.therapyAliases.length > 0) {
+              <cvc-tag-list>
+                @for (alias of therapy.therapyAliases; track alias) {
+                  <nz-tag
+                    nz-tooltip
+                    [nzTooltipTitle]="alias">
+                    {{ alias | truncate }}
+                  </nz-tag>
+                }
+              </cvc-tag-list>
+            } @else {
               <i
                 nz-typography
                 nzType="secondary"
                 >None specified</i
               >
-            </ng-template>
+            }
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
-
       <!-- evidence table -->
       <nz-col [nzSpan]="24">
         <cvc-evidence-table
@@ -51,7 +58,6 @@
             therapy.name
           }}"></cvc-evidence-table>
       </nz-col>
-
       <!-- assertions table -->
       <nz-col [nzSpan]="24">
         <cvc-assertions-table
@@ -61,5 +67,5 @@
           }}"></cvc-assertions-table>
       </nz-col>
     </nz-row>
-  </ng-container>
+  }
 </div>

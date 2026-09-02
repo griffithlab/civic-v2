@@ -1,30 +1,29 @@
 <nz-spin [nzSpinning]="mutationState?.isSubmitting$ | ngrxPush">
-  <ng-container *ngIf="mutationState?.submitError$ | ngrxPush as errors">
-    <nz-alert
-      *ngIf="errors.length > 0"
-      nzType="error"
-      nzShowIcon
-      nzMessage="Error Submitting {{ entityType }}"
-      [nzDescription]="errorList"></nz-alert>
+  @if (mutationState?.submitError$ | ngrxPush; as errors) {
+    @if (errors.length > 0) {
+      <nz-alert
+        nzType="error"
+        nzShowIcon
+        nzMessage="Error Submitting {{ entityType }}"
+        [nzDescription]="errorList"></nz-alert>
+    }
     <ng-template #errorList>
       <ul>
-        <li *ngFor="let error of errors">
-          {{ error }}
-        </li>
+        @for (error of errors; track error) {
+          <li>
+            {{ error }}
+          </li>
+        }
       </ul>
     </ng-template>
-  </ng-container>
-  <ng-container
-    *ngIf="mutationState?.submitSuccess$ | ngrxPush; else form">
+  }
+  @if (mutationState?.submitSuccess$ | ngrxPush) {
     <nz-alert
       nzType="success"
       nzShowIcon
       nzMessage="{{ entityType }} Submitted"
-      [nzDescription]="
-        successMessage ? successMessage : null
-      "></nz-alert>
-  </ng-container>
-  <ng-template #form>
+      [nzDescription]="successMessage ? successMessage : null"></nz-alert>
+  } @else {
     <ng-content></ng-content>
-  </ng-template>
+  }
 </nz-spin>

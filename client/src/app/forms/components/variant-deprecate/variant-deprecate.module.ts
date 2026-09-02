@@ -16,7 +16,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { VariantDeprecateForm } from './variant-deprecate.form'
 
@@ -38,7 +38,7 @@ import { VariantDeprecateForm } from './variant-deprecate.form'
     NzCardModule,
     NzSpaceModule,
     NzTypographyModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSelectModule,
 
     CvcFormErrorsAlertModule,

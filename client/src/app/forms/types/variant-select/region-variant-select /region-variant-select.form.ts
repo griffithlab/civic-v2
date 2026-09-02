@@ -23,7 +23,7 @@ import {
   FormlyModule,
 } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { CommonModule } from '@angular/common'
+
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
@@ -54,7 +54,6 @@ export interface RegionVariantSelectModalData {
   styleUrls: ['./region-variant-select.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     NzFormModule,
     NzButtonModule,
@@ -63,8 +62,8 @@ export interface RegionVariantSelectModalData {
     RouterModule,
     FormlyModule,
     CvcFeatureTagModule,
-    CvcRegionVariantNameSelectModule,
-  ],
+    CvcRegionVariantNameSelectModule
+],
 })
 export class CvcRegionVariantSelectForm {
   @Output() onVariantSelected = new EventEmitter<number>()

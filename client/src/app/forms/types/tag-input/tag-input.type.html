@@ -1,4 +1,4 @@
-<ng-container *ngIf="props.isMultiInput; else singleInputField">
+@if (props.isMultiInput) {
   <nz-select
     nzMode="tags"
     nzPlaceHolder="Please select"
@@ -7,37 +7,36 @@
     [formlyAttributes]="field"
     nzDropdownClassName="hide-dropdown"
     (ngModelChange)="onValueChange$.next($event)">
-    <nz-option
-      *ngFor="let item of formControl.value"
-      [nzLabel]="item"
-      [nzValue]="item"
-      [nzHide]="true"></nz-option>
+    @for (item of formControl.value; track item) {
+      <nz-option
+        [nzLabel]="item"
+        [nzValue]="item"
+        [nzHide]="true"></nz-option>
+    }
   </nz-select>
-</ng-container>
-
-<ng-template #singleInputField>
-  <nz-tag
-    *ngIf="tagLabel$ | ngrxPush as tagLabel"
-    [nzMode]="'closeable'"
-    (nzOnClose)="onTagClose$.next($event)">
-    {{ tagLabel }}
-  </nz-tag>
-
-  <ng-container *ngIf="!(tagLabel$ | ngrxPush)">
-    <input
-      *ngIf="props.type !== 'number'; else numberTmp"
-      nz-input
-      #baseInputTxt
-      [formControl]="formControl"
-      (keydown.enter)="baseInputTxt.blur()"
-      [type]="props.type || 'text'"
-      [formlyAttributes]="field" />
-    <ng-template #numberTmp>
+} @else {
+  @if (tagLabel$ | ngrxPush; as tagLabel) {
+    <nz-tag
+      [nzMode]="'closeable'"
+      (nzOnClose)="onTagClose$.next($event)">
+      {{ tagLabel }}
+    </nz-tag>
+  }
+  @if (!(tagLabel$ | ngrxPush)) {
+    @if (props.type !== 'number') {
+      <input
+        nz-input
+        #baseInputTxt
+        [formControl]="formControl"
+        (keydown.enter)="baseInputTxt.blur()"
+        [type]="props.type || 'text'"
+        [formlyAttributes]="field" />
+    } @else {
       <nz-input-number
         #baseInputNum
         (keydown.enter)="baseInputNum.blur()"
         [formControl]="formControl"
         [formlyAttributes]="field"></nz-input-number>
-    </ng-template>
-  </ng-container>
-</ng-template>
+    }
+  }
+}

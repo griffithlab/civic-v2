@@ -25,11 +25,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module'
 import { CvcEvidenceTableComponent } from './evidence-table.component'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
 
 @NgModule({
@@ -50,9 +50,9 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
     NzSpaceModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzRadioModule,
     NzCheckboxModule,
 

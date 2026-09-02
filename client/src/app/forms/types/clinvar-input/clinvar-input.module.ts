@@ -12,7 +12,7 @@ import {
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 const typeConfig: ConfigOption = {
@@ -57,7 +57,7 @@ const typeConfig: ConfigOption = {
     NzInputModule,
     NzRadioModule,
     NzSelectModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CvcPipesModule,
   ],
   exports: [CvcClinvarInputField],

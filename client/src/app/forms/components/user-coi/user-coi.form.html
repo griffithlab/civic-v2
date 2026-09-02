@@ -1,14 +1,16 @@
 <nz-card>
-  <nz-alert
-    *ngIf="success"
-    nzBanner
-    nzMessage="COI Statement Updated."
-    nzType="success"
-    nzCloseable></nz-alert>
-  <nz-form-item *ngIf="errorMessages.length > 0">
-    <cvc-form-errors-alert [errors]="errorMessages">
-    </cvc-form-errors-alert>
-  </nz-form-item>
+  @if (success) {
+    <nz-alert
+      nzBanner
+      nzMessage="COI Statement Updated."
+      nzType="success"
+      nzCloseable></nz-alert>
+  }
+  @if (errorMessages.length > 0) {
+    <nz-form-item>
+      <cvc-form-errors-alert [errors]="errorMessages"> </cvc-form-errors-alert>
+    </nz-form-item>
+  }
   <nz-spin
     nzTip="Submitting"
     [nzSpinning]="loading">
@@ -26,21 +28,27 @@
         >
       </nz-radio-group>
     </nz-form-item>
-    <nz-form-item *ngIf="coiStatus === 'coiPresent'">
-      <textarea
-        nz-input
-        rows="5"
-        [(ngModel)]="coiText"
-        style="width: 100%"
-        placeholder="Provide a concise description of any potential or actual conflicts of interest that you may have in curating CIViC"></textarea>
-    </nz-form-item>
+    @if (coiStatus === 'coiPresent') {
+      <nz-form-item>
+        <textarea
+          nz-input
+          rows="5"
+          [(ngModel)]="coiText"
+          style="width: 100%"
+          placeholder="Provide a concise description of any potential or actual conflicts of interest that you may have in curating CIViC"></textarea>
+      </nz-form-item>
+    }
     <nz-form-item>
       <button
         type="submit"
         nz-button
         nzType="primary"
         nzSize="small"
-        [disabled]="loading || (coiStatus === 'coiPresent' && (coiText === undefined || coiText.length < 10))"
+        [disabled]="
+          loading ||
+          (coiStatus === 'coiPresent' &&
+            (coiText === undefined || coiText.length < 10))
+        "
         (click)="updateCoi()">
         Save Conflict of Interest Statement
       </button>

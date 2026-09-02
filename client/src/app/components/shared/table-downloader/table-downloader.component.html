@@ -4,15 +4,17 @@
   nzSize="small"
   (click)="downloadTable()"
   [disabled]="downloading | async">
-  <span
-    *ngIf="!(downloading | async)"
-    nz-icon
-    nzType="download"
-    nzTheme="outline"></span>
-  <span
-    *ngIf="downloading | async"
-    nz-icon
-    nzType="sync"
-    [nzSpin]="true"></span>
+  @if (!(downloading | async)) {
+    <span
+      nz-icon
+      nzType="download"
+      nzTheme="outline"></span>
+  }
+  @if (downloading | async) {
+    <span
+      nz-icon
+      nzType="sync"
+      [nzSpin]="true"></span>
+  }
   Download
 </button>

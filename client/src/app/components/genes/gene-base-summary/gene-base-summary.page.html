@@ -1,4 +1,4 @@
-<ng-container *ngIf="gene">
+@if (gene) {
   <nz-row [nzGutter]="[8, 8]">
     <!-- gene description, sources block -->
     <nz-col nzSpan="24">
@@ -10,24 +10,22 @@
         [nzColumn]="1">
         <!-- description -->
         <nz-descriptions-item nzTitle="Description">
-          <p
-            *ngIf="gene.description; else noDescription"
-            nz-typography
-            nzEllipsis
-            nzExpandable
-            [nzEllipsisRows]="8">
-            {{ gene.description }}
-          </p>
-
-          <!-- noDescription Tpl -->
-          <ng-template #noDescription>
+          @if (gene.description) {
+            <p
+              nz-typography
+              nzEllipsis
+              nzExpandable
+              [nzEllipsisRows]="8">
+              {{ gene.description }}
+            </p>
+          } @else {
             <cvc-empty-revisable notification="No description provided">
             </cvc-empty-revisable>
-          </ng-template>
+          }
+          <!-- noDescription Tpl -->
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-col>
-
     <!-- sources, aliases, resource block -->
     <nz-col nzSpan="24">
       <nz-descriptions
@@ -37,36 +35,34 @@
         nzBordered="true">
         <!-- sources -->
         <nz-descriptions-item nzTitle="Sources">
-          <ng-container *ngIf="gene.sources.length > 0; else noSources">
+          @if (gene.sources.length > 0) {
             <cvc-tag-list>
-              <cvc-source-tag
-                *ngFor="let source of gene.sources"
-                [source]="source"></cvc-source-tag>
+              @for (source of gene.sources; track source) {
+                <cvc-source-tag [source]="source"></cvc-source-tag>
+              }
             </cvc-tag-list>
-          </ng-container>
-          <ng-template #noSources>
+          } @else {
             <span
               nz-typography
               nzType="secondary"
               >None specified</span
             >
-          </ng-template>
+          }
         </nz-descriptions-item>
-
         <!-- aliases -->
-        <nz-descriptions-item
-          nzTitle="Aliases"
-          *ngIf="gene.featureAliases.length > 0; else noAliases">
-          <nz-tag *ngFor="let alias of gene.featureAliases">{{ alias }}</nz-tag>
-        </nz-descriptions-item>
-        <ng-template #noAliases>
+        @if (gene.featureAliases.length > 0) {
+          <nz-descriptions-item nzTitle="Aliases">
+            @for (alias of gene.featureAliases; track alias) {
+              <nz-tag>{{ alias }}</nz-tag>
+            }
+          </nz-descriptions-item>
+        } @else {
           <span
             nz-typography
             nzType="secondary"
             >None specified</span
           >
-        </ng-template>
-
+        }
         <!-- resource links -->
         <nz-descriptions-item nzTitle="Resources">
           <cvc-tag-list>
@@ -92,4 +88,4 @@
       </nz-descriptions>
     </nz-col>
   </nz-row>
-</ng-container>
+}
