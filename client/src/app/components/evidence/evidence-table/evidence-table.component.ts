@@ -165,39 +165,45 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      assertionId: this.assertionId,
-      significance: this.SignificanceInput ? this.SignificanceInput : undefined,
-      clinicalTrialId: this.clinicalTrialId,
-      description: this.descriptionInput,
-      diseaseId: this.diseaseId,
-      diseaseName: this.diseaseNameInput,
-      therapyId: this.therapyId,
-      therapyName: this.therapyNameInput,
-      evidenceDirection: this.evidenceDirectionInput
-        ? this.evidenceDirectionInput
-        : undefined,
-      evidenceLevel: this.evidenceLevelInput
-        ? this.evidenceLevelInput
-        : undefined,
-      evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
-      first: this.initialPageSize,
-      organization: this.organizationFilter(this.organizationId),
-      phenotypeId: this.phenotypeId,
-      evidenceRating: this.evidenceRatingInput
-        ? this.evidenceRatingInput
-        : undefined,
-      sourceId: this.sourceId,
-      status: this.status || EvidenceStatusFilter.NonRejected,
-      userId: this.userId,
-      variantId: this.variantId,
-      molecularProfileId: this.molecularProfileId,
-      molecularProfileName: this.molecularProfileNameInput
-        ? this.molecularProfileNameInput
-        : undefined,
-      variantOrigin: this.variantOriginInput
-        ? this.variantOriginInput
-        : undefined,
-      ids: this.ids,
+      variables: {
+        assertionId: this.assertionId,
+        significance: this.SignificanceInput
+          ? this.SignificanceInput
+          : undefined,
+        clinicalTrialId: this.clinicalTrialId,
+        description: this.descriptionInput,
+        diseaseId: this.diseaseId,
+        diseaseName: this.diseaseNameInput,
+        therapyId: this.therapyId,
+        therapyName: this.therapyNameInput,
+        evidenceDirection: this.evidenceDirectionInput
+          ? this.evidenceDirectionInput
+          : undefined,
+        evidenceLevel: this.evidenceLevelInput
+          ? this.evidenceLevelInput
+          : undefined,
+        evidenceType: this.evidenceTypeInput
+          ? this.evidenceTypeInput
+          : undefined,
+        first: this.initialPageSize,
+        organization: this.organizationFilter(this.organizationId),
+        phenotypeId: this.phenotypeId,
+        evidenceRating: this.evidenceRatingInput
+          ? this.evidenceRatingInput
+          : undefined,
+        sourceId: this.sourceId,
+        status: this.status || EvidenceStatusFilter.NonRejected,
+        userId: this.userId,
+        variantId: this.variantId,
+        molecularProfileId: this.molecularProfileId,
+        molecularProfileName: this.molecularProfileNameInput
+          ? this.molecularProfileNameInput
+          : undefined,
+        variantOrigin: this.variantOriginInput
+          ? this.variantOriginInput
+          : undefined,
+        ids: this.ids,
+      },
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -347,7 +353,9 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy, OnChanges {
     this.statusFilterVisible = false
   }
 
-  private organizationFilter(organizationId: Maybe<number>): OrganizationFilter {
+  private organizationFilter(
+    organizationId: Maybe<number>
+  ): OrganizationFilter {
     return {
       ids: organizationId ? [organizationId] : [],
       includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,

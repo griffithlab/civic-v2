@@ -156,15 +156,17 @@ export class CvcUserLeaderboardsComponent implements OnInit {
      * COMMENTS VIEW
      */
     this.commentsQueryRef = this.commentsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.commentsQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserCommentsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.commentsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -189,15 +191,17 @@ export class CvcUserLeaderboardsComponent implements OnInit {
      * MODERATION VIEW
      */
     this.moderationQueryRef = this.moderationGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.moderationQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.moderationLeaderboard.edges.map(
               (e) => {
                 if (e.node) {
@@ -224,15 +228,17 @@ export class CvcUserLeaderboardsComponent implements OnInit {
      * REVISIONS VIEW
      */
     this.revisionsQueryRef = this.revisionsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.revisionsQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserRevisionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.revisionsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -257,15 +263,17 @@ export class CvcUserLeaderboardsComponent implements OnInit {
      * SUBMISSIONS VIEW
      */
     this.submissionsQueryRef = this.submissionsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.submissionsQueryRef.valueChanges
       .pipe(
         map((result: ApolloQueryResult<UserSubmissionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userLeaderboards) {
+          if (result.dataState === 'complete' && result.data.userLeaderboards) {
             result.data.userLeaderboards.submissionsLeaderboard.edges.map(
               (e) => {
                 if (e.node) {

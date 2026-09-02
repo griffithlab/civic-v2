@@ -41,10 +41,11 @@ export class HomepageNewsItemsComponent implements OnInit {
     this.errorMessage.set(undefined)
 
     this.gql
-      .fetch(undefined, { fetchPolicy: 'network-only' })
+      .fetch({ fetchPolicy: 'network-only' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ data }) => {
+          if (!data?.newsItems) return
           this.newsItems.set(
             data.newsItems.edges
               .map(({ node }) => node)

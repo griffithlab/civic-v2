@@ -113,14 +113,14 @@ export class AssertionsDetailView {
      **************************/
     // get assertionId from route params
     this.assertionId = toSignal(
-      this.route.params.pipe(
-        map(params => +params['assertionId']),
-      ),
+      this.route.params.pipe(map((params) => +params['assertionId'])),
       { requireSync: true }
-    );
+    )
 
     // save query reference for calling refetch() or fetchMore()
-    this.queryRef = this.gql.watch({ assertionId: this.assertionId() })
+    this.queryRef = this.gql.watch({
+      variables: { assertionId: this.assertionId() },
+    })
 
     // provide valueChanges observable as response signal
     this.response = toSignal(this.queryRef.valueChanges, {
@@ -128,7 +128,7 @@ export class AssertionsDetailView {
     })
 
     effect(() => {
-        this.queryRef.refetch({assertionId: this.assertionId()})
+      this.queryRef.refetch({ assertionId: this.assertionId() })
     })
 
     // provide viewer$ observable as signal
@@ -139,7 +139,10 @@ export class AssertionsDetailView {
     })
 
     this.assertion = computed(() => {
-      const assertion = this.response()?.data?.assertion
+      const response = this.response()
+      // dataState narrows AC4's result union to fully-typed data
+      if (response?.dataState !== 'complete') return undefined
+      const assertion = response.data.assertion
       return assertion ? { ...assertion } : undefined
     })
 

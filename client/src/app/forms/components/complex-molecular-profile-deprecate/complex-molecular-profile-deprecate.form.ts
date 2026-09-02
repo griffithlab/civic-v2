@@ -83,19 +83,19 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
     }
 
     let queryRef = this.evidenceCountsForMolecularProfileGQL.fetch({
-      molecularProfileId: this.molecularProfileId,
+      variables: {
+        molecularProfileId: this.molecularProfileId,
+      },
     })
 
     this.hasEvidence$ = queryRef.pipe(
-      map(
-        ({ data }) =>
-          data.molecularProfile!.evidenceCountsByStatus.submittedCount +
-            data.molecularProfile!.evidenceCountsByStatus.acceptedCount >
-          0
-      )
+      map(({ data }) => {
+        const counts = data?.molecularProfile?.evidenceCountsByStatus
+        return counts ? counts.submittedCount + counts.acceptedCount > 0 : false
+      })
     )
 
-    this.isLoading$ = queryRef.pipe(map(({ loading }) => loading))
+    this.isLoading$ = queryRef.pipe(map(() => false))
   }
 
   deprecateMolecularProfile(): void {

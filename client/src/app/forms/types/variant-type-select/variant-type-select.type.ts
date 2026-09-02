@@ -31,6 +31,7 @@ import {
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, Subject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { Apollo } from 'apollo-angular'
 
 export type CvcVariantTypeSelectFieldOptions = Partial<
   FieldTypeConfig<CvcVariantTypeSelectFieldProps>
@@ -56,8 +57,7 @@ export interface CvcVariantTypeSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcVariantTypeSelectFieldConfig
-  extends FormlyFieldConfig<CvcVariantTypeSelectFieldProps> {
+export interface CvcVariantTypeSelectFieldConfig extends FormlyFieldConfig<CvcVariantTypeSelectFieldProps> {
   type:
     | 'variant-type-select'
     | 'variant-type-multi-select'
@@ -80,11 +80,11 @@ const VariantTypeSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-variant-type-select',
-    templateUrl: './variant-type-select.type.html',
-    styleUrls: ['./variant-type-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variant-type-select',
+  templateUrl: './variant-type-select.type.html',
+  styleUrls: ['./variant-type-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantTypeSelectField
   extends VariantTypeSelectMixin
@@ -109,13 +109,11 @@ export class CvcVariantTypeSelectField
       },
       description:
         'Add one or more variant types from the <a href="http://www.sequenceontology.org/browser/" target="_blank">Sequence Ontology</a> (e.g., missense, loss-of-function). Be specific as possible, avoid the addition of root concepts, and use the sequence_variant tree of the sequence ontology.',
-      
     },
   }
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
-
 
   constructor(
     private taq: VariantTypeSelectTypeaheadGQL,
@@ -159,8 +157,10 @@ export class CvcVariantTypeSelectField
     return { name: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<VariantTypeSelectTypeaheadQuery>) {
-    return r.data.variantTypeTypeahead
+  getTypeaheadResultsFn(
+    r: Apollo.QueryResult<VariantTypeSelectTypeaheadQuery>
+  ) {
+    return r.data?.variantTypeTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): VariantTypeSelectTagQueryVariables {
@@ -168,9 +168,9 @@ export class CvcVariantTypeSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<VariantTypeSelectTagQuery>
+    r: Apollo.QueryResult<VariantTypeSelectTagQuery>
   ): Maybe<VariantTypeSelectTypeaheadFieldsFragment> {
-    return r.data.variantType
+    return r.data?.variantType
   }
 
   getSelectedItemOptionFn(

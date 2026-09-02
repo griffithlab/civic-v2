@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -48,10 +49,13 @@ export class CvcUserPopoverComponent
   }
 
   ngOnInit() {
-    this.user$ = this.gql.watch({ userId: this.userId }).valueChanges.pipe(
-      map(({ data }) => data?.user),
-      filter(isNonNulled)
-    )
+    this.user$ = this.gql
+      .watch({ variables: { userId: this.userId } })
+      .valueChanges.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.user),
+        filter(isNonNulled)
+      )
   }
   ngAfterViewInit() {
     this.resizeObserver.observe(this.elementRef.nativeElement)

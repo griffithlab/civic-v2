@@ -17,7 +17,7 @@ import {
 import { ADVANCED_SEARCH_ENDPOINTS } from './query-builder.registry'
 import { Observable } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
-import { ApolloError } from '@apollo/client/core'
+import { ErrorLike } from '@apollo/client'
 
 export type AdvancedSearchEndpoint = keyof typeof ADVANCED_SEARCH_ENDPOINTS
 
@@ -73,7 +73,7 @@ export type QueryBuilderResult =
     }
   | {
       status: 'error'
-      error: ApolloError
+      error: ErrorLike
     }
   | {
       status: 'reset'
