@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   EvidenceStatus,
   FlagState,
@@ -9,9 +14,10 @@ import {
 type StatusType = EvidenceStatus | RevisionStatus | FlagState
 
 @Component({
-    selector: 'cvc-status-tag',
-    templateUrl: './status-tag.component.html',
-    standalone: false
+  selector: 'cvc-status-tag',
+  templateUrl: './status-tag.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcStatusTagComponent implements OnInit {
   private _status?: StatusType

@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 
 import {
   SubscribableEntities,
@@ -8,10 +13,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-region-summary',
-    templateUrl: './regions-summary.page.html',
-    styleUrls: ['./regions-summary.page.less'],
-    standalone: false,
+  selector: 'cvc-region-summary',
+  templateUrl: './regions-summary.page.html',
+  styleUrls: ['./regions-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class RegionsSummaryPage implements OnInit {
   @Input() region!: RegionSummaryFieldsFragment

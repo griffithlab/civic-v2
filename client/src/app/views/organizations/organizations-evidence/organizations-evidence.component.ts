@@ -1,11 +1,12 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
-    selector: 'cvc-organizations-evidence',
-    templateUrl: './organizations-evidence.component.html',
-    styleUrls: ['./organizations-evidence.component.less'],
-    standalone: false
+  selector: 'cvc-organizations-evidence',
+  templateUrl: './organizations-evidence.component.html',
+  styleUrls: ['./organizations-evidence.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class OrganizationsEvidenceComponent {
   organizationId: number

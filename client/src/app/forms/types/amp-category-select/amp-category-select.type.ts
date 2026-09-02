@@ -6,6 +6,7 @@ import {
   TemplateRef,
   Type,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
@@ -63,8 +64,7 @@ export interface CvcAmpCategorySelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcAmpCategorySelectFieldConfig
-  extends FormlyFieldConfig<CvcAmpCategorySelectFieldProps> {
+export interface CvcAmpCategorySelectFieldConfig extends FormlyFieldConfig<CvcAmpCategorySelectFieldProps> {
   type: 'level-select' | Type<CvcAmpCategorySelectField>
 }
 
@@ -80,6 +80,7 @@ const AmpCategorySelectMixin = mixin(
   selector: 'cvc-amp-category-select',
   templateUrl: './amp-category-select.type.html',
   styleUrls: ['./amp-category-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcAmpCategorySelectField

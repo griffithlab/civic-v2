@@ -1,11 +1,12 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-assertions-suggest-page',
-    templateUrl: './assertion-suggest.page.html',
-    standalone: false
+  selector: 'cvc-assertions-suggest-page',
+  templateUrl: './assertion-suggest.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AssertionSuggestPage implements OnDestroy {
   assertionId?: number

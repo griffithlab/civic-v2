@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -30,6 +31,7 @@ import { map, takeUntil } from 'rxjs/operators'
   selector: 'cvc-user-profile-form',
   templateUrl: './user-profile.form.html',
   styleUrls: ['./user-profile.form.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcUserProfileForm implements OnInit, OnDestroy {
