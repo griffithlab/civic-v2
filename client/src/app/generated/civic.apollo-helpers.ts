@@ -2563,12 +2563,13 @@ export type SpecificationCriteriumFieldPolicy = {
 	score?: FieldPolicy<any> | FieldReadFunction<any>,
 	specification?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationEvaluationKeySpecifier = ('assertion' | 'code' | 'createdAt' | 'evaluation' | 'id' | 'justification' | 'modifier' | 'specificationCriterium' | 'updatedAt' | SpecificationEvaluationKeySpecifier)[];
+export type SpecificationEvaluationKeySpecifier = ('assertion' | 'code' | 'createdAt' | 'evaluation' | 'evidenceItems' | 'id' | 'justification' | 'modifier' | 'specificationCriterium' | 'updatedAt' | SpecificationEvaluationKeySpecifier)[];
 export type SpecificationEvaluationFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	evaluation?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	justification?: FieldPolicy<any> | FieldReadFunction<any>,
 	modifier?: FieldPolicy<any> | FieldReadFunction<any>,

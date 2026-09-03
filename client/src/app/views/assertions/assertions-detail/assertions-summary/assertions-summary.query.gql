@@ -74,6 +74,12 @@ fragment AssertionSummaryFields on Assertion {
       assessmentGroup
       description
     }
+    evidenceItems {
+      id
+      name
+      status
+      link
+    }
   }
   nccnGuideline {
     id

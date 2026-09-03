@@ -37,6 +37,7 @@ import { NzListModule } from 'ng-zorro-antd/list'
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 import { CvcSpecificationPopoverComponent } from '@app/components/specifications/cvc-specification-popover/cvc-specification-popover.component'
+import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -80,7 +81,8 @@ import { CvcSpecificationPopoverComponent } from '@app/components/specifications
     CvcApprovalNotificationComponent,
     CvcCommentBodyModule,
     CvcEntityDescription,
-    CvcSpecificationPopoverComponent
+    CvcSpecificationPopoverComponent,
+    CvcEvidenceTagModule,
   ],
   exports: [AssertionsSummaryPage],
 })

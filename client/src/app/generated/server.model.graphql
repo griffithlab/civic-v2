@@ -12905,6 +12905,7 @@ type SpecificationEvaluation {
   code: String!
   createdAt: ISO8601DateTime
   evaluation: SpecificationEvaluationStatus!
+  evidenceItems: [EvidenceItem!]!
   id: Int!
   justification: String
   modifier: String
