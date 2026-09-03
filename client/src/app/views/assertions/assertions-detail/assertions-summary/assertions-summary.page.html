@@ -142,6 +142,11 @@
                                         </span>
                                       }
                                     </td>
+                                    <td>
+                                      @for (evidence of evaluation.evidenceItems; track evidence.id) {
+                                        <cvc-evidence-tag [evidence]="evidence"></cvc-evidence-tag>
+                                      }
+                                    </td>
                                   </tr>
                                 }
                               </tbody>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_192144) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -648,6 +648,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_192144) do
     t.integer "phenotype_id", null: false
     t.index ["evidence_item_id", "phenotype_id"], name: "index_evidence_item_id_phenotype_id"
     t.index ["phenotype_id"], name: "index_evidence_items_phenotypes_on_phenotype_id"
+  end
+
+  create_table "evidence_items_specification_evaluations", id: false, force: :cascade do |t|
+    t.bigint "evidence_item_id", null: false
+    t.bigint "specification_evaluation_id", null: false
+    t.index ["evidence_item_id", "specification_evaluation_id"], name: "idx_on_evidence_item_id_specification_evaluation_id_ce1d532569"
+    t.index ["specification_evaluation_id", "evidence_item_id"], name: "idx_on_specification_evaluation_id_evidence_item_id_98dfe129e6"
   end
 
   create_table "evidence_items_therapies", id: false, force: :cascade do |t|
