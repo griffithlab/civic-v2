@@ -227,9 +227,13 @@ export class UsersNotificationsComponent {
     let orgObj: Maybe<SubscribableInput> = undefined
 
     if (s !== undefined) {
+      let entityTypeString = s.subjectWithCount.subject?.__typename
+      if (entityTypeString && ["GeneVariant", "FusionVariant", "FactorVariant", "RegionVariant"].includes(entityTypeString)) {
+        entityTypeString = "Variant"
+      }
       let entityType: keyof typeof SubscribableEntities = <
         keyof typeof SubscribableEntities
-      >s.subjectWithCount.subject?.__typename
+      >entityTypeString
       orgObj = {
         id: s.subjectWithCount.subject!.id,
         entityType: SubscribableEntities[entityType],
