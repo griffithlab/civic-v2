@@ -28,7 +28,11 @@ module Types::Entities
     end
 
     def assessment_groups
-      object.assessment_groups.map { |k, v| { group: k, description: v } }
+      if object.assessment_groups
+        object.assessment_groups.map { |k, v| { group: k, description: v } }
+      else
+        []
+      end
     end
   end
 end

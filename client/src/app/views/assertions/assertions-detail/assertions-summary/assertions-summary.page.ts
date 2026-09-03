@@ -106,7 +106,7 @@ export class AssertionsSummaryPage {
     }
   }
 
-  getEvaluationsForStatus(evaluations: SpecificationEvaluation[], selectedEvaluation: SpecificationEvaluationStatus): SpecificationEvaluation[] {
+  getEvaluationsForStatus(evaluations: any[], selectedEvaluation: SpecificationEvaluationStatus): SpecificationEvaluation[] {
     return evaluations.filter((evaluation) => evaluation.evaluation == selectedEvaluation)
   }
 
