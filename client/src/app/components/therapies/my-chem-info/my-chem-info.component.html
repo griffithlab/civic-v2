@@ -1,76 +1,144 @@
-<ng-container *ngIf="chemInfo">
+@if (chemInfo) {
   <nz-card nzTitle="MyChemInfo">
     <div class="tab-padding">
       <nz-row [nzGutter]="8">
         <nz-col [nzSpan]="12">
-          <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="2">
-            <nz-descriptions-item nzTitle="ChEBI Definition" [nzSpan]="2">
-              <ng-container *ngIf="chemInfo.chebiDefinition; else noValue">
-                {{chemInfo.chebiDefinition}}
-              </ng-container>
+          <nz-descriptions
+            nzSize="small"
+            [nzBordered]="true"
+            [nzColumn]="2">
+            <nz-descriptions-item
+              nzTitle="ChEBI Definition"
+              [nzSpan]="2">
+              @if (chemInfo.chebiDefinition) {
+                {{ chemInfo.chebiDefinition }}
+              } @else {
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >Not Found</span
+                >
+              }
             </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="Indications" [nzSpan]="2">
-              <ng-container *ngIf="chemInfo.indications.length > 0; else noValue">
+            <nz-descriptions-item
+              nzTitle="Indications"
+              [nzSpan]="2">
+              @if (chemInfo.indications.length > 0) {
                 <cvc-tag-list>
-                  <nz-tag *ngFor="let i of chemInfo.indications">{{i}}</nz-tag>
+                  @for (i of chemInfo.indications; track i) {
+                    <nz-tag>{{ i }}</nz-tag>
+                  }
                 </cvc-tag-list>
-              </ng-container>
+              } @else {
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >Not Found</span
+                >
+              }
             </nz-descriptions-item>
-            <nz-descriptions-item *ngIf="chemInfo.inchikey" nzTitle="InChIKey" [nzSpan]="2">
-              {{chemInfo.inchikey}}
-            </nz-descriptions-item>
+            @if (chemInfo.inchikey) {
+              <nz-descriptions-item
+                nzTitle="InChIKey"
+                [nzSpan]="2">
+                {{ chemInfo.inchikey }}
+              </nz-descriptions-item>
+            }
           </nz-descriptions>
         </nz-col>
         <nz-col [nzSpan]="12">
-          <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="2">
-            <nz-descriptions-item *ngIf="chemInfo.firstApproval" nzTitle="First Approval">
-              {{chemInfo.firstApproval}}
-            </nz-descriptions-item>
-            <nz-descriptions-item *ngIf="chemInfo.chemblMoleculeType" nzTitle="Molecule Type">
-              {{chemInfo.chemblMoleculeType}}
-            </nz-descriptions-item>
-            <ng-container *ngFor="let epc of chemInfo.fdaEpcCodes">
-              <nz-descriptions-item  nzTitle="FDA EPC Code">
-                {{epc.code}}
+          <nz-descriptions
+            nzSize="small"
+            [nzBordered]="true"
+            [nzColumn]="2">
+            @if (chemInfo.firstApproval) {
+              <nz-descriptions-item nzTitle="First Approval">
+                {{ chemInfo.firstApproval }}
+              </nz-descriptions-item>
+            }
+            @if (chemInfo.chemblMoleculeType) {
+              <nz-descriptions-item nzTitle="Molecule Type">
+                {{ chemInfo.chemblMoleculeType }}
+              </nz-descriptions-item>
+            }
+            @for (epc of chemInfo.fdaEpcCodes; track epc) {
+              <nz-descriptions-item nzTitle="FDA EPC Code">
+                {{ epc.code }}
               </nz-descriptions-item>
               <nz-descriptions-item nzTitle="FDA EPC Description">
-                {{epc.description}}
+                {{ epc.description }}
               </nz-descriptions-item>
-            </ng-container>
-            <ng-container *ngFor="let moa of chemInfo.fdaMoaCodes">
-              <nz-descriptions-item  nzTitle="FDA MOA Code">
-                {{moa.code}}
+            }
+            @for (moa of chemInfo.fdaMoaCodes; track moa) {
+              <nz-descriptions-item nzTitle="FDA MOA Code">
+                {{ moa.code }}
               </nz-descriptions-item>
               <nz-descriptions-item nzTitle="FDA MOA Description">
-                {{moa.description}}
+                {{ moa.description }}
               </nz-descriptions-item>
-            </ng-container>
-            <nz-descriptions-item nzTitle="External Identifiers" [nzSpan]="2">
+            }
+            <nz-descriptions-item
+              nzTitle="External Identifiers"
+              [nzSpan]="2">
               <cvc-tag-list>
-                <cvc-link-tag *ngIf="chemInfo.chebiId" [href]="'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=' + chemInfo.chebiId"
-                  tooltip="View in ChEBI">
-                  {{chemInfo.chebiId}}
-                </cvc-link-tag>
-                <cvc-link-tag *ngIf="chemInfo.chemblId" [href]="'https://www.ebi.ac.uk/chembl/compound_report_card/' + chemInfo.chemblId"
-                  tooltip="View in ChEMBL">
-                  {{chemInfo.chemblId}}
-                </cvc-link-tag>
-                <cvc-link-tag *ngIf="chemInfo.pubchemCid" [href]="'https://pubchem.ncbi.nlm.nih.gov/compound/' + chemInfo.pubchemCid"
-                  tooltip="View in PubChem">
-                  PubChem {{chemInfo.pubchemCid}}
-                </cvc-link-tag>
-                <cvc-link-tag *ngIf="chemInfo.pharmgkbId" [href]="'https://www.pharmgkb.org/chemical/' + chemInfo.pharmgkbId"
-                  tooltip="View in PHARMGKB">
-                  PHARMGKB {{chemInfo.pharmgkbId}}
-                </cvc-link-tag>
-                <cvc-link-tag *ngIf="chemInfo.rxnorm" [href]="'https://mor.nlm.nih.gov/RxNav/search?searchBy=RXCUI&searchTerm=' + chemInfo.rxnorm"
-                  tooltip="View in RxNav">
-                  RxNav {{chemInfo.rxnorm}}
-                </cvc-link-tag>
-                <cvc-link-tag *ngIf="chemInfo.drugbankId" [href]="'https://go.drugbank.com/drugs/' + chemInfo.drugbankId"
-                  tooltip="View in DrugBank">
-                  DrugBank {{chemInfo.drugbankId}}
-                </cvc-link-tag>
+                @if (chemInfo.chebiId) {
+                  <cvc-link-tag
+                    [href]="
+                      'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=' +
+                      chemInfo.chebiId
+                    "
+                    tooltip="View in ChEBI">
+                    {{ chemInfo.chebiId }}
+                  </cvc-link-tag>
+                }
+                @if (chemInfo.chemblId) {
+                  <cvc-link-tag
+                    [href]="
+                      'https://www.ebi.ac.uk/chembl/compound_report_card/' +
+                      chemInfo.chemblId
+                    "
+                    tooltip="View in ChEMBL">
+                    {{ chemInfo.chemblId }}
+                  </cvc-link-tag>
+                }
+                @if (chemInfo.pubchemCid) {
+                  <cvc-link-tag
+                    [href]="
+                      'https://pubchem.ncbi.nlm.nih.gov/compound/' +
+                      chemInfo.pubchemCid
+                    "
+                    tooltip="View in PubChem">
+                    PubChem {{ chemInfo.pubchemCid }}
+                  </cvc-link-tag>
+                }
+                @if (chemInfo.pharmgkbId) {
+                  <cvc-link-tag
+                    [href]="
+                      'https://www.pharmgkb.org/chemical/' + chemInfo.pharmgkbId
+                    "
+                    tooltip="View in PHARMGKB">
+                    PHARMGKB {{ chemInfo.pharmgkbId }}
+                  </cvc-link-tag>
+                }
+                @if (chemInfo.rxnorm) {
+                  <cvc-link-tag
+                    [href]="
+                      'https://mor.nlm.nih.gov/RxNav/search?searchBy=RXCUI&searchTerm=' +
+                      chemInfo.rxnorm
+                    "
+                    tooltip="View in RxNav">
+                    RxNav {{ chemInfo.rxnorm }}
+                  </cvc-link-tag>
+                }
+                @if (chemInfo.drugbankId) {
+                  <cvc-link-tag
+                    [href]="
+                      'https://go.drugbank.com/drugs/' + chemInfo.drugbankId
+                    "
+                    tooltip="View in DrugBank">
+                    DrugBank {{ chemInfo.drugbankId }}
+                  </cvc-link-tag>
+                }
               </cvc-tag-list>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -78,5 +146,4 @@
       </nz-row>
     </div>
   </nz-card>
-</ng-container>
-<ng-template #noValue><span nz-typography nzType="secondary">Not Found</span></ng-template>
+}

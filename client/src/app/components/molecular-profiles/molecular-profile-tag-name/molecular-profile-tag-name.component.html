@@ -1,23 +1,24 @@
-<ng-container *ngFor="let s of nameSegments; let i = index">
-  <span
-    *ngIf="s.__typename == 'MolecularProfileTextSegment'"
-    [innerHtml]="s.text"
-    class="text-segment">
-  </span>
-  <ng-container *ngIf="s.__typename == 'Variant'">
+@for (s of nameSegments; track s; let i = $index) {
+  @if (s.__typename == 'MolecularProfileTextSegment') {
+    <span
+      [innerHtml]="s.text"
+      class="text-segment">
+    </span>
+  }
+  @if (s.__typename == 'Variant') {
     <cvc-tag-group>
       <!-- ugly kludge to get feature-tag to accept nameSegments[i-1] as LinkableFeature -->
-      <ng-container *ngFor="let f of [nameSegments[i - 1]]">
-        <cvc-feature-tag
-          *ngIf="f.__typename == 'Feature'"
-          [feature]="f"
-          [enablePopover]="enablePopover">
-        </cvc-feature-tag>
-      </ng-container>
-
+      @for (f of [nameSegments[i - 1]]; track f) {
+        @if (f.__typename == 'Feature') {
+          <cvc-feature-tag
+            [feature]="f"
+            [enablePopover]="enablePopover">
+          </cvc-feature-tag>
+        }
+      }
       <cvc-variant-tag
         [variant]="s"
         [enablePopover]="enablePopover"></cvc-variant-tag>
     </cvc-tag-group>
-  </ng-container>
-</ng-container>
+  }
+}

@@ -26,39 +26,42 @@
         [nzColumn]="1"
         nzBordered="true">
         <!-- VICC compliant name -->
-        <nz-descriptions-item
-          nzTitle="VICC compliant name"
-          nzSpan="1"
-          *ngIf="variant.__typename == 'FusionVariant'">
-          {{ variant.viccCompliantName }}
-        </nz-descriptions-item>
+        @if (variant.__typename == 'FusionVariant') {
+          <nz-descriptions-item
+            nzTitle="VICC compliant name"
+            nzSpan="1">
+            {{ variant.viccCompliantName }}
+          </nz-descriptions-item>
+        }
         <!-- aliases -->
-        <nz-descriptions-item
-          nzTitle="Aliases"
-          nzSpan="1"
-          *ngIf="variant.variantAliases.length > 0">
-          <nz-tag *ngFor="let alias of variant.variantAliases">{{
-            alias
-          }}</nz-tag>
-        </nz-descriptions-item>
+        @if (variant.variantAliases.length > 0) {
+          <nz-descriptions-item
+            nzTitle="Aliases"
+            nzSpan="1">
+            @for (alias of variant.variantAliases; track alias) {
+              <nz-tag>{{ alias }}</nz-tag>
+            }
+          </nz-descriptions-item>
+        }
 
         <!-- allele registry-->
-        <nz-descriptions-item
-          nzTitle="Allele Registry ID"
-          nzSpan="1"
-          *ngIf="
-            variant.__typename == 'GeneVariant' &&
-            variant.alleleRegistryId &&
-            variant.alleleRegistryId != 'unregistered'
-          ">
-          <cvc-link-tag
-            href="https://reg.genome.network/allele/{{
-              variant.alleleRegistryId
-            }}.html"
-            tooltip="View on the ClinGen Allele Registry">
-            {{ variant.alleleRegistryId }}
-          </cvc-link-tag>
-        </nz-descriptions-item>
+        @if (
+          variant.__typename == 'GeneVariant' &&
+          variant.alleleRegistryId &&
+          variant.alleleRegistryId != 'unregistered'
+        ) {
+          <nz-descriptions-item
+            nzTitle="Allele Registry ID"
+            nzSpan="1">
+            <cvc-link-tag
+              href="https://reg.genome.network/allele/{{
+                variant.alleleRegistryId
+              }}.html"
+              tooltip="View on the ClinGen Allele Registry">
+              {{ variant.alleleRegistryId }}
+            </cvc-link-tag>
+          </nz-descriptions-item>
+        }
 
         <!-- evidence item count -->
         <nz-descriptions-item

@@ -1,4 +1,4 @@
-<ng-container *ngIf="info">
+@if (info) {
   <nz-card nzTitle="MyGeneInfo">
     <nz-card-tab>
       <nz-tabs
@@ -14,9 +14,9 @@
         <nz-tab [nzTitle]="'Pathways (' + info.pathway.length + ')'"></nz-tab>
       </nz-tabs>
     </nz-card-tab>
-    <ng-container [ngSwitch]="tabIndex">
+    @switch (tabIndex) {
       <!-- overview tab -->
-      <ng-container *ngSwitchCase="0">
+      @case (0) {
         <div class="tab-content">
           <nz-descriptions
             nzSize="small"
@@ -98,10 +98,9 @@
             </nz-descriptions-item>
           </nz-descriptions>
         </div>
-      </ng-container>
-
+      }
       <!-- summary tab -->
-      <ng-container *ngSwitchCase="1">
+      @case (1) {
         <div class="tab-content">
           <p
             nz-typography
@@ -111,10 +110,9 @@
             {{ info.summary }}
           </p>
         </div>
-      </ng-container>
-
+      }
       <!-- protein domains tab -->
-      <ng-container *ngSwitchCase="2">
+      @case (2) {
         <nz-table
           #proteinDomainsTable
           [nzData]="info.interpro"
@@ -148,10 +146,9 @@
             </ng-template>
           </tbody>
         </nz-table>
-      </ng-container>
-
+      }
       <!-- pathways tab -->
-      <ng-container *ngSwitchCase="3">
+      @case (3) {
         <nz-table
           #pathwaysTable
           [nzData]="info.pathway"
@@ -179,24 +176,24 @@
                   {{ pathway.name }}
                 </td>
                 <td class="button-col">
-                  <a
-                    *ngIf="pathway?.link; else noPathwayLink"
-                    nz-button
-                    href="{{ pathway?.link }}"
-                    target="_blank"
-                    nzType="default"
-                    nzSize="small">
+                  @if (pathway?.link) {
+                    <a
+                      nz-button
+                      href="{{ pathway?.link }}"
+                      target="_blank"
+                      nzType="default"
+                      nzSize="small">
+                      {{ pathway.src }}
+                    </a>
+                  } @else {
                     {{ pathway.src }}
-                  </a>
-                  <ng-template #noPathwayLink>
-                    {{ pathway.src }}
-                  </ng-template>
+                  }
                 </td>
               </tr>
             </ng-template>
           </tbody>
         </nz-table>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </nz-card>
-</ng-container>
+}

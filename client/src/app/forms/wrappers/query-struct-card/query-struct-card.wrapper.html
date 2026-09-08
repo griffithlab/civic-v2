@@ -2,9 +2,9 @@
   [nzTitle]="cardTitle"
   [nzBordered]="false"
   nzSize="small">
-  <formly-field
-    *ngFor="let field of field.fieldGroup"
-    [field]="field"></formly-field>
+  @for (field of field.fieldGroup; track field) {
+    <formly-field [field]="field"></formly-field>
+  }
 </nz-card>
 
 <ng-template #cardTitle> {{ wrapperOptions.title }} </ng-template>

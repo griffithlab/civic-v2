@@ -12,16 +12,16 @@ import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy'
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
 import { TableScrollerDirective } from './evidence-manager/table-scroller.directive'
@@ -82,16 +82,16 @@ const typeConfig: ConfigOption = {
     NzButtonModule,
     NzCardModule,
     NzCheckboxModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzFormModule,
     NzGridModule,
     NzIconModule,
     NzInputModule,
-    NzInputNumberLegacyModule,
+    NzInputNumberModule,
     NzPopoverModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     PushPipe,
     NzSpaceCompactComponent,

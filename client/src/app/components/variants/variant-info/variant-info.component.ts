@@ -8,12 +8,11 @@ import { CvcMyVariantInfoModule } from '../my-variant-info/my-variant-info.modul
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { CvcOpenCravatAnnotationsModule } from '../open-cravat-annotations/open-cravat-annotations.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { CommonModule } from '@angular/common'
+
 @Component({
   selector: 'cvc-variant-info',
   standalone: true,
   imports: [
-    CommonModule,
     NzCardModule,
     NzTabsModule,
     NzDescriptionsModule,

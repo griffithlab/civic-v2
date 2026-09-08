@@ -11,7 +11,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzInputModule } from 'ng-zorro-antd/input'
@@ -62,7 +62,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzCommentModule,
     NzFormModule,
     NzDescriptionsModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzGridModule,
     NzListModule,
     NzPageHeaderModule,
@@ -83,7 +83,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     EvidenceModule,
 
     NzSelectModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
   exports: [],
 })

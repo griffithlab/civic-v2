@@ -14,7 +14,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcClinicalTrialTagModule } from '../clinical-trial-tag/clinical-trial-tag.module'
 import { CvcClinicalTrialsTableComponent } from './clinical-trials-table.component'
@@ -31,7 +31,7 @@ import { CvcClinicalTrialsTableComponent } from './clinical-trials-table.compone
     NzIconModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
 
     CvcPipesModule,

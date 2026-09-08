@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a [routerLink]="variantgroup.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -17,10 +19,6 @@
       [variantGroupId]="variantgroup.id"
       (contentRendered)="updatePopoverPosition()"></cvc-variant-group-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>

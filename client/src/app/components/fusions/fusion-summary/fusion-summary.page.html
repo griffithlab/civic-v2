@@ -12,20 +12,20 @@
           [nzColumn]="1">
           <!-- description -->
           <nz-descriptions-item nzTitle="Description">
-            <p
-              *ngIf="fusion.description; else noDescription"
-              nz-typography
-              nzEllipsis
-              nzExpandable
-              [nzEllipsisRows]="8">
-              {{ fusion.description }}
-            </p>
-
-            <!-- noDescription Tpl -->
-            <ng-template #noDescription>
+            @if (fusion.description) {
+              <p
+                nz-typography
+                nzEllipsis
+                nzExpandable
+                [nzEllipsisRows]="8">
+                {{ fusion.description }}
+              </p>
+            } @else {
               <cvc-empty-revisable notification="No description provided">
               </cvc-empty-revisable>
-            </ng-template>
+            }
+
+            <!-- noDescription Tpl -->
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
@@ -39,38 +39,35 @@
           nzBordered="true">
           <!-- sources -->
           <nz-descriptions-item nzTitle="Sources">
-            <ng-container *ngIf="fusion.sources.length > 0; else noSources">
+            @if (fusion.sources.length > 0) {
               <cvc-tag-list>
-                <cvc-source-tag
-                  *ngFor="let source of fusion.sources"
-                  [source]="source"></cvc-source-tag>
+                @for (source of fusion.sources; track source) {
+                  <cvc-source-tag [source]="source"></cvc-source-tag>
+                }
               </cvc-tag-list>
-            </ng-container>
-            <ng-template #noSources>
+            } @else {
               <span
                 nz-typography
                 nzType="secondary"
                 >None specified</span
               >
-            </ng-template>
+            }
           </nz-descriptions-item>
 
           <!-- aliases -->
           <nz-descriptions-item nzTitle="Aliases">
-            <ng-container
-              *ngIf="fusion.featureAliases.length > 0; else noAliases">
-              <nz-tag *ngFor="let alias of fusion.featureAliases">{{
-                alias
-              }}</nz-tag>
-            </ng-container>
+            @if (fusion.featureAliases.length > 0) {
+              @for (alias of fusion.featureAliases; track alias) {
+                <nz-tag>{{ alias }}</nz-tag>
+              }
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
+            }
           </nz-descriptions-item>
-          <ng-template #noAliases>
-            <span
-              nz-typography
-              nzType="secondary"
-              >None specified</span
-            >
-          </ng-template>
         </nz-descriptions>
       </nz-col>
     </nz-row>
@@ -85,7 +82,7 @@
       [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
       nzBordered="true">
       <!-- creation/deprecation curation events -->
-      <ng-container *ngIf="fusion.creationActivity">
+      @if (fusion.creationActivity) {
         <nz-descriptions-item [nzTitle]="createdTitle">
           by
           <cvc-user-tag [user]="fusion.creationActivity.user"></cvc-user-tag>
@@ -98,8 +95,8 @@
             ({{ fusion.creationActivity.createdAt | timeAgo }})
           </span>
         </ng-template>
-      </ng-container>
-      <ng-container *ngIf="fusion.deprecationActivity">
+      }
+      @if (fusion.deprecationActivity) {
         <nz-descriptions-item [nzTitle]="deprecatedTitle">
           by
           <cvc-user-tag [user]="fusion.deprecationActivity.user"></cvc-user-tag>
@@ -112,7 +109,7 @@
             ({{ fusion.deprecationActivity.createdAt | timeAgo }})
           </span>
         </ng-template>
-      </ng-container>
+      }
     </nz-descriptions>
     <br />
     <nz-descriptions
@@ -124,7 +121,9 @@
         <td>
           <cvc-clinical-significance-counts
             [cvcEntityName]="fusion.name"
-            [cvcClinicalSignificances]="fusion.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+            [cvcClinicalSignificances]="
+              fusion.detailedClinicalSignificanceCounts
+            "></cvc-clinical-significance-counts>
         </td>
       </nz-descriptions-item>
     </nz-descriptions>
@@ -133,49 +132,61 @@
 <nz-row [nzGutter]="[8, 16]">
   <!-- Five Prime Partner -->
   <nz-col nzSpan="12">
-    <nz-card
-      *ngIf="fusion.fivePrimeGene"
-      nzTitle="5' Partner"
-      [nzExtra]="fivePrimeExtra">
-      <cvc-gene-base-summary
-        *ngIf="fusion.fivePrimeGene"
-        [gene]="fusion.fivePrimeGene"></cvc-gene-base-summary>
-      <ng-template #fivePrimeExtra>
-        <cvc-feature-tag [feature]="fusion.fivePrimeGene"></cvc-feature-tag>
-      </ng-template>
-    </nz-card>
-    <nz-card
-      *ngIf="!fusion.fivePrimeGene"
-      nzTitle="5' Partner"
-      [nzExtra]="fusion.fivePrimePartnerStatus | enumToTitle">
-      <ng-container
-        [ngTemplateOutlet]="partnerStatusDescription"
-        [ngTemplateOutletContext]="{status: fusion.fivePrimePartnerStatus, fusionsKnownPartnerGenes: fusion.fusionsKnownPartnerGenes}">
-      </ng-container>
-    </nz-card>
+    @if (fusion.fivePrimeGene) {
+      <nz-card
+        nzTitle="5' Partner"
+        [nzExtra]="fivePrimeExtra">
+        @if (fusion.fivePrimeGene) {
+          <cvc-gene-base-summary
+            [gene]="fusion.fivePrimeGene"></cvc-gene-base-summary>
+        }
+        <ng-template #fivePrimeExtra>
+          <cvc-feature-tag [feature]="fusion.fivePrimeGene"></cvc-feature-tag>
+        </ng-template>
+      </nz-card>
+    }
+    @if (!fusion.fivePrimeGene) {
+      <nz-card
+        nzTitle="5' Partner"
+        [nzExtra]="fusion.fivePrimePartnerStatus | enumToTitle">
+        <ng-container
+          [ngTemplateOutlet]="partnerStatusDescription"
+          [ngTemplateOutletContext]="{
+            status: fusion.fivePrimePartnerStatus,
+            fusionsKnownPartnerGenes: fusion.fusionsKnownPartnerGenes,
+          }">
+        </ng-container>
+      </nz-card>
+    }
   </nz-col>
   <!-- Three Prime Partner -->
   <nz-col nzSpan="12">
-    <nz-card
-      *ngIf="fusion.threePrimeGene"
-      nzTitle="3' Partner"
-      [nzExtra]="threePrimeExtra">
-      <cvc-gene-base-summary
-        *ngIf="fusion.threePrimeGene"
-        [gene]="fusion.threePrimeGene"></cvc-gene-base-summary>
-      <ng-template #threePrimeExtra>
-        <cvc-feature-tag [feature]="fusion.threePrimeGene"></cvc-feature-tag>
-      </ng-template>
-    </nz-card>
-    <nz-card
-      *ngIf="!fusion.threePrimeGene"
-      nzTitle="3' Partner"
-      [nzExtra]="fusion.threePrimePartnerStatus | enumToTitle">
-      <ng-container
-        [ngTemplateOutlet]="partnerStatusDescription"
-        [ngTemplateOutletContext]="{status: fusion.threePrimePartnerStatus, knownPartnerGenes: fusion.knownPartnerGenes}">
-      </ng-container>
-    </nz-card>
+    @if (fusion.threePrimeGene) {
+      <nz-card
+        nzTitle="3' Partner"
+        [nzExtra]="threePrimeExtra">
+        @if (fusion.threePrimeGene) {
+          <cvc-gene-base-summary
+            [gene]="fusion.threePrimeGene"></cvc-gene-base-summary>
+        }
+        <ng-template #threePrimeExtra>
+          <cvc-feature-tag [feature]="fusion.threePrimeGene"></cvc-feature-tag>
+        </ng-template>
+      </nz-card>
+    }
+    @if (!fusion.threePrimeGene) {
+      <nz-card
+        nzTitle="3' Partner"
+        [nzExtra]="fusion.threePrimePartnerStatus | enumToTitle">
+        <ng-container
+          [ngTemplateOutlet]="partnerStatusDescription"
+          [ngTemplateOutletContext]="{
+            status: fusion.threePrimePartnerStatus,
+            knownPartnerGenes: fusion.knownPartnerGenes,
+          }">
+        </ng-container>
+      </nz-card>
+    }
     <ng-template
       #partnerStatusDescription
       let-status="status"
@@ -186,94 +197,124 @@
           <!-- known partner genes -->
           @if (fusionsKnownPartnerGenes.length > 0) {
             <!-- known partner genes with specific fusion -->
-            @if (fusionsKnownPartnerGenesContainsSpecificFusion(fusionsKnownPartnerGenes)) {
-            <nz-table #smallTable
-              nzSize="small"
-              [nzFrontPagination]="false"
-              [nzShowPagination]="false"
-              [nzData]="fusionsKnownPartnerGenes">
-              <thead>
-                <tr>
-                  <th>Gene</th>
-                  <th>Fusion</th>
-                  <th
-                    nzWidth="30px"
-                    nzRight
-                    nzAlign="center"
-                    nz-tooltip
-                    nzTooltipTitle="Variant Count">
-                    <i
-                      nz-icon
-                      nzType="civic-variant"></i>
-                  </th>
-                  <th
-                    nzWidth="30px"
-                    nzRight
-                    nzAlign="center"
-                    nz-tooltip
-                    nzTooltipTitle="Molecular Profile Count">
-                    <i
-                      nz-icon
-                      nzType="civic-molecularprofile"></i>
-                  </th>
-                  <th
-                    nzWidth="30px"
-                    nzRight
-                    nzAlign="center"
-                    nz-tooltip
-                    nzTooltipTitle="Evidence Count">
-                    <i
-                      nz-icon
-                      nzType="civic-evidence"></i>
-                  </th>
-                  <th
-                    nzWidth="30px"
-                    nzRight
-                    nzAlign="center"
-                    nz-tooltip
-                    nzTooltipTitle="Assertion Count">
-                    <i
-                      nz-icon
-                      nzType="civic-assertion"></i>
-                  </th>
-                  <th>Clinical Significance</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (partner of fusionsKnownPartnerGenes; track partner) {
-                  @if (partner.knownPartnerSpecificFusion) {
-                    <tr>
-                      <td>
-                        <cvc-feature-tag [feature]="partner.gene"></cvc-feature-tag>
-                      </td>
-                      <td>
-                        <cvc-feature-tag [feature]="partner.knownPartnerSpecificFusion"></cvc-feature-tag>
-                      </td>
-                      <td>
-                        {{ partner.knownPartnerSpecificFusion.stats.variantCount }}
-                      </td>
-                      <td>
-                        {{ partner.knownPartnerSpecificFusion.stats.molecularProfileCount }}
-                      </td>
-                      <td>
-                        {{ partner.knownPartnerSpecificFusion.stats.evidenceItemCount }}
-                      </td>
-                      <td>
-                        {{ partner.knownPartnerSpecificFusion.stats.assertionCount }}
-                      </td>
-                      <td>
-                        <cvc-clinical-significance-counts
-                          [cvcEntityName]="partner.knownPartnerSpecificFusion.name"
-                          [cvcClinicalSignificances]="partner.knownPartnerSpecificFusion.clinicalSignificanceCounts"></cvc-clinical-significance-counts>
-                      </td>
-                    </tr>
+            @if (
+              fusionsKnownPartnerGenesContainsSpecificFusion(
+                fusionsKnownPartnerGenes
+              )
+            ) {
+              <nz-table
+                #smallTable
+                nzSize="small"
+                [nzFrontPagination]="false"
+                [nzShowPagination]="false"
+                [nzData]="fusionsKnownPartnerGenes">
+                <thead>
+                  <tr>
+                    <th>Gene</th>
+                    <th>Fusion</th>
+                    <th
+                      nzWidth="30px"
+                      nzRight
+                      nzAlign="center"
+                      nz-tooltip
+                      nzTooltipTitle="Variant Count">
+                      <i
+                        nz-icon
+                        nzType="civic-variant"></i>
+                    </th>
+                    <th
+                      nzWidth="30px"
+                      nzRight
+                      nzAlign="center"
+                      nz-tooltip
+                      nzTooltipTitle="Molecular Profile Count">
+                      <i
+                        nz-icon
+                        nzType="civic-molecularprofile"></i>
+                    </th>
+                    <th
+                      nzWidth="30px"
+                      nzRight
+                      nzAlign="center"
+                      nz-tooltip
+                      nzTooltipTitle="Evidence Count">
+                      <i
+                        nz-icon
+                        nzType="civic-evidence"></i>
+                    </th>
+                    <th
+                      nzWidth="30px"
+                      nzRight
+                      nzAlign="center"
+                      nz-tooltip
+                      nzTooltipTitle="Assertion Count">
+                      <i
+                        nz-icon
+                        nzType="civic-assertion"></i>
+                    </th>
+                    <th>Clinical Significance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (partner of fusionsKnownPartnerGenes; track partner) {
+                    @if (partner.knownPartnerSpecificFusion) {
+                      <tr>
+                        <td>
+                          <cvc-feature-tag
+                            [feature]="partner.gene"></cvc-feature-tag>
+                        </td>
+                        <td>
+                          <cvc-feature-tag
+                            [feature]="
+                              partner.knownPartnerSpecificFusion
+                            "></cvc-feature-tag>
+                        </td>
+                        <td>
+                          {{
+                            partner.knownPartnerSpecificFusion.stats
+                              .variantCount
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            partner.knownPartnerSpecificFusion.stats
+                              .molecularProfileCount
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            partner.knownPartnerSpecificFusion.stats
+                              .evidenceItemCount
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            partner.knownPartnerSpecificFusion.stats
+                              .assertionCount
+                          }}
+                        </td>
+                        <td>
+                          <cvc-clinical-significance-counts
+                            [cvcEntityName]="
+                              partner.knownPartnerSpecificFusion.name
+                            "
+                            [cvcClinicalSignificances]="
+                              partner.knownPartnerSpecificFusion
+                                .clinicalSignificanceCounts
+                            "></cvc-clinical-significance-counts>
+                        </td>
+                      </tr>
+                    }
                   }
-                }
-              </tbody>
-            </nz-table>
-            <br/>
+                </tbody>
+              </nz-table>
+              <br />
             }
-            @if (fusionsKnownPartnerGenesContainsNoSpecificFusion(fusionsKnownPartnerGenes)) {
+            @if (
+              fusionsKnownPartnerGenesContainsNoSpecificFusion(
+                fusionsKnownPartnerGenes
+              )
+            ) {
               <nz-descriptions
                 [nzBordered]="true"
                 [nzSize]="'small'"
@@ -281,13 +322,18 @@
                 <nz-descriptions-item [nzTitle]="knownPartnerGeneListTitle">
                   @for (partner of fusionsKnownPartnerGenes; track partner) {
                     @if (!partner.knownPartnerSpecificFusion) {
-                      <cvc-feature-tag [feature]="partner.gene"></cvc-feature-tag>
+                      <cvc-feature-tag
+                        [feature]="partner.gene"></cvc-feature-tag>
                     }
                   }
                 </nz-descriptions-item>
               </nz-descriptions>
               <ng-template #knownPartnerGeneListTitle>
-                @if (fusionsKnownPartnerGenesContainsSpecificFusion(fusionsKnownPartnerGenes)) {
+                @if (
+                  fusionsKnownPartnerGenesContainsSpecificFusion(
+                    fusionsKnownPartnerGenes
+                  )
+                ) {
                   Additional Known Partner Genes
                 } @else {
                   Known Partner Genes
@@ -295,8 +341,11 @@
               </ng-template>
             }
           } @else {
-            <span nz-typography
-              nzType="secondary">No Known Partner Genes have been curated</span>
+            <span
+              nz-typography
+              nzType="secondary"
+              >No Known Partner Genes have been curated</span
+            >
           }
         }
         @case ('UNKNOWN') {

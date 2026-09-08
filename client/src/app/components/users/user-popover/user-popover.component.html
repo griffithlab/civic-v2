@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="user$ | ngrxPush as user">
+  @if (user$ | ngrxPush; as user) {
     <nz-card
       [nzTitle]="cardTitle"
       [nzExtra]="cardExtra"
@@ -26,7 +26,11 @@
       <nz-col nzSpan="24">
         <div class="popover-text">
           <p nz-typography>
-            <span *ngIf="user.bio as bio; else noBio">{{ bio }}</span>
+            @if (user.bio; as bio) {
+              <span>{{ bio }}</span>
+            } @else {
+              User has not provided a biography.
+            }
           </p>
         </div>
       </nz-col>
@@ -38,31 +42,33 @@
           [nzColumn]="2"
           nzBordered="true">
           <nz-descriptions-item nzTitle="Organizations">
-            <cvc-tag-list
-              *ngIf="user.organizations.length > 0; else noOrganizations">
-              <cvc-organization-tag
-                [enablePopover]="false"
-                *ngFor="let o of user.organizations"
-                [org]="o"></cvc-organization-tag>
-            </cvc-tag-list>
+            @if (user.organizations.length > 0) {
+              <cvc-tag-list>
+                @for (o of user.organizations; track o) {
+                  <cvc-organization-tag
+                    [enablePopover]="false"
+                    [org]="o"></cvc-organization-tag>
+                }
+              </cvc-tag-list>
+            } @else {
+              <span
+                nz-typography
+                nzStyle="secondary"
+                >--</span
+              >
+            }
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
     </nz-row>
     <nz-row>
-      <nz-divider *ngIf="metadataTemplateRef"></nz-divider>
+      @if (metadataTemplateRef) {
+        <nz-divider></nz-divider>
+      }
       <ng-container
         [ngTemplateOutlet]="metadataTemplateRef || null"
         [ngTemplateOutletContext]="{ $implicit: user }">
       </ng-container>
     </nz-row>
-  </ng-container>
+  }
 </div>
-<ng-template #noBio> User has not provided a biography. </ng-template>
-<ng-template #noOrganizations>
-  <span
-    nz-typography
-    nzStyle="secondary"
-    >--</span
-  >
-</ng-template>

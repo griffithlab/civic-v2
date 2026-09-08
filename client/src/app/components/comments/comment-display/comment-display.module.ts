@@ -8,7 +8,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm'
 
 @NgModule({
@@ -19,7 +19,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm'
     NzAvatarModule,
     NzTypographyModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopconfirmModule,
     PushPipe,
     LetDirective,

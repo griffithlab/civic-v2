@@ -23,7 +23,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcCommentsTableComponent } from './comments-table.component'
 
 @NgModule({
@@ -38,7 +38,7 @@ import { CvcCommentsTableComponent } from './comments-table.component'
     NzIconModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
 
     CvcPipesModule,
     CvcAutoHeightCardModule,

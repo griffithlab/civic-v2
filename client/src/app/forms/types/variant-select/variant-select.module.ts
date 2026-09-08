@@ -19,18 +19,18 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy'
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { EnumFilterMenuComponent } from './variant-manager/enum-filter-menu/enum-filter-menu.component'
 import { TableFilterInputComponent } from './variant-manager/table-filter-input/table-filter-input.component'
@@ -99,16 +99,16 @@ const typeConfig: ConfigOption = {
     NzButtonModule,
     NzCardModule,
     NzCheckboxModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzFormModule,
     NzGridModule,
     NzIconModule,
     NzInputModule,
-    NzInputNumberLegacyModule,
+    NzInputNumberModule,
     NzPopoverModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzModalModule,
     NzSpaceModule,

@@ -9,7 +9,7 @@ import { ApprovalStatus } from '@app/generated/civic.apollo'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { DatePipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcTagGroupModule } from '@app/components/shared/tag-group/tag-group.module'
 
 export interface NotificationApproval {
@@ -34,7 +34,7 @@ export interface NotificationApproval {
     NzTypographyModule,
     NzIconModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CvcOrganizationTagModule,
     DatePipe,
     CvcPipesModule,
@@ -49,9 +49,11 @@ export class CvcApprovalNotificationComponent {
   })
 
   isApprovedVcep = computed(() => this.approval().organization.isApprovedVcep)
-  isClinvarSubmitter = computed(() => this.approval().organization.isClinvarSubmitter)
+  isClinvarSubmitter = computed(
+    () => this.approval().organization.isClinvarSubmitter
+  )
 
-  starRating = computed(() =>{
+  starRating = computed(() => {
     if (this.isApprovedVcep()) {
       return 3
     } else if (this.isClinvarSubmitter()) {
@@ -63,7 +65,5 @@ export class CvcApprovalNotificationComponent {
 
   showStars = computed(() => this.starRating() > 0)
 
-  color = computed(() =>
-    getEntityColor('Approval')
-  )
+  color = computed(() => getEntityColor('Approval'))
 }

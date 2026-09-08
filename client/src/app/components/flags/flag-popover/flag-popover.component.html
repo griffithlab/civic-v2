@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="flag$ | ngrxPush as f">
+  @if (flag$ | ngrxPush; as f) {
     <nz-card
       [nzTitle]="cardTitle"
       [nzExtra]="subject"
@@ -20,7 +20,6 @@
             *nzSpaceItem></cvc-status-tag>
         </nz-space>
       </ng-template>
-
       <ng-template #subject>
         @switch (f.flaggable.__typename) {
           @case ('Feature') {
@@ -49,11 +48,10 @@
               [variantgroup]="f.flaggable"></cvc-variant-group-tag>
           }
           @default {
-            <span *ngSwitchDefault>{{ f.flaggable.name }}</span>
+            <span>{{ f.flaggable.name }}</span>
           }
         }
       </ng-template>
-
       <nz-space
         nzDirection="vertical"
         style="width: 100%">
@@ -71,7 +69,6 @@
             {{ f.createdAt | timeAgo }}
           </nz-descriptions-item>
         </nz-descriptions>
-
         <nz-descriptions
           *nzSpaceItem
           nzBordered
@@ -79,10 +76,13 @@
           nzSize="small"
           nzLayout="vertical">
           <nz-descriptions-item nzTitle="Comment">
-            <cvc-comment-body [commentBodySegments]="f.openActivity.parsedNote"></cvc-comment-body>
+            <cvc-comment-body
+              [commentBodySegments]="
+                f.openActivity.parsedNote
+              "></cvc-comment-body>
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-space>
     </nz-card>
-  </ng-container>
+  }
 </div>

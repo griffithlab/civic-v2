@@ -1,4 +1,4 @@
-<ng-container *ngIf="showForm$ | ngrxPush">
+@if (showForm$ | ngrxPush) {
   <ng-container *ngrxLet="formMessageDisplay$ as display">
     <span>{{ display.message }}</span>
   </ng-container>
@@ -24,4 +24,4 @@
       </nz-row>
     </form>
   </cvc-form-submission-status-display>
-</ng-container>
+}

@@ -164,4 +164,10 @@ export class CvcQuicksearchComponent {
     const x = SearchableEntities[entity as keyof typeof SearchableEntities]
     return this.selectedEntities.includes(x)
   }
+
+  // nz-checkbox-group (which replaced nz-checkbox-wrapper in zorro 21)
+  // takes the selected values via ngModel; checkbox nzValues are enum keys
+  get selectedEntityKeys(): string[] {
+    return Object.keys(SearchableEntities).filter((k) => this.isSelected(k))
+  }
 }

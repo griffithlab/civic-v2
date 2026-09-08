@@ -11,7 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzStatisticModule } from 'ng-zorro-antd/statistic'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcStatsCardComponent } from './stats-card.component'
 
@@ -29,7 +29,7 @@ import { CvcStatsCardComponent } from './stats-card.component'
     NzIconModule,
     NzGridModule,
     NzBadgeModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopoverModule,
     NzSwitchModule,
     CvcPipesModule,

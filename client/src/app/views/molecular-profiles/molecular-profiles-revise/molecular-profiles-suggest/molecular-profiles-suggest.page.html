@@ -1,5 +1,6 @@
-<ng-container *ngIf="molecularProfileId; else loadingMp">
+@if (molecularProfileId) {
   <cvc-mp-revise-form
     [molecularProfileId]="molecularProfileId"></cvc-mp-revise-form>
-</ng-container>
-<ng-template #loadingMp>Loading Molecular Profile...</ng-template>
+} @else {
+  Loading Molecular Profile...
+}

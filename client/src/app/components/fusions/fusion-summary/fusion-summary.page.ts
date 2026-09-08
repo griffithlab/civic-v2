@@ -21,36 +21,36 @@ import { CvcGeneBaseSummaryComponent } from '@app/components/genes/gene-base-sum
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
-    selector: 'cvc-fusion-summary',
-    templateUrl: './fusion-summary.page.html',
-    styleUrls: ['./fusion-summary.page.less'],
-    imports: [
-        CommonModule,
-        NzGridModule,
-        NzDescriptionsModule,
-        NzTypographyModule,
-        NzSpaceModule,
-        NzTagModule,
-        NzCardModule,
-        NzTableModule,
-        NzIconModule,
-        NzToolTipModule,
-        CvcEmptyRevisableModule,
-        CvcTagListModule,
-        CvcFeatureTagModule,
-        CvcSourceTagModule,
-        CvcLinkTagModule,
-        CvcPipesModule,
-        CvcUserTagModule,
-        CvcGeneBaseSummaryComponent,
-        CvcFeatureTagModule,
-        CvcClinicalSignificanceCounts,
-    ]
+  selector: 'cvc-fusion-summary',
+  templateUrl: './fusion-summary.page.html',
+  styleUrls: ['./fusion-summary.page.less'],
+  imports: [
+    CommonModule,
+    NzGridModule,
+    NzDescriptionsModule,
+    NzTypographyModule,
+    NzSpaceModule,
+    NzTagModule,
+    NzCardModule,
+    NzTableModule,
+    NzIconModule,
+    NzTooltipModule,
+    CvcEmptyRevisableModule,
+    CvcTagListModule,
+    CvcFeatureTagModule,
+    CvcSourceTagModule,
+    CvcLinkTagModule,
+    CvcPipesModule,
+    CvcUserTagModule,
+    CvcGeneBaseSummaryComponent,
+    CvcFeatureTagModule,
+    CvcClinicalSignificanceCounts,
+  ],
 })
 export class FusionSummaryComponent implements OnInit {
   @Input() fusion!: FusionSummaryFieldsFragment
@@ -72,10 +72,10 @@ export class FusionSummaryComponent implements OnInit {
   }
 
   fusionsKnownPartnerGenesContainsSpecificFusion(partners: any[]): boolean {
-    return partners.some(partner => partner.knownPartnerSpecificFusion)
+    return partners.some((partner) => partner.knownPartnerSpecificFusion)
   }
 
   fusionsKnownPartnerGenesContainsNoSpecificFusion(partners: any[]): boolean {
-    return partners.some(partner => !partner.knownPartnerSpecificFusion)
+    return partners.some((partner) => !partner.knownPartnerSpecificFusion)
   }
 }

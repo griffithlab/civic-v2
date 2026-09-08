@@ -1,25 +1,28 @@
-<nz-tag
-  *ngIf="tagStatus"
-  [nzColor]="tagStatus">
-  <ng-container [ngSwitch]="tagStatus">
-    <i
-      *ngSwitchCase="'success'"
-      nz-icon
-      nzType="check-circle"></i>
-    <i
-      *ngSwitchCase="'error'"
-      nz-icon
-      nzType="close-circle"></i>
-    <i
-      *ngSwitchCase="'warning'"
-      nz-icon
-      nzType="exclamation-circle"></i>
-    <i
-      *ngSwitchCase="'processing'"
-      nz-icon></i>
-    <i
-      *ngSwitchCase="'default'"
-      nz-icon></i>
-  </ng-container>
-  {{ status | titlecase }}
-</nz-tag>
+@if (tagStatus) {
+  <nz-tag [nzColor]="tagStatus">
+    @switch (tagStatus) {
+      @case ('success') {
+        <i
+          nz-icon
+          nzType="check-circle"></i>
+      }
+      @case ('error') {
+        <i
+          nz-icon
+          nzType="close-circle"></i>
+      }
+      @case ('warning') {
+        <i
+          nz-icon
+          nzType="exclamation-circle"></i>
+      }
+      @case ('processing') {
+        <i nz-icon></i>
+      }
+      @case ('default') {
+        <i nz-icon></i>
+      }
+    }
+    {{ status | titlecase }}
+  </nz-tag>
+}

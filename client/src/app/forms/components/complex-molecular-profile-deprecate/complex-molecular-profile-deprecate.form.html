@@ -1,35 +1,39 @@
 <nz-spin [nzSpinning]="isLoading$ | ngrxPush">
   <nz-space nzDirection="vertical">
     <ng-container *ngrxLet="hasEvidence$ as hasEvidence">
-      <ng-container *ngIf="hasEvidence">
+      @if (hasEvidence) {
         <nz-alert
           *nzSpaceItem
           nzType="error"
           nzMessage="Cannot deprecate this Molecular Profiles because it has attached Evidence Items">
         </nz-alert>
-      </ng-container>
+      }
     </ng-container>
   </nz-space>
 </nz-spin>
 
 <nz-card nzType="inner">
-  <nz-alert
-    *ngIf="success"
-    nzBanner
-    nzMessage="Molecular Profile deprecated"
-    nzType="success"
-    nzCloseable
-    (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-  <nz-alert
-    *ngIf="errorMessages.length > 0"
-    nzType="error"
-    nzShowIcon
-    [nzDescription]="errorContents"
-    nzMessage="Error Deprecating Molecular Profile">
-  </nz-alert>
+  @if (success) {
+    <nz-alert
+      nzBanner
+      nzMessage="Molecular Profile deprecated"
+      nzType="success"
+      nzCloseable
+      (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+  }
+  @if (errorMessages.length > 0) {
+    <nz-alert
+      nzType="error"
+      nzShowIcon
+      [nzDescription]="errorContents"
+      nzMessage="Error Deprecating Molecular Profile">
+    </nz-alert>
+  }
   <ng-template #errorContents>
     <ul>
-      <li *ngFor="let error of errorMessages">{{ error }}</li>
+      @for (error of errorMessages; track error) {
+        <li>{{ error }}</li>
+      }
     </ul>
   </ng-template>
   <nz-form-item>
@@ -60,17 +64,15 @@
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
             <cvc-form-buttons>
-              <ng-container
-                *ngIf="viewer.signedIn && viewer.isEditor; else notSignedIn">
+              @if (viewer.signedIn && viewer.isEditor) {
                 <ng-template *ngTemplateOutlet="submitButton"></ng-template>
-              </ng-container>
-              <ng-template #notSignedIn>
+              } @else {
                 <span
                   nz-tooltip
                   nzTooltipTitle="Must be signed in and an editor to deprecate Molecular Profile.">
                   <ng-template *ngTemplateOutlet="submitButton"></ng-template>
                 </span>
-              </ng-template>
+              }
               <ng-template #submitButton>
                 <button
                   type="submit"
@@ -78,7 +80,12 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!(comment !== undefined && comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !reason "
+                  [disabled]="
+                    !(comment !== undefined && comment.length >= 10) ||
+                    !viewer.signedIn ||
+                    !viewer.isEditor ||
+                    !reason
+                  "
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
                   [nzTooltipTitle]="'For ' + selectedOrg?.name">

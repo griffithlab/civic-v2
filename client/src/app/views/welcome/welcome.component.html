@@ -1,5 +1,5 @@
 @let rowGutter = [12, 12];
-<nz-row [nzGutter]="rowGutter">
+<nz-row [nzGutter]="$any(rowGutter)">
   <nz-col
     [nzXs]="24"
     [nzMd]="16">
@@ -91,7 +91,7 @@
       </p>
     </nz-card>
   </nz-col>
-  <ng-container *ngIf="release$ | async as release">
+  @if (release$ | async; as release) {
     <nz-col [nzSpan]="24">
       <div
         id="release-info"
@@ -112,5 +112,5 @@
         </a>
       </div>
     </nz-col>
-  </ng-container>
+  }
 </nz-row>

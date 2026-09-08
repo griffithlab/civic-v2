@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module'
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
@@ -23,13 +23,13 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { EvidenceSummaryPage } from './evidence-summary.page'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
-import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component';
+import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -46,7 +46,7 @@ import { CvcEntityDescription } from '@app/components/shared/entity-description/
     NzTagModule,
     NzIconModule,
     NzDescriptionsModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopoverModule,
     CvcEmptyValueModule,
     CvcPipesModule,

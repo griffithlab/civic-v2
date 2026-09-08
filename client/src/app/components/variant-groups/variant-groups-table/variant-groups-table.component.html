@@ -1,5 +1,5 @@
 <!-- if cvcHeight not specified, render table without card height container & viewport target -->
-<ng-container *ngIf="!cvcHeight; else setHeightCard">
+@if (!cvcHeight) {
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
   <nz-card
     [nzTitle]="titleTemplate"
@@ -9,10 +9,7 @@
     cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
-</ng-container>
-
-<!-- if cvcHeight is specified, render table in container w/ specified height-->
-<ng-template #setHeightCard>
+} @else {
   <div
     class="card-container"
     [ngStyle]="{ height: cvcHeight }">
@@ -24,7 +21,9 @@
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
-</ng-template>
+}
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
 
 <ng-template #table>
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
@@ -128,17 +127,24 @@
             nz-tooltip
             [nzTooltipTitle]="!isScrolling ? variantNames : ''">
             <ng-template #variantNames>
-              <ng-container
-                *ngFor="let variant of vg.variantNames; last as isLast">
+              @for (
+                variant of vg.variantNames;
+                track variant;
+                let isLast = $last
+              ) {
                 {{ variant }}{{ isLast ? '' : ', ' }}
-              </ng-container>
+              }
             </ng-template>
             <ng-container [ngTemplateOutlet]="variantNames"></ng-container>
           </td>
           <td>
-            <span *ngFor="let feature of vg.featureNames; last as isLast">
-              {{ feature }}{{ isLast ? '' : ', ' }}
-            </span>
+            @for (
+              feature of vg.featureNames;
+              track feature;
+              let isLast = $last
+            ) {
+              <span> {{ feature }}{{ isLast ? '' : ', ' }} </span>
+            }
           </td>
           <td
             nzRight
@@ -157,12 +163,12 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="cvcTitleTemplate">
+  @if (cvcTitleTemplate) {
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
-  </ng-container>
-  <ng-container *ngIf="cvcTitle">
+  }
+  @if (cvcTitle) {
     {{ cvcTitle }}
-  </ng-container>
+  }
 
   <span class="table-info">
     <cvc-table-counts
@@ -172,17 +178,19 @@
 
 <ng-template #extraTemplate>
   <span class="table-actions">
-    <nz-tag
-      *ngIf="moreLoading$ | ngrxPush"
-      nzColor="processing">
-      <i
-        nz-icon
-        k
-        nzType="sync"
-        nzSpin></i>
-      <span>Loading…</span>
-    </nz-tag>
-    <cvc-table-downloader [vars]="queryRef.variables" tableName="variant_groups"></cvc-table-downloader>
+    @if (moreLoading$ | ngrxPush) {
+      <nz-tag nzColor="processing">
+        <i
+          nz-icon
+          k
+          nzType="sync"
+          nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+    }
+    <cvc-table-downloader
+      [vars]="queryRef.variables"
+      tableName="variant_groups"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
   </span>

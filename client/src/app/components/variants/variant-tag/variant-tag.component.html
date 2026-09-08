@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a [routerLink]="variant.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -20,10 +22,6 @@
   </ng-template>
 </ng-template>
 
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
-</ng-template>
-
 <ng-template #tagContent>
   <cvc-icon-badges
     [flagged]="variant.flagged"
@@ -35,10 +33,9 @@
       [nzTwotoneColor]="iconColor"></i>
   </cvc-icon-badges>
   <!-- variant name length mean: 12; mode: 5 (825); max: 68 -->
-  <ng-container *ngIf="truncateLongName; else fullName">
+  @if (truncateLongName) {
     {{ variant.name | truncate: 20 }}
-  </ng-container>
-  <ng-template #fullName>
+  } @else {
     {{ variant.name }}
-  </ng-template>
+  }
 </ng-template>

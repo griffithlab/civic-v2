@@ -7,12 +7,13 @@
     <ng-container #fieldComponent> </ng-container>
   </nz-col>
   <!-- FORM STATUS PANEL COL -->
-  <nz-col
-    *ngIf="props.showDevPanel"
-    [nzSpan]="8"
-    class="status-col">
-    <cvc-form-debug
-      [cvcForm]="form"
-      [cvcModel]="model"></cvc-form-debug>
-  </nz-col>
+  @if (props.showDevPanel) {
+    <nz-col
+      [nzSpan]="8"
+      class="status-col">
+      <cvc-form-debug
+        [cvcForm]="form"
+        [cvcModel]="model"></cvc-form-debug>
+    </nz-col>
+  }
 </nz-row>

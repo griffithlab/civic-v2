@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a routerLink="/users/{{ user.id }}">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -24,10 +26,6 @@
   <nz-tag>
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
-</ng-template>
-
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>

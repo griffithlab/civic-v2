@@ -1,62 +1,61 @@
 <nz-spin [nzSpinning]="loading$ | ngrxPush">
-  <ng-container *ngIf="menuFusions$ | ngrxPush as fusions">
+  @if (menuFusions$ | ngrxPush; as fusions) {
     <nz-card [nzTitle]="cardTitle">
       <ng-template #cardTitle>
-        <ng-container *ngIf="totalFusions$ | ngrxPush as total">
+        @if (totalFusions$ | ngrxPush; as total) {
           <span
             nz-typography
             nzType="secondary"
             >{{ total }} Total</span
           >
-          <span
-            nz-typography
-            *ngIf="total > fusions.length"
-            nzType="secondary"
-            >({{ fusions.length }} displayed)</span
-          >
-        </ng-container>
+          @if (total > fusions.length) {
+            <span
+              nz-typography
+              nzType="secondary"
+              >({{ fusions.length }} displayed)</span
+            >
+          }
+        }
       </ng-template>
-
       <nz-row>
         <nz-col nzSpan="24">
           <cvc-tag-list size="sm">
-            <ng-container *ngFor="let fusion of fusions">
-              <cvc-feature-tag
-                *ngIf="fusion"
-                [feature]="fusion"></cvc-feature-tag>
-            </ng-container>
+            @for (fusion of fusions; track fusion) {
+              @if (fusion) {
+                <cvc-feature-tag [feature]="fusion"></cvc-feature-tag>
+              }
+            }
           </cvc-tag-list>
         </nz-col>
       </nz-row>
-      <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-        <nz-row
-          id="load-more-btn"
-          *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
-          <button
-            nz-button
-            nzType="default"
-            nzSize="small"
-            style="width: 95%"
-            (click)="fetchMore(pageInfo.endCursor)">
-            Load More
-          </button>
-          <nz-select
-            [(ngModel)]="pageSize"
-            style="width: 5%"
-            nzSize="small">
-            <nz-option
-              nzLabel="50"
-              [nzValue]="50"></nz-option>
-            <nz-option
-              nzLabel="100"
-              [nzValue]="100"></nz-option>
-            <nz-option
-              nzLabel="300"
-              [nzValue]="300"></nz-option>
-          </nz-select>
-        </nz-row>
-      </ng-container>
+      @if (pageInfo$ | ngrxPush; as pageInfo) {
+        @if (pageInfo.hasNextPage && pageInfo.endCursor) {
+          <nz-row id="load-more-btn">
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              style="width: 95%"
+              (click)="fetchMore(pageInfo.endCursor)">
+              Load More
+            </button>
+            <nz-select
+              [(ngModel)]="pageSize"
+              style="width: 5%"
+              nzSize="small">
+              <nz-option
+                nzLabel="50"
+                [nzValue]="50"></nz-option>
+              <nz-option
+                nzLabel="100"
+                [nzValue]="100"></nz-option>
+              <nz-option
+                nzLabel="300"
+                [nzValue]="300"></nz-option>
+            </nz-select>
+          </nz-row>
+        }
+      }
     </nz-card>
-  </ng-container>
+  }
 </nz-spin>
-

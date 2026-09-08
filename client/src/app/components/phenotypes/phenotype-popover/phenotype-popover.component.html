@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="phenotype$ | ngrxPush as p">
+  @if (phenotype$ | ngrxPush; as p) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -20,7 +20,6 @@
           {{ p.hpoId }}
         </cvc-link-tag>
       </ng-template>
-
       <nz-descriptions
         nzSize="small"
         [nzColumn]="2"
@@ -35,11 +34,12 @@
           nzSpan="2">
           {{ p.evidenceItemCount }}
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Molecular Profiles"
+        <nz-descriptions-item
+          nzTitle="Molecular Profiles"
           nzSpan="2">
-          {{p.molecularProfileCount}}
+          {{ p.molecularProfileCount }}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
-  </ng-container>
+  }
 </div>

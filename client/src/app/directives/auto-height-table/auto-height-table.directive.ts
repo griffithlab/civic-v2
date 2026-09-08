@@ -15,9 +15,9 @@ import { NzTableComponent } from 'ng-zorro-antd/table'
 // From zorro-sharper: https://github.com/1-2-3/zorro-sharper/blob/master/README-en_US.md
 //
 @Directive({
-    // tslint:disable-next-line: directive-selector
-    selector: '[cvcAutoHeightTable]',
-    standalone: false
+  // tslint:disable-next-line: directive-selector
+  selector: '[cvcAutoHeightTable]',
+  standalone: false,
 })
 export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
   @Input('cvcAutoHeightTable')
@@ -43,7 +43,7 @@ export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
   /**
    * 响应浏览器窗体大小变化
    */
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     this.doAutoSize()
   }
@@ -78,7 +78,7 @@ export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
           }
           this.table.ngOnChanges({
             nzScroll: new SimpleChange(
-              { originNzScroll },
+              originNzScroll,
               this.table.nzScroll,
               false
             ),
@@ -101,7 +101,7 @@ export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
 
           this.table.ngOnChanges({
             nzScroll: new SimpleChange(
-              { originNzScroll },
+              originNzScroll,
               this.table.nzScroll,
               false
             ),

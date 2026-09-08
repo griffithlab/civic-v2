@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
@@ -23,7 +22,6 @@ import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-s
   templateUrl: './fusion-variant-summary.page.html',
   styleUrls: ['./fusion-variant-summary.page.less'],
   imports: [
-    CommonModule,
     NzGridModule,
     NzDescriptionsModule,
     NzTagModule,

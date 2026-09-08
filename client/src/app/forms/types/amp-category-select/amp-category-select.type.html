@@ -7,27 +7,32 @@
   [cvcOptions]="selectOption$ | ngrxPush"
   [cvcShowError]="showError"
   [cvcDisabled]="props.disabled"></cvc-enum-select>
-<ng-container *ngFor="let enum of ampCategoryEnum$ | ngrxPush; index as i">
+@for (enum of ampCategoryEnum$ | ngrxPush; track enum; let i = $index) {
   <ng-template #optionTemplates>
     <nz-tag>
       <strong>{{ enum | formatAmp: 'verbose' }}</strong>
     </nz-tag>
-    <span nz-typography nzType="secondary">{{ descriptionForCategory(enum) }}</span>
+    <span
+      nz-typography
+      nzType="secondary"
+      >{{ descriptionForCategory(enum) }}</span
+    >
   </ng-template>
-</ng-container>
+}
 
 <ng-template
   #selectedTemplate
   let-selected>
   <div class="ant-select-selection-item-content">
-    <nz-tag
-      *ngIf="!props.isMultiSelect"
-      nzMode="closeable"
-      (nzOnClose)="onTagClose$.next($event)">
-      <strong>{{ selected.nzValue | formatAmp: 'verbose' }}</strong>
-    </nz-tag>
-    <ng-container *ngIf="props.isMultiSelect">
+    @if (!props.isMultiSelect) {
+      <nz-tag
+        nzMode="closeable"
+        (nzOnClose)="onTagClose$.next($event)">
+        <strong>{{ selected.nzValue | formatAmp: 'verbose' }}</strong>
+      </nz-tag>
+    }
+    @if (props.isMultiSelect) {
       {{ selected.nzValue | formatAmp: 'verbose' }}
-     </ng-container>
+    }
   </div>
 </ng-template>
