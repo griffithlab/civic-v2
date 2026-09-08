@@ -11,6 +11,7 @@ import {
   ViewChild,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -43,7 +44,7 @@ import {
   ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { QueryRef } from 'apollo-angular'
+import { Apollo, onlyCompleteData, QueryRef } from 'apollo-angular'
 import {
   BehaviorSubject,
   debounceTime,
@@ -244,23 +245,26 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
           this.expressionSegment$.next(undefined)
         } else {
           const response = res as Promise<
-            ApolloQueryResult<PreviewMolecularProfileName2Query>
+            Apollo.QueryResult<PreviewMolecularProfileName2Query>
           >
-          response.then(({ data, errors }) => {
-            if (errors) {
+          response.then(({ data, error }) => {
+            if (error) {
               this.expressionMessage$.next(undefined)
               this.expressionError$.next({
                 errorType: 'queryError',
-                errorMessage: errors.map((e) => e.message).join('\n'),
+                errorMessage: CombinedGraphQLErrors.is(error)
+                  ? error.errors.map((e) => e.message).join('\n')
+                  : error.message,
               })
               this.expressionSegment$.next(undefined)
             } else {
-              const segments = data.previewMolecularProfileName.segments
+              const preview = data?.previewMolecularProfileName
+              if (!preview) return
+              const segments = preview.segments
               this.expressionSegment$.next(segments)
               this.expressionMessage$.next(undefined)
               this.expressionError$.next(undefined)
-              const existingMp =
-                data.previewMolecularProfileName.existingMolecularProfile
+              const existingMp = preview.existingMolecularProfile
               if (existingMp) {
                 this.existingMp$.next(existingMp as MolecularProfile)
               } else {
@@ -327,28 +331,31 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         // this.cdr.detectChanges()
       })
 
-    this.previewQueryRef = this.previewMpGql.watch({})
+    this.previewQueryRef = this.previewMpGql.watch()
     /*     this.typeaheadQueryRef = this.quicksearchGql.watch({
       query: 'ZZZZ',
       types: [SearchableEntities.Variant]
     }) */
 
     this.previewMpName$ = this.previewQueryRef.valueChanges.pipe(
-      pluck('data', 'previewMolecularProfileName'),
+      onlyCompleteData(),
+      map(({ data }) => data.previewMolecularProfileName),
       filter(isNonNulled),
       map((data) => data.segments),
       untilDestroyed(this)
     )
 
     this.previewMpAlreadyExists$ = this.previewQueryRef.valueChanges.pipe(
-      pluck('data', 'previewMolecularProfileName'),
+      onlyCompleteData(),
+      map(({ data }) => data.previewMolecularProfileName),
       filter(isNonNulled),
       map((data) => data.existingMolecularProfile),
       untilDestroyed(this)
     )
 
     this.previewDeprecatedVariants$ = this.previewQueryRef.valueChanges.pipe(
-      pluck('data', 'previewMolecularProfileName'),
+      onlyCompleteData(),
+      map(({ data }) => data.previewMolecularProfileName),
       filter(isNonNulled),
       map((data) => data.deprecatedVariants),
       untilDestroyed(this)
@@ -391,10 +398,10 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     }
 
     lastValueFrom(
-      this.mpEditorPrepopulate.fetch(
-        { mpId: mpId },
-        { fetchPolicy: 'cache-first' }
-      )
+      this.mpEditorPrepopulate.fetch({
+        variables: { mpId: mpId },
+        fetchPolicy: 'cache-first',
+      })
     ).then(({ data }) => {
       if (!data?.molecularProfile?.id) {
         console.error(

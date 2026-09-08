@@ -31,10 +31,10 @@ export interface QuicksearchOption {
 }
 
 @Component({
-    selector: 'cvc-quicksearch',
-    styleUrls: ['./quicksearch-component.less'],
-    templateUrl: './quicksearch-component.html',
-    standalone: false
+  selector: 'cvc-quicksearch',
+  styleUrls: ['./quicksearch-component.less'],
+  templateUrl: './quicksearch-component.html',
+  standalone: false,
 })
 export class CvcQuicksearchComponent {
   private _selectedOpt: Maybe<SearchResult>
@@ -60,7 +60,7 @@ export class CvcQuicksearchComponent {
 
   // INTERMEDIATE STREAMS
   queryRef!: QueryRef<QuicksearchQuery, QuicksearchQueryVariables>
-  response$: Observable<ApolloQueryResult<QuicksearchQuery>>
+  response$: Observable<{ data: Maybe<QuicksearchQuery>; loading: boolean }>
   result$: Observable<Maybe<QuicksearchResultFragment>[]>
 
   // PRESENTATION STREAMS
@@ -91,12 +91,22 @@ export class CvcQuicksearchComponent {
           defer(() => watchQuery(str, selectedEntities)), // true
           defer(() => fetchQuery(str, selectedEntities))
         ) // false
-      })
+      }),
+      // normalize the two AC4 result shapes (valueChanges results carry a
+      // dataState discriminator, refetch results are plain { data, error })
+      map((r) => ({
+        data:
+          'dataState' in r
+            ? r.dataState === 'complete'
+              ? r.data
+              : undefined
+            : r.data,
+        loading: 'loading' in r ? r.loading : false,
+      }))
     )
 
     this.isLoading$ = this.response$.pipe(
       map((r) => r.loading),
-      filter(isNonNulled),
       distinctUntilChanged()
     )
 
@@ -125,9 +135,11 @@ export class CvcQuicksearchComponent {
     // set queryRef with watch(), return its valueChanges observable
     const watchQuery = (str: string, entities: Maybe<SearchableEntities[]>) => {
       this.queryRef = this.gql.watch({
-        query: str,
-        highlightMatches: true,
-        types: entities,
+        variables: {
+          query: str,
+          highlightMatches: true,
+          types: entities,
+        },
       })
       return this.queryRef.valueChanges
     }

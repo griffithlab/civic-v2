@@ -11,10 +11,10 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-molecular-profiles-revise',
-    templateUrl: './molecular-profiles-revise.view.html',
-    styleUrls: ['./molecular-profiles-revise.view.less'],
-    standalone: false
+  selector: 'cvc-molecular-profiles-revise',
+  templateUrl: './molecular-profiles-revise.view.html',
+  styleUrls: ['./molecular-profiles-revise.view.less'],
+  standalone: false,
 })
 export class MolecularProfilesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>
@@ -32,7 +32,9 @@ export class MolecularProfilesReviseView implements OnInit, OnDestroy {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({
-        mpId: +params.molecularProfileId,
+        variables: {
+          mpId: +params.molecularProfileId,
+        },
       }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))

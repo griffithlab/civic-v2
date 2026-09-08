@@ -15,10 +15,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 
 @Component({
-    selector: 'cvc-variants-summary',
-    templateUrl: './variants-summary.page.html',
-    styleUrls: ['./variants-summary.page.less'],
-    standalone: false
+  selector: 'cvc-variants-summary',
+  templateUrl: './variants-summary.page.html',
+  styleUrls: ['./variants-summary.page.less'],
+  standalone: false,
 })
 export class VariantsSummaryPage {
   @Input() variantId: Maybe<number>
@@ -29,7 +29,10 @@ export class VariantsSummaryPage {
 
   subscribable: SubscribableInput
 
-  constructor(private gql: VariantSummaryGQL, private route: ActivatedRoute) {
+  constructor(
+    private gql: VariantSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     var queryVariantId: number
     if (this.variantId) {
       queryVariantId = this.variantId
@@ -41,7 +44,7 @@ export class VariantsSummaryPage {
       throw new Error('Must pass in a variant ID as an input or via the route.')
     }
 
-    this.queryRef = this.gql.watch({ variantId: queryVariantId })
+    this.queryRef = this.gql.watch({ variables: { variantId: queryVariantId } })
 
     let observable = this.queryRef.valueChanges
 

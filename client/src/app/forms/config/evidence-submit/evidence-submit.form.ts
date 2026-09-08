@@ -41,10 +41,10 @@ import { ActivatedRoute } from '@angular/router'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-submit-form',
-    templateUrl: './evidence-submit.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-submit-form',
+  templateUrl: './evidence-submit.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   model?: EvidenceSubmitModel
@@ -106,10 +106,14 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.countQueryRef = this.existingEvidenceGQL.watch({
-      molecularProfileId: 0,
-      sourceId: 0,
+      variables: {
+        molecularProfileId: 0,
+        sourceId: 0,
+      },
     })
-    this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({ sourceId: 0 })
+    this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({
+      variables: { sourceId: 0 },
+    })
 
     this.existingEvidenceCount$ = this.countQueryRef?.valueChanges.pipe(
       map((c) => c.data?.evidenceItems?.totalCount),
@@ -125,10 +129,11 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     if (this.existingEvidenceId) {
       this.revisableFieldsGQL
-        .fetch({ evidenceId: this.existingEvidenceId })
+        .fetch({ variables: { evidenceId: this.existingEvidenceId } })
         .pipe(untilDestroyed(this))
         .subscribe({
-          next: ({ data: { evidenceItem } }) => {
+          next: ({ data }) => {
+            const evidenceItem = data?.evidenceItem
             if (evidenceItem) {
               this.model = {
                 fields: evidenceToModelFields(evidenceItem),

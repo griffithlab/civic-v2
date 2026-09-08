@@ -159,24 +159,18 @@
                   <div
                     nz-result-extra
                     style="text-align: left">
-                    @if (err.networkError; as ne) {
+                    @if (serverError(err); as se) {
                       <p>
                         <strong>Network Error:</strong>
-                        {{ $any(ne).status }} {{ $any(ne).statusText }}
+                        {{ se.statusCode }}
                       </p>
-                      @if ($any(ne).error?.errors?.length) {
-                        <p><strong>Server errors:</strong></p>
-                        @for (
-                          serverErr of $any(ne).error.errors;
-                          track $index
-                        ) {
-                          <p>{{ serverErr.message }}</p>
-                        }
+                      @if (se.bodyText) {
+                        <p>{{ se.bodyText }}</p>
                       }
                     }
-                    @if (err.graphQLErrors.length) {
+                    @if (gqlErrors(err).length) {
                       <p><strong>GraphQL errors:</strong></p>
-                      @for (gqlErr of err.graphQLErrors; track $index) {
+                      @for (gqlErr of gqlErrors(err); track $index) {
                         <p>{{ gqlErr.message }}</p>
                         @if ($any(gqlErr.extensions)?.problems?.length) {
                           @for (
@@ -190,18 +184,6 @@
                             </p>
                           }
                         }
-                      }
-                    }
-                    @if (err.clientErrors.length) {
-                      <p><strong>Client errors:</strong></p>
-                      @for (clientErr of err.clientErrors; track $index) {
-                        <p>{{ clientErr.message }}</p>
-                      }
-                    }
-                    @if (err.protocolErrors.length) {
-                      <p><strong>Protocol errors:</strong></p>
-                      @for (protocolErr of err.protocolErrors; track $index) {
-                        <p>{{ protocolErr.message }}</p>
                       }
                     }
                   </div>

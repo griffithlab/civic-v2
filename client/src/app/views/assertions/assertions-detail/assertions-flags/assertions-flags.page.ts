@@ -30,7 +30,10 @@ export class AssertionsFlagsPage {
 
   refreshAssertion() {
     this.gql
-      .fetch({ assertionId: this.assertionId }, { fetchPolicy: 'network-only' })
+      .fetch({
+        variables: { assertionId: this.assertionId },
+        fetchPolicy: 'network-only',
+      })
       .subscribe()
   }
 }

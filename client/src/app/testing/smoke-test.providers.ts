@@ -5,10 +5,9 @@ import {
   withInterceptors,
 } from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
-import { of } from 'rxjs'
+import { NEVER, of } from 'rxjs'
 import { APOLLO_OPTIONS } from 'apollo-angular'
-import { ApolloLink, InMemoryCache } from '@apollo/client/core'
-import { Observable } from '@apollo/client/utilities'
+import { ApolloLink, InMemoryCache } from '@apollo/client'
 import result from '@app/generated/civic.possible-types'
 
 // Providers for TestBed smoke tests that import the full AppModule.
@@ -23,7 +22,7 @@ export function smokeTestProviders(): (Provider | EnvironmentProviders)[] {
     {
       provide: APOLLO_OPTIONS,
       useValue: {
-        link: new ApolloLink(() => new Observable(() => {})),
+        link: new ApolloLink(() => NEVER),
         cache: new InMemoryCache({ possibleTypes: result.possibleTypes }),
       },
     },

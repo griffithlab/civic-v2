@@ -42,10 +42,12 @@ export class CvcVariantPopoverComponent
   }
 
   ngOnInit() {
-    this.variant$ = this.gql.fetch({ variantId: this.variantId }).pipe(
-      map(({ data }) => data?.variant),
-      filter(isNonNulled)
-    )
+    this.variant$ = this.gql
+      .fetch({ variables: { variantId: this.variantId } })
+      .pipe(
+        map(({ data }) => data?.variant),
+        filter(isNonNulled)
+      )
   }
 
   ngAfterViewInit() {

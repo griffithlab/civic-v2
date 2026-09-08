@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -45,9 +46,10 @@ export class CvcMolecularProfilePopoverComponent
 
   ngOnInit() {
     this.molecularProfile$ = this.gql
-      .watch({ molecularProfileId: this.molecularProfileId })
+      .watch({ variables: { molecularProfileId: this.molecularProfileId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.molecularProfile),
+        onlyCompleteData(),
+        map(({ data }) => data.molecularProfile),
         filter(isNonNulled)
       )
   }

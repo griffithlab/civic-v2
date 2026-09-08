@@ -15,10 +15,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 
 @Component({
-    selector: 'cvc-molecular-profiles-summary',
-    templateUrl: './molecular-profiles-summary.page.html',
-    styleUrls: ['./molecular-profiles-summary.page.less'],
-    standalone: false
+  selector: 'cvc-molecular-profiles-summary',
+  templateUrl: './molecular-profiles-summary.page.html',
+  styleUrls: ['./molecular-profiles-summary.page.less'],
+  standalone: false,
 })
 export class MolecularProfilesSummaryPage {
   @Input() molecularProfileId: Maybe<number>
@@ -49,7 +49,7 @@ export class MolecularProfilesSummaryPage {
       )
     }
 
-    this.queryRef = this.gql.watch({ mpId: queryMpId })
+    this.queryRef = this.gql.watch({ variables: { mpId: queryMpId } })
 
     let observable = this.queryRef.valueChanges
 

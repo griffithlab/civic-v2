@@ -38,6 +38,7 @@ import {
   Subject,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { Apollo } from 'apollo-angular'
 
 export type CvcClingenCodeSelectFieldOptions = Partial<
   FieldTypeConfig<CvcClingenCodeSelectFieldProps>
@@ -61,8 +62,7 @@ export interface CvcClingenCodeSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcClingenCodeSelectFieldConfig
-  extends FormlyFieldConfig<CvcClingenCodeSelectFieldProps> {
+export interface CvcClingenCodeSelectFieldConfig extends FormlyFieldConfig<CvcClingenCodeSelectFieldProps> {
   type:
     | 'clingen-code-select'
     | 'clingen-code-multi-select'
@@ -264,19 +264,22 @@ export class CvcClingenCodeSelectField
     return { code: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<ClingenCodeSelectTypeaheadQuery>) {
-    r.data.clingenCodesTypeahead.forEach((c) => {
+  getTypeaheadResultsFn(
+    r: Apollo.QueryResult<ClingenCodeSelectTypeaheadQuery>
+  ) {
+    const codes = r.data?.clingenCodesTypeahead ?? []
+    codes.forEach((c) => {
       if (c.exclusive) {
         this.exclusiveCodes.add(c.id)
       }
     })
-    return r.data.clingenCodesTypeahead
+    return codes
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<ClingenCodeSelectTagQuery>
+    r: Apollo.QueryResult<ClingenCodeSelectTagQuery>
   ): Maybe<ClingenCodeSelectTypeaheadFieldsFragment> {
-    return r.data.clingenCode
+    return r.data?.clingenCode
   }
 
   getTagQueryVarsFn(id: number): ClingenCodeSelectTagQueryVariables {

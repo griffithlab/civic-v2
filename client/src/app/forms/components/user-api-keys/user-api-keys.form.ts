@@ -34,6 +34,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { isNonNulled } from 'rxjs-etc'
+import { onlyCompleteData } from 'apollo-angular'
 import { NzMessageService } from 'ng-zorro-antd/message'
 
 @Component({
@@ -91,9 +92,9 @@ export class CvcUserApiKeysForm implements OnDestroy {
     this.revokeApiKeyMutator = new MutatorWithState(networkErrorService)
     apiKeysGql
       .watch()
-      .valueChanges.pipe(filter(isNonNulled), takeUntil(this.destroy$))
+      .valueChanges.pipe(onlyCompleteData(), takeUntil(this.destroy$))
       .subscribe(({ data }) => {
-        if (data?.viewer?.apiKeys) {
+        if (data.viewer?.apiKeys) {
           this.apiKeys.set(data.viewer.apiKeys)
         }
       })

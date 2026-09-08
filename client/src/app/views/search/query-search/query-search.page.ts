@@ -10,6 +10,9 @@ import {
   WritableSignal,
 } from '@angular/core'
 import { EvidenceStatusFilter, Maybe } from '@app/generated/civic.apollo'
+import { ErrorLike } from '@apollo/client'
+import { CombinedGraphQLErrors, ServerError } from '@apollo/client/errors'
+import { GraphQLFormattedError } from 'graphql'
 import { CommonModule } from '@angular/common'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
@@ -175,6 +178,16 @@ export class QuerySearchPage {
       this.permalinkId.set(result.permalinkId)
     })
   }
+  // AC4 error helpers: result.error is an ErrorLike; narrow to the
+  // specific error classes for detailed display
+  gqlErrors(err: ErrorLike): ReadonlyArray<GraphQLFormattedError> {
+    return CombinedGraphQLErrors.is(err) ? err.errors : []
+  }
+
+  serverError(err: ErrorLike): Maybe<ServerError> {
+    return ServerError.is(err) ? err : undefined
+  }
+
   onTabIndexChange(index: number) {
     const newEndpoint = getSearchEndpointFromTabIndex(index)
     if (newEndpoint === this.searchEndpoint()) return

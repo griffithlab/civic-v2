@@ -14,6 +14,7 @@ const SMOKE_ROUTES = [
   '/genes',
   '/evidence',
   '/variants',
+  '/search', // redirects to query builder (formly query-search page)
 ]
 
 describe('Route smoke tests', () => {

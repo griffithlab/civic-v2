@@ -52,7 +52,11 @@ import {
   CvcFusionVariantSelectForm,
   FusionVariantSelectModalData,
 } from './fusion-variant-select/fusion-variant-select.form'
-import { CvcRegionVariantSelectForm, RegionVariantSelectModalData } from './region-variant-select /region-variant-select.form'
+import {
+  CvcRegionVariantSelectForm,
+  RegionVariantSelectModalData,
+} from './region-variant-select /region-variant-select.form'
+import { Apollo } from 'apollo-angular'
 
 export interface VariantIdWithCreationStatus {
   new: boolean
@@ -77,8 +81,7 @@ export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
   alwaysShowCreate?: boolean
 }
 
-export interface CvcVariantSelectFieldConfig
-  extends FormlyFieldConfig<CvcVariantSelectFieldProps> {
+export interface CvcVariantSelectFieldConfig extends FormlyFieldConfig<CvcVariantSelectFieldProps> {
   type: 'variant-select' | 'variant-multi-select' | Type<CvcVariantSelectField>
 }
 
@@ -237,8 +240,8 @@ export class CvcVariantSelectField
     }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<VariantSelectTypeaheadQuery>) {
-    return r.data.variantsTypeahead
+  getTypeaheadResultsFn(r: Apollo.QueryResult<VariantSelectTypeaheadQuery>) {
+    return r.data?.variantsTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): VariantSelectTagQueryVariables {
@@ -246,9 +249,9 @@ export class CvcVariantSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<VariantSelectTagQuery>
+    r: Apollo.QueryResult<VariantSelectTagQuery>
   ): Maybe<VariantSelectTypeaheadFieldsFragment> {
-    return r.data.variant
+    return r.data?.variant
   }
 
   getSelectedItemOptionFn(
@@ -286,7 +289,8 @@ export class CvcVariantSelectField
       return true
     } else {
       return (
-        s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
+        s.length >= 3 &&
+        !results.some((v) => v.name.toLowerCase() === searchName)
       )
     }
   }
@@ -319,10 +323,10 @@ export class CvcVariantSelectField
       // id provided, so fetch its name and update the placeholder string.
       // lastValueFrom is used b/c fetch could return 'loading' events
       lastValueFrom(
-        this.featureQuery.fetch(
-          { featureId: fid },
-          { fetchPolicy: 'cache-first' }
-        )
+        this.featureQuery.fetch({
+          variables: { featureId: fid },
+          fetchPolicy: 'cache-first',
+        })
       ).then(({ data }) => {
         if (!data?.feature?.name) {
           console.error(

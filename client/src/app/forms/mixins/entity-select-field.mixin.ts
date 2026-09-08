@@ -8,7 +8,7 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
-import { Query, QueryRef } from 'apollo-angular'
+import { Apollo, Query, QueryRef } from 'apollo-angular'
 import {
   NzSelectComponent,
   NzSelectOptionInterface,
@@ -43,11 +43,11 @@ export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
   param?: TAP
 ) => TAV
 export type GetTypeaheadResultsFn<TAQ, TAF> = (
-  response: ApolloQueryResult<TAQ>
+  response: Apollo.QueryResult<TAQ>
 ) => TAF[]
 export type GetTagQueryVarsFn<TV extends EmptyObject> = (id: number) => TV
 export type GetTagQueryResultsFn<TQ, TAF> = (
-  response: ApolloQueryResult<TQ>
+  response: Apollo.QueryResult<TQ>
 ) => Maybe<TAF>
 export type GetSelectedItemFn<TAF> = (item: TAF) => NzSelectOptionInterface
 export type GetSelectOptionsFn<TAF> = (
@@ -119,7 +119,7 @@ export function EntitySelectField<
       selectOpen$!: ReplaySubject<Maybe<boolean>>
 
       // INTERMEDIATE STREAMS
-      response$!: Observable<ApolloQueryResult<TAQ>> // gql query responses
+      response$!: Observable<Apollo.QueryResult<TAQ>> // gql query responses
 
       // PRESENTATION STREAMS
       result$!: BehaviorSubject<TAF[]> // typeahead query results
@@ -206,8 +206,17 @@ export function EntitySelectField<
             // helper functions for iif operator:
             const watchQuery = (query: TAV) => {
               // calls watch() to create queryRef,
-              // returns observable from initial watch() query
-              this.queryRef = this.typeaheadQuery.watch(query)
+              // returns observable from initial watch() query.
+              // bind + assert sidesteps the `{} extends TAV` conditional
+              // tuple in Query#watch, unresolvable for a generic TAV
+              const watch = this.typeaheadQuery.watch.bind(
+                this.typeaheadQuery
+              ) as (
+                options?: Query.WatchOptions<TAQ, TAV>
+              ) => QueryRef<TAQ, TAV>
+              this.queryRef = watch({
+                variables: query,
+              } as Query.WatchOptions<TAQ, TAV>)
               // emit loading events from isLoading$
               this.isLoading$ = this.queryRef.valueChanges.pipe(
                 pluck('loading'),
@@ -233,6 +242,19 @@ export function EntitySelectField<
               defer(() => watchQuery(query)), // true
               defer(() => refetchQuery(query)) // false
             )
+          }),
+          // normalize the two AC4 result shapes (valueChanges results carry
+          // a dataState discriminator, refetch results are plain
+          // { data, error }) into Apollo.QueryResult so downstream
+          // getTypeaheadResultsFn callbacks see one shape
+          map((r): Apollo.QueryResult<TAQ> => {
+            if ('dataState' in r) {
+              return {
+                data: r.dataState === 'complete' ? r.data : undefined,
+                error: r.error,
+              }
+            }
+            return r
           })
         ) // end this.response$
 
@@ -342,12 +364,18 @@ export function EntitySelectField<
 
       getTagQueries(
         ids: CvcEntitySelectFieldModel
-      ): Observable<ApolloQueryResult<TQ>>[] {
+      ): Observable<Apollo.QueryResult<TQ>>[] {
         if (typeof ids === 'number') ids = [ids]
+        // bind + assert sidesteps the `{} extends TV` conditional tuple
+        // in Query#fetch, unresolvable for a generic TV
+        const fetch = this.tagQuery.fetch.bind(this.tagQuery) as (
+          options?: Query.FetchOptions<TQ, TV>
+        ) => Observable<Apollo.QueryResult<TQ>>
         const queries = ids!.map((id) =>
-          this.tagQuery
-            .fetch(this.getTagQueryVars(id), { fetchPolicy: 'cache-first' })
-            .pipe(filter((r) => !!r.data))
+          fetch({
+            variables: this.getTagQueryVars(id),
+            fetchPolicy: 'cache-first',
+          } as Query.FetchOptions<TQ, TV>).pipe(filter((r) => !!r.data))
         )
         return queries
       }

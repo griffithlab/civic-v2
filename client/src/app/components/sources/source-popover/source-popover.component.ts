@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   Component,
@@ -43,9 +44,10 @@ export class CvcSourcePopoverComponent
 
   ngOnInit() {
     this.source$ = this.gql
-      .watch({ sourceId: this.sourceId })
+      .watch({ variables: { sourceId: this.sourceId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.sourcePopover),
+        onlyCompleteData(),
+        map(({ data }) => data.sourcePopover),
         filter(isNonNulled)
       )
   }

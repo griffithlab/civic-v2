@@ -14,6 +14,7 @@ import {
   ClinicalTrialPopoverGQL,
   Maybe,
 } from '@app/generated/civic.apollo'
+import { onlyCompleteData } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
@@ -45,8 +46,9 @@ export class CvcClinicalTrialPopoverComponent
 
   ngOnInit() {
     this.clinicalTrial$ = this.gql
-      .watch({ clinicalTrialId: this.clinicalTrialId })
+      .watch({ variables: { clinicalTrialId: this.clinicalTrialId } })
       .valueChanges.pipe(
+        onlyCompleteData(),
         map(({ data }) => data?.clinicalTrials.edges[0]?.node),
         filter(isNonNulled)
       )

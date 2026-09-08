@@ -8,7 +8,7 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
-import { Query, QueryRef } from 'apollo-angular'
+import { Apollo, Query, QueryRef } from 'apollo-angular'
 import { EmptyObject } from 'apollo-angular/types'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
@@ -36,7 +36,7 @@ export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
   param?: TAP
 ) => TAV
 export type GetTypeaheadResultsFn<TAQ, TAF> = (
-  response: ApolloQueryResult<TAQ>
+  response: Apollo.QueryResult<TAQ>
 ) => TAF[]
 export type GetSelectedItemFn<TAF> = (item: TAF) => NzSelectOptionInterface
 export type GetSelectOptionsFn<TAF> = (
@@ -93,7 +93,7 @@ export function StringSelectField<
       selectOpen$!: ReplaySubject<Maybe<boolean>>
 
       // INTERMEDIATE STREAMS
-      response$!: Observable<ApolloQueryResult<TAQ>> // gql query responses
+      response$!: Observable<Apollo.QueryResult<TAQ>> // gql query responses
 
       // PRESENTATION STREAMS
       result$!: BehaviorSubject<TAF[]> // typeahead query results
@@ -176,7 +176,16 @@ export function StringSelectField<
             const watchQuery = (query: TAV) => {
               // calls watch() to create queryReft,
               // returns observable from initial watch() query
-              this.queryRef = this.typeaheadQuery.watch(query)
+              // bind + assert sidesteps the `{} extends TAV` conditional
+              // tuple in Query#watch, unresolvable for a generic TAV
+              const watch = this.typeaheadQuery.watch.bind(
+                this.typeaheadQuery
+              ) as (
+                options?: Query.WatchOptions<TAQ, TAV>
+              ) => QueryRef<TAQ, TAV>
+              this.queryRef = watch({
+                variables: query,
+              } as Query.WatchOptions<TAQ, TAV>)
               // emit loading events from isLoading$
               this.isLoading$ = this.queryRef.valueChanges.pipe(
                 pluck('loading'),
@@ -202,6 +211,19 @@ export function StringSelectField<
               defer(() => watchQuery(query)), // true
               defer(() => fetchQuery(query)) // false
             )
+          }),
+          // normalize the two AC4 result shapes (valueChanges results carry
+          // a dataState discriminator, refetch results are plain
+          // { data, error }) into Apollo.QueryResult so downstream
+          // getTypeaheadResultsFn callbacks see one shape
+          map((r): Apollo.QueryResult<TAQ> => {
+            if ('dataState' in r) {
+              return {
+                data: r.dataState === 'complete' ? r.data : undefined,
+                error: r.error,
+              }
+            }
+            return r
           })
         ) // end this.response$
 

@@ -51,13 +51,14 @@ export class CvcUserFilterSelect {
           const refetch = this.queryRef.refetch({ name: nameStr })
           return from(refetch)
         } else {
-          this.queryRef = this.gql.watch({ name: nameStr })
+          this.queryRef = this.gql.watch({ variables: { name: nameStr } })
           return this.queryRef.valueChanges
         }
       }),
       map(
         (result) =>
-          result.data?.browseUsers.edges.map((e) => e.node! as BrowseUser) ?? []
+          result.data?.browseUsers?.edges?.map((e) => e.node! as BrowseUser) ??
+          []
       )
     )
     this.filteredUsers = toSignal(filteredUser$, { initialValue: [] })

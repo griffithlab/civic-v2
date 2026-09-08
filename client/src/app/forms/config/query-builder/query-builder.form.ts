@@ -6,7 +6,6 @@ import {
   inject,
   input,
   model,
-  OnInit,
   output,
   signal,
   WritableSignal,
@@ -25,13 +24,12 @@ import {
 } from '@app/forms/config/query-builder/query-builder.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { catchError, EMPTY } from 'rxjs'
-import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc/dist/esm/util'
-import { filter, switchMap } from 'rxjs/operators'
+import { filter, map, switchMap } from 'rxjs/operators'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { getQueryFieldConfig } from '@app/forms/config/query-builder/field-config/functions/get-query-field-config'
 import { AdvancedSearchRegistry } from './query-builder.service'
-import { ApolloError } from '@apollo/client/core'
+import { ErrorLike } from '@apollo/client'
 import { Apollo } from 'apollo-angular'
 
 const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
@@ -49,7 +47,7 @@ const defaultQueryBuilderFormModel: QueryBuilderFormModel = {
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcQueryBuilderForm implements OnInit {
+export class CvcQueryBuilderForm {
   searchEndpoint = model<AdvancedSearchEndpoint>('searchAssertions')
   permalinkId = model<string>()
   formModelQuery = input<QueryBuilderFormModel['query']>()
@@ -67,7 +65,18 @@ export class CvcQueryBuilderForm implements OnInit {
     return this.advancedSearch.getService(endpoint)
   })
   form: UntypedFormGroup = new UntypedFormGroup({})
-  fields: FormlyFieldConfig[] = []
+  // computed() evaluates synchronously on first template read, so formly
+  // never sees an empty fields array (avoids the double-build timing
+  // issue with imperative assignment from an effect, see
+  // docs/FORMLY_V7_NOTES.md)
+  fields = computed<FormlyFieldConfig[]>(() => {
+    const endpoint = this.searchEndpoint()
+    return getQueryFieldConfig(
+      'query',
+      endpoint,
+      this.searchEndpointToCardTitle(endpoint)
+    )
+  })
   options: FormlyFormOptions = {
     formState: { formLayout: 'horizontal', showErrors: false },
     showError: (field) => {
@@ -105,12 +114,6 @@ export class CvcQueryBuilderForm implements OnInit {
         },
       }
 
-      // update root field config
-      this.fields = getQueryFieldConfig(
-        'query',
-        endpoint,
-        this.searchEndpointToCardTitle(endpoint)
-      )
       // only reset model if this change did not originate from a permalink
       if (endpoint !== this.permalinkSearchEndpoint) {
         this.resetModel()
@@ -131,15 +134,17 @@ export class CvcQueryBuilderForm implements OnInit {
           return true
         }),
         switchMap((id) => {
-          return this.getOriginalQueryGQL.fetch({ permalinkId: id }).pipe(
-            pluck('data', 'searchByPermalink'),
-            filter(isNonNulled),
-            catchError((err) => {
-              console.error('Error fetching permalink query:', err)
-              this.onError(err)
-              return EMPTY
-            })
-          )
+          return this.getOriginalQueryGQL
+            .fetch({ variables: { permalinkId: id } })
+            .pipe(
+              map((r) => r.data?.searchByPermalink),
+              filter(isNonNulled),
+              catchError((err) => {
+                console.error('Error fetching permalink query:', err)
+                this.onError(err)
+                return EMPTY
+              })
+            )
         }),
         untilDestroyed(this)
       )
@@ -178,20 +183,6 @@ export class CvcQueryBuilderForm implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    // Eagerly initialize fields so formly's first render has the correct
-    // field tree rather than an empty array (avoids a double-build timing issue).
-    // The effect in the constructor also runs on init, but ngOnInit fires before
-    // the first change detection cycle in which formly reads `fields`, so this
-    // ensures the very first render has real fields.
-    const endpoint = this.searchEndpoint()
-    this.fields = getQueryFieldConfig(
-      'query',
-      endpoint,
-      this.searchEndpointToCardTitle(endpoint)
-    )
-  }
-
   onSubmit() {
     this.skipPermalinkRestore = true
     const model = this.form.value
@@ -201,7 +192,8 @@ export class CvcQueryBuilderForm implements OnInit {
     gql
       .fetch(model)
       .pipe(
-        pluck('data', endpoint),
+        map((r) => r.data?.[endpoint]),
+        filter(isNonNulled),
         catchError((err) => {
           this.onError(err)
           return EMPTY
@@ -236,7 +228,7 @@ export class CvcQueryBuilderForm implements OnInit {
     this.searchResults.emit(result)
   }
 
-  onError(error: ApolloError) {
+  onError(error: ErrorLike) {
     const result: QueryBuilderResult = {
       status: 'error',
       error,

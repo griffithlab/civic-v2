@@ -109,11 +109,13 @@ export class CvcUsersTableComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.queryRef = this.gql.watch({
-      ids: this.ids,
-      first: this.initialPageSize,
-      sortBy: {
-        column: UsersSortColumns.LastAction,
-        direction: SortDirection.Desc,
+      variables: {
+        ids: this.ids,
+        first: this.initialPageSize,
+        sortBy: {
+          column: UsersSortColumns.LastAction,
+          direction: SortDirection.Desc,
+        },
       },
     })
 
