@@ -47,15 +47,15 @@ module Scrapers
     end
 
     def day
-      json["message"]["created"]["date-parts"][0][2]
+      json["message"]["published"]["date-parts"][0][2]
     end
 
     def month
-      json["message"]["created"]["date-parts"][0][1]
+      json["message"]["published"]["date-parts"][0][1]
     end
 
     def year
-      json["message"]["created"]["date-parts"][0][0]
+      json["message"]["published"]["date-parts"][0][0]
     end
 
     def journal
