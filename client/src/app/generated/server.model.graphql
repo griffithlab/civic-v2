@@ -1529,7 +1529,7 @@ type BrowsePhenotypeEdge {
 type BrowseSource {
   authors: [String!]!
   citation: String!
-  citationId: Int!
+  citationId: String!
   clinicalTrials: [ClinicalTrial!]!
   deprecated: Boolean!
   displayType: String!

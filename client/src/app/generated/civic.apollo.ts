@@ -960,7 +960,7 @@ export type BrowseSource = {
   __typename: 'BrowseSource';
   authors: Array<Scalars['String']['output']>;
   citation: Scalars['String']['output'];
-  citationId: Scalars['Int']['output'];
+  citationId: Scalars['String']['output'];
   clinicalTrials: Array<ClinicalTrial>;
   deprecated: Scalars['Boolean']['output'];
   displayType: Scalars['String']['output'];
@@ -10220,9 +10220,9 @@ export type BrowseSourcesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, lastUpdated: any, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean, deprecated: boolean } | undefined }> } };
+export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, lastUpdated: any, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: string, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean, deprecated: boolean } | undefined }> } };
 
-export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean, deprecated: boolean };
+export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: string, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean, deprecated: boolean };
 
 export type TherapyPopoverQueryVariables = Exact<{
   therapyId: Scalars['Int']['input'];
