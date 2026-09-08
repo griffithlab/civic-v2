@@ -1,27 +1,108 @@
-# Main
+# CIViC Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+The CIViC frontend: an Angular 22 single-page application that consumes the CIViC GraphQL API served by the Rails backend in `../server`.
+
+## Stack
+
+- [Angular 22](https://angular.dev/) (NgModule-based, built with the `@angular/build` application builder)
+- [ng-zorro-antd 22](https://ng.ant.design/) — Ant Design UI components
+- [Apollo Client 4](https://www.apollographql.com/docs/) + [apollo-angular](https://apollo-angular.com/) — GraphQL client
+- [GraphQL Code Generator](https://the-guild.dev/graphql/codegen) — generates TypeScript types, Apollo Angular services, and fragment matchers from the schema
+- [ngx-formly 7](https://formly.dev/) — dynamic forms (submission/revision forms, query builder)
+- [Vitest](https://vitest.dev/) — unit/smoke tests, run through the Angular CLI
+- TypeScript 6, ESLint, Prettier
+- Yarn 4 (pinned via the `packageManager` field, `node-modules` linker)
+
+## Prerequisites
+
+- Node.js >= 22 (CI runs Node 24)
+- Yarn 4 via Corepack:
+
+```sh
+corepack enable
+yarn install
+```
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```sh
+yarn start
+```
 
-## Code scaffolding
+Serves the app with HMR at `http://127.0.0.1:4200`. API and auth requests are proxied to the Rails server at `localhost:3000` (see `proxy.config.json`), so start the backend first (`rails s` in `../server`).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`yarn start:production` serves a production-configuration build with watch on port 4210, useful for debugging production-only issues locally.
 
-## Build
+## GraphQL code generation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Generated artifacts live in `src/app/generated/` and are derived from two sources (configured in `.graphqlrc.yml`):
 
-## Running unit tests
+1. **The server schema dump** (`server.model.graphql`) — produced by the Rails server, not by this package. After any server-side schema change, regenerate it:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   ```sh
+   # from ../server
+   bundle exec rails graphql:schema:dump
+   ```
 
-## Running end-to-end tests
+2. **Client-side documents** — `.gql` query/mutation/fragment files colocated with components under `src/`, plus client-only schema extensions in `src/app/graphql/schemas/`.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Then regenerate the client artifacts:
 
-## Further help
+```sh
+yarn generate-apollo          # one-shot
+yarn generate-apollo:start    # watch mode — regenerates as .gql files change
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This produces `civic.apollo.ts` (types + injectable Apollo services), `civic.possible-types.ts` (fragment matcher), `civic.apollo-helpers.ts` (cache type policies), and `client.schema.json`.
+
+A typical dev session runs three processes: the Rails server, `yarn start`, and `yarn generate-apollo:start`.
+
+## Scripts reference
+
+| Script                       | Purpose                                                                                  |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| `yarn start`                 | Dev server with HMR at `127.0.0.1:4200`, proxying to the backend                         |
+| `yarn start:production`      | Dev server with production configuration on port 4210                                    |
+| `yarn build`                 | Production build, output to `../server/public/`                                          |
+| `yarn build:watch`           | Production build in watch mode                                                           |
+| `yarn build:analyze-stats`   | Production build + webpack-bundle-analyzer report                                        |
+| `yarn generate-apollo`       | Run GraphQL codegen once                                                                 |
+| `yarn generate-apollo:start` | GraphQL codegen in watch mode                                                            |
+| `yarn generate-icons`        | Optimize SVGs in `src/assets/icons/` (svgo) and regenerate icon TS constants (svg-to-ts) |
+| `yarn generate-docs-rst`     | Generate icon data + RST docs (used by the civic-docs project)                           |
+| `yarn test`                  | Run unit/smoke tests with Vitest via the Angular CLI                                     |
+| `yarn lint`                  | Run ESLint over `src/**/*.ts` and templates                                              |
+
+## Testing
+
+```sh
+yarn test
+```
+
+Tests run with Vitest through the Angular CLI's unit-test builder (`src/test-setup.ts` is the setup file). Coverage is currently a smoke-test skeleton — app bootstrap, route rendering, and query-builder specs (`src/app/*.smoke.spec.ts`) — intended to catch breakage during dependency upgrades.
+
+## Formatting
+
+Prettier is the source of truth for formatting. Run it on touched files before committing:
+
+```sh
+yarn prettier --write <files>
+```
+
+## Build output
+
+`yarn build` writes directly into `../server/public/`, where the Rails app serves it in production. There is no separate `dist/` deployment artifact.
+
+## Project layout
+
+```
+src/app/
+  components/   # entity presentation components (genes, variants, evidence, ...)
+  core/         # services, utilities, state
+  directives/
+  forms/        # ngx-formly form configs, types, and wrappers
+  generated/    # GraphQL codegen output — do not edit by hand
+  graphql/      # client-side schema extensions
+  layout/       # app shell, navigation
+  views/        # routed page components
+```
