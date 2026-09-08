@@ -105,6 +105,15 @@
             }
           }
         },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "main:build",
+            "tsConfig": "tsconfig.spec.json",
+            "runner": "vitest",
+            "setupFiles": ["src/test-setup.ts"]
+          }
+        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
