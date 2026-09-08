@@ -1,6 +1,7 @@
 import { TypePolicies } from '@apollo/client/cache'
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
 import { CombinedGraphQLErrors } from '@apollo/client/errors'
+import { LocalState } from '@apollo/client/local-state'
 import result from '@app/generated/civic.possible-types'
 import { provideApollo } from 'apollo-angular'
 import { HttpLink } from 'apollo-angular/http'
@@ -36,6 +37,11 @@ export function createApollo(httpLink: HttpLink): ApolloClient.Options {
       possibleTypes: result.possibleTypes,
       typePolicies: typePolicies,
     }),
+    // AC4 requires explicit LocalState to support @client fields (AC3
+    // stripped them from server requests automatically). All @client
+    // fields (currently only AdvancedSearchResult.formQuery) are computed
+    // by cache type policy read functions, so no resolvers are needed.
+    localState: new LocalState(),
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'cache-and-network',

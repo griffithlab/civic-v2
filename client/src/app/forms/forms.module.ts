@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router'
-import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core'
+import { FormlyModule } from '@ngx-formly/core'
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
-import { registerCvcExtensions } from './extensions/form-extensions.config'
-import { CvcFormlyConfig2 } from './forms.options'
 import { CvcFormTypesModule } from './types/form-types.module'
 import { CvcFormWrappersModule } from './wrappers/form-wrappers.module'
 
+// NOTE: FormlyModule.forRoot(CvcFormlyConfig2) is imported by AppModule ONLY.
+// This module is imported by many lazy-loaded form modules; importing forRoot
+// here would re-provide FormlyConfig in every lazy injector, splitting formly's
+// config into multiple instances. Under formly v7, the core extension then
+// resolves types against the wrong instance and silently skips component
+// lifecycle hooks (e.g. FieldArrayType.onPopulate), breaking field arrays.
 @NgModule({
   declarations: [],
   imports: [
-    FormlyModule.forRoot(CvcFormlyConfig2),
+    FormlyModule,
     ReactiveFormsModule,
     NzFormModule,
     FormlyNgZorroAntdModule,
@@ -27,15 +30,6 @@ import { CvcFormWrappersModule } from './wrappers/form-wrappers.module'
     NzFormModule,
     CvcFormWrappersModule,
     CvcFormTypesModule,
-  ],
-  providers: [
-    {
-      // inject deps, instantiate and register expressions
-      provide: FORMLY_CONFIG,
-      multi: true,
-      useFactory: registerCvcExtensions,
-      deps: [ActivatedRoute],
-    },
   ],
 })
 export class CvcForms2Module {}
