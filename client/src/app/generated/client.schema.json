@@ -7755,7 +7755,7 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "name": "Int",
+                "name": "String",
                 "kind": "SCALAR",
                 "ofType": null
               }
