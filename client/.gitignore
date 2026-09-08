@@ -39,6 +39,15 @@ speed-measure-plugin*.json
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
+
+# yarn berry (zero-install artifacts not used; keep only releases/plugins if added)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 testem.log
 /typings
 
