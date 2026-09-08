@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   Maybe,
@@ -22,6 +23,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-phenotype-popover',
   templateUrl: './phenotype-popover.component.html',
   styleUrls: ['./phenotype-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcPhenotypePopoverComponent

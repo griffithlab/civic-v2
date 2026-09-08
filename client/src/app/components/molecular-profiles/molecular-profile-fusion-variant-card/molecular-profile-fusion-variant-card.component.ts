@@ -1,12 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { VariantMolecularProfileCardFieldsFragment } from '@app/generated/civic.apollo'
 import { LinkableMolecularProfile } from '../molecular-profile-tag/molecular-profile-tag.component'
 
 @Component({
-    selector: 'cvc-mp-fusion-variant-card',
-    templateUrl: './molecular-profile-fusion-variant-card.component.html',
-    styleUrls: ['./molecular-profile-fusion-variant-card.component.less'],
-    standalone: false
+  selector: 'cvc-mp-fusion-variant-card',
+  templateUrl: './molecular-profile-fusion-variant-card.component.html',
+  styleUrls: ['./molecular-profile-fusion-variant-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcMolecularProfileFusionVariantCardComponent implements OnInit {
   @Input() variant!: VariantMolecularProfileCardFieldsFragment

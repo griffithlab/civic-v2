@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -48,6 +49,7 @@ export interface VariantTypesTableUserFilters {
   selector: 'cvc-variant-types-table',
   templateUrl: './variant-types-table.component.html',
   styleUrls: ['./variant-types-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcVariantTypesTableComponent implements OnInit, OnChanges {

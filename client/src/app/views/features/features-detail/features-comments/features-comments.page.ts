@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
@@ -6,10 +6,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-features-comments',
-    templateUrl: './features-comments.page.html',
-    styleUrls: ['./features-comments.page.less'],
-    standalone: false
+  selector: 'cvc-features-comments',
+  templateUrl: './features-comments.page.html',
+  styleUrls: ['./features-comments.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class FeaturesCommentsPage {
   commentable: CommentableInput

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
 import {
@@ -7,10 +7,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-molecular-profiles-events',
-    templateUrl: './molecular-profiles-events.page.html',
-    styleUrls: ['./molecular-profiles-events.page.less'],
-    standalone: false
+  selector: 'cvc-molecular-profiles-events',
+  templateUrl: './molecular-profiles-events.page.html',
+  styleUrls: ['./molecular-profiles-events.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MolecularProfilesEventsPage {
   feedScope: ActivityFeedScope

@@ -6,6 +6,7 @@ import {
   TemplateRef,
   Type,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
@@ -64,8 +65,7 @@ export interface CvcOriginSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcOriginSelectFieldConfig
-  extends FormlyFieldConfig<CvcOriginSelectFieldProps> {
+export interface CvcOriginSelectFieldConfig extends FormlyFieldConfig<CvcOriginSelectFieldProps> {
   type: 'origin-select' | Type<CvcOriginSelectField>
 }
 
@@ -81,6 +81,7 @@ const OriginSelectMixin = mixin(
   selector: 'cvc-origin-select',
   templateUrl: './origin-select.type.html',
   styleUrls: ['./origin-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcOriginSelectField

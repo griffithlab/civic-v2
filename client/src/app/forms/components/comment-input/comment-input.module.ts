@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { TextFieldModule } from '@angular/cdk/text-field'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcCommentInputForm } from './comment-input.form'
@@ -19,6 +20,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
   declarations: [CvcCommentInputForm],
   imports: [
     CommonModule,
+    TextFieldModule,
     ReactiveFormsModule,
     LetDirective,
     PushPipe,

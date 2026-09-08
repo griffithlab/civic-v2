@@ -16,7 +16,9 @@
           "
           nzMentionTrigger
           nz-input
-          [nzAutosize]="{ minRows: 4, maxRows: 100 }"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="4"
+          cdkAutosizeMaxRows="100"
           style="width: 100%"
           [attr.disabled]="viewer && viewer.canCurate ? null : true"
           [(ngModel)]="commentText"

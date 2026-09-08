@@ -1,11 +1,12 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
-    selector: 'cvc-organizations-source-suggestions',
-    templateUrl: './organizations-source-suggestions.component.html',
-    styleUrls: ['./organizations-source-suggestions.component.less'],
-    standalone: false
+  selector: 'cvc-organizations-source-suggestions',
+  templateUrl: './organizations-source-suggestions.component.html',
+  styleUrls: ['./organizations-source-suggestions.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class OrganizationsSourceSuggestionsComponent {
   userId: number

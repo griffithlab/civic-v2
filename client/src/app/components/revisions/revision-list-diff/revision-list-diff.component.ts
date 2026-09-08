@@ -4,14 +4,16 @@ import {
   ContentChild,
   TemplateRef,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ObjectFieldDiff } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-revision-list-diff',
-    templateUrl: './revision-list-diff.component.html',
-    styleUrls: ['./revision-list-diff.component.less'],
-    standalone: false
+  selector: 'cvc-revision-list-diff',
+  templateUrl: './revision-list-diff.component.html',
+  styleUrls: ['./revision-list-diff.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class RevisionListDiffComponent implements OnInit {
   @Input() diffObject!: ObjectFieldDiff

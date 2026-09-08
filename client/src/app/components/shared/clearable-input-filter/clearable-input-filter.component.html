@@ -1,4 +1,4 @@
-<nz-input-group [nzSuffix]="clearTmpl">
+<nz-input-wrapper>
   <input
     type="text"
     nz-input
@@ -6,14 +6,14 @@
     [placeholder]="placeholderText ? placeholderText : ''"
     [(ngModel)]="inputModel"
     (ngModelChange)="onModelUpdated()" />
-</nz-input-group>
-<ng-template #clearTmpl>
-  @if (inputModel) {
-    <i
-      nz-icon
-      class="ant-input-clear-icon"
-      nzTheme="fill"
-      nzType="close-circle"
-      (click)="inputModel = undefined; onModelUpdated()"></i>
-  }
-</ng-template>
+  <span nzInputSuffix>
+    @if (inputModel) {
+      <i
+        nz-icon
+        class="ant-input-clear-icon"
+        nzTheme="fill"
+        nzType="close-circle"
+        (click)="inputModel = undefined; onModelUpdated()"></i>
+    }
+  </span>
+</nz-input-wrapper>

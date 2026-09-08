@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   CommentableInput,
   CommentListGQL,
@@ -28,6 +33,7 @@ interface CommentTagSegmentWithId {
   selector: 'cvc-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcCommentListComponent implements OnInit {

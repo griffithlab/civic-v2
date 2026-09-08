@@ -1,4 +1,10 @@
-import { Component, OnDestroy, signal, WritableSignal } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  signal,
+  WritableSignal,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
   MutationState,
@@ -56,6 +62,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
   ],
   selector: 'cvc-user-api-keys-form',
   templateUrl: './user-api-keys.form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./user-api-keys.form.less'],
 })
 export class CvcUserApiKeysForm implements OnDestroy {

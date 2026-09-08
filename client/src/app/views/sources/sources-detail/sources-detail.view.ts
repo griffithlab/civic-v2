@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -18,6 +18,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-sources-detail',
   templateUrl: './sources-detail.view.html',
   styleUrls: ['./sources-detail.view.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SourcesDetailView implements OnDestroy {

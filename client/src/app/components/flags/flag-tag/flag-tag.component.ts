@@ -4,6 +4,7 @@ import {
   Input,
   QueryList,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
@@ -22,6 +23,7 @@ export interface Subject {
 @Component({
   selector: 'cvc-flag-tag',
   templateUrl: './flag-tag.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcFlagTagComponent implements AfterViewInit {

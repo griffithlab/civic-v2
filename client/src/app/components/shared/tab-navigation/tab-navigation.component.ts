@@ -1,4 +1,10 @@
-import { Component, ContentChild, Input, TemplateRef } from '@angular/core'
+import {
+  Component,
+  ContentChild,
+  Input,
+  TemplateRef,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { Maybe, SubscribableInput } from '@app/generated/civic.apollo'
 import { Router } from '@angular/router'
 
@@ -11,10 +17,11 @@ export interface RouteableTab {
 }
 
 @Component({
-    selector: 'cvc-tab-navigation',
-    templateUrl: './tab-navigation.component.html',
-    styleUrls: ['./tab-navigation.component.less'],
-    standalone: false
+  selector: 'cvc-tab-navigation',
+  templateUrl: './tab-navigation.component.html',
+  styleUrls: ['./tab-navigation.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcTabNavigationComponent {
   @Input() entity: Maybe<SubscribableInput>

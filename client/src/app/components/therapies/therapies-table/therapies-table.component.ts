@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -50,6 +51,7 @@ export interface TherapyTableUserFilters {
   selector: 'cvc-therapies-table',
   templateUrl: './therapies-table.component.html',
   styleUrls: ['./therapies-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcTherapiesTableComponent implements OnInit, OnChanges {

@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
@@ -13,10 +19,11 @@ import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-user-coi-form',
-    templateUrl: './user-coi.form.html',
-    styleUrls: ['./user-coi.form.less'],
-    standalone: false
+  selector: 'cvc-user-coi-form',
+  templateUrl: './user-coi.form.html',
+  styleUrls: ['./user-coi.form.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcUserCoiForm implements OnDestroy {
   @Output() coiUpdatedEvent = new EventEmitter<void>()

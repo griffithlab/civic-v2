@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
@@ -26,6 +33,7 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
   selector: 'cvc-revert-entity-button',
   templateUrl: './revert-entity-button.component.html',
   styleUrls: ['./revert-entity-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcRevertEntityButtonComponent implements OnInit {

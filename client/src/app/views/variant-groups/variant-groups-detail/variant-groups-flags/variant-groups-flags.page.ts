@@ -1,13 +1,14 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-variant-groups-flags',
-    templateUrl: './variant-groups-flags.page.html',
-    styleUrls: ['./variant-groups-flags.page.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-flags',
+  templateUrl: './variant-groups-flags.page.html',
+  styleUrls: ['./variant-groups-flags.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class VariantGroupsFlagsPage implements OnDestroy {
   flaggable?: FlaggableInput

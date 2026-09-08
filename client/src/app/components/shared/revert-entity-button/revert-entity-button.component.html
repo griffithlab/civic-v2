@@ -55,7 +55,9 @@
           (click)="revert()"
           nz-tooltip
           [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
-          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+          [nzTooltipTitle]="
+            'For ' + $safeNavigationMigration(mostRecentOrg?.name)
+          ">
           Revert
         </button>
         &nbsp;

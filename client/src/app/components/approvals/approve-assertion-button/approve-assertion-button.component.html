@@ -87,7 +87,9 @@
       (click)="perform()"
       nz-tooltip
       [nzTooltipTrigger]="mostRecentOrg() ? 'hover' : null"
-      [nzTooltipTitle]="'For ' + mostRecentOrg()?.name">
+      [nzTooltipTitle]="
+        'For ' + $safeNavigationMigration(mostRecentOrg()?.name)
+      ">
       {{ label }}
     </button>
   }
@@ -101,7 +103,9 @@
       (click)="perform()"
       nz-tooltip
       [nzTooltipTrigger]="mostRecentOrg() ? 'hover' : null"
-      [nzTooltipTitle]="'For ' + mostRecentOrg()?.name">
+      [nzTooltipTitle]="
+        'For ' + $safeNavigationMigration(mostRecentOrg()?.name)
+      ">
       Revoke Approval
     </button>
   }

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-assertions-revisions',
-    templateUrl: './assertions-revisions.page.html',
-    standalone: false
+  selector: 'cvc-assertions-revisions',
+  templateUrl: './assertions-revisions.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AssertionsRevisionsPage implements OnInit {
   subject!: ModeratedInput

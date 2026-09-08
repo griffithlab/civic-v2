@@ -36,8 +36,7 @@
           <nz-form-item>
             <nz-form-label>Name Filter</nz-form-label>
             <nz-form-control>
-              <nz-input-group
-                [nzSuffix]="nameInputClearTpl"
+              <nz-input-wrapper
                 id="name-filter-group"
                 nzSize="small">
                 <input
@@ -47,7 +46,7 @@
                   name="name-filter"
                   (ngModelChange)="onModelUpdated()"
                   [(ngModel)]="variantNameFilter" />
-                <ng-template #nameInputClearTpl>
+                <span nzInputSuffix>
                   @if (variantNameFilter) {
                     <i
                       nz-icon
@@ -58,8 +57,8 @@
                         variantNameFilter = undefined; onModelUpdated()
                       "></i>
                   }
-                </ng-template>
-              </nz-input-group>
+                </span>
+              </nz-input-wrapper>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>

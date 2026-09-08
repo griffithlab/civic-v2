@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common'
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
@@ -29,6 +34,7 @@ import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-s
   selector: 'cvc-fusion-summary',
   templateUrl: './fusion-summary.page.html',
   styleUrls: ['./fusion-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     NzGridModule,

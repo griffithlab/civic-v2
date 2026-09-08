@@ -23,7 +23,9 @@
         nzSize="small">
         <nz-descriptions-item nzTitle="status">
           <cvc-form-status-tag
-            [cvcFormControlStatus]="cvcForm?.status"></cvc-form-status-tag>
+            [cvcFormControlStatus]="
+              $safeNavigationMigration(cvcForm?.status)
+            "></cvc-form-status-tag>
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="pending">
           {{ cvcForm?.pending }}
@@ -62,7 +64,9 @@
       nzFlex="3"
       class="form-status-col">
       <cvc-form-status-tag
-        [cvcFormControlStatus]="cvcForm?.status"></cvc-form-status-tag>
+        [cvcFormControlStatus]="
+          $safeNavigationMigration(cvcForm?.status)
+        "></cvc-form-status-tag>
     </nz-col>
   </nz-row>
 </ng-template>

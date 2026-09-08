@@ -4,6 +4,7 @@ import {
   ViewChildren,
   QueryList,
   AfterViewInit,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 import { Maybe } from '@app/generated/civic.apollo'
@@ -24,6 +25,7 @@ export interface Subject {
 @Component({
   selector: 'cvc-revision-tag',
   templateUrl: './revision-tag.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcRevisionTagComponent implements AfterViewInit {

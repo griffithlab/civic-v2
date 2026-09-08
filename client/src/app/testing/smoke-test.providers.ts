@@ -3,6 +3,7 @@ import {
   HttpResponse,
   provideHttpClient,
   withInterceptors,
+  withXhr,
 } from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { NEVER, of } from 'rxjs'
@@ -27,6 +28,7 @@ export function smokeTestProviders(): (Provider | EnvironmentProviders)[] {
       },
     },
     provideHttpClient(
+      withXhr(),
       withInterceptors([
         (req, next) =>
           req.url === '/api/status'

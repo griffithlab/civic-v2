@@ -1,9 +1,10 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
-    selector: 'cvc-login-prompt',
-    templateUrl: './login-prompt.component.html',
-    styleUrls: ['./login-prompt.component.less'],
-    standalone: false
+  selector: 'cvc-login-prompt',
+  templateUrl: './login-prompt.component.html',
+  styleUrls: ['./login-prompt.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcLoginPromptComponent {}

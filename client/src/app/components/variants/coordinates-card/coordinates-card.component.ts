@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   VariantCoordinateType,
   CoordinatesCardFieldsFragment,
@@ -16,6 +21,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-coordinates-card',
   templateUrl: './coordinates-card.component.html',
   styleUrls: ['./coordinates-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcCoordinatesCard implements OnInit {

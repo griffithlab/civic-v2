@@ -1,11 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-evidence-suggest',
-    templateUrl: './evidence-suggest.page.html',
-    standalone: false
+  selector: 'cvc-evidence-suggest',
+  templateUrl: './evidence-suggest.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class EvidenceSuggestPage implements OnDestroy {
   evidenceId?: number

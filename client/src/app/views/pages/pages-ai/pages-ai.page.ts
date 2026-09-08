@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'cvc-pages-ai',
   templateUrl: './pages-ai.page.html',
   styleUrls: ['./pages-ai.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class PagesAiPage implements OnInit {

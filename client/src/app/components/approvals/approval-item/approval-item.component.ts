@@ -1,4 +1,9 @@
-import { Component, input, Signal } from '@angular/core'
+import {
+  Component,
+  input,
+  Signal,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
@@ -50,6 +55,7 @@ import { CommonModule } from '@angular/common'
     CvcApproveAssertionButtonComponent,
   ],
   templateUrl: './approval-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './approval-item.component.less',
 })
 export class CvcApprovalItemComponent {

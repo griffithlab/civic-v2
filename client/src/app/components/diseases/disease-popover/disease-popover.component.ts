@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   DiseasePopover,
@@ -20,6 +21,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-disease-popover',
   templateUrl: './disease-popover.component.html',
   styleUrls: ['./disease-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcDiseasePopoverComponent implements OnInit {

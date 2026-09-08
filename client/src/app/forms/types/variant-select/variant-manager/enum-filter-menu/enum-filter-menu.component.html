@@ -24,7 +24,7 @@
       nzBlock
       nzSize="small"
       (click)="cvcOptionChange.next({ key: cvcColumnKey, value: null })"
-      [disabled]="cvcOption?.value === null">
+      [disabled]="$safeNavigationMigration(cvcOption?.value) === null">
       <span
         nz-icon
         nzType="retweet"

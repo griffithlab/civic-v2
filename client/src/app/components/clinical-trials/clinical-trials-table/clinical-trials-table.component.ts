@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -55,6 +56,7 @@ export interface ClinicalTrialsTableUserFilters {
   selector: 'cvc-clinical-trials-table',
   templateUrl: './clinical-trials-table.component.html',
   styleUrls: ['./clinical-trials-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcClinicalTrialsTableComponent implements OnInit {

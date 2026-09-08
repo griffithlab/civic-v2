@@ -14,7 +14,7 @@
               nz-button
               nzBlock
               nzType="default"
-              (click)="loadMore(pageInfo?.endCursor)"
+              (click)="loadMore($safeNavigationMigration(pageInfo?.endCursor))"
               *nzSpaceItem>
               Load More
             </button>
@@ -28,7 +28,8 @@
     </nz-col>
     <nz-col nzSpan="6">
       <nz-space nzDirection="vertical">
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Flag State"
           [preselectedOption]="selectableStates[0]"
           [participantList]="selectableStates"
@@ -39,7 +40,8 @@
             <span>{{ state.displayName }}</span>
           </ng-template>
         </cvc-participant-list>
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Flagging Users"
           [participantList]="(uniqueFlaggingUsers$ | ngrxPush) || []"
           (participantSelectedEvent)="onFlaggingUsersSelected($event)">
@@ -59,7 +61,8 @@
             <span>{{ user.username }}</span>
           </ng-template>
         </cvc-participant-list>
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Resolving Users"
           [participantList]="(uniqueResolvingUsers$ | ngrxPush) || []"
           (participantSelectedEvent)="onResolvingUsersSelected($event)">

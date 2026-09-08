@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -26,6 +32,7 @@ import { isNonNulled } from 'rxjs-etc'
   selector: 'cvc-entity-subscription-button',
   templateUrl: './entity-subscription-button.component.html',
   styleUrls: ['./entity-subscription-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcEntitySubscriptionButtonComponent implements OnInit, OnDestroy {

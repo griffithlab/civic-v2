@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   Maybe,
   PageInfo,
@@ -20,6 +25,7 @@ import { isNonNulled } from 'rxjs-etc'
   selector: 'cvc-fusions-menu',
   templateUrl: './fusions-menu.component.html',
   styleUrls: ['./fusions-menu.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcFusionsMenuComponent implements OnInit {

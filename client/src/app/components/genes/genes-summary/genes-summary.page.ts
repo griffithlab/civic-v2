@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 
 import {
   SubscribableEntities,
@@ -7,10 +12,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-genes-summary',
-    templateUrl: './genes-summary.page.html',
-    styleUrls: ['./genes-summary.page.less'],
-    standalone: false
+  selector: 'cvc-genes-summary',
+  templateUrl: './genes-summary.page.html',
+  styleUrls: ['./genes-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class GenesSummaryPage implements OnInit {
   @Input() gene!: GeneSummaryFieldsFragment

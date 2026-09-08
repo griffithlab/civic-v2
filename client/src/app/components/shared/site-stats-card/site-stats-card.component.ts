@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   CivicStatsGQL,
@@ -16,6 +16,7 @@ type StatTimeOption = 'allTime' | 'newThisYear' | 'newThisMonth' | 'newThisWeek'
   selector: 'cvc-site-stats-card',
   templateUrl: './site-stats-card.component.html',
   styleUrls: ['./site-stats-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcSiteStatsCardComponent implements OnInit {

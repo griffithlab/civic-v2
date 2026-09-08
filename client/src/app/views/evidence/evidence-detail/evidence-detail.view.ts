@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { QueryRef } from 'apollo-angular'
 import {
   EvidenceDetailFieldsFragment,
@@ -21,6 +21,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'evidence-detail',
   templateUrl: './evidence-detail.view.html',
   styleUrls: ['./evidence-detail.view.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class EvidenceDetailView implements OnDestroy {

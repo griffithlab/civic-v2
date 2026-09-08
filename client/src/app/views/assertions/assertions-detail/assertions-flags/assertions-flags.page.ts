@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   AssertionDetailGQL,
@@ -10,6 +10,7 @@ import {
   selector: 'cvc-assertions-flags',
   templateUrl: './assertions-flags.page.html',
   styleUrls: ['./assertions-flags.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AssertionsFlagsPage {

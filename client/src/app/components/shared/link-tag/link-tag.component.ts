@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-link-tag',
-    templateUrl: './link-tag.component.html',
-    standalone: false
+  selector: 'cvc-link-tag',
+  templateUrl: './link-tag.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcLinkTagComponent {
   _href: Maybe<string>

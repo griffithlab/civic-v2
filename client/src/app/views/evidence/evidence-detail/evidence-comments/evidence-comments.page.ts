@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
@@ -9,10 +9,11 @@ import {
 import { Apollo } from 'apollo-angular'
 
 @Component({
-    selector: 'cvc-evidence-comments',
-    templateUrl: './evidence-comments.page.html',
-    styleUrls: ['./evidence-comments.page.less'],
-    standalone: false
+  selector: 'cvc-evidence-comments',
+  templateUrl: './evidence-comments.page.html',
+  styleUrls: ['./evidence-comments.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class EvidenceCommentsPage implements OnInit {
   commentable: CommentableInput

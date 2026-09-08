@@ -5,6 +5,7 @@ import {
   OnDestroy,
   Output,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 
 import { Subject } from 'rxjs'
@@ -29,6 +30,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
   selector: 'cvc-update-source-suggestion-form',
   templateUrl: './update-source-suggestion.form.html',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcUpdateSourceSuggestionForm implements OnDestroy {

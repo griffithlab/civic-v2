@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -20,6 +20,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'molecular-profiles-detail',
   templateUrl: './molecular-profiles-detail.view.html',
   styleUrls: ['./molecular-profiles-detail.view.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class MolecularProfilesDetailView implements OnDestroy {

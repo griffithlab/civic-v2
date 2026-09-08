@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -23,6 +23,7 @@ export type CuratableEntityCounts = {
   ],
   templateUrl: './entity-child-counts.component.component.html',
   styleUrl: './entity-child-counts.component.component.less',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class CvcEntityChildCounts {
