@@ -9,6 +9,11 @@
         nzType="civic-variant"
         nzTheme="twotone"
         [nzTwotoneColor]="'Variant' | entityColor"></i>
+      <span
+        nz-typography
+        nzType="secondary">
+        {{ variant.feature.name }}
+      </span>
       {{ variant.name }}
     </ng-template>
     <nz-row [nzGutter]="[8, 16]">
