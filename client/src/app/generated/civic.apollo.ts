@@ -5628,6 +5628,8 @@ export type Query = {
   userTypeahead: Array<User>;
   /** List and filter users. */
   users: UserConnection;
+  /** Find valid specifications that match a given assertion's assertion type */
+  validSpecifications: Array<Specification>;
   validateRevisionsForAcceptance: ValidationErrors;
   /** Find a variant by CIViC ID */
   variant?: Maybe<VariantInterface>;
@@ -6495,6 +6497,11 @@ export type QueryUsersArgs = {
   organization?: InputMaybe<OrganizationFilter>;
   role?: InputMaybe<UserRole>;
   username?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryValidSpecificationsArgs = {
+  assertionId: Scalars['Int']['input'];
 };
 
 
@@ -10848,6 +10855,13 @@ export type SourceSuggestionChecksQueryVariables = Exact<{
 
 export type SourceSuggestionChecksQuery = { __typename: 'Query', source?: { __typename: 'Source', fullyCurated: boolean } | undefined, sourceSuggestions: { __typename: 'SourceSuggestionConnection', filteredCount: number } };
 
+export type ValidSpecificationsQueryVariables = Exact<{
+  assertionId: Scalars['Int']['input'];
+}>;
+
+
+export type ValidSpecificationsQuery = { __typename: 'Query', validSpecifications: Array<{ __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }> };
+
 export type SpecificationFormConfigQueryVariables = Exact<{
   specificationId: Scalars['Int']['input'];
 }>;
@@ -11178,13 +11192,13 @@ export type SpecificationCriteriumSelectTagQueryVariables = Exact<{
 
 export type SpecificationCriteriumSelectTagQuery = { __typename: 'Query', specificationCriterium?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
 
-export type ValidSpecificationsQueryVariables = Exact<{
+export type ValidSpecificationsOldQueryVariables = Exact<{
   orgId?: InputMaybe<Scalars['Int']['input']>;
   assertionType: AssertionType;
 }>;
 
 
-export type ValidSpecificationsQuery = { __typename: 'Query', specifications: Array<{ __typename: 'Specification', id: number, name: string, version: string }> };
+export type ValidSpecificationsOldQuery = { __typename: 'Query', specifications: Array<{ __typename: 'Specification', id: number, name: string, version: string }> };
 
 export type SpecificationSelectFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string };
 
@@ -19415,6 +19429,24 @@ export const SourceSuggestionChecksDocument = gql`
       super(apollo);
     }
   }
+export const ValidSpecificationsDocument = gql`
+    query ValidSpecifications($assertionId: Int!) {
+  validSpecifications(assertionId: $assertionId) {
+    ...SpecificationDetailConfigFields
+  }
+}
+    ${SpecificationDetailConfigFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidSpecificationsGQL extends Apollo.Query<ValidSpecificationsQuery, ValidSpecificationsQueryVariables> {
+    document = ValidSpecificationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const SpecificationFormConfigDocument = gql`
     query SpecificationFormConfig($specificationId: Int!) {
   specificationFormConfig(specificationId: $specificationId) {
@@ -20176,8 +20208,8 @@ export const SpecificationCriteriumSelectTagDocument = gql`
       super(apollo);
     }
   }
-export const ValidSpecificationsDocument = gql`
-    query ValidSpecifications($orgId: Int, $assertionType: AssertionType!) {
+export const ValidSpecificationsOldDocument = gql`
+    query ValidSpecificationsOld($orgId: Int, $assertionType: AssertionType!) {
   specifications(organizationId: $orgId, assertionType: $assertionType) {
     ...SpecificationSelectFields
   }
@@ -20187,8 +20219,8 @@ export const ValidSpecificationsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class ValidSpecificationsGQL extends Apollo.Query<ValidSpecificationsQuery, ValidSpecificationsQueryVariables> {
-    document = ValidSpecificationsDocument;
+  export class ValidSpecificationsOldGQL extends Apollo.Query<ValidSpecificationsOldQuery, ValidSpecificationsOldQueryVariables> {
+    document = ValidSpecificationsOldDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -30,7 +30,6 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component';
-import { CvcSpecificationSubmitFormModule } from '@app/forms/config/specification-submit/specification-submit.form.module';
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -66,7 +65,6 @@ import { CvcSpecificationSubmitFormModule } from '@app/forms/config/specificatio
     CvcMolecularProfileTagNameModule,
     CvcCommentBodyModule,
     CvcEntityDescription,
-    CvcSpecificationSubmitFormModule
   ],
 })
 export class EvidenceSummaryModule {}

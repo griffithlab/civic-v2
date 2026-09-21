@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { SpecificationDetailConfigFieldsFragment, SpecificationFormConfigGQL } from '@app/generated/civic.apollo'
+import { Maybe, SpecificationDetailConfigFieldsFragment, SpecificationFormConfigGQL, ValidSpecificationsGQL } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -24,10 +24,12 @@ import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-de
 })
 export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   @Input() specificationId!: number
+  @Input() assertionId: Maybe<number>
   // todo: make a type for this
   model = {}
   form: UntypedFormGroup
   fields?: FormlyFieldConfig[]
+  validSpecifications: SpecificationDetailConfigFieldsFragment[] = []
   specificationInfo?: SpecificationDetailConfigFieldsFragment
 
 // reviseEvidenceMutator: MutatorWithState<
@@ -40,6 +42,7 @@ mutationState?: MutationState
 url?: string
 
 constructor(
+  private validSpecificationsGQL: ValidSpecificationsGQL,
   private specificationConfigGQL: SpecificationFormConfigGQL,
   //private submitRevisionsGQL: SuggestGeneRevisionGQL,
   private networkErrorService: NetworkErrorsService,
@@ -55,6 +58,19 @@ ngOnInit() {
 }
 
 ngAfterViewInit(): void {
+  if (this.assertionId) {
+    this.validSpecificationsGQL
+    .fetch({ assertionId: this.assertionId})
+    .pipe(untilDestroyed(this))
+    .subscribe({
+      next: ({ data: { validSpecifications }}) => {
+        if (validSpecifications) {
+          this.validSpecifications = validSpecifications
+        }
+      }
+    })
+  }
+
   this.specificationConfigGQL
   .fetch({ specificationId: this.specificationId})
   .pipe(untilDestroyed(this))

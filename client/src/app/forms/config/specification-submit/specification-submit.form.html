@@ -1,22 +1,22 @@
-  @if(fields && specificationInfo) {
-    <h3>{{specificationInfo.name}} (v {{specificationInfo.version }})</h3>
-    <cvc-link-tag
-      [href]="specificationInfo.specificationUrl"
-      tooltip="View Specification Document">
-      Document
-    </cvc-link-tag>
-    <nz-divider></nz-divider>
-    <form
-      nz-form
-      nzLayout="vertical"
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()">
-      <formly-form
-        [form]="form"
-        [fields]="fields"
-        [model]="model"
-        [options]="{}"
-        (modelChange)="model = $event">
-      </formly-form>
-    </form>
-  }
+@if(fields && specificationInfo) {
+  <h3>{{specificationInfo.name}} (v {{specificationInfo.version }})</h3>
+  <cvc-link-tag
+    [href]="specificationInfo.specificationUrl"
+    tooltip="View Specification Document">
+    Document
+  </cvc-link-tag>
+  <nz-divider></nz-divider>
+  <form
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      [options]="{}"
+      (modelChange)="model = $event">
+    </formly-form>
+  </form>
+}

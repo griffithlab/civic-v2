@@ -11003,6 +11003,11 @@ type Query {
     """
     username: String
   ): UserConnection!
+
+  """
+  Find valid specifications that match a given assertion's assertion type
+  """
+  validSpecifications(assertionId: Int!): [Specification!]!
   validateRevisionsForAcceptance(
     """
     A list of CIViC Revisions IDs to validate

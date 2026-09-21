@@ -1,3 +1,9 @@
+query ValidSpecifications($assertionId: Int!) {
+  validSpecifications(assertionId: $assertionId) {
+    ...SpecificationDetailConfigFields
+  }
+}
+
 query SpecificationFormConfig($specificationId: Int!) {
   specificationFormConfig(specificationId: $specificationId) {
     ...SpecificationConfigFields

@@ -10,7 +10,7 @@ query specificationCriteriumSelectTag($id: Int!) {
   }
 }
 
-query ValidSpecifications($orgId: Int, $assertionType: AssertionType!) {
+query ValidSpecificationsOld($orgId: Int, $assertionType: AssertionType!) {
   specifications(organizationId: $orgId, assertionType: $assertionType) {
     ...SpecificationSelectFields
   }

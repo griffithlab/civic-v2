@@ -44,6 +44,14 @@ const routes: Routes = [
               ).then((m) => m.AssertionsReviseModule),
             data: { breadcrumb: 'Revise' },
           },
+          {
+            path: 'specification_codes_add',
+            loadChildren: () =>
+              import(
+                '@app/views/assertions/assertion-specification-codes-add/assertion-specification-codes-add.module'
+              ).then((m) => m.AssertionSpecificationCodesAddModule),
+            data: { breadcrumb: 'Specification Codes' },
+          },
         ],
       },
     ],
@@ -53,6 +61,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./assertion-add/assertion-add.module').then(
         (m) => m.AssertionAddModule
+      ),
+  },
+  {
+    path: 'specification_codes_add',
+    loadChildren: () =>
+      import('./assertion-specification-codes-add/assertion-specification-codes-add.module').then(
+        (m) => m.AssertionSpecificationCodesAddModule
       ),
   },
 ]

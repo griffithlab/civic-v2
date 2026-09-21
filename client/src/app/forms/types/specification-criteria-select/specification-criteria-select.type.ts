@@ -30,7 +30,7 @@ import {
   Maybe,
   SpecificationCriteriumSelectTypeaheadFieldsFragment,
   AssertionType,
-  ValidSpecificationsGQL,
+  ValidSpecificationsOldGQL,
   SpecificationSelectFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
@@ -145,7 +145,7 @@ export class CvcSpecificationCriteriaSelectField
   constructor(
     private taq: SpecificationCriteriumSelectTypeaheadGQL,
     private tq: SpecificationCriteriumSelectTagGQL,
-    private vsq: ValidSpecificationsGQL,
+    private vsq: ValidSpecificationsOldGQL,
     private viewerService: ViewerService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
