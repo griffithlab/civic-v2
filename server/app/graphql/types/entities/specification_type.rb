@@ -18,6 +18,7 @@ module Types::Entities
     field :specification_criterium, [ Types::Entities::SpecificationCriteriumType ], null: false
     field :evaluation_method, Types::Entities::SpecificationEvaluationMethodType, null: false
     field :assessment_groups, [ Types::Entities::AssessmentGroupType ], null: false
+    field :assessment_group_order, [ String ], null: false
 
     def organization
       Loaders::AssociationLoader.for(Specification, :organization).load(object)

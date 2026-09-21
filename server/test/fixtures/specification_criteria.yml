@@ -1,0 +1,167 @@
+  clingen_ovs1:
+    specification: clingen_specification
+    criterium: OVS1
+    description: "Null variant in a tumor suppressor gene"
+    assessment_group: Primary Sequence Consequence
+    modifiers: {Strong: null, Moderate: null, Supporting: null}
+    point_value: null
+    mutually_exclusive_codes: [OM2]
+
+  clingen_os1:
+    specification: clingen_specification
+    criterium: OS1
+    description: "Same amino acid change as a previously established oncogenic variant"
+    assessment_group: Amino Acid or Residue Analogy
+    modifiers: {Moderate: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: [OM1, OM3]
+
+  clingen_os2:
+    specification: clingen_specification
+    criterium: OS2
+    description: "In vitro or in vivo functional studies, supportive of an oncogenic effect"
+    assessment_group: Functional Assay
+    modifiers: {Moderate: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_os3:
+    specification: clingen_specification
+    criterium: OS3
+    description: >-
+      In cancerhotspots.org with at least 50 samples with same amino acid position,
+      and the same amino acid change count in at least 10 samples.
+    assessment_group: Somatic Hotspot Recurrence
+    modifiers: {Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: [OM1, OM3]
+
+  clingen_om1:
+    specification: clingen_specification
+    criterium: OM1
+    description: "Located in a critical and well-established part of a functional domain"
+    assessment_group: Functional Domain Location
+    modifiers: {Strong: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: [OS1, OS3, OM3, OM4]
+
+  clingen_om2:
+    specification: clingen_specification
+    criterium: OM2
+    description: >-
+      In-frame deletions/insertions in a known oncogene or tumor suppressor or
+      stop-loss in tumor suppressor
+    assessment_group: Primary Sequence Consequence
+    modifiers: {Strong: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: [OVS1]
+
+  clingen_om3:
+    specification: clingen_specification
+    criterium: OM3
+    description: "Missense variant at an amino acid residue where different missense variant determined oncogenic"
+    assessment_group: Somatic Hotspot Recurrence
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: [OS1, OS3, OM1, OM4]
+
+  clingen_om4:
+    specification: clingen_specification
+    criterium: OM4
+    description: >-
+      In cancerhotspots.org with less than 50 samples with same amino acid position,
+      and the same amino acid change count in at least 10 samples
+    assessment_group: Amino Acid or Residue Analogy
+    modifiers: {Strong: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: [OM1, OM3]
+
+  clingen_op1:
+    specification: clingen_specification
+    criterium: OP1
+    description: "computational evidence support an oncogenic effect of a variant"
+    assessment_group: Computational Prediction
+    modifiers: {Strong: null, Moderate: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_op2:
+    specification: clingen_specification
+    criterium: OP2
+    description: "Somatic variant in a gene in a malignancy with a single genetic etiology."
+    assessment_group: Single Genetic Etiology Context
+    modifiers: {Strong: null, Moderate: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_op3:
+    specification: clingen_specification
+    criterium: OP3
+    description: "Located in cancerhotspots.org and the amino acid change count is below 10"
+    assessment_group: Somatic Hotspot Recurrence
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_op4:
+    specification: clingen_specification
+    criterium: OP4
+    description: "Absent from controls (or extremely low frequency) in gnomAD"
+    assessment_group: Population Frequency
+    modifiers: {Strong: null, Moderate: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_sbvs1:
+    specification: clingen_specification
+    criterium: SBVS1
+    description: "Minor allele frequency is >5% in gnomAD in any of 5 of general populations"
+    assessment_group: Population Frequency
+    modifiers: {Strong: null, Moderate: null, Supporting: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_sbs1:
+    specification: clingen_specification
+    criterium: SBS1
+    description: "Minor allele frequency is >1% in gnomAD in any of 5 of general populations"
+    assessment_group: Population Frequency
+    modifiers: {Moderate: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_sbs2:
+    specification: clingen_specification
+    criterium: SBS2
+    description: "In vitro or in vivo functional studies, supportive of no oncogenic effect"
+    assessment_group: Functional Assay
+    modifiers: {Moderate: null, Supporting: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_sbp1:
+    specification: clingen_specification
+    criterium: SBP1
+    description: "computational evidence does not support an oncogenic effect of a variant"
+    assessment_group: Computational Prediction
+    modifiers: {Strong: null, Moderate: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_sbp2:
+    specification: clingen_specification
+    criterium: SBP2
+    description: "A synonymous variant for which splicing prediction algorithms predict no effect"
+    assessment_group: Primary Sequence Consequence
+    modifiers: {Strong: null, Moderate: null, Very-strong: null}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  clingen_not_applicable:
+    specification: clingen_specification
+    criterium: "N/A"
+    description: "ClinGen codes are not applicable to this Assertion type"
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null

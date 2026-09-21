@@ -2057,7 +2057,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'region' | 'regionVariantNamesForFeatureId' | 'regions' | 'remoteCitation' | 'revision' | 'revisionSets' | 'revisions' | 'search' | 'searchAssertions' | 'searchByPermalink' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchPhenotypes' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'specification' | 'specificationCriterium' | 'specificationCriteriumTypeahead' | 'specifications' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'activities' | 'activity' | 'approvals' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseFeatures' | 'browseMolecularProfiles' | 'browseOrganizations' | 'browsePhenotypes' | 'browseSources' | 'browseTherapies' | 'browseUsers' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'cytogeneticRegion' | 'cytogeneticRegionTypeahead' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'diseases' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'factor' | 'factors' | 'feature' | 'featureTypeahead' | 'flag' | 'flags' | 'fusion' | 'fusions' | 'gene' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'newsItems' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'region' | 'regionVariantNamesForFeatureId' | 'regions' | 'remoteCitation' | 'revision' | 'revisionSets' | 'revisions' | 'search' | 'searchAssertions' | 'searchByPermalink' | 'searchDiseases' | 'searchEvidenceItems' | 'searchFeatures' | 'searchMolecularProfiles' | 'searchPhenotypes' | 'searchSources' | 'searchTherapies' | 'searchUsers' | 'searchVariantTypes' | 'searchVariants' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'sources' | 'specification' | 'specificationCriterium' | 'specificationCriteriumTypeahead' | 'specificationFormConfig' | 'specifications' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'variantsTypeahead' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2149,6 +2149,7 @@ export type QueryFieldPolicy = {
 	specification?: FieldPolicy<any> | FieldReadFunction<any>,
 	specificationCriterium?: FieldPolicy<any> | FieldReadFunction<any>,
 	specificationCriteriumTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
+	specificationFormConfig?: FieldPolicy<any> | FieldReadFunction<any>,
 	specifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscriptionForEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapies?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2536,9 +2537,10 @@ export type SourceSuggestionValuesFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'name' | 'organization' | 'organizationId' | 'publishedOn' | 'sopPubmedId' | 'specificationCriterium' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
+export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'name' | 'organization' | 'organizationId' | 'publishedOn' | 'sopPubmedId' | 'specificationCriterium' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
 export type SpecificationFieldPolicy = {
 	assertionType?: FieldPolicy<any> | FieldReadFunction<any>,
+	assessmentGroupOrder?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	evaluationMethod?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2552,7 +2554,13 @@ export type SpecificationFieldPolicy = {
 	specificationUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationCriteriumKeySpecifier = ('assessmentGroup' | 'criterium' | 'description' | 'exclusive' | 'id' | 'modifiers' | 'score' | 'specification' | SpecificationCriteriumKeySpecifier)[];
+export type SpecificationAssessmentGroupKeySpecifier = ('description' | 'name' | 'specificationCriterium' | SpecificationAssessmentGroupKeySpecifier)[];
+export type SpecificationAssessmentGroupFieldPolicy = {
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	specificationCriterium?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SpecificationCriteriumKeySpecifier = ('assessmentGroup' | 'criterium' | 'description' | 'exclusive' | 'id' | 'modifiers' | 'mutuallyExclusiveCodes' | 'orderWithinAssessmentGroup' | 'pointValue' | 'specification' | SpecificationCriteriumKeySpecifier)[];
 export type SpecificationCriteriumFieldPolicy = {
 	assessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	criterium?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2560,7 +2568,9 @@ export type SpecificationCriteriumFieldPolicy = {
 	exclusive?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	modifiers?: FieldPolicy<any> | FieldReadFunction<any>,
-	score?: FieldPolicy<any> | FieldReadFunction<any>,
+	mutuallyExclusiveCodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	orderWithinAssessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
+	pointValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	specification?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SpecificationEvaluationKeySpecifier = ('assertion' | 'code' | 'createdAt' | 'evaluation' | 'evidenceItems' | 'id' | 'justification' | 'modifier' | 'specificationCriterium' | 'updatedAt' | SpecificationEvaluationKeySpecifier)[];
@@ -2575,6 +2585,11 @@ export type SpecificationEvaluationFieldPolicy = {
 	modifier?: FieldPolicy<any> | FieldReadFunction<any>,
 	specificationCriterium?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SpecificationFormConfigKeySpecifier = ('assessmentGroups' | 'specification' | SpecificationFormConfigKeySpecifier)[];
+export type SpecificationFormConfigFieldPolicy = {
+	assessmentGroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	specification?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SpecificationWithEvaluationsKeySpecifier = ('evaluations' | 'specification' | SpecificationWithEvaluationsKeySpecifier)[];
 export type SpecificationWithEvaluationsFieldPolicy = {
@@ -3956,6 +3971,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | SpecificationKeySpecifier | (() => undefined | SpecificationKeySpecifier),
 		fields?: SpecificationFieldPolicy,
 	},
+	SpecificationAssessmentGroup?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SpecificationAssessmentGroupKeySpecifier | (() => undefined | SpecificationAssessmentGroupKeySpecifier),
+		fields?: SpecificationAssessmentGroupFieldPolicy,
+	},
 	SpecificationCriterium?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationCriteriumKeySpecifier | (() => undefined | SpecificationCriteriumKeySpecifier),
 		fields?: SpecificationCriteriumFieldPolicy,
@@ -3963,6 +3982,10 @@ export type StrictTypedTypePolicies = {
 	SpecificationEvaluation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationEvaluationKeySpecifier | (() => undefined | SpecificationEvaluationKeySpecifier),
 		fields?: SpecificationEvaluationFieldPolicy,
+	},
+	SpecificationFormConfig?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SpecificationFormConfigKeySpecifier | (() => undefined | SpecificationFormConfigKeySpecifier),
+		fields?: SpecificationFormConfigFieldPolicy,
 	},
 	SpecificationWithEvaluations?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationWithEvaluationsKeySpecifier | (() => undefined | SpecificationWithEvaluationsKeySpecifier),

@@ -1,16 +1,10 @@
 module Types::Entities
-  class SpecificationEvaluationStatus < Types::BaseEnum
-    value "MET", value: "met"
-    value "NOT_MET", value: "not_met"
-    value "NOT_EVALUATED", value: "not_evaluated"
-  end
-
   class SpecificationEvaluationType < Types::BaseObject
     field :id, Int, null: false
     field :justification, String, null: true
     field :modifier, String, null: true
     field :code, String, null: false
-    field :evaluation, SpecificationEvaluationStatus, null: false
+    field :evaluation, Types::Entities::SpecificationEvaluationStatusType, null: false
     field :assertion, Types::Entities::AssertionType, null: false
     field :specification_criterium, Types::Entities::SpecificationCriteriumType, null: false
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false

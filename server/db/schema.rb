@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_18_200922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
   create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
   create_enum "specification_evaluation_methods", ["one", "all"]
-  create_enum "specification_evaluation_statuses", ["met", "not_met", "not_evaluated"]
+  create_enum "specification_evaluation_statuses", ["met", "not_met", "excluded", "not_evaluated"]
   create_enum "specification_types", ["amp_tiers", "clingen_codes", "acmg_codes"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
@@ -1047,6 +1047,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
     t.text "reason"
     t.integer "source_id"
     t.text "status"
+    t.integer "therapy_interaction_type"
     t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
@@ -1104,7 +1105,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
     t.text "criterium", null: false
     t.text "description", null: false
     t.hstore "modifiers"
+    t.string "mutually_exclusive_codes", default: [], array: true
     t.integer "point_value"
+    t.integer "position_within_assessment_group", default: 999
     t.bigint "specification_id", null: false
     t.datetime "updated_at", null: false
     t.index ["specification_id"], name: "index_specification_criteria_on_specification_id"
@@ -1118,12 +1121,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
     t.string "modifier"
     t.bigint "specification_criterium_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["assertion_id", "specification_criterium_id"], name: "idx_on_assertion_id_specification_criterium_id_58b1f01de2", unique: true
     t.index ["assertion_id"], name: "index_specification_evaluations_on_assertion_id"
     t.index ["specification_criterium_id"], name: "index_specification_evaluations_on_specification_criterium_id"
   end
 
   create_table "specifications", force: :cascade do |t|
     t.enum "assertion_type", null: false, enum_type: "assertion_types"
+    t.string "assessment_group_order", default: [], array: true
     t.hstore "assessment_groups"
     t.datetime "created_at", null: false
     t.enum "evaluation_method", default: "all", enum_type: "specification_evaluation_methods"
@@ -1430,6 +1435,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_143412) do
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "source_suggestions_therapies", "source_suggestions"
   add_foreign_key "source_suggestions_therapies", "therapies"
+  add_foreign_key "specification_criteria", "specifications"
+  add_foreign_key "specification_evaluations", "assertions"
+  add_foreign_key "specification_evaluations", "specification_criteria"
+  add_foreign_key "specifications", "organizations"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
   add_foreign_key "user_mentions", "comments"

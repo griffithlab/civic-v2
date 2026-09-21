@@ -902,11 +902,6 @@ input AssertionFields {
   significance: AssertionSignificance!
 
   """
-  The CIViC Specification Criterium IDs for this Assertion
-  """
-  specificationCriteriumIds: [Int!]!
-
-  """
   A brief single sentence statement summarizing the clinical significance of this Assertion.
   """
   summary: NullableStringInput!
@@ -10871,6 +10866,11 @@ type Query {
   specificationCriteriumTypeahead(queryTerm: String!, specificationId: Int): [SpecificationCriterium!]!
 
   """
+  Return specification information suitable for building an edit form
+  """
+  specificationFormConfig(specificationId: Int!): SpecificationFormConfig
+
+  """
   Find specifications based on org and assertion type
   """
   specifications(assertionType: AssertionType!, organizationId: Int): [Specification!]!
@@ -12875,6 +12875,7 @@ enum SourcesSortColumns {
 
 type Specification {
   assertionType: AssertionType!
+  assessmentGroupOrder: [String!]!
   assessmentGroups: [AssessmentGroup!]!
   evaluationMethod: SpecificationEvaluationMethod!
   id: Int!
@@ -12889,6 +12890,12 @@ type Specification {
   version: String!
 }
 
+type SpecificationAssessmentGroup {
+  description: String!
+  name: String!
+  specificationCriterium: [SpecificationCriterium!]!
+}
+
 type SpecificationCriterium {
   assessmentGroup: String
   criterium: String!
@@ -12896,7 +12903,9 @@ type SpecificationCriterium {
   exclusive: Boolean!
   id: Int!
   modifiers: [String!]!
-  score: Int
+  mutuallyExclusiveCodes: [String!]!
+  orderWithinAssessmentGroup: Int!
+  pointValue: Int
   specification: Specification!
 }
 
@@ -12919,9 +12928,15 @@ enum SpecificationEvaluationMethod {
 }
 
 enum SpecificationEvaluationStatus {
+  EXCLUDED
   MET
   NOT_EVALUATED
   NOT_MET
+}
+
+type SpecificationFormConfig {
+  assessmentGroups: [SpecificationAssessmentGroup!]!
+  specification: Specification!
 }
 
 enum SpecificationType {

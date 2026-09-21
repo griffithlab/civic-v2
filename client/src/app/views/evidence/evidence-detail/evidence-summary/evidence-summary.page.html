@@ -1,11 +1,15 @@
 <ng-container *ngIf="evidence$ | ngrxPush as evidence">
+  <cvc-specification-submit-form
+    [specificationId]="6"></cvc-specification-submit-form>
+
   <nz-row [nzGutter]="[8, 16]">
     <!-- LEFT COLUMN: evidence description, evidence attributes-->
     <nz-col [nzSpan]="12">
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: evidence description -->
         <nz-col [nzSpan]="24">
-          <cvc-entity-description [cvcEntity]="evidence"></cvc-entity-description>
+          <cvc-entity-description
+            [cvcEntity]="evidence"></cvc-entity-description>
         </nz-col>
 
         <!-- BLOCK: primary attributes -->
@@ -22,7 +26,7 @@
                 [cvcAttrValue]="evidence.evidenceType"
                 nz-tooltip
                 [nzTooltipTitle]="
-                  evidence.evidenceType | enumTooltip : 'evidenceType'
+                  evidence.evidenceType | enumTooltip: 'evidenceType'
                 ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -30,10 +34,19 @@
             <!-- evidence direction -->
             <nz-descriptions-item nzTitle="Direction">
               <cvc-attribute-tag
-                *ngIf="evidence.evidenceDirection !== 'NA'; else valueNotApplicable"
+                *ngIf="
+                  evidence.evidenceDirection !== 'NA';
+                  else valueNotApplicable
+                "
                 [cvcAttrValue]="evidence.evidenceDirection"
                 nz-tooltip
-                [nzTooltipTitle]=" evidence.evidenceDirection | enumTooltip : 'evidenceDirection' : evidence.evidenceType : 'EvidenceItem' ">
+                [nzTooltipTitle]="
+                  evidence.evidenceDirection
+                    | enumTooltip
+                      : 'evidenceDirection'
+                      : evidence.evidenceType
+                      : 'EvidenceItem'
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -43,7 +56,13 @@
                 *ngIf="evidence.significance !== 'NA'; else valueNotApplicable"
                 [cvcAttrValue]="evidence.significance"
                 nz-tooltip
-                [nzTooltipTitle]="evidence.significance | enumTooltip : 'significance' : evidence.evidenceType : 'EvidenceItem' ">
+                [nzTooltipTitle]="
+                  evidence.significance
+                    | enumTooltip
+                      : 'significance'
+                      : evidence.evidenceType
+                      : 'EvidenceItem'
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -53,7 +72,7 @@
                 [cvcAttrValue]="evidence.variantOrigin"
                 nz-tooltip
                 [nzTooltipTitle]="
-                  evidence.variantOrigin | enumTooltip : 'variantOrigin'
+                  evidence.variantOrigin | enumTooltip: 'variantOrigin'
                 ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -63,10 +82,10 @@
               <nz-tag
                 nz-tooltip
                 [nzTooltipTitle]="
-                  evidence.evidenceLevel | enumTooltip : 'evidenceLevel'
+                  evidence.evidenceLevel | enumTooltip: 'evidenceLevel'
                 ">
-                <strong>{{ evidence.evidenceLevel }}</strong> - {{
-                evidence.evidenceLevel | enumTooltip : 'evidenceLevelBrief' }}
+                <strong>{{ evidence.evidenceLevel }}</strong> -
+                {{ evidence.evidenceLevel | enumTooltip: 'evidenceLevelBrief' }}
               </nz-tag>
             </nz-descriptions-item>
 
@@ -75,7 +94,7 @@
               <nz-tag
                 nz-tooltip
                 [nzTooltipTitle]="
-                  evidence.evidenceRating | enumTooltip : 'evidenceRating'
+                  evidence.evidenceRating | enumTooltip: 'evidenceRating'
                 ">
                 <cvc-evidence-rating
                   [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
@@ -106,7 +125,11 @@
                   : 'Clinical Trial'
               ">
               <ng-container
-                *ngIf=" evidence.source.clinicalTrials && evidence.source.clinicalTrials.length > 0 ; else valueUnspecified">
+                *ngIf="
+                  evidence.source.clinicalTrials &&
+                    evidence.source.clinicalTrials.length > 0;
+                  else valueUnspecified
+                ">
                 <ng-container *ngFor="let t of evidence.source.clinicalTrials">
                   <cvc-clinical-trial-tag
                     [clinicalTrial]="t"></cvc-clinical-trial-tag>
@@ -143,7 +166,7 @@
               <nz-tag
                 nz-popover
                 [nzPopoverContent]="submissionCommentTemplate"
-                [nzPopoverOverlayStyle]="{'width': '300px'}"
+                [nzPopoverOverlayStyle]="{ width: '300px' }"
                 *ngIf="evidence.submissionActivity!.parsedNote.length > 0">
                 <i
                   nz-icon
@@ -174,7 +197,10 @@
               ">
               <!-- show acceptance only if no rejection event exists and the EID is Accepted-->
               <ng-container
-                *ngIf="evidence.status == statusValues.Accepted && evidence.acceptanceEvent">
+                *ngIf="
+                  evidence.status == statusValues.Accepted &&
+                  evidence.acceptanceEvent
+                ">
                 <nz-descriptions-item [nzTitle]="acceptedTitle">
                   by
                   <cvc-user-tag
@@ -192,7 +218,10 @@
                 </ng-template>
               </ng-container>
               <ng-container
-                *ngIf="evidence.status == statusValues.Rejected && evidence.rejectionEvent">
+                *ngIf="
+                  evidence.status == statusValues.Rejected &&
+                  evidence.rejectionEvent
+                ">
                 <nz-descriptions-item nzTitle="Rejected">
                   by
                   <cvc-user-tag

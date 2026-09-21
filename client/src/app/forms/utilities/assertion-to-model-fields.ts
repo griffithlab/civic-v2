@@ -45,7 +45,7 @@ export function assertionFormModelToInput(model: AssertionSubmitModel): Maybe<Su
 
     return {
       fields: {
-        specificationCriteriumIds: fields.specificationCriteriumIds || [],
+        //specificationCriteriumIds: fields.specificationCriteriumIds || [],
         assertionDirection: fields.assertionDirection!,
         assertionType: fields.assertionType!,
         significance: fields.significance!,

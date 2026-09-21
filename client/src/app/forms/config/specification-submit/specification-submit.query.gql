@@ -1,0 +1,68 @@
+query SpecificationFormConfig($specificationId: Int!) {
+  specificationFormConfig(specificationId: $specificationId) {
+    ...SpecificationConfigFields
+  }
+}
+
+fragment SpecificationConfigFields on SpecificationFormConfig {
+    specification {
+      ...SpecificationDetailConfigFields
+    }
+    assessmentGroups {
+      ...AssessmentGroupFormConfigFields
+    }
+}
+
+fragment SpecificationDetailConfigFields on Specification {
+  name
+  version
+  specificationUrl
+  sopPubmedId
+  publishedOn
+  evaluationMethod
+}
+
+fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
+  name
+  description
+  specificationCriterium {
+    id
+    criterium
+    description
+    modifiers
+    mutuallyExclusiveCodes
+    pointValue
+  }
+}
+
+# query GeneRevisableFields($featureId: Int!) {
+#   feature(id: $featureId) {
+#     ...RevisableGeneFields
+#   }
+# }
+#
+# fragment RevisableGeneFields on Feature {
+#   id
+#   sources {
+#     id
+#     sourceType
+#     citation
+#     citationId
+#   }
+#   featureInstance {
+#     ... on Gene {
+#       description
+#     }
+#   }
+# }
+#
+# mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+#   suggestGeneRevision(input: $input) {
+#     clientMutationId
+#     results {
+#       newlyCreated
+#       id
+#       fieldName
+#     }
+#   }
+# }

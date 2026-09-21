@@ -1,0 +1,34 @@
+  clingen_assertion_os1:
+    specification_criterium: clingen_os1
+    evaluation: not_evaluated
+    modifier: Moderate
+    justification: "Synthetic test evaluation: OS1 met at moderate strength."
+    assertion: clingen_assertion
+
+  clingen_assertion_os3:
+    specification_criterium: clingen_os3
+    evaluation: not_evaluated
+    modifier: null
+    justification: "Synthetic test evaluation: OS3 met at its default strength."
+    assertion: clingen_assertion
+
+  clingen_assertion_om1:
+    specification_criterium: clingen_om1
+    evaluation: not_evaluated
+    modifier: null
+    justification: "Excluded because OM1 is mutually exclusive with OS1 and OS3."
+    assertion: clingen_assertion
+
+  clingen_assertion_sbs1:
+    specification_criterium: clingen_sbs1
+    evaluation: not_evaluated
+    modifier: null
+    justification: "Synthetic test evaluation: population frequency threshold not met."
+    assertion: clingen_assertion
+
+  clingen_assertion_op1:
+    specification_criterium: clingen_op1
+    evaluation: not_evaluated
+    modifier: null
+    justification: null
+    assertion: clingen_assertion

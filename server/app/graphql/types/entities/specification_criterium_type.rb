@@ -4,10 +4,12 @@ module Types::Entities
     field :criterium, String, null: false
     field :description, String, null: false
     field :exclusive, Boolean, null: false
-    field :score, Int, null: true
+    field :point_value, Int, null: true
     field :modifiers, [ String ], null: false
+    field :mutually_exclusive_codes, [ String ], null: false
     field :specification, Types::Entities::SpecificationType, null: false
     field :assessment_group, String, null: true
+    field :order_within_assessment_group, Int, null: false
 
     def exclusive
       object.specification.specification_type == "clingen_codes" && object.criterium == "N/A"

@@ -38,6 +38,7 @@ import { CvcApprovalNotificationComponent } from '@app/components/approvals/appr
 import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
 import { CvcSpecificationPopoverComponent } from '@app/components/specifications/cvc-specification-popover/cvc-specification-popover.component'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
+import { CvcSpecificationSubmitFormModule } from '@app/forms/config/specification-submit/specification-submit.form.module'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -83,6 +84,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
     CvcEntityDescription,
     CvcSpecificationPopoverComponent,
     CvcEvidenceTagModule,
+    CvcSpecificationSubmitFormModule
   ],
   exports: [AssertionsSummaryPage],
 })

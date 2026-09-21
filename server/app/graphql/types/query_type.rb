@@ -12,6 +12,7 @@ module Types
     include Types::Queries::DataReleaseQuery
     include Types::Queries::LeaderboardQueries
     include Types::Queries::AdvancedSearchQueries
+    include Types::Queries::FormConfigQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.

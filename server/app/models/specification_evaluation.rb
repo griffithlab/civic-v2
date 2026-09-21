@@ -6,14 +6,15 @@ class SpecificationEvaluation < ApplicationRecord
   enum :evaluation, {
     met: "met",
     not_met: "not_met",
+    excluded: "excluded",
     not_evaluated: "not_evaluated",
   }, instance_methods: false, scopes: false
 
-  validate :evidence_items_only_used_on_met_evaluations
+  validate :evidence_items_only_on_evaluated_evaluations
 
-  def evidence_items_only_used_on_met_evaluations
-    if self.evaluation != "met" and self.evidence_items.any?
-      errors.add("Evidence items can only be added to 'met' evaluations")
+  def evidence_items_only_on_evaluated_evaluations
+    if self.evaluation != "met" && self.evaluation != "not_met" && self.evidence_items.any?
+      errors.add(:evidence_items, "Evidence items can only be added to evaluations that are marked 'met' or 'not_met'")
     end
   end
 end

@@ -80,8 +80,7 @@
             nzLayout="vertical"
             nzBordered="true">
             <!-- Specification Codes -->
-            <nz-descriptions-item
-              [nzTitle]="codesTitle">
+            <nz-descriptions-item [nzTitle]="codesTitle">
               <ng-template #codesTitle>
                 @if (assertion.specification) {
                   Specification: {{ assertion.specification.name }}
@@ -105,17 +104,41 @@
                   No specification selected
                 }
               </ng-template>
-              @if (assertion.assertionType == 'ONCOGENIC' || assertion.assertionType == 'PREDISPOSING') {
+              @if (
+                assertion.assertionType == 'ONCOGENIC' ||
+                assertion.assertionType == 'PREDISPOSING'
+              ) {
                 <nz-collapse nzAccordion>
                   <nz-collapse-panel [nzHeader]="specificationPanel">
-                    @for (group of $groupedEvaluations() | keyvalue; track group.key ) {
-                      @let met = getEvaluationsForStatus(group.value, evaluationStatus.Met);
-                      @let not_met = getEvaluationsForStatus(group.value, evaluationStatus.NotMet);
-                      @let not_evaluated = getEvaluationsForStatus(group.value, evaluationStatus.NotEvaluated);
+                    @for (
+                      group of $groupedEvaluations() | keyvalue;
+                      track group.key
+                    ) {
+                      @let met =
+                        getEvaluationsForStatus(
+                          group.value,
+                          evaluationStatus.Met
+                        );
+                      @let not_met =
+                        getEvaluationsForStatus(
+                          group.value,
+                          evaluationStatus.NotMet
+                        );
+                      @let not_evaluated =
+                        getEvaluationsForStatus(
+                          group.value,
+                          evaluationStatus.NotEvaluated
+                        );
                       @if (met.length > 0) {
-                        <nz-list nzSize="small" [nzHeader]="assessmentGroupHeaderTemplate">
+                        <nz-list
+                          nzSize="small"
+                          [nzHeader]="assessmentGroupHeaderTemplate">
                           <nz-list-item>
-                            <nz-table nzSize="small" [nzFrontPagination]="false" [nzTemplateMode]="true" nzTitle="Met Criteria">
+                            <nz-table
+                              nzSize="small"
+                              [nzFrontPagination]="false"
+                              [nzTemplateMode]="true"
+                              nzTitle="Met Criteria">
                               <tbody>
                                 @for (evaluation of met; track evaluation) {
                                   <tr>
@@ -123,9 +146,16 @@
                                       <nz-tag
                                         nzColor="#108ee9"
                                         nz-tooltip
-                                        [nzTooltipTitle]="evaluation.specificationCriterium.description">
+                                        [nzTooltipTitle]="
+                                          evaluation.specificationCriterium
+                                            .description
+                                        ">
                                         @if (evaluation.modifier) {
-                                            {{ evaluation.code + '_' + evaluation.modifier }} 
+                                          {{
+                                            evaluation.code +
+                                              '_' +
+                                              evaluation.modifier
+                                          }}
                                         } @else {
                                           {{ evaluation.code }}
                                         }
@@ -135,16 +165,22 @@
                                       @if (evaluation.justification) {
                                         {{ evaluation.justification }}
                                       } @else {
-                                        <span nz-typography nzType="secondary">
-                                          <i>
-                                            No justification provided
-                                          </i>
+                                        <span
+                                          nz-typography
+                                          nzType="secondary">
+                                          <i> No justification provided </i>
                                         </span>
                                       }
                                     </td>
                                     <td>
-                                      @for (evidence of evaluation.evidenceItems; track evidence.id) {
-                                        <cvc-evidence-tag [evidence]="evidence"></cvc-evidence-tag>
+                                      @for (
+                                        evidence of evaluation.evidenceItems;
+                                        track evidence.id
+                                      ) {
+                                        <cvc-evidence-tag
+                                          [evidence]="
+                                            evidence
+                                          "></cvc-evidence-tag>
                                       }
                                     </td>
                                   </tr>
@@ -154,17 +190,31 @@
                           </nz-list-item>
                           @if (not_met.length > 0) {
                             <nz-list-item>
-                              <nz-table nzSize="small" [nzFrontPagination]="false" [nzTemplateMode]="true" nzTitle="Not Met Criteria">
+                              <nz-table
+                                nzSize="small"
+                                [nzFrontPagination]="false"
+                                [nzTemplateMode]="true"
+                                nzTitle="Not Met Criteria">
                                 <tbody>
-                                  @for (evaluation of not_met; track evaluation) {
+                                  @for (
+                                    evaluation of not_met;
+                                    track evaluation
+                                  ) {
                                     <tr>
                                       <td>
                                         <nz-tag
                                           nzColor="#A9A9A9"
                                           nz-tooltip
-                                          [nzTooltipTitle]="evaluation.specificationCriterium.description">
+                                          [nzTooltipTitle]="
+                                            evaluation.specificationCriterium
+                                              .description
+                                          ">
                                           @if (evaluation.modifier) {
-                                              {{ evaluation.code + '_' + evaluation.modifier }} 
+                                            {{
+                                              evaluation.code +
+                                                '_' +
+                                                evaluation.modifier
+                                            }}
                                           } @else {
                                             {{ evaluation.code }}
                                           }
@@ -174,9 +224,13 @@
                                         @if (evaluation.justification) {
                                           {{ evaluation.justification }}
                                         } @else {
-                                          <span nz-typography nzType="secondary">
+                                          <span
+                                            nz-typography
+                                            nzType="secondary">
                                             <i>
-                                              No justification provided. Code is mutually exclusive with {{ met[0].code }}.
+                                              No justification provided. Code is
+                                              mutually exclusive with
+                                              {{ met[0].code }}.
                                             </i>
                                           </span>
                                         }
@@ -204,14 +258,35 @@
                         </ng-template>
                       }
                     }
-                    @for (group of $groupedEvaluations() | keyvalue; track group.key ) {
-                      @let met = getEvaluationsForStatus(group.value, evaluationStatus.Met);
-                      @let not_met = getEvaluationsForStatus(group.value, evaluationStatus.NotMet);
-                      @let not_evaluated = getEvaluationsForStatus(group.value, evaluationStatus.NotEvaluated);
+                    @for (
+                      group of $groupedEvaluations() | keyvalue;
+                      track group.key
+                    ) {
+                      @let met =
+                        getEvaluationsForStatus(
+                          group.value,
+                          evaluationStatus.Met
+                        );
+                      @let not_met =
+                        getEvaluationsForStatus(
+                          group.value,
+                          evaluationStatus.NotMet
+                        );
+                      @let not_evaluated =
+                        getEvaluationsForStatus(
+                          group.value,
+                          evaluationStatus.NotEvaluated
+                        );
                       @if (met.length == 0 && not_met.length > 0) {
-                        <nz-list nzSize="small" [nzHeader]="assessmentGroupHeaderTemplate">
+                        <nz-list
+                          nzSize="small"
+                          [nzHeader]="assessmentGroupHeaderTemplate">
                           <nz-list-item>
-                            <nz-table nzSize="small" [nzFrontPagination]="false" [nzTemplateMode]="true" nzTitle="Not Met Criteria">
+                            <nz-table
+                              nzSize="small"
+                              [nzFrontPagination]="false"
+                              [nzTemplateMode]="true"
+                              nzTitle="Not Met Criteria">
                               <tbody>
                                 @for (evaluation of not_met; track evaluation) {
                                   <tr>
@@ -219,9 +294,16 @@
                                       <nz-tag
                                         nzColor="#A9A9A9"
                                         nz-tooltip
-                                        [nzTooltipTitle]="evaluation.specificationCriterium.description">
+                                        [nzTooltipTitle]="
+                                          evaluation.specificationCriterium
+                                            .description
+                                        ">
                                         @if (evaluation.modifier) {
-                                            {{ evaluation.code + '_' + evaluation.modifier }} 
+                                          {{
+                                            evaluation.code +
+                                              '_' +
+                                              evaluation.modifier
+                                          }}
                                         } @else {
                                           {{ evaluation.code }}
                                         }
@@ -231,10 +313,10 @@
                                       @if (evaluation.justification) {
                                         {{ evaluation.justification }}
                                       } @else {
-                                        <span nz-typography nzType="secondary">
-                                          <i>
-                                            No justification provided
-                                          </i>
+                                        <span
+                                          nz-typography
+                                          nzType="secondary">
+                                          <i> No justification provided </i>
                                         </span>
                                       }
                                     </td>
@@ -263,14 +345,19 @@
                   </nz-collapse-panel>
                   <ng-template #specificationPanel>
                     <cvc-tag-list>
-                      @for (evaluation of assertion.specificationEvaluations; track evaluation.id) {
-                        @if (evaluation.evaluation == "MET") {
+                      @for (
+                        evaluation of assertion.specificationEvaluations;
+                        track evaluation.id
+                      ) {
+                        @if (evaluation.evaluation == 'MET') {
                           <nz-tag
                             nzColor="#108ee9"
                             nz-tooltip
-                            [nzTooltipTitle]="evaluation.specificationCriterium.description">
+                            [nzTooltipTitle]="
+                              evaluation.specificationCriterium.description
+                            ">
                             @if (evaluation.modifier) {
-                                {{ evaluation.code + '_' + evaluation.modifier }} 
+                              {{ evaluation.code + '_' + evaluation.modifier }}
                             } @else {
                               {{ evaluation.code }}
                             }
@@ -281,7 +368,11 @@
                   </ng-template>
                 </nz-collapse>
               } @else {
-                @let met = getEvaluationsForStatus(assertion.specificationEvaluations, evaluationStatus.Met);
+                @let met =
+                  getEvaluationsForStatus(
+                    assertion.specificationEvaluations,
+                    evaluationStatus.Met
+                  );
                 <nz-tag
                   nzColor="#108ee9"
                   nz-tooltip

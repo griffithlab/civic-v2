@@ -1,0 +1,39 @@
+  clingen_specification:
+    name: "ClinGen/CGC/VICC Codes"
+    version: "1"
+    published_on: "2022-01-29"
+    specification_type: clingen_codes
+    assertion_type: Oncogenic
+    specification_url: "https://pubmed.ncbi.nlm.nih.gov/35101336/"
+    sop_pubmed_id: 35101336
+    evaluation_method: all
+    organization_id: null
+    assessment_groups:
+      Population Frequency: >-
+        Assessment of whether population control frequency refutes oncogenicity or
+        whether absence/extreme rarity in controls provides supporting evidence
+        for oncogenicity.
+      Functional Assay: >-
+        Assessment of well-established in vitro or in vivo functional studies to
+        determine whether experimental evidence supports or refutes an oncogenic effect.
+      Primary Sequence Consequence: >-
+        Assessment of the primary sequence-level consequence of the variant,
+        including null/loss-of-function effects, protein-length changes, stop-loss
+        effects, or synonymous variants predicted to have no splice or conservation impact.
+      Functional Domain Location: >-
+        Assessment of whether the variant occurs in a critical and well-established
+        functional domain or region, such as an enzyme active site.
+      Amino Acid or Residue Analogy: >-
+        Assessment by analogy to previously established oncogenic variants, including
+        the same amino acid change or a different missense change at the same residue.
+      Somatic Hotspot Recurrence: >-
+        Assessment of somatic recurrence at cancer hotspots or recurrently mutated
+        residues, with evidence strength based on recurrence thresholds.
+      Computational Prediction: >-
+        Aggregate assessment of computational predictions, including conservation,
+        missense-effect, and splice-effect tools, supporting either oncogenic effect
+        or no effect.
+      Single Genetic Etiology Context: >-
+        Assessment of whether the variant occurs in a gene and malignancy context
+        where the disease has a single genetic etiology, making that gene-level
+        event supportive of oncogenicity.

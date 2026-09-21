@@ -44,13 +44,32 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :therapy_interaction_type, "Therapy interaction type cannot be set unless multiple therapys are specified."
     end
 
-    record.specification_criteria.each do |criterium|
-      if criterium.specification.assertion_type != record.assertion_type
-        record.errors.add(:specification, "Assertions of type #{record.assertion_type} may not have #{criterium.specification.name} classifications attached.")
+    # TODO - eventually we want to allow multiple specifications but only one "active" or "current"
+    if record.specifications.distinct.count > 1
+      record.errors.add(:specifications, "Assertions must have a single specification under which they are curated.")
+    end
+
+    record.specifications.each do |spec|
+      if spec.assertion_type != record.assertion_type
+        record.errors.add(:specification, "Assertions of type #{record.assertion_type} may not have #{spec.name} classifications attached.")
       end
     end
 
-    utilized_specifications = record.specification_criteria.map(&:specification)
+    # TODO - this will not work if multiple specifications are applied.
+    met_evaluations = record.specification_evaluations
+    .eager_load(:specification_criterium)
+    .where(evaluation: "met")
+    met_code_names = met_evaluations.map { |e| e.specification_criterium.criterium }
+
+    met_evaluations.each do |me|
+      exclusive_codes = me.specification_criterium.mutually_exclusive_codes.intersection(met_code_names)
+      if exclusive_codes.any?
+        record.errors.add(:specification, "Code #{me.specification_criterium.criterium} is incompatible with #{exclusive_codes.join(",")}")
+      end
+    end
+
+    # TODO - the following several validations assume multiple specifications are possible. we dont currently support that
+    utilized_specifications = record.specification_criterium.map(&:specification)
     if utilized_specifications.uniq.size > 1
       record.errors.add(:specification, "All classifications must come from the same specification. #{utilized_specifications.map(&:name).join(",")} found.")
     end
@@ -82,6 +101,15 @@ class AssertionValidator < ActiveModel::Validator
 
     if record.variant_origin == "Combined" && !record.molecular_profile.is_multi_variant?
       record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
+    end
+
+    if record.status == "accepted"
+      if record.specifications.size == 0
+        record.errors.add :specifications, "Assertions must have at least one selected specification in order to be accepted"
+      end
+      if record.specification_evaluations.all? { |se| se.evaluation == "not_evaluated" }
+        record.errors.add :specifications, "You must evaluate at least one specification criteria before accepting an Assertion"
+      end
     end
   end
 

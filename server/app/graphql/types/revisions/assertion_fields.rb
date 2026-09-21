@@ -23,8 +23,6 @@ module Types::Revisions
       description: "List of IDs of CIViC Therapy entries for this Assertion. An empty list indicates none."
     argument :therapy_interaction_type, Types::NullableValueInputType.for(Types::TherapyInteractionType), required: true,
       description: "Therapy interaction type for cases where more than one therapy ID is provided."
-    argument :specification_criterium_ids, [ Int ], required: true,
-      description: "The CIViC Specification Criterium IDs for this Assertion"
     argument :evidence_item_ids, [ Int ], required: true,
       description: "IDs of evidence items that are included in this Assertion."
     argument :nccn_guideline_id, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,

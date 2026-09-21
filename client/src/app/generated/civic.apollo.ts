@@ -555,8 +555,6 @@ export type AssertionFields = {
   phenotypeIds: Array<Scalars['Int']['input']>;
   /** The Clinical Significance of the Assertion */
   significance: AssertionSignificance;
-  /** The CIViC Specification Criterium IDs for this Assertion */
-  specificationCriteriumIds: Array<Scalars['Int']['input']>;
   /** A brief single sentence statement summarizing the clinical significance of this Assertion. */
   summary: NullableStringInput;
   /** List of IDs of CIViC Therapy entries for this Assertion. An empty list indicates none. */
@@ -5609,6 +5607,8 @@ export type Query = {
   specificationCriterium?: Maybe<SpecificationCriterium>;
   /** Retrieve Criteria Options For a Specification and Query */
   specificationCriteriumTypeahead: Array<SpecificationCriterium>;
+  /** Return specification information suitable for building an edit form */
+  specificationFormConfig?: Maybe<SpecificationFormConfig>;
   /** Find specifications based on org and assertion type */
   specifications: Array<Specification>;
   /** Get the active subscription for the entity and logged in user, if any */
@@ -6427,6 +6427,11 @@ export type QuerySpecificationCriteriumArgs = {
 export type QuerySpecificationCriteriumTypeaheadArgs = {
   queryTerm: Scalars['String']['input'];
   specificationId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QuerySpecificationFormConfigArgs = {
+  specificationId: Scalars['Int']['input'];
 };
 
 
@@ -7512,6 +7517,7 @@ export enum SourcesSortColumns {
 export type Specification = {
   __typename: 'Specification';
   assertionType: AssertionType;
+  assessmentGroupOrder: Array<Scalars['String']['output']>;
   assessmentGroups: Array<AssessmentGroup>;
   evaluationMethod: SpecificationEvaluationMethod;
   id: Scalars['Int']['output'];
@@ -7526,6 +7532,13 @@ export type Specification = {
   version: Scalars['String']['output'];
 };
 
+export type SpecificationAssessmentGroup = {
+  __typename: 'SpecificationAssessmentGroup';
+  description: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  specificationCriterium: Array<SpecificationCriterium>;
+};
+
 export type SpecificationCriterium = {
   __typename: 'SpecificationCriterium';
   assessmentGroup?: Maybe<Scalars['String']['output']>;
@@ -7534,7 +7547,9 @@ export type SpecificationCriterium = {
   exclusive: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
   modifiers: Array<Scalars['String']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
+  mutuallyExclusiveCodes: Array<Scalars['String']['output']>;
+  orderWithinAssessmentGroup: Scalars['Int']['output'];
+  pointValue?: Maybe<Scalars['Int']['output']>;
   specification: Specification;
 };
 
@@ -7558,10 +7573,17 @@ export enum SpecificationEvaluationMethod {
 }
 
 export enum SpecificationEvaluationStatus {
+  Excluded = 'EXCLUDED',
   Met = 'MET',
   NotEvaluated = 'NOT_EVALUATED',
   NotMet = 'NOT_MET'
 }
+
+export type SpecificationFormConfig = {
+  __typename: 'SpecificationFormConfig';
+  assessmentGroups: Array<SpecificationAssessmentGroup>;
+  specification: Specification;
+};
 
 export enum SpecificationType {
   AcmgCodes = 'ACMG_CODES',
@@ -10825,6 +10847,19 @@ export type SourceSuggestionChecksQueryVariables = Exact<{
 
 
 export type SourceSuggestionChecksQuery = { __typename: 'Query', source?: { __typename: 'Source', fullyCurated: boolean } | undefined, sourceSuggestions: { __typename: 'SourceSuggestionConnection', filteredCount: number } };
+
+export type SpecificationFormConfigQueryVariables = Exact<{
+  specificationId: Scalars['Int']['input'];
+}>;
+
+
+export type SpecificationFormConfigQuery = { __typename: 'Query', specificationFormConfig?: { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> } | undefined };
+
+export type SpecificationConfigFieldsFragment = { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> };
+
+export type SpecificationDetailConfigFieldsFragment = { __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod };
+
+export type AssessmentGroupFormConfigFieldsFragment = { __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> };
 
 export type VariantGroupRevisableFieldsQueryVariables = Exact<{
   variantGroupId: Scalars['Int']['input'];
@@ -14129,6 +14164,41 @@ export const RevisableRegionVariantFieldsFragmentDoc = gql`
   }
 }
     `;
+export const SpecificationDetailConfigFieldsFragmentDoc = gql`
+    fragment SpecificationDetailConfigFields on Specification {
+  name
+  version
+  specificationUrl
+  sopPubmedId
+  publishedOn
+  evaluationMethod
+}
+    `;
+export const AssessmentGroupFormConfigFieldsFragmentDoc = gql`
+    fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
+  name
+  description
+  specificationCriterium {
+    id
+    criterium
+    description
+    modifiers
+    mutuallyExclusiveCodes
+    pointValue
+  }
+}
+    `;
+export const SpecificationConfigFieldsFragmentDoc = gql`
+    fragment SpecificationConfigFields on SpecificationFormConfig {
+  specification {
+    ...SpecificationDetailConfigFields
+  }
+  assessmentGroups {
+    ...AssessmentGroupFormConfigFields
+  }
+}
+    ${SpecificationDetailConfigFieldsFragmentDoc}
+${AssessmentGroupFormConfigFieldsFragmentDoc}`;
 export const VariantGroupRevisableFieldsFragmentDoc = gql`
     fragment VariantGroupRevisableFields on VariantGroup {
   id
@@ -19340,6 +19410,24 @@ export const SourceSuggestionChecksDocument = gql`
   })
   export class SourceSuggestionChecksGQL extends Apollo.Query<SourceSuggestionChecksQuery, SourceSuggestionChecksQueryVariables> {
     document = SourceSuggestionChecksDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SpecificationFormConfigDocument = gql`
+    query SpecificationFormConfig($specificationId: Int!) {
+  specificationFormConfig(specificationId: $specificationId) {
+    ...SpecificationConfigFields
+  }
+}
+    ${SpecificationConfigFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SpecificationFormConfigGQL extends Apollo.Query<SpecificationFormConfigQuery, SpecificationFormConfigQueryVariables> {
+    document = SpecificationFormConfigDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,0 +1,9 @@
+<nz-steps
+  nzProgressDot
+  nzDirection="vertical">
+  @for (step of field.fieldGroup; track step.key) {
+    <nz-step
+      [nzTitle]="step.props?.stepLabel"
+      nzDescription="Testing"></nz-step>
+  }
+</nz-steps>
