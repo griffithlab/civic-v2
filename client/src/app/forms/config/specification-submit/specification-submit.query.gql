@@ -20,6 +20,7 @@ fragment SpecificationConfigFields on SpecificationFormConfig {
 }
 
 fragment SpecificationDetailConfigFields on Specification {
+  id
   name
   version
   specificationUrl

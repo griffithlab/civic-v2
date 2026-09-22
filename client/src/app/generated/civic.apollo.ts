@@ -10860,18 +10860,18 @@ export type ValidSpecificationsQueryVariables = Exact<{
 }>;
 
 
-export type ValidSpecificationsQuery = { __typename: 'Query', validSpecifications: Array<{ __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }> };
+export type ValidSpecificationsQuery = { __typename: 'Query', validSpecifications: Array<{ __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }> };
 
 export type SpecificationFormConfigQueryVariables = Exact<{
   specificationId: Scalars['Int']['input'];
 }>;
 
 
-export type SpecificationFormConfigQuery = { __typename: 'Query', specificationFormConfig?: { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> } | undefined };
+export type SpecificationFormConfigQuery = { __typename: 'Query', specificationFormConfig?: { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> } | undefined };
 
-export type SpecificationConfigFieldsFragment = { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> };
+export type SpecificationConfigFieldsFragment = { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> };
 
-export type SpecificationDetailConfigFieldsFragment = { __typename: 'Specification', name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod };
+export type SpecificationDetailConfigFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod };
 
 export type AssessmentGroupFormConfigFieldsFragment = { __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriterium: Array<{ __typename: 'SpecificationCriterium', id: number, criterium: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> };
 
@@ -14180,6 +14180,7 @@ export const RevisableRegionVariantFieldsFragmentDoc = gql`
     `;
 export const SpecificationDetailConfigFieldsFragmentDoc = gql`
     fragment SpecificationDetailConfigFields on Specification {
+  id
   name
   version
   specificationUrl

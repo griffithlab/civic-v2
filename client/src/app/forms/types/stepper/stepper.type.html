@@ -1,9 +1,29 @@
 <nz-steps
   nzProgressDot
-  nzDirection="vertical">
+  nzDirection="vertical"
+  [nzCurrent]="currentStep()">
   @for (step of field.fieldGroup; track step.key) {
     <nz-step
       [nzTitle]="step.props?.stepLabel"
-      nzDescription="Testing"></nz-step>
+      nzDescription="Testing">
+    </nz-step>
   }
 </nz-steps>
+
+<div class="steps-content">
+  test
+  <ng-container #fieldComponent></ng-container>
+</div>
+
+<div class="steps-action">
+  @if (currentStep() > 0) {
+    <button nz-button nzType="default" (click)="previous_step()">
+      <span>Previous</span>
+    </button>
+  }
+  @if (currentStep() < (field.fieldGroup!.length - 1)) {
+    <button nz-button nzType="default" (click)="next_step()">
+      <span>Next</span>
+    </button>
+  }
+</div>

@@ -1,22 +1,41 @@
-@if(fields && specificationInfo) {
-  <h3>{{specificationInfo.name}} (v {{specificationInfo.version }})</h3>
+@if(specificationFormFields && assertionId) {
+  <form
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="specificationForm"
+    (ngSubmit)="onSubmit()">
+    <formly-form
+      [form]="specificationForm"
+      [fields]="specificationFormFields"
+      [model]="specificationModel"
+      [options]="{}"
+      (modelChange)="onSpecificationSelected($event)">
+    </formly-form>
+  </form>
+}
+
+@if (this.specificationInfo) {
+  <h3>Selected Specification: {{specificationInfo.name}} (v{{ specificationInfo.version }})</h3>
   <cvc-link-tag
     [href]="specificationInfo.specificationUrl"
     tooltip="View Specification Document">
     Document
   </cvc-link-tag>
   <nz-divider></nz-divider>
+}
+
+@if(codesFields) {
   <form
     nz-form
-    nzLayout="vertical"
-    [formGroup]="form"
+    nzLayout="horizontal"
+    [formGroup]="codesForm"
     (ngSubmit)="onSubmit()">
     <formly-form
-      [form]="form"
-      [fields]="fields"
-      [model]="model"
+      [form]="codesForm"
+      [fields]="codesFields"
+      [model]="codesModel"
       [options]="{}"
-      (modelChange)="model = $event">
+      (modelChange)="codesModel = $event">
     </formly-form>
   </form>
 }
