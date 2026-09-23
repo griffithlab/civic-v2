@@ -113,6 +113,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     options: this.evaluationStatuses,
                                     required: true,
                                     change: (field, event) => {
+                                      //set codes in the same assessment group to excluded
                                       const sourceValue = field.formControl?.value;
                                       if (sourceValue == 'MET') {
                                         const currentFieldGroup = field.parent?.parent?.key
@@ -126,6 +127,20 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                               }
                                             }
                                           })
+                                        }
+                                        //set mutual exclusive codes to excluded
+                                        const mutuallyExclusiveCodes = code.mutuallyExclusiveCodes
+                                        const allCodes = field.parent?.parent?.parent?.parent?.fieldGroup?.flatMap((c) => c.fieldGroup)
+                                        if (allCodes) {
+                                          for (const mutuallyExclusiveCode of mutuallyExclusiveCodes) {
+                                            const exclusiveCode = allCodes.filter((c) => c && c.key == `${mutuallyExclusiveCode.replace(/ /g, "_").toLowerCase()}_fields`)
+                                            if (exclusiveCode && exclusiveCode[0] && exclusiveCode[0].fieldGroup) {
+                                              const field = exclusiveCode[0].fieldGroup[0].fieldGroup?.filter((field) => field.key == 'evaluation')
+                                              if (field) {
+                                                field[0].formControl?.setValue("EXCLUDED")
+                                              }
+                                            }
+                                          }
                                         }
                                       }
                                     }
