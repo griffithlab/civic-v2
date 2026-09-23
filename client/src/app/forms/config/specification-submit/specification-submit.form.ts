@@ -85,14 +85,20 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                       key: `${group.name.replace(/ /g, "_").toLowerCase()}_assessment_group_fields`,
                       wrappers: ['form-card'],
                       props: {
-                        formCardOptions: { title: group.name },
+                        formCardOptions: {
+                          title: group.name,
+                          infoString: group.description
+                        },
                       },
                       fieldGroup: group.specificationCriterium.map((code) => {
                         return {
                           key: `${code.criterium.replace(/ /g, "_").toLowerCase()}_fields`,
                           wrappers: ['form-card'],
                           props: {
-                            formCardOptions: { title: code.criterium }
+                            formCardOptions: {
+                              title: code.criterium,
+                              infoString: code.description
+                            }
                           },
                           fieldGroup: [
                             {

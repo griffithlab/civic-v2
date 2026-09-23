@@ -5,6 +5,7 @@ import { IndexableObject } from 'ng-zorro-antd/core/types'
 
 type FormCardOptions = {
   title?: string
+  infoString?: string
   size?: 'default' | 'small'
 }
 
