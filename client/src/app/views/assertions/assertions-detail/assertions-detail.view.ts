@@ -215,7 +215,17 @@ export class AssertionsDetailView {
       const assertion = this.assertion()
       let tabConfig = [...this.DEFAULT_TAB_CONFIG]
       if (assertion) {
-        tabConfig = this.DEFAULT_TAB_CONFIG.map((tab) => {
+        if (assertion.specification && (assertion.assertionType == 'ONCOGENIC' || assertion.assertionType == 'PREDISPOSING')) {
+          tabConfig.splice(1, 0, 
+            {
+              routeName: 'codes',
+              tabLabel: assertion.specification.name,
+              //TODO: find a better icon to use here
+              iconName: 'profile',
+            },
+          )
+        }
+        tabConfig = tabConfig.map((tab) => {
           if (tab.tabLabel === 'Revisions') {
             return {
               badgeCount: assertion.revisions.totalCount,
