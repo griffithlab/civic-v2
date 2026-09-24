@@ -6,7 +6,8 @@ import {
   Input,
   OnInit,
   signal,
-  effect
+  effect,
+  WritableSignal
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { Maybe, SpecificationDetailConfigFieldsFragment, SpecificationEvaluationStatus, SpecificationFormConfigGQL, ValidSpecificationsGQL } from '@app/generated/civic.apollo'
@@ -17,6 +18,11 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { GeneReviseModel } from '@app/forms/models/gene-revise.model'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
+
+interface CodeTagInfo {
+  criterium: string;
+  status: SpecificationEvaluationStatus;
+}
 
 @UntilDestroy()
 @Component({
@@ -41,6 +47,9 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   codesFields?: FormlyFieldConfig[]
 
   evaluationStatuses = Object.values(SpecificationEvaluationStatus).map((v) => { return {label: v.replace("_", " ").toLowerCase(), value: v} })
+
+
+  codeTagInfo: WritableSignal<CodeTagInfo[]> = signal([])
 
 // reviseEvidenceMutator: MutatorWithState<
 //   SuggestGeneRevisionGQL,
@@ -73,9 +82,18 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         .subscribe({
           next: ({ data: { specificationFormConfig  }}) => {
             if (specificationFormConfig) {
+              const codes = specificationFormConfig.assessmentGroups.flatMap((group) => group.specificationCriterium.map((sc) => {
+                return {
+                  criterium: sc.criterium,
+                  status: SpecificationEvaluationStatus.NotEvaluated
+                }
+              }))
+              this.codeTagInfo.set(codes)
+
               this.specificationInfo = specificationFormConfig.specification
               this.codesFields = [
                 {
+                  type: "cvc-field-stepper",
                   wrappers: ['form-layout'],
                   props: {
                     showDevPanel: true,
@@ -85,6 +103,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                       key: `${group.name.replace(/ /g, "_").toLowerCase()}_assessment_group_fields`,
                       wrappers: ['form-card'],
                       props: {
+                        stepLabel: group.name,
                         formCardOptions: {
                           title: group.name,
                           infoString: group.description
@@ -92,7 +111,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                       },
                       fieldGroup: group.specificationCriterium.map((code) => {
                         return {
-                          key: `${code.criterium.replace(/ /g, "_").toLowerCase()}_fields`,
+                          key: code.criterium,
                           wrappers: ['form-card'],
                           props: {
                             formCardOptions: {
@@ -119,8 +138,19 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     options: this.evaluationStatuses,
                                     required: true,
                                     change: (field, event) => {
-                                      //set codes in the same assessment group to excluded
                                       const sourceValue = field.formControl?.value;
+
+                                      this.codeTagInfo.update((info) => {
+                                        const criterium = field.parent?.parent?.key
+
+                                        const matchedCode = info.find(tags => tags.criterium == criterium)
+                                        if (matchedCode) {
+                                          matchedCode.status = sourceValue
+                                        }
+                                        return info
+                                      })
+
+                                      //set codes in the same assessment group to excluded
                                       if (sourceValue == 'MET') {
                                         const currentFieldGroup = field.parent?.parent?.key
                                         const otherCodesInGroup = field.parent?.parent?.parent?.fieldGroup?.filter((c) => c.key != currentFieldGroup)
@@ -139,7 +169,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                         const allCodes = field.parent?.parent?.parent?.parent?.fieldGroup?.flatMap((c) => c.fieldGroup)
                                         if (allCodes) {
                                           for (const mutuallyExclusiveCode of mutuallyExclusiveCodes) {
-                                            const exclusiveCode = allCodes.filter((c) => c && c.key == `${mutuallyExclusiveCode.replace(/ /g, "_").toLowerCase()}_fields`)
+                                            const exclusiveCode = allCodes.filter((c) => c && c.key == mutuallyExclusiveCode)
                                             if (exclusiveCode && exclusiveCode[0] && exclusiveCode[0].fieldGroup) {
                                               const field = exclusiveCode[0].fieldGroup[0].fieldGroup?.filter((field) => field.key == 'evaluation')
                                               if (field) {

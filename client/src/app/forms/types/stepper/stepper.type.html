@@ -1,29 +1,39 @@
-<nz-steps
-  nzProgressDot
-  nzDirection="vertical"
-  [nzCurrent]="currentStep()">
-  @for (step of field.fieldGroup; track step.key) {
-    <nz-step
-      [nzTitle]="step.props?.stepLabel"
-      nzDescription="Testing">
-    </nz-step>
-  }
-</nz-steps>
-
-<div class="steps-content">
-  test
-  <ng-container #fieldComponent></ng-container>
-</div>
-
-<div class="steps-action">
-  @if (currentStep() > 0) {
-    <button nz-button nzType="default" (click)="previous_step()">
-      <span>Previous</span>
-    </button>
-  }
-  @if (currentStep() < (field.fieldGroup!.length - 1)) {
-    <button nz-button nzType="default" (click)="next_step()">
-      <span>Next</span>
-    </button>
-  }
+<div nz-row>
+  <div
+    nz-col
+    nzSpan="4">
+    <nz-steps
+      nzProgressDot
+      nzDirection="vertical"
+      [nzCurrent]="currentStep()">
+      @for (step of field.fieldGroup; track step.key) {
+        <nz-step [nzTitle]="step.props?.stepLabel"> </nz-step>
+      }
+    </nz-steps>
+  </div>
+  <div
+    nz-col
+    nzSpan="20">
+    @let stepField =
+      field.fieldGroup ? field.fieldGroup[currentStep()] : undefined;
+    @if (stepField) {
+      <formly-field [field]="stepField"></formly-field>
+    }
+    @if (currentStep() > 0) {
+      <button
+        nz-button
+        nzType="default"
+        (click)="previousStep()">
+        <span>Previous</span>
+      </button>
+    }
+    @if (currentStep() < field.fieldGroup!.length - 1) {
+      <button
+        nz-button
+        nzType="default"
+        (click)="nextStep()">
+        <span>Next</span>
+      </button>
+    }
+  </div>
 </div>

@@ -22,6 +22,10 @@
     Document
   </cvc-link-tag>
   <nz-divider></nz-divider>
+  @for(spec of codeTagInfo(); track spec) {
+    <nz-tag nz-tooltip [nzColor]="spec.status | specificationToTagColor" [nzTooltipTitle]="spec.status | enumToTitle" >{{spec.criterium}}</nz-tag>
+  }
+  <nz-divider></nz-divider>
 }
 
 @if(codesFields) {

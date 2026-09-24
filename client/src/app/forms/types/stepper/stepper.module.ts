@@ -6,6 +6,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcFieldStepper } from './stepper.type'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -24,7 +27,10 @@ const typeConfig: ConfigOption = {
     FormlyModule.forChild(typeConfig),
     NzButtonModule,
     NzDividerModule,
-    NzStepsModule
+    NzGridModule,
+    NzStepsModule,
+    NzTagModule,
+    NzSpaceModule,
   ],
   exports: [CvcFieldStepper]
 })

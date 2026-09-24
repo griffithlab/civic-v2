@@ -10,6 +10,9 @@ import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcFieldStepperModule } from '@app/forms/types/stepper/stepper.module';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -21,9 +24,12 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzFormModule,
     NzButtonModule,
     NzDividerModule,
+    NzTagModule,
+    NzToolTipModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,
     CvcLinkTagModule,
+    CvcPipesModule,
     CvcFieldStepperModule,
     NgxJsonViewerModule, // debug
   ],

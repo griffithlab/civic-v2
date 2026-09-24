@@ -19,11 +19,28 @@ export class CvcFieldStepper extends FieldType {
     return field.fieldGroup ? field.fieldGroup.every((f) => this.isValid(f)) : true;
   }
 
-  previous_step(): void {
+  previousStep(): void {
     this.currentStep.update(currentStep => currentStep - 1);
   }
 
-  next_step(): void {
+  nextStep(): void {
     this.currentStep.update(currentStep => currentStep + 1);
   }
+
+  //foo(step: any): Maybe<string> {
+  //  const metCode: any = Object.entries(step.model).find( codeModel => {
+  //    (codeModel[1] as any).evaluation == "MET"
+  //  })
+
+  //  if (metCode) {
+  //    const modifier = metCode.at(1)?.modifier
+  //    if (modifier) {
+  //      return `${metCode}_${modifier}`
+  //    } else {
+  //      return `${metCode}`
+  //    }
+  //  } else {
+  //    return undefined
+  //  }
+  //}
  };

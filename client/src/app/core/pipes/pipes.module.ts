@@ -33,6 +33,7 @@ import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
 import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
 import { SortEnumPipe } from './sort-enum.pipe'
 import { EntityTypeToTypelabelPipe } from './entity-type-to-type-label.pipe'
+import { SpecificationToTagColorPipe } from './specification-to-tag-color.pipe'
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { EntityTypeToTypelabelPipe } from './entity-type-to-type-label.pipe'
     TypenameToIconPipe,
     IsArrayPipe,
     IconNameForActivityTypeInputPipe,
+    SpecificationToTagColorPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -106,6 +108,7 @@ import { EntityTypeToTypelabelPipe } from './entity-type-to-type-label.pipe'
     SortEnumPipe,
     TypenameToIconPipe,
     IconNameForActivityTypeInputPipe,
+    SpecificationToTagColorPipe,
   ],
   providers: [SourceTypeDisplayPipe],
 })
