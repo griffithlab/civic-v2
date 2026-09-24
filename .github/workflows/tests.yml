@@ -3,7 +3,7 @@ on:
   push:
     branches: [ main, staging ]
   pull_request:
-    branches: [ main, staging]
+    branches: [ main, staging, 'v22-*', 'w2-*', 'w3-*', 'w4-*', 's5-*' ]
 
 jobs:
   scan_ruby:
