@@ -11,6 +11,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { AssertionsCodesPage } from './assertions-codes.page'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
   declarations: [AssertionsCodesPage],
@@ -26,6 +27,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
     NzDescriptionsModule,
     NzGridModule,
     CvcEvidenceTagModule,
+    CvcPipesModule,
   ],
   exports: [AssertionsCodesPage],
 })

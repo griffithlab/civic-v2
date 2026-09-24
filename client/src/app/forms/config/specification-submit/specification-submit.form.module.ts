@@ -12,7 +12,9 @@ import { CvcFieldStepperModule } from '@app/forms/types/stepper/stepper.module';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzButtonModule,
     NzDividerModule,
     NzTagModule,
-    NzToolTipModule,
+    NzDescriptionsModule,
+    NzPopoverModule,
+    NzTypographyModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,
     CvcLinkTagModule,

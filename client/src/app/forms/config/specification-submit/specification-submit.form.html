@@ -22,9 +22,51 @@
     Document
   </cvc-link-tag>
   <nz-divider></nz-divider>
-  @for(spec of codeTagInfo(); track spec) {
-    <nz-tag nz-tooltip [nzColor]="spec.status | specificationToTagColor" [nzTooltipTitle]="spec.status | enumToTitle" >{{spec.criterium}}</nz-tag>
-  }
+  <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(codesModel | keyvalue).length" nzSize="small">
+    @for (item of codesModel | keyvalue: preserveOrder; track item.key) {
+      <nz-descriptions-item [nzTitle]="item.key">
+        <div style="white-space: nowrap;">
+        @for (code of item.value | keyvalue: preserveOrder; track code.key) {
+          <nz-tag nz-popover [nzColor]="code.value.evaluation | specificationToTagColor" [nzPopoverContent]="codePopover" >
+            @if (code.value.modifier) {
+              {{code.key}}_{{code.value.modifier}}
+            } @else {
+              {{code.key}}
+            }
+          </nz-tag>
+          <!-- Turn this into a component and also use on the code tags in the assertion summary -->
+          <ng-template #codePopover>
+            <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Evaluation">{{code.value.evaluation | enumToTitle}}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Modifier">
+                @if (code.value.modifier) {
+                  {{code.value.modifier}}
+                } @else {
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i> No modifier selected</i>
+                  </span>
+                }
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Justification">
+                @if (code.value.justification) {
+                  {{code.value.justification}}
+                } @else {
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i> No justification provided</i>
+                  </span>
+                }
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </ng-template>
+        }
+        </div>
+      </nz-descriptions-item>
+    }
+  </nz-descriptions>
   <nz-divider></nz-divider>
 }
 
