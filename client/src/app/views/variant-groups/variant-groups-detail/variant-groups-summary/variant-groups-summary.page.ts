@@ -15,10 +15,10 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 
 @Component({
-    selector: 'cvc-variant-groups-summary',
-    templateUrl: './variant-groups-summary.page.html',
-    styleUrls: ['./variant-groups-summary.page.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-summary',
+  templateUrl: './variant-groups-summary.page.html',
+  styleUrls: ['./variant-groups-summary.page.less'],
+  standalone: false,
 })
 export class VariantGroupsSummaryPage implements OnDestroy {
   variantGroup$?: Observable<Maybe<VariantGroupSummaryFieldsFragment>>
@@ -38,7 +38,9 @@ export class VariantGroupsSummaryPage implements OnDestroy {
     this.routeSub = this.route.params.subscribe((params) => {
       this.viewer$ = this.viewerService.viewer$
 
-      let queryRef = this.gql.watch({ variantGroupId: +params.variantGroupId })
+      let queryRef = this.gql.watch({
+        variables: { variantGroupId: +params.variantGroupId },
+      })
       let observable = queryRef.valueChanges
 
       this.subscribableEntity = {

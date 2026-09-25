@@ -120,7 +120,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit, OnChanges {
       ids: this.ids,
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryArgs)
+    this.queryRef = this.gql.watch({ variables: this.initialQueryArgs })
 
     this.result$ = this.queryRef.valueChanges
 

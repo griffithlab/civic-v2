@@ -41,7 +41,7 @@ export class ViewerService {
     private viewerBaseGQL: ViewerBaseGQL,
     private http: HttpClient
   ) {
-    this.queryRef = this.viewerBaseGQL.watch(undefined, {
+    this.queryRef = this.viewerBaseGQL.watch({
       notifyOnNetworkStatusChange: false,
     })
 

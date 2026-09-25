@@ -23,12 +23,11 @@ import {
   PageInfo,
 } from '@app/generated/civic.apollo'
 
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 
 import { filter, map } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { pluck } from 'rxjs-etc/operators'
 import { CommonModule } from '@angular/common'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -107,17 +106,18 @@ export class CvcApprovalListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.approvalsGQL.watch(
-      {
+    this.queryRef = this.approvalsGQL.watch({
+      variables: {
         assertionId: this.assertionId(),
       },
-      { fetchPolicy: 'network-only' }
-    )
+      fetchPolicy: 'network-only',
+    })
 
     runInInjectionContext(this.injector, () => {
       this.approvals = toSignal(
         this.queryRef.valueChanges.pipe(
-          pluck('data', 'approvals', 'nodes'),
+          onlyCompleteData(),
+          map(({ data }) => data.approvals?.nodes),
           filter(isNonNulled),
           map((nodes) =>
             [...nodes].sort((a, b) => {
@@ -141,13 +141,16 @@ export class CvcApprovalListComponent implements OnInit {
       )
       this.assertion = toSignal(
         this.assertionGQL
-          .watch(
-            {
+          .watch({
+            variables: {
               assertionId: this.assertionId(),
             },
-            { fetchPolicy: 'cache-only' }
-          )
-          .valueChanges.pipe(pluck('data', 'assertion')),
+            fetchPolicy: 'cache-only',
+          })
+          .valueChanges.pipe(
+            onlyCompleteData(),
+            map(({ data }) => data.assertion)
+          ),
         {
           initialValue: undefined,
         }

@@ -24,10 +24,9 @@ import {
   ModeratedInput,
 } from '@app/generated/civic.apollo'
 import { Observable, Subscription } from 'rxjs'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { map, startWith } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
-import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types'
+import { InternalRefetchQueryDescriptor } from '@apollo/client'
 
 export interface SelectableFieldName {
   id: number
@@ -48,10 +47,10 @@ export interface SelectableRevisionStatus {
 }
 
 @Component({
-    selector: 'cvc-revisions-list-and-filter',
-    templateUrl: './revisions-list-and-filter.component.html',
-    styleUrls: ['./revisions-list-and-filter.component.less'],
-    standalone: false
+  selector: 'cvc-revisions-list-and-filter',
+  templateUrl: './revisions-list-and-filter.component.html',
+  styleUrls: ['./revisions-list-and-filter.component.less'],
+  standalone: false,
 })
 export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   @Input() moderated!: ModeratedInput
@@ -118,11 +117,12 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
           input.revisionSetId = +queryParams.revisionSetId
         }
 
-        this.queryRef = this.gql.watch(input)
+        this.queryRef = this.gql.watch({ variables: input })
         let observable = this.queryRef.valueChanges
+        const data$ = observable.pipe(onlyCompleteData())
 
-        this.revisions$ = observable.pipe(
-          pluck('data', 'revisions', 'edges'),
+        this.revisions$ = data$.pipe(
+          map(({ data }) => data.revisions.edges),
           map((edges) => {
             return edges.map((e) => {
               return e.node as Revision
@@ -135,23 +135,23 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
           startWith(true)
         )
 
-        this.pageInfo$ = observable.pipe(pluck('data', 'revisions', 'pageInfo'))
+        this.pageInfo$ = data$.pipe(map(({ data }) => data.revisions.pageInfo))
 
-        this.uniqueRevisors$ = observable.pipe(
+        this.uniqueRevisors$ = data$.pipe(
           map(({ data }) => {
             return data.revisions?.uniqueRevisors
           })
         )
 
-        this.uniqueResolvers$ = observable.pipe(
+        this.uniqueResolvers$ = data$.pipe(
           map(({ data }) => {
             return data.revisions?.uniqueResolvers
           })
         )
 
-        this.revisionFields$ = observable.pipe(
+        this.revisionFields$ = data$.pipe(
           map(({ data }) => {
-            return data.revisions?.revisedFieldNames.map((f, i) => {
+            return data.revisions.revisedFieldNames.map((f, i) => {
               return {
                 ...f,
                 id: i,
@@ -160,8 +160,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
           })
         )
 
-        this.unfilteredCount$ = observable.pipe(
-          pluck('data', 'revisions', 'unfilteredCountForSubject')
+        this.unfilteredCount$ = data$.pipe(
+          map(({ data }) => data.revisions.unfilteredCountForSubject)
         )
       })
     })

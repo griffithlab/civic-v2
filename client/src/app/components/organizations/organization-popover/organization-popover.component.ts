@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   Component,
@@ -42,10 +43,13 @@ export class CvcOrganizationPopoverComponent
   }
 
   ngOnInit() {
-    this.org$ = this.gql.watch({ orgId: this.orgId }).valueChanges.pipe(
-      map(({ data }) => data?.organization),
-      filter(isNonNulled)
-    )
+    this.org$ = this.gql
+      .watch({ variables: { orgId: this.orgId } })
+      .valueChanges.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.organization),
+        filter(isNonNulled)
+      )
   }
   ngAfterViewInit() {
     this.resizeObserver.observe(this.elementRef.nativeElement)
