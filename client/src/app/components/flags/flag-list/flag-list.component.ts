@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   Flag,
@@ -26,6 +27,7 @@ type SuccessType = false | 'accepted' | 'rejected'
   selector: 'cvc-flag-list',
   templateUrl: './flag-list.component.html',
   styleUrls: ['./flag-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FlagListComponent implements OnInit, OnDestroy {

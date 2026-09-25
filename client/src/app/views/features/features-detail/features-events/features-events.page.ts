@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
 import {
@@ -7,10 +7,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-features-events',
-    templateUrl: './features-events.page.html',
-    styleUrls: ['./features-events.page.less'],
-    standalone: false
+  selector: 'cvc-features-events',
+  templateUrl: './features-events.page.html',
+  styleUrls: ['./features-events.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class FeaturesEventsPage {
   feedScope: ActivityFeedScope

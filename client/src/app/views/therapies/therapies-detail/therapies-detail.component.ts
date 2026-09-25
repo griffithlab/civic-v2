@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   TherapyDetailQuery,
@@ -16,6 +16,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-therapies-detail',
   templateUrl: './therapies-detail.component.html',
   styleUrls: ['./therapies-detail.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TherapiesDetailComponent implements OnDestroy {

@@ -1,5 +1,11 @@
-<nz-spin [nzSpinning]="mutationState?.isSubmitting$ | ngrxPush">
-  @if (mutationState?.submitError$ | ngrxPush; as errors) {
+<nz-spin
+  [nzSpinning]="
+    $safeNavigationMigration(mutationState?.isSubmitting$) | ngrxPush
+  ">
+  @if (
+    $safeNavigationMigration(mutationState?.submitError$) | ngrxPush;
+    as errors
+  ) {
     @if (errors.length > 0) {
       <nz-alert
         nzType="error"
@@ -17,7 +23,7 @@
       </ul>
     </ng-template>
   }
-  @if (mutationState?.submitSuccess$ | ngrxPush) {
+  @if ($safeNavigationMigration(mutationState?.submitSuccess$) | ngrxPush) {
     <nz-alert
       nzType="success"
       nzShowIcon

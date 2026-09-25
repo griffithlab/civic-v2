@@ -36,7 +36,9 @@
               "
               nz-tooltip
               [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
-              [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+              [nzTooltipTitle]="
+                'For ' + $safeNavigationMigration(mostRecentOrg?.name)
+              ">
               Add Comment
             </button>
           </cvc-form-buttons>

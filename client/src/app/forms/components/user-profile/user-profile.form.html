@@ -76,13 +76,14 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>ORCID Identifier</nz-form-label>
-      <nz-input-group nzAddOnBefore="https://orcid.org/">
+      <nz-input-wrapper>
+        <span nzInputAddonBefore>https://orcid.org/</span>
         <input
           nz-input
           placeholder="0000-0000-0000-0000"
           [(ngModel)]="orcid"
           style="width: 100%" />
-      </nz-input-group>
+      </nz-input-wrapper>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>Personal Website</nz-form-label>
@@ -93,33 +94,36 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>X/Twitter Handle</nz-form-label>
-      <nz-input-group nzAddOnBefore="https://twitter.com/">
+      <nz-input-wrapper>
+        <span nzInputAddonBefore>https://twitter.com/</span>
         <input
           nz-input
           placeholder="username"
           [(ngModel)]="twitterHandle"
           style="width: 100%" />
-      </nz-input-group>
+      </nz-input-wrapper>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>Facebook Profile</nz-form-label>
-      <nz-input-group nzAddOnBefore="https://www.facebook.com/">
+      <nz-input-wrapper>
+        <span nzInputAddonBefore>https://www.facebook.com/</span>
         <input
           nz-input
           placeholder="username"
           [(ngModel)]="facebookProfile"
           style="width: 100%" />
-      </nz-input-group>
+      </nz-input-wrapper>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>LinkedIn Profile</nz-form-label>
-      <nz-input-group nzAddOnBefore="https://www.linkedin.com/in/">
+      <nz-input-wrapper>
+        <span nzInputAddonBefore>https://www.linkedin.com/in/</span>
         <input
           nz-input
           placeholder="username"
           [(ngModel)]="linkedinProfile"
           style="width: 100%" />
-      </nz-input-group>
+      </nz-input-wrapper>
     </nz-form-item>
     <nz-form-item>
       <button

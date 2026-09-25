@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-evidence-flags',
-    templateUrl: './evidence-flags.page.html',
-    styleUrls: ['./evidence-flags.page.less'],
-    standalone: false
+  selector: 'cvc-evidence-flags',
+  templateUrl: './evidence-flags.page.html',
+  styleUrls: ['./evidence-flags.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class EvidenceFlagsPage {
   flaggable: FlaggableInput

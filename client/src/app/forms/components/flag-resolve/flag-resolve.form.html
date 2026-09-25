@@ -104,7 +104,9 @@
                 [disabled]="!(comment !== undefined && comment.length >= 10)"
                 nz-tooltip
                 [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
-                [nzTooltipTitle]="'For ' + selectedOrg?.name">
+                [nzTooltipTitle]="
+                  'For ' + $safeNavigationMigration(selectedOrg?.name)
+                ">
                 Resolve
               </button>
             </cvc-form-buttons>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
@@ -15,6 +15,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
   selector: 'cvc-gene-base-summary',
   templateUrl: './gene-base-summary.page.html',
   styleUrls: ['./gene-base-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NzGridModule,
     NzDescriptionsModule,

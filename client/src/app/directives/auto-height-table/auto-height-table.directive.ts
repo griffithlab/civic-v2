@@ -5,6 +5,8 @@ import {
   SimpleChange,
   HostListener,
   ChangeDetectorRef,
+  NgZone,
+  OnDestroy,
   OnInit,
   AfterViewInit,
 } from '@angular/core'
@@ -19,14 +21,23 @@ import { NzTableComponent } from 'ng-zorro-antd/table'
   selector: '[cvcAutoHeightTable]',
   standalone: false,
 })
-export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
+export class CvcAutoHeightTableDirective
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input('cvcAutoHeightTable')
   offset: Maybe<number>
+
+  // the parent is usually a card body whose height cvcAutoHeightCard sets from
+  // its own ResizeObserver, often after this directive's first measurement;
+  // the table has to follow the parent's box, not race it
+  private parentObserver?: ResizeObserver
+  private sizeTimer?: ReturnType<typeof setTimeout>
 
   constructor(
     private element: ElementRef,
     private table: NzTableComponent<any>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private zone: NgZone
   ) {
     // 当前页码改变时自动回到顶部
     if (this.table && this.table.nzPageIndexChange) {
@@ -52,10 +63,23 @@ export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.doAutoSize()
+    const parent = this.element.nativeElement.parentElement
+    if (parent && typeof ResizeObserver !== 'undefined') {
+      this.parentObserver = new ResizeObserver(() =>
+        this.zone.run(() => this.doAutoSize())
+      )
+      this.parentObserver.observe(parent)
+    }
+  }
+
+  ngOnDestroy() {
+    this.parentObserver?.disconnect()
+    clearTimeout(this.sizeTimer)
   }
 
   private doAutoSize() {
-    setTimeout(() => {
+    clearTimeout(this.sizeTimer)
+    this.sizeTimer = setTimeout(() => {
       const offset = this.offset === undefined ? 70 : this.offset
       if (
         this.element &&

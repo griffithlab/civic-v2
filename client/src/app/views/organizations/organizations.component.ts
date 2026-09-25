@@ -1,9 +1,10 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
-    selector: 'app-organizations',
-    templateUrl: './organizations.component.html',
-    standalone: false
+  selector: 'app-organizations',
+  templateUrl: './organizations.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class OrganizationsComponent {
   constructor() {}

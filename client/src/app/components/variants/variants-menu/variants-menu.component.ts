@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   VariantsMenuGQL,
   Maybe,
@@ -25,6 +30,7 @@ import { LinkableFeature } from '@app/components/features/feature-tag/feature-ta
   selector: 'cvc-variant-menu',
   templateUrl: './variants-menu.component.html',
   styleUrls: ['./variants-menu.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcVariantsMenuComponent implements OnInit {

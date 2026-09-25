@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
@@ -17,6 +22,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'cvc-variant-groups-detail',
   templateUrl: './variant-groups-detail.view.html',
   styleUrls: ['./variant-groups-detail.view.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class VariantGroupsDetailView implements OnInit, OnDestroy {

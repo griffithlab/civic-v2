@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -22,6 +22,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   selector: 'users-detail',
   templateUrl: './users-detail.component.html',
   styleUrls: ['./users-detail.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class UsersDetailComponent implements OnDestroy {

@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
@@ -29,6 +34,7 @@ import {
   selector: 'cvc-source-submit-form',
   templateUrl: './source-submit.form.html',
   styleUrls: ['./source-submit.form.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcSourceSubmitForm implements OnInit {

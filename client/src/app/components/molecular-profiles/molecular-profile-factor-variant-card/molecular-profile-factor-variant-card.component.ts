@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { VariantMolecularProfileCardFieldsFragment } from '@app/generated/civic.apollo'
 import { LinkableMolecularProfile } from '../molecular-profile-tag/molecular-profile-tag.component'
 
@@ -27,6 +32,7 @@ import { CvcNcitDetailsComponent } from '@app/components/factors/ncit-details/nc
   selector: 'cvc-mp-factor-variant-card',
   templateUrl: './molecular-profile-factor-variant-card.component.html',
   styleUrls: ['./molecular-profile-factor-variant-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterModule,
     NzTagModule,

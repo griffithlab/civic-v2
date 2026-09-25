@@ -48,12 +48,12 @@
       <tr class="col-header-row">
         <th
           nzWidth="100px"
-          nzLeft>
+          nzLeft="0px">
           Status
         </th>
         <th
-          nzWidth="425px"
-          nzLeft
+          nzWidth="285px"
+          nzLeft="100px"
           [nzColumnKey]="sortColumns.Citation"
           [nzSortFn]="true">
           Citation
@@ -105,7 +105,7 @@
         </th>
         <th
           nzWidth="70px"
-          nzRight
+          nzRight="0px"
           nzAlign="center">
           Actions
         </th>
@@ -113,7 +113,7 @@
 
       <!-- FILTER ROW -->
       <tr class="filter-row">
-        <th nzLeft>
+        <th nzLeft="0px">
           <nz-select
             nzAllowClear
             nzSize="small"
@@ -132,7 +132,7 @@
               nzLabel="rejected"></nz-option>
           </nz-select>
         </th>
-        <th nzLeft>
+        <th nzLeft="100px">
           <cvc-clearable-input-filter
             [(inputModel)]="citationInput"
             (inputModelChange)="
@@ -196,7 +196,7 @@
             "></cvc-clearable-input-filter>
         </th>
         <th></th>
-        <th nzRight></th>
+        <th nzRight="0px"></th>
       </tr>
     </thead>
     <tbody>
@@ -206,7 +206,7 @@
         let-index="index">
         <tr class="data-row">
           <td
-            nzLeft
+            nzLeft="0px"
             nzAlign="center">
             <ng-container [ngSwitch]="suggestion.status | lowercase">
               <ng-container *ngSwitchCase="'curated'">
@@ -256,7 +256,7 @@
               </ng-template>
             </ng-container>
           </td>
-          <td nzLeft>
+          <td nzLeft="100px">
             <cvc-source-tag
               *ngIf="suggestion.source"
               [source]="suggestion.source"></cvc-source-tag>
@@ -336,7 +336,7 @@
             {{ suggestion.createdAt | date }}
           </td>
           <td
-            nzRight
+            nzRight="0px"
             nzAlign="center"
             class="button-cell">
             @if (isSignedIn) {
@@ -344,9 +344,11 @@
                 <button
                   routerLink="/evidence/add/submit"
                   [queryParams]="{
-                    molecularProfileId: suggestion.molecularProfile?.id,
-                    sourceId: suggestion.source?.id,
-                    diseaseId: suggestion.disease?.id,
+                    molecularProfileId: $safeNavigationMigration(
+                      suggestion.molecularProfile?.id
+                    ),
+                    sourceId: $safeNavigationMigration(suggestion.source?.id),
+                    diseaseId: $safeNavigationMigration(suggestion.disease?.id),
                     therapyIds: getTherapyIdsQueryParam(suggestion),
                     therapyInteractionType:
                       getTherapyInteractionTypeQueryParam(suggestion),
@@ -433,7 +435,9 @@
         nzSpin></i>
       <span>Loading…</span>
     </nz-tag>
-    <cvc-table-downloader [vars]="queryRef.variables" tableName="source_suggestions"></cvc-table-downloader>
+    <cvc-table-downloader
+      [vars]="queryRef.variables"
+      tableName="source_suggestions"></cvc-table-downloader>
 
     <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
   </span>

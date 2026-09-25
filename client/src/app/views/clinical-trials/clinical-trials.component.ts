@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
-    selector: 'cvc-clinical-trials',
-    templateUrl: './clinical-trials.component.html',
-    standalone: false
+  selector: 'cvc-clinical-trials',
+  templateUrl: './clinical-trials.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ClinicalTrialsComponent implements OnInit {
   constructor() {}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { BehaviorSubject, finalize } from 'rxjs'
@@ -10,6 +10,7 @@ import { BehaviorSubject, finalize } from 'rxjs'
   standalone: true,
   imports: [CommonModule, NzButtonModule, NzIconModule],
   templateUrl: './table-downloader.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./table-downloader.component.less'],
 })
 export class CvcTableDownloaderComponent {

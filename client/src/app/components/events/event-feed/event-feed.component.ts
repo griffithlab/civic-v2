@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   EventAction,
   EventFeedCountGQL,
@@ -44,6 +50,7 @@ export type EventDisplayOption =
   selector: 'cvc-event-feed',
   templateUrl: './event-feed.component.html',
   styleUrls: ['./event-feed.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcEventFeedComponent implements OnInit, OnDestroy {

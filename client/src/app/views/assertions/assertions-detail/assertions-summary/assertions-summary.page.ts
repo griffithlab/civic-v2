@@ -5,6 +5,7 @@ import {
   Input,
   signal,
   Signal,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
@@ -29,6 +30,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
   selector: 'cvc-assertion-summary',
   templateUrl: './assertions-summary.page.html',
   styleUrls: ['./assertions-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AssertionsSummaryPage {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'cvc-login-button',
   templateUrl: './login-button.component.html',
   styleUrls: ['./login-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcLoginButtonComponent implements OnInit {

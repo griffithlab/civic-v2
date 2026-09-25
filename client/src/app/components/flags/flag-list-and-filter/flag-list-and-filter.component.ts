@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, output } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   FlaggableInput,
@@ -31,6 +37,7 @@ export interface SelectableFlagState {
   selector: 'cvc-flag-list-and-filter',
   templateUrl: './flag-list-and-filter.component.html',
   styleUrls: ['./flag-list-and-filter.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcFlagListAndFilterComponent implements OnInit {

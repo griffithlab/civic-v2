@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import {
@@ -40,6 +40,7 @@ import { CvcTagListModule } from '../tag-list/tag-list.module'
   ],
   templateUrl: './clinical-significance-counts.component.html',
   styleUrl: './clinical-significance-counts.component.less',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class CvcClinicalSignificanceCounts {

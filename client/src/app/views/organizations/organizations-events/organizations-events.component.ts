@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { EventFeedMode } from '@app/generated/civic.apollo'
 import {
@@ -10,10 +10,11 @@ import { ActivityFeedFilters } from '../../../components/activities/activity-fee
 import { feedDefaultFilters } from '../../../components/activities/activity-feed/activity-feed.config'
 
 @Component({
-    selector: 'cvc-organizations-events',
-    templateUrl: './organizations-events.component.html',
-    styleUrls: ['./organizations-events.component.less'],
-    standalone: false
+  selector: 'cvc-organizations-events',
+  templateUrl: './organizations-events.component.html',
+  styleUrls: ['./organizations-events.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class OrganizationsEventsComponent {
   feedScope: ActivityFeedScope
@@ -27,7 +28,10 @@ export class OrganizationsEventsComponent {
     }
     this.feedFilters = {
       ...feedDefaultFilters,
-      includeSubgroups: this.route.snapshot.queryParams['includeSubgroups'] === 'true' ? true : false
+      includeSubgroups:
+        this.route.snapshot.queryParams['includeSubgroups'] === 'true'
+          ? true
+          : false,
     }
     this.feedScope = {
       mode: EventFeedMode.Organization,
