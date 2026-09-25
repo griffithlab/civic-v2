@@ -15,6 +15,11 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +35,10 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     NzDescriptionsModule,
     NzPopoverModule,
     NzTypographyModule,
+    NzCardModule,
+    NzRadioModule,
+    NzSelectModule,
+    FormsModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,
     CvcLinkTagModule,

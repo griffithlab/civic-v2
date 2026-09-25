@@ -15,73 +15,110 @@
 }
 
 @if (this.specificationInfo) {
-  <h3>Selected Specification: {{specificationInfo.name}} (v{{ specificationInfo.version }})</h3>
-  <cvc-link-tag
-    [href]="specificationInfo.specificationUrl"
-    tooltip="View Specification Document">
-    Document
-  </cvc-link-tag>
-  <nz-divider></nz-divider>
-  <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(codesModel | keyvalue).length" nzSize="small">
-    @for (item of codesModel | keyvalue: preserveOrder; track item.key) {
-      <nz-descriptions-item [nzTitle]="item.key">
-        <div style="white-space: nowrap;">
-        @for (code of item.value | keyvalue: preserveOrder; track code.key) {
-          <nz-tag nz-popover [nzColor]="code.value.evaluation | specificationToTagColor" [nzPopoverContent]="codePopover" >
-            @if (code.value.modifier) {
-              {{code.key}}_{{code.value.modifier}}
-            } @else {
-              {{code.key}}
-            }
-          </nz-tag>
-          <!-- Turn this into a component and also use on the code tags in the assertion summary -->
-          <ng-template #codePopover>
-            <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
-              <nz-descriptions-item nzTitle="Evaluation">{{code.value.evaluation | enumToTitle}}</nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Modifier">
-                @if (code.value.modifier) {
-                  {{code.value.modifier}}
-                } @else {
-                  <span
-                    nz-typography
-                    nzType="secondary">
-                    <i> No modifier selected</i>
-                  </span>
-                }
-              </nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Justification">
-                @if (code.value.justification) {
-                  {{code.value.justification}}
-                } @else {
-                  <span
-                    nz-typography
-                    nzType="secondary">
-                    <i> No justification provided</i>
-                  </span>
-                }
-              </nz-descriptions-item>
-            </nz-descriptions>
-          </ng-template>
-        }
-        </div>
+  <nz-card [nzTitle]="'Selected Specification: ' + specificationInfo.name + '(v' + specificationInfo.version + ')'">
+    <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small">
+      <nz-descriptions-item nzTitle="Publication Date">
+        {{ specificationInfo.publishedOn }}
       </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Links">
+        <cvc-link-tag
+          [href]="specificationInfo.specificationUrl"
+          tooltip="View Specification Document">
+          Specification Document
+        </cvc-link-tag>
+        <cvc-link-tag
+          [href]="'https://pubmed.ncbi.nlm.nih.gov/' + specificationInfo.sopPubmedId"
+          tooltip="View Publication">
+          Publication
+        </cvc-link-tag>
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </nz-card>
+
+  <nz-divider></nz-divider>
+
+  <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
+    @if (evaluationSummaryDisplayMode() == 'group') {
+      <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(codesModel | keyvalue).length" nzSize="small">
+        @for (item of codesModel | keyvalue: preserveOrder; track item.key) {
+          <nz-descriptions-item [nzTitle]="item.key">
+            <div style="white-space: nowrap;">
+            @for (code of item.value | keyvalue: preserveOrder; track code.key) {
+              <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+            }
+            </div>
+          </nz-descriptions-item>
+        }
+      </nz-descriptions>
+    } @else if (evaluationSummaryDisplayMode() == 'strength') {
+      @let strengthSortedCodesModel = sortByStrength(codesModel);
+      @for (code of strengthSortedCodesModel | keyvalue: preserveOrder; track code.key) {
+        <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+      }
     }
-  </nz-descriptions>
+    <ng-template #evaluationSummaryExtraTemplate>
+      Display Mode:
+      <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
+        <label nz-radio-button nzValue="group">By Group</label>
+        <label nz-radio-button nzValue="strength">By Strength</label>
+      </nz-radio-group>
+    </ng-template>
+  </nz-card>
   <nz-divider></nz-divider>
 }
 
 @if(codesFields) {
-  <form
-    nz-form
-    nzLayout="horizontal"
-    [formGroup]="codesForm"
-    (ngSubmit)="onSubmit()">
-    <formly-form
-      [form]="codesForm"
-      [fields]="codesFields"
-      [model]="codesModel"
-      [options]="{}"
-      (modelChange)="codesModel = $event">
-    </formly-form>
-  </form>
+  <nz-card nzTitle="Evaluation">
+    <form
+      nz-form
+      nzLayout="horizontal"
+      [formGroup]="codesForm"
+      (ngSubmit)="onSubmit()">
+      <formly-form
+        [form]="codesForm"
+        [fields]="codesFields"
+        [model]="codesModel"
+        [options]="{}"
+        (modelChange)="codesModel = $event">
+      </formly-form>
+    </form>
+  </nz-card>
 }
+
+<ng-template #codeTag let-code="code" let-values="values">
+  <nz-tag nz-popover [nzColor]="values.evaluation | specificationToTagColor" [nzPopoverContent]="codePopover" >
+    @if (values.modifier) {
+      {{code}}_{{values.modifier}}
+    } @else {
+      {{code}}
+    }
+  </nz-tag>
+  <!-- Turn this into a component and also use on the code tags in the assertion summary -->
+  <ng-template #codePopover>
+    <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Evaluation">{{values.evaluation | enumToTitle}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Modifier">
+        @if (values.modifier) {
+          {{values.modifier}}
+        } @else {
+          <span
+            nz-typography
+            nzType="secondary">
+            <i> No modifier selected</i>
+          </span>
+        }
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Justification">
+        @if (values.justification) {
+          {{values.justification}}
+        } @else {
+          <span
+            nz-typography
+            nzType="secondary">
+            <i> No justification provided</i>
+          </span>
+        }
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </ng-template>
+</ng-template>

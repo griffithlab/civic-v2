@@ -44,6 +44,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   codesForm: UntypedFormGroup
   codesFields?: FormlyFieldConfig[]
 
+  readonly evaluationSummaryDisplayMode = signal<string>('group');
   evaluationStatuses = Object.values(SpecificationEvaluationStatus).map((v) => { return {label: v.replace("_", " ").toLowerCase(), value: v} })
 
 // reviseEvidenceMutator: MutatorWithState<
@@ -170,7 +171,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                   expressions: {
                                     'props.disabled': (field: FormlyFieldConfig) => {
                                       const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                      return ['EXCLUDED', 'NOT_EVALUATED'].includes(evaluation)
+                                      return ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation)
                                     }
                                   },
                                 },
@@ -184,7 +185,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                   expressions: {
                                     'props.disabled': (field: FormlyFieldConfig) => {
                                       const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                      return ['EXCLUDED', 'NOT_EVALUATED'].includes(evaluation)
+                                      return ['NOT_EVALUATED'].includes(evaluation)
                                     }
                                   },
                                 },
@@ -243,7 +244,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                     key: 'specification_fields',
                     wrappers: ['form-card'],
                     props: {
-                      formCardOptions: { title: 'Curate Specification' },
+                      formCardOptions: { title: 'Select Specification' },
 
                     },
                     fieldGroup: [
@@ -282,5 +283,17 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   preserveOrder = (a: KeyValue<any, any>, b: KeyValue<any, any>): number => {
     return 0;
+  }
+
+  sortByStrength(model: {}) {
+    const codes = Object.assign({}, ...Object.values(model))
+    const sortOrder = ["OVS1", "OS1", "OS2", "OS3", "OM1", "OM2", "OM3", "OM4", "OP1", "OP2", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2"]
+    const sortedCodes = sortOrder.reduce<Record<string, any>>((accumulator, key) => {
+      if (key in codes) {
+        accumulator[key] = codes[key];
+      }
+      return accumulator;
+    }, {});
+    return sortedCodes
   }
 }
