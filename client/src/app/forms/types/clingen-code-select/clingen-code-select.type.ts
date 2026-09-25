@@ -1,112 +1,103 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  QueryList,
-  TemplateRef,
   Type,
-  ViewChildren,
+  effect,
+  inject,
+  signal,
+  untracked,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { EntityType } from '@app/forms/states/base.state'
+import { ReactiveFormsModule } from '@angular/forms'
 import {
-  ClingenCodeSelectTagGQL,
-  ClingenCodeSelectTagQuery,
-  ClingenCodeSelectTagQueryVariables,
-  ClingenCodeSelectTypeaheadFieldsFragment,
-  ClingenCodeSelectTypeaheadGQL,
-  ClingenCodeSelectTypeaheadQuery,
-  ClingenCodeSelectTypeaheadQueryVariables,
-} from './clingen-code-select.query.gql.generated'
-import { Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+  CvcEntitySelectDirective,
+  CvcSelectMessagesComponent,
+  CvcTypeGateConfig,
+  CvcTypeGatedSelectFieldBase,
+  CvcTypeGatedSelectFieldProps,
+  entitySelectConfig,
+} from '@app/forms/select'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
+import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  Subject,
-} from 'rxjs'
-import mixin from 'ts-mixin-extended'
-import { Apollo } from 'apollo-angular'
+  ClingenCodeSelectTagGQL,
+  ClingenCodeSelectTypeaheadFieldsFragment,
+  ClingenCodeSelectTypeaheadGQL,
+} from './clingen-code-select.query.gql.generated'
 
 export type CvcClingenCodeSelectFieldOptions = Partial<
   FieldTypeConfig<CvcClingenCodeSelectFieldProps>
 >
-// TODO: finish implementing updated props interface w/ labels, placeholders groups,
-// and multiMax limits, multiDefault placeholder
-export interface CvcClingenCodeSelectFieldProps extends FormlyFieldProps {
-  // entity names, singular & plural
-  entityName: CvcSelectEntityName
-  // if true, field is a multi-select & its model value should be an array
-  isMultiSelect: boolean
-  // if true, field disabled when no entity type available
-  requireType: boolean
-  placeholder: string
-  requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
-  tooltip?: string
-  description?: string
-  extraType?: string
-}
+
+export type CvcClingenCodeSelectFieldProps = CvcTypeGatedSelectFieldProps
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcClingenCodeSelectFieldConfig extends FormlyFieldConfig<CvcClingenCodeSelectFieldProps> {
+export interface CvcClingenCodeSelectFieldConfig
+  extends FormlyFieldConfig<CvcClingenCodeSelectFieldProps> {
   type:
     | 'clingen-code-select'
     | 'clingen-code-multi-select'
     | Type<CvcClingenCodeSelectField>
 }
 
-const ClingenCodeSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcClingenCodeSelectFieldProps>,
-    Maybe<number | number[]>
-  >(),
-  EntitySelectField<
-    ClingenCodeSelectTypeaheadQuery,
-    ClingenCodeSelectTypeaheadQueryVariables,
-    ClingenCodeSelectTypeaheadFieldsFragment,
-    ClingenCodeSelectTagQuery,
-    ClingenCodeSelectTagQueryVariables,
-    Maybe<number | number[]>
-  >()
-)
+const EXCLUSIVE_NOTICE =
+  'You have selected N/A which precludes selecting any other codes. Please remove it if you wish to select additional codes.'
 
 @Component({
   selector: 'cvc-clingen-code-select',
-  templateUrl: './clingen-code-select.type.html',
-  styleUrls: ['./clingen-code-select.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    NzTypographyModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcSelectMessagesComponent,
+  ],
+  templateUrl: './clingen-code-select.type.html',
+  styleUrl: './clingen-code-select.type.less',
 })
-export class CvcClingenCodeSelectField
-  extends ClingenCodeSelectMixin
-  implements AfterViewInit
-{
-  // STATE SOURCE STREAMS
-  onEntityType$?: Subject<Maybe<EntityType>>
-  onRequiresClingenCode$?: BehaviorSubject<boolean>
+export class CvcClingenCodeSelectField extends CvcTypeGatedSelectFieldBase<
+  ClingenCodeSelectTypeaheadFieldsFragment,
+  void,
+  CvcClingenCodeSelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(ClingenCodeSelectTypeaheadGQL)
+  private readonly tagGQL = inject(ClingenCodeSelectTagGQL)
 
-  placeholder$: BehaviorSubject<Maybe<string>>
+  protected readonly select = entitySelectConfig({
+    entityName: {
+      singular: 'ClinGen/CGC/VICC Code',
+      plural: 'ClinGen/CGC/VICC Codes',
+    },
+    typename: 'ClingenCode',
+    typeahead: this.typeaheadGQL,
+    // this query names its search variable code, not name
+    typeaheadVars: (code: string) => ({ code }),
+    typeaheadResults: (data) => data?.clingenCodesTypeahead ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (id: number) => ({ id }),
+      result: (data) => data?.clingenCode,
+    },
+  })
 
-  exclusiveCodes = new Set<number>()
-  previousDescription?: string
-  previousDescriptionType?: string
-  exclusiveSelected = false
+  protected readonly typeGate: CvcTypeGateConfig = {
+    requiresKey: 'requiresClingenCodes$',
+    excludedDescription: (entityType, entityName) =>
+      `${entityType} ${entityName} does not include associated ClinGen/CGC/VICC Code(s)`,
+  }
 
-  // FieldTypeConfig defaults
   defaultOptions: CvcClingenCodeSelectFieldOptions = {
     props: {
       entityName: {
@@ -117,195 +108,78 @@ export class CvcClingenCodeSelectField
       requireType: true,
       tooltip:
         'If applicable, please provide evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity).',
-      // TODO: implement labels/placeholders w/ string replacement using typescript
-      // template strings: https://www.codevscolor.com/typescript-template-string
       placeholder: 'Search ClinGen/CGC/VICC Codes',
-      requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
+      requireTypePromptFn: (entityName: string) =>
         `Select an ${entityName} Type to search associated ClinGen Code(s)`,
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
+  /**
+   * Codes that preclude every other code (N/A). Accumulated as results arrive
+   * rather than read off the current result list, because the selection can
+   * outlive the search that produced it.
+   */
+  private readonly exclusiveIds = signal<ReadonlySet<number>>(new Set())
 
-  stateEntityName?: string
+  /** whether an exclusive code is currently selected */
+  private exclusiveActive = false
+  /** what the type gate last wanted the description to say */
+  private gateDescription?: string
+  private gateExtraType?: CvcFormFieldExtraType
 
-  constructor(
-    private taq: ClingenCodeSelectTypeaheadGQL,
-    private tq: ClingenCodeSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
+  constructor() {
     super()
-    this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
+    effect(() => this.rememberExclusive(this.results()))
+    effect(() => this.enforceExclusive(this.value()))
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEntitySelectField({
-      // mixin fn
-      typeaheadQuery: this.taq,
-      typeaheadParam$: undefined,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectComponent: this.selectComponent,
-    })
-    this.configurePlaceholders()
+  private rememberExclusive(
+    results: readonly ClingenCodeSelectTypeaheadFieldsFragment[]
+  ): void {
+    const known = untracked(this.exclusiveIds)
+    const updated = new Set(known)
+    for (const result of results) {
+      if (result.exclusive) updated.add(result.id)
+    }
+    if (updated.size !== known.size) this.exclusiveIds.set(updated)
+  }
 
-    this.onValueChange$.pipe(untilDestroyed(this)).subscribe((codes) => {
-      if (codes && Array.isArray(codes) && codes.length > 1) {
-        const selectedExclusiveCode = codes.find((c) =>
-          this.exclusiveCodes.has(c)
-        )
-        if (selectedExclusiveCode) {
-          this.previousDescription = this.props.description
-          this.previousDescriptionType = this.props.extraType
-          this.props.description =
-            'You have selected N/A which precludes selecting any other codes. Please remove it if you wish to select additional codes.'
-          this.exclusiveSelected = true
-          this.formControl.setValue([selectedExclusiveCode])
-        } else {
-          this.exclusiveSelected = false
-        }
-      }
-      if (this.previousDescription && !this.exclusiveSelected) {
-        this.props.description = this.previousDescription
-        this.props.extraType = this.previousDescriptionType
-      }
-      this.cdr.detectChanges()
-    })
-  } // ngAfterViewInit()
+  /**
+   * Selecting N/A alongside other codes collapses the selection to N/A alone.
+   * The old field only re-evaluated when more than one code was selected, so
+   * the notice survived deselecting N/A; here it simply tracks whether an
+   * exclusive code is in the current selection.
+   */
+  private enforceExclusive(value: unknown): void {
+    const ids = Array.isArray(value) ? (value as number[]) : []
+    const exclusive = ids.find((id) => this.exclusiveIds().has(id))
 
-  configureStateConnections(): void {
-    if (!this.state) return
-    this.stateEntityName = this.state.entityName
-    // connect to onRequiresClingenCode$
-    if (!this.state.requires.requiresClingenCodes$) {
-      console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresClingenCodes$ subject to attach.`
-      )
+    const active = exclusive !== undefined
+    if (active !== this.exclusiveActive) {
+      this.exclusiveActive = active
+      this.applyDescription()
+      this.cdr.markForCheck()
+    }
+
+    if (exclusive !== undefined && ids.length > 1) {
+      this.formControl.setValue([exclusive])
+    }
+  }
+
+  protected override onTypeGateApplied(): void {
+    this.gateDescription = this.props.description
+    this.gateExtraType = this.props.extraType
+    this.applyDescription()
+  }
+
+  /** the exclusive notice outranks whatever the type gate wanted to say */
+  private applyDescription(): void {
+    if (this.exclusiveActive) {
+      this.props.description = EXCLUSIVE_NOTICE
+      this.props.extraType = 'prompt'
     } else {
-      this.onRequiresClingenCode$ = this.state.requires.requiresClingenCodes$
+      this.props.description = this.gateDescription
+      this.props.extraType = this.gateExtraType
     }
-
-    // connect onEntityType$
-    if (this.props.requireType) {
-      const etName = `${this.stateEntityName.toLowerCase()}Type$`
-      if (!this.state.fields[etName]) {
-        console.error(
-          `${this.field.id} requireType is true, however form state does not provide Subject ${etName}.`
-        )
-      } else {
-        this.onEntityType$ = this.state.fields[etName]
-        // this.onEntityType$.pipe(tag(`${this.field.id} onEntityType$`)).subscribe()
-      }
-    }
-  }
-
-  configurePlaceholders(): void {
-    this.placeholder$.next(this.props.placeholders)
-    if (!this.onRequiresClingenCode$ || !this.onEntityType$) return
-    // update field placeholders & required status on state input events
-    combineLatest([this.onRequiresClingenCode$, this.onEntityType$])
-      .pipe(distinctUntilChanged(), untilDestroyed(this))
-      .subscribe(
-        ([requiresClingenCode, entityType]: [boolean, Maybe<EntityType>]) => {
-          // ClinGen Codes are not associated with this entity type
-          if (!requiresClingenCode && entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no ClinGen Code required, entity type specified
-            this.props.description = `${formatEvidenceEnum(entityType)} ${
-              this.state!.entityName
-            } does not include associated ClinGen/CGC/VICC Code(s)`
-            this.props.extraType = 'prompt'
-            this.resetField()
-            this.cdr.markForCheck()
-          }
-          // if type required, toggle field required property off and show a 'Select Type..' prompt
-          else if (this.props.requireType && !entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no ClinGen Code required, entity type not specified
-            this.props.description = this.props.requireTypePromptFn(
-              this.state!.entityName,
-              this.props.isMultiSelect
-            )
-            this.props.extraType = 'prompt'
-          }
-          // state indicates ClinGen Code is required, set required, unset disabled, and show the placeholder
-          // (state will only return true from requiresClinGenCode$ if entityType provided)
-          else if (requiresClingenCode) {
-            this.props.required = true
-            this.props.disabled = false
-            this.props.description =
-              'Please provide the evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity) in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Horak et. al. 2022.</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.'
-            this.props.extraType = 'description'
-          }
-          // field currently has a value, but state indicates no ClinGen Code is required, or no type is
-          // provided && type is required, so reset field
-          else if (
-            (!requiresClingenCode && this.formControl.value) ||
-            (this.props.requireType && !entityType && this.formControl.value)
-          ) {
-            this.resetField()
-          }
-        }
-      )
-  }
-
-  getTypeaheadVarsFn(str: string): ClingenCodeSelectTypeaheadQueryVariables {
-    return { code: str }
-  }
-
-  getTypeaheadResultsFn(
-    r: Apollo.QueryResult<ClingenCodeSelectTypeaheadQuery>
-  ) {
-    const codes = r.data?.clingenCodesTypeahead ?? []
-    codes.forEach((c) => {
-      if (c.exclusive) {
-        this.exclusiveCodes.add(c.id)
-      }
-    })
-    return codes
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<ClingenCodeSelectTagQuery>
-  ): Maybe<ClingenCodeSelectTypeaheadFieldsFragment> {
-    return r.data?.clingenCode
-  }
-
-  getTagQueryVarsFn(id: number): ClingenCodeSelectTagQueryVariables {
-    return { id: id }
-  }
-
-  getSelectedItemOptionFn(
-    clingenCode: ClingenCodeSelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: clingenCode.id, label: clingenCode.code }
-  }
-
-  getSelectOptionsFn(
-    results: ClingenCodeSelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (
-        clingenCode: ClingenCodeSelectTypeaheadFieldsFragment,
-        index: number
-      ) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || clingenCode.code,
-          value: clingenCode.id,
-        }
-      }
-    )
   }
 }
