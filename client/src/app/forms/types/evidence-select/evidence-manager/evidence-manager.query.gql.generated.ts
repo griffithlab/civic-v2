@@ -30,6 +30,7 @@ export type EvidenceManagerQueryVariables = Types.Exact<{
   phenotypeId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   diseaseId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   therapyId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
+  therapyInteractionType?: Types.InputMaybe<Types.TherapyInteraction>;
   sourceId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   clinicalTrialId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   molecularProfileName?: Types.InputMaybe<Types.Scalars['String']['input']>;
@@ -41,11 +42,7 @@ export type EvidenceManagerQuery = { __typename: 'Query', evidenceItems: { __typ
             | { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
             | { __typename: 'MolecularProfileTextSegment', text: string }
             | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
-          > } } | undefined }>, nodes: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: Types.EvidenceStatus, flagged: boolean, therapyInteractionType?: Types.TherapyInteraction | undefined, description: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean, deprecated: boolean, parsedName: Array<
-          | { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
-          | { __typename: 'MolecularProfileTextSegment', text: string }
-          | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
-        > } }> } };
+          > } } | undefined }> } };
 
 export type EvidenceManagerFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, status: Types.EvidenceStatus, flagged: boolean, therapyInteractionType?: Types.TherapyInteraction | undefined, description: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean, deprecated: boolean, parsedName: Array<
       | { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }
@@ -86,7 +83,7 @@ ${LinkableTherapyFragmentDoc}
 ${LinkableMolecularProfileFragmentDoc}
 ${MolecularProfileParsedNameFragmentDoc}`;
 export const EvidenceManagerDocument = gql`
-    query EvidenceManager($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+    query EvidenceManager($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: [Int!], $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $therapyInteractionType: TherapyInteraction, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -110,6 +107,7 @@ export const EvidenceManagerDocument = gql`
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
     therapyId: $therapyId
+    therapyInteractionType: $therapyInteractionType
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
     molecularProfileName: $molecularProfileName
@@ -129,9 +127,6 @@ export const EvidenceManagerDocument = gql`
       node {
         ...EvidenceManagerFields
       }
-    }
-    nodes {
-      ...EvidenceManagerFields
     }
   }
 }
