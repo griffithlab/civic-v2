@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main, staging, 'v22-*', 'w2-*', 'w3-*', 'w4-*', 's5-*' ]
 
+permissions:
+  contents: read
+
 jobs:
   run-scripts:
     runs-on: 'ubuntu-latest'
