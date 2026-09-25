@@ -3,11 +3,22 @@
     nz-col
     nzSpan="4">
     <nz-steps
-      nzProgressDot
       nzDirection="vertical"
-      [nzCurrent]="currentStep()">
-      @for (step of field.fieldGroup; track step.key) {
-        <nz-step [nzTitle]="step.props?.stepLabel"> </nz-step>
+      [nzCurrent]="currentStep()"
+      (nzIndexChange)="onIndexChange($event)">
+      @for (step of field.fieldGroup; track step.key; let i = $index) {
+        <nz-step [nzTitle]="step.props?.stepLabel" [nzIcon]="iconTemplate"> </nz-step>
+        <ng-template #iconTemplate>
+          @if (isValid(step)) {
+            @if (i == currentStep()) {
+              <p style="font-size: 12px;">&#11044;</p>
+            } @else {
+              <p style="font-size: 8px;">&#11044;</p>
+            }
+          } @else {
+            <nz-icon nzType="warning" nzTheme="twotone" nzTwotoneColor="#CD1C18" />
+          }
+        </ng-template>
       }
     </nz-steps>
   </div>

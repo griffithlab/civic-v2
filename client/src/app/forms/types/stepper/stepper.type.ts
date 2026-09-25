@@ -27,6 +27,10 @@ export class CvcFieldStepper extends FieldType {
     this.currentStep.update(currentStep => currentStep + 1);
   }
 
+  onIndexChange(index: number): void {
+    this.currentStep.set(index);
+  }
+
   //foo(step: any): Maybe<string> {
   //  const metCode: any = Object.entries(step.model).find( codeModel => {
   //    (codeModel[1] as any).evaluation == "MET"

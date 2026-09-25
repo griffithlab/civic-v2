@@ -125,39 +125,15 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     label: "Evaluation",
                                     options: this.evaluationStatuses,
                                     required: true,
-                                    change: (field, event) => {
-                                      const sourceValue = field.formControl?.value;
-                                      const criterium = field.parent?.parent?.key
-
-                                      //set codes in the same assessment group to excluded
-                                      if (sourceValue == 'MET') {
-                                        const otherCodesInGroup = field.parent?.parent?.parent?.fieldGroup?.filter((c) => c.key != criterium)
-                                        if (otherCodesInGroup) {
-                                          otherCodesInGroup.map((c) => {
-                                            if (c.fieldGroup) {
-                                              const field = c.fieldGroup[0].fieldGroup?.find((field) => field.key == 'evaluation')
-                                              if (field) {
-                                                field.formControl?.setValue("EXCLUDED")
-                                              }
-                                            }
-                                          })
-                                        }
-                                        //set mutual exclusive codes to excluded
-                                        const mutuallyExclusiveCodes = code.mutuallyExclusiveCodes
-                                        const allCodes = field.parent?.parent?.parent?.parent?.fieldGroup?.flatMap((c) => c.fieldGroup)
-                                        if (allCodes) {
-                                          for (const mutuallyExclusiveCode of mutuallyExclusiveCodes) {
-                                            const exclusiveCode = allCodes.filter((c) => c && c.key == mutuallyExclusiveCode)
-                                            if (exclusiveCode && exclusiveCode[0] && exclusiveCode[0].fieldGroup) {
-                                              const field = exclusiveCode[0].fieldGroup[0].fieldGroup?.find((field) => field.key == 'evaluation')
-                                              if (field) {
-                                                field.formControl?.setValue("EXCLUDED")
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
+                                    extraInfo: {
+                                      mutuallyExclusiveCodes: code.mutuallyExclusiveCodes,
                                     }
+                                  },
+                                  validators: {
+                                    validation: [
+                                      'evaluationConflictingCodes',
+                                      'evaluationCrossGroupConflictingCodes'
+                                    ]
                                   }
                                 },
                                 {
