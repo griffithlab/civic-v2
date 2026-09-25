@@ -10,6 +10,7 @@ import {
 } from '@angular/core'
 import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { Maybe } from '@app/generated/civic.apollo.types'
+import { BATCHED } from '@app/graphql/graphql.module'
 import { EntityTagRef, TaggableTypename } from '@app/tags'
 import { FieldTypeConfig } from '@ngx-formly/core'
 import { Observable, debounceTime, forkJoin, map, of } from 'rxjs'
@@ -242,8 +243,12 @@ export abstract class CvcEntitySelectFieldBase<
 
   /**
    * Fetches each selected entity cache-first so its Linkable* fragment lands
-   * in the cache — cvc-tag renders reactively from there — and records its
-   * concrete typename.
+   * in the cache, where cvc-tag renders from, and records its concrete
+   * typename.
+   *
+   * A prepopulated form issues one lookup per selected entity, so these opt
+   * into batched transport (`BATCHED`). Batching stays opt-in because a batch
+   * is capped by operation count, not cost, and these are uniformly cheap.
    */
   protected fetchTagRecords(
     value: number | number[]
@@ -256,6 +261,7 @@ export abstract class CvcEntitySelectFieldBase<
           .fetch({
             variables: this.select.tag.vars(id),
             fetchPolicy: 'cache-first',
+            context: BATCHED,
           })
           .pipe(map((r) => this.select.tag.result(r.data)))
       )

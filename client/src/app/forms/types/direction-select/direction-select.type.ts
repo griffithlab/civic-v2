@@ -166,12 +166,12 @@ export class CvcDirectionSelectField extends CvcEnumSelectFieldBase<
     this.props.tooltip = `An indicator of whether the ${state.entityName} statement supports or refutes the clinical significance of an event.`
     this.placeholder.set(this.props.placeholderFn(state.entityName))
 
-    if (!state.enums.direction$) {
+    if (!state.enums.direction) {
       console.error(
         `${this.field.id} could not find form state's direction$ to populate select.`
       )
     } else {
-      this.connectStateEnum(state.enums.direction$)
+      this.connectStateEnum(state.enums.direction)
     }
 
     const entityType = this.connectEntityTypeGate()

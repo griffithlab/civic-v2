@@ -6,7 +6,7 @@ import {
   createEnumFieldHarness,
   describeEnumSelectContract,
 } from '@app/testing/enum-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 import { CvcSignificanceSelectField } from './significance-select.type'
 
@@ -26,13 +26,13 @@ const formState = (
   entityName: 'Evidence',
   formMode,
   fields: {
-    evidenceType$: new BehaviorSubject<EvidenceType | undefined>(entityType),
-    significance$: new BehaviorSubject<EvidenceSignificance | undefined>(
+    evidenceType: signal<EvidenceType | undefined>(entityType),
+    significance: signal<EvidenceSignificance | undefined>(
       undefined
     ),
   },
   enums: {
-    significance$: new BehaviorSubject(SIGNIFICANCES),
+    significance: signal(SIGNIFICANCES),
   },
   requires: {},
 })
@@ -75,7 +75,7 @@ describe('CvcSignificanceSelectField', () => {
   it('enables itself once an entity type is chosen', async () => {
     const state = formState()
     const h = await setup(state)
-    state.fields.evidenceType$.next(EvidenceType.Predictive)
+    state.fields.evidenceType.set(EvidenceType.Predictive)
     await h.settle()
 
     expect(h.props().disabled).toBe(false)
@@ -104,7 +104,7 @@ describe('CvcSignificanceSelectField', () => {
     await h.settle()
     expect(h.control().value).toBe(EvidenceSignificance.Resistance)
 
-    state.fields.evidenceType$.next(EvidenceType.Diagnostic)
+    state.fields.evidenceType.set(EvidenceType.Diagnostic)
     await h.settle()
     expect(h.control().value).toBeUndefined()
     h.destroy()

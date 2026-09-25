@@ -2,6 +2,7 @@
 import * as Types from '../../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { FeatureInstanceRefFragmentDoc } from '../../../../graphql/feature-instance.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type FeaturesSummaryQueryVariables = Types.Exact<{
@@ -303,7 +304,7 @@ export const FeatureSummaryFieldsFragmentDoc = gql`
   deprecated
   flagged
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
     ... on Gene {
       ...GeneSummaryFields
     }
@@ -318,7 +319,8 @@ export const FeatureSummaryFieldsFragmentDoc = gql`
     }
   }
 }
-    ${GeneSummaryFieldsFragmentDoc}
+    ${FeatureInstanceRefFragmentDoc}
+${GeneSummaryFieldsFragmentDoc}
 ${FactorSummaryFieldsFragmentDoc}
 ${FusionSummaryFieldsFragmentDoc}
 ${RegionSummaryFieldsFragmentDoc}`;

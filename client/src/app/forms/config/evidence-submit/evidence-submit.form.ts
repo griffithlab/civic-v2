@@ -150,11 +150,9 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
             console.error(error)
           },
           complete: () => {
-            this.state.formReady$.next(true)
           },
         })
     } else {
-      this.state.formReady$.next(true)
     }
   }
 

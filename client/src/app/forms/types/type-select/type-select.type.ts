@@ -95,13 +95,13 @@ export class CvcEntityTypeSelectField extends CvcEnumSelectFieldBase<
     this.props.label = this.props.label?.replace(ENTITY_NAME, state.entityName)
     this.props.tooltip = `Type of clinical outcome associated with the ${state.entityName} statement.`
 
-    if (!state.enums.entityType$) {
+    if (!state.enums.entityType) {
       console.error(
-        `${this.field.id} could not find state's enums.entityType$ to populate its select options.`
+        `${this.field.id} could not find state's enums.entityType to populate its select options.`
       )
       return
     }
-    this.connectStateEnum(state.enums.entityType$)
+    this.connectStateEnum(state.enums.entityType)
   }
 
   protected override descriptionFor(value: EntityType): Maybe<string> {

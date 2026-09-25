@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Output,
+  signal,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { CvcVariantSelectFieldOptions } from '@app/forms/types/variant-select/variant-select.type'
@@ -11,7 +12,7 @@ import { Maybe, Variant } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, lastValueFrom } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
+import { EntityFieldSignalMap } from '@app/forms/states/base.state'
 import { Apollo } from 'apollo-angular'
 import { readCachedVariant } from '@app/forms/types/variant-select/cached-variant'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
@@ -24,7 +25,7 @@ type VariantSubmitModel = {
 
 type VariantSubmitState = {
   formLayout: NzFormLayoutType
-  fields: EntityFieldSubjectMap
+  fields: EntityFieldSignalMap
 }
 
 @Component({
@@ -49,8 +50,8 @@ export class VariantSubmitForm {
   finderState: VariantSubmitState = {
     formLayout: this.layout,
     fields: {
-      featureId$: new BehaviorSubject<Maybe<number>>(undefined),
-      variantId$: new BehaviorSubject<Maybe<number>>(undefined),
+      featureId: signal<Maybe<number>>(undefined),
+      variantId: signal<Maybe<number>>(undefined),
     },
   }
   options: FormlyFormOptions

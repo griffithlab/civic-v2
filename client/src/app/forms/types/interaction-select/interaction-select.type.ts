@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Type, effect } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Signal,
+  Type,
+  effect,
+} from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcAttributeTagComponent } from '@app/forms/components/attribute-tag/attribute-tag.component'
@@ -13,7 +19,7 @@ import {
   FormlyModule,
 } from '@ngx-formly/core'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { Observable, startWith } from 'rxjs'
+import { startWith } from 'rxjs'
 
 const optionText: Record<string, string> = {
   COMBINATION:
@@ -76,20 +82,20 @@ export class CvcInteractionSelectField extends CvcEnumSelectFieldBase<
   override ngOnInit(): void {
     super.ngOnInit()
     if (this.state) {
-      if (!this.state.enums.interaction$) {
+      if (!this.state.enums.interaction) {
         console.error(
-          `${this.field.id} could not find form state's interaction$ to populate select.`
+          `${this.field.id} could not find form state's interaction to populate select.`
         )
       } else {
-        this.connectStateEnum(this.state.enums.interaction$)
+        this.connectStateEnum(this.state.enums.interaction)
       }
     } else {
       // forms without a state object (source submit) offer every interaction
       this.optionValues.set(Object.values(TherapyInteraction))
     }
 
-    const therapies = this.therapyIdChanges()
-    if (!therapies) {
+    const therapyIds = this.therapyIdSignal()
+    if (!therapyIds) {
       console.warn(
         `${this.field.id} could not find a therapyIds control to handle its required & disabled states.`
       )
@@ -97,7 +103,6 @@ export class CvcInteractionSelectField extends CvcEnumSelectFieldBase<
       return
     }
 
-    const therapyIds = toSignal(therapies, { injector: this.injector })
     effect(
       () => this.applyGate(therapyIds()?.length ?? 0, this.selected()),
       { injector: this.injector }
@@ -105,14 +110,16 @@ export class CvcInteractionSelectField extends CvcEnumSelectFieldBase<
   }
 
   /**
-   * The therapy selection this field follows: the form state's subject when
+   * The therapy selection this field follows: the form state's signal when
    * the form has one, otherwise the sibling `therapyIds` control.
    */
-  private therapyIdChanges(): Maybe<Observable<Maybe<number[]>>> {
-    if (this.state) return this.state.fields.therapyIds$
+  private therapyIdSignal(): Maybe<Signal<Maybe<number[]>>> {
+    if (this.state) return this.state.fields.therapyIds
     const control = this.form.get('therapyIds')
     return control
-      ? control.valueChanges.pipe(startWith(control.value))
+      ? toSignal(control.valueChanges.pipe(startWith(control.value)), {
+          injector: this.injector,
+        })
       : undefined
   }
 
