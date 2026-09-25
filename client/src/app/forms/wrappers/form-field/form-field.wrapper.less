@@ -1,155 +1,97 @@
-@import 'themes/default.less';
+@import 'themes/field-states.less';
 
-@default-border: 1px solid @blue-1;
-@default-bg-color: @blue-1;
-@default-label-color: @blue-7;
-@default-icon-color: @blue-4;
-
-@disabled-border: 1px solid @grey-3;
-@disabled-bg-color: @grey-3;
-@disabled-label-color: @text-color-secondary;
-@disabled-icon-color: @grey-5;
-
-@required-border: 1px solid @blue-4;
-@required-bg-color: @blue-1;
-@required-label-color: @blue-7;
-@required-icon-color: @blue-5;
-
-@error-border: 1px solid @red-4;
-@error-bg-color: @red-1;
-@error-label-color: @red-7;
-@error-icon-color: @red-5;
-
-@valid-border: 1px solid @green-4;
-@valid-bg-color: @green-1;
-@valid-label-color: @green-7;
-@valid-icon-color: @green-5;
 
 @item-border-radius: 4px;
 @item-padding: 4px 8px;
-@item-border: @default-border;
-@item-background-color: @default-bg-color;
+@item-border: @field-default-border;
+@item-background-color: @field-default-bg-color;
+
+// Recolors the label marker, text and help icon for one field state. The
+// `required` state is written out separately below because it establishes the
+// ::before marker these only recolor, so it has to come first.
+//
+// Only the outermost ::ng-deep matters: everything after it is already
+// unscoped.
+.label-state(@state; @label-color; @icon-color) {
+  &.@{state} > nz-form-label ::ng-deep label {
+    &:before {
+      border-color: @label-color;
+    }
+    span.label {
+      color: @label-color;
+    }
+    span.anticon path {
+      color: @icon-color;
+    }
+  }
+}
+
+// Vertical-layout fields render as a filled block, tinted per state.
+.layout-state(@state; @bg-color; @border) {
+  &.@{state} {
+    background-color: @bg-color;
+    border: @border;
+  }
+}
 
 :host {
   > nz-form-item {
     border-radius: @item-border-radius;
     margin-top: 8px;
     margin-bottom: 0;
+
     // defaults
     > nz-form-label {
       span.label {
-        color: @default-label-color;
+        color: @field-default-label-color;
       }
       ::ng-deep span.anticon {
         margin-left: 0.25em;
         path {
-          color: @default-icon-color;
+          color: @field-default-icon-color;
         }
       }
     }
 
-    // handy selector for selecting fields contained by a form-row wrapper
-    :host-context(.form-row-wrapped) {
-      > nz-form-item {
-        margin-top: 0;
-        margin-bottom: 0;
+    &.required > nz-form-label ::ng-deep label {
+      &:before {
+        border: 1px solid @field-required-label-color;
+        height: 1em;
+        content: '';
+      }
+      span.label {
+        color: @field-required-label-color;
+        font-weight: 600;
+      }
+      span.anticon path {
+        color: @field-required-icon-color;
       }
     }
 
-    // required state
-    &.required {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border: 1px solid @required-label-color;
-            height: 1em;
-            content: '';
-          }
-          span.label {
-            color: @required-label-color;
-            font-weight: 600;
-          }
-          ::ng-deep span.anticon path {
-            color: @required-icon-color;
-          }
-        }
-      }
-    }
-
-    // error state
-    &.error {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border-color: @error-label-color;
-          }
-          span.label {
-            color: @error-label-color;
-          }
-          ::ng-deep span.anticon path {
-            color: @error-icon-color;
-          }
-        }
-      }
-    }
-
-    // valid state
-    &.valid {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border-color: @valid-label-color;
-          }
-          span.label {
-            color: @valid-label-color;
-          }
-          ::ng-deep span.anticon path {
-            color: @valid-icon-color;
-          }
-        }
-      }
-    }
-
-    &.disabled {
-      > nz-form-label {
-        ::ng-deep label {
-          &:before {
-            border-color: @disabled-label-color;
-          }
-          span.label {
-            color: @disabled-label-color;
-          }
-          ::ng-deep span.anticon path {
-            color: @disabled-icon-color;
-          }
-        }
-      }
-    }
+    .label-state(error; @field-error-label-color; @field-error-icon-color);
+    .label-state(valid; @field-valid-label-color; @field-valid-icon-color);
+    .label-state(disabled; @field-disabled-label-color; @field-disabled-icon-color);
   }
+}
+
+// Fields inside a form-row drop their own vertical margin; the row wrapper
+// owns that spacing. Keep this at the top level, where :host-context emits
+// only the working selector; nested, it also emits a dead alternative.
+:host-context(.form-row-wrapped) > nz-form-item {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 // vertical layout fields displayed in a block w/ bg color & border styles
 :host(.layout-vertical) {
   > nz-form-item {
-    background-color: @default-bg-color;
-    border: @default-border;
+    background-color: @field-default-bg-color;
+    border: @field-default-border;
     padding: @item-padding;
-    &.required {
-      background-color: @required-bg-color;
-      border: @required-border;
-    }
-    &.error {
-      background-color: @error-bg-color;
-      border: @error-border;
-    }
-    &.valid {
-      background-color: @valid-bg-color;
-      border: @valid-border;
-    }
-    &.disabled {
-      background-color: @disabled-bg-color;
-      border: @disabled-border;
-    }
+    .layout-state(required; @field-required-bg-color; @field-required-border);
+    .layout-state(error; @field-error-bg-color; @field-error-border);
+    .layout-state(valid; @field-valid-bg-color; @field-valid-border);
+    .layout-state(disabled; @field-disabled-bg-color; @field-disabled-border);
   }
 }
 
@@ -158,7 +100,6 @@
   // ensure consistent height of description, validation message line
   min-height: 16px;
   line-height: 1.2;
-  // font-size: 96%;
   margin-top: 4px;
   .extra-prompt {
     font-weight: 400;
