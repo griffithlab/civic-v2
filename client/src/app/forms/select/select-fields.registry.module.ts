@@ -3,9 +3,14 @@ import { CvcAcmgCodeSelectField } from '@app/forms/types/acmg-code-select/acmg-c
 import { CvcClingenCodeSelectField } from '@app/forms/types/clingen-code-select/clingen-code-select.type'
 import { CvcCytogeneticRegionSelectField } from '@app/forms/types/cytogenetic-region-select/cytogenetic-region-select.type'
 import { CvcDiseaseSelectField } from '@app/forms/types/disease-select/disease-select.type'
+import { CvcEvidenceSelectField } from '@app/forms/types/evidence-select/evidence-select.type'
+import { CvcFeatureSelectField } from '@app/forms/types/feature-select/feature-select.type'
 import { CvcPhenotypeSelectField } from '@app/forms/types/phenotype-select/phenotype-select.type'
+import { CvcMolecularProfileSelectField } from '@app/forms/types/molecular-profile-select/molecular-profile-select.type'
 import { CvcNccnGuidelineSelectField } from '@app/forms/types/nccn-guideline-select/nccn-guideline-select.type'
+import { CvcSourceSelectField } from '@app/forms/types/source-select/source-select.type'
 import { CvcTherapySelectField } from '@app/forms/types/therapy-select/therapy-select.type'
+import { CvcVariantSelectField } from '@app/forms/types/variant-select/variant-select.type'
 import { CvcVariantTypeSelectField } from '@app/forms/types/variant-type-select/variant-type-select.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 
@@ -75,6 +80,34 @@ const selectFieldTypes: ConfigOption = {
       },
     },
     {
+      name: 'evidence-select',
+      wrappers: ['form-field'],
+      component: CvcEvidenceSelectField,
+      defaultOptions: { props: { label: 'Evidence Item' } },
+    },
+    {
+      name: 'evidence-multi-select',
+      wrappers: ['form-field'],
+      component: CvcEvidenceSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Evidence Items' },
+      },
+    },
+    {
+      name: 'feature-select',
+      wrappers: ['form-field'],
+      component: CvcFeatureSelectField,
+      defaultOptions: { props: { label: 'Feature' } },
+    },
+    {
+      name: 'feature-multi-select',
+      wrappers: ['form-field'],
+      component: CvcFeatureSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Features' },
+      },
+    },
+    {
       name: 'phenotype-select',
       wrappers: ['form-field'],
       component: CvcPhenotypeSelectField,
@@ -86,6 +119,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcPhenotypeSelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Phenotypes' },
+      },
+    },
+    {
+      name: 'molecular-profile-select',
+      wrappers: ['form-field'],
+      component: CvcMolecularProfileSelectField,
+      defaultOptions: { props: { label: 'Molecular Profile' } },
+    },
+    {
+      name: 'molecular-profile-multi-select',
+      wrappers: ['form-field'],
+      component: CvcMolecularProfileSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Molecular Profiles' },
       },
     },
     {
@@ -103,6 +150,21 @@ const selectFieldTypes: ConfigOption = {
       },
     },
     {
+      name: 'source-select',
+      wrappers: ['form-field'],
+      component: CvcSourceSelectField,
+      defaultOptions: { props: { label: 'Source' } },
+    },
+    {
+      // no label, for use in repeat-field types
+      name: 'source-multi-select',
+      wrappers: ['form-field'],
+      component: CvcSourceSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Sources' },
+      },
+    },
+    {
       name: 'therapy-select',
       wrappers: ['form-field'],
       component: CvcTherapySelectField,
@@ -114,6 +176,20 @@ const selectFieldTypes: ConfigOption = {
       component: CvcTherapySelectField,
       defaultOptions: {
         props: { isMultiSelect: true, label: 'Therapies' },
+      },
+    },
+    {
+      name: 'variant-select',
+      wrappers: ['form-field'],
+      component: CvcVariantSelectField,
+      defaultOptions: { props: { label: 'Variant' } },
+    },
+    {
+      name: 'variant-multi-select',
+      wrappers: ['form-field'],
+      component: CvcVariantSelectField,
+      defaultOptions: {
+        props: { isMultiSelect: true, label: 'Variants' },
       },
     },
     {

@@ -2,8 +2,9 @@
 <ng-template #variantActions>
   <ng-container *ngrxLet="viewer$ as viewer">
     @if (viewer.isEditor) {
+      <!-- the popover below is how this button submits a variant; it carried a
+           routerLink to /variants/add/submit, which is not a route -->
       <button
-        routerLink="/variants/add/submit"
         nz-button
         nzSize="small"
         nz-popover

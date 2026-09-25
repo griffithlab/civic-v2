@@ -6,8 +6,9 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  signal,
 } from '@angular/core'
-import { UntypedFormGroup } from '@angular/forms'
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
   MutationState,
@@ -21,8 +22,10 @@ import {
 } from './variant-quick-add.query.gql.generated'
 import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig } from '@ngx-formly/core'
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
 import { BehaviorSubject, Subject } from 'rxjs'
 import { VariantIdWithCreationStatus } from '../variant-select.type'
 
@@ -41,7 +44,13 @@ type VariantQuickAddDisplay = {
   selector: 'cvc-variant-quick-add-form',
   templateUrl: './variant-quick-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzGridModule,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcVariantQuickAddForm implements OnChanges {
   @Input()
@@ -82,7 +91,8 @@ export class CvcVariantQuickAddForm implements OnChanges {
 
   // PRESENTATION STREAMS
   featureName$: BehaviorSubject<Maybe<string>>
-  formMessageDisplay$: BehaviorSubject<VariantQuickAddDisplay>
+  /** the inline hint above the form; empty once the name is long enough */
+  readonly formMessage = signal<VariantQuickAddDisplay>({})
 
   addVariantMutator: MutatorWithState<
     QuickAddVariantGQL,
@@ -109,7 +119,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
 
     this.featureName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.featureId$ = new BehaviorSubject<Maybe<number>>(undefined)
-    this.formMessageDisplay$ = new BehaviorSubject<VariantQuickAddDisplay>({
+    this.formMessage.set({
       message: 'Variant does not exist, create it?',
     })
     this.queryMutator = new MutatorWithState(this.errors)
@@ -158,11 +168,11 @@ export class CvcVariantQuickAddForm implements OnChanges {
           str === undefined ||
           (str !== undefined && str.length < this.minNameLength)
         ) {
-          this.formMessageDisplay$.next({
+          this.formMessage.set({
             message: `New Variant name must be at least ${this.minNameLength} characters.`,
           })
         } else {
-          this.formMessageDisplay$.next({
+          this.formMessage.set({
             message: `Variant '${str}' does not exist, create it?`,
           })
         }
@@ -194,7 +204,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
         console.log('variant-quick-add submit data callback', data)
         if (!data.createVariant) return
         // const vid = data.addVariant.variant.id
-        this.formMessageDisplay$.next({ message: undefined })
+        this.formMessage.set({ message: undefined })
         setTimeout(() => {
           if (data && data.createVariant) {
             this.cvcOnCreate.next({

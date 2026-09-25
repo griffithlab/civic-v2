@@ -12,9 +12,9 @@ export type QuickAddVariantMutationVariables = Types.Exact<{
 }>;
 
 
-export type QuickAddVariantMutation = { __typename: 'Mutation', createVariant?: { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
+export type QuickAddVariantMutation = { __typename: 'Mutation', createVariant?: { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', variantAliases: Array<string>, singleVariantMolecularProfileId: number, id: number, name: string, link: string, flagged: boolean, deprecated: boolean, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
 
-export type QuickAddVariantFieldsFragment = { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
+export type QuickAddVariantFieldsFragment = { __typename: 'CreateVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', variantAliases: Array<string>, singleVariantMolecularProfileId: number, id: number, name: string, link: string, flagged: boolean, deprecated: boolean, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
 
 export const QuickAddVariantFieldsFragmentDoc = gql`
     fragment QuickAddVariantFields on CreateVariantPayload {
