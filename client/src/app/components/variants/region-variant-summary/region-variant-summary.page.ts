@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 
@@ -24,7 +23,6 @@ import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-s
   templateUrl: './region-variant-summary.page.html',
   styleUrls: ['./region-variant-summary.page.less'],
   imports: [
-    CommonModule,
     NzGridModule,
     NzDescriptionsModule,
     NzTagModule,

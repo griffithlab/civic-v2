@@ -20,10 +20,11 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-  CvcNccnGuidelineSelectField, CvcNccnGuidelineSelectFieldOptions,
+  CvcNccnGuidelineSelectField,
+  CvcNccnGuidelineSelectFieldOptions,
 } from './nccn-guideline-select.type'
 
 const typeConfig: ConfigOption = {
@@ -34,9 +35,9 @@ const typeConfig: ConfigOption = {
       component: CvcNccnGuidelineSelectField,
       defaultOptions: {
         props: {
-          label: 'NCCN Guideline'
-        }
-      }
+          label: 'NCCN Guideline',
+        },
+      },
     },
     {
       name: 'nccn-guideline-multi-select',
@@ -45,7 +46,7 @@ const typeConfig: ConfigOption = {
       defaultOptions: <CvcNccnGuidelineSelectFieldOptions>{
         props: {
           isMultiSelect: true,
-          label: 'NCCN Guideline(s)'
+          label: 'NCCN Guideline(s)',
         },
       },
     },
@@ -57,7 +58,8 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetDirective, PushPipe,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,
@@ -67,7 +69,7 @@ const typeConfig: ConfigOption = {
     NzIconModule,
     NzInputModule,
     NzGridModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpaceModule,
     NzFormModule,
     NzAutocompleteModule,

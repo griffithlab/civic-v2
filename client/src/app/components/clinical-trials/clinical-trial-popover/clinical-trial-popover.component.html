@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="clinicalTrial$ | ngrxPush as t">
+  @if (clinicalTrial$ | ngrxPush; as t) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -16,7 +16,6 @@
       <ng-template #linkout>
         <cvc-link-tag [href]="t.url"> View on clinicaltrials.gov </cvc-link-tag>
       </ng-template>
-
       <nz-descriptions
         nzSize="small"
         [nzColumn]="2"
@@ -39,5 +38,5 @@
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
-  </ng-container>
+  }
 </div>

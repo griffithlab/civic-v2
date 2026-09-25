@@ -1,5 +1,5 @@
 <cvc-form-submission-status-display
-[mutationState]="mutationState"
+  [mutationState]="mutationState"
   entityType="Disease"
   [successMessage]="success">
   <ng-template #success>{{ successMessage }}</ng-template>
@@ -25,7 +25,9 @@
           [disabled]="!form.valid"
           nzBlock>
           Add Disease&nbsp;
-          <ng-container *ngIf="model.name"> "{{ model.name }}" </ng-container>
+          @if (model.name) {
+            "{{ model.name }}"
+          }
         </button>
       </nz-col>
     </nz-row>

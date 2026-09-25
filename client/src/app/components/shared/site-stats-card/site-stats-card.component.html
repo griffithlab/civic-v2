@@ -30,15 +30,14 @@
       >
     </nz-radio-group>
   </ng-template>
-  <ng-container *ngIf="stats$ | ngrxPush as stats; else isLoading">
+  @if (stats$ | ngrxPush; as stats) {
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <a routerLink="/assertions">
           <nz-statistic
-                    [nzTitle]="label() + ' Assertions'"
-                    [nzValue]="(stats.assertions[statsType] | number)!"
-                    [nzPrefix]="assertionIcon"
-                  ></nz-statistic>
+            [nzTitle]="label() + ' Assertions'"
+            [nzValue]="(stats.assertions[statsType] | number)!"
+            [nzPrefix]="assertionIcon"></nz-statistic>
           <ng-template #assertionIcon>
             <i
               nz-icon
@@ -51,9 +50,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/evidence">
           <nz-statistic
-                    [nzTitle]="label() + ' Evidence'"
-                    [nzValue]="(stats.evidenceItems[statsType] | number)!"
-                    [nzPrefix]="evidenceIcon"></nz-statistic>
+            [nzTitle]="label() + ' Evidence'"
+            [nzValue]="(stats.evidenceItems[statsType] | number)!"
+            [nzPrefix]="evidenceIcon"></nz-statistic>
           <ng-template #evidenceIcon>
             <i
               nz-icon
@@ -66,9 +65,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/features">
           <nz-statistic
-                    [nzTitle]="label() + ' Features'"
-                    [nzValue]="(stats.features[statsType] | number)!"
-                    [nzPrefix]="featureIcon"></nz-statistic>
+            [nzTitle]="label() + ' Features'"
+            [nzValue]="(stats.features[statsType] | number)!"
+            [nzPrefix]="featureIcon"></nz-statistic>
           <ng-template #featureIcon>
             <i
               nz-icon
@@ -80,10 +79,10 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/variants">
-        <nz-statistic
-              [nzTitle]="label() + ' Variants'"
-              [nzValue]="(stats.variants[statsType] | number)!"
-              [nzPrefix]="variantIcon"></nz-statistic>
+          <nz-statistic
+            [nzTitle]="label() + ' Variants'"
+            [nzValue]="(stats.variants[statsType] | number)!"
+            [nzPrefix]="variantIcon"></nz-statistic>
           <ng-template #variantIcon>
             <i
               nz-icon
@@ -96,9 +95,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/molecular-profiles">
           <nz-statistic
-                    [nzTitle]="label() + ' Molecular Profiles'"
-                    [nzValue]="(stats.molecularProfiles[statsType] | number)!"
-                    [nzPrefix]="mpIcon"></nz-statistic>
+            [nzTitle]="label() + ' Molecular Profiles'"
+            [nzValue]="(stats.molecularProfiles[statsType] | number)!"
+            [nzPrefix]="mpIcon"></nz-statistic>
           <ng-template #mpIcon>
             <i
               nz-icon
@@ -113,9 +112,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/diseases">
           <nz-statistic
-              [nzTitle]="label() + ' Diseases'"
-              [nzValue]="(stats.diseases[statsType] | number)!"
-              [nzPrefix]="diseaseIcon"></nz-statistic>
+            [nzTitle]="label() + ' Diseases'"
+            [nzValue]="(stats.diseases[statsType] | number)!"
+            [nzPrefix]="diseaseIcon"></nz-statistic>
           <ng-template #diseaseIcon>
             <i
               nz-icon
@@ -128,9 +127,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/therapies">
           <nz-statistic
-              [nzTitle]="label() + ' Therapies'"
-              [nzValue]="(stats.therapies[statsType] | number)!"
-              [nzPrefix]="therapyIcon"></nz-statistic>
+            [nzTitle]="label() + ' Therapies'"
+            [nzValue]="(stats.therapies[statsType] | number)!"
+            [nzPrefix]="therapyIcon"></nz-statistic>
           <ng-template #therapyIcon>
             <i
               nz-icon
@@ -143,9 +142,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/sources">
           <nz-statistic
-              [nzTitle]="label() + ' Sources'"
-              [nzValue]="(stats.sources[statsType] | number)!"
-              [nzPrefix]="sourceIcon"></nz-statistic>
+            [nzTitle]="label() + ' Sources'"
+            [nzValue]="(stats.sources[statsType] | number)!"
+            [nzPrefix]="sourceIcon"></nz-statistic>
           <ng-template #sourceIcon>
             <i
               nz-icon
@@ -157,9 +156,9 @@
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic
-            [nzTitle]="label() + ' Revisions'"
-            [nzValue]="(stats.revisions[statsType] | number)!"
-            [nzPrefix]="revisionsIcon"></nz-statistic>
+          [nzTitle]="label() + ' Revisions'"
+          [nzValue]="(stats.revisions[statsType] | number)!"
+          [nzPrefix]="revisionsIcon"></nz-statistic>
         <ng-template #revisionsIcon>
           <i
             nz-icon
@@ -171,9 +170,9 @@
       <nz-col nzFlex="1">
         <a routerLink="/users">
           <nz-statistic
-              [nzTitle]="label() + ' Contributors'"
-              [nzValue]="(stats.users[statsType] | number)!"
-              [nzPrefix]="userIcon"></nz-statistic>
+            [nzTitle]="label() + ' Contributors'"
+            [nzValue]="(stats.users[statsType] | number)!"
+            [nzPrefix]="userIcon"></nz-statistic>
           <ng-template #userIcon>
             <i
               nz-icon
@@ -184,8 +183,7 @@
         </a>
       </nz-col>
     </nz-row>
-  </ng-container>
-  <ng-template #isLoading>
+  } @else {
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <nz-statistic
@@ -240,5 +238,5 @@
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
     </nz-row>
-  </ng-template>
+  }
 </nz-card>

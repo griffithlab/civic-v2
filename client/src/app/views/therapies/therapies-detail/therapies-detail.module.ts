@@ -10,7 +10,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 
@@ -26,7 +26,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     NzSpaceModule,
     NzDescriptionsModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzAlertModule,
     CvcLinkTagModule,
     CvcSectionNavigationModule,

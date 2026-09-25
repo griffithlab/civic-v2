@@ -1,4 +1,4 @@
-<ng-container *ngIf="clinicalTrial$ | ngrxPush as trial">
+@if (clinicalTrial$ | ngrxPush; as trial) {
   <cvc-section-navigation [displayName]="trial.nctId"> </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
@@ -10,15 +10,16 @@
       {{ trial.nctId }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag
-        *ngIf="trial.url"
-        [href]="trial.url"
-        tooltip="View on clinicaltrials.gov">
-        {{ trial.nctId }}
-      </cvc-link-tag>
+      @if (trial.url) {
+        <cvc-link-tag
+          [href]="trial.url"
+          tooltip="View on clinicaltrials.gov">
+          {{ trial.nctId }}
+        </cvc-link-tag>
+      }
     </nz-page-header-extra>
     <nz-page-header-content>
       <router-outlet></router-outlet>
     </nz-page-header-content>
   </nz-page-header>
-</ng-container>
+}

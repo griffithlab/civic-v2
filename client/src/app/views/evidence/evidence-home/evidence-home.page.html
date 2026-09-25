@@ -2,16 +2,17 @@
 </cvc-section-navigation>
 <ng-template #evidenceActions>
   <ng-container *ngrxLet="viewer$ as viewer">
-    <button
-      routerLink="/evidence/add/submit"
-      *ngIf="viewer.signedIn"
-      nz-button
-      nzSize="small">
-      <i
-        nz-icon
-        nzType="plus-circle"></i>
-      Submit New Evidence
-    </button>
+    @if (viewer.signedIn) {
+      <button
+        routerLink="/evidence/add/submit"
+        nz-button
+        nzSize="small">
+        <i
+          nz-icon
+          nzType="plus-circle"></i>
+        Submit New Evidence
+      </button>
+    }
   </ng-container>
 </ng-template>
 <nz-page-header class="site-page-header">
@@ -79,15 +80,17 @@
       </nz-col>
     </nz-row>
 
-    <nz-row *ngIf="tableView">
-      <div
-        nz-col
-        [nzSpan]="24">
-        <div class="content">
-          <cvc-evidence-table
-            cvcTitle="Browse All Evidence"></cvc-evidence-table>
+    @if (tableView) {
+      <nz-row>
+        <div
+          nz-col
+          [nzSpan]="24">
+          <div class="content">
+            <cvc-evidence-table
+              cvcTitle="Browse All Evidence"></cvc-evidence-table>
+          </div>
         </div>
-      </div>
-    </nz-row>
+      </nz-row>
+    }
   </nz-page-header-content>
 </nz-page-header>

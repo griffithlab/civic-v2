@@ -14,7 +14,7 @@
     [nzDisabled]="cvcDisabled"
     [nzLoading]="cvcLoading"
     [nzAllowClear]="cvcAllowClear"
-    [nzBorderless]="cvcBorderless"
+    [nzVariant]="cvcBorderless ? 'borderless' : 'outlined'"
     [nzSuffixIcon]="cvcSuffixIcon"
     [nzShowArrow]="cvcShowArrow"
     [nzAutoClearSearchValue]="cvcAutoClearSearchValue"
@@ -28,10 +28,11 @@
   </nz-select>
 
   <ng-template #searchMessages>
-    <span
-      *ngIf="notFoundDisplay.showSpinner"
-      nz-icon
-      [nzType]="'loading'"></span>
+    @if (notFoundDisplay.showSpinner) {
+      <span
+        nz-icon
+        [nzType]="'loading'"></span>
+    }
 
     <ng-container>
       {{ notFoundDisplay.message }}
@@ -45,7 +46,7 @@
         [ngTemplateOutletContext]="{
           $implicit: notFoundDisplay.searchStr,
           createMsg: notFoundDisplay.message,
-          model: cvcAddEntityModel
+          model: cvcAddEntityModel,
         }">
       </ng-container>
     </div>

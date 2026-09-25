@@ -31,7 +31,29 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
-import { fadeMotion, slideMotion } from 'ng-zorro-antd/core/animation'
+import { animate, state, style, transition, trigger } from '@angular/animations'
+
+// vendored from ng-zorro-antd@20.4.4 core/animation: v21 dropped the
+// fadeMotion/slideMotion triggers for CSS class animations
+const fadeMotion = trigger('fadeMotion', [
+  transition('* => enter', [
+    style({ opacity: 0 }),
+    animate(`0.2s`, style({ opacity: 1 })),
+  ]),
+  transition('* => leave, :leave', [
+    style({ opacity: 1 }),
+    animate(`0.2s`, style({ opacity: 0 })),
+  ]),
+])
+
+const slideMotion = trigger('slideMotion', [
+  state('void', style({ opacity: 0, transform: 'scaleY(0.8)' })),
+  state('enter', style({ opacity: 1, transform: 'scaleY(1)' })),
+  transition('void => *', [animate(`0.2s cubic-bezier(0.23, 1, 0.32, 1)`)]),
+  transition('* => void', [
+    animate(`0.2s cubic-bezier(0.755, 0.05, 0.855, 0.06)`),
+  ]),
+])
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,

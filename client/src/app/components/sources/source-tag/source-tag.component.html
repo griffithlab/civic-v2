@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a [routerLink]="source.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -21,23 +23,20 @@
   </ng-template>
 </ng-template>
 
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
-</ng-template>
-
 <ng-template #tagContent>
   <i
     nz-icon
     nzTheme="twotone"
     [nzTwotoneColor]="'Source' | entityColor"
     nzType="civic-source"></i>
-  <ng-container *ngIf="mode === 'normal'; else concise">
-    <ng-container *ngIf="truncateLongName">
+  @if (mode === 'normal') {
+    @if (truncateLongName) {
       {{ displayName | truncate: 50 }}
-    </ng-container>
-    <ng-container *ngIf="!truncateLongName">
+    }
+    @if (!truncateLongName) {
       {{ displayName }}
-    </ng-container>
-  </ng-container>
-  <ng-template #concise> SID:{{ source.id }} </ng-template>
+    }
+  } @else {
+    SID:{{ source.id }}
+  }
 </ng-template>

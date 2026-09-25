@@ -18,29 +18,29 @@
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
 <ng-container *ngrxLet="onSearch$ as searchString">
-  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+  @for (result of result$ | ngrxPush; track result; let i = $index) {
     <ng-template #optionTemplates>
-        <nz-tag
-          nz-tooltip
-        >{{ result.code }}</nz-tag>
+      <nz-tag nz-tooltip>{{ result.code }}</nz-tag>
       <span
         nz-typography
         nzType="secondary">
-        <ng-container *ngIf="result.description">
+        @if (result.description) {
           <em>
             <span
               nz-typography
-              nzType="secondary">{{result.description}}</span
-          ></em>
-        </ng-container>
+              nzType="secondary"
+              >{{ result.description }}</span
+            ></em
+          >
+        }
       </span>
     </ng-template>
-  </ng-container>
+  }
 </ng-container>
 
 <!-- selected option item template -->
 <!-- displays entity tag, specifying context and mode depending on
-    if field is multi-select or single -->
+  if field is multi-select or single -->
 <ng-template
   #selectedTemplate
   let-selected>

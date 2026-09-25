@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,18 +47,17 @@ export type FeatureIdWithCreationStatus = {
 
 @UntilDestroy()
 @Component({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        CvcFormSubmissionStatusDisplayModule,
-        LetDirective,
-        PushPipe,
-        FormlyModule,
-        NzGridModule,
-    ],
-    selector: 'cvc-feature-quick-add-form',
-    templateUrl: './feature-quick-add.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [
+    ReactiveFormsModule,
+    CvcFormSubmissionStatusDisplayModule,
+    LetDirective,
+    PushPipe,
+    FormlyModule,
+    NzGridModule,
+  ],
+  selector: 'cvc-feature-quick-add-form',
+  templateUrl: './feature-quick-add.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcFeatureQuickAddForm implements OnChanges {
   @Input()

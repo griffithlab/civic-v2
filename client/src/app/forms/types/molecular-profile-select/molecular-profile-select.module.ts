@@ -22,14 +22,14 @@ import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcMolecularProfileSelectField,
   CvcMolecularProfileSelectFieldProps,
 } from './molecular-profile-select.type'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
-import { MpFinderComponent } from './mp-finder/mp-finder.component';
+import { MpFinderComponent } from './mp-finder/mp-finder.component'
 import { MpEditorPopoverHelpComponent } from './mp-expression-editor/mp-editor-popover-help.component'
 
 const typeConfig: ConfigOption = {
@@ -81,7 +81,7 @@ const typeConfig: ConfigOption = {
     NzFormModule,
     NzAutocompleteModule,
     NzTypographyModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzPopoverModule,
     NzSpaceModule,
     NzCheckboxModule,

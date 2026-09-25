@@ -1,7 +1,7 @@
 <nz-card
   [nzTitle]="wrapperOptions.title"
   [nzSize]="wrapperOptions.size ?? 'default'">
-  <formly-field
-    *ngFor="let field of field.fieldGroup"
-    [field]="field"></formly-field>
+  @for (field of field.fieldGroup; track field) {
+    <formly-field [field]="field"></formly-field>
+  }
 </nz-card>

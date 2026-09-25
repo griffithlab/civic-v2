@@ -23,16 +23,18 @@
         nzType="primary"
         [disabled]="!form.valid"
         nzBlock>
-        <span
-          *ngIf="!(isSubmitting$ | ngrxPush)"
-          nz-icon
-          nzType="plus-circle"
-          nzTheme="outline"></span>
-        <span
-          *ngIf="isSubmitting$ | ngrxPush"
-          nz-icon
-          nzType="loading"
-          nzTheme="outline"></span>
+        @if (!(isSubmitting$ | ngrxPush)) {
+          <span
+            nz-icon
+            nzType="plus-circle"
+            nzTheme="outline"></span>
+        }
+        @if (isSubmitting$ | ngrxPush) {
+          <span
+            nz-icon
+            nzType="loading"
+            nzTheme="outline"></span>
+        }
         Create Therapy&nbsp;<i>{{ searchString$ | ngrxPush }}</i>
       </button>
     </nz-col>

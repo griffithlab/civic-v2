@@ -1,4 +1,4 @@
-<ng-container *ngIf="feature$ | ngrxPush as feature">
+@if (feature$ | ngrxPush; as feature) {
   <nz-row [nzGutter]="[8, 16]">
     @switch (feature.featureInstance.__typename) {
       @case ('Gene') {
@@ -22,13 +22,12 @@
       }
       @case ('Region') {
         <span style="width: 100%">
-        <cvc-region-summary
-          [featureId]="feature.id"
-          [region]="feature.featureInstance"></cvc-region-summary>
+          <cvc-region-summary
+            [featureId]="feature.id"
+            [region]="feature.featureInstance"></cvc-region-summary>
         </span>
       }
     }
-
     <!-- variant menu row -->
     <nz-col [nzSpan]="24">
       <nz-tabs nzType="card">
@@ -53,4 +52,4 @@
       </nz-tabs>
     </nz-col>
   </nz-row>
-</ng-container>
+}

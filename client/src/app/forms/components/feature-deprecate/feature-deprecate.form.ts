@@ -35,7 +35,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { CvcFormErrorsAlertModule } from '../form-errors-alert/form-errors-alert.module'
 import { CvcFormButtonsModule } from '../form-buttons/form-buttons.module'
@@ -64,7 +64,7 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
     NzCardModule,
     NzSpaceModule,
     NzTypographyModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSelectModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,

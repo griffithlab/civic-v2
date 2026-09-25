@@ -7,7 +7,7 @@ import { LayoutComponent } from './layout.component'
 import { NzLayoutModule } from 'ng-zorro-antd/layout'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzMenuModule } from 'ng-zorro-antd/menu'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
@@ -26,7 +26,7 @@ import { PushPipe } from '@ngrx/component'
     NzGridModule,
     NzLayoutModule,
     NzMenuModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NgxJsonViewerModule,
     PushPipe,

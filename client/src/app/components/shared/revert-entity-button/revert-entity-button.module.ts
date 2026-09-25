@@ -4,7 +4,7 @@ import { CvcRevertEntityButtonComponent } from './revert-entity-button.component
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
@@ -19,7 +19,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
     ReactiveFormsModule,
     NzButtonModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzModalModule,
     NzInputModule,
     NzSpinModule,

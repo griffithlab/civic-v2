@@ -5,10 +5,11 @@
   >Curators:</span
 >
 <div class="role-group">
-  <ng-container *ngIf="curators$ | ngrxPush as curators; else noCurators">
+  @if (curators$ | ngrxPush; as curators) {
     <cvc-contributor-stack [contributors]="curators"></cvc-contributor-stack>
-  </ng-container>
-  <ng-template #noCurators> None </ng-template>
+  } @else {
+    None
+  }
 </div>
 <span
   class="role-group-label"
@@ -17,8 +18,9 @@
   >Editors:</span
 >
 <div class="role-group">
-  <ng-container *ngIf="editors$ | ngrxPush as editors; else noEditors">
+  @if (editors$ | ngrxPush; as editors) {
     <cvc-contributor-stack [contributors]="editors"></cvc-contributor-stack>
-  </ng-container>
-  <ng-template #noEditors> None </ng-template>
+  } @else {
+    None
+  }
 </div>

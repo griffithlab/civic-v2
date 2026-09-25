@@ -7,7 +7,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
@@ -19,7 +19,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
     NzTabsModule,
     NzTableModule,
     NzCardModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzGridModule,
     NzTypographyModule,
     NzDescriptionsModule,

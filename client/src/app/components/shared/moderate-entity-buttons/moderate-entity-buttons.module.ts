@@ -6,7 +6,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcModerateEntityButtonsComponent } from './moderate-entity-buttons.component'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzInputModule } from 'ng-zorro-antd/input'
@@ -18,7 +18,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
     FormsModule,
     ReactiveFormsModule,
     NzButtonModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpinModule,
     NzSpaceModule,
     NzGridModule,
