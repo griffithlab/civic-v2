@@ -1,0 +1,141 @@
+# shared leaf fragments in their own document: the feed queries and the
+# feed-item-details fragments both import them, and a fragment defined beside
+# either would put a cycle in the generated modules (fragment docs
+# interpolate as `undefined` mid-initialization)
+
+# activity summary info to render each feed item
+fragment ActivityFeedItemBase on ActivityInterface {
+  id
+  verbiage
+  createdAt
+  organization {
+    id
+    name
+  }
+  user {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    name
+    link
+    ... on GeneVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FusionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on RegionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on Comment {
+      deleted
+      deletedAt
+      commentable {
+        id
+        name
+        link
+
+        ... on FactorVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on FusionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on GeneVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on RegionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+      }
+    }
+  }
+  ... on DeleteCommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+  ... on CommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+}
+
+fragment ActivityFeedItemEvents on ActivityInterface {
+  events {
+    id
+    createdAt
+    action
+    originatingObject {
+      id
+      name
+      link
+    }
+    originatingUser {
+      id
+      displayName
+    }
+  }
+}
+
+fragment RevisionActivityDetail on Revision {
+  id
+  name
+  status
+  currentValue
+  suggestedValue
+  fieldName
+  link
+  createdAt
+  linkoutData {
+    ...revisionLinkoutData
+  }
+  subject {
+    ... on ExonCoordinate {
+      coordinateType
+    }
+  }
+}
