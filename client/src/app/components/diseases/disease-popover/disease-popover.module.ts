@@ -10,8 +10,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
-  declarations: [CvcDiseasePopoverComponent],
   imports: [
+    CvcDiseasePopoverComponent,
     CommonModule,
     LetDirective,
     PushPipe,

@@ -41,7 +41,6 @@ import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { CvcFormErrorsAlertModule } from '../form-errors-alert/form-errors-alert.module'
 import { CvcFormButtonsModule } from '../form-buttons/form-buttons.module'
-import { CvcSubmitButtonTypeModule } from '@app/forms/types/submit-button/submit-button.module'
 import { CvcCommentInputFormModule } from '../comment-input/comment-input.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { LinkableVariant } from '@app/components/variants/variant-tag/variant-tag.component'
@@ -70,7 +69,6 @@ import { LinkableVariant } from '@app/components/variants/variant-tag/variant-ta
     NzSelectModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
-    CvcSubmitButtonTypeModule,
     CvcCommentInputFormModule,
     CvcVariantTagModule,
   ],

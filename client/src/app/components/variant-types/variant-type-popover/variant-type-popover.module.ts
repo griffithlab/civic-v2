@@ -9,8 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
-  declarations: [CvcVariantTypePopoverComponent],
   imports: [
+    CvcVariantTypePopoverComponent,
     CommonModule,
     LetDirective,
     PushPipe,

@@ -13,8 +13,8 @@ import { CvcFeaturePopoverComponent } from './feature-popover.component'
 import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 
 @NgModule({
-  declarations: [CvcFeaturePopoverComponent],
   imports: [
+    CvcFeaturePopoverComponent,
     CommonModule,
     RouterModule,
     LetDirective,

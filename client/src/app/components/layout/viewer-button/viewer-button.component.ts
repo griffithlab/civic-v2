@@ -2,15 +2,22 @@ import {
   ChangeDetectionStrategy,
   Component,
   createNgModule,
+  DestroyRef,
+  inject,
   Injector,
   Input,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { NavigationStart, Router } from '@angular/router'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { ViewerNotificationCountGQL } from '@app/core/services/viewer/viewer.service.gql.generated'
-import { Apollo, gql } from 'apollo-angular'
+import {
+  UserMostRecentOrgIdFragmentDoc,
+  ViewerNotificationCountGQL,
+} from '@app/core/services/viewer/viewer.service.gql.generated'
+import { Apollo } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'
 import { map, startWith, withLatestFrom } from 'rxjs/operators'
@@ -41,11 +48,14 @@ export class CvcViewerButtonComponent implements OnInit {
     if (outlet && outlet.length === 0) this.loadVariantSubmitForm(outlet)
   }
 
+  private readonly destroyRef = inject(DestroyRef)
+  private readonly injector = inject(Injector)
+  private readonly router = inject(Router)
+
   constructor(
     private queryService: ViewerService,
     private unreadCountGql: ViewerNotificationCountGQL,
-    private apollo: Apollo,
-    private injector: Injector
+    private apollo: Apollo
   ) {
     this.viewer$ = this.queryService.viewer$
     this.menuSelection$ = new Subject()
@@ -68,22 +78,26 @@ export class CvcViewerButtonComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // the new variant's "details here" link navigates underneath the modal;
+    // close it rather than leave it covering the page it linked to
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationStart),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.addVariantModalVisible$.next(false))
+
     this.menuSelection$
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {
         if (viewer.signedIn) {
-          const fragment = {
+          this.apollo.client.writeFragment({
             id: `User:${viewer.user?.id}`,
-            fragment: gql`
-              fragment UserMostRecentOrgId on User {
-                mostRecentOrganizationId
-              }
-            `,
+            fragment: UserMostRecentOrgIdFragmentDoc,
             data: {
               mostRecentOrganizationId: mroId,
             },
-          }
-          this.apollo.client.writeFragment(fragment)
+          })
         }
       })
   }
