@@ -71,7 +71,7 @@ fragment notificationNode on Notification {
   id
   type
   event {
-    ...eventFeedNode
+    ...eventTimelineNode
   }
   seen
   subscription {
