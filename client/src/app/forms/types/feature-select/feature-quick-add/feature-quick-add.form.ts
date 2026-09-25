@@ -187,7 +187,6 @@ export class CvcFeatureQuickAddForm implements OnChanges {
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      console.log('feature-quick-add form model submitted.', model)
       this.submitFeature(model)
     })
   }
@@ -208,17 +207,12 @@ export class CvcFeatureQuickAddForm implements OnChanges {
       },
       {},
       (data) => {
-        console.log('feature-quick-add submit data callback', data)
         if (!data.createFeature) return
         this.formMessageDisplay$.next({ message: undefined })
-        setTimeout(() => {
-          if (data && data.createFeature) {
-            this.cvcOnCreate.next({
-              id: data.createFeature.feature.id,
-              new: data.createFeature.new,
-            })
-          }
-        }, 1000)
+        this.cvcOnCreate.next({
+          id: data.createFeature.feature.id,
+          new: data.createFeature.new,
+        })
       }
     )
   }

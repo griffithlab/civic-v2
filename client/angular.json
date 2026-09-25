@@ -64,6 +64,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/app/forms/test-pages/dev-routes.ts",
+                  "with": "src/app/forms/test-pages/dev-routes.prod.ts"
                 }
               ],
               "optimization": {
@@ -85,8 +89,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "3.5kb",
-                  "maximumError": "6kb"
+                  "maximumWarning": "3.2kb",
+                  "maximumError": "5kb"
                 }
               ]
             }
