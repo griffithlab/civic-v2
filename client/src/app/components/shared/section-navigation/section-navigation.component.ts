@@ -15,7 +15,7 @@ import {
   Router,
 } from '@angular/router'
 
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { Subject } from 'rxjs'
 import { filter, startWith, takeUntil } from 'rxjs/operators'
 
@@ -27,11 +27,11 @@ export interface TitleSegment {
 }
 
 @Component({
-    selector: 'cvc-section-navigation',
-    templateUrl: './section-navigation.component.html',
-    styleUrls: ['./section-navigation.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-section-navigation',
+  templateUrl: './section-navigation.component.html',
+  styleUrls: ['./section-navigation.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>

@@ -15,16 +15,18 @@ import {
   SortDirectionEvent,
 } from '@app/core/utilities/datatable-helpers'
 import {
-  BrowsePhenotypeConnection,
-  Maybe,
-  PageInfo,
   PhenotypeBrowseTableRowFieldsFragment,
   PhenotypesBrowseGQL,
   PhenotypesBrowseQuery,
   PhenotypesBrowseQueryVariables,
+} from './phenotypes-table.query.gql.generated'
+import {
+  BrowsePhenotypeConnection,
+  Maybe,
+  PageInfo,
   PhenotypeSortColumns,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'

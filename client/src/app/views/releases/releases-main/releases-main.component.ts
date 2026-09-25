@@ -1,5 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
-import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo'
+import {
+  DataReleasesGQL,
+  ReleaseFragment,
+} from './releases-list.query.gql.generated'
 import { onlyCompleteData } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNotNullish } from 'rxjs-etc'

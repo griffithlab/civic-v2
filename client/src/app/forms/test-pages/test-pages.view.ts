@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 @Component({
-    selector: 'cvc-test-pages',
-    templateUrl: './test-pages.view.html',
-    styleUrls: ['./test-pages.view.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-test-pages',
+  templateUrl: './test-pages.view.html',
+  styleUrls: ['./test-pages.view.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TestPagesView {
   tabs: RouteableTab[]

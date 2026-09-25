@@ -10,11 +10,8 @@ import {
   Output,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import {
-  Maybe,
-  PhenotypePopover,
-  PhenotypePopoverGQL,
-} from '@app/generated/civic.apollo'
+import { PhenotypePopoverGQL } from './phenotype-popover.query.gql.generated'
+import { Maybe, PhenotypePopover } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

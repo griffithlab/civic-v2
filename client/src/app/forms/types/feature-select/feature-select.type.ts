@@ -17,7 +17,6 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  FeatureInstanceTypes,
   FeatureSelectTagGQL,
   FeatureSelectTagQuery,
   FeatureSelectTagQueryVariables,
@@ -25,8 +24,8 @@ import {
   FeatureSelectTypeaheadGQL,
   FeatureSelectTypeaheadQuery,
   FeatureSelectTypeaheadQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './feature-select.query.gql.generated'
+import { FeatureInstanceTypes, Maybe } from '@app/generated/civic.apollo.types'
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'

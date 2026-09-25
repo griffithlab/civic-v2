@@ -4,7 +4,8 @@ import {
   OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { ContributorFieldsFragment, Maybe } from '@app/generated/civic.apollo'
+import { ContributorFieldsFragment } from '@app/components/shared/contributor-avatars/contributor-avatars.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-contributor-stack',

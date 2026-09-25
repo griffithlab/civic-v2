@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { ApproveAssertionActivityDetailFragment } from '@app/generated/civic.apollo'
+import { ApproveAssertionActivityDetailFragment } from './approve-assertion-activity.query.gql.generated'
 import { JsonPipe } from '@angular/common'
 
 @Component({

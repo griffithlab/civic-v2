@@ -1,4 +1,4 @@
-import { SourceSuggestionStatus } from '@app/generated/civic.apollo'
+import { SourceSuggestionStatus } from '@app/generated/civic.apollo.types'
 
 export function formatSourceSuggestionStatusEnum(
   value: SourceSuggestionStatus

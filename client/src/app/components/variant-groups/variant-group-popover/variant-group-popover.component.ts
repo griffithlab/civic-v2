@@ -9,10 +9,10 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import {
-  Maybe,
   VariantGroupPopoverFieldsFragment,
   VariantGroupPopoverGQL,
-} from '@app/generated/civic.apollo'
+} from './variant-group-popover.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

@@ -19,13 +19,13 @@ import {
   variantGroupFormModelToReviseInput,
   variantGroupToModelFields,
 } from '@app/forms/utilities/variant-group-to-model-fields'
+import { SuggestEvidenceItemRevisionGQL } from '@app/forms/config/evidence-revise/evidence-revise.query.gql.generated'
 import {
-  SuggestEvidenceItemRevisionGQL,
   SuggestVariantGroupRevisionGQL,
   SuggestVariantGroupRevisionMutation,
   SuggestVariantGroupRevisionMutationVariables,
   VariantGroupRevisableFieldsGQL,
-} from '@app/generated/civic.apollo'
+} from './variantgroup-revise.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, Subject } from 'rxjs'

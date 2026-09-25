@@ -8,15 +8,17 @@ import {
   PopoverPlacement,
 } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
-  EvidenceItem,
   EvidenceManagerFieldsFragment,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
+} from './evidence-manager.query.gql.generated'
+import {
+  EvidenceItem,
   EvidenceSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { GraphQLFormattedError } from 'graphql'
 import {
   NzTableFilterFn,

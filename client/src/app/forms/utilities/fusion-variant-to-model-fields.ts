@@ -1,8 +1,8 @@
+import { RevisableFusionVariantFieldsFragment } from '@app/forms/config/fusion-variant-revise/fusion-variant-revise.query.gql.generated'
 import {
   Maybe,
-  RevisableFusionVariantFieldsFragment,
   SuggestFusionVariantRevisionInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { FusionVariantReviseModel } from '../models/fusion-variant-revise.model'
 import { FusionVariantFields } from '../models/fusion-variant-fields.model'
 import * as fmt from '@app/forms/utilities/input-formatters'

@@ -8,11 +8,11 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  CommentListNodeFragment,
   DeleteCommentGQL,
   DeleteCommentMutation,
   DeleteCommentMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './delete-comment.query.gql.generated'
+import { CommentListNodeFragment } from '@app/components/comments/comment-list/comment-list.query.gql.generated'
 import { Observable } from 'rxjs'
 
 @Component({

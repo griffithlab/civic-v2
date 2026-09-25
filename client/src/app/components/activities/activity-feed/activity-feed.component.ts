@@ -59,11 +59,13 @@ import {
   ActivityFeedGQL,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
+} from './activity-feed.query.gql.generated'
+import {
   ActivityInterfaceConnection,
   ActivityInterfaceEdge,
   Maybe,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import {
   Datasource,

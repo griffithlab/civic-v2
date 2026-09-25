@@ -1,6 +1,6 @@
 import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Params } from '@angular/router'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { FormlyExtension, FormlyFieldConfig } from '@ngx-formly/core'
 import { distinctUntilKeyChanged, Subject, Subscription } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'

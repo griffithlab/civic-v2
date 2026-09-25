@@ -8,7 +8,7 @@ import {
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { StringTagField } from '@app/forms/mixins/string-input-field.mixin'
 import { ClinvarOptions } from '@app/forms/utilities/input-formatters'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
@@ -33,8 +33,7 @@ export interface CvcClinvarInputFieldProps extends FormlyFieldProps {
   description?: string
 }
 
-export interface CvcBaseInputFieldConfig
-  extends FormlyFieldConfig<CvcClinvarInputFieldProps> {
+export interface CvcBaseInputFieldConfig extends FormlyFieldConfig<CvcClinvarInputFieldProps> {
   type: 'clinvar-input' | 'clinvar-input-item' | Type<CvcClinvarInputField>
 }
 
@@ -45,11 +44,11 @@ const BaseInputMixin = mixin(
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-clinvar-input',
-    templateUrl: './clinvar-input.type.html',
-    styleUrls: ['./clinvar-input.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-clinvar-input',
+  templateUrl: './clinvar-input.type.html',
+  styleUrls: ['./clinvar-input.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcClinvarInputField
   extends BaseInputMixin

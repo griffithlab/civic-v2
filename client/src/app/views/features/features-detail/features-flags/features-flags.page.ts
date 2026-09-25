@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
+import {
+  FlaggableEntities,
+  FlaggableInput,
+} from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-features-flags',

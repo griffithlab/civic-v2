@@ -13,11 +13,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CommonModule } from '@angular/common'
 import { from, map, Subject, switchMap } from 'rxjs'
 import {
-  BrowseUser,
   UserFilterSearchGQL,
   UserFilterSearchQuery,
   UserFilterSearchQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './user-filter-select.query.gql.generated'
+import { BrowseUser } from '@app/generated/civic.apollo.types'
 import { QueryRef } from 'apollo-angular'
 import { toSignal } from '@angular/core/rxjs-interop'
 

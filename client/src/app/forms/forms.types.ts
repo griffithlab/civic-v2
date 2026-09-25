@@ -13,7 +13,7 @@ import {
   AmpLevel,
   ReferenceBuild,
   RegionVariantName,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 export type CvcInputEnum =
   | EvidenceSignificance

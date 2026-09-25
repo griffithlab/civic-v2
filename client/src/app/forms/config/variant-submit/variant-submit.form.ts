@@ -6,7 +6,8 @@ import {
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
-import { FeatureSelectTagGQL, Maybe, Variant } from '@app/generated/civic.apollo'
+import { FeatureSelectTagGQL } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
+import { Maybe, Variant } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, lastValueFrom } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
@@ -26,11 +27,11 @@ type VariantSubmitState = {
 }
 
 @Component({
-    selector: 'cvc-variant-submit-form',
-    templateUrl: './variant-submit.form.html',
-    styleUrls: ['./variant-submit.form.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variant-submit-form',
+  templateUrl: './variant-submit.form.html',
+  styleUrls: ['./variant-submit.form.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VariantSubmitForm {
   @Output() onVariantSelected = new EventEmitter<Variant>()
@@ -55,7 +56,7 @@ export class VariantSubmitForm {
 
   constructor(
     private apollo: Apollo,
-    private featureQuery: FeatureSelectTagGQL,
+    private featureQuery: FeatureSelectTagGQL
   ) {
     this.form = new UntypedFormGroup({})
     this.model = { featureId: undefined, variantId: undefined }
@@ -96,7 +97,7 @@ export class VariantSubmitForm {
               },
               featureTypeCallback: (featureType: string): void => {
                 this.featureType = new EnumToTitlePipe().transform(featureType)
-              }
+              },
             },
           },
         ],

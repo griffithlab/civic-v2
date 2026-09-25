@@ -7,15 +7,17 @@ import {
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
-  FlaggableInput,
   FlagFragment,
   FlagListQuery,
   FlagListQueryVariables,
+  FlagListGQL,
+} from './flag-list-and-filter.gql.generated'
+import {
+  FlaggableInput,
   Maybe,
   FlagState,
-  FlagListGQL,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { filter, map } from 'rxjs/operators'

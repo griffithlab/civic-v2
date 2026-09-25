@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
   CommentableInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { Subscription } from 'rxjs'
 
 @Component({

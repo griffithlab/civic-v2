@@ -13,8 +13,8 @@ import {
 import {
   RevisionPopoverFragment,
   RevisionPopoverGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './revision-popover.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { map, filter } from 'rxjs/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { Observable } from 'rxjs'

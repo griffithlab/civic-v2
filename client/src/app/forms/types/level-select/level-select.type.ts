@@ -12,7 +12,7 @@ import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { EvidenceLevel, Maybe } from '@app/generated/civic.apollo'
+import { EvidenceLevel, Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
@@ -53,8 +53,7 @@ export interface CvcLevelSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcLevelSelectFieldConfig
-  extends FormlyFieldConfig<CvcLevelSelectFieldProps> {
+export interface CvcLevelSelectFieldConfig extends FormlyFieldConfig<CvcLevelSelectFieldProps> {
   type: 'level-select' | Type<CvcLevelSelectField>
 }
 
@@ -67,11 +66,11 @@ const LevelSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-level-select',
-    templateUrl: './level-select.type.html',
-    styleUrls: ['./level-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-level-select',
+  templateUrl: './level-select.type.html',
+  styleUrls: ['./level-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcLevelSelectField
   extends LevelSelectMixin

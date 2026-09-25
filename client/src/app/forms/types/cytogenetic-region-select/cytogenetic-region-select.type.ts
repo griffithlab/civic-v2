@@ -24,8 +24,8 @@ import {
   CytogeneticRegionSelectTypeaheadGQL,
   CytogeneticRegionSelectTypeaheadQuery,
   CytogeneticRegionSelectTypeaheadQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './cytogenetic-region-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'

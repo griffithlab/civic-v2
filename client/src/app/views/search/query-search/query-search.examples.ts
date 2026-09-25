@@ -3,7 +3,7 @@ import {
   AdvancedSearchFilter,
   QueryBuilderFormModel,
 } from '@forms/config/query-builder/query-builder.types'
-import { BooleanOperator } from '@generated/civic.apollo'
+import { BooleanOperator } from '@app/generated/civic.apollo.types'
 
 export type QuerySearchExample = {
   title: string

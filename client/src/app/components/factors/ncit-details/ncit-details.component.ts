@@ -5,7 +5,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
-import { Maybe, NcitDetailsFragment } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { NcitDetailsFragment } from '@app/views/features/features-detail/features-summary/features-summary.query.gql.generated'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'

@@ -20,7 +20,7 @@ import {
   SubmitAssertionGQL,
   SubmitAssertionMutation,
   SubmitAssertionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './assertion-submit.query.gql.generated'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { assertionSubmitFields } from './assertion-submit.form.config'

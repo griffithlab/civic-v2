@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { ClinicalTrial, Maybe } from '@app/generated/civic.apollo.types'
 import {
-  ClinicalTrial,
   ClinicalTrialSummaryGQL,
   ClinicalTrialSummaryQuery,
   ClinicalTrialSummaryQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './clinical-trials-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { Observable, Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

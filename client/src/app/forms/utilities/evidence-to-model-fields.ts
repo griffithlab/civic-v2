@@ -1,4 +1,9 @@
-import { Maybe, RevisableEvidenceFieldsFragment, SubmitEvidenceItemInput, SuggestEvidenceItemRevisionInput } from '@app/generated/civic.apollo'
+import { RevisableEvidenceFieldsFragment } from '@app/forms/config/evidence-revise/evidence-revise.query.gql.generated'
+import {
+  Maybe,
+  SubmitEvidenceItemInput,
+  SuggestEvidenceItemRevisionInput,
+} from '@app/generated/civic.apollo.types'
 import { EvidenceItemFields } from '../models/evidence-fields.model'
 import { EvidenceSubmitModel } from '../models/evidence-submit.model'
 import * as fmt from '@app/forms/utilities/input-formatters'
@@ -24,8 +29,11 @@ export function evidenceToModelFields(
   }
 }
 
-export function evidenceFormModelToReviseInput(eid: number, model: EvidenceReviseModel): Maybe<SuggestEvidenceItemRevisionInput> {
-  let input = evidenceFormModelToInput(model);
+export function evidenceFormModelToReviseInput(
+  eid: number,
+  model: EvidenceReviseModel
+): Maybe<SuggestEvidenceItemRevisionInput> {
+  let input = evidenceFormModelToInput(model)
   if (input) {
     //TODO - handle optional comment here
     return {
@@ -35,11 +43,13 @@ export function evidenceFormModelToReviseInput(eid: number, model: EvidenceRevis
       fields: input.fields,
     }
   }
-  return undefined;
+  return undefined
 }
 
-export function evidenceFormModelToInput(model: EvidenceSubmitModel): Maybe<SubmitEvidenceItemInput> {
-  const fields = model.fields;
+export function evidenceFormModelToInput(
+  model: EvidenceSubmitModel
+): Maybe<SubmitEvidenceItemInput> {
+  const fields = model.fields
   let requiredFields = [
     fields.molecularProfileId,
     fields.variantOrigin,
@@ -48,7 +58,7 @@ export function evidenceFormModelToInput(model: EvidenceSubmitModel): Maybe<Subm
     fields.significance,
     fields.evidenceLevel,
     fields.evidenceDirection,
-    fields.rating
+    fields.rating,
   ]
 
   //Bail out if any required fields aren't filled in
@@ -78,4 +88,3 @@ export function evidenceFormModelToInput(model: EvidenceSubmitModel): Maybe<Subm
     }
   }
 }
-

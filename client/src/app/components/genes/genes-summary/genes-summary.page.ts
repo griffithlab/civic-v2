@@ -8,8 +8,8 @@ import {
 import {
   SubscribableEntities,
   SubscribableInput,
-  GeneSummaryFieldsFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { GeneSummaryFieldsFragment } from '@app/views/features/features-detail/features-summary/features-summary.query.gql.generated'
 
 @Component({
   selector: 'cvc-genes-summary',

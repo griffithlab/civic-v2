@@ -7,7 +7,7 @@ import {
   EvidenceSortColumns,
   EvidenceType,
   TherapyInteraction,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { NzTableFilterList } from 'ng-zorro-antd/table'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { $enum, EnumWrapper } from 'ts-enum-util'
@@ -110,7 +110,10 @@ export class EvidenceManagerConfig {
           inputType: 'default',
           options: [{ key: 'EID', value: null }],
           transform: (v) => {
-            const match = v?.toString().trim().match(/^(?:EID)?(\d+)$/i)
+            const match = v
+              ?.toString()
+              .trim()
+              .match(/^(?:EID)?(\d+)$/i)
             return match ? +match[1] : null
           },
         },

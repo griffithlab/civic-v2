@@ -22,11 +22,9 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import {
-  ActivityFeedItemFragment,
-  ActivityFeedItemGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { ActivityFeedItemFragment } from '@app/components/activities/activity-feed/activity-feed.query.gql.generated'
+import { ActivityFeedItemGQL } from './feed-item.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'

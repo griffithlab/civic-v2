@@ -11,18 +11,20 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  ApiKey,
   ApiKeysGQL,
   GenerateApiKeyGQL,
-  GenerateApiKeyInput,
   GenerateApiKeyMutation,
   GenerateApiKeyMutationVariables,
-  Maybe,
   RevokeApiKeyGQL,
-  RevokeApiKeyInput,
   RevokeApiKeyMutation,
   RevokeApiKeyMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './user-api-keys.mutation.gql.generated'
+import {
+  ApiKey,
+  GenerateApiKeyInput,
+  Maybe,
+  RevokeApiKeyInput,
+} from '@app/generated/civic.apollo.types'
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NzCardModule } from 'ng-zorro-antd/card'

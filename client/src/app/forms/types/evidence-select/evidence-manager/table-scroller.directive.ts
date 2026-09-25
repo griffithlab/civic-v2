@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core'
-import { Maybe, PageInfo } from '@app/generated/civic.apollo'
+import { Maybe, PageInfo } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { NzTableComponent } from 'ng-zorro-antd/table'

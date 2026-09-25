@@ -5,15 +5,17 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import {
-  Maybe,
-  PageInfo,
   MenuMolecularProfileFragment,
   MolecularProfileMenuQuery,
-  MolecularProfileConnection,
   MolecularProfileMenuQueryVariables,
   MolecularProfileMenuGQL,
+} from './molecular-profiles-menu.gql.generated'
+import {
+  Maybe,
+  PageInfo,
+  MolecularProfileConnection,
   AssociatedEvidenceStatusFilter,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { map, debounceTime, filter, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs'
 import { QueryRef } from 'apollo-angular'

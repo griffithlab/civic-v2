@@ -1,7 +1,4 @@
-import {
-  ClinvarInput,
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { ClinvarInput, Maybe } from '@app/generated/civic.apollo.types'
 import * as fmt from '@app/forms/utilities/input-formatters'
 
 export enum ClinvarOptions {

@@ -1,13 +1,12 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Maybe, Organization } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
-  Organization,
   UserDetailFieldsFragment,
   UserDetailGQL,
   UserDetailQuery,
   UserDetailQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './users-detail.query.gql.generated'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
 import { startWith, map } from 'rxjs/operators'

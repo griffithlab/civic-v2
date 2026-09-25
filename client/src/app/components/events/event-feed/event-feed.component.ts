@@ -6,19 +6,23 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import {
-  EventAction,
   EventFeedCountGQL,
   EventFeedGQL,
-  EventFeedMode,
   EventFeedNodeFragment,
   EventFeedQuery,
   EventFeedQueryVariables,
+} from './event-feed.gql.generated'
+import {
+  EventAction,
+  EventFeedMode,
   Maybe,
-  NotificationOrganizationFragment,
-  NotificationOriginatingUsersFragment,
   PageInfo,
   SubscribableQueryInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import {
+  NotificationOrganizationFragment,
+  NotificationOriginatingUsersFragment,
+} from '@app/views/users/users-notifications/users-notifications.query.gql.generated'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { Observable, Subject } from 'rxjs'

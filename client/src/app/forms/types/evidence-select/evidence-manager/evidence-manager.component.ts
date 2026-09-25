@@ -15,16 +15,18 @@ import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
-  EvidenceItem,
-  EvidenceItemConnection,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
+} from './evidence-manager.query.gql.generated'
+import {
+  EvidenceItem,
+  EvidenceItemConnection,
   EvidenceSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, QueryRef } from 'apollo-angular'
 import {

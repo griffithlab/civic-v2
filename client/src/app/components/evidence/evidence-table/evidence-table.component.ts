@@ -21,8 +21,10 @@ import {
   EvidenceBrowseGQL,
   EvidenceBrowseQuery,
   EvidenceBrowseQueryVariables,
-  EvidenceDirection,
   EvidenceGridFieldsFragment,
+} from './evidence-table.query.gql.generated'
+import {
+  EvidenceDirection,
   EvidenceItemConnection,
   EvidenceLevel,
   EvidenceSignificance,
@@ -33,7 +35,7 @@ import {
   OrganizationFilter,
   PageInfo,
   VariantOrigin,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
