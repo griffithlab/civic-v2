@@ -6,7 +6,8 @@
 <div class="rate-block">
   <nz-rate
     [ngModel]="formControl.value"
+    [ngModelOptions]="{ standalone: true }"
     [nzCount]="props.count"
     [nzTooltips]="props.hoverText"
-    (ngModelChange)="rating$.next($event)"></nz-rate>
+    (ngModelChange)="onRatingChange($event)"></nz-rate>
 </div>

@@ -2,10 +2,11 @@
   @if (props.showExistenceOptions) {
     <nz-col nzSpan="24">
       <nz-radio-group
-        [ngModel]="existenceModel$ | ngrxPush"
-        (ngModelChange)="existenceChange$.next($event)"
+        [ngModel]="existence()"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="onExistenceChange($event)"
         nzName="existence">
-        @for (option of selectOptions; track option) {
+        @for (option of selectOptions; track option.label) {
           <label
             nz-radio-button
             [nzValue]="option.value"
@@ -17,7 +18,7 @@
       </nz-radio-group>
     </nz-col>
   }
-  @if (showTagSelect$ | ngrxPush) {
+  @if (showTagSelect()) {
     <nz-col nzSpan="24">
       <nz-select
         nzMode="tags"
@@ -25,8 +26,7 @@
         nzAllowClear
         [formControl]="formControl"
         [formlyAttributes]="field"
-        nzDropdownClassName="hide-dropdown"
-        (ngModelChange)="onValueChange$.next($event)">
+        nzDropdownClassName="hide-dropdown">
         @for (item of formControl.value; track item) {
           <nz-option
             [nzLabel]="item"

@@ -1,28 +1,19 @@
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CvcAttributeTagComponent } from '@app/forms/components/attribute-tag/attribute-tag.component'
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChildren,
-  ChangeDetectionStrategy,
-} from '@angular/core'
-import { CvcInputEnum } from '@app/forms/forms.types'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
+  CvcEnumSelectFieldBase,
+  CvcEnumSelectFieldProps,
+} from '@app/forms/select'
 import { Maybe, VariantOrigin } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map } from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzSelectModule } from 'ng-zorro-antd/select'
 
-const optionMap = new Map<VariantOrigin, string>([
+const optionText = new Map<VariantOrigin, string>([
   [
     VariantOrigin.Somatic,
     'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',
@@ -57,46 +48,30 @@ export type CvcOriginSelectFieldOptions = Partial<
   FieldTypeConfig<CvcOriginSelectFieldProps>
 >
 
-export interface CvcOriginSelectFieldProps extends FormlyFieldProps {
-  label: string
-  isMultiSelect: boolean
-  description?: string
-  tooltip?: string
-  extraType?: CvcFormFieldExtraType
-}
+export interface CvcOriginSelectFieldProps extends CvcEnumSelectFieldProps {}
 
-export interface CvcOriginSelectFieldConfig extends FormlyFieldConfig<CvcOriginSelectFieldProps> {
+export interface CvcOriginSelectFieldConfig
+  extends FormlyFieldConfig<CvcOriginSelectFieldProps> {
   type: 'origin-select' | Type<CvcOriginSelectField>
 }
 
-const OriginSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcOriginSelectFieldProps>,
-    Maybe<VariantOrigin>
-  >(),
-  EnumSelectField<VariantOrigin, CvcInputEnum>()
-)
-
 @Component({
   selector: 'cvc-origin-select',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    CvcAttributeTagComponent,
+  ],
   templateUrl: './origin-select.type.html',
-  styleUrls: ['./origin-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
-export class CvcOriginSelectField
-  extends OriginSelectMixin
-  implements AfterViewInit
-{
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. VariantOrigin instead of CvcInputEnum
-  // STATE SOURCE STREAMS
-  originEnum$: BehaviorSubject<CvcInputEnum[]>
-
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-
-  // FieldTypeConfig defaults
+export class CvcOriginSelectField extends CvcEnumSelectFieldBase<
+  VariantOrigin,
+  CvcOriginSelectFieldProps
+> {
   defaultOptions: CvcOriginSelectFieldOptions = {
     props: {
       label: 'Variant Origin',
@@ -107,52 +82,15 @@ export class CvcOriginSelectField
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  constructor(private cdr: ChangeDetectorRef) {
-    super()
-    this.originEnum$ = new BehaviorSubject<CvcInputEnum[]>([])
+  // the option order is the map's, not the schema enum's — Somatic first,
+  // NA last, which is the order curators read them in
+  override ngOnInit(): void {
+    super.ngOnInit()
+    this.optionValues.set(Array.from(optionText.keys()))
+    this.connectValueDescription()
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEnumSelectField({
-      optionEnum$: this.originEnum$,
-      optionTemplate$: this.optionTemplate$,
-      changeDetectorRef: this.cdr,
-    })
-
-    // populate select options
-    this.originEnum$.next(Array.from(optionMap.keys()))
-  }
-
-  configureStateConnections(): void {
-    // set up optionTemplates Observable
-    if (!this.optionTemplates) {
-      console.error(
-        `${this.field.id} could not find its optionTemplates QueryList to populate its select options, so simple text labels will be displayed.`
-      )
-    }
-    this.optionTemplate$ = this.optionTemplates?.changes.pipe(
-      // return QueryLists's array of TemplateRefs
-      map((ql: QueryList<TemplateRef<any>>) => {
-        return ql.map((q) => q)
-      })
-    )
-
-    // update field value description
-    this.onValueChange$
-      .pipe(untilDestroyed(this))
-      .subscribe((origin: Maybe<VariantOrigin>) => {
-        if (!origin) {
-          this.props.description = undefined
-          this.props.extraType = 'prompt'
-        } else {
-          this.props.description = optionMap.get(origin)
-          this.props.extraType = 'description'
-        }
-      })
+  protected override descriptionFor(value: VariantOrigin): Maybe<string> {
+    return optionText.get(value)
   }
 }

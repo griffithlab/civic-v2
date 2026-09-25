@@ -1,40 +1,39 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Type,
-  AfterViewInit,
-  ChangeDetectorRef,
-} from '@angular/core'
-import { AbstractControl } from '@angular/forms'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms'
+import { CvcFieldBase } from '@app/forms/select'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
-import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyModule,
+} from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
-import { filter, startWith, take } from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzInputModule } from 'ng-zorro-antd/input'
+import { filter, take } from 'rxjs'
 
 export type CvcNccnGuidelineVersionFieldOptions = Partial<
   FieldTypeConfig<CvcNccnGuidelineFieldProps>
 >
 
 export interface CvcNccnGuidelineFieldProps extends FormlyFieldProps {
-  description?: string
-  extraType?: string
-  disabled?: boolean
+  extraType?: CvcFormFieldExtraType
 }
 
-export interface FormlyNccnGuidelineFieldConfig extends FormlyFieldConfig<CvcNccnGuidelineFieldProps> {
-  type: 'input' | Type<CvcNccnGuidelineVersionField>
+export interface CvcNccnGuidelineVersionFieldConfig
+  extends FormlyFieldConfig<CvcNccnGuidelineFieldProps> {
+  type: 'nccn-guideline-version-input' | Type<CvcNccnGuidelineVersionField>
 }
 
-const NccnGuidelineVersionMixin =
-  mixin(
-    BaseFieldType<FieldTypeConfig<CvcNccnGuidelineFieldProps>, Maybe<string>>()
-  )
+const DEFAULT_DESCRIPTION =
+  "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"
 
 @Component({
   selector: 'cvc-nccn-guideline-version-input',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, FormlyModule, NzInputModule],
   template: `
     <input
       nz-input
@@ -42,34 +41,19 @@ const NccnGuidelineVersionMixin =
       [formControl]="formControl"
       [formlyAttributes]="field" />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
-export class CvcNccnGuidelineVersionField
-  extends NccnGuidelineVersionMixin
-  implements AfterViewInit
-{
-  defaultDescription =
-    "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"
-
+export class CvcNccnGuidelineVersionField extends CvcFieldBase<
+  Maybe<string>,
+  FieldTypeConfig<CvcNccnGuidelineFieldProps>
+> {
   defaultOptions: CvcNccnGuidelineVersionFieldOptions = {
     validators: {
       nccnVersionNumber: {
         expression: (c: AbstractControl) => {
-          if (c.value) {
-            if (/^\d{1,2}\.\d{4}$/.test(c.value)) {
-              let year = +c.value.split('.')[1]
-              if (year >= 2000 && year <= new Date().getFullYear() + 1) {
-                return true
-              } else {
-                return false
-              }
-            } else {
-              return false
-            }
-          } else {
-            return true
-          }
+          if (!c.value) return true
+          if (!/^\d{1,2}\.\d{4}$/.test(c.value)) return false
+          const year = +c.value.split('.')[1]
+          return year >= 2000 && year <= new Date().getFullYear() + 1
         },
         message: (_: any, field: FormlyFieldConfig) =>
           `"${field.formControl?.value}" does not fit the format Version.Year`,
@@ -78,40 +62,30 @@ export class CvcNccnGuidelineVersionField
     props: {
       label: 'NCCN Guideline Version',
       extraType: 'description',
-      description: this.defaultDescription,
+      description: DEFAULT_DESCRIPTION,
     },
   }
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super()
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField()
-    if (this.state && this.state.formReady$) {
-      this.state.formReady$
-        .pipe(
-          filter((r) => r), // only pass true values
-          take(1), // unsubscribe after 1st emit
-          untilDestroyed(this) // or form destroyed
-        )
-        .subscribe((_) => {
-          this.configureField()
-        })
-    } else {
-      this.configureField()
+  override ngOnInit(): void {
+    super.ngOnInit()
+    if (!this.state?.formReady$) {
+      this.connectGuideline()
+      return
     }
+    this.state.formReady$
+      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.connectGuideline())
   }
 
-  configureField() {
+  private connectGuideline(): void {
     this.state?.fields.nccnGuidelineId$
-      .pipe(untilDestroyed(this))
-      .subscribe((guideline: Maybe<number>) => {
-        if (guideline) {
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((guidelineId: Maybe<number>) => {
+        if (guidelineId) {
           this.props.disabled = false
           this.props.required = true
           this.props.extraType = 'description'
-          this.props.description = this.defaultDescription
+          this.props.description = DEFAULT_DESCRIPTION
         } else {
           this.props.disabled = true
           this.props.required = false
