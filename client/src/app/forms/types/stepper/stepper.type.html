@@ -17,7 +17,12 @@
     @let stepField =
       field.fieldGroup ? field.fieldGroup[currentStep()] : undefined;
     @if (stepField) {
-      <formly-field [field]="stepField"></formly-field>
+      @for (subField of stepField.fieldGroup; track subField.key) {
+        <formly-field [field]="subField"></formly-field>
+        @if (!$last) {
+          <nz-divider nzText="OR"></nz-divider>
+        }
+      }
     }
     @if (currentStep() > 0) {
       <button
