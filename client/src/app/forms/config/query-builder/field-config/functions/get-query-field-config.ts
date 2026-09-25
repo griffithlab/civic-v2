@@ -1,25 +1,14 @@
 import { AdvancedSearchEndpoint } from '../../query-builder.types'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { getSelectOptions } from './get-select-options'
-import { getFieldOptions } from './get-field-options'
 import { BooleanOperator } from '@app/generated/civic.apollo.types'
-import { AbstractControl } from '@angular/forms'
 
-const filterCompleteValidator = {
-  expression: (c: AbstractControl): boolean => {
-    const value = c.value
-    if (
-      !value ||
-      typeof value !== 'object' ||
-      Object.keys(value).length === 0
-    ) {
-      return false
-    }
-    return true
-  },
-  message: 'Select an attribute or remove this filter.',
-}
-
+/**
+ * Rows are built by the `query-subfilters` type's `fieldArray` default (see
+ * `query-subfilters.module.ts`), not here — this module must not import
+ * `getFieldOptions`, which imports every `search-*.config`, each of which calls
+ * this function.
+ */
 export function getQueryFieldConfig(
   key: 'query' | string = 'query',
   endpoint: AdvancedSearchEndpoint,
@@ -57,28 +46,6 @@ export function getQueryFieldConfig(
             props: {
               filterEndpoint: endpoint,
               isRootFilter: true,
-            },
-            fieldArray: (field) => {
-              return {
-                type: 'query-filter',
-                resetOnHide: true,
-                validators: {
-                  filterComplete: filterCompleteValidator,
-                },
-                props: {
-                  options: getFieldOptions(
-                    field.props!.filterEndpoint,
-                    true
-                  ).map((opt) => ({
-                    label: opt.props?.label,
-                    value: opt.key,
-                  })),
-                },
-                fieldGroup: getFieldOptions(
-                  field.props!.filterEndpoint,
-                  field.props!.isRootFilter
-                ),
-              }
             },
           },
         ],
@@ -119,29 +86,6 @@ export function getQueryFieldConfig(
             props: {
               filterEndpoint: endpoint,
               isRootFilter: false,
-            },
-            fieldArray: (field) => {
-              return {
-                type: 'query-filter',
-                resetOnHide: true,
-                validators: {
-                  filterComplete: filterCompleteValidator,
-                },
-                props: {
-                  isRootFilter: false,
-                  options: getFieldOptions(
-                    field.props!.filterEndpoint,
-                    true
-                  ).map((opt) => ({
-                    label: opt.props?.label,
-                    value: opt.key,
-                  })),
-                },
-                fieldGroup: getFieldOptions(
-                  field.props!.filterEndpoint,
-                  field.props!.isRootFilter
-                ),
-              }
             },
           },
         ],
