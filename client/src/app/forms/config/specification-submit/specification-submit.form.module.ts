@@ -18,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzGridModule } from 'ng-zorro-antd/grid'
 import { FormsModule } from '@angular/forms';
 
 
@@ -38,6 +39,7 @@ import { FormsModule } from '@angular/forms';
     NzCardModule,
     NzRadioModule,
     NzSelectModule,
+    NzGridModule,
     FormsModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,

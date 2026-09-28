@@ -1,89 +1,96 @@
-@if(specificationFormFields && assertionId) {
-  <form
-    nz-form
-    nzLayout="vertical"
-    [formGroup]="specificationForm"
-    (ngSubmit)="onSubmit()">
-    <formly-form
-      [form]="specificationForm"
-      [fields]="specificationFormFields"
-      [model]="specificationModel"
-      [options]="{}"
-      (modelChange)="onSpecificationSelected($event)">
-    </formly-form>
-  </form>
-}
+<nz-row [nzGutter]="[16, 8]">
+  @if(specificationFormFields && assertionId) {
+    <nz-col nzSpan="24">
+      <form
+        nz-form
+        nzLayout="vertical"
+        [formGroup]="specificationForm"
+        (ngSubmit)="onSubmit()">
+        <formly-form
+          [form]="specificationForm"
+          [fields]="specificationFormFields"
+          [model]="specificationModel"
+          [options]="{}"
+          (modelChange)="onSpecificationSelected($event)">
+        </formly-form>
+      </form>
+    </nz-col>
+  }
 
-@if (this.specificationInfo) {
-  <nz-card [nzTitle]="'Selected Specification: ' + specificationInfo.name + '(v' + specificationInfo.version + ')'">
-    <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small">
-      <nz-descriptions-item nzTitle="Publication Date">
-        {{ specificationInfo.publishedOn }}
-      </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Links">
-        <cvc-link-tag
-          [href]="specificationInfo.specificationUrl"
-          tooltip="View Specification Document">
-          Specification Document
-        </cvc-link-tag>
-        <cvc-link-tag
-          [href]="'https://pubmed.ncbi.nlm.nih.gov/' + specificationInfo.sopPubmedId"
-          tooltip="View Publication">
-          Publication
-        </cvc-link-tag>
-      </nz-descriptions-item>
-    </nz-descriptions>
-  </nz-card>
-
-  <nz-divider></nz-divider>
-
-  <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
-    @if (evaluationSummaryDisplayMode() == 'group') {
-      <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(codesModel | keyvalue).length" nzSize="small">
-        @for (item of codesModel | keyvalue: preserveOrder; track item.key) {
-          <nz-descriptions-item [nzTitle]="item.key">
-            <div style="white-space: nowrap;">
-            @for (code of item.value | keyvalue: preserveOrder; track code.key) {
-              <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-            }
-            </div>
+  @if (this.specificationInfo) {
+    <nz-col nzSpan="24">
+      <nz-card [nzTitle]="'Selected Specification: ' + specificationInfo.name + '(v' + specificationInfo.version + ')'">
+        <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small">
+          <nz-descriptions-item nzTitle="Publication Date">
+            {{ specificationInfo.publishedOn }}
           </nz-descriptions-item>
-        }
-      </nz-descriptions>
-    } @else if (evaluationSummaryDisplayMode() == 'strength') {
-      @let strengthSortedCodesModel = sortByStrength(codesModel);
-      @for (code of strengthSortedCodesModel | keyvalue: preserveOrder; track code.key) {
-        <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-      }
-    }
-    <ng-template #evaluationSummaryExtraTemplate>
-      Display Mode:
-      <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
-        <label nz-radio-button nzValue="group">By Group</label>
-        <label nz-radio-button nzValue="strength">By Strength</label>
-      </nz-radio-group>
-    </ng-template>
-  </nz-card>
-  <nz-divider></nz-divider>
-}
+          <nz-descriptions-item nzTitle="Links">
+            <cvc-link-tag
+              [href]="specificationInfo.specificationUrl"
+              tooltip="View Specification Document">
+              Specification Document
+            </cvc-link-tag>
+            <cvc-link-tag
+              [href]="'https://pubmed.ncbi.nlm.nih.gov/' + specificationInfo.sopPubmedId"
+              tooltip="View Publication">
+              Publication
+            </cvc-link-tag>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-card>
+    </nz-col>
 
-@if(codesFields) {
-  <nz-card nzTitle="Evaluation">
-    <form
-      nz-form
-      nzLayout="vertical"
-      [formGroup]="codesForm"
-      (ngSubmit)="onSubmit()">
-      <formly-form
-        [form]="codesForm"
-        [fields]="codesFields"
-        [model]="codesModel"
-        [options]="{}"
-        (modelChange)="codesModel = $event">
-      </formly-form>
-    </form>
-  </nz-card>
-}
+    <nz-col nzSpan="24">
+      <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
+        @if (evaluationSummaryDisplayMode() == 'group') {
+          <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(codesModel | keyvalue).length" nzSize="small">
+            @for (item of codesModel | keyvalue: preserveOrder; track item.key) {
+              <nz-descriptions-item [nzTitle]="item.key">
+                <div style="white-space: nowrap;">
+                @for (code of item.value | keyvalue: preserveOrder; track code.key) {
+                  <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                }
+                </div>
+              </nz-descriptions-item>
+            }
+          </nz-descriptions>
+        } @else if (evaluationSummaryDisplayMode() == 'strength') {
+          @let strengthSortedCodesModel = sortByStrength(codesModel);
+          @for (code of strengthSortedCodesModel | keyvalue: preserveOrder; track code.key) {
+            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+          }
+        }
+        <ng-template #evaluationSummaryExtraTemplate>
+          Display Mode:
+          <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
+            <label nz-radio-button nzValue="group">By Group</label>
+            <label nz-radio-button nzValue="strength">By Strength</label>
+          </nz-radio-group>
+        </ng-template>
+      </nz-card>
+    </nz-col>
+  }
+
+  @if(codesFields) {
+    <nz-col nzSpan="24">
+      <nz-card nzTitle="Evaluation">
+        <form
+          nz-form
+          nzLayout="vertical"
+          [formGroup]="codesForm"
+          (ngSubmit)="onSubmit()">
+          <formly-form
+            [form]="codesForm"
+            [fields]="codesFields"
+            [model]="codesModel"
+            [options]="{}"
+            (modelChange)="codesModel = $event">
+          </formly-form>
+        </form>
+      </nz-card>
+    </nz-col>
+  }
+</nz-row>
 
 <ng-template #codeTag let-code="code" let-values="values">
   <nz-tag nz-popover [nzColor]="values.evaluation | specificationToTagColor" [nzPopoverContent]="codePopover" >

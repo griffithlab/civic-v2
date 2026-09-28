@@ -1,4 +1,4 @@
-<div nz-row>
+<div nz-row [nzGutter]="[16, 8]">
   <div
     nz-col
     nzSpan="4">
@@ -7,7 +7,22 @@
       [nzCurrent]="currentStep()"
       (nzIndexChange)="onIndexChange($event)">
       @for (step of field.fieldGroup; track step.key; let i = $index) {
-        <nz-step [nzTitle]="step.props?.stepLabel" [nzIcon]="iconTemplate"> </nz-step>
+        <nz-step [nzTitle]="titleTemplate" [nzIcon]="iconTemplate"> </nz-step>
+        <ng-template #titleTemplate>
+          {{ step.props?.stepLabel }}
+          @if (step.props?.infoString) {
+            <span
+              nz-typography
+              nzType="secondary">
+              <i
+                nz-icon
+                nzType="info-circle"
+                nz-tooltip
+                [nzTooltipTitle]="step.props?.infoString">
+              </i>
+            </span>
+          }
+        </ng-template>
         <ng-template #iconTemplate>
           @if (isValid(step)) {
             @if (i == currentStep()) {
@@ -25,32 +40,38 @@
   <div
     nz-col
     nzSpan="20">
-    @let stepField =
-      field.fieldGroup ? field.fieldGroup[currentStep()] : undefined;
-    @if (stepField) {
-      @for (subField of stepField.fieldGroup; track subField.key) {
-        <formly-field [field]="subField"></formly-field>
-        @if (!$last) {
-          <nz-divider nzText="OR"></nz-divider>
+    <nz-row [nzGutter]="[16, 8]">
+      @let stepField =
+        field.fieldGroup ? field.fieldGroup[currentStep()] : undefined;
+      @if (stepField) {
+        @for (subField of stepField.fieldGroup; track subField.key) {
+          <nz-col nzSpan="24">
+            <formly-field [field]="subField"></formly-field>
+          </nz-col>
+          @if (!$last) {
+            <nz-divider nzText="OR"></nz-divider>
+          }
         }
       }
-    }
-    @if (currentStep() > 0) {
-      <button
-        nz-button
-        nzType="default"
-        (click)="previousStep()">
-        <span>Previous</span>
-      </button>
-    }
-    @if (currentStep() < field.fieldGroup!.length - 1) {
-      <button
-        nz-button
-        nzType="default"
-        (click)="nextStep()"
-        style="float: right;">
-        <span>Next</span>
-      </button>
-    }
+      <nz-col nzSpan="24">
+        @if (currentStep() > 0) {
+          <button
+            nz-button
+            nzType="default"
+            (click)="previousStep()">
+            <span>Previous</span>
+          </button>
+        }
+        @if (currentStep() < field.fieldGroup!.length - 1) {
+          <button
+            nz-button
+            nzType="default"
+            (click)="nextStep()"
+            style="float: right;">
+            <span>Next</span>
+          </button>
+        }
+      </nz-col>
+    </nz-row>
   </div>
 </div>

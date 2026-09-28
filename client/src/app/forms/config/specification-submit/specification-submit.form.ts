@@ -12,13 +12,13 @@ import {
 import {
   KeyValue
 } from '@angular/common'
-import { UntypedFormGroup } from '@angular/forms'
+import { UntypedFormGroup, FormGroup } from '@angular/forms'
+import { filter, tap } from 'rxjs/operators'
 import { Maybe, SpecificationDetailConfigFieldsFragment, SpecificationEvaluationStatus, SpecificationFormConfigGQL, ValidSpecificationsGQL } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig } from '@ngx-formly/core'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { GeneReviseModel } from '@app/forms/models/gene-revise.model'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 
@@ -42,6 +42,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   codesModel = {}
   codesForm: UntypedFormGroup
+  codesOptions: FormlyFormOptions = {};
   codesFields?: FormlyFieldConfig[]
 
   readonly evaluationSummaryDisplayMode = signal<string>('group');
@@ -67,6 +68,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     this.specificationFormFields = undefined
     this.codesForm = new UntypedFormGroup({})
     this.codesFields = undefined
+
     // this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
 
     effect(() => {
@@ -84,18 +86,14 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   type: "cvc-field-stepper",
                   wrappers: ['form-layout'],
                   props: {
-                    showDevPanel: false,
+                    //showDevPanel: true,
                   },
                   fieldGroup: specificationFormConfig.assessmentGroups.map((group) => {
                     return {
                       key: group.name,
-                      wrappers: ['form-card'],
                       props: {
                         stepLabel: group.name,
-                        formCardOptions: {
-                          title: group.name,
-                          infoString: group.description
-                        },
+                        infoString: group.description
                       },
                       fieldGroup: group.specificationCriterium.map((code) => {
                         return {
@@ -134,7 +132,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                       'evaluationConflictingCodes',
                                       'evaluationCrossGroupConflictingCodes'
                                     ]
-                                  }
+                                  },
                                 },
                                 {
                                   key: "modifier",
@@ -188,7 +186,12 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                         }
                       })
                     }
-                  })
+                  }),
+                  expressions: {
+                    'hooks.onChanges': (field: FormlyFieldConfig) => {
+                      this.validateAllFields(this.codesForm);
+                    }
+                  }
                 }
               ]
               this.cdr.detectChanges()
@@ -216,7 +219,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
               {
                 wrappers: ['form-layout'],
                 props: {
-                  showDevPanel: true,
+                  //showDevPanel: true,
                 },
                 fieldGroup: [
                   {
@@ -246,6 +249,18 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         }
       })
     }
+  }
+
+  validateAllFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormGroup) {
+        this.validateAllFields(control);
+      } else if (control) {
+        // updates value & re-runs all validators for this specific field
+        control.updateValueAndValidity({ emitEvent: false }); 
+      }
+    });
   }
 
   onSubmit() {

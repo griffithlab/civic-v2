@@ -10,6 +10,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -33,6 +35,8 @@ const typeConfig: ConfigOption = {
     NzTagModule,
     NzSpaceModule,
     NzIconModule,
+    NzToolTipModule,
+    NzTypographyModule,
   ],
   exports: [CvcFieldStepper]
 })

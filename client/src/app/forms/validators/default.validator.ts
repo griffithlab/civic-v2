@@ -156,7 +156,6 @@ export const defaultValidators = [
     ): ValidationErrors | null => {
       if (fc.value == 'MET') {
         const mutuallyExclusiveCodes = ffc.props?.extraInfo?.mutuallyExclusiveCodes
-        console.log(mutuallyExclusiveCodes)
         const allCodes = ffc.parent?.parent?.parent?.parent?.fieldGroup?.flatMap((c) => c.fieldGroup)
         if (allCodes) {
           for (const mutuallyExclusiveCode of mutuallyExclusiveCodes) {
