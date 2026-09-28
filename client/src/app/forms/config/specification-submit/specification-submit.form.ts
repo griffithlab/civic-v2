@@ -84,7 +84,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   type: "cvc-field-stepper",
                   wrappers: ['form-layout'],
                   props: {
-                    showDevPanel: true,
+                    showDevPanel: false,
                   },
                   fieldGroup: specificationFormConfig.assessmentGroups.map((group) => {
                     return {
@@ -112,7 +112,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                               wrappers: ['form-row'],
                               props: <CvcFormRowWrapperProps>{
                                 formRowOptions: {
-                                  span: 24,
+                                 spanIndexed: [4, 4, 16, 24],
                                 },
                               },
                               fieldGroup: [
@@ -157,6 +157,9 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                   type: 'textarea',
                                   props: {
                                     label: "Justification",
+                                    attributes: {
+                                      rows: 1
+                                    }
                                   },
                                   expressions: {
                                     'props.disabled': (field: FormlyFieldConfig) => {
