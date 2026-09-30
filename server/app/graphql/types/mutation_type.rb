@@ -50,6 +50,7 @@ module Types
     # submission
     field :submit_evidence, mutation: Mutations::SubmitEvidenceItem
     field :submit_assertion, mutation: Mutations::SubmitAssertion
+    field :submit_criteria_evaluations, mutation: Mutations::SubmitCriteriaEvaluations
     field :suggest_source, mutation: Mutations::SuggestSource
     field :submit_variant_group, mutation: Mutations::SubmitVariantGroup
 

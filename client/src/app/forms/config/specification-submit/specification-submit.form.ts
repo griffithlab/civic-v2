@@ -14,13 +14,14 @@ import {
 } from '@angular/common'
 import { UntypedFormGroup, FormGroup } from '@angular/forms'
 import { filter, tap } from 'rxjs/operators'
-import { Maybe, SpecificationDetailConfigFieldsFragment, SpecificationEvaluationStatus, SpecificationFormConfigGQL, ValidSpecificationsGQL } from '@app/generated/civic.apollo'
+import { Maybe, SpecificationDetailConfigFieldsFragment, SpecificationEvaluationStatus, SpecificationFormConfigGQL, ValidSpecificationsGQL, SubmitCriteriaEvaluationsGQL, SubmitCriteriaEvaluationsMutation, SubmitCriteriaEvaluationsMutationVariables, SubmitCriteriaEvaluationsInput, SpecificationEvaluationFields } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
+import { valueToObjectRepresentation } from '../../../../../node_modules/@apollo/client/utilities/index'
 
 @UntilDestroy()
 @Component({
@@ -48,11 +49,11 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   readonly evaluationSummaryDisplayMode = signal<string>('group');
   evaluationStatuses = Object.values(SpecificationEvaluationStatus).map((v) => { return {label: v.replace("_", " ").toLowerCase(), value: v} })
 
-// reviseEvidenceMutator: MutatorWithState<
-//   SuggestGeneRevisionGQL,
-//   SuggestGeneRevisionMutation,
-//   SuggestGeneRevisionMutationVariables
-// >
+  submitCriteriaEvaluationsMutator: MutatorWithState<
+    SubmitCriteriaEvaluationsGQL,
+    SubmitCriteriaEvaluationsMutation,
+    SubmitCriteriaEvaluationsMutationVariables
+  >
 
   mutationState?: MutationState
   url?: string
@@ -60,7 +61,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   constructor(
     private validSpecificationsGQL: ValidSpecificationsGQL,
     private specificationConfigGQL: SpecificationFormConfigGQL,
-    //private submitRevisionsGQL: SuggestGeneRevisionGQL,
+    private submitCriteriaEvaluationsGQL: SubmitCriteriaEvaluationsGQL,
     private networkErrorService: NetworkErrorsService,
     private cdr: ChangeDetectorRef
   ) {
@@ -69,7 +70,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     this.codesForm = new UntypedFormGroup({})
     this.codesFields = undefined
 
-    // this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
+    this.submitCriteriaEvaluationsMutator = new MutatorWithState(networkErrorService)
 
     effect(() => {
       const currentSpecificationId = +this.selectedSpecificationId()
@@ -86,7 +87,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   type: "cvc-field-stepper",
                   wrappers: ['form-layout'],
                   props: {
-                    //showDevPanel: true,
+                    showDevPanel: true,
                   },
                   fieldGroup: specificationFormConfig.assessmentGroups.map((group) => {
                     return {
@@ -264,11 +265,28 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    // if(!this.featureId) {return}
-    // let input = geneFormModelToReviseInput(this.featureId, model)
-    // if (input) {
-    //   this.mutationState = this.reviseEvidenceMutator.mutate(this.submitRevisionsGQL, { input: input})
-    // }
+    if (!this.assertionId) {return}
+    if (!this.codesFields) {return}
+    let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.codesModel))).map(([key, value]: [string, any]) => { 
+      return {
+        specificationCriterium: key,
+        evaluation: value.evaluation,
+        modifier: value.modifier,
+        justification: value.justification,
+        evidenceItemIds: value.evidenceItemIds ? value.evidenceItemIds : [],
+      }
+    })
+    let input: SubmitCriteriaEvaluationsInput = {
+      fields: {
+        assertionId: this.assertionId,
+        specificationId: +this.selectedSpecificationId(),
+        evaluations: evaluations,
+      },
+      organizationId: 1
+      //organizationId: this.codesModel.organizationId,
+      //comment: this.codesModel.comment!,
+    }
+    this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
   }
 
   onSpecificationSelected(newModel: any) {
