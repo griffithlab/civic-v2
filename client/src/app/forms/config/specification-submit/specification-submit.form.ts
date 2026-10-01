@@ -46,6 +46,19 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   codesOptions: FormlyFormOptions = {};
   codesFields?: FormlyFieldConfig[]
 
+  submitModel: { organizationId?: number } = {}
+  submitForm = new UntypedFormGroup({})
+  submitFields: FormlyFieldConfig[] = [
+    {
+      key: 'organizationId',
+      type: 'org-submit-button',
+      props: {
+        submitLabel: 'Submit Evaluations',
+        align: 'right',
+      },
+    },
+  ]
+
   readonly evaluationSummaryDisplayMode = signal<string>('group');
   evaluationStatuses = Object.values(SpecificationEvaluationStatus).map((v) => { return {label: v.replace("_", " ").toLowerCase(), value: v} })
 
@@ -267,6 +280,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   onSubmit() {
     if (!this.assertionId) {return}
     if (!this.codesFields) {return}
+    if (!this.codesForm.valid) {return}
     let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.codesModel))).map(([key, value]: [string, any]) => { 
       return {
         specificationCriterium: key,
@@ -282,9 +296,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         specificationId: +this.selectedSpecificationId(),
         evaluations: evaluations,
       },
-      organizationId: 1
-      //organizationId: this.codesModel.organizationId,
-      //comment: this.codesModel.comment!,
+      organizationId: this.submitModel.organizationId,
     }
     this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
   }

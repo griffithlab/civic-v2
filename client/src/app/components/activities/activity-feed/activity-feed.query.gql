@@ -199,6 +199,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
   ...ApproveAssertionActivityDetail @include(if: $requestDetails)
   ...RevokeApprovalActivityDetail @include(if: $requestDetails)
+  ...SubmitCriteriaEvaluationsActivityDetail @include(if: $requestDetails)
 }
 
 fragment RevisionActivityDetail on Revision {

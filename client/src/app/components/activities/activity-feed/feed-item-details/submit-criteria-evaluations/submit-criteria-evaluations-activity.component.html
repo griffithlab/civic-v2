@@ -1,0 +1,60 @@
+<div class="evaluations-container">
+  <div class="specification-heading">
+    <strong>{{ activity().specification.name }}</strong>
+    <span
+      nz-typography
+      nzType="secondary">
+      Version {{ activity().specification.version }}
+    </span>
+  </div>
+
+  @for (group of evaluationGroups(); track group.status) {
+    <section class="evaluation-group">
+      <h5>
+        {{ group.label }}
+        <span
+          nz-typography
+          nzType="secondary">
+          ({{ group.evaluations.length }})
+        </span>
+      </h5>
+      <ul class="evaluation-list">
+        @for (evaluation of group.evaluations; track evaluation.id) {
+          <li class="evaluation-row">
+            <nz-tag
+              [nzColor]="group.status | specificationToTagColor"
+              nz-tooltip
+              [nzTooltipTitle]="evaluation.specificationCriterium.description">
+              {{ evaluation.code
+              }}{{ evaluation.modifier ? '_' + evaluation.modifier : '' }}
+            </nz-tag>
+            @if (evaluation.justification) {
+              <div class="justification">{{ evaluation.justification }}</div>
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary">
+                <i>No justification provided</i>
+              </span>
+            }
+          </li>
+        } @empty {
+          <li>
+            <span
+              nz-typography
+              nzType="secondary">
+              <i>None</i>
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</div>
+
+@if (activity().parsedNote.length > 0) {
+  <div class="comment-container">
+    <cvc-comment-body
+      [commentBodySegments]="activity().parsedNote"></cvc-comment-body>
+  </div>
+}

@@ -186,6 +186,7 @@ enum ActivityTypeInput {
   RESOLVE_FLAG
   REVOKE_APPROVAL
   SUBMIT_ASSERTION
+  SUBMIT_CRITERIA_EVALUATIONS
   SUBMIT_EVIDENCE_ITEM
   SUGGEST_REVISION
   SUGGEST_SOURCE
@@ -13062,6 +13063,20 @@ type SubmitAssertionPayload {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+}
+
+type SubmitCriteriaEvaluationsActivity implements ActivityInterface {
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  note: String
+  organization: Organization
+  parsedNote: [CommentBodySegment!]!
+  specification: Specification!
+  specificationEvaluations: [SpecificationEvaluation!]!
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
 }
 
 """

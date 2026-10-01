@@ -24,7 +24,6 @@ class InputAdaptors::AssertionInputAdaptor
       nccn_guideline_version: input.nccn_guideline_version,
       fda_companion_test: input.fda_companion_test,
       fda_regulatory_approval: input.fda_regulatory_approval,
-      specification_criterium_ids: input.specification_criterium_ids
     )
   end
 
@@ -65,11 +64,6 @@ class InputAdaptors::AssertionInputAdaptor
 
     if fields.nccn_guideline_id && !NccnGuideline.where(id: fields.nccn_guideline_id).exists?
       errors << "Provided NCCN Guideline id: #{fields.nccn_guideline_id} is not found."
-    end
-
-    existing_specification_criterium = SpecificationCriterium.where(id: fields.specification_criterium_ids)
-    if existing_specification_criterium.size != fields.specification_criterium_ids.size
-      errors << "Provided Specification Criterium code ids: #{fields.specification_criterium_ids.join(', ')} but only #{existing_specification_criterium.map(&:id).join(', ')} exist."
     end
 
     if !MolecularProfile.where(id: fields.molecular_profile_id).exists?

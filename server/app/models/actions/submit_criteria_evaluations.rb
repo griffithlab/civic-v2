@@ -3,7 +3,7 @@ module Actions
     include Actions::Transactional
     attr_reader :assertion_id, :specification_id, :evaluations, :organization_id, :originating_user, :specification_evaluations
 
-    def initialize(assertion_id:, specification_id:, :evaluations:, originating_user:, organization_id:)
+    def initialize(assertion_id:, specification_id:, evaluations:, originating_user:, organization_id:)
       @assertion_id = assertion_id
       @specification_id = specification_id
       @evaluations = evaluations
@@ -14,13 +14,13 @@ module Actions
     private
     def execute
       @specification_evaluations = evaluations.map do |evaluation|
-        specification_criterium = SpecificationCriterium.find_by(specification_id: specification_id, criterium: evaluation.criterium)
+        specification_criterium = SpecificationCriterium.find_by(specification_id: specification_id, criterium: evaluation.specification_criterium)
         if specification_criterium.nil?
-          raise StandardError.new("SpecificationCriterium for specification ID #{specification_id} and criterium #{evaluation.criterium} doesn't exit.")
+          raise StandardError.new("SpecificationCriterium for specification ID #{specification_id} and criterium #{evaluation.specification_criterium} doesn't exit.")
         end
         SpecificationEvaluation.create(
           assertion_id: assertion_id,
-          specification_criterium_id: specification_criterium.id
+          specification_criterium_id: specification_criterium.id,
           evaluation: evaluation.evaluation,
           modifier: evaluation.modifier,
           justification: evaluation.justification,

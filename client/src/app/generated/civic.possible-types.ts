@@ -24,6 +24,7 @@
       "ResolveFlagActivity",
       "RevokeApprovalActivity",
       "SubmitAssertionActivity",
+      "SubmitCriteriaEvaluationsActivity",
       "SubmitEvidenceItemActivity",
       "SuggestRevisionSetActivity",
       "SuggestSourceActivity",

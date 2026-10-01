@@ -95,6 +95,11 @@
         [cvcRevokeApprovalActivity]="activity">
       </cvc-revoke-approval-activity-details>
     }
+    @case ('SubmitCriteriaEvaluationsActivity') {
+      <cvc-submit-criteria-evaluations-activity-details
+        [cvcSubmitCriteriaEvaluationsActivity]="activity">
+      </cvc-submit-criteria-evaluations-activity-details>
+    }
     @default {
       <h4 style="margin: 8px">Unhandled activity type</h4>
       <pre

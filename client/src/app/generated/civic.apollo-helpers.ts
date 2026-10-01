@@ -2626,6 +2626,20 @@ export type SubmitAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SubmitCriteriaEvaluationsActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'specification' | 'specificationEvaluations' | 'subject' | 'user' | 'verbiage' | SubmitCriteriaEvaluationsActivityKeySpecifier)[];
+export type SubmitCriteriaEvaluationsActivityFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	specification?: FieldPolicy<any> | FieldReadFunction<any>,
+	specificationEvaluations?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SubmitCriteriaEvaluationsPayloadKeySpecifier = ('clientMutationId' | 'specificationEvaluations' | SubmitCriteriaEvaluationsPayloadKeySpecifier)[];
 export type SubmitCriteriaEvaluationsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -4009,6 +4023,10 @@ export type StrictTypedTypePolicies = {
 	SubmitAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubmitAssertionPayloadKeySpecifier | (() => undefined | SubmitAssertionPayloadKeySpecifier),
 		fields?: SubmitAssertionPayloadFieldPolicy,
+	},
+	SubmitCriteriaEvaluationsActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubmitCriteriaEvaluationsActivityKeySpecifier | (() => undefined | SubmitCriteriaEvaluationsActivityKeySpecifier),
+		fields?: SubmitCriteriaEvaluationsActivityFieldPolicy,
 	},
 	SubmitCriteriaEvaluationsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubmitCriteriaEvaluationsPayloadKeySpecifier | (() => undefined | SubmitCriteriaEvaluationsPayloadKeySpecifier),

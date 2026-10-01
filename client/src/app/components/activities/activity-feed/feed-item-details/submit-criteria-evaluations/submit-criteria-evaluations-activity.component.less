@@ -1,0 +1,59 @@
+@import '../shared/comment-container.mixin.less';
+
+:host {
+  display: block;
+}
+
+.evaluations-container,
+.comment-container {
+  .comment-container-mixin();
+}
+
+.specification-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  overflow-wrap: anywhere;
+}
+
+.evaluation-group {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #efefef;
+
+  h5 {
+    margin-bottom: 4px;
+    font-size: inherit;
+  }
+}
+
+.evaluation-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evaluation-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 4px 8px;
+
+  & + & {
+    margin-top: 8px;
+  }
+
+  nz-tag {
+    max-width: 100%;
+    margin-right: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .justification {
+    flex: 1 1 200px;
+    min-width: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}

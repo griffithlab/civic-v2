@@ -117,12 +117,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 span: 18,
               },
             },
-            fieldGroup: [
-              {
-                key: 'specificationCriteriumIds',
-                type: 'specification-criteria-select',
-              },
-            ],
           },
           {
             wrappers: ['form-row'],
@@ -187,6 +181,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'textarea',
                 wrappers: ['form-field'],
                 props: {
+                  attributes: {
+                    rows: 5
+                  },
                   tooltip: 'A short, one sentence summary of the Assertion',
                   placeholder: 'Enter an Assertion Summary',
                   label: 'Assertion Summary',
