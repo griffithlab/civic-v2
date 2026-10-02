@@ -29,11 +29,10 @@ interface RevisionsTab {
 })
 export class AssertionsRevisionsPage implements OnInit {
   routeSub?: Subscription
-  evaluationSub?: Subscription
+  specificationsWithEvaluationsSub?: Subscription
 
   tabs: WritableSignal<RevisionsTab[]> = signal([])
-  //todo: this should be an array of tabs for each specification
-  evaluationTabs: WritableSignal<RevisionsTab[]> = signal([])
+  specificationsWithEvaluationsTabs: WritableSignal<Record<string, RevisionsTab[]>> = signal({})
 
   constructor(
     private gql: SpecificationEvaluationIdsForAssertionGQL,
@@ -59,7 +58,7 @@ export class AssertionsRevisionsPage implements OnInit {
           },
         ])
 
-        this.evaluationSub = this.gql
+        this.specificationsWithEvaluationsSub = this.gql
           .fetch({ assertionId: assertionId }, { fetchPolicy: 'no-cache' })
           .pipe(
             filter(isNonNulled),
@@ -73,32 +72,36 @@ export class AssertionsRevisionsPage implements OnInit {
 
   }
   updateTabs(assertion: AssertionSpecificationEvaluationIdsFragment) {
-    //the open revision count reported from the server includes revisions to coordinate fields
-    //so we have to do some math here to get the correct number just for the variant fields tab
+    //the open revision count reported from the server includes revisions to evaluation fields
+    //so we have to do some math here to get the correct number just for the assertion fields tab
     let currentTabs = this.tabs()
     let assertionFieldCount = assertion.openRevisionCount
-    if (assertion.specificationEvaluations.length > 0) {
-      let currentEvaluationTabs = this.evaluationTabs()
+    let currentSpecificationsWithEvaluationsTabs = this.specificationsWithEvaluationsTabs()
+
+    for (const specificationWithEvaluations of assertion.specificationsWithEvaluations) {
+      let specification = specificationWithEvaluations.specification
+      let specName = `${specification.name} (version ${specification.version})`
+      let evaluations = specificationWithEvaluations.evaluations
       let evaluationFieldCount = 0
-      assertion.specificationEvaluations.forEach((evaluation) => {
+      currentSpecificationsWithEvaluationsTabs[specName] = evaluations.map((evaluation) => {
         assertionFieldCount -= evaluation.openRevisionCount
         evaluationFieldCount += evaluation.openRevisionCount
-        currentEvaluationTabs.push({
+        return {
           name: `${evaluation.specificationCriterium.criterium} Fields`,
           openCount: evaluation.openRevisionCount,
           moderated: {
             id: evaluation.id,
             entityType: ModeratedEntities.SpecificationEvaluation,
           },
-        })
+        }
       })
-      //todo: these should be tabs, one for each specification
       currentTabs.push({
-        name: "Evaluations",
+        name: specName,
         openCount: evaluationFieldCount,
       })
-      this.evaluationTabs.set(currentEvaluationTabs)
+
     }
+    this.specificationsWithEvaluationsTabs.set(currentSpecificationsWithEvaluationsTabs)
     currentTabs[0].openCount = assertionFieldCount
     this.tabs.set(currentTabs)
   }

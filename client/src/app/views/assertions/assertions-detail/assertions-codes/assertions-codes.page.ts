@@ -5,7 +5,7 @@ import { Observable } from 'rxjs'
 import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { Maybe, AssertionCodesGQL, AssertionCodesQuery, AssertionCodesQueryVariables, SpecificationEvaluationFieldsFragment, SpecificationFieldsFragment, SpecificationEvaluation, SpecificationEvaluationStatus } from '@app/generated/civic.apollo'
+import { Maybe, AssertionCodesGQL, AssertionCodesQuery, AssertionCodesQueryVariables, SpecificationEvaluationFieldsFragment, SpecificationFieldsFragment, SpecificationEvaluation, SpecificationEvaluationStatus, SpecificationWithEvaluations } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-assertions-codes',
@@ -22,7 +22,7 @@ export class AssertionsCodesPage {
   loading$: Observable<boolean>
   $specification: Signal<Maybe<SpecificationFieldsFragment>>
   $evaluations: Signal<Maybe<SpecificationEvaluationFieldsFragment[]>>
-  $groupedEvaluations: Signal<any[]>
+  $specificationsWithEvaluations: Signal<Maybe<SpecificationWithEvaluations[]>>
 
   constructor(private gql: AssertionCodesGQL, private route: ActivatedRoute) {
     this.assertionId = +this.route.snapshot.params['assertionId']
@@ -32,9 +32,9 @@ export class AssertionsCodesPage {
 
     this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
+    this.$specificationsWithEvaluations = toSignal(observable.pipe(pluck('data', 'assertion', 'specificationsWithEvaluations')))
     this.$specification = toSignal(observable.pipe(pluck('data', 'assertion', 'specification')))
     this.$evaluations = toSignal(observable.pipe(pluck('data', 'assertion', 'specificationEvaluations')))
-    this.$groupedEvaluations = computed (() => (Object as any).groupBy(this.$evaluations(), (evaluation: any) => evaluation.specificationCriterium.assessmentGroup))
   }
 
   getEvaluationsForStatus(evaluations: any[], selectedEvaluation: SpecificationEvaluationStatus): SpecificationEvaluation[] {
@@ -43,5 +43,9 @@ export class AssertionsCodesPage {
 
   descriptionForGroup(selectedGroup: string): string | undefined {
     return this.$specification()?.assessmentGroups.find((g) => g.group == selectedGroup)?.description
+  }
+
+  groupEvaluations(evaluations: SpecificationEvaluationFieldsFragment[]): any[] {
+    return (Object as any).groupBy(evaluations, (evaluation: any) => evaluation.specificationCriterium.assessmentGroup)
   }
 }

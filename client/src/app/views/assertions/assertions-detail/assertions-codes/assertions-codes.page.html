@@ -1,64 +1,62 @@
-<nz-space nzDirection="vertical">
-  @for (
-    group of $groupedEvaluations() | keyvalue;
-    track group.key
-  ) {
-    @let met =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.Met
-      );
-    @let notMet =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.NotMet
-      );
-    @let notEvaluated =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.NotEvaluated
-      );
-    @let excluded =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.Excluded
-      );
-    @if (met.length > 0) {
-      <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group}" />
-    }
+<nz-tabs [nzAnimated]="false">
+  @for (specificationWithEvaluations of $specificationsWithEvaluations(); track specificationWithEvaluations.specification.id){
+    <nz-tab [nzTitle]="specificationWithEvaluations.specification.name + ' (version ' + specificationWithEvaluations.specification.version + ')'">
+      <nz-template nz-tab>
+        <nz-space nzDirection="vertical">
+          @let groupedEvaluations = groupEvaluations(specificationWithEvaluations.evaluations);
+          @for (
+            group of groupedEvaluations | keyvalue;
+            track group.key
+          ) {
+            @let met = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Met
+            );
+            @let notMet = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotMet
+            );
+            @let notEvaluated = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotEvaluated
+            );
+            @let excluded = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Excluded
+            );
+            @if (met.length > 0) {
+              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group}" />
+            }
+          }
+          @for (
+            group of groupedEvaluations | keyvalue;
+            track group.key
+          ) {
+            @let met = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Met
+            );
+            @let notMet = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotMet
+            );
+            @let notEvaluated = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotEvaluated
+            );
+            @let excluded = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Excluded
+            );
+            @if (met.length == 0) {
+              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group}" />
+            }
+          }
+        </nz-space>
+      </nz-template>
+    </nz-tab>
   }
-
-  @for (
-    group of $groupedEvaluations() | keyvalue;
-    track group.key
-  ) {
-    @let met =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.Met
-      );
-    @let notMet =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.NotMet
-      );
-    @let notEvaluated =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.NotEvaluated
-      );
-    @let excluded =
-      getEvaluationsForStatus(
-        group.value,
-        evaluationStatus.Excluded
-      );
-    @if (met.length == 0) {
-      <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group}" />
-    }
-  }
-</nz-space>
-
-
+</nz-tabs>
 
 <ng-template #evaluations let-met="met" let-notMet="notMet" let-notEvaluated="notEvaluated" let-excluded="excluded" let-group="group">
   <nz-card

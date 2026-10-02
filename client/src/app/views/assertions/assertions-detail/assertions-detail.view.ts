@@ -215,12 +215,11 @@ export class AssertionsDetailView {
       const assertion = this.assertion()
       let tabConfig = [...this.DEFAULT_TAB_CONFIG]
       if (assertion) {
-        if (assertion.specification && (assertion.assertionType == 'ONCOGENIC' || assertion.assertionType == 'PREDISPOSING')) {
+        if (assertion.specificationsWithEvaluations && (assertion.assertionType == 'ONCOGENIC' || assertion.assertionType == 'PREDISPOSING')) {
           tabConfig.splice(1, 0, 
             {
               routeName: 'codes',
-              tabLabel: assertion.specification.name,
-              //TODO: find a better icon to use here
+              tabLabel: assertion.specificationsWithEvaluations[0].specification.name,
               iconName: 'profile',
             },
           )

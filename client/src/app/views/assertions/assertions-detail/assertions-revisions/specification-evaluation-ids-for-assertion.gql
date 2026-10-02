@@ -14,4 +14,17 @@ fragment AssertionSpecificationEvaluationIds on Assertion {
       criterium
     }
   }
+  specificationsWithEvaluations {
+    specification {
+      name
+      version
+    }
+    evaluations {
+      openRevisionCount
+      id
+      specificationCriterium {
+        criterium
+      }
+    }
+  }
 }

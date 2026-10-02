@@ -7,7 +7,7 @@
             [moderated]="tab.moderated"></cvc-revisions-list-and-filter>
         } @else {
           <nz-tabs nzTabPosition="left" [nzAnimated]="false">
-            @for (evaluationTab of evaluationTabs(); track evaluationTab.name) {
+            @for (evaluationTab of specificationsWithEvaluationsTabs()[tab.name]; track evaluationTab.name) {
               <nz-tab [nzTitle]="evaluationTabTitle">
                 <nz-template nz-tab>
                   @if (evaluationTab.moderated) {

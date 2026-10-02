@@ -9,6 +9,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { AssertionsCodesPage } from './assertions-codes.page'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
@@ -26,6 +27,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzTypographyModule,
     NzDescriptionsModule,
     NzGridModule,
+    NzTabsModule,
     CvcEvidenceTagModule,
     CvcPipesModule,
   ],

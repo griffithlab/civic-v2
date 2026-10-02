@@ -1,10 +1,12 @@
 query AssertionCodes($assertionId: Int!) {
   assertion(id: $assertionId) {
-    specification {
-      ...SpecificationFields
-    }
-    specificationEvaluations {
-      ...SpecificationEvaluationFields
+    specificationsWithEvaluations {
+      specification {
+        ...SpecificationFields
+      }
+      evaluations {
+        ...SpecificationEvaluationFields
+      }
     }
   }
 }

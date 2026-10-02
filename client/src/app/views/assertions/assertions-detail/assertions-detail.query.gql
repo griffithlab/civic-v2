@@ -37,11 +37,13 @@ fragment AssertionDetailFields on Assertion {
     }
   }
   ...assertionSubmissionActivity
-  specification {
-    ...SpecificationFields
-  }
-  specificationEvaluations {
-    ...SpecificationEvaluationFields
+  specificationsWithEvaluations {
+    specification {
+      ...SpecificationFields
+    }
+    evaluations {
+      ...SpecificationEvaluationFields
+    }
   }
 }
 
