@@ -32,6 +32,38 @@ specs.each do |spec|
       "Computational Prediction",
       "Single Genetic Etiology Context",
       "Population Frequency",
+      "Other",
+  ]
+  spec.save!
+
+  spec.specification_criterium.each do |sc|
+    sc.position_within_assessment_group = order[sc.criterium] || 999
+    sc.save(validate: false)
+  end
+end
+
+specs = Specification.where(name: "NTRK SC-VCEP Oncogenicity specifications").all
+
+order = {
+  "FG1" => 1,
+  "FG2" => 2,
+  "FG3" => 3,
+
+  "CA1" => 1,
+  "CA2" => 2,
+  "CA3" => 3,
+
+  "CV" => 1,
+  "FS1" => 2,
+  "FS2" => 3,
+  "FSN" => 4,
+}
+
+specs.each do |spec|
+  spec.assessment_group_order = [
+    "Fusion Gene Structure",
+    "Cancer Association",
+    "Clinical Validity and Functional Evidence",
   ]
   spec.save!
 

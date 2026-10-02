@@ -8,6 +8,7 @@ clingen_code_groups = {
   "Somatic Hotspot Recurrence": "Assessment of somatic recurrence at cancer hotspots or recurrently mutated residues, with evidence strength based on recurrence thresholds.",
   "Computational Prediction": "Aggregate assessment of computational predictions, including conservation, missense-effect, and splice-effect tools, supporting either oncogenic effect or no effect.",
   "Single Genetic Etiology Context": "Assessment of whether the variant occurs in a gene and malignancy context where the disease has a single genetic etiology, making that gene-level event supportive of oncogenicity.",
+  "Other": "",
 }
 
 clingen_code_groupings = {
@@ -28,6 +29,7 @@ clingen_code_groupings = {
   "OP1" => "Computational Prediction",
   "SBP1" => "Computational Prediction",
   "OP2" => "Single Genetic Etiology Context",
+  "N/A" => "Other",
 }
 
 specification = Specification.find_by(name: "ClinGen/CGC/VICC Codes")
@@ -36,8 +38,6 @@ specification.assessment_groups = clingen_code_groups
 specification.save!
 
 specification.specification_criterium.each do |criterium|
-  # TODO figure out how to handle N/A
-  next if criterium.criterium == 'N/A'
   criterium.assessment_group = clingen_code_groupings.fetch(criterium.criterium)
   criterium.save!
 end
@@ -117,5 +117,36 @@ specification.save!
 
 specification.specification_criterium.each do |criterium|
   criterium.assessment_group = acmg_code_groupings.fetch(criterium.criterium)
+  criterium.save!
+end
+
+ntrk_code_groups = {
+  "Fusion Gene Structure": "",
+  "Cancer Association": "",
+  "Clinical Validity and Functional Evidence": "",
+}
+
+ntrk_code_groupings = {
+  "FG1" => "Fusion Gene Structure",
+  "FG2" => "Fusion Gene Structure",
+  "FG3" => "Fusion Gene Structure",
+
+  "CA1" => "Cancer Association",
+  "CA2" => "Cancer Association",
+  "CA3" => "Cancer Association",
+
+  "CV" => "Clinical Validity and Functional Evidence",
+  "FS1" => "Clinical Validity and Functional Evidence",
+  "FS2" => "Clinical Validity and Functional Evidence",
+  "FSN" => "Clinical Validity and Functional Evidence",
+}
+
+specification = Specification.find_by(name: "NTRK SC-VCEP Oncogenicity specifications")
+
+specification.assessment_groups = ntrk_code_groups
+specification.save!
+
+specification.specification_criterium.each do |criterium|
+  criterium.assessment_group = ntrk_code_groupings.fetch(criterium.criterium)
   criterium.save!
 end
