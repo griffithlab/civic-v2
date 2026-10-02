@@ -7,14 +7,32 @@ import {
   OnInit,
   signal,
   effect,
-  WritableSignal
+  WritableSignal,
+  Signal
 } from '@angular/core'
 import {
   KeyValue
 } from '@angular/common'
 import { UntypedFormGroup, FormGroup } from '@angular/forms'
-import { filter, tap } from 'rxjs/operators'
-import { Maybe, SpecificationDetailConfigFieldsFragment, SpecificationEvaluationStatus, SpecificationFormConfigGQL, ValidSpecificationsGQL, SubmitCriteriaEvaluationsGQL, SubmitCriteriaEvaluationsMutation, SubmitCriteriaEvaluationsMutationVariables, SubmitCriteriaEvaluationsInput, SpecificationEvaluationFields } from '@app/generated/civic.apollo'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { QueryRef } from 'apollo-angular'
+import { pluck, filter, tap } from 'rxjs/operators'
+import { 
+  Maybe,
+  SpecificationDetailConfigFieldsFragment,
+  SpecificationEvaluationStatus,
+  SpecificationFormConfigGQL,
+  ValidSpecificationsGQL,
+  SubmitCriteriaEvaluationsGQL,
+  SubmitCriteriaEvaluationsMutation,
+  SubmitCriteriaEvaluationsMutationVariables,
+  SubmitCriteriaEvaluationsInput,
+  SpecificationEvaluationFields,
+  CurrentAssertionSpecificationGQL,
+  SpecificationEvaluationFieldsFragment,
+  CurrentAssertionSpecificationQuery,
+  CurrentAssertionSpecificationQueryVariables,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -22,6 +40,12 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { valueToObjectRepresentation } from '../../../../../node_modules/@apollo/client/utilities/index'
+
+export interface SpecificationModel {
+  specification_fields: {
+    specification: Maybe<number>
+  }
+}
 
 @UntilDestroy()
 @Component({
@@ -31,17 +55,27 @@ import { valueToObjectRepresentation } from '../../../../../node_modules/@apollo
   standalone: false
 })
 export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
-  @Input() specificationId!: number
-  @Input() assertionId: Maybe<number>
-  // todo: make a type for this
-  specificationModel = { "specification_fields": { "specification": undefined } }
+  @Input() assertionId!: number
+  specificationModel: SpecificationModel = { "specification_fields": { "specification": undefined } }
   specificationForm: UntypedFormGroup
   specificationFormFields?: FormlyFieldConfig[]
-  selectedSpecificationId =  signal('')
+  selectedSpecificationId = signal('')
+  currentSpecificationId: WritableSignal<string> = signal("")
+  currentEvaluations: WritableSignal<SpecificationEvaluationFieldsFragment[]> = signal([])
+
   validSpecifications: SpecificationDetailConfigFieldsFragment[] = []
   specificationInfo?: SpecificationDetailConfigFieldsFragment
 
-  codesModel = {}
+  codesModel: { 
+    [key: string]: {
+       [key: string]: {
+         'evaluation': SpecificationEvaluationStatus,
+         'modifier': Maybe<string>,
+         'justification': Maybe<string>,
+         'evidenceItemIds': number[]
+       }
+    }
+  } = {}
   codesForm: UntypedFormGroup
   codesOptions: FormlyFormOptions = {};
   codesFields?: FormlyFieldConfig[]
@@ -73,6 +107,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   constructor(
     private validSpecificationsGQL: ValidSpecificationsGQL,
+    private currentAssertionSpecificationGQL: CurrentAssertionSpecificationGQL,
     private specificationConfigGQL: SpecificationFormConfigGQL,
     private submitCriteriaEvaluationsGQL: SubmitCriteriaEvaluationsGQL,
     private networkErrorService: NetworkErrorsService,
@@ -262,6 +297,46 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
           }
         }
       })
+
+      this.currentAssertionSpecificationGQL
+      .fetch({ assertionId: this.assertionId })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: ({ data: { assertion }}) => {
+          if (assertion) {
+            if (assertion.specification) {
+              this.currentSpecificationId.set(String(assertion.specification.id))
+              this.selectedSpecificationId.set(String(assertion.specification.id))
+              this.specificationModel = { "specification_fields": { "specification":  assertion.specification.id} }
+            }
+            if (assertion.specificationEvaluations){
+              this.currentEvaluations.set(assertion.specificationEvaluations)
+              assertion.specificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+                let group = evaluation.specificationCriterium.assessmentGroup
+                if (group) {
+                  if (group in this.codesModel) {
+                    this.codesModel[group][evaluation.code] = {
+                        'evaluation': evaluation.evaluation,
+                        'modifier': evaluation.modifier,
+                        'justification': evaluation.justification,
+                        'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+                    }
+                  } else {
+                    this.codesModel[group] = {}
+                    this.codesModel[group][evaluation.code] = {
+                        'evaluation': evaluation.evaluation,
+                        'modifier': evaluation.modifier,
+                        'justification': evaluation.justification,
+                        'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+                    }
+                  }
+                }
+              })
+            }
+            this.cdr.detectChanges()
+          }
+        }
+      })
     }
   }
 
@@ -303,6 +378,31 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   onSpecificationSelected(newModel: any) {
     this.selectedSpecificationId.set(newModel.specification_fields.specification)
+    this.codesModel = {}
+    if (this.selectedSpecificationId() == this.currentSpecificationId()){
+      this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+        let group = evaluation.specificationCriterium.assessmentGroup
+        if (group) {
+          if (group in this.codesModel) {
+            this.codesModel[group][evaluation.code] = {
+                'evaluation': evaluation.evaluation,
+                'modifier': evaluation.modifier,
+                'justification': evaluation.justification,
+                'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+            }
+          } else {
+            this.codesModel[group] = {}
+            this.codesModel[group][evaluation.code] = {
+                'evaluation': evaluation.evaluation,
+                'modifier': evaluation.modifier,
+                'justification': evaluation.justification,
+                'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+            }
+          }
+        }
+      })
+    }
+    this.codesFields = []
   }
 
   preserveOrder = (a: KeyValue<any, any>, b: KeyValue<any, any>): number => {
@@ -318,6 +418,10 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
       }
       return accumulator;
     }, {});
-    return sortedCodes
+    if (Object.keys(sortedCodes).length === 0) {
+      return codes
+    } else {
+      return sortedCodes
+    }
   }
 }

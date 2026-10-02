@@ -4,6 +4,17 @@ query ValidSpecifications($assertionId: Int!) {
   }
 }
 
+query CurrentAssertionSpecification($assertionId: Int!){
+  assertion(id: $assertionId) {
+    specification {
+      id
+    }
+    specificationEvaluations {
+      ...SpecificationEvaluationFields
+    }
+  }
+}
+
 query SpecificationFormConfig($specificationId: Int!) {
   specificationFormConfig(specificationId: $specificationId) {
     ...SpecificationConfigFields

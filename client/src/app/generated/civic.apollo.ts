@@ -10933,6 +10933,13 @@ export type ValidSpecificationsQueryVariables = Exact<{
 
 export type ValidSpecificationsQuery = { __typename: 'Query', validSpecifications: Array<{ __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId: number, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod }> };
 
+export type CurrentAssertionSpecificationQueryVariables = Exact<{
+  assertionId: Scalars['Int']['input'];
+}>;
+
+
+export type CurrentAssertionSpecificationQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', specification?: { __typename: 'Specification', id: number } | undefined, specificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus, specificationCriterium: { __typename: 'SpecificationCriterium', assessmentGroup?: string | undefined, description: string }, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, link: string }> }> } | undefined };
+
 export type SpecificationFormConfigQueryVariables = Exact<{
   specificationId: Scalars['Int']['input'];
 }>;
@@ -19595,6 +19602,29 @@ export const ValidSpecificationsDocument = gql`
   })
   export class ValidSpecificationsGQL extends Apollo.Query<ValidSpecificationsQuery, ValidSpecificationsQueryVariables> {
     document = ValidSpecificationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CurrentAssertionSpecificationDocument = gql`
+    query CurrentAssertionSpecification($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    specification {
+      id
+    }
+    specificationEvaluations {
+      ...SpecificationEvaluationFields
+    }
+  }
+}
+    ${SpecificationEvaluationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CurrentAssertionSpecificationGQL extends Apollo.Query<CurrentAssertionSpecificationQuery, CurrentAssertionSpecificationQueryVariables> {
+    document = CurrentAssertionSpecificationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
