@@ -104,12 +104,18 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       end
     end
 
-    # evidence item ids exist
+    assertion_eids = assertion.evidence_item_ids
     fields.evaluations.each do |evaluation|
+      # evidence item ids exist
       eids = EvidenceItem.where(id: evaluation.evidence_item_ids).pluck(:id)
       missing_eids = evaluation.evidence_item_ids - eids
       if missing_eids.any?
         input_errors.append("Evidence Items don't exist for IDs #{missing_eids.join(', ')}")
+      end
+      # evidence items are not part of the assertion
+      extra_eids = eids - assertion_eids
+      if extra_eids.any?
+        input_errors.append("Evidence Items are not linked to Assertion #{extra_eids.join(', ')}")
       end
     end
 
