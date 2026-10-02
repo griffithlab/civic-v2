@@ -285,7 +285,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                         wrappers: ['form-field'],
                         props: {
                           label: "Select Specification",
-                          options: this.validSpecifications.map((s) => {return {label: s.name, value: s.id}})
+                          options: this.validSpecifications.map((s) => {return {label: `${s.name} (Version ${s.version})`, value: s.id}})
                         }
                       },
                     ]
@@ -361,7 +361,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         specificationCriterium: key,
         evaluation: value.evaluation,
         modifier: value.modifier,
-        justification: value.justification,
+        justification: value.justification ? value.justification : undefined,
         evidenceItemIds: value.evidenceItemIds ? value.evidenceItemIds : [],
       }
     })

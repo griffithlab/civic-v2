@@ -9,5 +9,6 @@ module Types::Revisions
     value "MOLECULAR_PROFILE", value: "MolecularProfile"
     value "VARIANT_COORDINATES", value: "VariantCoordinate"
     value "EXON_COORDINATES", value: "ExonCoordinate"
+    value "SPECIFICATION_EVALUATION", value: "SpecificationEvaluation"
   end
 end

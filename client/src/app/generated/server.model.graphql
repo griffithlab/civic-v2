@@ -7347,6 +7347,7 @@ enum ModeratedEntities {
   EXON_COORDINATES
   FEATURE
   MOLECULAR_PROFILE
+  SPECIFICATION_EVALUATION
   VARIANT
   VARIANT_COORDINATES
   VARIANT_GROUP
@@ -12934,15 +12935,103 @@ type SpecificationCriterium {
   specification: Specification!
 }
 
-type SpecificationEvaluation {
+type SpecificationEvaluation implements EventSubject & WithRevisions {
   assertion: Assertion!
   code: String!
   createdAt: ISO8601DateTime
   evaluation: SpecificationEvaluationStatus!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   evidenceItems: [EvidenceItem!]!
   id: Int!
   justification: String
+  lastAcceptedRevisionEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
   modifier: String
+  name: String!
+  openRevisionCount: Int!
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionSetId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
   specificationCriterium: SpecificationCriterium!
   updatedAt: ISO8601DateTime
 }

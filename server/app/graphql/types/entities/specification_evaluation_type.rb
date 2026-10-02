@@ -1,5 +1,8 @@
 module Types::Entities
   class SpecificationEvaluationType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::WithRevisions
+
     field :id, Int, null: false
     field :justification, String, null: true
     field :modifier, String, null: true

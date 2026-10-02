@@ -38,9 +38,9 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       input_errors.append("The Specification's assertion_type #{specification.assertion_type} doesn't match the Assertion's assertion_type #{assertion.assertion_type}")
     end
 
-    # assertion has no evaluations yet
-    if assertion.specification_evaluations.any?
-      input_errors.append("This assertion already has specification evaluations")
+    # existing evaluations needs to be of a specification with the same name
+    if assertion.specifications.first.name != specification.name
+      input_errors.append("This assertion already has specification evaluations for a specification with a different name")
     end
 
     # evaluations include all criteria of the selected specification
@@ -58,13 +58,11 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
         #no op
       elsif evaluation.evaluation == "not_met"
         # for not_met evaluations: no modifier
-        binding.pry
         if evaluation.modifier.present?
           input_errors.append("Evaluation is not_met but modifier provided")
         end
       elsif evaluation.evaluation == "excluded"
         # for excluded evaluations: no modifier, eids
-        binding.pry
         if evaluation.modifier.present?
           input_errors.append("Evaluation is excluded but modifier provided")
         end
@@ -119,7 +117,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       end
     end
 
-    #input_errors = InputAdaptors::EvidenceItemInputAdaptor.check_input_for_errors(evidence_input_object: fields)
+    #input_errors = InputAdaptors::SpecificationEvaluationInputAdaptor.check_input_for_errors(evaluation_input_objects: fields.evaluations)
 
     if input_errors.any?
       raise GraphQL::ExecutionError, input_errors.join("|")
@@ -134,21 +132,50 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
   end
 
   def resolve(fields:, organization_id: nil)
-    #evidence_item = InputAdaptors::EvidenceItemInputAdaptor.new(evidence_input_object: fields).perform
+    assertion = Assertion.find(fields.assertion_id)
+    if assertion.specifications.map{|s| s.id}.include?(fields.specification_id)
+      # update existing evaluations
+      evaluation_revisions_objects = fields.evaluations.map do |evaluation|
+        existing_criterium = SpecificationCriterium.find_by(
+          specification_id: fields.specification_id,
+          criterium: evaluation.specification_criterium,
+        )
+        existing_evaluation = SpecificationEvaluation.find_by(
+          assertion_id: fields.assertion_id,
+          specification_criterium: existing_criterium,
+        )
+        updated_evaluation = InputAdaptors::SpecificationEvaluationInputAdaptor.new(
+          evaluation_input_object: evaluation,
+          assertion_id: fields.assertion_id,
+          specification_id: fields.specification_id
+        ).perform
+        Activities::RevisedObjectPair.new(existing_obj: existing_evaluation, updated_obj: updated_evaluation)
+      end
 
-
-    cmd = Activities::SubmitCriteriaEvaluations.new(
-      assertion_id: fields.assertion_id,
-      specification_id: fields.specification_id,
-      evaluations: fields.evaluations,
-      originating_user: context[:current_user],
-      organization_id: organization_id,
-    )
+      cmd = Activities::SuggestRevisionSet.new(
+        revised_objects: evaluation_revisions_objects,
+        subject: assertion,
+        originating_user: context[:current_user],
+        organization_id: organization_id,
+        note: nil,
+      )
+      resulting_specification_evaluations = cmd.revision_results
+    else
+      # new evaluations
+      cmd = Activities::SubmitCriteriaEvaluations.new(
+        assertion_id: fields.assertion_id,
+        specification_id: fields.specification_id,
+        evaluations: fields.evaluations,
+        originating_user: context[:current_user],
+        organization_id: organization_id,
+      )
+      resulting_specification_evaluations = cmd.specification_evaluations
+    end
     res = cmd.perform
 
     if res.succeeded?
       {
-        specification_evaluations: cmd.specification_evaluations,
+        specification_evaluations: resulting_specification_evaluations,
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(", ")

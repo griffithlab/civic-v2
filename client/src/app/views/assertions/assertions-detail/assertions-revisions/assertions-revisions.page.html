@@ -1,2 +1,51 @@
-<cvc-revisions-list-and-filter
-  [moderated]="subject"></cvc-revisions-list-and-filter>
+<nz-tabs [nzAnimated]="false">
+  @for (tab of tabs(); track tab.name) {
+    <nz-tab [nzTitle]="tabTitle">
+      <nz-template nz-tab>
+        @if (tab.moderated) {
+          <cvc-revisions-list-and-filter
+            [moderated]="tab.moderated"></cvc-revisions-list-and-filter>
+        } @else {
+          <nz-tabs nzTabPosition="left" [nzAnimated]="false">
+            @for (evaluationTab of evaluationTabs(); track evaluationTab.name) {
+              <nz-tab [nzTitle]="evaluationTabTitle">
+                <nz-template nz-tab>
+                  @if (evaluationTab.moderated) {
+                    <cvc-revisions-list-and-filter
+                      [moderated]="evaluationTab.moderated"></cvc-revisions-list-and-filter>
+                  }
+                </nz-template>
+              </nz-tab>
+              <ng-template #evaluationTabTitle>
+                {{ evaluationTab.name }}
+                @if (evaluationTab.openCount > 0) {
+                  <nz-badge
+                    nzStandalone
+                    [nzCount]="evaluationTab.openCount"
+                    [nzStyle]="{
+                      transform: 'scale(0.75, 0.75) translate(0, -2px)',
+                      backgroundColor: '#ff4d4f',
+                    }">
+                  </nz-badge>
+                }
+              </ng-template>
+            }
+          </nz-tabs>
+        }
+      </nz-template>
+    </nz-tab>
+    <ng-template #tabTitle>
+      {{ tab.name }}
+      @if (tab.openCount > 0) {
+        <nz-badge
+          nzStandalone
+          [nzCount]="tab.openCount"
+          [nzStyle]="{
+            transform: 'scale(0.75, 0.75) translate(0, -2px)',
+            backgroundColor: '#ff4d4f',
+          }">
+        </nz-badge>
+      }
+    </ng-template>
+  }
+</nz-tabs>

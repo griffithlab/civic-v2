@@ -425,9 +425,14 @@ module Types
     end
 
     def valid_specifications(assertion_id:)
-      assertion = Assertion.find(assertion_id)
-      Specification.where(assertion_type: assertion.assertion_type)
-        .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+      assertion = Assertion.eager_load(specification_evaluations: [specification_criterium: :specification]).find(assertion_id)
+      if assertion.specifications.any?
+        Specification.where(name: assertion.specifications.first.name)
+          .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+      else
+        Specification.where(assertion_type: assertion.assertion_type)
+          .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+      end
     end
 
     def nccn_guideline(id:)

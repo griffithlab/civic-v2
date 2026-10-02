@@ -1,0 +1,17 @@
+query SpecificationEvaluationIdsForAssertion($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...AssertionSpecificationEvaluationIds
+  }
+}
+
+fragment AssertionSpecificationEvaluationIds on Assertion {
+  __typename
+  openRevisionCount
+  specificationEvaluations {
+    openRevisionCount
+    id
+    specificationCriterium {
+      criterium
+    }
+  }
+}

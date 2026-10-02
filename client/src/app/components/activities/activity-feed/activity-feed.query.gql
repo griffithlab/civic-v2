@@ -218,5 +218,14 @@ fragment RevisionActivityDetail on Revision {
     ... on ExonCoordinate {
       coordinateType
     }
+    ... on SpecificationEvaluation {
+      specificationCriterium {
+        criterium
+        specification {
+          name
+          version
+        }
+      }
+    }
   }
 }

@@ -99,6 +99,7 @@
       "Source",
       "SourcePopover",
       "SourceSuggestion",
+      "SpecificationEvaluation",
       "Variant",
       "VariantCoordinate",
       "VariantGroup"
@@ -176,6 +177,7 @@
       "MolecularProfile",
       "Region",
       "RegionVariant",
+      "SpecificationEvaluation",
       "Variant",
       "VariantCoordinate",
       "VariantGroup"

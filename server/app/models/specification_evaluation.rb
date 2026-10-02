@@ -1,4 +1,6 @@
 class SpecificationEvaluation < ApplicationRecord
+  include Moderated
+
   belongs_to :assertion
   belongs_to :specification_criterium
   has_and_belongs_to_many :evidence_items
@@ -16,5 +18,14 @@ class SpecificationEvaluation < ApplicationRecord
     if self.evaluation != "met" && self.evaluation != "not_met" && self.evidence_items.any?
       errors.add(:evidence_items, "Evidence items can only be added to evaluations that are marked 'met' or 'not_met'")
     end
+  end
+
+  def editable_fields
+    [
+      :evaluation,
+      :modifier,
+      :justification,
+      :evidence_item_ids,
+    ]
   end
 end
