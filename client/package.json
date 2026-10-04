@@ -32,7 +32,7 @@
     "@angular/forms": "20.0.6",
     "@angular/platform-browser": "20.0.6",
     "@angular/platform-browser-dynamic": "20.0.6",
-    "@angular/router": "20.0.6",
+    "@angular/router": "20.3.32",
     "@apollo/client": "^3.13.8",
     "@ngneat/until-destroy": "^10.0.0",
     "@ngrx/component": "^20.1.0",
