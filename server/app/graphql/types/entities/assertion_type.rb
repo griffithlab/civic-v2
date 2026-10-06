@@ -165,6 +165,19 @@ module Types::Entities
       end
     end
 
+    def open_revision_count
+      Loaders::AssociationCountLoader.for(object.class, association: :open_revisions).load(object.id).then do |count|
+        Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
+          eval_counts = Promise.all(
+            evaluations.map do |e|
+              Loaders::AssociationCountLoader.for(SpecificationEvaluation, association: :open_revisions).load(e.id)
+            end)
+
+          eval_counts.then { |e_counts| e_counts.sum + count }
+        end
+      end
+    end
+
     private
     def load_codes(code_type:)
       latest_specification_evaluations.then do |latest_evals|

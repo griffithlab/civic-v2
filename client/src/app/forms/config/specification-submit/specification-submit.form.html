@@ -40,55 +40,77 @@
       </nz-card>
     </nz-col>
 
-    <nz-col nzSpan="24">
-      <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
-        @if (evaluationSummaryDisplayMode() == 'group') {
-          <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(codesModel | keyvalue).length" nzSize="small">
-            @for (item of codesModel | keyvalue: preserveOrder; track item.key) {
-              <nz-descriptions-item [nzTitle]="item.key">
-                <div style="white-space: nowrap;">
-                @for (code of item.value | keyvalue: preserveOrder; track code.key) {
-                  <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-                }
-                </div>
-              </nz-descriptions-item>
+    @if (this.specificationInfo.evaluationMethod != "ONE") {
+      <nz-col nzSpan="24">
+        <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
+          @if (evaluationSummaryDisplayMode() == 'group') {
+            <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(perGroupCodesModel | keyvalue).length" nzSize="small">
+              @for (item of perGroupCodesModel | keyvalue: preserveOrder; track item.key) {
+                <nz-descriptions-item [nzTitle]="item.key">
+                  <div style="white-space: nowrap;">
+                  @for (code of item.value | keyvalue: preserveOrder; track code.key) {
+                    <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                  }
+                  </div>
+                </nz-descriptions-item>
+              }
+            </nz-descriptions>
+          } @else if (evaluationSummaryDisplayMode() == 'strength') {
+            @let strengthSortedCodesModel = sortByStrength(perGroupCodesModel);
+            @for (code of strengthSortedCodesModel | keyvalue: preserveOrder; track code.key) {
+              <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
             }
-          </nz-descriptions>
-        } @else if (evaluationSummaryDisplayMode() == 'strength') {
-          @let strengthSortedCodesModel = sortByStrength(codesModel);
-          @for (code of strengthSortedCodesModel | keyvalue: preserveOrder; track code.key) {
-            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
           }
-        }
-        <ng-template #evaluationSummaryExtraTemplate>
-          Display Mode:
-          <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
-            <label nz-radio-button nzValue="group">By Group</label>
-            <label nz-radio-button nzValue="strength">By Strength</label>
-          </nz-radio-group>
-        </ng-template>
-      </nz-card>
-    </nz-col>
+          <ng-template #evaluationSummaryExtraTemplate>
+            Display Mode:
+            <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
+              <label nz-radio-button nzValue="group">By Group</label>
+              <label nz-radio-button nzValue="strength">By Strength</label>
+            </nz-radio-group>
+          </ng-template>
+        </nz-card>
+      </nz-col>
+    }
   }
 
   @if(codesFields) {
-    <nz-col nzSpan="24">
-      <nz-card nzTitle="Evaluation">
-        <form
-          nz-form
-          nzLayout="vertical"
-          [formGroup]="codesForm"
-          (ngSubmit)="onSubmit()">
-          <formly-form
-            [form]="codesForm"
-            [fields]="codesFields"
-            [model]="codesModel"
-            [options]="{}"
-            (modelChange)="codesModel = $event">
-          </formly-form>
-        </form>
-      </nz-card>
-    </nz-col>
+    @if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+      <nz-col nzSpan="24">
+        <nz-card nzTitle="Evaluation">
+          <form
+            nz-form
+            nzLayout="vertical"
+            [formGroup]="codesForm"
+            (ngSubmit)="onSubmit()">
+            <formly-form
+              [form]="codesForm"
+              [fields]="codesFields"
+              [model]="oneCodeModel"
+              [options]="{}"
+              (modelChange)="oneCodeModel = $event">
+            </formly-form>
+          </form>
+        </nz-card>
+      </nz-col>
+    } @else {
+      <nz-col nzSpan="24">
+        <nz-card nzTitle="Evaluation">
+          <form
+            nz-form
+            nzLayout="vertical"
+            [formGroup]="codesForm"
+            (ngSubmit)="onSubmit()">
+            <formly-form
+              [form]="codesForm"
+              [fields]="codesFields"
+              [model]="perGroupCodesModel"
+              [options]="{}"
+              (modelChange)="perGroupCodesModel = $event">
+            </formly-form>
+          </form>
+        </nz-card>
+      </nz-col>
+    }
 
     <nz-col nzSpan="24">
       <form

@@ -26,6 +26,7 @@ class SpecificationEvaluation < ApplicationRecord
       :modifier,
       :justification,
       :evidence_item_ids,
+      :specification_criterium_id,
     ]
   end
 end

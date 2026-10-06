@@ -72,9 +72,7 @@ fragment AssertionSummaryFields on Assertion {
   flags(state: OPEN) {
     totalCount
   }
-  revisions(status: NEW) {
-    totalCount
-  }
+  openRevisionCount
   comments {
     totalCount
   }

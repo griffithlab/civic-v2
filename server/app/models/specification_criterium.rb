@@ -3,6 +3,10 @@ class SpecificationCriterium < ApplicationRecord
 
   validate :assessment_group_is_valid
 
+  def name
+    self.criterium
+  end
+
   private
   def assessment_group_is_valid
   return if self.specification.assessment_groups.empty?

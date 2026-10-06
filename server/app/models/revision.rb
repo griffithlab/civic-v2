@@ -48,6 +48,8 @@ class Revision < ApplicationRecord
   def link
     if self.subject_type == "ExonCoordinate" || self.subject_type == "VariantCoordinate"
       "/variants/#{self.subject.variant.id}/revisions"
+    elsif self.subject_type == "SpecificationCriterium"
+      "/assertions/#{self.subject.assertion.id}/revisions"
     else
       "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.subject_type]}/#{self.subject_id}/revisions"
     end

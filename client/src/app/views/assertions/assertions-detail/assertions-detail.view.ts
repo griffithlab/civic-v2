@@ -227,7 +227,7 @@ export class AssertionsDetailView {
         tabConfig = tabConfig.map((tab) => {
           if (tab.tabLabel === 'Revisions') {
             return {
-              badgeCount: assertion.revisions.totalCount,
+              badgeCount: assertion.openRevisionCount,
               badgeColor: '#4096ff', // blue-5
               ...tab,
             }

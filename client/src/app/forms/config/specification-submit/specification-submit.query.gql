@@ -8,6 +8,7 @@ query CurrentAssertionSpecification($assertionId: Int!){
   assertion(id: $assertionId) {
     latestSpecification {
       id
+      evaluationMethod
     }
     specificationEvaluations {
       ...SpecificationEvaluationFields
@@ -28,6 +29,7 @@ fragment SpecificationConfigFields on SpecificationFormConfig {
     assessmentGroups {
       ...AssessmentGroupFormConfigFields
     }
+    
 }
 
 fragment SpecificationDetailConfigFields on Specification {
@@ -38,6 +40,14 @@ fragment SpecificationDetailConfigFields on Specification {
   sopPubmedId
   publishedOn
   evaluationMethod
+  specificationCriterium {
+    id
+    criterium
+    description
+    modifiers
+    mutuallyExclusiveCodes
+    pointValue
+  }
 }
 
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {

@@ -66,7 +66,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   validSpecifications: SpecificationDetailConfigFieldsFragment[] = []
   specificationInfo?: SpecificationDetailConfigFieldsFragment
 
-  codesModel: { 
+  perGroupCodesModel: { 
     [key: string]: {
        [key: string]: {
          'evaluation': SpecificationEvaluationStatus,
@@ -74,6 +74,12 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
          'justification': Maybe<string>,
          'evidenceItemIds': number[]
        }
+    }
+  } = {}
+  oneCodeModel: { 
+    amp_category_fields?: {
+      amp_category: string
+      justification: Maybe<string>,
     }
   } = {}
   codesForm: UntypedFormGroup
@@ -130,119 +136,175 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
           next: ({ data: { specificationFormConfig  }}) => {
             if (specificationFormConfig) {
               this.specificationInfo = specificationFormConfig.specification
-              this.codesFields = [
-                {
-                  type: "cvc-field-stepper",
-                  wrappers: ['form-layout'],
-                  props: {
-                    showDevPanel: true,
-                  },
-                  fieldGroup: specificationFormConfig.assessmentGroups.map((group) => {
-                    return {
-                      key: group.name,
-                      props: {
-                        stepLabel: group.name,
-                        infoString: group.description
-                      },
-                      fieldGroup: group.specificationCriterium.map((code) => {
-                        return {
-                          key: code.criterium,
-                          wrappers: ['form-card'],
-                          props: {
-                            formCardOptions: {
-                              title: code.criterium,
-                              infoString: code.description
-                            }
-                          },
-                          fieldGroup: [
-                            {
-                              wrappers: ['form-row'],
-                              props: <CvcFormRowWrapperProps>{
-                                formRowOptions: {
-                                 spanIndexed: [4, 4, 16, 24],
+              if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+                this.codesFields = [
+                  {
+                    wrappers: ['form-layout'],
+                    props: {
+                      showDevPanel: true,
+                    },
+                    fieldGroup: [
+                      {
+                        key: 'amp_category_fields',
+                        wrappers: ['form-card'],
+                        props: {
+                          formCardOptions: { title: `Evaluate ${this.specificationInfo.name}` },
+
+                        },
+                        fieldGroup: [
+                          {
+                            wrappers: ['form-row'],
+                            props: <CvcFormRowWrapperProps>{
+                              formRowOptions: {
+                              spanIndexed: [8, 16],
+                              },
+                            },
+                            fieldGroup: [
+                              {
+                                key: 'amp_category',
+                                type: 'select',
+                                wrappers: ['form-field'],
+                                props: {
+                                  label: `Select ${this.specificationInfo.name}`,
+                                  options: this.specificationInfo.specificationCriterium.map((c) => {return {label: c.criterium, value: c.criterium}}),
+                                  required: true,
+                                }
+                              },
+                              {
+                                key: "justification",
+                                wrappers: ['form-field'],
+                                type: 'textarea',
+                                props: {
+                                  label: "Justification",
+                                  attributes: {
+                                    rows: 1
+                                  }
                                 },
                               },
-                              fieldGroup: [
-                                {
-                                  key: "evaluation",
-                                  wrappers: ['form-field'],
-                                  type: "select",
-                                  defaultValue: "NOT_EVALUATED",
-                                  props: {
-                                    label: "Evaluation",
-                                    options: this.evaluationStatuses,
-                                    required: true,
-                                    extraInfo: {
-                                      mutuallyExclusiveCodes: code.mutuallyExclusiveCodes,
-                                    }
-                                  },
-                                  validators: {
-                                    validation: [
-                                      'evaluationConflictingCodes',
-                                      'evaluationCrossGroupConflictingCodes'
-                                    ]
-                                  },
-                                },
-                                {
-                                  key: "modifier",
-                                  wrappers: ['form-field'],
-                                  type: "select",
-                                  props: {
-                                    label: "Modifier",
-                                    options: code.modifiers.map((m) => { return {label: m, value: m} }),
-                                  },
-                                  expressions: {
-                                    'props.disabled': (field: FormlyFieldConfig) => {
-                                      const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                      return ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation)
-                                    }
-                                  },
-                                },
-                                {
-                                  key: "justification",
-                                  wrappers: ['form-field'],
-                                  type: 'textarea',
-                                  props: {
-                                    label: "Justification",
-                                    attributes: {
-                                      rows: 1
-                                    }
-                                  },
-                                  expressions: {
-                                    'props.disabled': (field: FormlyFieldConfig) => {
-                                      const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                      return ['NOT_EVALUATED'].includes(evaluation)
-                                    }
-                                  },
-                                },
-                                {
-                                  key: 'evidenceItemIds',
-                                  type: 'evidence-multi-select',
-                                  props: {
-                                    label: "Evidence Items",
-                                    isMultiSelect: true,
-                                  },
-                                  expressions: {
-                                    'props.disabled': (field: FormlyFieldConfig) => {
-                                      const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                      return ['EXCLUDED', 'NOT_EVALUATED'].includes(evaluation)
-                                    }
-                                  },
-                                },
-                              ],
+                            ]
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  
+                ]
+
+              } else {
+                this.codesFields = [
+                  {
+                    type: "cvc-field-stepper",
+                    wrappers: ['form-layout'],
+                    props: {
+                      showDevPanel: true,
+                    },
+                    fieldGroup: specificationFormConfig.assessmentGroups.map((group) => {
+                      return {
+                        key: group.name,
+                        props: {
+                          stepLabel: group.name,
+                          infoString: group.description
+                        },
+                        fieldGroup: group.specificationCriterium.map((code) => {
+                          return {
+                            key: code.criterium,
+                            wrappers: ['form-card'],
+                            props: {
+                              formCardOptions: {
+                                title: code.criterium,
+                                infoString: code.description
+                              }
                             },
-                          ]
-                        }
-                      })
-                    }
-                  }),
-                  expressions: {
-                    'hooks.onChanges': (field: FormlyFieldConfig) => {
-                      this.validateAllFields(this.codesForm);
+                            fieldGroup: [
+                              {
+                                wrappers: ['form-row'],
+                                props: <CvcFormRowWrapperProps>{
+                                  formRowOptions: {
+                                  spanIndexed: [4, 4, 16, 24],
+                                  },
+                                },
+                                fieldGroup: [
+                                  {
+                                    key: "evaluation",
+                                    wrappers: ['form-field'],
+                                    type: "select",
+                                    defaultValue: "NOT_EVALUATED",
+                                    props: {
+                                      label: "Evaluation",
+                                      options: this.evaluationStatuses,
+                                      required: true,
+                                      extraInfo: {
+                                        mutuallyExclusiveCodes: code.mutuallyExclusiveCodes,
+                                      }
+                                    },
+                                    validators: {
+                                      validation: [
+                                        'evaluationConflictingCodes',
+                                        'evaluationCrossGroupConflictingCodes'
+                                      ]
+                                    },
+                                  },
+                                  {
+                                    key: "modifier",
+                                    wrappers: ['form-field'],
+                                    type: "select",
+                                    props: {
+                                      label: "Modifier",
+                                      options: code.modifiers.map((m) => { return {label: m, value: m} }),
+                                    },
+                                    expressions: {
+                                      'props.disabled': (field: FormlyFieldConfig) => {
+                                        const evaluation = field.parent?.formControl?.get('evaluation')?.value
+                                        return ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation)
+                                      }
+                                    },
+                                  },
+                                  {
+                                    key: "justification",
+                                    wrappers: ['form-field'],
+                                    type: 'textarea',
+                                    props: {
+                                      label: "Justification",
+                                      attributes: {
+                                        rows: 1
+                                      }
+                                    },
+                                    expressions: {
+                                      'props.disabled': (field: FormlyFieldConfig) => {
+                                        const evaluation = field.parent?.formControl?.get('evaluation')?.value
+                                        return ['NOT_EVALUATED'].includes(evaluation)
+                                      }
+                                    },
+                                  },
+                                  {
+                                    key: 'evidenceItemIds',
+                                    type: 'evidence-multi-select',
+                                    props: {
+                                      label: "Evidence Items",
+                                      isMultiSelect: true,
+                                    },
+                                    expressions: {
+                                      'props.disabled': (field: FormlyFieldConfig) => {
+                                        const evaluation = field.parent?.formControl?.get('evaluation')?.value
+                                        return ['EXCLUDED', 'NOT_EVALUATED'].includes(evaluation)
+                                      }
+                                    },
+                                  },
+                                ],
+                              },
+                            ]
+                          }
+                        })
+                      }
+                    }),
+                    expressions: {
+                      'hooks.onChanges': (field: FormlyFieldConfig) => {
+                        this.validateAllFields(this.codesForm);
+                      }
                     }
                   }
-                }
-              ]
+                ]
+              }
               this.cdr.detectChanges()
             }
           }
@@ -285,7 +347,8 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                         wrappers: ['form-field'],
                         props: {
                           label: "Select Specification",
-                          options: this.validSpecifications.map((s) => {return {label: `${s.name} (Version ${s.version})`, value: s.id}})
+                          options: this.validSpecifications.map((s) => {return {label: `${s.name} (Version ${s.version})`, value: s.id}}),
+                          required: true,
                         }
                       },
                     ]
@@ -304,34 +367,46 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
       .subscribe({
         next: ({ data: { assertion }}) => {
           if (assertion) {
-            if (assertion.specification) {
-              this.currentSpecificationId.set(String(assertion.specification.id))
-              this.selectedSpecificationId.set(String(assertion.specification.id))
-              this.specificationModel = { "specification_fields": { "specification":  assertion.specification.id} }
+            if (assertion.latestSpecification) {
+              this.currentSpecificationId.set(String(assertion.latestSpecification.id))
+              this.selectedSpecificationId.set(String(assertion.latestSpecification.id))
+              this.specificationModel = { "specification_fields": { "specification":  assertion.latestSpecification.id} }
             }
             if (assertion.specificationEvaluations){
               this.currentEvaluations.set(assertion.specificationEvaluations)
-              assertion.specificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
-                let group = evaluation.specificationCriterium.assessmentGroup
-                if (group) {
-                  if (group in this.codesModel) {
-                    this.codesModel[group][evaluation.code] = {
-                        'evaluation': evaluation.evaluation,
-                        'modifier': evaluation.modifier,
-                        'justification': evaluation.justification,
-                        'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
-                    }
-                  } else {
-                    this.codesModel[group] = {}
-                    this.codesModel[group][evaluation.code] = {
-                        'evaluation': evaluation.evaluation,
-                        'modifier': evaluation.modifier,
-                        'justification': evaluation.justification,
-                        'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+              if (assertion.latestSpecification && assertion.latestSpecification.evaluationMethod == "ONE") {
+                let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
+                if (met_category) {
+                  this.oneCodeModel = {
+                    'amp_category_fields': {
+                      'amp_category': met_category.code,
+                      'justification': met_category.justification,
                     }
                   }
                 }
-              })
+              } else {
+                assertion.specificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+                  let group = evaluation.specificationCriterium.assessmentGroup
+                  if (group) {
+                    if (group in this.perGroupCodesModel) {
+                      this.perGroupCodesModel[group][evaluation.code] = {
+                          'evaluation': evaluation.evaluation,
+                          'modifier': evaluation.modifier,
+                          'justification': evaluation.justification,
+                          'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+                      }
+                    } else {
+                      this.perGroupCodesModel[group] = {}
+                      this.perGroupCodesModel[group][evaluation.code] = {
+                          'evaluation': evaluation.evaluation,
+                          'modifier': evaluation.modifier,
+                          'justification': evaluation.justification,
+                          'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+                      }
+                    }
+                  }
+                })
+              }
             }
             this.cdr.detectChanges()
           }
@@ -356,51 +431,81 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     if (!this.assertionId) {return}
     if (!this.codesFields) {return}
     if (!this.codesForm.valid) {return}
-    let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.codesModel))).map(([key, value]: [string, any]) => { 
-      return {
-        specificationCriterium: key,
-        evaluation: value.evaluation,
-        modifier: value.modifier,
-        justification: value.justification ? value.justification : undefined,
-        evidenceItemIds: value.evidenceItemIds ? value.evidenceItemIds : [],
+    if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE" && this.oneCodeModel.amp_category_fields) {
+      let input: SubmitCriteriaEvaluationsInput = {
+        fields: {
+          assertionId: this.assertionId,
+          specificationId: +this.selectedSpecificationId(),
+          evaluations: [{
+            specificationCriterium: this.oneCodeModel.amp_category_fields.amp_category,
+            evaluation: SpecificationEvaluationStatus.Met,
+            modifier: undefined,
+            justification: this.oneCodeModel.amp_category_fields.justification ? this.oneCodeModel.amp_category_fields.justification : undefined,
+            evidenceItemIds: []
+          }],
+        },
+        organizationId: this.submitModel.organizationId,
       }
-    })
-    let input: SubmitCriteriaEvaluationsInput = {
-      fields: {
-        assertionId: this.assertionId,
-        specificationId: +this.selectedSpecificationId(),
-        evaluations: evaluations,
-      },
-      organizationId: this.submitModel.organizationId,
+      this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
+    } else {
+      let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.perGroupCodesModel))).map(([key, value]: [string, any]) => { 
+        return {
+          specificationCriterium: key,
+          evaluation: value.evaluation,
+          modifier: value.modifier,
+          justification: value.justification ? value.justification : undefined,
+          evidenceItemIds: value.evidenceItemIds ? value.evidenceItemIds : [],
+        }
+      })
+      let input: SubmitCriteriaEvaluationsInput = {
+        fields: {
+          assertionId: this.assertionId,
+          specificationId: +this.selectedSpecificationId(),
+          evaluations: evaluations,
+        },
+        organizationId: this.submitModel.organizationId,
+      }
+      this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
     }
-    this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
   }
 
   onSpecificationSelected(newModel: any) {
     this.selectedSpecificationId.set(newModel.specification_fields.specification)
-    this.codesModel = {}
+    this.perGroupCodesModel = {}
     if (this.selectedSpecificationId() == this.currentSpecificationId()){
-      this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
-        let group = evaluation.specificationCriterium.assessmentGroup
-        if (group) {
-          if (group in this.codesModel) {
-            this.codesModel[group][evaluation.code] = {
-                'evaluation': evaluation.evaluation,
-                'modifier': evaluation.modifier,
-                'justification': evaluation.justification,
-                'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
-            }
-          } else {
-            this.codesModel[group] = {}
-            this.codesModel[group][evaluation.code] = {
-                'evaluation': evaluation.evaluation,
-                'modifier': evaluation.modifier,
-                'justification': evaluation.justification,
-                'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+      if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+        let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
+        if (met_category) {
+          this.oneCodeModel = {
+            'amp_category_fields': {
+              'amp_category': met_category.code,
+              'justification': met_category.justification,
             }
           }
         }
-      })
+      } else {
+        this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+          let group = evaluation.specificationCriterium.assessmentGroup
+          if (group) {
+            if (group in this.perGroupCodesModel) {
+              this.perGroupCodesModel[group][evaluation.code] = {
+                  'evaluation': evaluation.evaluation,
+                  'modifier': evaluation.modifier,
+                  'justification': evaluation.justification,
+                  'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+              }
+            } else {
+              this.perGroupCodesModel[group] = {}
+              this.perGroupCodesModel[group][evaluation.code] = {
+                  'evaluation': evaluation.evaluation,
+                  'modifier': evaluation.modifier,
+                  'justification': evaluation.justification,
+                  'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+              }
+            }
+          }
+        })
+      }
     }
     this.codesFields = []
   }

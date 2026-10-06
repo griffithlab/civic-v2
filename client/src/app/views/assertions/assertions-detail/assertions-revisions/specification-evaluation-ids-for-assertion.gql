@@ -18,6 +18,7 @@ fragment AssertionSpecificationEvaluationIds on Assertion {
     specification {
       name
       version
+      evaluationMethod
     }
     evaluations {
       openRevisionCount

@@ -345,6 +345,19 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'specification_criterium_id'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="AMP/ASCO/CAP Category">
+              <ng-template
+                #itemTemplate
+                let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchDefault>
             <!-- default text diff -->
             <cvc-revision-value-diff
