@@ -160,11 +160,9 @@ module Types::Entities
 
     private
     def load_codes(code_type:)
-      Loaders::AssociationLoader.for(Assertion, :specification_criteria).load(object).then do |all_criteria|
-        # load all specifications eagerly for this assertion so we dont create a query per iteration
-        Specification.where(specification_criterium: all_criteria)
-        all_criteria.select do |sc|
-          sc.specification.specification_type == code_type
+      latest_specification_evaluations.then do |latest_evals|
+        latest_specification.then do |latest_spec|
+          latest_evals.select{|e| e.evaluation == "met" && latest_spec.specification_type == code_type}.map{|e| e.specification_criterium}
         end
       end
     end

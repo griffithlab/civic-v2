@@ -411,7 +411,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   sortByStrength(model: {}) {
     const codes = Object.assign({}, ...Object.values(model))
-    const sortOrder = ["OVS1", "OS1", "OS2", "OS3", "OM1", "OM2", "OM3", "OM4", "OP1", "OP2", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2"]
+    const sortOrder = ["OVS1", "OS1", "OS2", "OS3", "OM1", "OM2", "OM3", "OM4", "OP1", "OP2", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2", "N/A"]
     const sortedCodes = sortOrder.reduce<Record<string, any>>((accumulator, key) => {
       if (key in codes) {
         accumulator[key] = codes[key];
