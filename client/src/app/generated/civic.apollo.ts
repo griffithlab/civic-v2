@@ -408,6 +408,8 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  latestSpecification?: Maybe<Specification>;
+  latestSpecificationEvaluations: Array<SpecificationEvaluation>;
   link: Scalars['String']['output'];
   molecularProfile: MolecularProfile;
   name: Scalars['String']['output'];
@@ -421,8 +423,8 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   /** List and filter revisions. */
   revisions: RevisionConnection;
   significance: AssertionSignificance;
-  specification?: Maybe<Specification>;
   specificationEvaluations: Array<SpecificationEvaluation>;
+  specifications?: Maybe<Array<Specification>>;
   specificationsWithEvaluations: Array<SpecificationWithEvaluations>;
   status: EvidenceStatus;
   submissionActivity: SubmitAssertionActivity;
@@ -10973,7 +10975,7 @@ export type CurrentAssertionSpecificationQueryVariables = Exact<{
 }>;
 
 
-export type CurrentAssertionSpecificationQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', specification?: { __typename: 'Specification', id: number } | undefined, specificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus, specificationCriterium: { __typename: 'SpecificationCriterium', assessmentGroup?: string | undefined, description: string }, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, link: string }> }> } | undefined };
+export type CurrentAssertionSpecificationQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', latestSpecification?: { __typename: 'Specification', id: number } | undefined, specificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus, specificationCriterium: { __typename: 'SpecificationCriterium', assessmentGroup?: string | undefined, description: string }, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, link: string }> }> } | undefined };
 
 export type SpecificationFormConfigQueryVariables = Exact<{
   specificationId: Scalars['Int']['input'];
@@ -19672,7 +19674,7 @@ export const ValidSpecificationsDocument = gql`
 export const CurrentAssertionSpecificationDocument = gql`
     query CurrentAssertionSpecification($assertionId: Int!) {
   assertion(id: $assertionId) {
-    specification {
+    latestSpecification {
       id
     }
     specificationEvaluations {

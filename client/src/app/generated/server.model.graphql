@@ -710,6 +710,8 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  latestSpecification: Specification
+  latestSpecificationEvaluations: [SpecificationEvaluation!]!
   link: String!
   molecularProfile: MolecularProfile!
   name: String!
@@ -771,8 +773,8 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     status: RevisionStatus
   ): RevisionConnection!
   significance: AssertionSignificance!
-  specification: Specification
   specificationEvaluations: [SpecificationEvaluation!]!
+  specifications: [Specification!]
   specificationsWithEvaluations: [SpecificationWithEvaluations!]!
   status: EvidenceStatus!
   submissionActivity: SubmitAssertionActivity!

@@ -6,7 +6,7 @@ query ValidSpecifications($assertionId: Int!) {
 
 query CurrentAssertionSpecification($assertionId: Int!){
   assertion(id: $assertionId) {
-    specification {
+    latestSpecification {
       id
     }
     specificationEvaluations {

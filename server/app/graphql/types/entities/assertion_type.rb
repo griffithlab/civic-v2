@@ -37,9 +37,10 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
-    field :specification, Types::Entities::SpecificationType, null: true
+    field :specifications, [ Types::Entities::SpecificationType ], null: true
+    field :latest_specification, Types::Entities::SpecificationType, null: true
     field :specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false
-    # todo I think we no longer need this (still currently used in the revise form but that should go away)
+    field :latest_specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false
     field :specifications_with_evaluations, [ Types::Entities::SpecificationWithEvaluationsType ], null: false
 
     def disease
@@ -54,14 +55,20 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :phenotypes).load(object)
     end
 
-    # todo once we allow specifications to be switched, this should return the currently "active" specification
-    def specification
+    def latest_specification
       specifications.then do |specs|
-        specs.first
+        specs.max_by { |spec| Gem::Version.new(spec.version) }
       end
     end
 
-    # todo once we allow specifications to be switched, this should return only the "active" evaluations
+    def latest_specification_evaluations
+      latest_specification.then do |spec|
+        Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
+          evaluations.select{|e| e.specification_criterium.specification_id == spec.id}
+        end
+      end
+    end
+
     def specification_evaluations
       Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object)
     end
