@@ -10,7 +10,7 @@ query CurrentAssertionSpecification($assertionId: Int!){
       id
       evaluationMethod
     }
-    specificationEvaluations {
+    latestSpecificationEvaluations {
       ...SpecificationEvaluationFields
     }
   }

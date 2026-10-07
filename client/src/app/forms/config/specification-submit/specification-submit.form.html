@@ -44,7 +44,8 @@
       <nz-col nzSpan="24">
         <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
           @if (evaluationSummaryDisplayMode() == 'group') {
-            <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="(perGroupCodesModel | keyvalue).length" nzSize="small">
+            @let columns = (perGroupCodesModel | keyvalue).length > 10 ? (perGroupCodesModel | keyvalue).length / 2 : (perGroupCodesModel | keyvalue).length;
+            <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="columns" nzSize="small">
               @for (item of perGroupCodesModel | keyvalue: preserveOrder; track item.key) {
                 <nz-descriptions-item [nzTitle]="item.key">
                   <div style="white-space: nowrap;">

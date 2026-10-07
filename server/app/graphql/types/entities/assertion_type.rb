@@ -64,7 +64,8 @@ module Types::Entities
     def latest_specification_evaluations
       latest_specification.then do |spec|
         Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
-          evaluations.select{|e| e.specification_criterium.specification_id == spec.id}
+          latest_evaluations = evaluations.select{|e| e.specification_criterium.specification_id == spec.id}
+          latest_evaluations.sort_by{|e| spec.assessment_group_order.index(e.specification_criterium.assessment_group)}
         end
       end
     end

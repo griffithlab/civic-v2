@@ -10984,7 +10984,7 @@ export type CurrentAssertionSpecificationQueryVariables = Exact<{
 }>;
 
 
-export type CurrentAssertionSpecificationQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', latestSpecification?: { __typename: 'Specification', id: number, evaluationMethod: SpecificationEvaluationMethod } | undefined, specificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus, specificationCriterium: { __typename: 'SpecificationCriterium', assessmentGroup?: string | undefined, description: string }, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, link: string }> }> } | undefined };
+export type CurrentAssertionSpecificationQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', latestSpecification?: { __typename: 'Specification', id: number, evaluationMethod: SpecificationEvaluationMethod } | undefined, latestSpecificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus, specificationCriterium: { __typename: 'SpecificationCriterium', assessmentGroup?: string | undefined, description: string }, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, link: string }> }> } | undefined };
 
 export type SpecificationFormConfigQueryVariables = Exact<{
   specificationId: Scalars['Int']['input'];
@@ -19723,7 +19723,7 @@ export const CurrentAssertionSpecificationDocument = gql`
       id
       evaluationMethod
     }
-    specificationEvaluations {
+    latestSpecificationEvaluations {
       ...SpecificationEvaluationFields
     }
   }

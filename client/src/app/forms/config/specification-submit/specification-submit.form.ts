@@ -372,8 +372,8 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
               this.selectedSpecificationId.set(String(assertion.latestSpecification.id))
               this.specificationModel = { "specification_fields": { "specification":  assertion.latestSpecification.id} }
             }
-            if (assertion.specificationEvaluations){
-              this.currentEvaluations.set(assertion.specificationEvaluations)
+            if (assertion.latestSpecificationEvaluations){
+              this.currentEvaluations.set(assertion.latestSpecificationEvaluations)
               if (assertion.latestSpecification && assertion.latestSpecification.evaluationMethod == "ONE") {
                 let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
                 if (met_category) {
@@ -385,7 +385,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   }
                 }
               } else {
-                assertion.specificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+                assertion.latestSpecificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
                   let group = evaluation.specificationCriterium.assessmentGroup
                   if (group) {
                     if (group in this.perGroupCodesModel) {
