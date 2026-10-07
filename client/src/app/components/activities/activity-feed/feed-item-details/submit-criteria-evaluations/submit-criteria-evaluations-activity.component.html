@@ -21,13 +21,14 @@
       <ul class="evaluation-list">
         @for (evaluation of group.evaluations; track evaluation.id) {
           <li class="evaluation-row">
-            <nz-tag
-              [nzColor]="group.status | specificationToTagColor"
-              nz-tooltip
-              [nzTooltipTitle]="evaluation.specificationCriterium.description">
-              {{ evaluation.code
-              }}{{ evaluation.modifier ? '_' + evaluation.modifier : '' }}
-            </nz-tag>
+            <cvc-specification-evaluation-tag
+              [specificationEvaluation]="{
+                'code': evaluation.code,
+                'modifier': evaluation.modifier,
+                'evaluation': evaluation.evaluation,
+                'criteriumDescription': evaluation.specificationCriterium.description}"
+              mode='description_only'>
+            </cvc-specification-evaluation-tag>
             @if (evaluation.justification) {
               <div class="justification">{{ evaluation.justification }}</div>
             } @else {

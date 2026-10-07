@@ -10,17 +10,15 @@ import {
 } from '@app/generated/civic.apollo'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module'
 
 @Component({
   selector: 'cvc-submit-criteria-evaluations-activity-details',
   imports: [
     CvcCommentBodyModule,
     CvcPipesModule,
-    NzTagModule,
-    NzToolTipModule,
+    CvcSpecificationEvaluationTagModule,
     NzTypographyModule,
   ],
   templateUrl: './submit-criteria-evaluations-activity.component.html',

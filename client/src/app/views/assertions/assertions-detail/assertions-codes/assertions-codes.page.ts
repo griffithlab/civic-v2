@@ -20,8 +20,6 @@ export class AssertionsCodesPage {
   
   queryRef: QueryRef<AssertionCodesQuery, AssertionCodesQueryVariables>
   loading$: Observable<boolean>
-  $specification: Signal<Maybe<SpecificationFieldsFragment>>
-  $evaluations: Signal<Maybe<SpecificationEvaluationFieldsFragment[]>>
   $specificationsWithEvaluations: Signal<Maybe<SpecificationWithEvaluations[]>>
 
   constructor(private gql: AssertionCodesGQL, private route: ActivatedRoute) {
@@ -33,16 +31,14 @@ export class AssertionsCodesPage {
     this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
     this.$specificationsWithEvaluations = toSignal(observable.pipe(pluck('data', 'assertion', 'specificationsWithEvaluations')))
-    this.$specification = toSignal(observable.pipe(pluck('data', 'assertion', 'specification')))
-    this.$evaluations = toSignal(observable.pipe(pluck('data', 'assertion', 'specificationEvaluations')))
   }
 
   getEvaluationsForStatus(evaluations: any[], selectedEvaluation: SpecificationEvaluationStatus): SpecificationEvaluation[] {
     return evaluations.filter((evaluation) => evaluation.evaluation == selectedEvaluation)
   }
 
-  descriptionForGroup(selectedGroup: string): string | undefined {
-    return this.$specification()?.assessmentGroups.find((g) => g.group == selectedGroup)?.description
+  descriptionForGroup(selectedGroup: string, specification: SpecificationFieldsFragment): string | undefined {
+    return specification.assessmentGroups.find((g) => g.group == selectedGroup)?.description
   }
 
   groupEvaluations(evaluations: SpecificationEvaluationFieldsFragment[]): any[] {

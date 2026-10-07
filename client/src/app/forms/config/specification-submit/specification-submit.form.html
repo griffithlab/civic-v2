@@ -132,39 +132,13 @@
 </nz-row>
 
 <ng-template #codeTag let-code="code" let-values="values">
-  <nz-tag nz-popover [nzColor]="values.evaluation | specificationToTagColor" [nzPopoverContent]="codePopover" >
-    @if (values.modifier) {
-      {{code}}_{{values.modifier}}
-    } @else {
-      {{code}}
-    }
-  </nz-tag>
-  <!-- Turn this into a component and also use on the code tags in the assertion summary -->
-  <ng-template #codePopover>
-    <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
-      <nz-descriptions-item nzTitle="Evaluation">{{values.evaluation | enumToTitle}}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Modifier">
-        @if (values.modifier) {
-          {{values.modifier}}
-        } @else {
-          <span
-            nz-typography
-            nzType="secondary">
-            <i> No modifier selected</i>
-          </span>
-        }
-      </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Justification">
-        @if (values.justification) {
-          {{values.justification}}
-        } @else {
-          <span
-            nz-typography
-            nzType="secondary">
-            <i> No justification provided</i>
-          </span>
-        }
-      </nz-descriptions-item>
-    </nz-descriptions>
-  </ng-template>
+  <cvc-specification-evaluation-tag
+    [specificationEvaluation]="{
+      'code': code,
+      'modifier': values.modifier,
+      'justification': values.justification,
+      'evidenceItemIds': values.evidenceItemIds,
+      'evaluation': values.evaluation,
+      'criteriumDescription': descriptionForCode(code)}">
+  </cvc-specification-evaluation-tag>
 </ng-template>

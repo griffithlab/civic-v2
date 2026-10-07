@@ -20,6 +20,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { FormsModule } from '@angular/forms';
+import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { FormsModule } from '@angular/forms';
     CvcLinkTagModule,
     CvcPipesModule,
     CvcFieldStepperModule,
+    CvcSpecificationEvaluationTagModule,
     NgxJsonViewerModule, // debug
   ],
   exports: [

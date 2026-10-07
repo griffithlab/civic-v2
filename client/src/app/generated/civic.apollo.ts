@@ -10293,6 +10293,15 @@ export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typen
 
 export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean, deprecated: boolean };
 
+export type LinkableEvidenceForIdsQueryVariables = Exact<{
+  evidenceItemIds?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+}>;
+
+
+export type LinkableEvidenceForIdsQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', edges: Array<{ __typename: 'EvidenceItemEdge', node?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, flagged: boolean, link: string } | undefined }> } };
+
+export type LinkableEvidenceForIdsFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, flagged: boolean, link: string };
+
 export type SpecificationPopoverQueryVariables = Exact<{
   specificationId: Scalars['Int']['input'];
 }>;
@@ -13728,6 +13737,15 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   link
   openAccess
   deprecated
+}
+    `;
+export const LinkableEvidenceForIdsFragmentDoc = gql`
+    fragment LinkableEvidenceForIds on EvidenceItem {
+  id
+  name
+  status
+  flagged
+  link
 }
     `;
 export const SpecificationPopoverFragmentDoc = gql`
@@ -17901,6 +17919,28 @@ export const BrowseSourcesDocument = gql`
   })
   export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
     document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LinkableEvidenceForIdsDocument = gql`
+    query LinkableEvidenceForIds($evidenceItemIds: [Int!]) {
+  evidenceItems(ids: $evidenceItemIds, status: ALL, first: 100) {
+    edges {
+      node {
+        ...LinkableEvidenceForIds
+      }
+    }
+  }
+}
+    ${LinkableEvidenceForIdsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkableEvidenceForIdsGQL extends Apollo.Query<LinkableEvidenceForIdsQuery, LinkableEvidenceForIdsQueryVariables> {
+    document = LinkableEvidenceForIdsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

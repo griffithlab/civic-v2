@@ -9,7 +9,6 @@ import {
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
-  SpecificationWithEvaluations,
   SpecificationEvaluation,
   SpecificationEvaluationStatus,
   Specification,
@@ -106,11 +105,7 @@ export class AssertionsSummaryPage {
     }
   }
 
-  getEvaluationsForStatus(evaluations: any[], selectedEvaluation: SpecificationEvaluationStatus): SpecificationEvaluation[] {
-    return evaluations.filter((evaluation) => evaluation.evaluation == selectedEvaluation)
-  }
-
-  descriptionForGroup(selectedGroup: string): string | undefined {
-    return this.$specification()?.assessmentGroups.find((g) => g.group == selectedGroup)?.description
+  evidenceItemIds(evidenceItems: any[]): number[] {
+    return evidenceItems.map(e => e.id)
   }
 }

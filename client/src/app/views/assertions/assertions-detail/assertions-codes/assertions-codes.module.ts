@@ -10,9 +10,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AssertionsCodesPage } from './assertions-codes.page'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module'
 
 @NgModule({
   declarations: [AssertionsCodesPage],
@@ -28,8 +30,10 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzDescriptionsModule,
     NzGridModule,
     NzTabsModule,
+    NzIconModule,
     CvcEvidenceTagModule,
     CvcPipesModule,
+    CvcSpecificationEvaluationTagModule,
   ],
   exports: [AssertionsCodesPage],
 })

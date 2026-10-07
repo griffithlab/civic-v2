@@ -101,44 +101,24 @@
                       "></cvc-specification-popover>
                   </ng-template>
                 </ng-template>
-                @if (
-                  assertion.assertionType == 'ONCOGENIC' ||
-                  assertion.assertionType == 'PREDISPOSING'
-                ) {
                   <cvc-tag-list>
                     @for (
                       evaluation of specificationWithEvaluations.evaluations;
                       track evaluation.id
                     ) {
                       @if (evaluation.evaluation == 'MET') {
-                        <nz-tag
-                          nzColor="#108ee9"
-                          nz-tooltip
-                          [nzTooltipTitle]="
-                            evaluation.specificationCriterium.description
-                          ">
-                          @if (evaluation.modifier) {
-                            {{ evaluation.code + '_' + evaluation.modifier }}
-                          } @else {
-                            {{ evaluation.code }}
-                          }
-                        </nz-tag>
+                        <cvc-specification-evaluation-tag
+                        [specificationEvaluation]="{
+                          'code': evaluation.code,
+                          'modifier': evaluation.modifier,
+                          'evaluation': evaluation.evaluation,
+                          'justification': evaluation.justification,
+                          'evidenceItemIds': evidenceItemIds(evaluation.evidenceItems),
+                          'criteriumDescription': evaluation.specificationCriterium.description}">
+                        </cvc-specification-evaluation-tag>
                       }
                     }
                   </cvc-tag-list>
-                } @else {
-                  @let met =
-                    getEvaluationsForStatus(
-                      specificationWithEvaluations.evaluations,
-                      evaluationStatus.Met
-                    );
-                  <nz-tag
-                    nzColor="#108ee9"
-                    nz-tooltip
-                    [nzTooltipTitle]="met[0].specificationCriterium.description">
-                    {{ met[0].code }}
-                  </nz-tag>
-                }
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-col>

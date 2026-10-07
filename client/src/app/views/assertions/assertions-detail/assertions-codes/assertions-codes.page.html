@@ -25,7 +25,7 @@
               evaluationStatus.Excluded
             );
             @if (met.length > 0) {
-              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group}" />
+              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
             }
           }
           @for (
@@ -49,7 +49,7 @@
               evaluationStatus.Excluded
             );
             @if (met.length == 0) {
-              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group}" />
+              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
             }
           }
         </nz-space>
@@ -58,7 +58,7 @@
   }
 </nz-tabs>
 
-<ng-template #evaluations let-met="met" let-notMet="notMet" let-notEvaluated="notEvaluated" let-excluded="excluded" let-group="group">
+<ng-template #evaluations let-met="met" let-notMet="notMet" let-notEvaluated="notEvaluated" let-excluded="excluded" let-group="group" let-specification="specification">
   <nz-card
     nzSize="small"
     [nzTitle]="assessmentGroupHeaderTemplate"
@@ -81,7 +81,7 @@
 
   <ng-template #assessmentGroupHeaderTemplate>
     {{ group.key }}
-    @let description = descriptionForGroup(group.key);
+    @let description = descriptionForGroup(group.key, specification);
     <span
       nz-typography
       nzType="secondary">
@@ -89,7 +89,8 @@
         nz-icon
         nzType="info-circle"
         nz-popover
-        [nzPopoverContent]="description">
+        [nzPopoverContent]="description"
+        [nzPopoverOverlayStyle]="{width: '300px'}">
       </i>
     </span>
   </ng-template>
@@ -111,23 +112,14 @@
       @for (evaluation of evaluations; track evaluation) {
         <tr>
           <td>
-            <nz-tag
-              [nzColor]="tagColor"
-              nz-tooltip
-              [nzTooltipTitle]="
-                evaluation.specificationCriterium
-                  .description
-              ">
-              @if (evaluation.modifier) {
-                {{
-                  evaluation.code +
-                    '_' +
-                    evaluation.modifier
-                }}
-              } @else {
-                {{ evaluation.code }}
-              }
-            </nz-tag>
+            <cvc-specification-evaluation-tag
+              [specificationEvaluation]="{
+                'code': evaluation.code,
+                'modifier': evaluation.modifier,
+                'evaluation': evaluation.evaluation,
+                'criteriumDescription': evaluation.specificationCriterium.description}"
+              mode='description_only'>
+            </cvc-specification-evaluation-tag>
           </td>
           <td>
             @if (evaluation.justification) {
@@ -169,14 +161,13 @@
     <span nz-typography nzType="secondary"><i>None</i></span>
   }
   @for (evaluation of evaluations; track evaluation) {
-    <nz-tag
-      [nzColor]="tagColor"
-      nz-tooltip
-      [nzTooltipTitle]="
-        evaluation.specificationCriterium
-          .description
-      ">
-      {{ evaluation.code }}
-    </nz-tag>
+    <cvc-specification-evaluation-tag
+      [specificationEvaluation]="{
+        'code': evaluation.code,
+        'modifier': evaluation.modifier,
+        'evaluation': evaluation.evaluation,
+        'criteriumDescription': evaluation.specificationCriterium.description}"
+      mode='description_only'>
+    </cvc-specification-evaluation-tag>
   }
 </ng-template>

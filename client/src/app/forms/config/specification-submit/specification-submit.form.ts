@@ -529,4 +529,12 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
       return sortedCodes
     }
   }
+  
+  descriptionForCode(code: string): string {
+    let criterium = this.specificationInfo?.specificationCriterium.find((c) => c.criterium == code)
+    if (criterium) {
+      return criterium.description
+    }
+    return ''
+  }
 }

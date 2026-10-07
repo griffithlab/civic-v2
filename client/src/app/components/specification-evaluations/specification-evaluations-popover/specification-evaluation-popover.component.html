@@ -1,0 +1,46 @@
+<nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
+  <nz-descriptions-item nzTitle="Description">{{this.specificationEvaluation.criteriumDescription | enumToTitle}}</nz-descriptions-item>
+  @if (this.mode == 'all') {
+
+  <nz-descriptions-item nzTitle="Evaluation">{{this.specificationEvaluation.evaluation | enumToTitle}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Modifier">
+    @if (specificationEvaluation.modifier) {
+      {{specificationEvaluation.modifier}}
+    } @else {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i> No modifier selected</i>
+      </span>
+    }
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Justification">
+    @if (specificationEvaluation.justification) {
+      {{specificationEvaluation.justification}}
+    } @else {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i> No justification provided</i>
+      </span>
+    }
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Evidence Items">
+    @if (specificationEvaluation.evidenceItemIds && specificationEvaluation.evidenceItemIds.length > 0) {
+      @for (evidenceItemId of specificationEvaluation.evidenceItemIds; track evidenceItemId) {
+        @let evidenceItem = getEvidenceItemForId(evidenceItemId);
+        @if (evidenceItem) {
+          <cvc-evidence-tag
+            [evidence]="evidenceItem"></cvc-evidence-tag>
+        }
+      }
+    } @else {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i> No evidence items provided</i>
+      </span>
+    }
+  </nz-descriptions-item>
+  }
+</nz-descriptions>
