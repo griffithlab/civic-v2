@@ -1,11 +1,14 @@
 <nz-tag
-  [nzColor]="this.tagColor"
+  [nzColor]="this.specificationEvaluation.evaluation | specificationToTagColor"
   nz-popover
   [nzPopoverMouseEnterDelay]="0.5"
   [nzPopoverPlacement]="popoverPlacement"
   [nzPopoverContent]="enablePopover ? evaluationPopover : undefined"
   [nzPopoverOverlayStyle]="{width: '300px'}">
-  {{ this.name }}
+  {{ this.specificationEvaluation.code }}
+  @if (this.specificationEvaluation.modifier) {
+    _{{this.specificationEvaluation.modifier}}
+  }
 </nz-tag>
 
 <ng-template #evaluationPopover>

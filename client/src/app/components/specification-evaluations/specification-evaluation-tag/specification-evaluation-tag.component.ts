@@ -35,18 +35,11 @@ export class CvcSpecificationEvaluationTagComponent implements AfterViewInit {
 
   @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
   popover: NzPopoverDirective | undefined
-  tagColor?: string
-  name: string = ''
 
   constructor() {
   }
 
   ngOnInit() {
-    this.tagColor = new SpecificationToTagColorPipe().transform(this.specificationEvaluation.evaluation)
-    this.name = this.specificationEvaluation.code
-    if (this.specificationEvaluation.modifier) {
-      this.name += `_${this.specificationEvaluation.modifier}`
-    }
   }
 
   updatePopoverPosition() {
