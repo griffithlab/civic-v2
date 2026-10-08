@@ -1,5 +1,6 @@
 class SpecificationEvaluation < ApplicationRecord
   include Moderated
+  include Subscribable
 
   belongs_to :assertion
   belongs_to :specification_criterium
