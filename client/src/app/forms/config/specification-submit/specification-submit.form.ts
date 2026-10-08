@@ -255,7 +255,13 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     expressions: {
                                       'props.disabled': (field: FormlyFieldConfig) => {
                                         const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                        return ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation)
+                                        const shouldDisable = ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation)
+                                        if (shouldDisable && field.formControl?.value !== null) {
+                                          setTimeout(() => {
+                                            field.formControl?.setValue(null) // Clears the form control value
+                                          });
+                                        }
+                                        return shouldDisable
                                       }
                                     },
                                   },
@@ -272,7 +278,13 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     expressions: {
                                       'props.disabled': (field: FormlyFieldConfig) => {
                                         const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                        return ['NOT_EVALUATED'].includes(evaluation)
+                                        const shouldDisable =  ['NOT_EVALUATED'].includes(evaluation)
+                                        if (shouldDisable && field.formControl?.value !== null) {
+                                          setTimeout(() => {
+                                            field.formControl?.setValue(null) // Clears the form control value
+                                          });
+                                        }
+                                        return shouldDisable
                                       }
                                     },
                                   },
@@ -286,7 +298,13 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     expressions: {
                                       'props.disabled': (field: FormlyFieldConfig) => {
                                         const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                        return ['EXCLUDED', 'NOT_EVALUATED'].includes(evaluation)
+                                        const shouldDisable = ['EXCLUDED', 'NOT_EVALUATED'].includes(evaluation)
+                                        if (shouldDisable && field.formControl?.value !== null) {
+                                          setTimeout(() => {
+                                            field.formControl?.setValue(null) // Clears the form control value
+                                          });
+                                        }
+                                        return shouldDisable
                                       }
                                     },
                                   },
