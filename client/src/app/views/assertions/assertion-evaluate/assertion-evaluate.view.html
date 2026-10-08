@@ -26,7 +26,11 @@
   <nz-page-header class="site-page-header">
     <!-- title -->
     <nz-page-header-title cvcFlaggableOptions>
-      Evaluate
+      @if (a.specificationsWithEvaluations) {
+        Revise
+      } @else {
+        Evaluate
+      }
       @if (a.assertionType == 'ONCOGENIC') {
         Oncogenicity
       } @else if (a.assertionType == 'PREDISPOSING') {

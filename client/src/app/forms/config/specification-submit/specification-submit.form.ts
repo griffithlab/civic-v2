@@ -110,6 +110,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   mutationState?: MutationState
   url?: string
+  mode: 'create'|'revise' = 'create'
 
   constructor(
     private validSpecificationsGQL: ValidSpecificationsGQL,
@@ -129,6 +130,17 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     effect(() => {
       const currentSpecificationId = +this.selectedSpecificationId()
       if (currentSpecificationId) {
+        this.mode = 'revise'
+        this.submitFields = [
+          {
+            key: 'organizationId',
+            type: 'org-submit-button',
+            props: {
+              submitLabel: 'Revise Evaluations',
+              align: 'right',
+            },
+          },
+        ]
         this.specificationConfigGQL
         .fetch({ specificationId: currentSpecificationId})
         .pipe(untilDestroyed(this))
@@ -332,7 +344,6 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    //this.url = `/features/${this.featureId}/revisions`
   }
 
   ngAfterViewInit(): void {
@@ -465,6 +476,11 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         organizationId: this.submitModel.organizationId,
       }
       this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
+      if (this.mode == 'create') {
+        this.url = `/assertions/${this.assertionId}/summary`
+      } else if (this.mode == 'revise') {
+        this.url = `/assertions/${this.assertionId}/revisions`
+      }
     } else {
       let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.perGroupCodesModel))).map(([key, value]: [string, any]) => { 
         return {
@@ -484,6 +500,11 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         organizationId: this.submitModel.organizationId,
       }
       this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
+      if (this.mode == 'create') {
+        this.url = `/assertions/${this.assertionId}/codes`
+      } else if (this.mode == 'revise') {
+        this.url = `/assertions/${this.assertionId}/revisions`
+      }
     }
   }
 

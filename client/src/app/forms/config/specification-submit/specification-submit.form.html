@@ -75,43 +75,55 @@
   }
 
   @if(codesFields) {
-    @if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
-      <nz-col nzSpan="24">
-        <nz-card nzTitle="Evaluation">
-          <form
-            nz-form
-            nzLayout="vertical"
-            [formGroup]="codesForm"
-            (ngSubmit)="onSubmit()">
-            <formly-form
-              [form]="codesForm"
-              [fields]="codesFields"
-              [model]="oneCodeModel"
-              [options]="{}"
-              (modelChange)="oneCodeModel = $event">
-            </formly-form>
-          </form>
-        </nz-card>
-      </nz-col>
-    } @else {
-      <nz-col nzSpan="24">
-        <nz-card nzTitle="Evaluation">
-          <form
-            nz-form
-            nzLayout="vertical"
-            [formGroup]="codesForm"
-            (ngSubmit)="onSubmit()">
-            <formly-form
-              [form]="codesForm"
-              [fields]="codesFields"
-              [model]="perGroupCodesModel"
-              [options]="{}"
-              (modelChange)="perGroupCodesModel = $event">
-            </formly-form>
-          </form>
-        </nz-card>
-      </nz-col>
-    }
+    <nz-col nzSpan="24">
+      <cvc-form-submission-status-display [mutationState]="mutationState" entityType="Evaluation" [successMessage]="success" [redirectUrl]="url">
+        <ng-template #success>
+          @if (mode == 'revise') {
+            Revision(s) submitted! You will be redirected to the Revisions page or can view them <a href="{{url}}">here.</a>
+          } @else if (mode == 'create') {
+            Evaluation completed! 
+            @if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+              You will be redirected to Summary page or can view it here <a href="{{url}}">here.</a>
+            } @else {
+              You will be redirected to {{this.specificationInfo?.name}} page or can view it here <a href="{{url}}">here.</a>
+            }
+          }
+        </ng-template>
+        @if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+          <nz-card nzTitle="Evaluation">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="codesForm"
+              (ngSubmit)="onSubmit()">
+              <formly-form
+                [form]="codesForm"
+                [fields]="codesFields"
+                [model]="oneCodeModel"
+                [options]="{}"
+                (modelChange)="oneCodeModel = $event">
+              </formly-form>
+            </form>
+          </nz-card>
+        } @else {
+          <nz-card nzTitle="Evaluation">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="codesForm"
+              (ngSubmit)="onSubmit()">
+              <formly-form
+                [form]="codesForm"
+                [fields]="codesFields"
+                [model]="perGroupCodesModel"
+                [options]="{}"
+                (modelChange)="perGroupCodesModel = $event">
+              </formly-form>
+            </form>
+          </nz-card>
+        }
+      </cvc-form-submission-status-display>
+    </nz-col>
 
     <nz-col nzSpan="24">
       <form
