@@ -29,6 +29,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
         },
       },
       {
+        key: 'evaluationCount',
+        props: {
+          hidden: true,
+        }
+      },
+      {
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
@@ -108,23 +114,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'phenotypeIds',
                 type: 'phenotype-multi-select',
                 props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['form-row'],
-            props: <CvcFormRowWrapperProps>{
-              formRowOptions: {
-                span: 18,
-              },
-            },
-            fieldGroup: [
-              {
-                key: 'specificationCriteriumIds',
-                type: 'specification-criteria-select',
-                expressions: {
-                  'props.initialSpecificationId': 'model.specificationId',
-                },
               },
             ],
           },

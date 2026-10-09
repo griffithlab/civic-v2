@@ -30,7 +30,6 @@ import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
 import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/region-variant-name-select.module'
-import { CvcSpecificationCriteriaSelectModule } from './specification-criteria-select/specification-criteria-select.module'
 
 @NgModule({
   imports: [
@@ -65,7 +64,6 @@ import { CvcSpecificationCriteriaSelectModule } from './specification-criteria-s
     CvcVariantSelectModule,
     CvcVariantTypeSelectModule,
     CvcRegionVariantNameSelectModule,
-    CvcSpecificationCriteriaSelectModule
 
   ],
 })

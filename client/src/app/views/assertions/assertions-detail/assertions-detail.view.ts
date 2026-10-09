@@ -215,7 +215,7 @@ export class AssertionsDetailView {
       const assertion = this.assertion()
       let tabConfig = [...this.DEFAULT_TAB_CONFIG]
       if (assertion) {
-        if (assertion.specificationsWithEvaluations && (assertion.assertionType == 'ONCOGENIC' || assertion.assertionType == 'PREDISPOSING')) {
+        if (assertion.specificationsWithEvaluations.length > 0 && (assertion.assertionType == 'ONCOGENIC' || assertion.assertionType == 'PREDISPOSING')) {
           tabConfig.splice(1, 0, 
             {
               routeName: 'codes',

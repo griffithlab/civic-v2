@@ -7,9 +7,7 @@ import {
 } from '@app/generated/civic.apollo'
 
 export type AssertionFields = {
-  specificationId?: number
-
-  specificationCriteriumIds?: number[]
+  evaluationCount?: number,
   /** The evidence direction for this Assertion. */
   assertionDirection?: AssertionDirection
   /** The Type of the Assertion */

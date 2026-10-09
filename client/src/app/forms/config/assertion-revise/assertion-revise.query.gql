@@ -36,22 +36,6 @@ fragment RevisableAssertionFields on Assertion {
     hpoId
     name
   }
-  specificationsWithEvaluations {
-    specification {
-      id
-      name
-      version
-      evaluationMethod
-      specificationUrl
-    }
-    evaluations {
-      id
-      code
-      justification
-      modifier
-      evaluation
-    }
-  }
   nccnGuideline {
     id
     name
@@ -64,6 +48,9 @@ fragment RevisableAssertionFields on Assertion {
     name
     link
     status
+  }
+  specificationEvaluations {
+    id
   }
 }
 

@@ -6,6 +6,7 @@ export interface AssertionReviseModel extends FormReviseBaseModel {
 }
 
 export const assertionReviseFieldsDefaults = <AssertionFields>{
+  evaluationCount: undefined,
   molecularProfileId: undefined,
   assertionDirection: undefined,
   assertionType: undefined,

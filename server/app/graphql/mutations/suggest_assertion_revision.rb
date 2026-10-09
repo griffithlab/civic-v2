@@ -42,6 +42,10 @@ class Mutations::SuggestAssertionRevision < Mutations::MutationWithOrg
     input_errors = InputAdaptors::AssertionInputAdaptor
       .check_input_for_errors(assertion_input_object: fields)
 
+    if fields.assertion_type != assertion.assertion_type && assertion.specification_evaluations.count > 0
+      input_errors.append("Can't change assertion type because Assertion has already been evaluated.")
+    end
+
     if input_errors.any?
       raise GraphQL::ExecutionError, input_errors.join("|")
     end

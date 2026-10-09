@@ -10738,9 +10738,9 @@ export type AssertionRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
+export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }>, specificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number }> } | undefined };
 
-export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, specificationsWithEvaluations: Array<{ __typename: 'SpecificationWithEvaluations', specification: { __typename: 'Specification', id: number, name: string, version: string, evaluationMethod: SpecificationEvaluationMethod, specificationUrl: string }, evaluations: Array<{ __typename: 'SpecificationEvaluation', id: number, code: string, justification?: string | undefined, modifier?: string | undefined, evaluation: SpecificationEvaluationStatus }> }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
+export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }>, specificationEvaluations: Array<{ __typename: 'SpecificationEvaluation', id: number }> };
 
 export type SuggestAssertionRevisionMutationVariables = Exact<{
   input: SuggestAssertionRevisionInput;
@@ -11307,33 +11307,6 @@ export type SourceSelectTagQueryVariables = Exact<{
 export type SourceSelectTagQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource, deprecated: boolean } | undefined };
 
 export type SourceSelectTypeaheadFieldsFragment = { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource, deprecated: boolean };
-
-export type SpecificationCriteriumSelectTypeaheadQueryVariables = Exact<{
-  code: Scalars['String']['input'];
-  specification?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type SpecificationCriteriumSelectTypeaheadQuery = { __typename: 'Query', specificationCriteriumTypeahead: Array<{ __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string }> };
-
-export type SpecificationCriteriumSelectTagQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type SpecificationCriteriumSelectTagQuery = { __typename: 'Query', specificationCriterium?: { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string } | undefined };
-
-export type ValidSpecificationsOldQueryVariables = Exact<{
-  orgId?: InputMaybe<Scalars['Int']['input']>;
-  assertionType: AssertionType;
-}>;
-
-
-export type ValidSpecificationsOldQuery = { __typename: 'Query', specifications: Array<{ __typename: 'Specification', id: number, name: string, version: string }> };
-
-export type SpecificationSelectFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string };
-
-export type SpecificationCriteriumSelectTypeaheadFieldsFragment = { __typename: 'SpecificationCriterium', id: number, description: string, exclusive: boolean, code: string, name: string, tooltip: string };
 
 export type QuickAddTherapyMutationVariables = Exact<{
   name: Scalars['String']['input'];
@@ -14092,22 +14065,6 @@ export const RevisableAssertionFieldsFragmentDoc = gql`
     hpoId
     name
   }
-  specificationsWithEvaluations {
-    specification {
-      id
-      name
-      version
-      evaluationMethod
-      specificationUrl
-    }
-    evaluations {
-      id
-      code
-      justification
-      modifier
-      evaluation
-    }
-  }
   nccnGuideline {
     id
     name
@@ -14120,6 +14077,9 @@ export const RevisableAssertionFieldsFragmentDoc = gql`
     name
     link
     status
+  }
+  specificationEvaluations {
+    id
   }
 }
     `;
@@ -14904,23 +14864,6 @@ export const NccnGuidelineSelectTypeaheadFieldsFragmentDoc = gql`
     fragment NccnGuidelineSelectTypeaheadFields on NccnGuideline {
   id
   name
-}
-    `;
-export const SpecificationSelectFieldsFragmentDoc = gql`
-    fragment SpecificationSelectFields on Specification {
-  id
-  name
-  version
-}
-    `;
-export const SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc = gql`
-    fragment SpecificationCriteriumSelectTypeaheadFields on SpecificationCriterium {
-  id
-  code: criterium
-  name: criterium
-  description
-  tooltip: description
-  exclusive
 }
     `;
 export const QuickAddTherapyFieldsFragmentDoc = gql`
@@ -20475,63 +20418,6 @@ export const SourceSelectTagDocument = gql`
   })
   export class SourceSelectTagGQL extends Apollo.Query<SourceSelectTagQuery, SourceSelectTagQueryVariables> {
     document = SourceSelectTagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SpecificationCriteriumSelectTypeaheadDocument = gql`
-    query SpecificationCriteriumSelectTypeahead($code: String!, $specification: Int) {
-  specificationCriteriumTypeahead(
-    queryTerm: $code
-    specificationId: $specification
-  ) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SpecificationCriteriumSelectTypeaheadGQL extends Apollo.Query<SpecificationCriteriumSelectTypeaheadQuery, SpecificationCriteriumSelectTypeaheadQueryVariables> {
-    document = SpecificationCriteriumSelectTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SpecificationCriteriumSelectTagDocument = gql`
-    query specificationCriteriumSelectTag($id: Int!) {
-  specificationCriterium(id: $id) {
-    ...SpecificationCriteriumSelectTypeaheadFields
-  }
-}
-    ${SpecificationCriteriumSelectTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SpecificationCriteriumSelectTagGQL extends Apollo.Query<SpecificationCriteriumSelectTagQuery, SpecificationCriteriumSelectTagQueryVariables> {
-    document = SpecificationCriteriumSelectTagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ValidSpecificationsOldDocument = gql`
-    query ValidSpecificationsOld($orgId: Int, $assertionType: AssertionType!) {
-  specifications(organizationId: $orgId, assertionType: $assertionType) {
-    ...SpecificationSelectFields
-  }
-}
-    ${SpecificationSelectFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ValidSpecificationsOldGQL extends Apollo.Query<ValidSpecificationsOldQuery, ValidSpecificationsOldQueryVariables> {
-    document = ValidSpecificationsOldDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
