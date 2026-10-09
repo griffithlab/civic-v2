@@ -141,7 +141,7 @@ class Feature < ApplicationRecord
       counts = Assertion
         .joins(molecular_profile: [ variants: [ :feature ] ])
         .where(features: { id: self.id }, molecular_profiles: { deprecated: false }, variants: { deprecated: false })
-        .where.not(assertions: { status: "rejected" })
+        .where(assertions: { status: "accepted" })
         .group_by { |a| [ a.assertion_type, a.assertion_direction, a.significance ] }
       if counts.nil?
         []
@@ -156,7 +156,7 @@ class Feature < ApplicationRecord
       counts = Assertion
         .joins(:disease, molecular_profile: [ variants: [ :feature ] ])
         .where(features: { id: self.id }, molecular_profiles: { deprecated: false }, variants: { deprecated: false })
-        .where.not(assertions: { status: "rejected" })
+        .where(assertions: { status: "accepted" })
         .group_by { |a| [ a.assertion_type, a.assertion_direction, a.significance, a.disease_id ] }
       if counts.nil?
         []
