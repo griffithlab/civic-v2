@@ -32,8 +32,16 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "A comment is required when rejecting or reverting an Assertion."
     end
 
-    if new_status == "accepted" && comment.present?
-      raise GraphQL::ExecutionError, "Do not supply a comment when accepting an Assertion."
+    if new_status == "accepted"
+      if comment.present?
+        raise GraphQL::ExecutionError, "Do not supply a comment when accepting an Assertion."
+      end
+      if assertion.specification_evaluations.count == 0
+        raise GraphQL::ExecutionError, "Assertion needs to be evaluated before accepting."
+      end
+      if assertion.specification_evaluations.select{ |e| ['met', 'not_met'].include?(e.evaluation) }.count == 0
+        raise GraphQL::ExecutionError, "Assertion needs to have at least one 'met' or 'not met' evaluation before accepting."
+      end
     end
 
     return true
