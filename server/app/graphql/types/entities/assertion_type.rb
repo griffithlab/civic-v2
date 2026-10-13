@@ -29,7 +29,7 @@ module Types::Entities
     field :acmg_codes, [ Types::Entities::AcmgCodeType ], null: false
     field :clingen_codes, [ Types::Entities::ClingenCodeType ], null: false
     field :amp_level, Types::AmpLevelType, null: true
-    field :amp_category, Types::Entities::SpecificationCriteriumType, null: true
+    field :amp_category, Types::Entities::SpecificationCriterionType, null: true
     field :submission_event, Types::Entities::EventType, null: true
     field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
@@ -64,8 +64,8 @@ module Types::Entities
     def latest_specification_evaluations
       latest_specification.then do |spec|
         Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
-          latest_evaluations = evaluations.select{|e| e.specification_criterium.specification_id == spec.id}
-          latest_evaluations.sort_by{|e| spec.assessment_group_order.index(e.specification_criterium.assessment_group)}
+          latest_evaluations = evaluations.select{|e| e.specification_criterion.specification_id == spec.id}
+          latest_evaluations.sort_by{|e| spec.assessment_group_order.index(e.specification_criterion.assessment_group)}
         end
       end
     end
@@ -77,7 +77,7 @@ module Types::Entities
     def specifications_with_evaluations
       specifications.then do |specs|
         specification_evaluations.then do |se|
-          grouped = se.group_by { |s| s.specification_criterium.specification_id }
+          grouped = se.group_by { |s| s.specification_criterion.specification_id }
           specs.map do |spec|
             {
               specification: spec,
@@ -98,7 +98,7 @@ module Types::Entities
 
     def amp_level
       load_codes(code_type: "amp_tiers").then do |al|
-        al.map(&:criterium).first
+        al.map(&:criterion).first
       end
     end
 
@@ -183,7 +183,7 @@ module Types::Entities
     def load_codes(code_type:)
       latest_specification_evaluations.then do |latest_evals|
         latest_specification.then do |latest_spec|
-          latest_evals.select{|e| e.evaluation == "met" && latest_spec.specification_type == code_type}.map{|e| e.specification_criterium}
+          latest_evals.select{|e| e.evaluation == "met" && latest_spec.specification_type == code_type}.map{|e| e.specification_criterion}
         end
       end
     end

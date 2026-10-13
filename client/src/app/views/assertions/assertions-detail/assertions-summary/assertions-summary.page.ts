@@ -97,7 +97,7 @@ export class AssertionsSummaryPage {
       { initialValue: [] }
     )
 
-    this.$groupedEvaluations = computed (() => (Object as any).groupBy(this.$evaluations(), (evaluation: any) => evaluation.specificationCriterium.assessmentGroup))
+    this.$groupedEvaluations = computed (() => (Object as any).groupBy(this.$evaluations(), (evaluation: any) => evaluation.specificationCriterion.assessmentGroup))
 
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,

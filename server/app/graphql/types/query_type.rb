@@ -154,18 +154,18 @@ module Types
       argument :id, Int, required: true
     end
 
-    field :acmg_code, Types::Entities::SpecificationCriteriumType, null: true do
+    field :acmg_code, Types::Entities::SpecificationCriterionType, null: true do
       description "Find an ACMG code by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :clingen_code, Types::Entities::SpecificationCriteriumType, null: true do
+    field :clingen_code, Types::Entities::SpecificationCriterionType, null: true do
       description "Find a ClinGen code by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :specification_criterium, Types::Entities::SpecificationCriteriumType, null: true do
-      description "Find a Specification Criterum code by CIViC ID"
+    field :specification_criterion, Types::Entities::SpecificationCriterionType, null: true do
+      description "Find a Specification Criterion code by CIViC ID"
       argument :id, Int, required: true
     end
 
@@ -399,15 +399,15 @@ module Types
     end
 
     def acmg_code(id:)
-      SpecificationCriterium.joins(:specification).find_by(id: id, specification: { specification_type: "acmg_codes" })
+      SpecificationCriterion.joins(:specification).find_by(id: id, specification: { specification_type: "acmg_codes" })
     end
 
     def clingen_code(id:)
-      SpecificationCriterium.joins(:specification).find_by(id: id, specification: { specification_type: "clingen_codes" })
+      SpecificationCriterion.joins(:specification).find_by(id: id, specification: { specification_type: "clingen_codes" })
     end
 
-    def specification_criterium(id:)
-      SpecificationCriterium.find_by(id: id)
+    def specification_criterion(id:)
+      SpecificationCriterion.find_by(id: id)
     end
 
     def specifications(assertion_type:, organization_id: nil)
@@ -425,7 +425,7 @@ module Types
     end
 
     def valid_specifications(assertion_id:)
-      assertion = Assertion.eager_load(specification_evaluations: [specification_criterium: :specification]).find(assertion_id)
+      assertion = Assertion.eager_load(specification_evaluations: [specification_criterion: :specification]).find(assertion_id)
       if assertion.specifications.any?
         Specification.where(name: assertion.specifications.first.name, assertion_type: assertion.assertion_type)
           .order("specifications.organization_id ASC NULLS FIRST, specifications.name")

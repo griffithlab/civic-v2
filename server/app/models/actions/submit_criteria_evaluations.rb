@@ -14,13 +14,13 @@ module Actions
     private
     def execute
       @specification_evaluations = evaluations.map do |evaluation|
-        specification_criterium = SpecificationCriterium.find_by(specification_id: specification_id, criterium: evaluation.specification_criterium)
-        if specification_criterium.nil?
-          raise StandardError.new("SpecificationCriterium for specification ID #{specification_id} and criterium #{evaluation.specification_criterium} doesn't exit.")
+        specification_criterion = SpecificationCriterion.find_by(specification_id: specification_id, criterion: evaluation.specification_criterion)
+        if specification_criterion.nil?
+          raise StandardError.new("SpecificationCriterion for specification ID #{specification_id} and criterion #{evaluation.specification_criterion} doesn't exit.")
         end
         SpecificationEvaluation.create(
           assertion_id: assertion_id,
-          specification_criterium_id: specification_criterium.id,
+          specification_criterion_id: specification_criterion.id,
           evaluation: evaluation.evaluation,
           modifier: evaluation.modifier,
           justification: evaluation.justification,

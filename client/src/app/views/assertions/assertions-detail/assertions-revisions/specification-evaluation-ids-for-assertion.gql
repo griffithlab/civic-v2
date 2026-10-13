@@ -10,8 +10,8 @@ fragment AssertionSpecificationEvaluationIds on Assertion {
   specificationEvaluations {
     openRevisionCount
     id
-    specificationCriterium {
-      criterium
+    specificationCriterion {
+      criterion
     }
   }
   specificationsWithEvaluations {
@@ -23,8 +23,8 @@ fragment AssertionSpecificationEvaluationIds on Assertion {
     evaluations {
       openRevisionCount
       id
-      specificationCriterium {
-        criterium
+      specificationCriterion {
+        criterion
       }
     }
   }

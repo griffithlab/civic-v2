@@ -178,7 +178,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                 wrappers: ['form-field'],
                                 props: {
                                   label: `Select ${this.specificationInfo.name}`,
-                                  options: this.specificationInfo.specificationCriterium.map((c) => {return {label: c.criterium, value: c.criterium}}),
+                                  options: this.specificationInfo.specificationCriteria.map((c) => {return {label: c.criterion, value: c.criterion}}),
                                   required: true,
                                 }
                               },
@@ -217,13 +217,13 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                           stepLabel: group.name,
                           infoString: group.description
                         },
-                        fieldGroup: group.specificationCriterium.map((code) => {
+                        fieldGroup: group.specificationCriteria.map((code) => {
                           return {
-                            key: code.criterium,
+                            key: code.criterion,
                             wrappers: ['form-card'],
                             props: {
                               formCardOptions: {
-                                title: code.criterium,
+                                title: code.criterion,
                                 infoString: code.description
                               }
                             },
@@ -415,7 +415,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                 }
               } else {
                 assertion.latestSpecificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
-                  let group = evaluation.specificationCriterium.assessmentGroup
+                  let group = evaluation.specificationCriterion.assessmentGroup
                   if (group) {
                     if (group in this.perGroupCodesModel) {
                       this.perGroupCodesModel[group][evaluation.code] = {
@@ -466,7 +466,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
           assertionId: this.assertionId,
           specificationId: +this.selectedSpecificationId(),
           evaluations: [{
-            specificationCriterium: this.oneCodeModel.amp_category_fields.amp_category,
+            specificationCriterion: this.oneCodeModel.amp_category_fields.amp_category,
             evaluation: SpecificationEvaluationStatus.Met,
             modifier: undefined,
             justification: this.oneCodeModel.amp_category_fields.justification ? this.oneCodeModel.amp_category_fields.justification : undefined,
@@ -484,7 +484,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     } else {
       let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.perGroupCodesModel))).map(([key, value]: [string, any]) => { 
         return {
-          specificationCriterium: key,
+          specificationCriterion: key,
           evaluation: value.evaluation,
           modifier: value.modifier,
           justification: value.justification ? value.justification : undefined,
@@ -524,7 +524,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         }
       } else {
         this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
-          let group = evaluation.specificationCriterium.assessmentGroup
+          let group = evaluation.specificationCriterion.assessmentGroup
           if (group) {
             if (group in this.perGroupCodesModel) {
               this.perGroupCodesModel[group][evaluation.code] = {
@@ -570,9 +570,9 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   }
   
   descriptionForCode(code: string): string {
-    let criterium = this.specificationInfo?.specificationCriterium.find((c) => c.criterium == code)
-    if (criterium) {
-      return criterium.description
+    let criterion = this.specificationInfo?.specificationCriteria.find((c) => c.criterion == code)
+    if (criterion) {
+      return criterion.description
     }
     return ''
   }

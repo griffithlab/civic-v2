@@ -13,7 +13,7 @@
         @if (subject.__typename === 'ExonCoordinate') {
           {{ subject.coordinateType | enumToTitle }} {{ data.name }}
         } @else if (subject.__typename === 'SpecificationEvaluation') {
-          {{ subject.specificationCriterium.criterium }} ({{ subject.specificationCriterium.specification.name }} v{{ subject.specificationCriterium.specification.version }}) {{ data.name }}
+          {{ subject.specificationCriterion.criterion }} ({{ subject.specificationCriterion.specification.name }} v{{ subject.specificationCriterion.specification.version }}) {{ data.name }}
         } @else {
           {{ data.name }}
         }

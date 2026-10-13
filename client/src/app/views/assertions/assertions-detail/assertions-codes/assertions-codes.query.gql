@@ -30,7 +30,7 @@ fragment SpecificationEvaluationFields on SpecificationEvaluation {
   justification
   modifier
   evaluation
-  specificationCriterium {
+  specificationCriterion {
     assessmentGroup
     description
   }

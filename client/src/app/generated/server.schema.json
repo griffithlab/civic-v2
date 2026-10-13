@@ -2576,7 +2576,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "SpecificationCriterium",
+                "name": "SpecificationCriterion",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -43895,7 +43895,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "SpecificationCriterium",
+                "name": "SpecificationCriterion",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -43933,7 +43933,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SpecificationCriterium",
+                      "name": "SpecificationCriterion",
                       "ofType": null
                     }
                   }
@@ -46352,7 +46352,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "SpecificationCriterium",
+                "name": "SpecificationCriterion",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -46390,7 +46390,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SpecificationCriterium",
+                      "name": "SpecificationCriterion",
                       "ofType": null
                     }
                   }
@@ -51097,8 +51097,8 @@
               "deprecationReason": null
             },
             {
-              "name": "specificationCriterium",
-              "description": "Find a Specification Criterum code by CIViC ID",
+              "name": "specificationCriterion",
+              "description": "Find a Specification Criterion code by CIViC ID",
               "args": [
                 {
                   "name": "id",
@@ -51119,14 +51119,14 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "SpecificationCriterium",
+                "name": "SpecificationCriterion",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "specificationCriteriumTypeahead",
+              "name": "specificationCriterionTypeahead",
               "description": "Retrieve Criteria Options For a Specification and Query",
               "args": [
                 {
@@ -51169,7 +51169,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SpecificationCriterium",
+                      "name": "SpecificationCriterion",
                       "ofType": null
                     }
                   }
@@ -60526,7 +60526,7 @@
               "deprecationReason": null
             },
             {
-              "name": "specificationCriterium",
+              "name": "specificationCriteria",
               "description": null,
               "args": [],
               "type": {
@@ -60540,7 +60540,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SpecificationCriterium",
+                      "name": "SpecificationCriterion",
                       "ofType": null
                     }
                   }
@@ -60641,7 +60641,7 @@
               "deprecationReason": null
             },
             {
-              "name": "specificationCriterium",
+              "name": "specificationCriteria",
               "description": null,
               "args": [],
               "type": {
@@ -60655,7 +60655,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SpecificationCriterium",
+                      "name": "SpecificationCriterion",
                       "ofType": null
                     }
                   }
@@ -60672,7 +60672,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "SpecificationCriterium",
+          "name": "SpecificationCriterion",
           "description": null,
           "fields": [
             {
@@ -60688,7 +60688,7 @@
               "deprecationReason": null
             },
             {
-              "name": "criterium",
+              "name": "criterion",
               "description": null,
               "args": [],
               "type": {
@@ -61289,7 +61289,7 @@
               "deprecationReason": null
             },
             {
-              "name": "specificationCriterium",
+              "name": "specificationCriterion",
               "description": null,
               "args": [],
               "type": {
@@ -61297,7 +61297,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "SpecificationCriterium",
+                  "name": "SpecificationCriterion",
                   "ofType": null
                 }
               },
@@ -61340,7 +61340,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "specificationCriterium",
+              "name": "specificationCriterion",
               "description": null,
               "type": {
                 "kind": "NON_NULL",

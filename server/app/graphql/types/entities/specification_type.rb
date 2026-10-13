@@ -15,7 +15,7 @@ module Types::Entities
     field :published_on, GraphQL::Types::ISO8601Date, null: false
     field :organization, Types::Entities::OrganizationType, null: true
     field :organization_id, Int, null: true
-    field :specification_criterium, [ Types::Entities::SpecificationCriteriumType ], null: false
+    field :specification_criteria, [ Types::Entities::SpecificationCriterionType ], null: false
     field :evaluation_method, Types::Entities::SpecificationEvaluationMethodType, null: false
     field :assessment_groups, [ Types::Entities::AssessmentGroupType ], null: false
     field :assessment_group_order, [ String ], null: false
@@ -24,8 +24,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(Specification, :organization).load(object)
     end
 
-    def specification_criterium
-      Loaders::AssociationLoader.for(Specification, :specification_criterium).load(object)
+    def specification_criteria
+      Loaders::AssociationLoader.for(Specification, :specification_criteria).load(object)
     end
 
     def assessment_groups

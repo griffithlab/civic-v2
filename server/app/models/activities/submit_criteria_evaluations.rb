@@ -37,7 +37,7 @@ module Activities
     def linked_entities
       spec = specification_evaluations
       .first
-      .specification_criterium
+      .specification_criterion
       .specification
       [ specification_evaluations, spec  ]
     end

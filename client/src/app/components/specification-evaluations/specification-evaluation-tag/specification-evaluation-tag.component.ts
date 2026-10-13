@@ -17,7 +17,7 @@ export interface SpecificationEvaluationTag {
   evaluation: SpecificationEvaluationStatus
   justification?: string,
   evidenceItemIds?: number[]
-  criteriumDescription: string
+  criterionDescription: string
 }
 
 @Component({

@@ -1,7 +1,7 @@
 module Types::Entities
-  class SpecificationCriteriumType < Types::BaseObject
+  class SpecificationCriterionType < Types::BaseObject
     field :id, Int, null: false
-    field :criterium, String, null: false
+    field :criterion, String, null: false
     field :description, String, null: false
     field :exclusive, Boolean, null: false
     field :point_value, Int, null: true
@@ -12,11 +12,11 @@ module Types::Entities
     field :order_within_assessment_group, Int, null: false
 
     def exclusive
-      object.specification.specification_type == "clingen_codes" && object.criterium == "N/A"
+      object.specification.specification_type == "clingen_codes" && object.criterion == "N/A"
     end
 
     def specification
-      Loaders::AssociationLoader.for(SpecificationCriterium, :specification).load(object)
+      Loaders::AssociationLoader.for(SpecificationCriterion, :specification).load(object)
     end
 
     def modifiers

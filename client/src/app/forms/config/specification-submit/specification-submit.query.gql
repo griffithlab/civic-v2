@@ -40,9 +40,9 @@ fragment SpecificationDetailConfigFields on Specification {
   sopPubmedId
   publishedOn
   evaluationMethod
-  specificationCriterium {
+  specificationCriteria {
     id
-    criterium
+    criterion
     description
     modifiers
     mutuallyExclusiveCodes
@@ -53,9 +53,9 @@ fragment SpecificationDetailConfigFields on Specification {
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
   name
   description
-  specificationCriterium {
+  specificationCriteria {
     id
-    criterium
+    criterion
     description
     modifiers
     mutuallyExclusiveCodes

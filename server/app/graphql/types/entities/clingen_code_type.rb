@@ -10,7 +10,7 @@ module Types::Entities
     end
 
     def code
-      object.criterium
+      object.criterion
     end
   end
 end

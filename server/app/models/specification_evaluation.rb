@@ -3,7 +3,7 @@ class SpecificationEvaluation < ApplicationRecord
   include Subscribable
 
   belongs_to :assertion
-  belongs_to :specification_criterium
+  belongs_to :specification_criterion
   has_and_belongs_to_many :evidence_items
 
   enum :evaluation, {
@@ -27,7 +27,7 @@ class SpecificationEvaluation < ApplicationRecord
       :modifier,
       :justification,
       :evidence_item_ids,
-      :specification_criterium_id,
+      :specification_criterion_id,
     ]
   end
 end

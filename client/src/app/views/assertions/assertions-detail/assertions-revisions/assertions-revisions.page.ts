@@ -87,7 +87,7 @@ export class AssertionsRevisionsPage implements OnInit {
         assertionFieldCount -= evaluation.openRevisionCount
         evaluationFieldCount += evaluation.openRevisionCount
         return {
-          name: `${evaluation.specificationCriterium.criterium} Fields`,
+          name: `${evaluation.specificationCriterion.criterion} Fields`,
           openCount: evaluation.openRevisionCount,
           moderated: {
             id: evaluation.id,

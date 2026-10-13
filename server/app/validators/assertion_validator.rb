@@ -57,19 +57,19 @@ class AssertionValidator < ActiveModel::Validator
 
     # TODO - this will not work if multiple specifications are applied.
     met_evaluations = record.specification_evaluations
-    .eager_load(:specification_criterium)
+    .eager_load(:specification_criterion)
     .where(evaluation: "met")
-    met_code_names = met_evaluations.map { |e| e.specification_criterium.criterium }
+    met_code_names = met_evaluations.map { |e| e.specification_criterion.criterion }
 
     met_evaluations.each do |me|
-      exclusive_codes = me.specification_criterium.mutually_exclusive_codes.intersection(met_code_names)
+      exclusive_codes = me.specification_criterion.mutually_exclusive_codes.intersection(met_code_names)
       if exclusive_codes.any?
-        record.errors.add(:specification, "Code #{me.specification_criterium.criterium} is incompatible with #{exclusive_codes.join(",")}")
+        record.errors.add(:specification, "Code #{me.specification_criterion.criterion} is incompatible with #{exclusive_codes.join(",")}")
       end
     end
 
     # TODO - the following several validations assume multiple specifications are possible. we dont currently support that
-    utilized_specifications = record.specification_criterium.map(&:specification)
+    utilized_specifications = record.specification_criteria.map(&:specification)
     if utilized_specifications.uniq.size > 1
       record.errors.add(:specification, "All classifications must come from the same specification. #{utilized_specifications.map(&:name).join(",")} found.")
     end

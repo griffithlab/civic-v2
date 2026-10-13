@@ -9,14 +9,14 @@ module Types::Entities
     field :code, String, null: false
     field :evaluation, Types::Entities::SpecificationEvaluationStatusType, null: false
     field :assertion, Types::Entities::AssertionType, null: false
-    field :specification_criterium, Types::Entities::SpecificationCriteriumType, null: false
+    field :specification_criterion, Types::Entities::SpecificationCriterionType, null: false
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: true
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: true
 
     def code
-      specification_criterium.then do |sc|
-        sc.criterium
+      specification_criterion.then do |sc|
+        sc.criterion
       end
     end
 
@@ -24,8 +24,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(SpecificationEvaluation, :assertion).load(object)
     end
 
-    def specification_criterium
-      Loaders::AssociationLoader.for(SpecificationEvaluation, :specification_criterium).load(object)
+    def specification_criterion
+      Loaders::AssociationLoader.for(SpecificationEvaluation, :specification_criterion).load(object)
     end
 
     def evidence_items

@@ -1,6 +1,6 @@
 class Specification < ApplicationRecord
   belongs_to :organization, optional: true
-  has_many :specification_criterium
+  has_many :specification_criteria
 
   enum :specification_type, {
     amp_tiers: "amp_tiers",

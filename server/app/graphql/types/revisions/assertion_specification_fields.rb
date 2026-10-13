@@ -1,7 +1,7 @@
 module Types::Revisions
   class SpecificationEvaluationFields < Types::BaseInputObject
     description "Fields of a Specification Evaluation"
-    argument :specification_criterium, String, required: true
+    argument :specification_criterion, String, required: true
     argument :evaluation, Types::Entities::SpecificationEvaluationStatusType, required: true
     argument :modifier, String, required: false
     argument :justification, String, required: false

@@ -5,7 +5,7 @@ module Types::Entities
     field :description, String, null: false
 
     def code
-      object.criterium
+      object.criterion
     end
   end
 end

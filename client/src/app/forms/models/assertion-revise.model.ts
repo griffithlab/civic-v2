@@ -11,7 +11,7 @@ export const assertionReviseFieldsDefaults = <AssertionFields>{
   assertionDirection: undefined,
   assertionType: undefined,
   significance: undefined,
-  specificationCriteriumIds: [],
+  specificationCriterionIds: [],
   description: undefined,
   diseaseId: undefined,
   therapyIds: [],

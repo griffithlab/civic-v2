@@ -173,13 +173,13 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     }
     // get linkable entity
     let fragment = undefined
-    if(typename == "SpecificationCriterium") {
+    if(typename == "SpecificationCriterion") {
       fragment = {
         id: `${typename}:${id}`,
         fragment: gql`
           fragment Linkable${typename}Entity on ${typename} {
             id
-            name: criterium
+            name: criterion
             tooltip: description
           }
         `,

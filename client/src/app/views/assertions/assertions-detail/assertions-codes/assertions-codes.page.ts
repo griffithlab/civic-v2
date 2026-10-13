@@ -42,6 +42,6 @@ export class AssertionsCodesPage {
   }
 
   groupEvaluations(evaluations: SpecificationEvaluationFieldsFragment[]): any[] {
-    return (Object as any).groupBy(evaluations, (evaluation: any) => evaluation.specificationCriterium.assessmentGroup)
+    return (Object as any).groupBy(evaluations, (evaluation: any) => evaluation.specificationCriterion.assessmentGroup)
   }
 }

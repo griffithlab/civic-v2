@@ -28,9 +28,9 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       input_errors.append("Specification with ID #{fields.specification_id} doesn't exist")
     end
 
-    criteria = specification.specification_criterium
-    expected_criteria = criteria.map{|c| c.criterium}
-    provided_criteria = fields.evaluations.map{|e| e.specification_criterium}
+    criteria = specification.specification_criteria
+    expected_criteria = criteria.map{|c| c.criterion}
+    provided_criteria = fields.evaluations.map{|e| e.specification_criterion}
     met_criteria = fields.evaluations.select{|c| c.evaluation == "met"}
 
     # specification is valid for assertion type
@@ -96,19 +96,19 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
 
     if specification.evaluation_method == 'all'
       # not more than one "met" evaluation in an assessment group
-      grouped_evaluations = met_criteria.group_by{|c| SpecificationCriterium.find_by(criterium: c.specification_criterium, specification_id: fields.specification_id).assessment_group}
+      grouped_evaluations = met_criteria.group_by{|c| SpecificationCriterion.find_by(criterion: c.specification_criterion, specification_id: fields.specification_id).assessment_group}
       grouped_evaluations.each do |group, evaluations|
         if evaluations.count > 1
-          input_errors.append("Assessment group #{group} contains more than one met evaluation #{evaluations.map{|e| e.specification_criterium}.join(', ')}")
+          input_errors.append("Assessment group #{group} contains more than one met evaluation #{evaluations.map{|e| e.specification_criterion}.join(', ')}")
         end
       end
 
       # mututally exclusive codes
       met_criteria.each do |evaluation|
-        mutually_exclusive_codes = SpecificationCriterium.find_by(criterium: evaluation.specification_criterium, specification_id: fields.specification_id).mutually_exclusive_codes
-        overlap = met_criteria.map{|c| c.specification_criterium}.intersection(mutually_exclusive_codes)
+        mutually_exclusive_codes = SpecificationCriterion.find_by(criterion: evaluation.specification_criterion, specification_id: fields.specification_id).mutually_exclusive_codes
+        overlap = met_criteria.map{|c| c.specification_criterion}.intersection(mutually_exclusive_codes)
         if overlap.any?
-          input_errors.append("Met code #{evaluation.specification_criterium} is mutually exclusive with #{overlap.join(', ')}")
+          input_errors.append("Met code #{evaluation.specification_criterion} is mutually exclusive with #{overlap.join(', ')}")
         end
       end
     end
@@ -149,13 +149,13 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       # update existing evaluations
       evaluation_revisions_objects = fields.evaluations.map do |evaluation|
         if specification.evaluation_method == 'all'
-          existing_criterium = SpecificationCriterium.find_by(
+          existing_criterion = SpecificationCriterion.find_by(
             specification_id: fields.specification_id,
-            criterium: evaluation.specification_criterium,
+            criterion: evaluation.specification_criterion,
           )
           existing_evaluation = SpecificationEvaluation.find_by(
             assertion_id: fields.assertion_id,
-            specification_criterium: existing_criterium,
+            specification_criterion: existing_criterion,
           )
           updated_evaluation = InputAdaptors::SpecificationEvaluationInputAdaptor.new(
             evaluation_input_object: evaluation,
@@ -164,20 +164,20 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
           ).perform
           Activities::RevisedObjectPair.new(existing_obj: existing_evaluation, updated_obj: updated_evaluation)
         elsif specification.evaluation_method == 'one'
-          existing_criterium = assertion.specification_evaluations.first{|e| e.specification_id == fields.specification_id}.specification_criterium
+          existing_criterion = assertion.specification_evaluations.first{|e| e.specification_id == fields.specification_id}.specification_criterion
           existing_evaluation = SpecificationEvaluation.find_by(
             assertion_id: fields.assertion_id,
-            specification_criterium_id: existing_criterium.id,
+            specification_criterion_id: existing_criterion.id,
           )
-          new_criterium = SpecificationCriterium.find_by(
+          new_criterion = SpecificationCriterion.find_by(
             specification_id: fields.specification_id,
-            criterium: evaluation.specification_criterium
+            criterion: evaluation.specification_criterion
           )
           updated_evaluation = SpecificationEvaluation.new(
             assertion_id: fields.assertion_id,
             evaluation: evaluation.evaluation,
             justification: evaluation.justification,
-            specification_criterium_id: new_criterium.id
+            specification_criterion_id: new_criterion.id
           )
           Activities::RevisedObjectPair.new(existing_obj: existing_evaluation, updated_obj: updated_evaluation)
         end

@@ -12,13 +12,13 @@ module Types::Internal
         {
           name: group_name,
           description: object.assessment_groups[group_name],
-          specification_criterium: criteria_for_group(group_name),
+          specification_criteria: criteria_for_group(group_name),
         }
       end
     end
 
     def criteria_for_group(group_name)
-      object.specification_criterium.where(assessment_group: group_name)
+      object.specification_criteria.where(assessment_group: group_name)
         .order("position_within_assessment_group ASC")
         .all
     end

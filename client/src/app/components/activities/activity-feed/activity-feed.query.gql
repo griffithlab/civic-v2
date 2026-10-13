@@ -219,8 +219,8 @@ fragment RevisionActivityDetail on Revision {
       coordinateType
     }
     ... on SpecificationEvaluation {
-      specificationCriterium {
-        criterium
+      specificationCriterion {
+        criterion
         specification {
           name
           version

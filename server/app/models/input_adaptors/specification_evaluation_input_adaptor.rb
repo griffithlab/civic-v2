@@ -1,4 +1,5 @@
-# Conversion from a GraphQL EvidenceItemFields input object to EvidenceItem model type
+# Conversion from a GraphQL SpecificationEvaluationFields input object to
+# SpecificationEvaluation model type
 class InputAdaptors::SpecificationEvaluationInputAdaptor
   attr_reader :input, :assertion_id, :specification_id
 
@@ -64,10 +65,10 @@ class InputAdaptors::SpecificationEvaluationInputAdaptor
 #  end
 
   def self.evaluation_fields(input, assertion_id, specification_id)
-    specification_criterium = SpecificationCriterium.find_by(specification_id: specification_id, criterium: input.specification_criterium)
+    specification_criterion = SpecificationCriterion.find_by(specification_id: specification_id, criterion: input.specification_criterion)
     {
         assertion_id: assertion_id,
-        specification_criterium_id: specification_criterium.id,
+        specification_criterion_id: specification_criterion.id,
         evaluation: input.evaluation,
         modifier: input.modifier,
         justification: input.justification,

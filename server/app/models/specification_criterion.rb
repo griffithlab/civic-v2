@@ -1,10 +1,10 @@
-class SpecificationCriterium < ApplicationRecord
+class SpecificationCriterion < ApplicationRecord
   belongs_to :specification
 
   validate :assessment_group_is_valid
 
   def name
-    self.criterium
+    self.criterion
   end
 
   private

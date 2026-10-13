@@ -511,7 +511,7 @@ enum AreaOfExpertise {
 type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
-  ampCategory: SpecificationCriterium
+  ampCategory: SpecificationCriterion
   ampLevel: AmpLevel
 
   """
@@ -9067,12 +9067,12 @@ type Query {
   """
   Find an ACMG code by CIViC ID
   """
-  acmgCode(id: Int!): SpecificationCriterium
+  acmgCode(id: Int!): SpecificationCriterion
 
   """
   Retrieve ACMG Code options as a typeahead
   """
-  acmgCodesTypeahead(queryTerm: String!): [SpecificationCriterium!]!
+  acmgCodesTypeahead(queryTerm: String!): [SpecificationCriterion!]!
 
   """
   List and filter activities
@@ -9727,12 +9727,12 @@ type Query {
   """
   Find a ClinGen code by CIViC ID
   """
-  clingenCode(id: Int!): SpecificationCriterium
+  clingenCode(id: Int!): SpecificationCriterion
 
   """
   Retrieve Clingen Code options as a typeahead
   """
-  clingenCodesTypeahead(queryTerm: String!): [SpecificationCriterium!]!
+  clingenCodesTypeahead(queryTerm: String!): [SpecificationCriterion!]!
 
   """
   Find a clinical trial by CIViC ID
@@ -10879,14 +10879,14 @@ type Query {
   specification(id: Int!): Specification!
 
   """
-  Find a Specification Criterum code by CIViC ID
+  Find a Specification Criterion code by CIViC ID
   """
-  specificationCriterium(id: Int!): SpecificationCriterium
+  specificationCriterion(id: Int!): SpecificationCriterion
 
   """
   Retrieve Criteria Options For a Specification and Query
   """
-  specificationCriteriumTypeahead(queryTerm: String!, specificationId: Int): [SpecificationCriterium!]!
+  specificationCriterionTypeahead(queryTerm: String!, specificationId: Int): [SpecificationCriterion!]!
 
   """
   Return specification information suitable for building an edit form
@@ -12912,7 +12912,7 @@ type Specification {
   organizationId: Int
   publishedOn: ISO8601Date!
   sopPubmedId: Int!
-  specificationCriterium: [SpecificationCriterium!]!
+  specificationCriteria: [SpecificationCriterion!]!
   specificationType: SpecificationType!
   specificationUrl: String!
   version: String!
@@ -12921,12 +12921,12 @@ type Specification {
 type SpecificationAssessmentGroup {
   description: String!
   name: String!
-  specificationCriterium: [SpecificationCriterium!]!
+  specificationCriteria: [SpecificationCriterion!]!
 }
 
-type SpecificationCriterium {
+type SpecificationCriterion {
   assessmentGroup: String
-  criterium: String!
+  criterion: String!
   description: String!
   exclusive: Boolean!
   id: Int!
@@ -13034,7 +13034,7 @@ type SpecificationEvaluation implements EventSubject & WithRevisions {
     """
     status: RevisionStatus
   ): RevisionConnection!
-  specificationCriterium: SpecificationCriterium!
+  specificationCriterion: SpecificationCriterion!
   updatedAt: ISO8601DateTime
 }
 
@@ -13046,7 +13046,7 @@ input SpecificationEvaluationFields {
   evidenceItemIds: [Int!]!
   justification: String
   modifier: String
-  specificationCriterium: String!
+  specificationCriterion: String!
 }
 
 enum SpecificationEvaluationMethod {

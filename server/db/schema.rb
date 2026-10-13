@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_18_200922) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_135126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -1102,7 +1102,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_200922) do
   create_table "specification_criteria", force: :cascade do |t|
     t.string "assessment_group"
     t.datetime "created_at", null: false
-    t.text "criterium", null: false
+    t.text "criterion", null: false
     t.text "description", null: false
     t.hstore "modifiers"
     t.string "mutually_exclusive_codes", default: [], array: true
@@ -1119,11 +1119,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_200922) do
     t.enum "evaluation", default: "not_evaluated", enum_type: "specification_evaluation_statuses"
     t.string "justification"
     t.string "modifier"
-    t.bigint "specification_criterium_id", null: false
+    t.bigint "specification_criterion_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["assertion_id", "specification_criterium_id"], name: "idx_on_assertion_id_specification_criterium_id_58b1f01de2", unique: true
     t.index ["assertion_id"], name: "index_specification_evaluations_on_assertion_id"
-    t.index ["specification_criterium_id"], name: "index_specification_evaluations_on_specification_criterium_id"
+    t.index ["specification_criterion_id"], name: "index_specification_evaluations_on_specification_criterion_id"
   end
 
   create_table "specifications", force: :cascade do |t|
@@ -1435,10 +1434,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_200922) do
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "source_suggestions_therapies", "source_suggestions"
   add_foreign_key "source_suggestions_therapies", "therapies"
-  add_foreign_key "specification_criteria", "specifications"
-  add_foreign_key "specification_evaluations", "assertions"
-  add_foreign_key "specification_evaluations", "specification_criteria"
-  add_foreign_key "specifications", "organizations"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
   add_foreign_key "user_mentions", "comments"

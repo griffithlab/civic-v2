@@ -132,8 +132,8 @@ export const defaultValidators = [
       ffc: FormlyFieldConfig
     ): ValidationErrors | null => {
       if (fc.value == 'MET') {
-        const criterium = ffc.parent?.parent?.key
-        const otherCodesInGroup = ffc.parent?.parent?.parent?.fieldGroup?.filter((c) => c.key != criterium)
+        const criterion = ffc.parent?.parent?.key
+        const otherCodesInGroup = ffc.parent?.parent?.parent?.fieldGroup?.filter((c) => c.key != criterion)
         if (otherCodesInGroup) {
           for (let otherCode of otherCodesInGroup) {
             if (otherCode.fieldGroup) {

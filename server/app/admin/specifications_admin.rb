@@ -69,15 +69,15 @@ Trestle.resource(:specifications) do
       end
     end
 
-    tab :criteria, badge: specification.specification_criterium.count do
-      table SpecificationCriteriaAdmin.table, collection: specification.specification_criterium.order(:id)
+    tab :criteria, badge: specification.specification_criteria.count do
+      table SpecificationCriteriaAdmin.table, collection: specification.specification_criteria.order(:id)
 
       unless specification.new_record?
         concat admin_link_to(
-          icon("fa fa-plus") + " Add Criterium",
+          icon("fa fa-plus") + " Add Criterion",
           admin: :specification_criteria,
           action: :new,
-          params: { specification_criterium: { specification_id: specification.id } },
+          params: { specification_criteria: { specification_id: specification.id } },
           class: "btn btn-success mt-3"
         )
       end
