@@ -136,8 +136,10 @@ export interface EntitySelectContractConfig<TField> {
   typeaheadOp: string
   tagOp: string
   respond: (op: MockGraphqlOperation) => Record<string, any>
-  /** two records the typeahead returns, in order */
+  /** the first two records the typeahead returns, in order */
   records: [{ id: number; name: string }, { id: number; name: string }]
+  /** how many options the typeahead renders; defaults to the two above */
+  optionCount?: number
   /** the typeahead variables produced by an empty search */
   emptySearchVars: Record<string, any>
   /** the typeahead variables produced by searching `searchTerm` */
@@ -185,7 +187,9 @@ export function describeEntitySelectContract<TField>(
       expect(h.callsTo(config.typeaheadOp)[0].variables).toEqual(
         config.emptySearchVars
       )
-      expect(h.optionItems()).toHaveLength(2)
+      expect(h.optionItems()).toHaveLength(
+        config.optionCount ?? config.records.length
+      )
       h.destroy()
     })
 

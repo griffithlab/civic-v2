@@ -10,10 +10,12 @@ query AcmgCodeSelectTag($id: Int!) {
   }
 }
 
+# Spreads LinkableAcmgCode so every AcmgCode this field writes to the cache
+# satisfies cvc-tag's watchFragment read without a second round-trip (see
+# src/app/tags/linkable.fragments.gql). AcmgCode has no link; cvc-tag renders
+# its tooltip field, which is why the fragment carries it.
 fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
-  id
+  ...LinkableAcmgCode
   code
-  name
   description
-  tooltip
 }

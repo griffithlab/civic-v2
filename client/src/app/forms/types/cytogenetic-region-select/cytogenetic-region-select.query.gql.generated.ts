@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableCytogeneticRegionFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type CytogeneticRegionSelectTypeaheadQueryVariables = Types.Exact<{
@@ -22,10 +23,9 @@ export type CytogeneticRegionSelectTypeaheadFieldsFragment = { __typename: 'Cyto
 
 export const CytogeneticRegionSelectTypeaheadFieldsFragmentDoc = gql`
     fragment CytogeneticRegionSelectTypeaheadFields on CytogeneticRegion {
-  id
-  name
+  ...LinkableCytogeneticRegion
 }
-    `;
+    ${LinkableCytogeneticRegionFragmentDoc}`;
 export const CytogeneticRegionSelectTypeaheadDocument = gql`
     query CytogeneticRegionSelectTypeahead($queryTerm: String!) {
   cytogeneticRegionTypeahead(queryTerm: $queryTerm) {

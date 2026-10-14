@@ -11,9 +11,9 @@ export type QuickAddTherapyMutationVariables = Types.Exact<{
 }>;
 
 
-export type QuickAddTherapyMutation = { __typename: 'Mutation', addTherapy?: { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } } | undefined };
+export type QuickAddTherapyMutation = { __typename: 'Mutation', addTherapy?: { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', ncitId?: string | undefined, therapyAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean } } | undefined };
 
-export type QuickAddTherapyFieldsFragment = { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } };
+export type QuickAddTherapyFieldsFragment = { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', ncitId?: string | undefined, therapyAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean } };
 
 export const QuickAddTherapyFieldsFragmentDoc = gql`
     fragment QuickAddTherapyFields on AddTherapyPayload {

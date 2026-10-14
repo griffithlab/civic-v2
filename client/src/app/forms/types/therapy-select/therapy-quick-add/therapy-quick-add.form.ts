@@ -4,34 +4,48 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core'
-import { UntypedFormGroup } from '@angular/forms'
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
+import { NoStateFormOptions } from '@app/forms/states/base.state'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzFormLayoutType, NzFormModule } from 'ng-zorro-antd/form'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { BehaviorSubject, Subject } from 'rxjs'
 import {
   QuickAddTherapyGQL,
   QuickAddTherapyMutation,
   QuickAddTherapyMutationVariables,
 } from './therapy-quick-add.query.gql.generated'
-import { Maybe, Therapy } from '@app/generated/civic.apollo.types'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
 
 type TherapyQuickAddModel = {
   name?: string
-}
-
-const therapyQuickAddInitialModel: TherapyQuickAddModel = {
-  name: undefined,
+  ncitId?: string
 }
 
 @UntilDestroy()
 @Component({
   selector: 'cvc-therapy-quick-add-form',
+  standalone: true,
   templateUrl: './therapy-quick-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzButtonModule,
+    NzFormModule,
+    NzGridModule,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcTherapyQuickAddForm {
   @Input()
@@ -42,25 +56,14 @@ export class CvcTherapyQuickAddForm {
 
   @Output() cvcOnCreate = new EventEmitter<number>()
 
-  model: TherapyQuickAddModel = therapyQuickAddInitialModel
-  form: UntypedFormGroup = new UntypedFormGroup({})
+  model: TherapyQuickAddModel
+  form: UntypedFormGroup
   fields: FormlyFieldConfig[]
-  options: FormlyFormOptions = {}
+  options: NoStateFormOptions
+  formLayout: NzFormLayoutType
 
-  queryMutator: MutatorWithState<
-    QuickAddTherapyGQL,
-    QuickAddTherapyMutation,
-    QuickAddTherapyMutationVariables
-  >
-
-  // SOURCE STREAMS
   onSubmit$: Subject<TherapyQuickAddModel>
   searchString$: BehaviorSubject<Maybe<string>>
-
-  // PRESENTATION STREAMS
-  isSubmitting$: BehaviorSubject<boolean>
-  submitSuccess$: BehaviorSubject<boolean>
-  submitError$: BehaviorSubject<string[]>
 
   addTherapyMutator: MutatorWithState<
     QuickAddTherapyGQL,
@@ -68,21 +71,36 @@ export class CvcTherapyQuickAddForm {
     QuickAddTherapyMutationVariables
   >
 
-  constructor(
-    private query: QuickAddTherapyGQL,
-    private errors: NetworkErrorsService
-  ) {
+  mutationState?: MutationState
+  successMessage?: string
+
+  private readonly query = inject(QuickAddTherapyGQL)
+  private readonly errors = inject(NetworkErrorsService)
+
+  constructor() {
+    this.form = new UntypedFormGroup({})
+    this.model = { name: '' }
+    this.formLayout = 'horizontal'
+    this.options = { formState: { formLayout: this.formLayout } }
+
     this.onSubmit$ = new Subject<TherapyQuickAddModel>()
     this.searchString$ = new BehaviorSubject<Maybe<string>>(undefined)
-
-    this.queryMutator = new MutatorWithState(this.errors)
-    this.isSubmitting$ = new BehaviorSubject<boolean>(false)
-    this.submitSuccess$ = new BehaviorSubject<boolean>(false)
-    this.submitError$ = new BehaviorSubject<any[]>([])
 
     this.addTherapyMutator = new MutatorWithState(this.errors)
 
     this.fields = [
+      {
+        key: 'ncitId',
+        type: 'base-input',
+        props: {
+          label: 'NCIt ID',
+          keydown: (_k, e) => {
+            if (e.code === 'Tab') {
+              e.stopPropagation()
+            }
+          },
+        },
+      },
       {
         key: 'name',
         props: {
@@ -95,13 +113,13 @@ export class CvcTherapyQuickAddForm {
     this.searchString$
       .pipe(untilDestroyed(this))
       .subscribe((str: Maybe<string>) => {
+        if (!str) return
         this.model.name = str
       })
 
-    // handle submit events from form
-    this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      this.submitTherapy(model)
-    })
+    this.onSubmit$
+      .pipe(untilDestroyed(this))
+      .subscribe((model) => this.submitTherapy(model))
   }
 
   submitTherapy(model: TherapyQuickAddModel) {
@@ -111,35 +129,18 @@ export class CvcTherapyQuickAddForm {
       )
       return
     }
-    let state = this.addTherapyMutator.mutate(
+    this.mutationState = this.addTherapyMutator.mutate(
       this.query,
-      {
-        name: model.name,
-      },
+      { name: model.name, ncitId: model.ncitId },
       {},
       (data) => {
-        console.log('therapy-quick-add submit data callback', data)
-        // const vid = data.addTherapy.therapy.id
-        if (data.addTherapy) this.cvcOnCreate.next(data.addTherapy.therapy.id)
+        if (!data.addTherapy) return
+        const therapy = data.addTherapy.therapy
+        this.successMessage = data.addTherapy.new
+          ? `New Therapy ${therapy.name} added.`
+          : `Existing Therapy ${therapy.name} found.`
+        this.cvcOnCreate.next(therapy.id)
       }
     )
-
-    state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
-      console.log('therapy-quick-add submitSuccess$', res)
-      this.submitSuccess$.next(res)
-    })
-
-    state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
-      console.log('therapy-quick-add submitError$', errs)
-      this.submitError$.next(errs)
-      // if (errs) {
-      //   this.errorMessages = errs
-      //   this.success = false
-      // }
-    })
-
-    state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
-      this.isSubmitting$.next(loading)
-    })
   }
 }

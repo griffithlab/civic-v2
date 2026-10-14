@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableTherapyFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type TherapySelectTypeaheadQueryVariables = Types.Exact<{
@@ -9,26 +10,24 @@ export type TherapySelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type TherapySelectTypeaheadQuery = { __typename: 'Query', therapyTypeahead: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }> };
+export type TherapySelectTypeaheadQuery = { __typename: 'Query', therapyTypeahead: Array<{ __typename: 'Therapy', ncitId?: string | undefined, therapyAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean }> };
 
 export type TherapySelectTagQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
 
-export type TherapySelectTagQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } | undefined };
+export type TherapySelectTagQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', ncitId?: string | undefined, therapyAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean } | undefined };
 
-export type TherapySelectTypeaheadFieldsFragment = { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> };
+export type TherapySelectTypeaheadFieldsFragment = { __typename: 'Therapy', ncitId?: string | undefined, therapyAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean };
 
 export const TherapySelectTypeaheadFieldsFragmentDoc = gql`
     fragment TherapySelectTypeaheadFields on Therapy {
-  id
-  name
-  link
+  ...LinkableTherapy
   ncitId
   therapyAliases
 }
-    `;
+    ${LinkableTherapyFragmentDoc}`;
 export const TherapySelectTypeaheadDocument = gql`
     query TherapySelectTypeahead($name: String!) {
   therapyTypeahead(queryTerm: $name) {

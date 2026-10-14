@@ -1,105 +1,92 @@
+import { ChangeDetectionStrategy, Component, Type, inject } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChildren,
-} from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { EntityType } from '@app/forms/states/base.state'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import {
-  TherapySelectTagGQL,
-  TherapySelectTagQuery,
-  TherapySelectTagQueryVariables,
-  TherapySelectTypeaheadFieldsFragment,
-  TherapySelectTypeaheadGQL,
-  TherapySelectTypeaheadQuery,
-  TherapySelectTypeaheadQueryVariables,
-} from './therapy-select.query.gql.generated'
-import { Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+  CvcEntitySelectDirective,
+  CvcHighlightComponent,
+  CvcSelectAddFormComponent,
+  CvcSelectMessagesComponent,
+  CvcTypeGateConfig,
+  CvcTypeGatedSelectFieldBase,
+  CvcTypeGatedSelectFieldProps,
+  entitySelectConfig,
+} from '@app/forms/select'
+import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcTherapyQuickAddForm } from './therapy-quick-add/therapy-quick-add.form'
 import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  Subject,
-} from 'rxjs'
-import mixin from 'ts-mixin-extended'
-import { Apollo } from 'apollo-angular'
+  TherapySelectTagGQL,
+  TherapySelectTypeaheadFieldsFragment,
+  TherapySelectTypeaheadGQL,
+} from './therapy-select.query.gql.generated'
 
 export type CvcTherapySelectFieldOptions = Partial<
   FieldTypeConfig<CvcTherapySelectFieldProps>
 >
-// TODO: finish implementing updated props interface w/ labels, placeholders groups,
-// and multiMax limits, multiDefault placeholder
-export interface CvcTherapySelectFieldProps extends FormlyFieldProps {
-  entityName: CvcSelectEntityName
-  isMultiSelect: boolean
-  requireType: boolean
-  placeholder: string
-  requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
-  tooltip?: string
-  description?: string
-  extraType?: CvcFormFieldExtraType
-}
+
+export type CvcTherapySelectFieldProps = CvcTypeGatedSelectFieldProps
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcTherapySelectFieldConfig extends FormlyFieldConfig<CvcTherapySelectFieldProps> {
+export interface CvcTherapySelectFieldConfig
+  extends FormlyFieldConfig<CvcTherapySelectFieldProps> {
   type: 'therapy-select' | 'therapy-multi-select' | Type<CvcTherapySelectField>
 }
 
-const TherapySelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcTherapySelectFieldProps>,
-    Maybe<number | number[]>
-  >(),
-  EntitySelectField<
-    TherapySelectTypeaheadQuery,
-    TherapySelectTypeaheadQueryVariables,
-    TherapySelectTypeaheadFieldsFragment,
-    TherapySelectTagQuery,
-    TherapySelectTagQueryVariables,
-    Maybe<number | number[]>
-  >()
-)
-
 @Component({
   selector: 'cvc-therapy-select',
-  templateUrl: './therapy-select.type.html',
-  styleUrls: ['./therapy-select.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    NzTooltipModule,
+    NzTypographyModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcHighlightComponent,
+    CvcSelectAddFormComponent,
+    CvcSelectMessagesComponent,
+    CvcTherapyQuickAddForm,
+  ],
+  templateUrl: './therapy-select.type.html',
+  styleUrl: './therapy-select.type.less',
 })
-export class CvcTherapySelectField
-  extends TherapySelectMixin
-  implements AfterViewInit
-{
-  // STATE SOURCE STREAMS
-  onEntityType$?: Subject<Maybe<EntityType>>
-  onRequiresTherapy$?: BehaviorSubject<boolean>
+export class CvcTherapySelectField extends CvcTypeGatedSelectFieldBase<
+  TherapySelectTypeaheadFieldsFragment,
+  void,
+  CvcTherapySelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(TherapySelectTypeaheadGQL)
+  private readonly tagGQL = inject(TherapySelectTagGQL)
 
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$: BehaviorSubject<Maybe<string>>
+  protected readonly select = entitySelectConfig({
+    entityName: { singular: 'Therapy', plural: 'Therapies' },
+    typename: 'Therapy',
+    typeahead: this.typeaheadGQL,
+    typeaheadVars: (name: string) => ({ name }),
+    typeaheadResults: (data) => data?.therapyTypeahead ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (id: number) => ({ id }),
+      result: (data) => data?.therapy,
+    },
+  })
 
-  // FieldTypeConfig defaults
+  protected readonly typeGate: CvcTypeGateConfig = {
+    requiresKey: 'requiresTherapy$',
+    excludedDescription: (entityType, entityName) =>
+      `${entityType} ${entityName} does not include associated therapies`,
+  }
+
   defaultOptions: CvcTherapySelectFieldOptions = {
     props: {
       entityName: { singular: 'Therapy', plural: 'Therapies' },
@@ -108,157 +95,8 @@ export class CvcTherapySelectField
       tooltip:
         'Therapy or therapy combination which interacts with the specified variant',
       placeholder: 'Search Therapies',
-      requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
+      requireTypePromptFn: (entityName: string) =>
         `Select an ${entityName} Type to search associated Therapies`,
     },
-  }
-
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  stateEntityName?: string
-
-  constructor(
-    private taq: TherapySelectTypeaheadGQL,
-    private tq: TherapySelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    super()
-    this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEntitySelectField({
-      // mixin fn
-      typeaheadQuery: this.taq,
-      typeaheadParam$: undefined,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent,
-    })
-    this.configurePlaceholders()
-  } // ngAfterViewInit()
-
-  configureStateConnections(): void {
-    if (!this.state) return
-    this.stateEntityName = this.state.entityName
-    // connect to onRequiresTherapy$
-    if (!this.state.requires.requiresTherapy$) {
-      console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresTherapy$ subject to attach.`
-      )
-    } else {
-      this.onRequiresTherapy$ = this.state.requires.requiresTherapy$
-    }
-
-    // connect onEntityType$
-    if (this.props.requireType) {
-      const etName = `${this.stateEntityName.toLowerCase()}Type$`
-      if (!this.state.fields[etName]) {
-        console.error(
-          `${this.field.id} requireType is true, however form state does not provide Subject ${etName}.`
-        )
-      } else {
-        this.onEntityType$ = this.state.fields[etName]
-        // this.onEntityType$.pipe(tag(`${this.field.id} onEntityType$`)).subscribe()
-      }
-    }
-  }
-
-  configurePlaceholders(): void {
-    this.placeholder$.next(this.props.placeholder)
-    if (!this.onRequiresTherapy$ || !this.onEntityType$) return
-    // update field placeholders & required status on state input events
-    combineLatest([this.onRequiresTherapy$, this.onEntityType$])
-      .pipe(distinctUntilChanged(), untilDestroyed(this))
-      .subscribe(
-        ([requiresTherapy, entityType]: [boolean, Maybe<EntityType>]) => {
-          // therapies are not associated with this entity type
-          if (!requiresTherapy && entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no drug required, entity type specified
-            this.props.description = `${formatEvidenceEnum(entityType)} ${
-              this.state!.entityName
-            } does not include associated therapies`
-            this.props.extraType = 'prompt'
-            this.resetField()
-            this.cdr.markForCheck()
-          }
-          // if type required, toggle field required property off and show a 'Select Type..' prompt
-          else if (this.props.requireType && !entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no drug required, entity type not specified
-            this.props.description = this.props.requireTypePromptFn(
-              this.state!.entityName,
-              this.props.isMultiSelect
-            )
-            this.props.extraType = 'prompt'
-          }
-          // state indicates drug is required, set required, unset disabled, and show the placeholder (state will only return true from requiresTherapy$ if entityType provided)
-          else if (requiresTherapy) {
-            this.props.required = true
-            this.props.disabled = false
-            this.props.description = undefined
-            this.props.extraType = undefined
-          }
-          // field currently has a value, but state indicates no drug is required, or no type is provided && type is required, so reset field
-          else if (
-            (!requiresTherapy && this.formControl.value) ||
-            (this.props.requireType && !entityType && this.formControl.value)
-          ) {
-            this.resetField()
-            console.log('HERE2')
-          }
-        }
-      )
-  }
-
-  getTypeaheadVarsFn(str: string): TherapySelectTypeaheadQueryVariables {
-    return { name: str }
-  }
-
-  getTypeaheadResultsFn(r: Apollo.QueryResult<TherapySelectTypeaheadQuery>) {
-    return r.data?.therapyTypeahead ?? []
-  }
-
-  getTagQueryVarsFn(id: number): TherapySelectTagQueryVariables {
-    return { id: id }
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<TherapySelectTagQuery>
-  ): Maybe<TherapySelectTypeaheadFieldsFragment> {
-    return r.data?.therapy
-  }
-
-  getSelectedItemOptionFn(
-    therapy: TherapySelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: therapy.id, label: therapy.name }
-  }
-
-  getSelectOptionsFn(
-    results: TherapySelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (drug: TherapySelectTypeaheadFieldsFragment, index: number) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || drug.name,
-          value: drug.id,
-        }
-      }
-    )
   }
 }

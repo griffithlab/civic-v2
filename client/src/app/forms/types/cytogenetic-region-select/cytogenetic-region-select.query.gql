@@ -10,7 +10,10 @@ query CytogeneticRegionSelectTag($cytogeneticRegionId: Int!) {
   }
 }
 
+# Spreads LinkableCytogeneticRegion so every CytogeneticRegion this field
+# writes to the cache satisfies cvc-tag's watchFragment read without a second
+# round-trip (see src/app/tags/linkable.fragments.gql). CytogeneticRegion has
+# no link field, so the fragment is the whole shape.
 fragment CytogeneticRegionSelectTypeaheadFields on CytogeneticRegion {
-  id
-  name
+  ...LinkableCytogeneticRegion
 }

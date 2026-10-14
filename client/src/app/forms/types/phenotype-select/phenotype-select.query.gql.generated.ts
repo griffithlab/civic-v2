@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkablePhenotypeFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type PhenotypeSelectTypeaheadQueryVariables = Types.Exact<{
@@ -9,25 +10,23 @@ export type PhenotypeSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type PhenotypeSelectTypeaheadQuery = { __typename: 'Query', phenotypeTypeahead: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }> };
+export type PhenotypeSelectTypeaheadQuery = { __typename: 'Query', phenotypeTypeahead: Array<{ __typename: 'Phenotype', hpoId: string, id: number, name: string, link: string }> };
 
 export type PhenotypeSelectTagQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
 
-export type PhenotypeSelectTagQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string } | undefined };
+export type PhenotypeSelectTagQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', hpoId: string, id: number, name: string, link: string } | undefined };
 
-export type PhenotypeSelectTypeaheadFieldsFragment = { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string };
+export type PhenotypeSelectTypeaheadFieldsFragment = { __typename: 'Phenotype', hpoId: string, id: number, name: string, link: string };
 
 export const PhenotypeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment PhenotypeSelectTypeaheadFields on Phenotype {
-  id
-  name
-  link
+  ...LinkablePhenotype
   hpoId
 }
-    `;
+    ${LinkablePhenotypeFragmentDoc}`;
 export const PhenotypeSelectTypeaheadDocument = gql`
     query PhenotypeSelectTypeahead($name: String!) {
   phenotypeTypeahead(queryTerm: $name) {
