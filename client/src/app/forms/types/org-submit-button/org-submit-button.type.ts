@@ -8,10 +8,8 @@ import {
   ViewChild,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import {
-  Maybe,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
   FieldType,
@@ -44,8 +42,7 @@ interface CvcOrgSubmitButtonProps extends FormlyFieldProps {
   align?: 'left' | 'right' | 'center'
 }
 
-export interface CvcOrgSubmitButtonFieldConfig
-  extends FormlyFieldConfig<CvcOrgSubmitButtonProps> {
+export interface CvcOrgSubmitButtonFieldConfig extends FormlyFieldConfig<CvcOrgSubmitButtonProps> {
   type: 'org-submit-button' | Type<CvcOrgSubmitButtonComponent>
 }
 

@@ -2,13 +2,15 @@ import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
+  SubscribableEntities,
+  SubscribableInput,
+} from '@app/generated/civic.apollo.types'
+import {
   MolecularProfileDetailFieldsFragment,
   MolecularProfileDetailGQL,
   MolecularProfileDetailQuery,
   MolecularProfileDetailQueryVariables,
-  SubscribableEntities,
-  SubscribableInput,
-} from '@app/generated/civic.apollo'
+} from './molecular-profiles-detail.query.gql.generated'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
 import { startWith, takeUntil } from 'rxjs/operators'

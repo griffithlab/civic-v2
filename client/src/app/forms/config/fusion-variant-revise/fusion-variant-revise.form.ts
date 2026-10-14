@@ -16,12 +16,12 @@ import {
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { FusionVariantReviseModel } from '@app/forms/models/fusion-variant-revise.model'
 import {
-  FusionPartnerStatus,
   FusionVariantRevisableFieldsGQL,
   SuggestFusionVariantRevisionGQL,
   SuggestFusionVariantRevisionMutation,
   SuggestFusionVariantRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './fusion-variant-revise.query.gql.generated'
+import { FusionPartnerStatus } from '@app/generated/civic.apollo.types'
 import { fusionVariantReviseFields } from './fusion-variant-revise.form.config'
 import {
   fusionVariantFormModelToReviseInput,

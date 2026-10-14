@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 export interface LinkableFeature {
   id: number
@@ -24,11 +24,11 @@ export interface LinkableVariant {
 }
 
 @Component({
-    selector: 'cvc-feature-variant-tag',
-    templateUrl: './feature-variant-tag.component.html',
-    styleUrls: ['./feature-variant-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-feature-variant-tag',
+  templateUrl: './feature-variant-tag.component.html',
+  styleUrls: ['./feature-variant-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFeatureVariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant

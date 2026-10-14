@@ -1,4 +1,4 @@
-import { ReferenceBuild } from '@app/generated/civic.apollo'
+import { ReferenceBuild } from '@app/generated/civic.apollo.types'
 
 export type GeneVariantFields = {
   name?: string

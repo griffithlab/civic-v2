@@ -15,15 +15,17 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
-  BrowseMolecularProfileConnection,
   BrowseMolecularProfilesFieldsFragment,
   BrowseMolecularProfilesGQL,
   BrowseMolecularProfilesQuery,
   BrowseMolecularProfilesQueryVariables,
+} from './molecular-profile-table.query.gql.generated'
+import {
+  BrowseMolecularProfileConnection,
   Maybe,
   MolecularProfilesSortColumns,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'

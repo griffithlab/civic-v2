@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { FormControlDirective, FormControlStatus } from '@angular/forms'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 export const statusColorMap = {
   VALID: 'success',

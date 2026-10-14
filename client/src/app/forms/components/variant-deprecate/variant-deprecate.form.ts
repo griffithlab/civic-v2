@@ -5,17 +5,19 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
 import {
   DeprecateVariantGQL,
   DeprecateVariantMutation,
   DeprecateVariantMutationVariables,
+  MolecularProfilesForVariantGQL,
+} from './variant-deprecate.query.gql.generated'
+import {
   VariantDeprecationReason,
   Maybe,
-  MolecularProfilesForVariantGQL,
   Organization,
-  VariantDetailGQL,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { VariantDetailGQL } from '@app/views/variants/variants-detail/variants-detail.query.gql.generated'
 import { Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'

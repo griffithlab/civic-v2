@@ -11,10 +11,10 @@ import {
   Output,
 } from '@angular/core'
 import {
-  Maybe,
   MolecularProfilePopoverFieldsFragment,
   MolecularProfilePopoverGQL,
-} from '@app/generated/civic.apollo'
+} from './molecular-profile-popover.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

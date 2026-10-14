@@ -5,7 +5,7 @@ import {
   Maybe,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 // map of tooltips for attributes without contextual differences
 export type tooltipMap = {

@@ -13,8 +13,8 @@ import { AssertionState } from '@app/forms/states/assertion.state'
 import {
   AssertionPopoverFragment,
   AssertionPopoverGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './assertion-popover.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'

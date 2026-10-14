@@ -1,12 +1,11 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Disease, Maybe } from '@app/generated/civic.apollo.types'
 import {
-  Disease,
   DiseaseDetailGQL,
   DiseaseDetailQuery,
   DiseaseDetailQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './diseases-detail.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { Observable, Subscription } from 'rxjs'
 import { startWith } from 'rxjs/operators'

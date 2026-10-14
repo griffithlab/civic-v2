@@ -9,7 +9,7 @@ import {
   NgZone,
   ChangeDetectorRef,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 import { fromEvent, Subject, Subscription } from 'rxjs'
 import { throttleTime } from 'rxjs/operators'

@@ -12,16 +12,20 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
-  AssertionDetailFieldsFragment,
-  AssertionDetailGQL,
   ApprovalListGQL,
   ApprovalListNodeFragment,
   ApprovalListQuery,
   ApprovalListQueryVariables,
+} from './approval-list.query.gql.generated'
+import {
   ApprovalStatus,
   Maybe,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import {
+  AssertionDetailFieldsFragment,
+  AssertionDetailGQL,
+} from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
 
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 

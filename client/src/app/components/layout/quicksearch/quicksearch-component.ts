@@ -3,14 +3,16 @@ import { Router } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename'
 import {
-  Maybe,
   QuicksearchGQL,
   QuicksearchQuery,
   QuicksearchQueryVariables,
   QuicksearchResultFragment,
+} from './quicksearch.query.gql.generated'
+import {
+  Maybe,
   SearchableEntities,
   SearchResult,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { QueryRef } from 'apollo-angular'
 import { NzSelectComponent } from 'ng-zorro-antd/select'
 import { asyncScheduler, defer, from, iif, Observable, Subject } from 'rxjs'

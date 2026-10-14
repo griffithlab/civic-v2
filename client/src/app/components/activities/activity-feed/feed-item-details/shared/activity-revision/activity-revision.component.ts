@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms'
 import { CvcEntityMetaTagComponent } from '@app/components/revisions/entity-meta-tag/entity-meta-tag.component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { RevisionActivityDetailFragment } from '@app/components/activities/activity-feed/activity-feed.fragments.gql.generated'
 import {
   ObjectFieldDiff,
-  RevisionActivityDetailFragment,
   ScalarFieldDiff,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'

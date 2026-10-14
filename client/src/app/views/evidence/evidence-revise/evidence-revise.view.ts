@@ -6,11 +6,11 @@ import {
 } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
   EvidenceDetailFieldsFragment,
   EvidenceDetailGQL,
-} from '@app/generated/civic.apollo'
+} from '@app/views/evidence/evidence-detail/evidence-detail.query.gql.generated'
 import { Observable, Subscription } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

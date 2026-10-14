@@ -9,13 +9,9 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import {
-  Flag,
-  FlagFragment,
-  Maybe,
-  Organization,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+import { FlagFragment } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.gql.generated'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import { Flag, Maybe, Organization } from '@app/generated/civic.apollo.types'
 import { Observable, Subject } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { MutationState } from '@app/core/utilities/mutation-state-wrapper'

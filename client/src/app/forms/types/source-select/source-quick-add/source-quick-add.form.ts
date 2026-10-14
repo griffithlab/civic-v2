@@ -19,16 +19,14 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NoStateFormOptions } from '@app/forms/states/base.state'
 import {
-  Maybe,
   QuickAddSourceCheckCitationGQL,
   QuickAddSourceCheckCitationQuery,
   QuickAddSourceCheckCitationQueryVariables,
   QuickAddSourceRemoteCitationGQL,
   QuickAddSourceRemoteCitationMutation,
   QuickAddSourceRemoteCitationMutationVariables,
-  Source,
-  SourceSource,
-} from '@app/generated/civic.apollo'
+} from './source-quick-add.query.gql.generated'
+import { Maybe, Source, SourceSource } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { Apollo, gql, QueryRef } from 'apollo-angular'

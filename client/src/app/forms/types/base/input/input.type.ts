@@ -5,7 +5,7 @@ import {
   Type,
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import mixin from 'ts-mixin-extended'
@@ -17,8 +17,7 @@ export interface CvcBaseInputFieldProps extends FormlyFieldProps {
   variant?: NzVariant
 }
 
-export interface CvcBaseInputFieldConfig
-  extends FormlyFieldConfig<CvcBaseInputFieldProps> {
+export interface CvcBaseInputFieldConfig extends FormlyFieldConfig<CvcBaseInputFieldProps> {
   type: 'base-input' | Type<CvcBaseInputField>
 }
 

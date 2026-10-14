@@ -8,7 +8,7 @@ import {
   SourceSearchFilter,
   SourceSourceTypeSearchInput,
   StringSearchInput,
-} from '@generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import {
   sortByLabel,
   withHideExpression,

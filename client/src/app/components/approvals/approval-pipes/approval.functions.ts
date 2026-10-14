@@ -1,8 +1,6 @@
-import {
-  AssertionDetailFieldsFragment,
-  ApprovalListNodeFragment,
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { ApprovalListNodeFragment } from '@app/components/approvals/approval-list/approval-list.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
+import { AssertionDetailFieldsFragment } from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
 import { Viewer } from '@app/core/services/viewer/viewer.service'
 import { TagLinkableOrganization } from '@app/components/organizations/organization-tag/organization-tag.component'
 

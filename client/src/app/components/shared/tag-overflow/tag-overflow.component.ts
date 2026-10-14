@@ -7,7 +7,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 export type SupportedPileupTags =
   | 'therapy'
@@ -40,11 +40,11 @@ function populateMatchText(input: Maybe<TagInfo[]>): Maybe<TagInfo[]> {
 }
 
 @Component({
-    selector: 'cvc-tag-overflow',
-    templateUrl: './tag-overflow.component.html',
-    styleUrls: ['./tag-overflow.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-tag-overflow',
+  templateUrl: './tag-overflow.component.html',
+  styleUrls: ['./tag-overflow.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTagOverflowComponent implements OnChanges {
   @Input({ transform: populateMatchText }) tags: Maybe<TagInfo[]>

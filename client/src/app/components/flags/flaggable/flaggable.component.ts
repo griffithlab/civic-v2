@@ -9,7 +9,7 @@ import {
   OnChanges,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { FlaggableEntities, Maybe } from '@app/generated/civic.apollo'
+import { FlaggableEntities, Maybe } from '@app/generated/civic.apollo.types'
 import { CvcFlaggableOptionsDirective } from './flaggable-options.directive'
 
 export interface FlaggableSubject {

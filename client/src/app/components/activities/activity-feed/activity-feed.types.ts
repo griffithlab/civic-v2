@@ -1,3 +1,4 @@
+import { ActivityFeedQueryVariables } from './activity-feed.query.gql.generated'
 import {
   EventFeedMode,
   SubscribableQueryInput,
@@ -6,11 +7,10 @@ import {
   ActivitySubjectInput,
   ActivityTypeInput,
   Maybe,
-  ActivityFeedQueryVariables,
   DateSortColumns,
   DateSort,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 export type ActivityFeedTagDisplayOption =
   | 'displayAll'

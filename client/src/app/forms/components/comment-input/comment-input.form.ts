@@ -11,18 +11,17 @@ import {
 
 import { Subject, Observable } from 'rxjs'
 
+import { ParsedCommentFragmentFragment } from '@app/components/comments/comment-list/comment-list.query.gql.generated'
 import {
   PreviewCommentGQL,
-  ParsedCommentFragmentFragment,
   UserTypeaheadGQL,
   UserTypeaheadQuery,
   UserTypeaheadQueryVariables,
   EntityTypeaheadGQL,
   EntityTypeaheadQuery,
   EntityTypeaheadQueryVariables,
-  TaggableEntity,
-  UserRole,
-} from '@app/generated/civic.apollo'
+} from './comment-input.mutation.gql.generated'
+import { TaggableEntity, UserRole } from '@app/generated/civic.apollo.types'
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention'
 import { filter, map, startWith, takeUntil } from 'rxjs/operators'

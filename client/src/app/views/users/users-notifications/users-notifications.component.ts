@@ -7,15 +7,17 @@ import {
   EventAction,
   Maybe,
   NotificationConnection,
-  NotificationFeedSubjectsFragment,
-  NotificationNodeFragment,
-  NotificationOrganizationFragment,
-  NotificationOriginatingUsersFragment,
   NotificationReason,
   PageInfo,
   ReadStatus,
   SubscribableEntities,
   SubscribableInput,
+} from '@app/generated/civic.apollo.types'
+import {
+  NotificationFeedSubjectsFragment,
+  NotificationNodeFragment,
+  NotificationOrganizationFragment,
+  NotificationOriginatingUsersFragment,
   UnsubscribeGQL,
   UnsubscribeMutation,
   UnsubscribeMutationVariables,
@@ -25,7 +27,7 @@ import {
   UserNotificationsGQL,
   UserNotificationsQuery,
   UserNotificationsQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './users-notifications.query.gql.generated'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

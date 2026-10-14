@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { DeprecateVariantActivityDetailFragment } from '@app/generated/civic.apollo'
+import { DeprecateVariantActivityDetailFragment } from './deprecate-variant-activity.query.gql.generated'
 
 @Component({
   selector: 'cvc-deprecate-variant-activity-details',

@@ -14,21 +14,23 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { RevisionActivityDetailFragment } from '@app/components/activities/activity-feed/activity-feed.fragments.gql.generated'
+import { RevisionFragment } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.query.gql.generated'
 import {
-  RevisionSetConnection,
   RevisionsBrowseGQL,
   RevisionsBrowseQuery,
   RevisionsBrowseQueryVariables,
+  RevisionSetBrowseFieldsFragment,
+} from './revisions-table.query.gql.generated'
+import { ViewerFieldsFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
+  RevisionSetConnection,
   Maybe,
   PageInfo,
   RevisionSet,
-  ViewerFieldsFragment,
   ActivitySubjectInput,
-  RevisionFragment,
-  RevisionSetBrowseFieldsFragment,
-  RevisionActivityDetailFragment,
   RevisionStatus,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'

@@ -8,12 +8,14 @@ import {
   VariantManagerFieldsFragment,
   VariantManagerQuery,
   VariantManagerQueryVariables,
+} from './variant-manager.query.gql.generated'
+import {
   Maybe,
   SortDirection,
   BrowseVariant,
   VariantsSortColumns,
   Feature,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { GraphQLFormattedError } from 'graphql'
 import {
   NzTableFilterFn,

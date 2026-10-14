@@ -16,13 +16,15 @@ import {
 import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
 import { NoStateFormOptions } from '@app/forms/states/base.state'
 import {
-  CreateableFeatureTypes,
-  FeatureInstanceTypes,
-  Maybe,
   QuickAddFeatureGQL,
   QuickAddFeatureMutation,
   QuickAddFeatureMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './feature-quick-add.query.gql.generated'
+import {
+  CreateableFeatureTypes,
+  FeatureInstanceTypes,
+  Maybe,
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core'

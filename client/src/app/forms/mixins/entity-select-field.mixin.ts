@@ -5,7 +5,7 @@ import {
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Apollo, Query, QueryRef } from 'apollo-angular'

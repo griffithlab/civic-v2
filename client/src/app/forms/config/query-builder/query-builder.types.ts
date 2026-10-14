@@ -13,7 +13,7 @@ import {
   UserSearchFilter,
   VariantSearchFilter,
   VariantTypeSearchFilter,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { ADVANCED_SEARCH_ENDPOINTS } from './query-builder.registry'
 import { Observable } from 'rxjs'
 import { QueryRef } from 'apollo-angular'

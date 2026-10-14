@@ -1,8 +1,8 @@
+import { ActivityFeedQueryVariables } from './activity-feed.query.gql.generated'
 import {
-  ActivityFeedQueryVariables,
   ActivityInterfaceConnection,
   EventFeedMode,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import {
   ActivityFeedFilterVariables,
   ActivityFeedFilters,

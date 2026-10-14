@@ -7,15 +7,14 @@ import {
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { FlagFragment } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.gql.generated'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
 import {
-  Organization,
   ResolveFlagGQL,
-  Maybe,
   ResolveFlagMutation,
   ResolveFlagMutationVariables,
-  FlagFragment,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from './flag-resolve.query.gql.generated'
+import { Organization, Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable } from 'rxjs'
 

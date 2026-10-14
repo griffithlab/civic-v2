@@ -12,8 +12,8 @@ import {
 import {
   ClinicalTrialPopoverFragment,
   ClinicalTrialPopoverGQL,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './clinical-trial-popover.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { onlyCompleteData } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

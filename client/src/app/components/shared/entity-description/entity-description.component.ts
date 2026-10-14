@@ -8,10 +8,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
-import {
-  AssertionSummaryFieldsFragment,
-  EvidenceSummaryFieldsFragment,
-} from '@app/generated/civic.apollo'
+import { AssertionSummaryFieldsFragment } from '@app/views/assertions/assertions-detail/assertions-summary/assertions-summary.query.gql.generated'
+import { EvidenceSummaryFieldsFragment } from '@app/views/evidence/evidence-detail/evidence-summary/evidence-summary.query.gql.generated'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { CommentSegment } from '@app/components/comments/comment-body/comment-body.component'
 

@@ -20,11 +20,11 @@ import {
 import { AssertionState } from '@app/forms/states/assertion.state'
 import {
   AssertionRevisableFieldsGQL,
-  Maybe,
   SuggestAssertionRevisionGQL,
   SuggestAssertionRevisionMutation,
   SuggestAssertionRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './assertion-revise.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { assertionReviseFields } from './assertion-revise.form.config'

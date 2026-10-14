@@ -4,10 +4,8 @@ import {
   computed,
   input,
 } from '@angular/core'
-import {
-  RejectRevisionsActivityDetailFragment,
-  RevisionActivityDetailFragment,
-} from '@app/generated/civic.apollo'
+import { RevisionActivityDetailFragment } from '@app/components/activities/activity-feed/activity-feed.fragments.gql.generated'
+import { RejectRevisionsActivityDetailFragment } from './reject-revisions-activity.query.gql.generated'
 import { CvcActivityRevision } from '../shared/activity-revision/activity-revision.component'
 
 @Component({
@@ -23,5 +21,7 @@ export class CvcRejectRevisionsActivity {
   })
   // coerce revisions to Revision[] >:(
   // otherwise revision detail components complain about missing fields
-  revisions = computed(() => this.activity().revisions as RevisionActivityDetailFragment[])
+  revisions = computed(
+    () => this.activity().revisions as RevisionActivityDetailFragment[]
+  )
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Subject } from 'rxjs'

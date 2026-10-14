@@ -5,15 +5,15 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { BehaviorSubject, interval } from 'rxjs'
 import { first } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-no-more-rows',
-    templateUrl: './no-more-rows.tag.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-no-more-rows',
+  templateUrl: './no-more-rows.tag.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NoMoreRowsTag {
   @Input()

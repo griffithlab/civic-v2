@@ -26,23 +26,27 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
+  QuicksearchQuery,
+  QuicksearchQueryVariables,
+} from '@app/components/layout/quicksearch/quicksearch.query.gql.generated'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
   CreateMolecularProfile2GQL,
   CreateMolecularProfile2Mutation,
   CreateMolecularProfile2MutationVariables,
-  Maybe,
-  MolecularProfile,
-  MolecularProfileComponentInput,
   MpExpressionEditorPrepopulateGQL,
-  Organization,
   PreviewMolecularProfileName2GQL,
   PreviewMolecularProfileName2Query,
   PreviewMolecularProfileName2QueryVariables,
   PreviewMpName2Fragment,
-  QuicksearchQuery,
-  QuicksearchQueryVariables,
+} from './mp-expression-editor.query.gql.generated'
+import {
+  Maybe,
+  MolecularProfile,
+  MolecularProfileComponentInput,
+  Organization,
   Variant,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, onlyCompleteData, QueryRef } from 'apollo-angular'
 import {

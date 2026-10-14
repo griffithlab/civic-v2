@@ -6,7 +6,7 @@ import {
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { StringTagField } from '@app/forms/mixins/string-input-field.mixin'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
@@ -29,11 +29,11 @@ const TagInputMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-tag-input',
-    templateUrl: './tag-input.type.html',
-    styleUrls: ['./tag-input.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-tag-input',
+  templateUrl: './tag-input.type.html',
+  styleUrls: ['./tag-input.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTagInputField extends TagInputMixin implements AfterViewInit {
   defaultOptions: Partial<FieldTypeConfig<CvcTagInputProps>> = {

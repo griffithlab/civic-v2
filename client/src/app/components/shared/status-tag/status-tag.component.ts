@@ -9,7 +9,7 @@ import {
   FlagState,
   Maybe,
   RevisionStatus,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 type StatusType = EvidenceStatus | RevisionStatus | FlagState
 

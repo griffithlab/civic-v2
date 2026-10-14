@@ -2,13 +2,13 @@ import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
   SourceDetailFieldsFragment,
   SourceDetailGQL,
   SourceDetailQuery,
   SourceDetailQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './sources-detail.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { startWith, takeUntil } from 'rxjs/operators'

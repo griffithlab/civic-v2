@@ -5,17 +5,19 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
 import {
   DeprecateComplexMolecularProfileGQL,
   DeprecateComplexMolecularProfileMutation,
   DeprecateComplexMolecularProfileMutationVariables,
+  EvidenceCountsForMolecularProfileGQL,
+} from './complex-molecular-profile-deprecate.query.gql.generated'
+import {
   MolecularProfileDeprecationReasonMutationInput,
   Maybe,
-  MolecularProfileDetailGQL,
-  EvidenceCountsForMolecularProfileGQL,
   Organization,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { MolecularProfileDetailGQL } from '@app/views/molecular-profiles/molecular-profiles-detail/molecular-profiles-detail.query.gql.generated'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'

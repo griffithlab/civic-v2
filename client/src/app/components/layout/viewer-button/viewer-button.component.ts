@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
-import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
+import { ViewerNotificationCountGQL } from '@app/core/services/viewer/viewer.service.gql.generated'
 import { Apollo, gql } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'

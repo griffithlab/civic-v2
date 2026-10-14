@@ -12,7 +12,7 @@ import {
   SuggestRegionRevisionGQL,
   SuggestRegionRevisionMutation,
   SuggestRegionRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './region-revise.query.gql.generated'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import {

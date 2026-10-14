@@ -12,15 +12,17 @@ import { Subject } from 'rxjs'
 
 import { takeUntil } from 'rxjs/operators'
 
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
+  UpdateSourceSuggestionGQL,
+  UpdateSourceSuggestionMutation,
+  UpdateSourceSuggestionMutationVariables,
+} from './update-source-suggestion.query.gql.generated'
 import {
   Organization,
   Maybe,
   SourceSuggestionStatus,
-  UpdateSourceSuggestionGQL,
-  UpdateSourceSuggestionMutation,
-  UpdateSourceSuggestionMutationVariables,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'

@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { NewsItemFieldsFragment } from '@app/generated/civic.apollo'
+import { NewsItemFieldsFragment } from './news-item-list.fragment.gql.generated'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'

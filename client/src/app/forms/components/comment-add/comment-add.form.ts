@@ -12,15 +12,17 @@ import { Subject } from 'rxjs'
 
 import { takeUntil } from 'rxjs/operators'
 
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
+  AddCommentGQL,
+  AddCommentMutation,
+  AddCommentMutationVariables,
+} from './comment-add.mutation.gql.generated'
 import {
   Organization,
   CommentableInput,
   Maybe,
-  AddCommentGQL,
-  AddCommentMutation,
-  AddCommentMutationVariables,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'

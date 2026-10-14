@@ -6,16 +6,18 @@ import {
 } from '@angular/core'
 import {
   VariantsMenuGQL,
-  Maybe,
   MenuVariantFragment,
   VariantsMenuQuery,
   VariantsMenuQueryVariables,
+  MenuVariantTypeFragment,
+  VariantTypesForFeatureGQL,
+} from './variants-menu.gql.generated'
+import {
+  Maybe,
   PageInfo,
   VariantMenuSortColumns,
   SortDirection,
-  MenuVariantTypeFragment,
-  VariantTypesForFeatureGQL,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { map, debounceTime, filter, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'

@@ -14,7 +14,7 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
@@ -49,8 +49,7 @@ interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcEntityTypeSelectFieldConfig
-  extends FormlyFieldConfig<CvcEntityTypeSelectFieldProps> {
+export interface CvcEntityTypeSelectFieldConfig extends FormlyFieldConfig<CvcEntityTypeSelectFieldProps> {
   type: 'type-select' | 'type-multi-select' | Type<CvcEntityTypeSelectField>
 }
 

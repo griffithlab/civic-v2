@@ -4,11 +4,8 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import {
-  EventAction,
-  EventFeedNodeFragment,
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { EventFeedNodeFragment } from '@app/components/events/event-feed/event-feed.gql.generated'
+import { EventAction, Maybe } from '@app/generated/civic.apollo.types'
 import { EventDisplayOption } from '../event-feed/event-feed.component'
 
 @Component({

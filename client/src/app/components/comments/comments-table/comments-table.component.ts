@@ -16,15 +16,17 @@ import {
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
   CommentBrowseFieldsFragment,
-  CommentConnection,
   CommentsBrowseGQL,
   CommentsBrowseQuery,
   CommentsBrowseQueryVariables,
+} from './comments-table.query.gql.generated'
+import {
+  CommentConnection,
   DateSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'

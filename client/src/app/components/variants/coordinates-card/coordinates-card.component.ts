@@ -5,13 +5,12 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import {
-  VariantCoordinateType,
   CoordinatesCardFieldsFragment,
   CoordinatesCardGQL,
   CoordinatesCardQuery,
   CoordinatesCardQueryVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
+} from './coordinates-card.query.gql.generated'
+import { VariantCoordinateType, Maybe } from '@app/generated/civic.apollo.types'
 import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'

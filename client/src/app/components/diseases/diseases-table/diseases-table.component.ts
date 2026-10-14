@@ -15,16 +15,18 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
-  BrowseDiseaseConnection,
   BrowseDiseaseRowFieldsFragment,
   DiseaseBrowseGQL,
   DiseaseBrowseQuery,
   DiseaseBrowseQueryVariables,
+} from './diseases-table.query.gql.generated'
+import {
+  BrowseDiseaseConnection,
   DiseasesSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'

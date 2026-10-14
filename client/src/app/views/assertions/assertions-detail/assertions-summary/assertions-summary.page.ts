@@ -9,15 +9,17 @@ import {
 } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
-  AssertionSummaryGQL,
   Maybe,
-  AssertionSummaryQuery,
-  AssertionSummaryQueryVariables,
-  AssertionSummaryFieldsFragment,
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import {
+  AssertionSummaryGQL,
+  AssertionSummaryQuery,
+  AssertionSummaryQueryVariables,
+  AssertionSummaryFieldsFragment,
+} from './assertions-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

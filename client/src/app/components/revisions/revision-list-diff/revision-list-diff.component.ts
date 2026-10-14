@@ -6,7 +6,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { ObjectFieldDiff } from '@app/generated/civic.apollo'
+import { ObjectFieldDiff } from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-revision-list-diff',

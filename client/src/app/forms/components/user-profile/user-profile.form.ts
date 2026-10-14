@@ -14,15 +14,17 @@ import {
   toNullableString,
 } from '@app/forms/utilities/input-formatters'
 import {
-  AreaOfExpertise,
   CountriesGQL,
-  EditUserInput,
-  Maybe,
   UpdateUserProfileGQL,
   UpdateUserProfileMutation,
   UpdateUserProfileMutationVariables,
-  UserDetailFieldsFragment,
-} from '@app/generated/civic.apollo'
+} from './user-profile.mutation.gql.generated'
+import {
+  AreaOfExpertise,
+  EditUserInput,
+  Maybe,
+} from '@app/generated/civic.apollo.types'
+import { UserDetailFieldsFragment } from '@app/views/users/users-detail/users-detail.query.gql.generated'
 
 import { Subject, Observable } from 'rxjs'
 import { map, takeUntil } from 'rxjs/operators'

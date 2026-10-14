@@ -4,7 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { VariantMolecularProfileCardFieldsFragment } from '@app/generated/civic.apollo'
+import { VariantMolecularProfileCardFieldsFragment } from '@app/views/molecular-profiles/molecular-profiles-detail/molecular-profiles-summary/molecular-profiles-summary.query.gql.generated'
 import { LinkableMolecularProfile } from '../molecular-profile-tag/molecular-profile-tag.component'
 
 @Component({

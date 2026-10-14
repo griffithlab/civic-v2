@@ -1,8 +1,8 @@
+import { RevisableGeneFieldsFragment } from '@app/forms/config/gene-revise/gene-revise.query.gql.generated'
 import {
   Maybe,
-  RevisableGeneFieldsFragment,
   SuggestGeneRevisionInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { GeneFields } from '../models/gene-fields.model'
 import { GeneReviseModel } from '../models/gene-revise.model'
 import * as fmt from '@app/forms/utilities/input-formatters'

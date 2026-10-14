@@ -1,15 +1,17 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
-  EvidenceSummaryGQL,
   Maybe,
-  EvidenceSummaryQuery,
-  EvidenceSummaryQueryVariables,
-  EvidenceSummaryFieldsFragment,
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import {
+  EvidenceSummaryGQL,
+  EvidenceSummaryQuery,
+  EvidenceSummaryQueryVariables,
+  EvidenceSummaryFieldsFragment,
+} from './evidence-summary.query.gql.generated'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'

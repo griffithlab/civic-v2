@@ -1,5 +1,5 @@
 import { AssertionFields } from '@app/forms/models/assertion-fields.model'
-import { AssertionType } from '@app/generated/civic.apollo'
+import { AssertionType } from '@app/generated/civic.apollo.types'
 
 export function assertionRequiresEvidenceItems(
   model?: AssertionFields

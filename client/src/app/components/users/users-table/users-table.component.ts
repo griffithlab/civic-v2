@@ -15,18 +15,20 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
+  UserBrowseTableRowFieldsFragment,
+  UsersBrowseGQL,
+  UsersBrowseQuery,
+  UsersBrowseQueryVariables,
+} from './users-table.query.gql.generated'
+import { ViewerOrganizationFragment } from '@app/core/services/viewer/viewer.service.gql.generated'
+import {
   BrowseUserConnection,
   Maybe,
   PageInfo,
   SortDirection,
-  UserBrowseTableRowFieldsFragment,
   UserRole,
-  UsersBrowseGQL,
-  UsersBrowseQuery,
-  UsersBrowseQueryVariables,
   UsersSortColumns,
-  ViewerOrganizationFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'

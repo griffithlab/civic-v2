@@ -18,19 +18,21 @@ import {
   evidenceToModelFields,
   evidenceFormModelToInput,
 } from '@app/forms/utilities/evidence-to-model-fields'
+import { EvidenceItemRevisableFieldsGQL } from '@app/forms/config/evidence-revise/evidence-revise.query.gql.generated'
 import {
-  EvidenceItemRevisableFieldsGQL,
+  SubmitEvidenceItemGQL,
+  SubmitEvidenceItemMutation,
+  SubmitEvidenceItemMutationVariables,
+} from './evidence-submit.query.gql.generated'
+import {
   ExistingEvidenceCountGQL,
   ExistingEvidenceCountQuery,
   ExistingEvidenceCountQueryVariables,
   FullyCuratedSourceGQL,
   FullyCuratedSourceQuery,
   FullyCuratedSourceQueryVariables,
-  Maybe,
-  SubmitEvidenceItemGQL,
-  SubmitEvidenceItemMutation,
-  SubmitEvidenceItemMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './existing-evidence-count.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { evidenceSubmitFields } from './evidence-submit.form.config'

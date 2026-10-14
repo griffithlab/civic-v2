@@ -11,17 +11,17 @@ import {
 } from '@angular/core'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { CvcInputEnum } from '@app/forms/forms.types'
-import { Maybe } from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo.types'
 
 @Component({
-    selector: 'cvc-attribute-tag',
-    templateUrl: './attribute-tag.component.html',
-    styleUrls: ['./attribute-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        '[class.full-width]': `cvcFullWidth === true`,
-    },
-    standalone: false
+  selector: 'cvc-attribute-tag',
+  templateUrl: './attribute-tag.component.html',
+  styleUrls: ['./attribute-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.full-width]': `cvcFullWidth === true`,
+  },
+  standalone: false,
 })
 export class CvcAttributeTagComponent implements OnChanges {
   @Input() cvcAttrValue: Maybe<CvcInputEnum>

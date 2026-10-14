@@ -8,9 +8,9 @@ import {
 import {
   SubscribableEntities,
   SubscribableInput,
-  RegionSummaryFieldsFragment,
   CytogeneticCoordinate,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { RegionSummaryFieldsFragment } from '@app/views/features/features-detail/features-summary/features-summary.query.gql.generated'
 
 @Component({
   selector: 'cvc-region-summary',

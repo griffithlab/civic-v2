@@ -1,8 +1,8 @@
+import { RevisableRegionVariantFieldsFragment } from '@app/forms/config/region-variant-revise/region-variant-revise.query.gql.generated'
 import {
   Maybe,
-  RevisableRegionVariantFieldsFragment,
   SuggestRegionVariantRevisionInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import * as fmt from '@app/forms/utilities/input-formatters'
 import { RegionVariantReviseModel } from '../models/region-variant-revise.model'
 import { RegionVariantFields } from '../models/region-variant-fields.model'

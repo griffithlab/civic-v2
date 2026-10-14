@@ -1,4 +1,4 @@
-import { TherapyInteraction } from '@app/generated/civic.apollo'
+import { TherapyInteraction } from '@app/generated/civic.apollo.types'
 
 export function formatTherapyInteractionEnum(
   value: TherapyInteraction

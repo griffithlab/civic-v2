@@ -15,15 +15,17 @@ import {
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
-  BrowseClinicalTrialConnection,
   BrowseClinicalTrialsRowFieldsFragment,
   ClinicalTrialsBrowseGQL,
   ClinicalTrialsBrowseQuery,
   ClinicalTrialsBrowseQueryVariables,
+} from './clinical-trials-table.query.gql.generated'
+import {
+  BrowseClinicalTrialConnection,
   ClinicalTrialSortColumns,
   Maybe,
   PageInfo,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs'

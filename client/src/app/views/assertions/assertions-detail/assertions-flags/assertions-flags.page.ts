@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
-  AssertionDetailGQL,
   FlaggableEntities,
   FlaggableInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
+import { AssertionDetailGQL } from '@app/views/assertions/assertions-detail/assertions-detail.query.gql.generated'
 
 @Component({
   selector: 'cvc-assertions-flags',

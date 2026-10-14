@@ -20,7 +20,7 @@ import {
   SuggestRegionVariantRevisionGQL,
   SuggestRegionVariantRevisionMutation,
   SuggestRegionVariantRevisionMutationVariables,
-} from '@app/generated/civic.apollo'
+} from './region-variant-revise.query.gql.generated'
 import { regionVariantReviseFields } from './region-variant-revise.form.config'
 import {
   regionVariantFormModelToReviseInput,

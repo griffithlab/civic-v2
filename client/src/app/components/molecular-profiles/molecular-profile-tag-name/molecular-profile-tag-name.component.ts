@@ -4,7 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { MolecularProfileTextSegment } from '@app/generated/civic.apollo'
+import { MolecularProfileTextSegment } from '@app/generated/civic.apollo.types'
 
 type MpFeature = {
   id: number

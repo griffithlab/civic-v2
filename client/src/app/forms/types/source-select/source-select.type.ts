@@ -14,7 +14,6 @@ import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import {
-  Maybe,
   SourceSelectTagGQL,
   SourceSelectTagQuery,
   SourceSelectTagQueryVariables,
@@ -22,8 +21,8 @@ import {
   SourceSelectTypeaheadGQL,
   SourceSelectTypeaheadQuery,
   SourceSelectTypeaheadQueryVariables,
-  SourceSource,
-} from '@app/generated/civic.apollo'
+} from './source-select.query.gql.generated'
+import { Maybe, SourceSource } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

@@ -1,9 +1,9 @@
+import { RevisableFusionFieldsFragment } from '@app/forms/config/fusion-revise/fusion-revise.query.gql.generated'
 import {
   FusionPartnerStatus,
   Maybe,
-  RevisableFusionFieldsFragment,
   SuggestFusionRevisionInput,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import * as fmt from '@app/forms/utilities/input-formatters'
 import { FusionFields } from '../models/fusion-fields.model'
 import { FusionReviseModel } from '../models/fusion-revise.model'

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { ModerateEvidenceItemActivityDetailFragment } from '@app/generated/civic.apollo'
+import { ModerateEvidenceItemActivityDetailFragment } from './moderate-evidence-activity.query.gql.generated'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 

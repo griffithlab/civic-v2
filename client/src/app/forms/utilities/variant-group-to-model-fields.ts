@@ -3,12 +3,12 @@ import {
   VariantGroupReviseModel,
 } from '../models/variant-group-revise.model'
 import * as fmt from '@app/forms/utilities/input-formatters'
+import { VariantGroupRevisableFieldsFragment } from '@app/forms/config/variantgroup-revise/variantgroup-revise.query.gql.generated'
 import {
   Maybe,
   SubmitVariantGroupInput,
   SuggestVariantGroupRevisionInput,
-  VariantGroupRevisableFieldsFragment,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { VariantGroupSubmitModel } from '../models/variant-group-submit.model'
 
 export function variantGroupToModelFields(

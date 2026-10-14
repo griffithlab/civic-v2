@@ -5,7 +5,7 @@ import {
   input,
   Signal,
 } from '@angular/core'
-import { RevokeApprovalActivityDetailFragment } from '@app/generated/civic.apollo'
+import { RevokeApprovalActivityDetailFragment } from './revoke-approval-activity.query.gql.generated'
 
 import {
   ScrollerState,

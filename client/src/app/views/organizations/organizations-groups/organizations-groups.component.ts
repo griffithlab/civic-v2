@@ -5,13 +5,13 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import {
-  Maybe,
   OrganizationGroupsQuery,
   OrganizationGroupsFieldsFragment,
   OrganizationGroupsGQL,
   OrganizationGroupsQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './organizations-groups.query.gql.generated'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'

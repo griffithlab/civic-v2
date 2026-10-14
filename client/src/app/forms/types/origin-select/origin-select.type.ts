@@ -12,7 +12,7 @@ import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { Maybe, VariantOrigin } from '@app/generated/civic.apollo'
+import { Maybe, VariantOrigin } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

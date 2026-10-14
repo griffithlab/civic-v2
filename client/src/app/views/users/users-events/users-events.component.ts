@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
-import { EventFeedMode } from '@app/generated/civic.apollo'
+import { EventFeedMode } from '@app/generated/civic.apollo.types'
 
 @Component({
   selector: 'cvc-users-events',

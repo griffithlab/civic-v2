@@ -16,7 +16,6 @@ import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  Maybe,
   TherapySelectTagGQL,
   TherapySelectTagQuery,
   TherapySelectTagQueryVariables,
@@ -24,7 +23,8 @@ import {
   TherapySelectTypeaheadGQL,
   TherapySelectTypeaheadQuery,
   TherapySelectTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo'
+} from './therapy-select.query.gql.generated'
+import { Maybe } from '@app/generated/civic.apollo.types'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,

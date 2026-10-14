@@ -9,12 +9,11 @@ import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  Maybe,
   QuickAddTherapyGQL,
   QuickAddTherapyMutation,
   QuickAddTherapyMutationVariables,
-  Therapy,
-} from '@app/generated/civic.apollo'
+} from './therapy-quick-add.query.gql.generated'
+import { Maybe, Therapy } from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, Subject } from 'rxjs'
@@ -29,10 +28,10 @@ const therapyQuickAddInitialModel: TherapyQuickAddModel = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-therapy-quick-add-form',
-    templateUrl: './therapy-quick-add.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-therapy-quick-add-form',
+  templateUrl: './therapy-quick-add.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTherapyQuickAddForm {
   @Input()

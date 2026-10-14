@@ -19,6 +19,8 @@ import {
   BrowseSourceSuggestionRowFieldsFragment,
   BrowseSourceSuggestionsGQL,
   BrowseSourceSuggestionsQuery,
+} from './source-suggestions-table.query.gql.generated'
+import {
   Maybe,
   PageInfo,
   QuerySourceSuggestionsArgs,
@@ -27,7 +29,7 @@ import {
   SourceSuggestionConnection,
   SourceSuggestionsSortColumns,
   SourceSuggestionStatus,
-} from '@app/generated/civic.apollo'
+} from '@app/generated/civic.apollo.types'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
