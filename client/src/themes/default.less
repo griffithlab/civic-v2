@@ -75,17 +75,6 @@
 // PUT CUSTOM GLOBALS IN global-variables.less
 @import 'themes/global-variables.less';
 
-.typeahead-match {
-  font-weight: bold;
-}
-
-.hide-dropdown {
-  display: none;
-}
-
-// zorro 22 makes single-select selection items display: block; our
-// nzCustomTemplate content div carries a class ant styles only in multiple
-// mode, so it opened a second line box and overflowed the control
-.ant-select-single .ant-select-selector .ant-select-selection-item-content {
-  display: inline-block;
-}
+// Global rules live in themes/globals.less, imported once by styles.less.
+// This file must stay variables-only: it is imported by component
+// stylesheets, and any rule here is duplicated into each of their bundles.

@@ -1,7 +1,12 @@
 <nz-card
   [nzTitle]="wrapperOptions.title"
-  [nzSize]="wrapperOptions.size ?? 'default'">
+  [nzSize]="wrapperOptions.size ?? 'default'"
+  [nzExtra]="showLegend ? legend : undefined">
   @for (field of field.fieldGroup; track field) {
     <formly-field [field]="field"></formly-field>
   }
 </nz-card>
+
+<ng-template #legend>
+  <cvc-form-legend />
+</ng-template>

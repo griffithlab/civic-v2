@@ -1,0 +1,22 @@
+<div class="legend-inline">
+  @for (line of lines; track $index) {
+    <div class="legend-line">
+      @if ($first) {
+        <span
+          class="legend-title"
+          nz-typography
+          nzType="secondary"
+          >Field States:</span
+        >
+      }
+      @for (item of line; track item.state) {
+        <nz-tag
+          [class]="'legend-item ' + item.state"
+          nz-tooltip
+          [nzTooltipTitle]="item.hint"
+          >{{ item.label }}</nz-tag
+        >
+      }
+    </div>
+  }
+</div>
