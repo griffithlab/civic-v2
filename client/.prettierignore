@@ -1,0 +1,4 @@
+# generated code must stay byte-identical to raw codegen output so the CI
+# drift check (yarn generate-apollo && git diff) doesn't false-positive
+src/**/*.gql.generated.ts
+src/app/generated/

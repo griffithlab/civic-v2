@@ -1,6 +1,6 @@
 [codespell]
 # Ref: https://github.com/codespell-project/codespell#using-a-config-file
-skip = .git*,*.svg,*.lock,*.css,.codespellrc,*.js,generated,assets,variants-summary.page.html
+skip = .git*,*.svg,*.lock,*.css,.codespellrc,*.js,generated,*.generated.ts,assets,variants-summary.page.html
 check-hidden = true
 # Ignore super long lines -- must be minimized etc
 # mor.nlm.nih.gov is the RxNav host (my-chem-info component)
