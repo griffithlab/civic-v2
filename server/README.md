@@ -36,10 +36,10 @@ The Angular dev server (`yarn start` in `../client`) proxies API requests here, 
 The client's code generation depends on a dump of this app's GraphQL schema. After changing any GraphQL types, fields, mutations, etc., regenerate it:
 
 ```sh
-bundle exec rails graphql:schema:dump
+bundle exec rake graphql:schema:idl
 ```
 
-This writes `server.model.graphql` and `server.schema.json` to `../client/src/app/generated/`. Commit these alongside your schema changes, then run `yarn generate-apollo` in the client (see `../client/README.md`).
+This writes `server.model.graphql` (the schema SDL) to `../client/src/app/generated/`. Commit it alongside your schema changes, then run `yarn generate-apollo` in the client — or run `yarn generate-apollo:full` there to do both steps at once (see `../client/README.md`). The `updated_idl_test` in the server test suite fails if the committed SDL drifts from the Ruby schema.
 
 ## Testing
 

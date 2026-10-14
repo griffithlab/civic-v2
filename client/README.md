@@ -35,25 +35,30 @@ Serves the app with HMR at `http://127.0.0.1:4200`. API and auth requests are pr
 
 ## GraphQL code generation
 
-Generated artifacts live in `src/app/generated/` and are derived from two sources (configured in `.graphqlrc.yml`):
+Generated code is derived from two sources (configured in `.graphqlrc.yml`):
 
-1. **The server schema dump** (`server.model.graphql`) — produced by the Rails server, not by this package. After any server-side schema change, regenerate it:
-
-   ```sh
-   # from ../server
-   bundle exec rails graphql:schema:dump
-   ```
+1. **The server schema SDL** (`src/app/generated/server.model.graphql`) — produced by the Rails server, not by this package. After any server-side schema change, regenerate it with `bundle exec rake graphql:schema:idl` in `../server`, or use `yarn generate-apollo:full` to chain the dump and codegen in one command.
 
 2. **Client-side documents** — `.gql` query/mutation/fragment files colocated with components under `src/`, plus client-only schema extensions in `src/app/graphql/schemas/`.
 
-Then regenerate the client artifacts:
+Regenerating the client artifacts:
 
 ```sh
 yarn generate-apollo          # one-shot
 yarn generate-apollo:start    # watch mode — regenerates as .gql files change
+yarn generate-apollo:full     # server schema dump + one-shot codegen
 ```
 
-This produces `civic.apollo.ts` (types + injectable Apollo services), `civic.possible-types.ts` (fragment matcher), `civic.apollo-helpers.ts` (cache type policies), and `client.schema.json`.
+This produces:
+
+- `<name>.gql.generated.ts` next to each `.gql` document — its operation types and injectable Apollo services (near-operation-file preset)
+- `src/app/generated/civic.apollo.types.ts` — schema-level types (enums, input/object types, scalars)
+- `src/app/generated/civic.apollo.ts` — an auto-generated barrel re-exporting all of the above (written by `scripts/generate-apollo-barrel.mjs`, which also prunes generated files orphaned by `.gql` deletions and fails on duplicate export names)
+- `src/app/generated/civic.possible-types.ts` (fragment matcher) and `civic.apollo-helpers.ts` (cache type policies)
+
+Existing code imports from the `civic.apollo` barrel; new code can import directly from the colocated `*.gql.generated.ts` modules. All generated files are committed, and the `codegen_drift` CI job fails if they drift from the committed schema and documents — so never hand-edit them, and don't let formatters touch them (they're excluded in `.prettierignore`).
+
+A fragment shared by several `.gql` documents should live in its own `*.fragments.gql` file (see `activity-feed.fragments.gql`): defining it beside one of its consumers can create import cycles between generated modules, which break fragment-document interpolation at runtime.
 
 A typical dev session runs three processes: the Rails server, `yarn start`, and `yarn generate-apollo:start`.
 
@@ -68,6 +73,8 @@ A typical dev session runs three processes: the Rails server, `yarn start`, and 
 | `yarn build:analyze-stats`   | Production build + webpack-bundle-analyzer report                                        |
 | `yarn generate-apollo`       | Run GraphQL codegen once                                                                 |
 | `yarn generate-apollo:start` | GraphQL codegen in watch mode                                                            |
+| `yarn generate-apollo:full`  | Server schema SDL dump followed by one-shot codegen                                      |
+| `yarn schema:dump`           | Dump the server GraphQL schema SDL (runs `rake graphql:schema:idl` in `../server`)       |
 | `yarn generate-icons`        | Optimize SVGs in `src/assets/icons/` (svgo) and regenerate icon TS constants (svg-to-ts) |
 | `yarn generate-docs-rst`     | Generate icon data + RST docs (used by the civic-docs project)                           |
 | `yarn test`                  | Run unit/smoke tests with Vitest via the Angular CLI                                     |
