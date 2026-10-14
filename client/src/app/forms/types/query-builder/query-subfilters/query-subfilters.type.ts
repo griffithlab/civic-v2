@@ -1,10 +1,11 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { FieldArrayType } from '@ngx-formly/core'
 
 @Component({
   selector: 'query-subfilters',
   templateUrl: './query-subfilters.type.html',
   styleUrls: ['./query-subfilters.type.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcQuerySubfiltersField extends FieldArrayType {

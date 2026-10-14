@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 
 export interface LinkableComment {
   id: number
@@ -12,9 +17,10 @@ export interface Subject {
 }
 
 @Component({
-    selector: 'cvc-comment-tag',
-    templateUrl: './comment-tag.component.html',
-    standalone: false
+  selector: 'cvc-comment-tag',
+  templateUrl: './comment-tag.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcCommentTagComponent implements OnInit {
   @Input() comment!: LinkableComment

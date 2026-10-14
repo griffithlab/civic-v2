@@ -56,7 +56,9 @@
                   "
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
-                  [nzTooltipTitle]="'For ' + selectedOrg?.name">
+                  [nzTooltipTitle]="
+                    'For ' + $safeNavigationMigration(selectedOrg?.name)
+                  ">
                   Flag {{ flaggable.entityType | enumToTitle }}
                 </button>
               </ng-template>

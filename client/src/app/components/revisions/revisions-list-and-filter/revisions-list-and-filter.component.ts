@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   RevisionsGQL,
@@ -50,6 +56,7 @@ export interface SelectableRevisionStatus {
   selector: 'cvc-revisions-list-and-filter',
   templateUrl: './revisions-list-and-filter.component.html',
   styleUrls: ['./revisions-list-and-filter.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {

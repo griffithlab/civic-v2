@@ -3,3 +3,8 @@
 :host {
   display: block;
 }
+
+// the auto-height scroller already scrolls the rows; the card body must not add a second bar
+nz-card ::ng-deep .ant-card-body {
+  overflow: hidden;
+}

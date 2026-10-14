@@ -7,7 +7,7 @@
         context: {
           $implicit: entity,
           config: config,
-          emphasize: config?.emphasize,
+          emphasize: $safeNavigationMigration(config?.emphasize),
         }
       "></ng-container>
   </span>

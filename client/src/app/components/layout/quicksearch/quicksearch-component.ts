@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core'
 import { Router } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename'
@@ -34,6 +34,7 @@ export interface QuicksearchOption {
   selector: 'cvc-quicksearch',
   styleUrls: ['./quicksearch-component.less'],
   templateUrl: './quicksearch-component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcQuicksearchComponent {
@@ -52,6 +53,9 @@ export class CvcQuicksearchComponent {
 
   selectedEntities: SearchableEntities[] = Object.values(SearchableEntities)
   searchableEntities = Object.keys(SearchableEntities)
+  // stable reference: the checkbox group's writeValue sets a signal its
+  // checkboxes read, so a fresh array per check loops change detection
+  selectedEntityKeys: string[] = this.searchableEntities.slice()
   currentSearchTerm?: string
 
   // SOURCE STREAMS
@@ -154,6 +158,9 @@ export class CvcQuicksearchComponent {
     this.selectedEntities = selectedEntities.map(
       (x) => SearchableEntities[x as keyof typeof SearchableEntities]
     )
+    this.selectedEntityKeys = this.searchableEntities.filter((k) =>
+      this.isSelected(k)
+    )
 
     if (this.currentSearchTerm) {
       this.onSearch$.next(this.currentSearchTerm)
@@ -163,9 +170,5 @@ export class CvcQuicksearchComponent {
   isSelected(entity: string): boolean {
     const x = SearchableEntities[entity as keyof typeof SearchableEntities]
     return this.selectedEntities.includes(x)
-  }
-
-  get selectedEntityKeys(): string[] {
-    return Object.keys(SearchableEntities).filter((k) => this.isSelected(k))
   }
 }

@@ -46,14 +46,14 @@
       <tr class="col-header-row">
         <th
           nzWidth="200px"
-          nzLeft
+          nzLeft="0px"
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
         <th
           nzWidth="100px"
-          nzLeft
+          nzLeft="200px"
           [nzColumnKey]="sortColumns.Doid"
           [nzSortFn]="true">
           DOID
@@ -62,7 +62,7 @@
         <th nzWidth="300px">Features</th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="225px"
           nzAlign="right"
           [nzColumnKey]="sortColumns.FeatureCount"
           [nzSortFn]="true"
@@ -76,7 +76,7 @@
         </th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="150px"
           nzAlign="right"
           [nzColumnKey]="sortColumns.VariantCount"
           [nzSortFn]="true"
@@ -90,7 +90,7 @@
         </th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="75px"
           nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
@@ -105,7 +105,7 @@
         </th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="0px"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
@@ -118,14 +118,14 @@
         </th>
       </tr>
       <tr class="filter-row">
-        <th nzLeft>
+        <th nzLeft="0px">
           <cvc-clearable-input-filter
             [(inputModel)]="nameInput"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzLeft>
+        <th nzLeft="200px">
           <cvc-clearable-input-filter
             [(inputModel)]="doidInput"
             (inputModelChange)="
@@ -146,10 +146,10 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzRight></th>
-        <th nzRight></th>
-        <th nzRight></th>
-        <th nzRight></th>
+        <th nzRight="225px"></th>
+        <th nzRight="150px"></th>
+        <th nzRight="75px"></th>
+        <th nzRight="0px"></th>
       </tr>
     </thead>
     <tbody>
@@ -158,13 +158,13 @@
         let-disease
         let-index="index">
         <tr class="data-row">
-          <td nzLeft>
+          <td nzLeft="0px">
             <cvc-disease-tag
               [disease]="disease"
               [enablePopover]="!isScrolling"
               popoverPlacement="right"></cvc-disease-tag>
           </td>
-          <td nzLeft>
+          <td nzLeft="200px">
             @if (disease.doid) {
               <cvc-link-tag
                 [href]="disease.diseaseUrl"
@@ -191,22 +191,22 @@
             </cvc-tag-overflow>
           </td>
           <td
-            nzRight
+            nzRight="225px"
             nzAlign="right">
             {{ disease.featureCount }}
           </td>
           <td
-            nzRight
+            nzRight="150px"
             nzAlign="right">
             {{ disease.variantCount }}
           </td>
           <td
-            nzRight
+            nzRight="75px"
             nzAlign="right">
             {{ disease.evidenceItemCount }}
           </td>
           <td
-            nzRight
+            nzRight="0px"
             nzAlign="right">
             {{ disease.assertionCount }}
           </td>

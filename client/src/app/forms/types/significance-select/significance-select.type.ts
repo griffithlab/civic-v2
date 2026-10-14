@@ -6,6 +6,7 @@ import {
   TemplateRef,
   Type,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
@@ -124,8 +125,7 @@ interface CvcSignificanceSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcSignificanceSelectFieldConfig
-  extends FormlyFieldConfig<CvcSignificanceSelectFieldProps> {
+export interface CvcSignificanceSelectFieldConfig extends FormlyFieldConfig<CvcSignificanceSelectFieldProps> {
   type: 'significance-select' | Type<CvcSignificanceSelectField>
 }
 
@@ -138,10 +138,11 @@ const SignificanceSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-significance-select',
-    templateUrl: './significance-select.type.html',
-    styleUrls: ['./significance-select.type.less'],
-    standalone: false
+  selector: 'cvc-significance-select',
+  templateUrl: './significance-select.type.html',
+  styleUrls: ['./significance-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcSignificanceSelectField
   extends SignificanceSelectMixin

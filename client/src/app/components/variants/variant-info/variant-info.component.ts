@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core'
+import { Component, input, model, ChangeDetectionStrategy } from '@angular/core'
 import { VariantInfo } from './variant-info.types'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
@@ -23,6 +23,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     CvcOpenCravatAnnotationsModule,
   ],
   templateUrl: './variant-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './variant-info.component.less',
 })
 export class CvcVariantInfo {

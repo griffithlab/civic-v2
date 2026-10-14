@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   SourceSummaryGQL,
@@ -16,6 +16,7 @@ import { Observable, Subscription } from 'rxjs'
   selector: 'cvc-sources-summary',
   templateUrl: './sources-summary.page.html',
   styleUrls: ['./sources-summary.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SourcesSummaryPage implements OnDestroy {

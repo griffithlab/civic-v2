@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   CommentPopoverFragment,
   CommentPopoverGQL,
@@ -12,6 +17,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-comment-popover',
   templateUrl: './comment-popover.component.html',
   styleUrls: ['./comment-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcCommentPopoverComponent implements OnInit {

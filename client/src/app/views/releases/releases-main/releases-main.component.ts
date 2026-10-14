@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo'
 import { onlyCompleteData } from 'apollo-angular'
 import { Observable } from 'rxjs'
@@ -9,6 +9,7 @@ import { startWith, map, filter } from 'rxjs/operators'
   selector: 'cvc-releases-main',
   templateUrl: './releases-main.component.html',
   styleUrls: ['./releases-main.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ReleasesMainComponent implements OnInit {

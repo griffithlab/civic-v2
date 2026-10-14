@@ -7,6 +7,7 @@ import {
   signal,
   TemplateRef,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -63,6 +64,7 @@ type ButtonConfig = {
   templateUrl: './approve-assertion-button.component.html',
   styleUrls: ['./approve-assertion-button.component.less'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

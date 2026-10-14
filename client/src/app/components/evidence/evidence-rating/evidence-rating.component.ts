@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-evidence-rating',
-    templateUrl: './evidence-rating.component.html',
-    standalone: false
+  selector: 'cvc-evidence-rating',
+  templateUrl: './evidence-rating.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcEvidenceRatingComponent implements OnInit {
   @Input() starRating: Maybe<number>

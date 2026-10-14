@@ -47,7 +47,7 @@
       <tr class="col-header-row">
         <th
           nzWidth="400px"
-          nzLeft>
+          nzLeft="0px">
           Citation
         </th>
         <th
@@ -88,7 +88,7 @@
         </th>
         <th
           nzWidth="80px"
-          nzRight
+          nzRight="150px"
           nz-tooltip
           nzTooltipTitle="Open Access">
           <i
@@ -97,7 +97,7 @@
         </th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="75px"
           nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceCount"
           [nzSortFn]="true"
@@ -112,7 +112,7 @@
         </th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="0px"
           nzAlign="right"
           [nzColumnKey]="sortColumns.SuggestionCount"
           [nzSortFn]="true"
@@ -126,7 +126,7 @@
         </th>
       </tr>
       <tr class="filter-row">
-        <th nzLeft></th>
+        <th nzLeft="0px"></th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="nameInput"
@@ -188,7 +188,7 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzRight>
+        <th nzRight="150px">
           <nz-select
             nzSize="small"
             nzAllowClear
@@ -203,8 +203,8 @@
               nzLabel="Closed"></nz-option>
           </nz-select>
         </th>
-        <th nzRight></th>
-        <th nzRight></th>
+        <th nzRight="75px"></th>
+        <th nzRight="0px"></th>
       </tr>
     </thead>
     <tbody>
@@ -213,7 +213,7 @@
         let-source
         let-index="index">
         <tr class="data-row">
-          <td nzLeft>
+          <td nzLeft="0px">
             <cvc-source-tag
               [source]="source"
               [enablePopover]="!isScrolling"
@@ -246,7 +246,7 @@
             {{ source.journal }}
           </td>
           <td
-            nzRight
+            nzRight="150px"
             nz-tooltip
             [nzTooltipTitle]="source.openAccess ? 'Open' : 'Closed'">
             <span
@@ -256,12 +256,12 @@
           </td>
           <td
             nzAlign="right"
-            nzRight>
+            nzRight="75px">
             {{ source.evidenceItemCount }}
           </td>
           <td
             nzAlign="right"
-            nzRight>
+            nzRight="0px">
             {{ source.sourceSuggestionCount }}
           </td>
         </tr>

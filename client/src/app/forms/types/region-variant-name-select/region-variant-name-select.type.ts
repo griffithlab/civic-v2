@@ -7,6 +7,7 @@ import {
   TemplateRef,
   Type,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
@@ -60,6 +61,7 @@ const RegionVariantNameSelectMixin = mixin(
   selector: 'cvc-region-variant-name-select',
   templateUrl: './region-variant-name-select.type.html',
   styleUrls: ['./region-variant-name-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcRegionVariantNameSelectField

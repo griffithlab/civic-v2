@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import {
   RevisionPopoverFragment,
@@ -22,6 +23,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-revision-popover',
   templateUrl: './revision-popover.component.html',
   styleUrls: ['./revision-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcRevisionPopoverComponent

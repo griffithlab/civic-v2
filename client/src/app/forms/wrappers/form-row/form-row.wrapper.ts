@@ -4,7 +4,14 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { EmbeddedProperty } from 'ng-zorro-antd/grid'
+// EmbeddedProperty left zorro 22's grid exports; the shape is kept here
+type EmbeddedProperty = {
+  span?: number
+  pull?: number
+  push?: number
+  offset?: number
+  order?: number
+}
 
 type ResponsiveColConfig = {
   xs?: string | number | EmbeddedProperty | null

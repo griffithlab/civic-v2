@@ -4,6 +4,7 @@ import {
   Input,
   QueryList,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
@@ -17,6 +18,7 @@ export interface TagLinkableOrganization {
   selector: 'cvc-organization-tag',
   templateUrl: './organization-tag.component.html',
   styleUrls: ['./organization-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcOrganizationTagComponent implements AfterViewInit {

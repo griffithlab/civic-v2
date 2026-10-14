@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   DiseasesSummaryFieldsFragment,
@@ -15,6 +15,7 @@ import { map, startWith } from 'rxjs/operators'
   selector: 'cvc-diseases-summary',
   templateUrl: './diseases-summary.component.html',
   styleUrls: ['./diseases-summary.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DiseasesSummaryComponent implements OnDestroy {

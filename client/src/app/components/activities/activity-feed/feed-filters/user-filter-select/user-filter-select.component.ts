@@ -1,4 +1,10 @@
-import { Component, input, model, Signal } from '@angular/core'
+import {
+  Component,
+  input,
+  model,
+  Signal,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivityFeedFilterOptions } from '../../activity-feed.types'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { FormsModule } from '@angular/forms'
@@ -25,6 +31,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
     CvcPipesModule,
   ],
   templateUrl: './user-filter-select.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-filter-select.component.less',
 })
 export class CvcUserFilterSelect {

@@ -1,11 +1,18 @@
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core'
+import {
+  Component,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-avatar-uploader',
-    templateUrl: './avatar-uploader.component.html',
-    standalone: false
+  selector: 'cvc-avatar-uploader',
+  templateUrl: './avatar-uploader.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcAvatarUploaderComponent implements OnDestroy {
   @Output() uploadComplete = new EventEmitter<boolean>()

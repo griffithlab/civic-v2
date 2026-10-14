@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   Maybe,
   PageInfo,
@@ -21,6 +26,7 @@ import { isNonNulled } from 'rxjs-etc'
   selector: 'cvc-molecular-profile-menu',
   templateUrl: './molecular-profiles-menu.component.html',
   styleUrls: ['./molecular-profiles-menu.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcMolecularProfilesMenuComponent implements OnInit {

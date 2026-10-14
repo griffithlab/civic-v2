@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
@@ -6,10 +6,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-molecular-profiles-comments',
-    templateUrl: './molecular-profiles-comments.page.html',
-    styleUrls: ['./molecular-profiles-comments.page.less'],
-    standalone: false
+  selector: 'cvc-molecular-profiles-comments',
+  templateUrl: './molecular-profiles-comments.page.html',
+  styleUrls: ['./molecular-profiles-comments.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MolecularProfilesCommentsPage {
   commentable: CommentableInput

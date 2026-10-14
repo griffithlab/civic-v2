@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   CommentTagSegment,
   CommentTagSegmentFlagged,
@@ -25,9 +30,10 @@ export type CommentSegment =
   | CommentTextSegment
 
 @Component({
-    selector: 'cvc-comment-body',
-    templateUrl: './comment-body.component.html',
-    standalone: false
+  selector: 'cvc-comment-body',
+  templateUrl: './comment-body.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CvcCommentBodyComponent implements OnInit {
   @Input() commentBodySegments!: CommentSegment[]

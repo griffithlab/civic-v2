@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -47,6 +48,7 @@ export interface OrganizationsTableFilters {
   selector: 'cvc-organizations-table',
   templateUrl: './organizations-table.component.html',
   styleUrls: ['./organizations-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcOrganizationsTableComponent implements OnInit {

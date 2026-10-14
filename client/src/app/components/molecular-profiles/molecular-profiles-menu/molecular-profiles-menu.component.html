@@ -27,8 +27,7 @@
           <nz-form-item>
             <nz-form-label>Filter</nz-form-label>
             <nz-form-control>
-              <nz-input-group
-                [nzSuffix]="nameInputClearTpl"
+              <nz-input-wrapper
                 id="name-filter-group"
                 nzSize="small">
                 <input
@@ -38,7 +37,7 @@
                   name="name-filter"
                   (ngModelChange)="onModelUpdated()"
                   [(ngModel)]="mpNameFilter" />
-                <ng-template #nameInputClearTpl>
+                <span nzInputSuffix>
                   @if (mpNameFilter) {
                     <i
                       nz-icon
@@ -47,8 +46,8 @@
                       nzType="close-circle"
                       (click)="mpNameFilter = undefined; onModelUpdated()"></i>
                   }
-                </ng-template>
-              </nz-input-group>
+                </span>
+              </nz-input-wrapper>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { Observable } from 'rxjs'
 
 @Component({
-    selector: 'variants-home',
-    templateUrl: './variants-home.page.html',
-    styleUrls: ['./variants-home.page.less'],
-    standalone: false
+  selector: 'variants-home',
+  templateUrl: './variants-home.page.html',
+  styleUrls: ['./variants-home.page.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class VariantsHomePage implements OnInit {
   viewer$: Observable<Viewer>

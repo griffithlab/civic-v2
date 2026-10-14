@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
@@ -31,6 +31,7 @@ import { CommentSegment } from '@app/components/comments/comment-body/comment-bo
   ],
   templateUrl: './entity-description.component.html',
   styleUrl: './entity-description.component.less',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class CvcEntityDescription {

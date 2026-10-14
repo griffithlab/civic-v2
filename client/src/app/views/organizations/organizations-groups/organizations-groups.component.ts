@@ -1,4 +1,9 @@
-import { Component, Input, OnDestroy } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -17,6 +22,7 @@ import { Observable, Subscription } from 'rxjs'
   selector: 'cvc-organizations-groups',
   templateUrl: './organizations-groups.component.html',
   styleUrls: ['./organizations-groups.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class OrganizationsGroupsComponent implements OnDestroy {

@@ -94,7 +94,9 @@
                   "
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
-                  [nzTooltipTitle]="'For ' + selectedOrg?.name">
+                  [nzTooltipTitle]="
+                    'For ' + $safeNavigationMigration(selectedOrg?.name)
+                  ">
                   Deprecate Variant
                 </button>
               </ng-template>

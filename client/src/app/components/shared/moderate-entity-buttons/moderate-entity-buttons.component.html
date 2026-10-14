@@ -8,7 +8,9 @@
         (click)="moderate(evidenceStatuses.Accepted)"
         nz-tooltip
         [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
-        [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+        [nzTooltipTitle]="
+          'For ' + $safeNavigationMigration(viewer.mostRecentOrg?.name)
+        ">
         Accept {{ entityTypeDisplay }}
       </button>
     }
@@ -21,7 +23,9 @@
       (click)="moderate(evidenceStatuses.Rejected)"
       nz-tooltip
       [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
-      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+      [nzTooltipTitle]="
+        'For ' + $safeNavigationMigration(viewer.mostRecentOrg?.name)
+      ">
       Reject {{ entityTypeDisplay }}
     </button>
   </nz-spin>

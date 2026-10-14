@@ -1,5 +1,10 @@
 import { onlyCompleteData } from 'apollo-angular'
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   Maybe,
   VariantTypePopoverFragment,
@@ -13,6 +18,7 @@ import { isNonNulled } from 'rxjs-etc'
   selector: 'cvc-variant-type-popover',
   templateUrl: './variant-type-popover.component.html',
   styleUrls: ['./variant-type-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CvcVariantTypePopoverComponent implements OnInit {

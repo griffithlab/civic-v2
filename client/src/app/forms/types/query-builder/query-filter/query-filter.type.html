@@ -1,4 +1,4 @@
-@let isRootFilter = field.parent?.props?.isRootFilter;
+@let isRootFilter = $safeNavigationMigration(field.parent?.props?.isRootFilter);
 <nz-row
   [nzGutter]="[4, 0]"
   class="filter-row">

@@ -1,11 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "src",
     "paths": {
-      "@app/*": ["app/*"],
-      "@forms/*": ["app/forms/*"],
-      "@generated/*": ["app/generated/*"]
+      "@app/*": ["./src/app/*"],
+      "@forms/*": ["./src/app/forms/*"],
+      "@generated/*": ["./src/app/generated/*"],
+      "environments/*": ["./src/environments/*"]
     },
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
@@ -15,7 +15,6 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,

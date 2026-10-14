@@ -1,12 +1,13 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-evidence-revisions',
-    templateUrl: './evidence-revisions.page.html',
-    standalone: false
+  selector: 'cvc-evidence-revisions',
+  templateUrl: './evidence-revisions.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class EvidenceRevisionsPage implements OnDestroy {
   subject!: ModeratedInput

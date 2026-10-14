@@ -47,21 +47,21 @@
       <tr>
         <th
           nzWidth="400px"
-          nzLeft
+          nzLeft="0px"
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
         <th
-          nzWidth="15%"
+          nzWidth="150px"
           [nzColumnKey]="sortColumns.NcitId"
           [nzSortFn]="true">
           NCIt Code
         </th>
-        <th nzWidth="85%">Aliases</th>
+        <th nzWidth="300px">Aliases</th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="75px"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortDirections]="['descend', 'ascend', null]"
           [nzSortFn]="true"
@@ -75,7 +75,7 @@
         </th>
         <th
           nzWidth="75px"
-          nzRight
+          nzRight="0px"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortDirections]="['descend', 'ascend', null]"
           [nzSortFn]="true"
@@ -88,7 +88,7 @@
         </th>
       </tr>
       <tr>
-        <th nzLeft>
+        <th nzLeft="0px">
           <cvc-clearable-input-filter
             [(inputModel)]="nameFilter"
             (inputModelChange)="
@@ -109,8 +109,8 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzRight></th>
-        <th nzRight></th>
+        <th nzRight="75px"></th>
+        <th nzRight="0px"></th>
       </tr>
     </thead>
     <tbody>
@@ -119,7 +119,7 @@
         let-therapy
         let-index="index">
         <tr class="data-row">
-          <td nzLeft>
+          <td nzLeft="0px">
             <cvc-therapy-tag
               [therapy]="therapy"
               [enablePopover]="!isScrolling"
@@ -141,12 +141,12 @@
               [matchingText]="therapyAliasFilter"></cvc-plain-tag-overflow>
           </td>
           <td
-            nzRight
+            nzRight="75px"
             nzAlign="right">
             {{ therapy.evidenceCount }}
           </td>
           <td
-            nzRight
+            nzRight="0px"
             nzAlign="right">
             {{ therapy.assertionCount }}
           </td>

@@ -27,7 +27,12 @@
         nz-popconfirm
         nzPopconfirmPlacement="right"
         nzPopconfirmTitle="Delete This Comment?"
-        (nzOnConfirm)="deleteComment(comment.id, viewer.mostRecentOrg?.id)"
+        (nzOnConfirm)="
+          deleteComment(
+            comment.id,
+            $safeNavigationMigration(viewer.mostRecentOrg?.id)
+          )
+        "
         nzTooltipTitle="Delete"
         nz-icon
         nzType="delete"></span>
