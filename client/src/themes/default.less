@@ -82,3 +82,10 @@
 .hide-dropdown {
   display: none;
 }
+
+// zorro 22 makes single-select selection items display: block; our
+// nzCustomTemplate content div carries a class ant styles only in multiple
+// mode, so it opened a second line box and overflowed the control
+.ant-select-single .ant-select-selector .ant-select-selection-item-content {
+  display: inline-block;
+}
