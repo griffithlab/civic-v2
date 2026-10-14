@@ -6,7 +6,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcFormFieldWrapperModule } from '@app/forms/wrappers/form-field/form-field.module'
-import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
+import { CvcMpFinderFieldsModule } from './mp-finder-fields.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
@@ -29,16 +29,11 @@ import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expressio
 import { MpFinderComponent } from './mp-finder/mp-finder.component'
 
 /**
- * The molecular-profile finder and expression editor, kept as an NgModule and
- * imported by the now-standalone molecular-profile-select field.
- *
- * mp-finder hosts a nested formly form containing the feature and variant
- * selects, so it imports the shared select registry — which is also why this
- * field was migrated last, after both of those.
- *
- * Not a standalone conversion: like the two managers, these still render the
- * old cvc-entity-tag. This module only declares components; the field's
- * formly registration has moved to the shared select registry.
+ * The molecular-profile finder and expression editor, as an NgModule that
+ * only declares components, imported by the standalone
+ * molecular-profile-select field. mp-finder hosts a nested formly form with
+ * the feature and variant selects; CvcMpFinderFieldsModule registers those,
+ * because the shared registry would import this module back.
  */
 @NgModule({
   declarations: [
@@ -53,7 +48,7 @@ import { MpFinderComponent } from './mp-finder/mp-finder.component'
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcPipesModule,
-    CvcSelectFieldsRegistryModule,
+    CvcMpFinderFieldsModule,
     FormlyModule,
     FormsModule,
     LetDirective,

@@ -6,7 +6,7 @@ import {
   Signal,
 } from '@angular/core'
 import { FlagEntityActivityDetailFragment } from './flag-entity-activity.query.gql.generated'
-import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
+import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.tokens'
 import {
   ScrollerState,
   ScrollerStateService,

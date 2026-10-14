@@ -37,12 +37,13 @@ import {
   ScrollerState,
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
-import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
+import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.tokens'
 import { map, skip } from 'rxjs/operators'
 import { simpleActivityTypes } from '../activity-feed.config'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 import { CvcCommentTagModule } from '../../../comments/comment-tag/comment-tag.module'
 
 export type FeedItemToggle = {
@@ -76,6 +77,7 @@ export type FeedItemToggle = {
     NzIconModule,
     NzTagModule,
     NzGridModule,
+    NzSkeletonModule,
     CvcActivityFeedItemDetails,
     CvcPipesModule,
     CvcUserTagModule,
