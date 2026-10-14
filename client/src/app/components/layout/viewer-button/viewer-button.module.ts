@@ -12,7 +12,6 @@ import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { CvcUserCoiFormModule } from '@app/forms/components/user-coi/user-coi.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
-import { VariantSubmitFormModule } from '@app/forms/config/variant-submit/variant-submit.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module'
@@ -36,7 +35,6 @@ import { CvcOrganizationAvatarModule } from '@app/components/organizations/organ
     CvcUserAvatarModule,
     CvcUserCoiFormModule,
     CvcOrganizationAvatarModule,
-    VariantSubmitFormModule,
   ],
   exports: [CvcViewerButtonComponent],
 })

@@ -12,9 +12,9 @@ import { ApolloLink, InMemoryCache } from '@apollo/client'
 import result from '@app/generated/civic.possible-types'
 
 // registered after AppModule, so these override its providers: a
-// never-resolving link keeps queries pending, and the /api/status
-// initializer is answered at once (its firstValueFrom would otherwise
-// reject with EmptyError at teardown)
+// never-resolving link keeps queries pending, and the environment banner's
+// /api/status request is answered at once so it cannot dangle past
+// TestBed teardown
 export function smokeTestProviders(): (Provider | EnvironmentProviders)[] {
   return [
     {
