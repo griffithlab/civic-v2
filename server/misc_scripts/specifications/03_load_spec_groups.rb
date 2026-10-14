@@ -30,6 +30,7 @@ clingen_code_groupings = {
   "SBP1" => "Computational Prediction",
   "OP2" => "Single Genetic Etiology Context",
   "N/A" => "Other",
+  "OP5" => "Other",
 }
 
 specification = Specification.find_by(name: "ClinGen/CGC/VICC Codes")
@@ -37,9 +38,9 @@ specification = Specification.find_by(name: "ClinGen/CGC/VICC Codes")
 specification.assessment_groups = clingen_code_groups
 specification.save!
 
-specification.specification_criterium.each do |criterium|
-  criterium.assessment_group = clingen_code_groupings.fetch(criterium.criterium)
-  criterium.save!
+specification.specification_criteria.each do |criterion|
+  criterion.assessment_group = clingen_code_groupings.fetch(criterion.criterion)
+  criterion.save!
 end
 
 
@@ -115,9 +116,9 @@ specification = Specification.find_by(name: "ACMG/AMP Codes")
 specification.assessment_groups = acmg_code_groups
 specification.save!
 
-specification.specification_criterium.each do |criterium|
-  criterium.assessment_group = acmg_code_groupings.fetch(criterium.criterium)
-  criterium.save!
+specification.specification_criteria.each do |criterion|
+  criterion.assessment_group = acmg_code_groupings.fetch(criterion.criterion)
+  criterion.save!
 end
 
 ntrk_code_groups = {
@@ -146,7 +147,7 @@ specification = Specification.find_by(name: "NTRK SC-VCEP Oncogenicity specifica
 specification.assessment_groups = ntrk_code_groups
 specification.save!
 
-specification.specification_criterium.each do |criterium|
-  criterium.assessment_group = ntrk_code_groupings.fetch(criterium.criterium)
-  criterium.save!
+specification.specification_criteria.each do |criterion|
+  criterion.assessment_group = ntrk_code_groupings.fetch(criterion.criterion)
+  criterion.save!
 end

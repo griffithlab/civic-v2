@@ -19,6 +19,8 @@ order = {
   "SBVS1" => 1,
   "SBS1" => 2,
   "OP4" => 3,
+  "OP5" => 1,
+  "N/A" => 2,
 }
 
 
@@ -36,8 +38,8 @@ specs.each do |spec|
   ]
   spec.save!
 
-  spec.specification_criterium.each do |sc|
-    sc.position_within_assessment_group = order[sc.criterium] || 999
+  spec.specification_criteria.each do |sc|
+    sc.position_within_assessment_group = order[sc.criterion] || 999
     sc.save(validate: false)
   end
 end
@@ -67,8 +69,8 @@ specs.each do |spec|
   ]
   spec.save!
 
-  spec.specification_criterium.each do |sc|
-    sc.position_within_assessment_group = order[sc.criterium] || 999
+  spec.specification_criteria.each do |sc|
+    sc.position_within_assessment_group = order[sc.criterion] || 999
     sc.save(validate: false)
   end
 end

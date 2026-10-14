@@ -12,8 +12,8 @@ exclusions = {
 }
 
 specs.each do |spec|
-  spec.specification_criterium.each do |sc|
-    sc.mutually_exclusive_codes = exclusions[sc.criterium]
+  spec.specification_criteria.each do |sc|
+    sc.mutually_exclusive_codes = exclusions[sc.criterion]
     sc.save(validate: false)
   end
 end
