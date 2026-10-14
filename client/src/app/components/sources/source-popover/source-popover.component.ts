@@ -18,13 +18,34 @@ import { Maybe } from '@app/generated/civic.apollo.types'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
+import { CommonModule } from '@angular/common'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
+import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module'
+import { CvcRetractionStatusTagModule } from '@app/components/shared/retraction-status-tag/retraction-status-tag.module'
 
 @Component({
   selector: 'cvc-source-popover',
   templateUrl: './source-popover.component.html',
   styleUrls: ['./source-popover.component.less'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetDirective,
+    PushPipe,
+    NzIconModule,
+    NzCardModule,
+    NzDescriptionsModule,
+    CvcLinkTagModule,
+    CvcTagListModule,
+    CvcClinicalTrialTagModule,
+    CvcRetractionStatusTagModule,
+  ],
 })
 export class CvcSourcePopoverComponent
   implements OnInit, AfterViewInit, OnDestroy

@@ -28,8 +28,8 @@ import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clini
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 
 @NgModule({
-  declarations: [CvcEvidencePopoverComponent],
   imports: [
+    CvcEvidencePopoverComponent,
     CommonModule,
     RouterModule,
     LetDirective,

@@ -18,6 +18,8 @@ export type ViewerFieldsFragment = { __typename: 'User', id: number, username: s
 
 export type ViewerOrganizationFragment = { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined };
 
+export type UserMostRecentOrgIdFragment = { __typename: 'User', mostRecentOrganizationId?: number | undefined };
+
 export const ViewerOrganizationFragmentDoc = gql`
     fragment viewerOrganization on Organization {
   id
@@ -44,6 +46,11 @@ export const ViewerFieldsFragmentDoc = gql`
   mostRecentOrganizationId
 }
     ${ViewerOrganizationFragmentDoc}`;
+export const UserMostRecentOrgIdFragmentDoc = gql`
+    fragment UserMostRecentOrgId on User {
+  mostRecentOrganizationId
+}
+    `;
 export const ViewerBaseDocument = gql`
     query ViewerBase {
   viewer {

@@ -34,3 +34,9 @@ fragment viewerOrganization on Organization {
     name
     profileImagePath(size: 32)
 }
+
+# written imperatively (writeFragment) when the viewer picks an organization
+# from the org-selection menus; see org-submit-button + viewer-button
+fragment UserMostRecentOrgId on User {
+    mostRecentOrganizationId
+}

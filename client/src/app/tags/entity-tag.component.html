@@ -1,0 +1,70 @@
+@switch (context()) {
+  @case ('multi-select-item') {
+    <!-- nz-select's multi-mode pseudo-tag provides the chrome + close button -->
+    <span
+      class="tag-content"
+      nz-popover
+      [nzPopoverContent]="popoverEnabled() ? popoverTpl : undefined"
+      [nzPopoverPlacement]="popoverPlacement()"
+      (nzPopoverVisibleChange)="onPopoverVisible($event)">
+      <ng-template [ngTemplateOutlet]="tagContent" />
+    </span>
+  }
+  @default {
+    <nz-tag
+      [nzMode]="nzMode()"
+      [nzChecked]="checked()"
+      (nzCheckedChange)="checked.set($event)"
+      (nzOnClose)="onClose()"
+      nz-popover
+      [nzPopoverContent]="popoverEnabled() ? popoverTpl : undefined"
+      [nzPopoverPlacement]="popoverPlacement()"
+      (nzPopoverVisibleChange)="onPopoverVisible($event)">
+      <ng-template [ngTemplateOutlet]="tagContent" />
+    </nz-tag>
+  }
+}
+
+<ng-template #tagContent>
+  @if (showIcon() && spec().icon) {
+    <nz-icon
+      class="tag-icon"
+      [nzType]="spec().icon!"
+      nzTheme="twotone"
+      [nzTwotoneColor]="spec().color" />
+  } @else {
+    <span class="tag-no-icon"></span>
+  }
+  @if (isLinked()) {
+    <a
+      class="tag-label"
+      [routerLink]="entity()!.link"
+      [nz-tooltip]="tooltip()">
+      <ng-template [ngTemplateOutlet]="labelTpl" />
+    </a>
+  } @else {
+    <span
+      class="tag-label"
+      [class.tag-skeleton]="!entity()"
+      [nz-tooltip]="tooltip()">
+      <ng-template [ngTemplateOutlet]="labelTpl" />
+    </span>
+  }
+</ng-template>
+
+<ng-template #labelTpl>
+  @for (segment of segments(); track $index) {
+    <span [class.typeahead-match]="segment.highlight">{{ segment.text }}</span>
+  }
+</ng-template>
+
+<ng-template #popoverTpl>
+  @if (popoverComponent(); as component) {
+    <ng-container
+      *polymorpheusOutlet="component; context: popoverContext()" />
+  } @else {
+    <nz-spin
+      nzSimple
+      nzSize="small"></nz-spin>
+  }
+</ng-template>

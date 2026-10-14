@@ -13,8 +13,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
 @NgModule({
-  declarations: [CvcTherapyPopoverComponent],
   imports: [
+    CvcTherapyPopoverComponent,
     CommonModule,
     RouterModule,
     LetDirective,
