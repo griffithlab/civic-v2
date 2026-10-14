@@ -40,7 +40,6 @@ const DEFAULT_DESCRIPTION =
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FormlyModule, NzCheckboxModule],
   templateUrl: './fda-companion-test-checkbox.type.html',
-  styleUrl: './fda-companion-test-checkbox.type.less',
 })
 export class CvcFdaCompanionTestCheckboxField extends CvcFieldBase<
   Maybe<boolean>,

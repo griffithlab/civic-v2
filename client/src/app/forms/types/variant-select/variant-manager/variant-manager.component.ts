@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -13,7 +14,9 @@ import { ErrorLike } from '@apollo/client'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
-import { readCachedEntityName } from '@app/tags'
+import { FeatureSelectTagGQL } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
+import { VariantSelectTagGQL } from '@app/forms/types/variant-select/variant-select.query.gql.generated'
+import { readCachedEntityName, TaggableTypename } from '@app/tags'
 import {
   VariantManagerGQL,
   VariantManagerQuery,
@@ -31,16 +34,19 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, QueryRef } from 'apollo-angular'
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   debounceTime,
   distinctUntilChanged,
   filter,
+  forkJoin,
   map,
   merge,
   Observable,
   of,
   ReplaySubject,
   Subject,
+  switchMap,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
@@ -135,6 +141,9 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
   isScrolling = false
 
   colGuards = colTypeGuards
+
+  private readonly variantTagGQL = inject(VariantSelectTagGQL)
+  private readonly featureTagGQL = inject(FeatureSelectTagGQL)
 
   constructor(
     private queryGQL: VariantManagerGQL,
@@ -277,17 +286,18 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
       this.connection$.pipe(
         pluck('edges'),
         filter(isNonNulled),
-        map((edges) => edges.map((e) => e.node))
+        map((edges) => edges.map((e) => e.node)),
+        switchMap((rows) => this.withTagRecords(rows))
       ),
       this.onSetSelectedRow$,
     ]).pipe(
-      map(([rows, selected]: [Maybe<BrowseVariant>[], Set<number>]) => {
+      map(([[rows, typenames], selected]) => {
         return rows.map((row) => {
           if (!row) return
           return {
             ...row,
             variant: {
-              __typename: 'Variant',
+              __typename: typenames.get(row.id) ?? 'Variant',
               id: row.id,
               name: row.name,
               link: row.link,
@@ -592,6 +602,56 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
     key: VariantManagerColKey
   ): Maybe<VariantsSortColumns> {
     return columnKeyToSortColumnMap[key]
+  }
+
+  /**
+   * cvc-tag renders from the Apollo cache, and a BrowseVariant row is neither
+   * the Variant record (whose cache id carries its concrete type, e.g.
+   * GeneVariant:5005) nor the Feature record. Fetch both for the page through
+   * the selects' tag queries — cache-first, on the batched transport, so a
+   * page of new ids costs one request — and learn each variant's concrete
+   * typename from the result. A failed lookup leaves that tag degraded rather
+   * than blanking the table.
+   */
+  private withTagRecords(
+    rows: Maybe<BrowseVariant>[]
+  ): Observable<[Maybe<BrowseVariant>[], Map<number, TaggableTypename>]> {
+    const present = rows.filter(isNonNulled)
+    const variantIds = [...new Set(present.map((r) => r.id))]
+    const featureIds = [...new Set(present.map((r) => r.featureId))]
+    if (variantIds.length === 0) return of([rows, new Map()])
+    const variants$ = forkJoin(
+      variantIds.map((variantId) =>
+        this.variantTagGQL
+          .fetch({
+            variables: { variantId },
+            fetchPolicy: 'cache-first',
+          })
+          .pipe(
+            map((r) => r.data?.variant),
+            catchError(() => of(undefined))
+          )
+      )
+    )
+    const features$ = forkJoin(
+      featureIds.map((featureId) =>
+        this.featureTagGQL
+          .fetch({
+            variables: { featureId },
+            fetchPolicy: 'cache-first',
+          })
+          .pipe(catchError(() => of(undefined)))
+      )
+    )
+    return forkJoin([variants$, features$]).pipe(
+      map(([variants]) => {
+        const typenames = new Map<number, TaggableTypename>()
+        for (const v of variants) {
+          if (v?.__typename) typenames.set(v.id, v.__typename as TaggableTypename)
+        }
+        return [rows, typenames]
+      })
+    )
   }
 
   getEntityName(typename: string, id: number): Maybe<string> {

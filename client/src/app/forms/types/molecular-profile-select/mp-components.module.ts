@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { CvcEntitySelectModule } from '@app/forms/components/entity-select/entity-select.module'
-import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
 import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form-submission-status-display/form-submission-status-display.module'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcFormFieldWrapperModule } from '@app/forms/wrappers/form-field/form-field.module'
@@ -48,9 +47,8 @@ import { MpFinderComponent } from './mp-finder/mp-finder.component'
     MpEditorPopoverHelpComponent,
   ],
   imports: [
+    NzTagModule,
     CommonModule,
-    CvcEntitySelectModule,
-    CvcEntityTagModule,
     CvcFormFieldWrapperModule,
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,

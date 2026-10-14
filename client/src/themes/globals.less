@@ -9,6 +9,9 @@
  * safe to import anywhere because it emits no rules.
  */
 
+// the single definition: cvc-tag, cvc-highlight and cvc-attribute-tag each
+// carried their own copy, and a component-scoped rule buys nothing here since
+// this file is global and the class is applied by those components' templates
 .typeahead-match {
   font-weight: bold;
 }

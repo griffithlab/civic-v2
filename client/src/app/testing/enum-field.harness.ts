@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser'
 import { provideNoopAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router'
 import { CvcSelectFieldsRegistryModule } from '@app/forms/select/select-fields.registry.module'
+import { CvcBaseFieldsRegistryModule } from '@app/forms/types/base-fields.registry.module'
 import { CvcFormWrappersModule } from '@app/forms/wrappers/form-wrappers.module'
 import { CaretRightOutline } from '@ant-design/icons-angular/icons'
 import { civicIcons } from '@app/icons-provider.module'
@@ -62,8 +63,11 @@ export async function createEnumFieldHarness(
     },
     model: config.model ?? {},
     formState: config.formState,
+    // both registries: enum selects live in the select one, the plain fields
+    // (clinvar, tag-input, the FDA checkboxes) in the base one
     imports: [
       CvcSelectFieldsRegistryModule,
+      CvcBaseFieldsRegistryModule,
       CvcFormWrappersModule,
       NzIconModule.forRoot([...civicIcons, CaretRightOutline]),
     ],

@@ -121,7 +121,6 @@ export class CvcDiseaseQuickAddForm {
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      console.log('disease-quick-add form model submitted.', model)
       this.submitDisease(model)
     })
   }
@@ -138,17 +137,13 @@ export class CvcDiseaseQuickAddForm {
       this.model,
       {},
       (data) => {
-        console.log('disease-quick-add submit data callback', data)
         if (data.addDisease) {
           if (data.addDisease.new) {
             this.successMessage = `New Disease ${data.addDisease.disease.name} added.`
           } else {
             this.successMessage = `Existing Disease ${data.addDisease.disease.name} with DOID ${data.addDisease.disease.doid} found. `
           }
-          setTimeout(() => {
-            if (data && data.addDisease)
-              this.cvcOnCreate.next(data.addDisease.disease.id)
-          }, 1000)
+          this.cvcOnCreate.next(data.addDisease.disease.id)
         }
       }
     )

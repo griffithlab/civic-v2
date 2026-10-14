@@ -62,7 +62,6 @@ const NOT_APPLICABLE = 'NA'
     NzTooltipModule,
   ],
   templateUrl: './clinvar-input.type.html',
-  styleUrl: './clinvar-input.type.less',
 })
 export class CvcClinvarInputField extends CvcFieldBase<
   Maybe<string[]>,

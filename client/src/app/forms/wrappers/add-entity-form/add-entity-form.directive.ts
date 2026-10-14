@@ -6,6 +6,5 @@ import { Directive, ViewContainerRef } from '@angular/core'
 })
 export class AddEntityFormHostDirective {
   constructor(public viewContainerRef: ViewContainerRef) {
-    console.log('AddEntityFormHostDirective constructor()')
   }
 }
