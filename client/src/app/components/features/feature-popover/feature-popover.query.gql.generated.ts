@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { FeatureInstanceRefFragmentDoc } from '../../../graphql/feature-instance.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type FeaturePopoverQueryVariables = Types.Exact<{
@@ -10,17 +11,17 @@ export type FeaturePopoverQueryVariables = Types.Exact<{
 
 
 export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance:
-      | { __typename: 'Factor' }
-      | { __typename: 'Fusion' }
-      | { __typename: 'Gene' }
-      | { __typename: 'Region' }
+      | { __typename: 'Factor', id: number }
+      | { __typename: 'Fusion', id: number }
+      | { __typename: 'Gene', id: number }
+      | { __typename: 'Region', id: number }
     , revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, stats: { __typename: 'FeatureStats', variantCount: number, molecularProfileCount: number, evidenceItemCount: number, assertionCount: number } } | undefined };
 
 export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance:
-    | { __typename: 'Factor' }
-    | { __typename: 'Fusion' }
-    | { __typename: 'Gene' }
-    | { __typename: 'Region' }
+    | { __typename: 'Factor', id: number }
+    | { __typename: 'Fusion', id: number }
+    | { __typename: 'Gene', id: number }
+    | { __typename: 'Region', id: number }
   , revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, stats: { __typename: 'FeatureStats', variantCount: number, molecularProfileCount: number, evidenceItemCount: number, assertionCount: number } };
 
 export const FeaturePopoverFragmentDoc = gql`
@@ -29,7 +30,7 @@ export const FeaturePopoverFragmentDoc = gql`
   name
   fullName
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
   }
   featureAliases
   revisions(status: NEW) {
@@ -48,7 +49,7 @@ export const FeaturePopoverFragmentDoc = gql`
     assertionCount
   }
 }
-    `;
+    ${FeatureInstanceRefFragmentDoc}`;
 export const FeaturePopoverDocument = gql`
     query FeaturePopover($featureId: Int!) {
   feature(id: $featureId) {

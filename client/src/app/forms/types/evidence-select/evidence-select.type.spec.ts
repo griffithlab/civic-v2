@@ -1,3 +1,4 @@
+import { signal } from '@angular/core'
 import { MockGraphqlOperation } from '@app/testing/apollo-test.providers'
 import {
   createSelectFieldHarness,
@@ -104,13 +105,13 @@ describe('CvcEvidenceSelectField', () => {
     const h = await setup({
       formState: {
         fields: {
-          molecularProfileId$: new BehaviorSubject<number | undefined>(3),
-          diseaseId$: new BehaviorSubject<number | undefined>(undefined),
-          therapyIds$: new BehaviorSubject<number[] | undefined>(undefined),
+          molecularProfileId: signal<number | undefined>(3),
+          diseaseId: signal<number | undefined>(undefined),
+          therapyIds: signal<number[] | undefined>(undefined),
         },
         requires: {
-          requiresDisease$: new BehaviorSubject(true),
-          requiresTherapy$: new BehaviorSubject(false),
+          requiresDisease: signal(true),
+          requiresTherapy: signal(false),
         },
       },
     })

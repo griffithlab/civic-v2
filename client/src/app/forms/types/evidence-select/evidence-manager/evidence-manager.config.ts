@@ -43,6 +43,10 @@ export const columnKeyToQueryVariableMap: EvidenceManagerColQueryMap = {
   disease: 'diseaseName',
   therapies: 'therapyName',
   evidenceItem: 'id',
+  // the query's variable is `rating`; without this entry the filter set
+  // `evidenceRating` on the variables object, which the query never reads, so
+  // the star-rating filter silently did nothing
+  evidenceRating: 'rating',
 }
 // column keys included here will be hidden in preference panel, preventing
 // defaults from being changed by the user
@@ -123,7 +127,9 @@ export class EvidenceManagerConfig {
         label: 'Molecular Profile',
         type: 'entity-tag',
         width: '240px',
-        sort: {},
+        // neither EvidenceSortColumns nor the sort map has this column; a
+        // sortable header sent `column: null` and the query errored
+        sort: { disabled: true },
         tag: {
           truncateLabel: '200px',
         },
@@ -189,7 +195,8 @@ export class EvidenceManagerConfig {
         width: '40px',
         align: 'center',
         emptyValueCategory: 'not-applicable',
-        sort: {},
+        // no server sort column for this one either
+        sort: { disabled: true },
         filter: {
           options: this.getAttributeFilters($enum(TherapyInteraction)),
         },

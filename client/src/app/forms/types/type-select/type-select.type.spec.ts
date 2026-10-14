@@ -3,7 +3,7 @@ import {
   createEnumFieldHarness,
   describeEnumSelectContract,
 } from '@app/testing/enum-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 import { CvcEntityTypeSelectField } from './type-select.type'
 
@@ -13,9 +13,9 @@ const formState = () => ({
   entityName: 'Evidence',
   formMode: 'add' as const,
   fields: {
-    evidenceType$: new BehaviorSubject<EvidenceType | undefined>(undefined),
+    evidenceType: signal<EvidenceType | undefined>(undefined),
   },
-  enums: { entityType$: new BehaviorSubject(TYPES) },
+  enums: { entityType: signal(TYPES) },
   requires: {},
 })
 

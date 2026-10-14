@@ -16,7 +16,7 @@ fragment FeatureDetailFields on Feature {
     }
   }
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
   }
   flags(state: OPEN) {
     totalCount

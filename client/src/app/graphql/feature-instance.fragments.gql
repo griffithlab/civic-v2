@@ -1,0 +1,23 @@
+# The identity of a Feature's featureInstance.
+#
+# Invariant: every query selecting `featureInstance` spreads this fragment.
+# FeatureInstance is a union with no fields of its own, so `id` is selected
+# per concrete type. Without it Apollo can't normalize the selection and logs
+# "Cache data may be lost when replacing the featureInstance field of a
+# Feature object" whenever two queries write the same Feature differently.
+
+fragment FeatureInstanceRef on FeatureInstance {
+  __typename
+  ... on Gene {
+    id
+  }
+  ... on Factor {
+    id
+  }
+  ... on Fusion {
+    id
+  }
+  ... on Region {
+    id
+  }
+}

@@ -1,3 +1,4 @@
+import { signal } from '@angular/core'
 import { MockGraphqlOperation } from '@app/testing/apollo-test.providers'
 import { createSelectFieldHarness } from '@app/testing/select-field.harness'
 import { describe, expect, it } from 'vitest'
@@ -157,11 +158,10 @@ describe('CvcMolecularProfileSelectField', () => {
     h.destroy()
   })
 
-  it('propagates its value to the form-state subject named after its key', async () => {
-    const { BehaviorSubject } = await import('rxjs')
-    const subject = new BehaviorSubject<number | undefined>(undefined)
+  it('publishes its value into the form state under its own key', async () => {
+    const molecularProfileId = signal<number | undefined>(undefined)
     const h = await setup({
-      formState: { fields: { molecularProfileId$: subject } },
+      formState: { fields: { molecularProfileId } },
     })
     await h.settle()
 
@@ -170,7 +170,7 @@ describe('CvcMolecularProfileSelectField', () => {
     )
     await h.settle()
 
-    expect(subject.value).toBe(KRAS_G12D.id)
+    expect(molecularProfileId()).toBe(KRAS_G12D.id)
     h.destroy()
   })
 

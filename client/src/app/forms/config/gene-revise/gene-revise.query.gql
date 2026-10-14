@@ -13,6 +13,7 @@ fragment RevisableGeneFields on Feature {
     citationId
   }
   featureInstance {
+    ...FeatureInstanceRef
     ... on Gene {
       description
     }

@@ -12,7 +12,7 @@ fragment FeatureSummaryFields on Feature{
   deprecated
   flagged
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
     ... on Gene {
       ... GeneSummaryFields
     }

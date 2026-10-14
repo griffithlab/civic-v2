@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { FeatureInstanceRefFragmentDoc } from '../../../graphql/feature-instance.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type FactorRevisableFieldsQueryVariables = Types.Exact<{
@@ -10,17 +11,17 @@ export type FactorRevisableFieldsQueryVariables = Types.Exact<{
 
 
 export type FactorRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: Types.SourceSource, citation?: string | undefined, citationId: string }>, featureInstance:
-      | { __typename: 'Factor', ncitId?: string | undefined }
-      | { __typename: 'Fusion' }
-      | { __typename: 'Gene' }
-      | { __typename: 'Region' }
+      | { __typename: 'Factor', ncitId?: string | undefined, id: number }
+      | { __typename: 'Fusion', id: number }
+      | { __typename: 'Gene', id: number }
+      | { __typename: 'Region', id: number }
      } | undefined };
 
 export type RevisableFactorFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: Types.SourceSource, citation?: string | undefined, citationId: string }>, featureInstance:
-    | { __typename: 'Factor', ncitId?: string | undefined }
-    | { __typename: 'Fusion' }
-    | { __typename: 'Gene' }
-    | { __typename: 'Region' }
+    | { __typename: 'Factor', ncitId?: string | undefined, id: number }
+    | { __typename: 'Fusion', id: number }
+    | { __typename: 'Gene', id: number }
+    | { __typename: 'Region', id: number }
    };
 
 export type SuggestFactorRevisionMutationVariables = Types.Exact<{
@@ -44,12 +45,13 @@ export const RevisableFactorFieldsFragmentDoc = gql`
   }
   featureAliases
   featureInstance {
+    ...FeatureInstanceRef
     ... on Factor {
       ncitId
     }
   }
 }
-    `;
+    ${FeatureInstanceRefFragmentDoc}`;
 export const FactorRevisableFieldsDocument = gql`
     query FactorRevisableFields($featureId: Int!) {
   feature(id: $featureId) {

@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { FeatureInstanceRefFragmentDoc } from '../../../graphql/feature-instance.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type FusionRevisableFieldsQueryVariables = Types.Exact<{
@@ -10,17 +11,17 @@ export type FusionRevisableFieldsQueryVariables = Types.Exact<{
 
 
 export type FusionRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: Types.SourceSource, citation?: string | undefined, citationId: string }>, featureInstance:
-      | { __typename: 'Factor' }
-      | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus, knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }
-      | { __typename: 'Gene' }
-      | { __typename: 'Region' }
+      | { __typename: 'Factor', id: number }
+      | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus, id: number, knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }
+      | { __typename: 'Gene', id: number }
+      | { __typename: 'Region', id: number }
      } | undefined };
 
 export type RevisableFusionFieldsFragment = { __typename: 'Feature', id: number, description?: string | undefined, featureAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: Types.SourceSource, citation?: string | undefined, citationId: string }>, featureInstance:
-    | { __typename: 'Factor' }
-    | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus, knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }
-    | { __typename: 'Gene' }
-    | { __typename: 'Region' }
+    | { __typename: 'Factor', id: number }
+    | { __typename: 'Fusion', fivePrimePartnerStatus: Types.FusionPartnerStatus, threePrimePartnerStatus: Types.FusionPartnerStatus, id: number, knownPartnerGenes: Array<{ __typename: 'Gene', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }
+    | { __typename: 'Gene', id: number }
+    | { __typename: 'Region', id: number }
    };
 
 export type SuggestFusionRevisionMutationVariables = Types.Exact<{
@@ -42,7 +43,7 @@ export const RevisableFusionFieldsFragmentDoc = gql`
   }
   featureAliases
   featureInstance {
-    __typename
+    ...FeatureInstanceRef
     ... on Fusion {
       fivePrimePartnerStatus
       threePrimePartnerStatus
@@ -56,7 +57,7 @@ export const RevisableFusionFieldsFragmentDoc = gql`
     }
   }
 }
-    `;
+    ${FeatureInstanceRefFragmentDoc}`;
 export const FusionRevisableFieldsDocument = gql`
     query FusionRevisableFields($featureId: Int!) {
   feature(id: $featureId) {

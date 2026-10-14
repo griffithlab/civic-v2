@@ -3,9 +3,10 @@ import {
   Component,
   EventEmitter,
   Output,
+  signal,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
+import { EntityFieldSignalMap } from '@app/forms/states/base.state'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import {
   FeatureInstanceTypes,
@@ -28,7 +29,7 @@ type MpFinderModel = {
 
 type MpFinderState = {
   formLayout: NzFormLayoutType
-  fields: EntityFieldSubjectMap
+  fields: EntityFieldSignalMap
 }
 
 @Component({
@@ -51,11 +52,9 @@ export class MpFinderComponent {
   finderState: MpFinderState = {
     formLayout: 'horizontal',
     fields: {
-      featureId$: new BehaviorSubject<Maybe<number>>(undefined),
-      variantId$: new BehaviorSubject<Maybe<number>>(undefined),
-      variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
-        undefined
-      ),
+      featureId: signal<Maybe<number>>(undefined),
+      variantId: signal<Maybe<number>>(undefined),
+      variantMolecularProfile: signal<Maybe<MolecularProfile>>(undefined),
     },
   }
   options: FormlyFormOptions

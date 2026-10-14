@@ -16,6 +16,7 @@ fragment RevisableFusionVariantFields on FusionVariant {
     deprecated
     flagged
     featureInstance {
+      ...FeatureInstanceRef
       ... on Fusion {
         fivePrimePartnerStatus
         threePrimePartnerStatus

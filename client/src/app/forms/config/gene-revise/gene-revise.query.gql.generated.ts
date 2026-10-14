@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { FeatureInstanceRefFragmentDoc } from '../../../graphql/feature-instance.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type GeneRevisableFieldsQueryVariables = Types.Exact<{
@@ -10,17 +11,17 @@ export type GeneRevisableFieldsQueryVariables = Types.Exact<{
 
 
 export type GeneRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, sources: Array<{ __typename: 'Source', id: number, sourceType: Types.SourceSource, citation?: string | undefined, citationId: string }>, featureInstance:
-      | { __typename: 'Factor' }
-      | { __typename: 'Fusion' }
-      | { __typename: 'Gene', description?: string | undefined }
-      | { __typename: 'Region' }
+      | { __typename: 'Factor', id: number }
+      | { __typename: 'Fusion', id: number }
+      | { __typename: 'Gene', description?: string | undefined, id: number }
+      | { __typename: 'Region', id: number }
      } | undefined };
 
 export type RevisableGeneFieldsFragment = { __typename: 'Feature', id: number, sources: Array<{ __typename: 'Source', id: number, sourceType: Types.SourceSource, citation?: string | undefined, citationId: string }>, featureInstance:
-    | { __typename: 'Factor' }
-    | { __typename: 'Fusion' }
-    | { __typename: 'Gene', description?: string | undefined }
-    | { __typename: 'Region' }
+    | { __typename: 'Factor', id: number }
+    | { __typename: 'Fusion', id: number }
+    | { __typename: 'Gene', description?: string | undefined, id: number }
+    | { __typename: 'Region', id: number }
    };
 
 export type SuggestGeneRevisionMutationVariables = Types.Exact<{
@@ -40,12 +41,13 @@ export const RevisableGeneFieldsFragmentDoc = gql`
     citationId
   }
   featureInstance {
+    ...FeatureInstanceRef
     ... on Gene {
       description
     }
   }
 }
-    `;
+    ${FeatureInstanceRefFragmentDoc}`;
 export const GeneRevisableFieldsDocument = gql`
     query GeneRevisableFields($featureId: Int!) {
   feature(id: $featureId) {

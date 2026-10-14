@@ -1,6 +1,6 @@
 import { Maybe, TherapyInteraction } from '@app/generated/civic.apollo.types'
 import { createEnumFieldHarness } from '@app/testing/enum-field.harness'
-import { BehaviorSubject } from 'rxjs'
+import { signal } from '@angular/core'
 import { describe, expect, it } from 'vitest'
 
 const INTERACTIONS = [
@@ -13,12 +13,12 @@ const formState = (therapyIds: Maybe<number[]> = []) => ({
   entityName: 'Evidence',
   formMode: 'add' as const,
   fields: {
-    therapyIds$: new BehaviorSubject<Maybe<number[]>>(therapyIds),
-    therapyInteractionType$: new BehaviorSubject<
+    therapyIds: signal<Maybe<number[]>>(therapyIds),
+    therapyInteractionType: signal<
       Maybe<TherapyInteraction>
     >(undefined),
   },
-  enums: { interaction$: new BehaviorSubject(INTERACTIONS) },
+  enums: { interaction: signal(INTERACTIONS) },
   requires: {},
 })
 
@@ -62,7 +62,7 @@ describe('CvcInteractionSelectField', () => {
   it('becomes required once two therapies are selected', async () => {
     const state = formState([1])
     const h = await setup(state)
-    state.fields.therapyIds$.next([1, 2])
+    state.fields.therapyIds.set([1, 2])
     await h.settle()
 
     expect(h.props().disabled).toBe(false)
@@ -90,7 +90,7 @@ describe('CvcInteractionSelectField', () => {
     await h.settle()
     expect(h.control().value).toBe(TherapyInteraction.Combination)
 
-    state.fields.therapyIds$.next([1])
+    state.fields.therapyIds.set([1])
     await h.settle()
     expect(h.control().value).toBeUndefined()
     h.destroy()

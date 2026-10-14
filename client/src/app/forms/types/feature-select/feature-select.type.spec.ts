@@ -18,7 +18,9 @@ const feature = (id: number, name: string, aliases: string[] = []) => ({
   deprecated: false,
   featureType: FeatureInstanceTypes.Gene,
   featureAliases: aliases,
-  featureInstance: { __typename: 'Gene' as const, entrezId: 100 + id },
+  // id is what makes featureInstance normalisable; without it Apollo cannot
+  // merge two queries' selections and warns about replacing the field
+  featureInstance: { __typename: 'Gene' as const, id, entrezId: 100 + id },
 })
 
 const BRAF = feature(21, 'BRAF', ['BRAF1', 'RAFB1'])

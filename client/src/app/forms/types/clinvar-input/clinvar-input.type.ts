@@ -67,7 +67,6 @@ export class CvcClinvarInputField extends CvcFieldBase<
   Maybe<string[]>,
   FieldTypeConfig<CvcClinvarInputFieldProps>
 > {
-  private readonly injector = inject(Injector)
 
   defaultOptions: CvcClinvarInputFieldOptions = {
     modelOptions: {

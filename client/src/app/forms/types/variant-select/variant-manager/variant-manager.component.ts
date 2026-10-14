@@ -14,6 +14,7 @@ import { ErrorLike } from '@apollo/client'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CombinedGraphQLErrors } from '@apollo/client/errors'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { BATCHED } from '@app/graphql/graphql.module'
 import { FeatureSelectTagGQL } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
 import { VariantSelectTagGQL } from '@app/forms/types/variant-select/variant-select.query.gql.generated'
 import { readCachedEntityName, TaggableTypename } from '@app/tags'
@@ -626,6 +627,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
           .fetch({
             variables: { variantId },
             fetchPolicy: 'cache-first',
+            context: BATCHED,
           })
           .pipe(
             map((r) => r.data?.variant),
@@ -639,6 +641,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
           .fetch({
             variables: { featureId },
             fetchPolicy: 'cache-first',
+            context: BATCHED,
           })
           .pipe(catchError(() => of(undefined)))
       )
