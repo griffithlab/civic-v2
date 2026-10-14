@@ -107,8 +107,11 @@ src/app/
   core/         # services, utilities, state
   directives/
   forms/        # ngx-formly form configs, types, and wrappers
-  generated/    # GraphQL codegen output — do not edit by hand
-  graphql/      # client-side schema extensions
+  generated/    # schema-level codegen output (types, possible-types, helpers) — do not edit by hand
+  graphql/      # Apollo client setup, cache type policies, client-side schema extensions
   layout/       # app shell, navigation
   views/        # routed page components
 ```
+
+`.gql` documents and their generated `*.gql.generated.ts` modules live throughout
+`components/`, `forms/`, `views/`, and `core/`, colocated with the code that uses them.
