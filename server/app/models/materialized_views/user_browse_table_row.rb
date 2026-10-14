@@ -8,4 +8,16 @@ class MaterializedViews::UserBrowseTableRow < MaterializedViews::MaterializedVie
   belongs_to :country
 
   enum :role, [ "curator", "editor", "admin" ]
+
+  def display_name
+    if username.present?
+      username
+    elsif name.present?
+      name
+    elsif email.present?
+      email
+    else
+      id.to_s
+    end
+  end
 end
