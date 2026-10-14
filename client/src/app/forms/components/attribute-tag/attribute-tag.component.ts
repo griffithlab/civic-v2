@@ -9,19 +9,32 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core'
+import { NgClass, NgTemplateOutlet } from '@angular/common'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { Maybe } from '@app/generated/civic.apollo.types'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
 @Component({
   selector: 'cvc-attribute-tag',
+  standalone: true,
   templateUrl: './attribute-tag.component.html',
   styleUrls: ['./attribute-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.full-width]': `cvcFullWidth === true`,
   },
-  standalone: false,
+  imports: [
+    NgClass,
+    NgTemplateOutlet,
+    NzIconModule,
+    NzTagModule,
+    NzTooltipModule,
+    CvcPipesModule,
+  ],
 })
 export class CvcAttributeTagComponent implements OnChanges {
   @Input() cvcAttrValue: Maybe<CvcInputEnum>

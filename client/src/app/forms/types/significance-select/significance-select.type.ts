@@ -1,27 +1,24 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChildren,
   ChangeDetectionStrategy,
+  Component,
+  Type,
+  effect,
+  signal,
 } from '@angular/core'
-import { CvcInputEnum } from '@app/forms/forms.types'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
-import { EntitySignificance } from '@app/forms/states/base.state'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CvcAttributeTagComponent } from '@app/forms/components/attribute-tag/attribute-tag.component'
+import {
+  CvcEnumSelectFieldBase,
+  CvcEnumSelectFieldProps,
+} from '@app/forms/select'
+import { EntitySignificance, EntityType } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map, skip, withLatestFrom } from 'rxjs'
-import mixin from 'ts-mixin-extended'
+import { NzSelectModule } from 'ng-zorro-antd/select'
 
 const optionText: any = {
   Evidence: {
@@ -114,52 +111,39 @@ export type CvcSignificanceSelectFieldOptions = Partial<
   FieldTypeConfig<CvcSignificanceSelectFieldProps>
 >
 
-interface CvcSignificanceSelectFieldProps extends FormlyFieldProps {
-  label: string
-  placeholder: string
+export interface CvcSignificanceSelectFieldProps
+  extends CvcEnumSelectFieldProps {
   placeholderFn: (entityName: string, entityType?: string) => string
   requireTypePromptFn: (entityName: string) => string
-  isMultiSelect: boolean
-  tooltip?: string
-  description?: string
-  extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcSignificanceSelectFieldConfig extends FormlyFieldConfig<CvcSignificanceSelectFieldProps> {
+export interface CvcSignificanceSelectFieldConfig
+  extends FormlyFieldConfig<CvcSignificanceSelectFieldProps> {
   type: 'significance-select' | Type<CvcSignificanceSelectField>
 }
 
-const SignificanceSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcSignificanceSelectFieldProps>,
-    Maybe<EntitySignificance>
-  >(),
-  EnumSelectField<EntitySignificance, CvcInputEnum>()
-)
-
+/**
+ * Which significances exist, and what each one means, both depend on the
+ * form's entity type — so the options come from form state and the description
+ * is looked up per (entity name, entity type, significance).
+ */
 @Component({
   selector: 'cvc-significance-select',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    CvcAttributeTagComponent,
+  ],
   templateUrl: './significance-select.type.html',
-  styleUrls: ['./significance-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
-export class CvcSignificanceSelectField
-  extends SignificanceSelectMixin
-  implements AfterViewInit
-{
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EntitySignificance instead of CvcInputEnum
-  // STATE SOURCE STREAMS
-  significanceEnum$: BehaviorSubject<CvcInputEnum[]>
-  onTypeSelect$?: BehaviorSubject<Maybe<CvcInputEnum>>
-
-  // LOCAL SOURCE STREAMS
-
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$!: BehaviorSubject<string>
-
-  // FieldTypeConfig defaults
+export class CvcSignificanceSelectField extends CvcEnumSelectFieldBase<
+  EntitySignificance,
+  CvcSignificanceSelectFieldProps
+> {
   defaultOptions: CvcSignificanceSelectFieldOptions = {
     props: {
       label: 'Significance',
@@ -174,110 +158,57 @@ export class CvcSignificanceSelectField
     },
   }
 
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
+  protected readonly placeholder = signal('Select Significance')
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super()
-    this.significanceEnum$ = new BehaviorSubject<CvcInputEnum[]>([])
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEnumSelectField({
-      optionEnum$: this.significanceEnum$,
-      optionTemplate$: this.optionTemplate$,
-      changeDetectorRef: this.cdr,
-    })
-  } // ngAfterViewInit()
-
-  configureStateConnections(): void {
-    if (!this.state) {
+  override ngOnInit(): void {
+    super.ngOnInit()
+    const state = this.state
+    if (!state) {
       console.error(
         `${this.field.id} requires a form state to populate its options, none was found.`
       )
-      this.placeholder$ = new BehaviorSubject<string>(
-        'ERROR: Form state not found'
-      )
+      this.placeholder.set('ERROR: Form state not found')
       return
     }
 
-    // CONFIGURE PLACEHOLDER PROMPT
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.props.placeholderFn(this.state.entityName)
-    )
+    this.placeholder.set(this.props.placeholderFn(state.entityName))
 
-    // CONFIGURE STATE INPUTS
-    // connect to state significanceOptions$
-    if (!this.state.enums.significance$) {
+    if (!state.enums.significance$) {
       console.error(
         `${this.field.id} could not find form state's enums.significance$ to populate select.`
       )
+    } else {
+      this.connectStateEnum(state.enums.significance$)
+    }
+
+    const entityType = this.connectEntityTypeGate()
+    effect(() => this.describe(entityType(), this.selected()), {
+      injector: this.injector,
+    })
+  }
+
+  private describe(
+    entityType?: EntityType,
+    significance?: EntitySignificance
+  ): void {
+    const state = this.state!
+    if (!entityType) {
+      this.props.disabled = true
+      this.props.required = false
+      this.props.description = this.props.requireTypePromptFn(state.entityName)
+      this.props.extraType = 'prompt'
+      this.markDirty()
       return
     }
-    this.state.enums.significance$
-      .pipe(untilDestroyed(this))
-      .subscribe((enums: CvcInputEnum[]) => {
-        this.significanceEnum$.next(enums)
-      })
 
-    // set up optionTemplate$ Observable for enum-select's cvcOptions
-    if (!this.optionTemplates) {
-      console.warn(
-        `${this.field.id} could not find its optionTemplates QueryList to populate its select options, so simple text labels will be displayed.`
-      )
-    }
-    // watch optionTemplates ViewChildren, map QueryList => TemplateRef[]
-    this.optionTemplate$ = this.optionTemplates?.changes.pipe(
-      // return QueryLists's array of TemplateRefs
-      map((ql: QueryList<TemplateRef<any>>) => {
-        return ql.map((q) => q)
-      })
-    )
-
-    // connect to form state's entityType$
-    const etName = `${this.state.entityName.toLowerCase()}Type$`
-    if (!this.state.fields[etName]) {
-      console.error(
-        `${this.field.id} could not find form state's ${etName} to populate Significance options.`
-      )
-      return
-    }
-    this.onTypeSelect$ = this.state.fields[etName]
-    // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
-    this.onTypeSelect$
-      .pipe(
-        skip(this.options.formState.formMode === 'add' ? 0 : 1),
-        untilDestroyed(this)
-      )
-      .subscribe((et: Maybe<CvcInputEnum>) => {
-        if (!et) {
-          this.props.disabled = true
-          this.props.description = this.props.requireTypePromptFn(
-            this.state!.entityName
-          )
-          this.props.extraType = 'prompt'
-        } else {
-          this.props.disabled = false
-          this.props.description = undefined
-          this.props.extraType = undefined
-          this.placeholder$.next(
-            this.props.placeholderFn(this.state!.entityName)
-          )
-        }
-        if (this.formControl.value) this.formControl.setValue(undefined)
-      })
-
-    // update field description on value changes
-    this.onValueChange$
-      .pipe(withLatestFrom(this.onTypeSelect$), untilDestroyed(this))
-      .subscribe(([cs, et]: [Maybe<CvcInputEnum>, Maybe<CvcInputEnum>]) => {
-        if (!et || !cs || !this.state) return
-        this.props.description = undefined
-        this.props.extraType = 'description'
-        this.props.description = optionText[this.state.entityName][et][cs]
-        this.field.formControl.markAsTouched()
-      })
+    this.props.disabled = false
+    this.props.required = true
+    this.placeholder.set(this.props.placeholderFn(state.entityName))
+    const text: Maybe<string> = significance
+      ? optionText[state.entityName]?.[entityType]?.[significance]
+      : undefined
+    this.props.description = text
+    this.props.extraType = text ? 'description' : undefined
+    this.markDirty()
   }
 }

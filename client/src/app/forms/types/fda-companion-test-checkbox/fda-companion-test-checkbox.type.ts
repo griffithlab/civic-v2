@@ -1,89 +1,80 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Type,
-  AfterViewInit,
-} from '@angular/core'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ReactiveFormsModule } from '@angular/forms'
+import { CvcFieldBase } from '@app/forms/select'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
-import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyModule,
+} from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { filter, take } from 'rxjs'
-import mixin from 'ts-mixin-extended'
 
 export type CvcFdaCompanionTestCheckboxFieldOptions = Partial<
   FieldTypeConfig<CvcFdaCompanionTestCheckboxFieldProps>
 >
-export interface CvcFdaCompanionTestCheckboxFieldProps extends FormlyFieldProps {
+
+export interface CvcFdaCompanionTestCheckboxFieldProps
+  extends FormlyFieldProps {
   indeterminate?: boolean
-  extraType?: string
-  description?: string
-  disabled?: boolean
+  extraType?: CvcFormFieldExtraType
 }
 
-export interface FormlyCheckboxFieldConfig extends FormlyFieldConfig<CvcFdaCompanionTestCheckboxFieldProps> {
-  type: 'checkbox' | Type<CvcFdaCompanionTestCheckboxField>
+export interface CvcFdaCompanionTestCheckboxFieldConfig
+  extends FormlyFieldConfig<CvcFdaCompanionTestCheckboxFieldProps> {
+  type:
+    | 'fda-companion-test-checkbox'
+    | Type<CvcFdaCompanionTestCheckboxField>
 }
 
-const FdaCompanionTestMixin =
-  mixin(
-    BaseFieldType<
-      FieldTypeConfig<CvcFdaCompanionTestCheckboxFieldProps>,
-      Maybe<string>
-    >()
-  )
+const DEFAULT_DESCRIPTION =
+  'Select Yes if an FDA approved companion test exists for the variant and therapy associated with the Assertion (such as tests listed <a href="https://www.fda.gov/medical-devices/in-vitro-diagnostics/list-cleared-or-approved-companion-diagnostic-devices-in-vitro-and-imaging-tools" target="_blank">here</a>).'
 
+/** A companion test is only meaningful once regulatory approval is claimed. */
 @Component({
   selector: 'cvc-fda-companion-test-checkbox',
-  templateUrl: './fda-companion-test-checkbox.type.html',
-  styleUrls: ['./fda-companion-test-checkbox.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [ReactiveFormsModule, FormlyModule, NzCheckboxModule],
+  templateUrl: './fda-companion-test-checkbox.type.html',
+  styleUrl: './fda-companion-test-checkbox.type.less',
 })
-export class CvcFdaCompanionTestCheckboxField
-  extends FdaCompanionTestMixin
-  implements AfterViewInit
-{
-  defaultDescription =
-    'Select Yes if an FDA approved companion test exists for the variant and therapy associated with the Assertion (such as tests listed <a href="https://www.fda.gov/medical-devices/in-vitro-diagnostics/list-cleared-or-approved-companion-diagnostic-devices-in-vitro-and-imaging-tools" target="_blank">here</a>).'
-  override defaultOptions = {
+export class CvcFdaCompanionTestCheckboxField extends CvcFieldBase<
+  Maybe<boolean>,
+  FieldTypeConfig<CvcFdaCompanionTestCheckboxFieldProps>
+> {
+  defaultOptions: CvcFdaCompanionTestCheckboxFieldOptions = {
     props: {
       hideLabel: false,
       label: 'FDA Companion Test',
-      description: this.defaultDescription,
+      description: DEFAULT_DESCRIPTION,
     },
   }
 
-  ngAfterViewInit(): void {
-    this.configureBaseField()
-    if (!this.state) {
+  override ngOnInit(): void {
+    super.ngOnInit()
+    if (!this.state) return
+
+    if (!this.state.formReady$) {
+      this.connectRegulatoryApproval()
       return
     }
-
-    if (this.state.formReady$) {
-      this.state.formReady$
-        .pipe(
-          filter((r) => r), // only pass true values
-          take(1), // unsubscribe after 1st emit
-          untilDestroyed(this) // or form destroyed
-        )
-        .subscribe((_) => {
-          this.configureField()
-        })
-    } else {
-      this.configureField()
-    }
+    this.state.formReady$
+      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.connectRegulatoryApproval())
   }
 
-  configureField() {
+  private connectRegulatoryApproval(): void {
     this.state?.fields.fdaRegulatoryApproval$
-      .pipe(untilDestroyed(this))
-      .subscribe((approval: Maybe<boolean>) => {
-        if (approval) {
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((approved: Maybe<boolean>) => {
+        if (approved) {
           this.props.disabled = false
           this.props.extraType = 'description'
-          this.props.description = this.defaultDescription
+          this.props.description = DEFAULT_DESCRIPTION
           if (this.formControl.value === undefined) {
             this.formControl.setValue(false)
           }

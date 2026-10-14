@@ -1,36 +1,38 @@
-<cvc-enum-select
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcPlaceholder]="props.placeholder"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"></cvc-enum-select>
-@for (enum of levelEnum$ | ngrxPush; track enum; let i = $index) {
-  <ng-template #optionTemplates>
-    <nz-tag>
-      <strong>{{ enum }}</strong> -
-      {{ enum | enumTooltip: 'evidenceLevelBrief' }}
-    </nz-tag>
-  </ng-template>
-}
+<nz-select
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.ng-dirty]="showError"
+  [nzMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [nzPlaceHolder]="props.placeholder || 'Select Evidence Level'"
+  [nzDisabled]="!!props.disabled"
+  [nzCustomTemplate]="selectedTpl">
+  @for (level of optionValues(); track level) {
+    <nz-option
+      nzCustomContent
+      [nzValue]="level"
+      [nzLabel]="level">
+      <nz-tag>
+        <strong>{{ level }}</strong> -
+        {{ level | enumTooltip: 'evidenceLevelBrief' }}
+      </nz-tag>
+    </nz-option>
+  }
+</nz-select>
 
 <ng-template
-  #selectedTemplate
+  #selectedTpl
   let-selected>
   <div class="ant-select-selection-item-content">
-    @if (!props.isMultiSelect) {
-      <nz-tag
-        nzMode="closeable"
-        (nzOnClose)="onTagClose$.next($event)">
-        <strong>{{ selected.nzValue }}</strong> -
-        {{ selected.nzValue | enumTooltip: 'evidenceLevelBrief' }}
-      </nz-tag>
-    }
     @if (props.isMultiSelect) {
       <strong>{{ selected.nzValue }}</strong> -
       {{ selected.nzValue | enumTooltip: 'evidenceLevelBrief' }}
+    } @else {
+      <nz-tag
+        nzMode="closeable"
+        (nzOnClose)="onTagClose()">
+        <strong>{{ selected.nzValue }}</strong> -
+        {{ selected.nzValue | enumTooltip: 'evidenceLevelBrief' }}
+      </nz-tag>
     }
   </div>
 </ng-template>
