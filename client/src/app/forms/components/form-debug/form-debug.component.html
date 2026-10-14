@@ -12,11 +12,11 @@
       <nz-tab nzTitle="Form Status"></nz-tab>
     </nz-tabs>
   </nz-card-tab>
-  <ng-container [ngSwitch]="selectedIndex">
-    <ng-container *ngSwitchCase="0">
+  @switch (selectedIndex) {
+    @case (0) {
       <ngx-json-viewer [json]="watchModel"></ngx-json-viewer>
-    </ng-container>
-    <ng-container *ngSwitchCase="3">
+    }
+    @case (3) {
       <nz-descriptions
         nzBordered
         [nzColumn]="1"
@@ -45,13 +45,15 @@
         </nz-descriptions-item>
         <!-- <nz-descriptions-item nzTitle="disabled">{{ cvcForm?.disabled}}</nz-descriptions-item> -->
       </nz-descriptions>
-    </ng-container>
-    <ng-container *ngSwitchCase="1">
+    }
+    @case (1) {
       <cvc-form-debug-field-list
         [cvcAbstractControl]="cvcForm"></cvc-form-debug-field-list>
-    </ng-container>
-    <ng-container *ngSwitchCase="2"> State Content </ng-container>
-  </ng-container>
+    }
+    @case (2) {
+      State Content
+    }
+  }
 </nz-card>
 <ng-template #cardTitle>
   <nz-row>

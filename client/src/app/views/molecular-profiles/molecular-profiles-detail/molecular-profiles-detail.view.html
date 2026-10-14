@@ -1,25 +1,24 @@
-<ng-container *ngIf="molecularProfile$ | ngrxPush as mp">
+@if (molecularProfile$ | ngrxPush; as mp) {
   <cvc-section-navigation
     [displayName]="mp.name"
     [actionsTpl]="mpActions">
   </cvc-section-navigation>
-
   <ng-template #mpActions>
     <ng-container *ngrxLet="viewer$ as viewer">
-      <button
-        routerLink="/evidence/add/submit"
-        [queryParams]="{ molecularProfileId: mp.id }"
-        nz-button
-        *ngIf="viewer.canCurate"
-        nzSize="small">
-        <i
-          nz-icon
-          nzType="plus-circle"></i>
-        Add Evidence For This Molecular Profile
-      </button>
+      @if (viewer.canCurate) {
+        <button
+          routerLink="/evidence/add/submit"
+          [queryParams]="{ molecularProfileId: mp.id }"
+          nz-button
+          nzSize="small">
+          <i
+            nz-icon
+            nzType="plus-circle"></i>
+          Add Evidence For This Molecular Profile
+        </button>
+      }
     </ng-container>
   </ng-template>
-
   <div
     cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
@@ -33,14 +32,23 @@
           nzType="civic:molecularprofile"></i>
         {{ mp.name }}
       </nz-page-header-title>
-
       <!-- subtitle -->
-      <nz-page-header-subtitle *ngIf="mp.molecularProfileAliases.length > 0">
-        <span *ngFor="let alias of mp.molecularProfileAliases; last as isLast">
-          {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
-        </span>
-      </nz-page-header-subtitle>
-
+      @if (mp.molecularProfileAliases.length > 0) {
+        <nz-page-header-subtitle>
+          @for (
+            alias of mp.molecularProfileAliases;
+            track alias;
+            let isLast = $last
+          ) {
+            <span>
+              {{ alias }}
+              @if (!isLast) {
+                <span>,&nbsp;</span>
+              }
+            </span>
+          }
+        </nz-page-header-subtitle>
+      }
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
         <nz-space
@@ -49,93 +57,98 @@
           *ngrxLet="viewer$ as viewer">
           <!-- add revision btn -->
           <span *nzSpaceItem>
-            <button
-              [routerLink]="['/molecular-profiles', mp.id, 'revise']"
-              *ngIf="viewer.signedIn"
-              routerLinkActive
-              #rlaComments="routerLinkActive"
-              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              Revise
-            </button>
+            @if (viewer.signedIn) {
+              <button
+                [routerLink]="['/molecular-profiles', mp.id, 'revise']"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                Revise
+              </button>
+            }
           </span>
-
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
           <span *nzSpaceItem>
-            <button
-              routerLink="flags"
-              *ngIf="viewer.signedIn"
-              routerLinkActive
-              #rlaComments="routerLinkActive"
-              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              Flag
-            </button>
+            @if (viewer.signedIn) {
+              <button
+                routerLink="flags"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                Flag
+              </button>
+            }
           </span>
-
           <!-- deprecate molecular profile btn -->
           <span *nzSpaceItem>
-            <button
-              nz-button
-              nzSize="small"
-              *ngIf="viewer.isEditor"
-              [disabled]="mp.deprecated || mp.variants.length == 1"
-              nz-popover
-              nzPopoverTitle="Deprecate Molecular Profile"
-              nzPopoverTrigger="click"
-              [nzPopoverContent]="deprecateMolecularProfileForm"
-              nzPopoverPlacement="bottomRight">
-              Deprecate
-              <ng-template #deprecateMolecularProfileForm>
-                <div class="deprecateMolecularProfile">
-                  <cvc-complex-molecular-profile-deprecate-form
-                    [molecularProfileId]="mp.id"></cvc-complex-molecular-profile-deprecate-form>
-                </div>
-              </ng-template>
-            </button>
+            @if (viewer.isEditor) {
+              <button
+                nz-button
+                nzSize="small"
+                [disabled]="mp.deprecated || mp.variants.length == 1"
+                nz-popover
+                nzPopoverTitle="Deprecate Molecular Profile"
+                nzPopoverTrigger="click"
+                [nzPopoverContent]="deprecateMolecularProfileForm"
+                nzPopoverPlacement="bottomRight">
+                Deprecate
+                <ng-template #deprecateMolecularProfileForm>
+                  <div class="deprecateMolecularProfile">
+                    <cvc-complex-molecular-profile-deprecate-form
+                      [molecularProfileId]="
+                        mp.id
+                      "></cvc-complex-molecular-profile-deprecate-form>
+                  </div>
+                </ng-template>
+              </button>
+            }
           </span>
-
-
           <span *nzSpaceItem>
-            <cvc-entity-subscription-button
-              *ngIf="viewer.signedIn && subscribable"
-              [viewer]="viewer"
-              [subscribableId]="subscribable.id"
-              typename="MolecularProfile">
-            </cvc-entity-subscription-button>
+            @if (viewer.signedIn && subscribable) {
+              <cvc-entity-subscription-button
+                [viewer]="viewer"
+                [subscribableId]="subscribable.id"
+                typename="MolecularProfile">
+              </cvc-entity-subscription-button>
+            }
           </span>
         </nz-space>
       </nz-page-header-extra>
       <nz-page-header-content>
-        <nz-alert
-          *ngIf="mp.deprecated"
-          nzBanner
-          [nzMessage]="deprecationMessageTemplate"
-          nzType="error"></nz-alert>
+        @if (mp.deprecated) {
+          <nz-alert
+            nzBanner
+            [nzMessage]="deprecationMessageTemplate"
+            nzType="error"></nz-alert>
+        }
         <ng-template #deprecationMessageTemplate>
-          <ng-container *ngIf="mp.deprecationReason == 'VARIANT_DEPRECATED'; else directDeprecationTemplate">
-            This Molecular Profile has been deprecated because one or more of its
-            underlying variants are deprecated
-            <ng-container *ngFor="let v of mp.deprecatedVariants">
+          @if (mp.deprecationReason == 'VARIANT_DEPRECATED') {
+            This Molecular Profile has been deprecated because one or more of
+            its underlying variants are deprecated
+            @for (v of mp.deprecatedVariants; track v) {
               <br />
               <cvc-feature-variant-tag [variant]="v"></cvc-feature-variant-tag>
               {{ v.deprecationReason | enumToTitle }}.
-              <cvc-comment-body
-                *ngIf="v.deprecationActivity"
-                [commentBodySegments]="v.deprecationActivity.parsedNote"></cvc-comment-body>
-            </ng-container>
-          </ng-container>
-          <ng-template #directDeprecationTemplate>
-            This Molecular Profile has been deprecated for reason: {{
-            mp.deprecationReason | enumToTitle }}.
+              @if (v.deprecationActivity) {
+                <cvc-comment-body
+                  [commentBodySegments]="
+                    v.deprecationActivity.parsedNote
+                  "></cvc-comment-body>
+              }
+            }
+          } @else {
+            This Molecular Profile has been deprecated for reason:
+            {{ mp.deprecationReason | enumToTitle }}.
             <cvc-comment-body
               [commentBodySegments]="
                 mp.complexMolecularProfileDeprecationActivity?.parsedNote || []
               "></cvc-comment-body>
-          </ng-template>
+          }
         </ng-template>
         <cvc-tab-navigation [tabs]="tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
@@ -151,4 +164,4 @@
       </nz-page-header-content>
     </nz-page-header>
   </div>
-</ng-container>
+}

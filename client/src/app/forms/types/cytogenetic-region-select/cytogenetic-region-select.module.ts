@@ -15,7 +15,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcCytogeneticRegionSelectField,
@@ -59,7 +59,7 @@ const typeConfig: ConfigOption = {
     NzSelectModule,
     NzIconModule,
     NzInputModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzFormModule,
     NzAutocompleteModule,
     NzTypographyModule,

@@ -9,7 +9,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
@@ -34,7 +34,7 @@ import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-over
     NzIconModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
 
     CvcPipesModule,

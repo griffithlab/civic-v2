@@ -1,5 +1,5 @@
 <!-- if cvcHeight not specified, render table with viewport target, without card height container -->
-<ng-container *ngIf="!cvcHeight; else setHeightCard">
+@if (!cvcHeight) {
   <nz-card
     [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
@@ -8,10 +8,7 @@
     cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
-</ng-container>
-
-<!-- if cvcHeight is specified, render table in container w/ specified height-->
-<ng-template #setHeightCard>
+} @else {
   <div
     class="card-container"
     [ngStyle]="{ height: cvcHeight }">
@@ -23,7 +20,9 @@
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
-</ng-template>
+}
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
 
 <ng-template #table>
   <nz-table
@@ -181,12 +180,12 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="cvcTitleTemplate">
+  @if (cvcTitleTemplate) {
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
-  </ng-container>
-  <ng-container *ngIf="cvcTitle">
+  }
+  @if (cvcTitle) {
     {{ cvcTitle }}
-  </ng-container>
+  }
   <span class="table-info">
     <cvc-table-counts
       [cvcTableCountsConnection]="connection$"></cvc-table-counts>
@@ -195,14 +194,14 @@
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag
-    *ngIf="moreLoading$ | ngrxPush"
-    nzColor="processing">
-    <i
-      nz-icon
-      nzType="sync"
-      nzSpin></i>
-    <span>Loading...</span>
-  </nz-tag>
+  @if (moreLoading$ | ngrxPush) {
+    <nz-tag nzColor="processing">
+      <i
+        nz-icon
+        nzType="sync"
+        nzSpin></i>
+      <span>Loading...</span>
+    </nz-tag>
+  }
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>

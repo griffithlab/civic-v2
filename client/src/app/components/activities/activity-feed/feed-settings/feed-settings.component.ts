@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import {
   Component,
   EventEmitter,
@@ -24,7 +23,6 @@ import { feedDefaultSettings } from '../activity-feed.config'
 @Component({
   selector: 'cvc-activity-feed-settings',
   imports: [
-    CommonModule,
     FormsModule,
     NzFormModule,
     NzButtonModule,

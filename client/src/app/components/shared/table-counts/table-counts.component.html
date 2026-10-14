@@ -1,10 +1,11 @@
-<span
-  *ngIf="tableCountsInfo$ | ngrxPush as tci"
-  class="table-counts"
-  nz-typography
-  nzType="secondary">
-  {{ tci.edgeCount | number }} of {{ tci.filteredCount | number }} displayed
-  <span *ngIf="tci.lastUpdated">
-    (Current as of {{ tci.lastUpdated | timeAgo }})
+@if (tableCountsInfo$ | ngrxPush; as tci) {
+  <span
+    class="table-counts"
+    nz-typography
+    nzType="secondary">
+    {{ tci.edgeCount | number }} of {{ tci.filteredCount | number }} displayed
+    @if (tci.lastUpdated) {
+      <span> (Current as of {{ tci.lastUpdated | timeAgo }}) </span>
+    }
   </span>
-</span>
+}

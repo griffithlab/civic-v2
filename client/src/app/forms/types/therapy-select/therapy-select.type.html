@@ -21,7 +21,7 @@
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
 <ng-container *ngrxLet="onSearch$ as searchString">
-  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+  @for (result of result$ | ngrxPush; track result; let i = $index) {
     <ng-template #optionTemplates>
       <cvc-entity-tag
         [cvcDisableLink]="true"
@@ -30,15 +30,15 @@
       <span
         nz-typography
         nzType="secondary">
-        <ng-container *ngIf="result.ncitId">
+        @if (result.ncitId) {
           <strong>NCIt Code: </strong>
           <span
             [innerHtml]="
-              result.ncitId | highlightTypeahead : searchString
+              result.ncitId | highlightTypeahead: searchString
             "></span
           >&nbsp;
-        </ng-container>
-        <ng-container *ngIf="result.therapyAliases.length > 0">
+        }
+        @if (result.therapyAliases.length > 0) {
           <strong>Aliases: </strong>
           <em>
             <span
@@ -48,19 +48,19 @@
               [nzTooltipTitle]="result.therapyAliases.join(', ')"
               [innerHtml]="
                 result.therapyAliases.join(', ')
-                  | highlightTypeahead : searchString
+                  | highlightTypeahead: searchString
               ">
             </span>
           </em>
-        </ng-container>
+        }
       </span>
     </ng-template>
-  </ng-container>
+  }
 </ng-container>
 
 <!-- selected option item template -->
 <!-- displays entity tag, specifying context and mode depending on
-    if field is multi-select or single -->
+  if field is multi-select or single -->
 <ng-template
   #selectedTemplate
   let-selected>

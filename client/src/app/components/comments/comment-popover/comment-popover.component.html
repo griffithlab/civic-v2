@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="comment$ | ngrxPush as c">
+  @if (comment$ | ngrxPush; as c) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -32,7 +32,7 @@
                 [variant]="c.commentable"></cvc-feature-variant-tag>
             }
             <!-- NOTE: #UPDATE had to use $any here, [revision] attr was complaining about
-            missing linkableRevision on c.commentable -->
+              missing linkableRevision on c.commentable -->
             @case ('Revision') {
               <cvc-revision-tag
                 [enablePopover]="false"
@@ -40,7 +40,6 @@
             }
             @case ('Source') {
               <cvc-source-tag
-                *ngSwitchCase="'Source'"
                 mode="concise"
                 [enablePopover]="false"
                 [source]="c.commentable"></cvc-source-tag>
@@ -62,11 +61,11 @@
                 <i> This comment has been deleted. </i>
               </span>
             } @else {
-              <p
-                nz-typography
-                *ngIf="c.title">
-                <b>{{ c.title }}</b>
-              </p>
+              @if (c.title) {
+                <p nz-typography>
+                  <b>{{ c.title }}</b>
+                </p>
+              }
               <p>
                 {{ c.comment }}
               </p>
@@ -75,5 +74,5 @@
         </nz-col>
       </nz-row>
     </nz-card>
-  </ng-container>
+  }
 </div>

@@ -22,7 +22,7 @@ import {
   FormlyModule,
 } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { CommonModule } from '@angular/common'
+
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
@@ -52,7 +52,6 @@ export interface RegionSelectModalData {
   styleUrls: ['./region-select.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     NzFormModule,
     NzButtonModule,
@@ -124,12 +123,12 @@ export class CvcRegionSelectForm {
                     key: 'cytogeneticRegionId',
                     type: 'cytogenetic-region-select',
                     props: {
-                      label: "Region",
+                      label: 'Region',
                       placeholder: 'Select Region',
-                      tooltip: "Select Region",
+                      tooltip: 'Select Region',
                     },
                     expressions: {
-                      'props.required': (field) => true
+                      'props.required': (field) => true,
                     },
                   },
                 ],

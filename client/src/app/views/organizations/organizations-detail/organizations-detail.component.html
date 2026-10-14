@@ -1,7 +1,6 @@
-<ng-container *ngIf="organization$ | ngrxPush as organization">
+@if (organization$ | ngrxPush; as organization) {
   <cvc-section-navigation [displayName]="organization.name">
   </cvc-section-navigation>
-
   <nz-page-header class="site-page-header">
     <nz-page-header-content>
       <nz-row
@@ -17,7 +16,6 @@
               [size]="128"
               shape="square"
               *nzSpaceItem></cvc-organization-avatar>
-
             <div
               class="org-pseudo-tag"
               *nzSpaceItem>
@@ -30,7 +28,7 @@
                 <strong> {{ organization.name }}</strong>
               </span>
             </div>
-            <ng-container *ngIf="organization.url">
+            @if (organization.url) {
               <a
                 *nzSpaceItem
                 [href]="organization.url"
@@ -43,10 +41,9 @@
                   nzType="link"></span>
                 Visit Website
               </a>
-            </ng-container>
+            }
           </nz-space>
         </nz-col>
-
         <!-- bio, organizations, COI column -->
         <nz-col nzFlex="1 1 400px">
           <nz-space
@@ -61,32 +58,30 @@
               <nz-descriptions-item
                 [nzTitle]="'About ' + organization.name"
                 nzSpan="4">
-                <ng-container
-                  *ngIf="organization.description; else noDescription">
+                @if (organization.description) {
                   {{ organization.description }}
-                </ng-container>
-                <ng-template #noDescription>
+                } @else {
                   <span
                     nz-typography
                     nzType="secondary">
                     <i>No description provided.</i>
                   </span>
-                </ng-template>
+                }
               </nz-descriptions-item>
-
               <nz-descriptions-item
                 [nzSpan]="4"
                 [nzTitle]="
                   'Child Organization' +
                   (organization.subGroups.length !== 1 ? 's' : '')
                 ">
-                <cvc-tag-list
-                  *ngIf="organization.subGroups.length > 0; else noSubGroups">
-                  <ng-container *ngFor="let suborg of organization.subGroups">
-                    <cvc-organization-tag [org]="suborg"></cvc-organization-tag>
-                  </ng-container>
-                </cvc-tag-list>
-                <ng-template #noSubGroups>
+                @if (organization.subGroups.length > 0) {
+                  <cvc-tag-list>
+                    @for (suborg of organization.subGroups; track suborg) {
+                      <cvc-organization-tag
+                        [org]="suborg"></cvc-organization-tag>
+                    }
+                  </cvc-tag-list>
+                } @else {
                   <span
                     nz-typography
                     nzType="secondary">
@@ -95,12 +90,11 @@
                       organizations.
                     </i>
                   </span>
-                </ng-template>
+                }
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-space>
         </nz-col>
-
         <!-- stats column -->
         <nz-col nzFlex="0 1 150px">
           <nz-descriptions
@@ -130,7 +124,6 @@
                     nzTheme="outline"></i>
                 </span>
               </div>
-
               <ng-template #rankingCalculations>
                 <div class="calculation-info">
                   <p>
@@ -166,4 +159,4 @@
       </nz-row>
     </nz-page-header-content>
   </nz-page-header>
-</ng-container>
+}

@@ -2,16 +2,17 @@
 </cvc-section-navigation>
 <ng-template #assertionActions>
   <ng-container *ngrxLet="viewer$ as viewer">
-    <button
-      routerLink="/assertions/add/submit"
-      *ngIf="viewer.signedIn"
-      nz-button
-      nzSize="small">
-      <i
-        nz-icon
-        nzType="plus-circle"></i>
-      Submit New Assertion
-    </button>
+    @if (viewer.signedIn) {
+      <button
+        routerLink="/assertions/add/submit"
+        nz-button
+        nzSize="small">
+        <i
+          nz-icon
+          nzType="plus-circle"></i>
+        Submit New Assertion
+      </button>
+    }
   </ng-container>
 </ng-template>
 

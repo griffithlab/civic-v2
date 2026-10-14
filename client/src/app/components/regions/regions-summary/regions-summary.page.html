@@ -12,20 +12,20 @@
           [nzColumn]="1">
           <!-- description -->
           <nz-descriptions-item nzTitle="Description">
-            <p
-              *ngIf="region.description; else noDescription"
-              nz-typography
-              nzEllipsis
-              nzExpandable
-              [nzEllipsisRows]="8">
-              {{ region.description }}
-            </p>
-
-            <!-- noDescription Tpl -->
-            <ng-template #noDescription>
+            @if (region.description) {
+              <p
+                nz-typography
+                nzEllipsis
+                nzExpandable
+                [nzEllipsisRows]="8">
+                {{ region.description }}
+              </p>
+            } @else {
               <cvc-empty-revisable notification="No description provided">
               </cvc-empty-revisable>
-            </ng-template>
+            }
+
+            <!-- noDescription Tpl -->
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
@@ -39,38 +39,35 @@
           nzBordered="true">
           <!-- sources -->
           <nz-descriptions-item nzTitle="Sources">
-            <ng-container *ngIf="region.sources.length > 0; else noSources">
+            @if (region.sources.length > 0) {
               <cvc-tag-list>
-                <cvc-source-tag
-                  *ngFor="let source of region.sources"
-                  [source]="source"></cvc-source-tag>
+                @for (source of region.sources; track source) {
+                  <cvc-source-tag [source]="source"></cvc-source-tag>
+                }
               </cvc-tag-list>
-            </ng-container>
-            <ng-template #noSources>
+            } @else {
               <span
                 nz-typography
                 nzType="secondary"
                 >None specified</span
               >
-            </ng-template>
+            }
           </nz-descriptions-item>
 
           <!-- aliases -->
           <nz-descriptions-item nzTitle="Aliases">
-            <ng-container
-              *ngIf="region.featureAliases.length > 0; else noAliases">
-              <nz-tag *ngFor="let alias of region.featureAliases">{{
-                alias
-              }}</nz-tag>
-            </ng-container>
+            @if (region.featureAliases.length > 0) {
+              @for (alias of region.featureAliases; track alias) {
+                <nz-tag>{{ alias }}</nz-tag>
+              }
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
+            }
           </nz-descriptions-item>
-          <ng-template #noAliases>
-            <span
-              nz-typography
-              nzType="secondary"
-              >None specified</span
-            >
-          </ng-template>
         </nz-descriptions>
       </nz-col>
     </nz-row>
@@ -85,7 +82,7 @@
       [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
       nzBordered="true">
       <!-- creation/deprecation curation events -->
-      <ng-container *ngIf="region.creationActivity">
+      @if (region.creationActivity) {
         <nz-descriptions-item [nzTitle]="createdTitle">
           by
           <cvc-user-tag [user]="region.creationActivity.user"></cvc-user-tag>
@@ -98,8 +95,8 @@
             ({{ region.creationActivity.createdAt | timeAgo }})
           </span>
         </ng-template>
-      </ng-container>
-      <ng-container *ngIf="region.deprecationActivity">
+      }
+      @if (region.deprecationActivity) {
         <nz-descriptions-item [nzTitle]="deprecatedTitle">
           by
           <cvc-user-tag [user]="region.deprecationActivity.user"></cvc-user-tag>
@@ -112,7 +109,7 @@
             ({{ region.deprecationActivity.createdAt | timeAgo }})
           </span>
         </ng-template>
-      </ng-container>
+      }
     </nz-descriptions>
     <br />
     <!-- clinical significance -->
@@ -125,19 +122,26 @@
         <td>
           <cvc-clinical-significance-counts
             [cvcEntityName]="region.name"
-            [cvcClinicalSignificances]="region.detailedClinicalSignificanceCounts"></cvc-clinical-significance-counts>
+            [cvcClinicalSignificances]="
+              region.detailedClinicalSignificanceCounts
+            "></cvc-clinical-significance-counts>
         </td>
       </nz-descriptions-item>
     </nz-descriptions>
   </nz-col>
 </nz-row>
 <nz-row [nzGutter]="[8, 16]">
-  @for (cytogeneticRegion of region.cytogeneticRegions; track cytogeneticRegion) {
+  @for (
+    cytogeneticRegion of region.cytogeneticRegions;
+    track cytogeneticRegion
+  ) {
     <nz-col nzSpan="12">
-      <nz-card
-        nzTitle="{{cytogeneticRegion.name}} Coordinates">
-        <nz-tabset [nzAnimated]="false">
-          @for (coordinates of cytogeneticRegion.cytogeneticCoordinates; track coordinates) {
+      <nz-card nzTitle="{{ cytogeneticRegion.name }} Coordinates">
+        <nz-tabs [nzAnimated]="false">
+          @for (
+            coordinates of cytogeneticRegion.cytogeneticCoordinates;
+            track coordinates
+          ) {
             <nz-tab [nzTitle]="coordinates.referenceBuild">
               <nz-descriptions
                 nzLayout="horizontal"
@@ -145,17 +149,23 @@
                 nzSize="small"
                 [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
                 <!-- chr. -->
-                <nz-descriptions-item nzTitle="Chr.">{{ coordinates.chromosome }}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Chr.">{{
+                  coordinates.chromosome
+                }}</nz-descriptions-item>
 
                 <!-- start -->
-                <nz-descriptions-item nzTitle="Start">{{ coordinates.start }}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Start">{{
+                  coordinates.start
+                }}</nz-descriptions-item>
 
                 <!-- stop -->
-                <nz-descriptions-item nzTitle="Stop">{{ coordinates.stop }}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Stop">{{
+                  coordinates.stop
+                }}</nz-descriptions-item>
               </nz-descriptions>
             </nz-tab>
           }
-        </nz-tabset>
+        </nz-tabs>
       </nz-card>
     </nz-col>
   }

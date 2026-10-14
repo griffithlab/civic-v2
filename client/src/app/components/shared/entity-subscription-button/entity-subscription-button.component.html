@@ -1,5 +1,4 @@
-<ng-container
-  *ngIf="existingSubscription$ | ngrxPush as subscription; else noSub">
+@if (existingSubscription$ | ngrxPush; as subscription) {
   <button
     nz-button
     nz-tooltip="Unsubscribe"
@@ -11,8 +10,7 @@
       nzType="bell"
       nzTheme="fill"></i>
   </button>
-</ng-container>
-<ng-template #noSub>
+} @else {
   <button
     nz-button
     nz-tooltip="Subscribe"
@@ -24,4 +22,4 @@
       nzType="bell"
       nzTheme="outline"></i>
   </button>
-</ng-template>
+}

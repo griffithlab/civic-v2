@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="org$ | ngrxPush as org">
+  @if (org$ | ngrxPush; as org) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -9,7 +9,7 @@
         <cvc-user-avatar
           [user]="{
             displayName: org.name,
-            profileImagePath: org.profileImagePath
+            profileImagePath: org.profileImagePath,
           }"
           size="default"></cvc-user-avatar>
         <span
@@ -19,38 +19,35 @@
           >{{ org.name }}</span
         >
       </ng-template>
-
       <!-- description -->
       <nz-row>
         <nz-col nzSpan="24">
           <div class="popover-text">
             <p nz-typography>
-              <span *ngIf="org.description as desc; else noDesc">{{
-                desc
-              }}</span>
+              @if (org.description; as desc) {
+                <span>{{ desc }}</span>
+              } @else {
+                Organization has not provided a description.
+              }
             </p>
           </div>
         </nz-col>
       </nz-row>
-
       <nz-descriptions
         nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
         <!-- homepage -->
         <nz-descriptions-item nzTitle="Homepage">
-          <ng-container *ngIf="org.url; else noHomepage">
+          @if (org.url) {
             <cvc-link-tag [href]="org.url">
               {{ org.name }}
             </cvc-link-tag>
-          </ng-container>
+          } @else {
+            --
+          }
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
-  </ng-container>
+  }
 </div>
-<ng-template #noDesc>
-  Organization has not provided a description.
-</ng-template>
-
-<ng-template #noHomepage> -- </ng-template>

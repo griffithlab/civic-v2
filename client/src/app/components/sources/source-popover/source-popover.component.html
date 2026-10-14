@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="source$ | ngrxPush as s">
+  @if (source$ | ngrxPush; as s) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -19,9 +19,14 @@
           [tooltip]="'View on ' + s.displayType">
           {{ s.displayType + ':' + s.citationId }}
         </cvc-link-tag>
-        <cvc-retraction-status-tag *ngIf='s.retractionNature && s.retractionDate && s.retractionReasons' [retractionNature]='s.retractionNature' [retractionDate]="s.retractionDate" [retractionReasons]="s.retractionReasons" [enablePopover]="false"></cvc-retraction-status-tag>
+        @if (s.retractionNature && s.retractionDate && s.retractionReasons) {
+          <cvc-retraction-status-tag
+            [retractionNature]="s.retractionNature"
+            [retractionDate]="s.retractionDate"
+            [retractionReasons]="s.retractionReasons"
+            [enablePopover]="false"></cvc-retraction-status-tag>
+        }
       </ng-template>
-
       <nz-descriptions
         nzSize="small"
         [nzColumn]="2"
@@ -31,37 +36,32 @@
           nzSpan="2">
           {{ s.title }}
         </nz-descriptions-item>
-
         <nz-descriptions-item
           nzTitle="Journal"
           nzSpan="2">
           {{ s.fullJournalTitle }}
         </nz-descriptions-item>
-
         <nz-descriptions-item
           nzTitle="Evidence"
           nzSpan="2">
           {{ s.evidenceItemCount }}
         </nz-descriptions-item>
-
         <nz-descriptions-item
           nzTitle="Clinical Trials:"
           nzSpan="2">
-          <ng-container
-            *ngIf="
-              s.clinicalTrials && s.clinicalTrials.length > 0;
-              else noTrials
-            ">
+          @if (s.clinicalTrials && s.clinicalTrials.length > 0) {
             <cvc-tag-list>
-              <cvc-clinical-trial-tag
-                *ngFor="let t of s.clinicalTrials"
-                [clinicalTrial]="t"
-                [enablePopover]="false"></cvc-clinical-trial-tag>
+              @for (t of s.clinicalTrials; track t) {
+                <cvc-clinical-trial-tag
+                  [clinicalTrial]="t"
+                  [enablePopover]="false"></cvc-clinical-trial-tag>
+              }
             </cvc-tag-list>
-          </ng-container>
-          <ng-template #noTrials> -- </ng-template>
+          } @else {
+            --
+          }
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
-  </ng-container>
+  }
 </div>

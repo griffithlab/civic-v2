@@ -28,7 +28,7 @@ import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { filter, map } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { CommonModule } from '@angular/common'
+
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzListModule } from 'ng-zorro-antd/list'
@@ -57,7 +57,6 @@ const STATUS_ORDER: ApprovalStatus[] = [
   styleUrls: ['./approval-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     NzAlertModule,
     NzButtonModule,
     NzListModule,

@@ -1,6 +1,7 @@
-<ng-container *ngIf="variantGroupId; else loadingVariantGroup">
+@if (variantGroupId) {
   <!-- TODO: #FORMS2 refactor cvc-variant-grou-revise-form -->
   <cvc-variantgroup-revise-form [variantGroupId]="variantGroupId">
-</cvc-variantgroup-revise-form>
-</ng-container>
-<ng-template #loadingVariantGroup>Loading Variant Group...</ng-template>
+  </cvc-variantgroup-revise-form>
+} @else {
+  Loading Variant Group...
+}

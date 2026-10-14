@@ -1,5 +1,5 @@
 <!-- show full tags for non-hidden entities -->
-<ng-container *ngFor="let entity of entities">
+@for (entity of entities; track entity) {
   <span class="tag-container">
     <ng-container
       *ngTemplateOutlet="
@@ -7,8 +7,8 @@
         context: {
           $implicit: entity,
           config: config,
-          emphasize: config?.emphasize
+          emphasize: config?.emphasize,
         }
       "></ng-container>
   </span>
-</ng-container>
+}

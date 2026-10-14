@@ -26,7 +26,7 @@ import {
   FormlyModule,
 } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { CommonModule } from '@angular/common'
+
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
@@ -83,7 +83,6 @@ export const isEnsemblTranscript = (c: AbstractControl) => {
   styleUrls: ['./fusion-variant-select.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     NzFormModule,
     NzButtonModule,

@@ -59,34 +59,42 @@
 
         <!-- evidence direction -->
         <nz-descriptions-item nzTitle="Direction">
-          <cvc-attribute-tag
-            *ngIf="evidence.evidenceDirection !== 'NA'; else valueNotApplicable"
-            [cvcAttrValue]="evidence.evidenceDirection"
-            nz-tooltip
-            [nzTooltipTitle]="
-              evidence.evidenceDirection
-                | enumTooltip
-                  : 'evidenceDirection'
-                  : evidence.evidenceType
-                  : 'EvidenceItem'
-            ">
-          </cvc-attribute-tag>
+          @if (evidence.evidenceDirection !== 'NA') {
+            <cvc-attribute-tag
+              [cvcAttrValue]="evidence.evidenceDirection"
+              nz-tooltip
+              [nzTooltipTitle]="
+                evidence.evidenceDirection
+                  | enumTooltip
+                    : 'evidenceDirection'
+                    : evidence.evidenceType
+                    : 'EvidenceItem'
+              ">
+            </cvc-attribute-tag>
+          } @else {
+            <cvc-empty-value
+              cvcEmptyCategory="not-applicable"></cvc-empty-value>
+          }
         </nz-descriptions-item>
 
         <!-- significance -->
         <nz-descriptions-item nzTitle="Significance">
-          <cvc-attribute-tag
-            *ngIf="evidence.significance !== 'NA'; else valueNotApplicable"
-            [cvcAttrValue]="evidence.significance"
-            nz-tooltip
-            [nzTooltipTitle]="
-              evidence.significance
-                | enumTooltip
-                  : 'significance'
-                  : evidence.evidenceType
-                  : 'EvidenceItem'
-            ">
-          </cvc-attribute-tag>
+          @if (evidence.significance !== 'NA') {
+            <cvc-attribute-tag
+              [cvcAttrValue]="evidence.significance"
+              nz-tooltip
+              [nzTooltipTitle]="
+                evidence.significance
+                  | enumTooltip
+                    : 'significance'
+                    : evidence.evidenceType
+                    : 'EvidenceItem'
+              ">
+            </cvc-attribute-tag>
+          } @else {
+            <cvc-empty-value
+              cvcEmptyCategory="not-applicable"></cvc-empty-value>
+          }
         </nz-descriptions-item>
 
         <!-- variant origin -->
@@ -131,25 +139,27 @@
         </nz-descriptions-item>
 
         <!-- clinical trials -->
-        <nz-descriptions-item
-          nzSpan="2"
-          *ngIf="
-            evidence.source.clinicalTrials &&
-              evidence.source.clinicalTrials.length > 0;
-            else valueUnspecified
-          "
-          [nzTitle]="
-            evidence.source.clinicalTrials &&
-            evidence.source.clinicalTrials.length > 1
-              ? 'Clinical Trials'
-              : 'Clinical Trial'
-          "
-          nzSpan="2">
-          <ng-container *ngFor="let t of evidence.source.clinicalTrials">
-            <cvc-clinical-trial-tag
-              [clinicalTrial]="t"></cvc-clinical-trial-tag>
-          </ng-container>
-        </nz-descriptions-item>
+        @if (
+          evidence.source.clinicalTrials &&
+          evidence.source.clinicalTrials.length > 0
+        ) {
+          <nz-descriptions-item
+            nzSpan="2"
+            [nzTitle]="
+              evidence.source.clinicalTrials &&
+              evidence.source.clinicalTrials.length > 1
+                ? 'Clinical Trials'
+                : 'Clinical Trial'
+            "
+            nzSpan="2">
+            @for (t of evidence.source.clinicalTrials; track t) {
+              <cvc-clinical-trial-tag
+                [clinicalTrial]="t"></cvc-clinical-trial-tag>
+            }
+          </nz-descriptions-item>
+        } @else {
+          <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+        }
       </nz-descriptions>
 
       <!-- secondary attributes -->
@@ -181,68 +191,74 @@
         <nz-descriptions-item
           nzTitle="Disease"
           nzSpan="1">
-          <ng-container *ngIf="evidence.disease; else valueNotApplicable">
+          @if (evidence.disease) {
             <a routerLink="/diseases/{{ evidence.disease.id }}">
               <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
             </a>
-          </ng-container>
+          } @else {
+            <cvc-empty-value
+              cvcEmptyCategory="not-applicable"></cvc-empty-value>
+          }
         </nz-descriptions-item>
 
         <!-- phenotypes -->
-        <nz-descriptions-item
-          nzSpan="1"
-          *ngIf="evidence.phenotypes.length > 0"
-          [nzTitle]="
-            evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'
-          ">
-          <ng-container
-            *ngIf="evidence.phenotypes.length > 0; else valueUnspecified">
-            <cvc-tag-list>
-              <ng-container *ngFor="let ph of evidence.phenotypes">
-                <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
-              </ng-container>
-            </cvc-tag-list>
-          </ng-container>
-        </nz-descriptions-item>
+        @if (evidence.phenotypes.length > 0) {
+          <nz-descriptions-item
+            nzSpan="1"
+            [nzTitle]="
+              evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'
+            ">
+            @if (evidence.phenotypes.length > 0) {
+              <cvc-tag-list>
+                @for (ph of evidence.phenotypes; track ph) {
+                  <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
+                }
+              </cvc-tag-list>
+            } @else {
+              <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+            }
+          </nz-descriptions-item>
+        }
 
         <!-- therapies -->
-        <nz-descriptions-item
-          nzSpan="1"
-          *ngIf="evidence.therapies.length > 0"
-          [nzTitle]="evidence.therapies.length > 1 ? 'Therapies' : 'Therapy'">
-          <ng-container [ngPlural]="evidence.therapies.length">
-            <!-- no drug -->
-            <ng-template ngPluralCase="=0">
-              <ng-container
-                [ngTemplateOutlet]="valueNotApplicable"></ng-container>
-            </ng-template>
-
-            <!-- one or more drugs -->
-            <ng-template ngPluralCase="other">
-              <cvc-tag-list>
-                <ng-container *ngFor="let therapy of evidence.therapies">
-                  <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
-                </ng-container>
-                <nz-tag
-                  *ngIf="evidence.therapyInteractionType"
-                  nz-tooltip
-                  nzTooltipPlacement="top"
-                  [nzTooltipTitle]="
-                    evidence.therapyInteractionType
-                      | therapyInteractionEnumDisplay
-                  ">
-                  <i
-                    nz-icon
-                    [nzType]="
-                      evidence.therapyInteractionType
-                        | therapyInteractionEnumDisplay: 'icon-name'
-                    "
-                    class="attribute-icon"></i>
-                </nz-tag>
-              </cvc-tag-list>
-            </ng-template>
-          </ng-container>
-        </nz-descriptions-item>
+        @if (evidence.therapies.length > 0) {
+          <nz-descriptions-item
+            nzSpan="1"
+            [nzTitle]="evidence.therapies.length > 1 ? 'Therapies' : 'Therapy'">
+            <ng-container [ngPlural]="evidence.therapies.length">
+              <!-- no drug -->
+              <ng-template ngPluralCase="=0">
+                <ng-container
+                  [ngTemplateOutlet]="valueNotApplicable"></ng-container>
+              </ng-template>
+              <!-- one or more drugs -->
+              <ng-template ngPluralCase="other">
+                <cvc-tag-list>
+                  @for (therapy of evidence.therapies; track therapy) {
+                    <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
+                  }
+                  @if (evidence.therapyInteractionType) {
+                    <nz-tag
+                      nz-tooltip
+                      nzTooltipPlacement="top"
+                      [nzTooltipTitle]="
+                        evidence.therapyInteractionType
+                          | therapyInteractionEnumDisplay
+                      ">
+                      <i
+                        nz-icon
+                        [nzType]="
+                          evidence.therapyInteractionType
+                            | therapyInteractionEnumDisplay: 'icon-name'
+                        "
+                        class="attribute-icon"></i>
+                    </nz-tag>
+                  }
+                </cvc-tag-list>
+              </ng-template>
+            </ng-container>
+          </nz-descriptions-item>
+        }
       </nz-descriptions>
     </nz-card>
 
@@ -326,42 +342,49 @@
         <nz-descriptions-item
           nzTitle="Disease"
           nzSpan="2">
-          <ng-container *ngIf="evidence.disease; else noDisease">
+          @if (evidence.disease) {
             <cvc-disease-tag
               [enablePopover]="false"
               [disease]="evidence.disease"
               [truncateLongName]="true"></cvc-disease-tag>
-          </ng-container>
-          <ng-template #noDisease> N/A </ng-template>
+          } @else {
+            N/A
+          }
         </nz-descriptions-item>
 
         <!-- therapies -->
-        <nz-descriptions-item
-          nzTitle="Therapies"
-          nzSpan="2"
-          *ngIf="evidence.therapies.length > 0">
-          <span *ngFor="let therapy of evidence.therapies">
-            <cvc-therapy-tag
-              [enablePopover]="false"
-              [therapy]="therapy"
-              [truncateLongName]="true"></cvc-therapy-tag>
-          </span>
-          <ng-container *ngIf="evidence.therapies.length > 1">
-            {{ evidence.therapyInteractionType | titlecase }}
-          </ng-container>
-        </nz-descriptions-item>
+        @if (evidence.therapies.length > 0) {
+          <nz-descriptions-item
+            nzTitle="Therapies"
+            nzSpan="2">
+            @for (therapy of evidence.therapies; track therapy) {
+              <span>
+                <cvc-therapy-tag
+                  [enablePopover]="false"
+                  [therapy]="therapy"
+                  [truncateLongName]="true"></cvc-therapy-tag>
+              </span>
+            }
+            @if (evidence.therapies.length > 1) {
+              {{ evidence.therapyInteractionType | titlecase }}
+            }
+          </nz-descriptions-item>
+        }
 
         <!-- phenotypes -->
-        <nz-descriptions-item
-          nzTitle="Phenotypes"
-          nzSpan="2"
-          *ngIf="evidence.phenotypes.length > 0">
-          <span *ngFor="let ph of evidence.phenotypes">
-            <cvc-phenotype-tag
-              [enablePopover]="false"
-              [phenotype]="ph"></cvc-phenotype-tag>
-          </span>
-        </nz-descriptions-item>
+        @if (evidence.phenotypes.length > 0) {
+          <nz-descriptions-item
+            nzTitle="Phenotypes"
+            nzSpan="2">
+            @for (ph of evidence.phenotypes; track ph) {
+              <span>
+                <cvc-phenotype-tag
+                  [enablePopover]="false"
+                  [phenotype]="ph"></cvc-phenotype-tag>
+              </span>
+            }
+          </nz-descriptions-item>
+        }
       </nz-descriptions>
     </ng-template>
   }
@@ -369,7 +392,4 @@
 
 <ng-template #valueNotApplicable>
   <cvc-empty-value cvcEmptyCategory="not-applicable"></cvc-empty-value>
-</ng-template>
-<ng-template #valueUnspecified>
-  <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
 </ng-template>

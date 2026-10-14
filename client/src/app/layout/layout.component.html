@@ -11,14 +11,16 @@
       <div
         class="sidebar-logo"
         [ngClass]="{ 'is-collapsed': isCollapsed }">
-        <img
-          src="assets/images/civic-logo_sidebar-expanded.png"
-          *ngIf="!isCollapsed"
-          alt="CIViC - Clinical Interpretations of Variants in Cancer" />
-        <img
-          src="assets/images/civic-logo_sidebar-collapsed.png"
-          *ngIf="isCollapsed"
-          alt="CIViC - Clinical Interpretations of Variants in Cancer" />
+        @if (!isCollapsed) {
+          <img
+            src="assets/images/civic-logo_sidebar-expanded.png"
+            alt="CIViC - Clinical Interpretations of Variants in Cancer" />
+        }
+        @if (isCollapsed) {
+          <img
+            src="assets/images/civic-logo_sidebar-collapsed.png"
+            alt="CIViC - Clinical Interpretations of Variants in Cancer" />
+        }
       </div>
     </a>
     <ul
@@ -412,11 +414,12 @@
           nzFlex="1 0 auto"
           id="header-viewer">
           @let viewer = viewer$ | ngrxPush;
-          <cvc-login-button
-            *ngIf="!viewer || viewer.signedOut"></cvc-login-button>
-          <cvc-viewer-button
-            *ngIf="viewer && viewer.signedIn"
-            [cvcCollapsed]="isCollapsed"></cvc-viewer-button>
+          @if (!viewer || viewer.signedOut) {
+            <cvc-login-button></cvc-login-button>
+          }
+          @if (viewer && viewer.signedIn) {
+            <cvc-viewer-button [cvcCollapsed]="isCollapsed"></cvc-viewer-button>
+          }
         </div>
       </div>
     </nz-header>

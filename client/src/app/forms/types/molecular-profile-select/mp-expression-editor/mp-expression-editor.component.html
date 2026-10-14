@@ -12,15 +12,16 @@
         class="expression-preview"
         [ngClass]="{ active: (expressionSegment$ | ngrxPush) !== undefined }">
         <ng-container *ngrxLet="expressionSegment$ | ngrxPush as segments">
-          <cvc-mp-tag-name
-            *ngIf="segments"
-            [nameSegments]="segments"></cvc-mp-tag-name>
-          <span
-            *ngIf="!segments"
-            nz-typography
-            nzType="secondary">
-            Valid Molecular Profile expressions will be previewed here.
-          </span>
+          @if (segments) {
+            <cvc-mp-tag-name [nameSegments]="segments"></cvc-mp-tag-name>
+          }
+          @if (!segments) {
+            <span
+              nz-typography
+              nzType="secondary">
+              Valid Molecular Profile expressions will be previewed here.
+            </span>
+          }
         </ng-container>
       </div>
     </nz-col>
@@ -28,13 +29,12 @@
     <!-- MESSAGES & ALERTS ROW -->
     <nz-col nzSpan="24">
       <!-- INITIAL MESSAGE -->
-      <ng-container *ngIf="expressionMessage$ | ngrxPush as message">
+      @if (expressionMessage$ | ngrxPush; as message) {
         <nz-alert
           nzType="info"
           [nzMessage]="message"
           [nzAction]="messageAction"
           nzShowIcon></nz-alert>
-
         <ng-template #messageAction>
           <button
             type="button"
@@ -55,16 +55,15 @@
             <cvc-mp-editor-popover-help></cvc-mp-editor-popover-help>
           </ng-template>
         </ng-template>
-      </ng-container>
+      }
 
       <!-- SUCCESS - displays either a 'Select MP' or 'Create MP' depending on specified MP's status -->
       <ng-container *ngrxLet="existingMp$ as mp">
-        <ng-container
-          *ngIf="
-            !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
-          ">
+        @if (
+          !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
+        ) {
           <!-- Select MP - MP found -->
-          <ng-container *ngIf="mp !== undefined">
+          @if (mp !== undefined) {
             <nz-alert
               nzType="success"
               [nzMessage]="foundMessage"
@@ -84,10 +83,9 @@
             <ng-template #foundMessage>
               Molecular Profile <strong>{{ mp.name }}</strong> found.
             </ng-template>
-          </ng-container>
-
+          }
           <!-- Create New MP - MP not found -->
-          <ng-container *ngIf="mp === undefined">
+          @if (mp === undefined) {
             <nz-alert
               nzType="success"
               [nzMessage]="createMessage"
@@ -107,8 +105,8 @@
             <ng-template #createMessage>
               Molecular Profile not found, create it?
             </ng-template>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </ng-container>
 
       <!-- ERROR ALERT TEMPLATE -->
@@ -141,27 +139,25 @@
       </ng-template>
 
       <!-- SYNTAX ASSISTANCE - switch statement displays an errorAlert template
-           w/ differing contexts w/ help template, depending on alert type -->
-      <ng-container *ngIf="expressionError$ | ngrxPush as error">
-        <ng-container [ngSwitch]="error.errorType">
+      w/ differing contexts w/ help template, depending on alert type -->
+      @if (expressionError$ | ngrxPush; as error) {
+        @switch (error.errorType) {
           <!-- invalid token alert -->
-          <ng-container *ngSwitchCase="'invalidToken'">
+          @case ('invalidToken') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
                 context: { $implicit: error, helpContent: invalidTokenHelp }
               ">
             </ng-container>
-
             <!-- trailing boolean help -->
             <ng-template #invalidTokenHelp>
               <cvc-mp-editor-popover-help
                 cvcErrorType="invalidToken"></cvc-mp-editor-popover-help>
             </ng-template>
-          </ng-container>
-
+          }
           <!-- trailing boolean alert -->
-          <ng-container *ngSwitchCase="'trailingBoolean'">
+          @case ('trailingBoolean') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
@@ -172,10 +168,9 @@
               <cvc-mp-editor-popover-help
                 cvcErrorType="trailingBoolean"></cvc-mp-editor-popover-help>
             </ng-template>
-          </ng-container>
-
+          }
           <!-- initial boolean alert -->
-          <ng-container *ngSwitchCase="'initialBoolean'">
+          @case ('initialBoolean') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
@@ -186,10 +181,9 @@
               <cvc-mp-editor-popover-help
                 cvcErrorType="initialBoolean"></cvc-mp-editor-popover-help>
             </ng-template>
-          </ng-container>
-
+          }
           <!-- multiple boolean alert -->
-          <ng-container *ngSwitchCase="'multipleBoolean'">
+          @case ('multipleBoolean') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
@@ -200,16 +194,15 @@
               <cvc-mp-editor-popover-help
                 cvcErrorType="multipleBoolean"></cvc-mp-editor-popover-help>
             </ng-template>
-          </ng-container>
-
+          }
           <!-- incomplete expression alert -->
-          <ng-container *ngSwitchCase="'incompleteExpression'">
+          @case ('incompleteExpression') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
                 context: {
                   $implicit: error,
-                  helpContent: incompleteExpressionHelp
+                  helpContent: incompleteExpressionHelp,
                 }
               ">
             </ng-container>
@@ -217,16 +210,15 @@
               <cvc-mp-editor-popover-help
                 cvcErrorType="incompleteExpression"></cvc-mp-editor-popover-help>
             </ng-template>
-          </ng-container>
-
+          }
           <!-- incomplete NOT alert -->
-          <ng-container *ngSwitchCase="'incompleteNOT'">
+          @case ('incompleteNOT') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
                 context: {
                   $implicit: error,
-                  helpContent: incompleteNOTHelp
+                  helpContent: incompleteNOTHelp,
                 }
               ">
             </ng-container>
@@ -234,42 +226,39 @@
               <cvc-mp-editor-popover-help
                 cvcErrorType="incompleteNOT"></cvc-mp-editor-popover-help>
             </ng-template>
-          </ng-container>
-
+          }
           <!-- query error alert -->
-          <ng-container *ngSwitchCase="'queryError'">
+          @case ('queryError') {
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
                 context: {
                   $implicit: error,
-                  helpContent: queryErrorHelp
+                  helpContent: queryErrorHelp,
                 }
               ">
             </ng-container>
             <ng-template #queryErrorHelp>
               <!-- handle query error "You may not use the same variant multiple times in one MP expression." -->
-              <ng-container
-                *ngIf="error.errorMessage.split(' ').includes('multiple')">
+              @if (error.errorMessage.split(' ').includes('multiple')) {
                 <cvc-mp-editor-popover-help
                   cvcErrorType="identicalVariants"></cvc-mp-editor-popover-help>
-              </ng-container>
-
+              }
               <!-- handle query error "Variants with ID [...] were not found." -->
-              <ng-container
-                *ngIf="error.errorMessage.split(' ').includes('found.')">
+              @if (error.errorMessage.split(' ').includes('found.')) {
                 <cvc-mp-editor-popover-help
                   cvcErrorType="unknownVariant"></cvc-mp-editor-popover-help>
-              </ng-container>
+              }
             </ng-template>
-          </ng-container>
-          <ng-container *ngSwitchDefault>
+          }
+          @default {
             <pre>
-              {{ error | json }}
-            </pre>
-          </ng-container>
-        </ng-container>
-      </ng-container>
+        {{ error | json }}
+      </pre
+            >
+          }
+        }
+      }
     </nz-col>
 
     <!-- INPUT TEXTAREA -->
@@ -366,15 +355,15 @@
           <strong>OR</strong>
         </button>
         <!-- <button
-                  *nzSpaceItem
-                  type="button"
-                  nz-button
-                  nzType="primary"
-                  nzSize="small"
-                  nzShape="round"
-                  (click)="onAppendInput$.next('NOT')">
-                  <strong>NOT</strong>
-                </button> -->
+      *nzSpaceItem
+      type="button"
+      nz-button
+      nzType="primary"
+      nzSize="small"
+      nzShape="round"
+      (click)="onAppendInput$.next('NOT')">
+      <strong>NOT</strong>
+    </button> -->
         <span
           *nzSpaceItem
           class="btn-divider">
@@ -403,8 +392,8 @@
       </nz-space>
     </nz-col>
     <!--
-     APPEND BUTTON POPOVER TEMPLATES
-    -->
+APPEND BUTTON POPOVER TEMPLATES
+-->
 
     <!-- append #VID -->
     <ng-template #appendVariant>
@@ -459,29 +448,31 @@
         <nz-list
           nzSize="small"
           nzItemLayout="horizontal">
-          <nz-list-item *ngFor="let example of exampleExpressions">
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <cvc-entity-tag
-                  [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
-              </nz-list-item-meta-title>
-              <nz-list-item-meta-description>
-                {{ example.description }}
-              </nz-list-item-meta-description>
-            </nz-list-item-meta>
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <button
-                  type="button"
-                  nz-button
-                  nzType="primary"
-                  nzSize="small"
-                  (click)="onSelectExample$.next(example)">
-                  Select
-                </button>
-              </nz-list-item-action>
-            </ul>
-          </nz-list-item>
+          @for (example of exampleExpressions; track example) {
+            <nz-list-item>
+              <nz-list-item-meta>
+                <nz-list-item-meta-title>
+                  <cvc-entity-tag
+                    [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
+                </nz-list-item-meta-title>
+                <nz-list-item-meta-description>
+                  {{ example.description }}
+                </nz-list-item-meta-description>
+              </nz-list-item-meta>
+              <ul nz-list-item-actions>
+                <nz-list-item-action>
+                  <button
+                    type="button"
+                    nz-button
+                    nzType="primary"
+                    nzSize="small"
+                    (click)="onSelectExample$.next(example)">
+                    Select
+                  </button>
+                </nz-list-item-action>
+              </ul>
+            </nz-list-item>
+          }
         </nz-list>
       </div>
     </ng-template>

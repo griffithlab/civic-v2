@@ -1,5 +1,5 @@
 <div id="popover-content">
-  <ng-container *ngIf="disease$ | ngrxPush as d">
+  @if (disease$ | ngrxPush; as d) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -11,39 +11,41 @@
           nzType="civic-disease"
           nzTheme="twotone"
           nzTwotoneColor="#E62F76"></i>
-        {{ d.name | truncate : 50 }}
+        {{ d.name | truncate: 50 }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag
-          *ngIf="d.doid; else noDoid"
-          [href]="d.diseaseUrl"
-          tooltip="View on disease-ontology.org">
-          DOID: {{ d.doid }}
-        </cvc-link-tag>
-      </ng-template>
-      <ng-template #noDoid>
-        <span
-          nz-typography
-          nzType="secondary"
-          >No DOID</span
-        >
+        @if (d.doid) {
+          <cvc-link-tag
+            [href]="d.diseaseUrl"
+            tooltip="View on disease-ontology.org">
+            DOID: {{ d.doid }}
+          </cvc-link-tag>
+        } @else {
+          <span
+            nz-typography
+            nzType="secondary"
+            >No DOID</span
+          >
+        }
       </ng-template>
       <nz-descriptions
         nzSize="small"
         [nzColumn]="1"
         nzBordered="true">
-        <nz-descriptions-item
-          *ngIf="d.name.length > 50"
-          nzTitle="Name"
-          nzSpan="2">
-          {{ d.name }}
-        </nz-descriptions-item>
-        <nz-descriptions-item
-          *ngIf="d.diseaseAliases.length > 0"
-          nzTitle="Aliases"
-          nzSpan="2">
-          {{ d.diseaseAliases.join(', ') }}
-        </nz-descriptions-item>
+        @if (d.name.length > 50) {
+          <nz-descriptions-item
+            nzTitle="Name"
+            nzSpan="2">
+            {{ d.name }}
+          </nz-descriptions-item>
+        }
+        @if (d.diseaseAliases.length > 0) {
+          <nz-descriptions-item
+            nzTitle="Aliases"
+            nzSpan="2">
+            {{ d.diseaseAliases.join(', ') }}
+          </nz-descriptions-item>
+        }
         <nz-descriptions-item
           nzTitle="Assertions"
           nzSpan="1">
@@ -54,10 +56,12 @@
           nzSpan="1">
           {{ d.evidenceItemCount }}
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Molecular Profiles" nzSpan="1">
-          {{d.molecularProfileCount}}
+        <nz-descriptions-item
+          nzTitle="Molecular Profiles"
+          nzSpan="1">
+          {{ d.molecularProfileCount }}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
-  </ng-container>
+  }
 </div>

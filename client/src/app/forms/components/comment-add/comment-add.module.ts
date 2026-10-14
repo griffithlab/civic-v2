@@ -15,7 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzMentionModule } from 'ng-zorro-antd/mention'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { CvcCommentAddForm } from './comment-add.form'
 
 @NgModule({
@@ -32,7 +32,7 @@ import { CvcCommentAddForm } from './comment-add.form'
     NzSpinModule,
     NzMentionModule,
     NzAlertModule,
-    NzToolTipModule,
+    NzTooltipModule,
     FormsModule,
     FormlyModule,
     CvcFormErrorsAlertModule,

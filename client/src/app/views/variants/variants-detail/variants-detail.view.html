@@ -1,4 +1,4 @@
-<ng-container *ngIf="variant$ | ngrxPush as variant">
+@if (variant$ | ngrxPush; as variant) {
   <cvc-section-navigation
     [displayName]="variant.feature.name + ' ' + variant.name"
     [relationsTpl]="variantRelations">
@@ -21,7 +21,6 @@
       </span>
     </nz-space>
   </ng-template>
-
   <div
     cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
@@ -42,14 +41,23 @@
         </span>
         {{ variant.name }}
       </nz-page-header-title>
-
       <!-- subtitle -->
-      <nz-page-header-subtitle *ngIf="variant.variantAliases.length > 0">
-        <span *ngFor="let alias of variant.variantAliases; last as isLast">
-          {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
-        </span>
-      </nz-page-header-subtitle>
-
+      @if (variant.variantAliases.length > 0) {
+        <nz-page-header-subtitle>
+          @for (
+            alias of variant.variantAliases;
+            track alias;
+            let isLast = $last
+          ) {
+            <span>
+              {{ alias }}
+              @if (!isLast) {
+                <span>,&nbsp;</span>
+              }
+            </span>
+          }
+        </nz-page-header-subtitle>
+      }
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
         <nz-space
@@ -58,75 +66,77 @@
           *ngrxLet="viewer$ as viewer">
           <!-- add revision btn -->
           <span *nzSpaceItem>
-            <button
-              [routerLink]="['/variants', variant.id, 'revise']"
-              [queryParams]="{variantType: variant.__typename}"
-              *ngIf="viewer?.signedIn"
-              routerLinkActive
-              #rlaComments="routerLinkActive"
-              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              Revise
-            </button>
+            @if (viewer?.signedIn) {
+              <button
+                [routerLink]="['/variants', variant.id, 'revise']"
+                [queryParams]="{ variantType: variant.__typename }"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                Revise
+              </button>
+            }
           </span>
-
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
           <span *nzSpaceItem>
-            <button
-              routerLink="flags"
-              *ngIf="viewer.signedIn"
-              routerLinkActive
-              #rlaComments="routerLinkActive"
-              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              Flag
-            </button>
+            @if (viewer.signedIn) {
+              <button
+                routerLink="flags"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                Flag
+              </button>
+            }
           </span>
-
           <!-- deprecate variant btn -->
           <span *nzSpaceItem>
-            <button
-              nz-button
-              nzSize="small"
-              *ngIf="viewer.isEditor"
-              [disabled]="variant.deprecated"
-              nz-popover
-              nzPopoverTitle="Deprecate Variant"
-              nzPopoverTrigger="click"
-              [nzPopoverContent]="deprecateVariantForm"
-              nzPopoverPlacement="bottomRight">
-              Deprecate
-              <ng-template #deprecateVariantForm>
-                <div class="deprecateVariant">
-                  <cvc-variant-deprecate-form
-                    [variantId]="variant.id"></cvc-variant-deprecate-form>
-                </div>
-              </ng-template>
-            </button>
+            @if (viewer.isEditor) {
+              <button
+                nz-button
+                nzSize="small"
+                [disabled]="variant.deprecated"
+                nz-popover
+                nzPopoverTitle="Deprecate Variant"
+                nzPopoverTrigger="click"
+                [nzPopoverContent]="deprecateVariantForm"
+                nzPopoverPlacement="bottomRight">
+                Deprecate
+                <ng-template #deprecateVariantForm>
+                  <div class="deprecateVariant">
+                    <cvc-variant-deprecate-form
+                      [variantId]="variant.id"></cvc-variant-deprecate-form>
+                  </div>
+                </ng-template>
+              </button>
+            }
           </span>
-
           <span *nzSpaceItem>
-            <cvc-entity-subscription-button
-              *ngIf="viewer.signedIn && subscribable"
-              [viewer]="viewer"
-              [subscribableId]="subscribable.id"
-              typename="Variant">
-            </cvc-entity-subscription-button>
+            @if (viewer.signedIn && subscribable) {
+              <cvc-entity-subscription-button
+                [viewer]="viewer"
+                [subscribableId]="subscribable.id"
+                typename="Variant">
+              </cvc-entity-subscription-button>
+            }
           </span>
         </nz-space>
       </nz-page-header-extra>
       <nz-page-header-content>
-        <nz-alert
-          *ngIf="variant.deprecated"
-          nzBanner
-          [nzMessage]="deprecationMessageTemplate"
-          nzType="error"></nz-alert>
+        @if (variant.deprecated) {
+          <nz-alert
+            nzBanner
+            [nzMessage]="deprecationMessageTemplate"
+            nzType="error"></nz-alert>
+        }
         <ng-template #deprecationMessageTemplate>
-          This Variant has been deprecated for reason: {{
-          variant.deprecationReason | enumToTitle }}.
+          This Variant has been deprecated for reason:
+          {{ variant.deprecationReason | enumToTitle }}.
           <cvc-comment-body
             [commentBodySegments]="
               variant.deprecationActivity?.parsedNote || []
@@ -146,4 +156,4 @@
       </nz-page-header-content>
     </nz-page-header>
   </div>
-</ng-container>
+}

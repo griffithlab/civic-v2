@@ -4,7 +4,7 @@ import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcFormFieldWrapper } from './form-field.wrapper'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 const wrapperConfig: ConfigOption = {
@@ -16,7 +16,7 @@ const wrapperConfig: ConfigOption = {
     CommonModule,
     ReactiveFormsModule,
     NzFormModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     FormlyModule.forChild(wrapperConfig),
   ],

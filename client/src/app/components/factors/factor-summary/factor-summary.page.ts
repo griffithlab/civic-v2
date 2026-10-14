@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
@@ -21,25 +20,24 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcClinicalSignificanceCounts } from '@app/components/shared/clinical-significant-counts/clinical-significance-counts.component'
 
 @Component({
-    selector: 'cvc-factor-summary',
-    templateUrl: './factor-summary.page.html',
-    styleUrls: ['./factor-summary.page.less'],
-    imports: [
-        CommonModule,
-        NzGridModule,
-        NzDescriptionsModule,
-        NzTypographyModule,
-        NzSpaceModule,
-        NzTagModule,
-        CvcEmptyRevisableModule,
-        CvcTagListModule,
-        CvcSourceTagModule,
-        CvcLinkTagModule,
-        CvcNcitDetailsComponent,
-        CvcPipesModule,
-        CvcUserTagModule,
-        CvcClinicalSignificanceCounts,
-    ]
+  selector: 'cvc-factor-summary',
+  templateUrl: './factor-summary.page.html',
+  styleUrls: ['./factor-summary.page.less'],
+  imports: [
+    NzGridModule,
+    NzDescriptionsModule,
+    NzTypographyModule,
+    NzSpaceModule,
+    NzTagModule,
+    CvcEmptyRevisableModule,
+    CvcTagListModule,
+    CvcSourceTagModule,
+    CvcLinkTagModule,
+    CvcNcitDetailsComponent,
+    CvcPipesModule,
+    CvcUserTagModule,
+    CvcClinicalSignificanceCounts,
+  ],
 })
 export class FactorSummaryComponent implements OnInit {
   @Input() factor!: FactorSummaryFieldsFragment

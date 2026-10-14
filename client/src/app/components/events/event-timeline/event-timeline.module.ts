@@ -11,7 +11,7 @@ import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-ta
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTimelineModule } from 'ng-zorro-antd/timeline'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module'
@@ -26,7 +26,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CommonModule,
     NzButtonModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzTimelineModule,
     NzGridModule,

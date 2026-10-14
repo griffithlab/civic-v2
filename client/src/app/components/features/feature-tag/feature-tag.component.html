@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a [routerLink]="feature.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -21,10 +23,6 @@
   </ng-template>
 </ng-template>
 
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
-</ng-template>
-
 <ng-template #tagContent>
   <cvc-icon-badges
     [flagged]="feature.flagged"
@@ -36,10 +34,9 @@
       [nzTwotoneColor]="'Feature' | entityColor"></i>
   </cvc-icon-badges>
   <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
-  <ng-container *ngIf="truncateLongName; else fullName">
+  @if (truncateLongName) {
     {{ feature.name | truncate: 12 }}
-  </ng-container>
-  <ng-template #fullName>
+  } @else {
     {{ feature.name }}
-  </ng-template>
+  }
 </ng-template>

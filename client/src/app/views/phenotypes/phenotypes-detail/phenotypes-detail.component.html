@@ -1,4 +1,4 @@
-<ng-container *ngIf="phenotype$ | ngrxPush as phenotype">
+@if (phenotype$ | ngrxPush; as phenotype) {
   <cvc-section-navigation [displayName]="phenotype.name">
   </cvc-section-navigation>
   <nz-page-header class="site-page-header">
@@ -19,10 +19,16 @@
     </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">
-        <nz-space nzDirection="vertical" style="width: 100%;">
-          <nz-descriptions *nzSpaceItem [nzBordered]="true" nzLayout="vertical" [nzColumn]="1">
+        <nz-space
+          nzDirection="vertical"
+          style="width: 100%">
+          <nz-descriptions
+            *nzSpaceItem
+            [nzBordered]="true"
+            nzLayout="vertical"
+            [nzColumn]="1">
             <nz-descriptions-item nzTitle="Definition">
-              {{phenotype.description | ifEmpty: '--'}}
+              {{ phenotype.description | ifEmpty: '--' }}
             </nz-descriptions-item>
           </nz-descriptions>
           <p *nzSpaceItem></p>
@@ -31,4 +37,4 @@
       </div>
     </nz-page-header-content>
   </nz-page-header>
-</ng-container>
+}

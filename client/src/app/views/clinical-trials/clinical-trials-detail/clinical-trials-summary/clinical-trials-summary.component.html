@@ -1,4 +1,4 @@
-<ng-container *ngIf="clinicalTrial$ | ngrxPush as trial">
+@if (clinicalTrial$ | ngrxPush; as trial) {
   <nz-row [nzGutter]="[8, 16]">
     <nz-col [nzSpan]="24">
       <nz-descriptions
@@ -23,4 +23,4 @@
         cvcTitle="{{ trial.nctId }} Evidence"></cvc-evidence-table>
     </nz-col>
   </nz-row>
-</ng-container>
+}

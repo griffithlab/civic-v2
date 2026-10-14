@@ -1,14 +1,14 @@
 <ng-template #flaggedContent><ng-content></ng-content></ng-template>
 
-<ng-container *ngIf="flags === 0">
+@if (flags === 0) {
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
-</ng-container>
+}
 
-<ng-container *ngIf="approvals === 0">
+@if (approvals === 0) {
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
-</ng-container>
+}
 
-<ng-container *ngIf="flags">
+@if (flags) {
   <nz-ribbon
     [nzText]="flaggedText"
     nzPlacement="start"
@@ -30,9 +30,9 @@
     <ng-template #flaggedTooltip> {{ flags }} open flags </ng-template>
     <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
   </nz-ribbon>
-</ng-container>
+}
 
-<ng-container *ngIf="approvals">
+@if (approvals) {
   <nz-ribbon
     [nzText]="approvalRibbonText"
     nzPlacement="start"
@@ -57,4 +57,4 @@
     </ng-template>
     <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
   </nz-ribbon>
-</ng-container>
+}

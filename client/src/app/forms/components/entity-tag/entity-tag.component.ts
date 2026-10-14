@@ -60,7 +60,7 @@ export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
 
 export type CvcTagLabelMax =
   | '50px'
-  | '750px'
+  | '75px'
   | '100px'
   | '125px'
   | '150px'

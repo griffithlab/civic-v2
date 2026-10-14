@@ -1,38 +1,51 @@
-<ng-container [ngSwitch]="cvcEmptyCategory">
-  <span
-    *ngSwitchCase="'not-applicable'"
-    class="empty-symbol not-applicable"
-    nz-tooltip
-    nzTooltipTitle="Value is not applicable">
-    <ng-container [ngSwitch]="cvcDisplayMode">
-      <ng-container *ngSwitchCase="'small'"> N/A </ng-container>
-      <ng-container *ngSwitchDefault> Not applicable </ng-container>
-    </ng-container>
-  </span>
-  <span
-    *ngSwitchCase="'unspecified'"
-    nz-tooltip
-    nzTooltipTitle="Unspecified"
-    class="empty-symbol unspecified"
-    nz-tooltip
-    nzTooltipTitle="Value is unspecified">
-    <ng-container [ngSwitch]="cvcDisplayMode">
-      <ng-container *ngSwitchCase="'small'">
-        &ndash;&nbsp;&ndash;
-      </ng-container>
-      <ng-container *ngSwitchDefault>Not specified</ng-container>
-    </ng-container>
-  </span>
-  <span
-    *ngSwitchCase="'invalid'"
-    nz-tooltip
-    nzTooltipTitle="INVALID"
-    class="empty-symbol invalid"
-    nz-tooltip
-    nzTooltipTitle="Error: value requires specification">
-    <ng-container [ngSwitch]="cvcDisplayMode">
-      <ng-container *ngSwitchCase="'small'">!?</ng-container>
-      <ng-container *ngSwitchDefault>Unspecified</ng-container>
-    </ng-container>
-  </span>
-</ng-container>
+@switch (cvcEmptyCategory) {
+  @case ('not-applicable') {
+    <span
+      class="empty-symbol not-applicable"
+      nz-tooltip
+      nzTooltipTitle="Value is not applicable">
+      @switch (cvcDisplayMode) {
+        @case ('small') {
+          N/A
+        }
+        @default {
+          Not applicable
+        }
+      }
+    </span>
+  }
+  @case ('unspecified') {
+    <span
+      nz-tooltip
+      nzTooltipTitle="Unspecified"
+      class="empty-symbol unspecified"
+      nz-tooltip
+      nzTooltipTitle="Value is unspecified">
+      @switch (cvcDisplayMode) {
+        @case ('small') {
+          &ndash;&nbsp;&ndash;
+        }
+        @default {
+          Not specified
+        }
+      }
+    </span>
+  }
+  @case ('invalid') {
+    <span
+      nz-tooltip
+      nzTooltipTitle="INVALID"
+      class="empty-symbol invalid"
+      nz-tooltip
+      nzTooltipTitle="Error: value requires specification">
+      @switch (cvcDisplayMode) {
+        @case ('small') {
+          !?
+        }
+        @default {
+          Unspecified
+        }
+      }
+    </span>
+  }
+}

@@ -1,28 +1,28 @@
 <!-- NOTE: entity-field.mixin provides the observables passed to cvc-entity-select below -->
 <nz-row [nzGutter]="[6, 6]">
-  <nz-col
-    *ngIf="!props.hideFeatureTypeSelect"
-    nzFlex="100px">
-    <nz-select
-      [disabled]="!props.canChangeFeatureType"
-      [(ngModel)]="selectedFeatureType"
-      (ngModelChange)="
-        onFeatureType$.next($event); formControl.setValue(undefined)
-      ">
-      <nz-option
-        nzValue="GENE"
-        nzLabel="Gene"></nz-option>
-      <nz-option
-        nzValue="FACTOR"
-        nzLabel="Factor"></nz-option>
-      <nz-option
-        nzValue="FUSION"
-        nzLabel="Fusion"></nz-option>
-      <nz-option
-        nzValue="REGION"
-        nzLabel="Region"></nz-option>
-    </nz-select>
-  </nz-col>
+  @if (!props.hideFeatureTypeSelect) {
+    <nz-col nzFlex="100px">
+      <nz-select
+        [disabled]="!props.canChangeFeatureType"
+        [(ngModel)]="selectedFeatureType"
+        (ngModelChange)="
+          onFeatureType$.next($event); formControl.setValue(undefined)
+        ">
+        <nz-option
+          nzValue="GENE"
+          nzLabel="Gene"></nz-option>
+        <nz-option
+          nzValue="FACTOR"
+          nzLabel="Factor"></nz-option>
+        <nz-option
+          nzValue="FUSION"
+          nzLabel="Fusion"></nz-option>
+        <nz-option
+          nzValue="REGION"
+          nzLabel="Region"></nz-option>
+      </nz-select>
+    </nz-col>
+  }
   <nz-col nzFlex="auto">
     <cvc-entity-select
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
@@ -48,7 +48,7 @@
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
 <ng-container *ngrxLet="onSearch$ as searchString">
-  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+  @for (result of result$ | ngrxPush; track result; let i = $index) {
     <ng-template #optionTemplates>
       <cvc-entity-tag
         [cvcDisableLink]="true"
@@ -57,7 +57,7 @@
       <span
         nz-typography
         nzType="secondary">
-        <ng-container *ngIf="result.featureAliases.length > 0; else noAliases">
+        @if (result.featureAliases.length > 0) {
           <em>
             <span
               nz-typography
@@ -69,16 +69,18 @@
                   | highlightTypeahead: searchString
               "></span
           ></em>
-        </ng-container>
+        } @else {
+          --
+        }
         <ng-template #noAliases>--</ng-template>
       </span>
     </ng-template>
-  </ng-container>
+  }
 </ng-container>
 
 <!-- selected option item template -->
 <!-- displays entity tag, specifying context and mode depending on
-    if field is multi-select or single -->
+  if field is multi-select or single -->
 <ng-template
   #selectedTemplate
   let-selected>
@@ -100,7 +102,7 @@
       <span
         *nzSpaceItem
         nz-typography
-        >{{searchStr}} does not match any existing Fusions</span
+        >{{ searchStr }} does not match any existing Fusions</span
       >
       <button
         *nzSpaceItem
@@ -112,15 +114,15 @@
     </nz-space>
   } @else if (selectedFeatureType == 'REGION') {
     <nz-space nzDirection="vertical">
-      <ng-container *ngIf="result$ | ngrxPush as result">
-        @if (result.length == 0 && searchStr.length > 0){
+      @if (result$ | ngrxPush; as result) {
+        @if (result.length == 0 && searchStr.length > 0) {
           <span
             *nzSpaceItem
             nz-typography
-            >{{searchStr}} does not match any existing Regions</span
+            >{{ searchStr }} does not match any existing Regions</span
           >
         }
-      </ng-container>
+      }
       <button
         *nzSpaceItem
         nz-button

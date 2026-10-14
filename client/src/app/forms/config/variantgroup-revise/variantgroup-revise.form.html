@@ -6,21 +6,23 @@
   <ng-template #success>
     Revision(s) submitted! You will be redirected to the Revisions page or you
     may view them
-    <a href="{{url}}">here.</a>
+    <a href="{{ url }}">here.</a>
   </ng-template>
-  <form
-    *ngIf="model; else loadingModel"
-    nz-form
-    nzLayout="vertical"
-    [formGroup]="form"
-    (ngSubmit)="onSubmit(model)">
-    <formly-form
-      [form]="form"
-      [fields]="fields"
-      [model]="model"
-      [options]="options"
-      (modelChange)="model = $event">
-    </formly-form>
-  </form>
-  <ng-template #loadingModel> Loading Variant Group... </ng-template>
+  @if (model) {
+    <form
+      nz-form
+      nzLayout="vertical"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit(model)">
+      <formly-form
+        [form]="form"
+        [fields]="fields"
+        [model]="model"
+        [options]="options"
+        (modelChange)="model = $event">
+      </formly-form>
+    </form>
+  } @else {
+    Loading Variant Group...
+  }
 </cvc-form-submission-status-display>

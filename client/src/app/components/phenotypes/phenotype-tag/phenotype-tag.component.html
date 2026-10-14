@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a [routerLink]="phenotype.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -19,10 +21,6 @@
       (contentRendered)="updatePopoverPosition()">
     </cvc-phenotype-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>

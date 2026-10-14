@@ -23,9 +23,9 @@ import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { CvcRevisionsTableComponent } from './revisions-table.component'
@@ -57,9 +57,9 @@ import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.
     NzSelectModule,
     NzTableModule,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzRadioModule,
     NzCheckboxModule,
 

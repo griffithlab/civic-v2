@@ -4,7 +4,7 @@ import { CvcEntitySubscriptionButtonComponent } from './entity-subscription-butt
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 
 @NgModule({
   declarations: [CvcEntitySubscriptionButtonComponent],
@@ -12,7 +12,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
     CommonModule,
     NzButtonModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     LetDirective,
     PushPipe,
   ],

@@ -20,7 +20,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { LetDirective, PushPipe } from '@ngrx/component'
@@ -53,7 +53,7 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
     NzEmptyModule,
     NzCheckboxModule,
     NzDividerModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzListModule,
     NzPopoverModule,
     NzIconModule,

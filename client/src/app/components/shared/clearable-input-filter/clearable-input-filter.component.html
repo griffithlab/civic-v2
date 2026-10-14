@@ -8,11 +8,12 @@
     (ngModelChange)="onModelUpdated()" />
 </nz-input-group>
 <ng-template #clearTmpl>
-  <i
-    nz-icon
-    class="ant-input-clear-icon"
-    nzTheme="fill"
-    nzType="close-circle"
-    *ngIf="inputModel"
-    (click)="inputModel = undefined; onModelUpdated()"></i>
+  @if (inputModel) {
+    <i
+      nz-icon
+      class="ant-input-clear-icon"
+      nzTheme="fill"
+      nzType="close-circle"
+      (click)="inputModel = undefined; onModelUpdated()"></i>
+  }
 </ng-template>

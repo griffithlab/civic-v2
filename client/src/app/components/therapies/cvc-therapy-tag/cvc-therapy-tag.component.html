@@ -1,8 +1,10 @@
-<ng-container *ngIf="linked; else unlinked">
+@if (linked) {
   <a [routerLink]="therapy.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
-</ng-container>
+} @else {
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+}
 
 <ng-template #tag>
   <nz-tag
@@ -20,20 +22,15 @@
   </ng-template>
 </ng-template>
 
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tag"></ng-template>
-</ng-template>
-
 <ng-template #tagContent>
   <i
     nz-icon
     nzType="civic-therapy"
     nzTheme="twotone"
     nzTwotoneColor="#AC3996"></i>
-  <ng-container *ngIf="truncateLongName; else fullName">
+  @if (truncateLongName) {
     {{ therapy.name | truncate: 21 }}
-  </ng-container>
-  <ng-template #fullName>
+  } @else {
     {{ therapy.name }}
-  </ng-template>
+  }
 </ng-template>

@@ -24,7 +24,7 @@ import {
   FormlyModule,
 } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { CommonModule } from '@angular/common'
+
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
@@ -55,7 +55,6 @@ export interface FusionSelectModalData {
   styleUrls: ['./fusion-select.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     NzFormModule,
     NzButtonModule,

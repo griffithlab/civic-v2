@@ -10,7 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
@@ -31,7 +31,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzIconModule,
     NzTypographyModule,
     NzCardModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTagModule,
     CvcPipesModule,
     CvcNoMoreRowsModule,

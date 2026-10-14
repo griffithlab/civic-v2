@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
 import {
   ClinicalSignificanceCountsFragment,
   DetailedClinicalSignificanceCountsFragment,
@@ -24,7 +24,7 @@ import { CvcTagListModule } from '../tag-list/tag-list.module'
   imports: [
     RouterModule,
     NzDescriptionsModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTypographyModule,
     NzTableModule,
     NzIconModule,
@@ -55,7 +55,7 @@ export class CvcClinicalSignificanceCounts {
       assertionType: significance.type,
       assertionDirection: significance.direction,
       significance: significance.significance,
-      diseaseName: significance.disease ? significance.disease.name : undefined
+      diseaseName: significance.disease ? significance.disease.name : undefined,
     }
   }
 }
