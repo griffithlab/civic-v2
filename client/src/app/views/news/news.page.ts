@@ -102,10 +102,14 @@ export class NewsPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.gql
-      .fetch({ first: this.pageSize, after }, { fetchPolicy: 'network-only' })
+      .fetch({
+        variables: { first: this.pageSize, after },
+        fetchPolicy: 'network-only',
+      })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ data }) => {
+          if (!data?.newsItems) return
           const connection = data.newsItems
           const incomingItems = connection.edges
             .map(({ node }) => node)

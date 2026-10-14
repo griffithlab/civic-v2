@@ -142,13 +142,13 @@ export class CvcActivityFeedFilterSelects implements OnInit {
           return timer(interval, interval).pipe(
             switchMap(() => {
               return this.gql
-                .fetch(
-                  {
+                .fetch({
+                  variables: {
                     ...refetchEvent.query,
                     occurredAfter: now,
                   },
-                  { fetchPolicy: 'no-cache' }
-                )
+                  fetchPolicy: 'no-cache',
+                })
                 .pipe(
                   map((result) => result.data?.activities?.totalCount ?? 0),
                   distinctUntilChanged()

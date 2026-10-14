@@ -33,6 +33,7 @@ import {
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { Apollo } from 'apollo-angular'
 
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
@@ -48,8 +49,7 @@ export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   showAddEntity?: boolean
 }
 
-export interface CvcSourceSelectFieldConfig
-  extends FormlyFieldConfig<CvcSourceSelectFieldProps> {
+export interface CvcSourceSelectFieldConfig extends FormlyFieldConfig<CvcSourceSelectFieldProps> {
   type: 'source-select' | 'source-multi-select' | Type<CvcSourceSelectField>
 }
 
@@ -207,8 +207,8 @@ export class CvcSourceSelectField
     return { partialCitationId: str, sourceType: param }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<SourceSelectTypeaheadQuery>) {
-    return r.data.sourceTypeahead
+  getTypeaheadResultsFn(r: Apollo.QueryResult<SourceSelectTypeaheadQuery>) {
+    return r.data?.sourceTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): SourceSelectTagQueryVariables {
@@ -216,9 +216,9 @@ export class CvcSourceSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<SourceSelectTagQuery>
+    r: Apollo.QueryResult<SourceSelectTagQuery>
   ): Maybe<SourceSelectTypeaheadFieldsFragment> {
-    return r.data.source
+    return r.data?.source
   }
 
   getSelectedItemOptionFn(

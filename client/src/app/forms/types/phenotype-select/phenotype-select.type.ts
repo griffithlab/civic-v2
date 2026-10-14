@@ -32,6 +32,7 @@ import {
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, Subject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import { Apollo } from 'apollo-angular'
 
 export type CvcPhenotypeSelectFieldOptions = Partial<
   FieldTypeConfig<CvcPhenotypeSelectFieldProps>
@@ -61,8 +62,7 @@ export interface CvcPhenotypeSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcPhenotypeSelectFieldConfig
-  extends FormlyFieldConfig<CvcPhenotypeSelectFieldProps> {
+export interface CvcPhenotypeSelectFieldConfig extends FormlyFieldConfig<CvcPhenotypeSelectFieldProps> {
   type:
     | 'phenotype-select'
     | 'phenotype-multi-select'
@@ -85,11 +85,11 @@ const PhenotypeSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-phenotype-select',
-    templateUrl: './phenotype-select.type.html',
-    styleUrls: ['./phenotype-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-phenotype-select',
+  templateUrl: './phenotype-select.type.html',
+  styleUrls: ['./phenotype-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcPhenotypeSelectField
   extends PhenotypeSelectMixin
@@ -172,8 +172,8 @@ export class CvcPhenotypeSelectField
     return { name: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<PhenotypeSelectTypeaheadQuery>) {
-    return r.data.phenotypeTypeahead
+  getTypeaheadResultsFn(r: Apollo.QueryResult<PhenotypeSelectTypeaheadQuery>) {
+    return r.data?.phenotypeTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): PhenotypeSelectTagQueryVariables {
@@ -181,9 +181,9 @@ export class CvcPhenotypeSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<PhenotypeSelectTagQuery>
+    r: Apollo.QueryResult<PhenotypeSelectTagQuery>
   ): Maybe<PhenotypeSelectTypeaheadFieldsFragment> {
-    return r.data.phenotype
+    return r.data?.phenotype
   }
 
   getSelectedItemOptionFn(

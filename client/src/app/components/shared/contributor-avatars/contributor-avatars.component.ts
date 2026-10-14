@@ -9,10 +9,10 @@ import { Observable } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-contributor-avatars',
-    templateUrl: './contributor-avatars.component.html',
-    styleUrls: ['./contributor-avatars.component.less'],
-    standalone: false
+  selector: 'cvc-contributor-avatars',
+  templateUrl: './contributor-avatars.component.html',
+  styleUrls: ['./contributor-avatars.component.less'],
+  standalone: false,
 })
 export class CvcContributorAvatarsComponent implements OnInit {
   @Input() subscribable: Maybe<SubscribableInput>
@@ -30,7 +30,9 @@ export class CvcContributorAvatarsComponent implements OnInit {
     }
 
     let observable = this.gql.watch({
-      subscribable: this.subscribable,
+      variables: {
+        subscribable: this.subscribable,
+      },
     }).valueChanges
 
     this.curators$ = observable.pipe(pluck('data', 'contributors', 'curators'))

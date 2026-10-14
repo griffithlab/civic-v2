@@ -17,10 +17,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-    selector: 'molecular-profiles-detail',
-    templateUrl: './molecular-profiles-detail.view.html',
-    styleUrls: ['./molecular-profiles-detail.view.less'],
-    standalone: false
+  selector: 'molecular-profiles-detail',
+  templateUrl: './molecular-profiles-detail.view.html',
+  styleUrls: ['./molecular-profiles-detail.view.less'],
+  standalone: false,
 })
 export class MolecularProfilesDetailView implements OnDestroy {
   queryRef?: QueryRef<
@@ -75,7 +75,9 @@ export class MolecularProfilesDetailView implements OnDestroy {
     this.viewer$ = this.viewerService.viewer$
 
     this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ mpId: +params.molecularProfileId })
+      this.queryRef = this.gql.watch({
+        variables: { mpId: +params.molecularProfileId },
+      })
 
       let observable = this.queryRef.valueChanges
 

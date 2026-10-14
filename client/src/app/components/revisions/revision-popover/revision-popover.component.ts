@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   Component,
@@ -46,9 +47,10 @@ export class CvcRevisionPopoverComponent
       throw new Error('cvc-revision-popover requires valid revisionId input.')
     }
     this.revision$ = this.gql
-      .watch({ revisionId: this.revisionId })
+      .watch({ variables: { revisionId: this.revisionId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.revision),
+        onlyCompleteData(),
+        map(({ data }) => data.revision),
         filter(isNonNulled)
       )
   }

@@ -46,13 +46,13 @@ export class CvcOrgFilterSelect {
           const refetch = this.queryRef.refetch({ name: nameStr })
           return from(refetch)
         } else {
-          this.queryRef = this.gql.watch({ name: nameStr })
+          this.queryRef = this.gql.watch({ variables: { name: nameStr } })
           return this.queryRef.valueChanges
         }
       }),
       map(
         (result) =>
-          result.data?.browseOrganizations.edges.map(
+          result.data?.browseOrganizations?.edges?.map(
             (e) => e.node! as BrowseOrganization
           ) ?? []
       )

@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   Component,
   EventEmitter,
@@ -39,9 +40,10 @@ export class CvcVariantGroupPopoverComponent implements OnInit {
 
   ngOnInit(): void {
     this.variantGroup$ = this.gql
-      .watch({ variantGroupId: this.variantGroupId })
+      .watch({ variables: { variantGroupId: this.variantGroupId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.variantGroup),
+        onlyCompleteData(),
+        map(({ data }) => data.variantGroup),
         filter(isNonNulled)
       )
   }
