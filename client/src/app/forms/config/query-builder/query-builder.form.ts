@@ -188,7 +188,7 @@ export class CvcQueryBuilderForm {
     const gql = this.formGQL()
 
     gql
-      .fetch(model)
+      .fetch({ variables: model })
       .pipe(
         map((r) => r.data?.[endpoint]),
         filter(isNonNulled),
