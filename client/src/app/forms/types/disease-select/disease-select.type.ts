@@ -1,118 +1,92 @@
+import { ChangeDetectionStrategy, Component, Type, inject } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
-import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
-import { BaseFieldType } from '@app/forms/mixins/base/base-field'
-import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { EntityType } from '@app/forms/states/base.state'
-import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
-import { QuickAddDiseaseMutationVariables } from '@app/forms/types/disease-select/disease-quick-add/disease-quick-add.query.gql.generated'
-import {
-  DiseaseSelectTagGQL,
-  DiseaseSelectTagQuery,
-  DiseaseSelectTagQueryVariables,
-  DiseaseSelectTypeaheadFieldsFragment,
-  DiseaseSelectTypeaheadGQL,
-  DiseaseSelectTypeaheadQuery,
-  DiseaseSelectTypeaheadQueryVariables,
-} from './disease-select.query.gql.generated'
-import { Maybe } from '@app/generated/civic.apollo.types'
-import { untilDestroyed } from '@ngneat/until-destroy'
+  CvcEntitySelectDirective,
+  CvcHighlightComponent,
+  CvcSelectAddFormComponent,
+  CvcSelectMessagesComponent,
+  CvcTypeGateConfig,
+  CvcTypeGatedSelectFieldBase,
+  CvcTypeGatedSelectFieldProps,
+  entitySelectConfig,
+} from '@app/forms/select'
+import { CvcTagComponent } from '@app/tags'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
-  FormlyFieldProps,
+  FormlyModule,
 } from '@ngx-formly/core'
-import { NzTSType } from 'ng-zorro-antd/core/types'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcDiseaseQuickAddForm } from './disease-quick-add/disease-quick-add.form'
 import {
-  BehaviorSubject,
-  combineLatest,
-  filter,
-  ReplaySubject,
-  Subject,
-  take,
-} from 'rxjs'
-import mixin from 'ts-mixin-extended'
-import { Apollo } from 'apollo-angular'
+  DiseaseSelectTagGQL,
+  DiseaseSelectTypeaheadFieldsFragment,
+  DiseaseSelectTypeaheadGQL,
+} from './disease-select.query.gql.generated'
 
 export type CvcDiseaseSelectFieldOptions = Partial<
   FieldTypeConfig<CvcDiseaseSelectFieldProps>
 >
-export interface CvcDiseaseSelectFieldProps extends FormlyFieldProps {
-  entityName: CvcSelectEntityName
-  isMultiSelect: boolean
-  requireType: boolean
-  placeholder: string
-  requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
-  tooltip?: string
-  description?: string
-  extraType?: CvcFormFieldExtraType
-  addFormTitle: NzTSType
-  addFormContent?: NzTSType
-  addFormParams?: QuickAddDiseaseMutationVariables
-}
+
+export type CvcDiseaseSelectFieldProps = CvcTypeGatedSelectFieldProps
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcDiseaseSelectFieldConfig extends FormlyFieldConfig<CvcDiseaseSelectFieldProps> {
+export interface CvcDiseaseSelectFieldConfig
+  extends FormlyFieldConfig<CvcDiseaseSelectFieldProps> {
   type: 'disease-select' | 'disease-multi-select' | Type<CvcDiseaseSelectField>
 }
 
-const DiseaseSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcDiseaseSelectFieldProps>,
-    Maybe<number | number[]>
-  >(),
-  EntitySelectField<
-    DiseaseSelectTypeaheadQuery,
-    DiseaseSelectTypeaheadQueryVariables,
-    DiseaseSelectTypeaheadFieldsFragment,
-    DiseaseSelectTagQuery,
-    DiseaseSelectTagQueryVariables,
-    Maybe<number | number[]>
-  >()
-)
-
 @Component({
   selector: 'cvc-disease-select',
-  templateUrl: './disease-select.type.html',
-  styleUrls: ['./disease-select.type.less'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzSelectModule,
+    NzTooltipModule,
+    NzTypographyModule,
+    CvcTagComponent,
+    CvcEntitySelectDirective,
+    CvcHighlightComponent,
+    CvcSelectAddFormComponent,
+    CvcSelectMessagesComponent,
+    CvcDiseaseQuickAddForm,
+  ],
+  templateUrl: './disease-select.type.html',
+  styleUrl: './disease-select.type.less',
 })
-export class CvcDiseaseSelectField
-  extends DiseaseSelectMixin
-  implements AfterViewInit
-{
-  // get option template query list to populate entity-select
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
+export class CvcDiseaseSelectField extends CvcTypeGatedSelectFieldBase<
+  DiseaseSelectTypeaheadFieldsFragment,
+  void,
+  CvcDiseaseSelectFieldProps
+> {
+  private readonly typeaheadGQL = inject(DiseaseSelectTypeaheadGQL)
+  private readonly tagGQL = inject(DiseaseSelectTagGQL)
 
-  // STATE SOURCE STREAMS
-  onEntityType$?: Subject<Maybe<EntityType>>
-  onRequiresDisease$?: BehaviorSubject<boolean>
+  protected readonly select = entitySelectConfig({
+    entityName: { singular: 'Disease', plural: 'Diseases' },
+    typename: 'Disease',
+    typeahead: this.typeaheadGQL,
+    typeaheadVars: (name: string) => ({ name }),
+    typeaheadResults: (data) => data?.diseaseTypeahead ?? [],
+    tag: {
+      query: this.tagGQL,
+      vars: (id: number) => ({ id }),
+      result: (data) => data?.disease,
+    },
+  })
 
-  selectOpen$: ReplaySubject<Maybe<boolean>>
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$: BehaviorSubject<Maybe<string>>
+  protected readonly typeGate: CvcTypeGateConfig = {
+    requiresKey: 'requiresDisease$',
+    excludedDescription: (entityType, entityName) =>
+      `${entityType} ${entityName} does not include associated diseases`,
+  }
 
-  stateEntityName?: string
-
-  // FieldTypeConfig defaults
   defaultOptions: CvcDiseaseSelectFieldOptions = {
     props: {
       entityName: { singular: 'Disease', plural: 'Diseases' },
@@ -125,185 +99,6 @@ export class CvcDiseaseSelectField
         `Select an ${entityName} Type to select an associated Disease${
           isMultiSelect ? '(s)' : ''
         }`,
-      addFormTitle: 'Add a New Disease',
     },
-  }
-
-  constructor(
-    private taq: DiseaseSelectTypeaheadGQL,
-    private tq: DiseaseSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    super()
-    this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.selectOpen$ = new ReplaySubject<Maybe<boolean>>()
-  }
-
-  ngAfterViewInit(): void {
-    this.configureBaseField() // mixin fn
-    this.configureEntitySelectField({
-      // mixin fn
-      typeaheadQuery: this.taq,
-      typeaheadParam$: undefined,
-      tagQuery: this.tq,
-      getTypeaheadVarsFn: this.getTypeaheadVarsFn,
-      getTypeaheadResultsFn: this.getTypeaheadResultsFn,
-      getTagQueryVarsFn: this.getTagQueryVarsFn,
-      getTagQueryResultsFn: this.getTagQueryResultsFn,
-      getSelectedItemOptionFn: this.getSelectedItemOptionFn,
-      getSelectOptionsFn: this.getSelectOptionsFn,
-      changeDetectorRef: this.changeDetectorRef,
-      selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent,
-    })
-    // if state formReady exists,listen for parent ready event,
-    // then configure - otherwise configure the field immediately
-    if (this.state && this.state.formReady$) {
-      this.state.formReady$
-        .pipe(
-          filter((r) => r), // only pass true values
-          take(1), // unsubscribe after 1st emit
-          untilDestroyed(this) // or form destroyed
-        )
-        .subscribe((_) => {
-          this.configureField()
-        })
-    } else {
-      this.configureField()
-    }
-  } // ngAfterViewInit()
-
-  configureField(): void {
-    this.placeholder$.next(this.props.placeholder)
-    this.configureStateConnections()
-  }
-
-  configureStateConnections(): void {
-    if (!this.state) return
-    // connect to onRequiresDisease$
-    if (!this.state.requires.requiresDisease$) {
-      console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresDisease$ subject to attach.`
-      )
-    } else {
-      this.onRequiresDisease$ = this.state.requires.requiresDisease$
-    }
-
-    // connect onEntityType$
-    if (this.props.requireType) {
-      const etName = `${this.state.entityName.toLowerCase()}Type$`
-      if (!this.state.fields[etName]) {
-        console.error(
-          `${this.field.id} requireType is true, however form state does not provide Subject ${etName}.`
-        )
-      } else {
-        this.onEntityType$ = this.state.fields[etName]
-      }
-    }
-    if (!this.onRequiresDisease$ || !this.onEntityType$) return
-
-    // watch requiresDisease and entityType to update field placeholders
-    combineLatest([
-      this.onRequiresDisease$,
-      this.onEntityType$,
-      this.onValueChange$,
-    ])
-      .pipe(
-        // tag(
-        //   `${this.field.id} combineLatest([this.onRequiresDisease$, this.onEntityType$])`
-        // ),
-        untilDestroyed(this)
-      )
-      .subscribe(
-        ([requiresDisease, entityType, diseaseId]: [
-          boolean,
-          Maybe<EntityType>,
-          Maybe<number | number[]>,
-        ]) => {
-          this.onStateUpdates(requiresDisease, entityType, diseaseId)
-        }
-      )
-  }
-
-  onStateUpdates(
-    requiresDisease: boolean,
-    entityType: Maybe<EntityType>,
-    diseaseId: Maybe<number | number[]>
-  ): void {
-    // diseases are not associated with this entity type
-    if (!requiresDisease && entityType) {
-      this.props.required = false
-      this.props.disabled = true
-      // no disease required, entity type specified
-      this.props.description = `${formatEvidenceEnum(entityType)} ${
-        this.state!.entityName
-      } does not include associated diseases`
-      this.props.extraType = 'prompt'
-      // TODO: figure out why markForCheck is required here
-      this.cdr.markForCheck()
-    }
-    // if type required, toggle field required property off and show a 'Select Type..' prompt
-    if (this.props.requireType && !entityType) {
-      this.props.required = false
-      this.props.disabled = true
-      // no disease required, entity type not specified
-      this.props.description = this.props.requireTypePromptFn(
-        this.state!.entityName,
-        this.props.isMultiSelect
-      )
-      this.props.extraType = 'prompt'
-    }
-    // state indicates disease is required, set required, unset disabled,
-    // and show the placeholder (state will only return true from requiresDisease$
-    // if entityType provided)
-    if (requiresDisease) {
-      this.props.required = true
-      this.props.disabled = false
-      this.props.description = undefined
-      this.props.extraType = undefined
-    }
-    // Preserve prepopulated diseases until an entity type is selected, then
-    // clear the field if the selected type does not support diseases.
-    if (entityType && !requiresDisease && diseaseId !== undefined) {
-      this.resetField()
-    }
-  }
-
-  getTypeaheadVarsFn(str: string): DiseaseSelectTypeaheadQueryVariables {
-    return { name: str }
-  }
-
-  getTypeaheadResultsFn(r: Apollo.QueryResult<DiseaseSelectTypeaheadQuery>) {
-    return r.data?.diseaseTypeahead ?? []
-  }
-
-  getTagQueryVarsFn(id: number): DiseaseSelectTagQueryVariables {
-    return { id: id }
-  }
-
-  getTagQueryResultsFn(
-    r: Apollo.QueryResult<DiseaseSelectTagQuery>
-  ): Maybe<DiseaseSelectTypeaheadFieldsFragment> {
-    return r.data?.disease
-  }
-
-  getSelectedItemOptionFn(
-    disease: DiseaseSelectTypeaheadFieldsFragment
-  ): NzSelectOptionInterface {
-    return { value: disease.id, label: disease.name }
-  }
-
-  getSelectOptionsFn(
-    results: DiseaseSelectTypeaheadFieldsFragment[],
-    tplRefs: QueryList<TemplateRef<any>>
-  ): NzSelectOptionInterface[] {
-    return results.map(
-      (disease: DiseaseSelectTypeaheadFieldsFragment, index: number) => {
-        return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || disease.name,
-          value: disease.id,
-        }
-      }
-    )
   }
 }

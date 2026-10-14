@@ -4,7 +4,7 @@
   nzSize="small"
   (click)="downloadTable()"
   [disabled]="downloading | async">
-  @if (!(downloading | async)) {
+  @if ((downloading | async) !== true) {
     <span
       nz-icon
       nzType="download"

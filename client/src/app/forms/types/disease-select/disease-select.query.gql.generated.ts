@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableDiseaseFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type DiseaseSelectTypeaheadQueryVariables = Types.Exact<{
@@ -9,27 +10,24 @@ export type DiseaseSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type DiseaseSelectTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Array<{ __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> }> };
+export type DiseaseSelectTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Array<{ __typename: 'Disease', doid?: string | undefined, diseaseAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean }> };
 
 export type DiseaseSelectTagQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
 
-export type DiseaseSelectTagQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined };
+export type DiseaseSelectTagQuery = { __typename: 'Query', disease?: { __typename: 'Disease', doid?: string | undefined, diseaseAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean } | undefined };
 
-export type DiseaseSelectTypeaheadFieldsFragment = { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> };
+export type DiseaseSelectTypeaheadFieldsFragment = { __typename: 'Disease', doid?: string | undefined, diseaseAliases: Array<string>, id: number, name: string, link: string, deprecated: boolean };
 
 export const DiseaseSelectTypeaheadFieldsFragmentDoc = gql`
     fragment DiseaseSelectTypeaheadFields on Disease {
-  id
-  name
-  link
-  displayName
+  ...LinkableDisease
   doid
   diseaseAliases
 }
-    `;
+    ${LinkableDiseaseFragmentDoc}`;
 export const DiseaseSelectTypeaheadDocument = gql`
     query DiseaseSelectTypeahead($name: String!) {
   diseaseTypeahead(queryTerm: $name) {
