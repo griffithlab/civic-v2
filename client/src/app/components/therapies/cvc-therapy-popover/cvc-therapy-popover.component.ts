@@ -17,7 +17,7 @@ import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
-import { LetDirective, PushPipe } from '@ngrx/component'
+import { PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -36,7 +36,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
   imports: [
     CommonModule,
     RouterModule,
-    LetDirective,
     PushPipe,
     NzCardModule,
     NzDescriptionsModule,

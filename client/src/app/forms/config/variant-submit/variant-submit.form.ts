@@ -5,14 +5,15 @@ import {
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
+import { CvcVariantSelectFieldOptions } from '@app/forms/types/variant-select/variant-select.type'
 import { FeatureSelectTagGQL } from '@app/forms/types/feature-select/feature-select.query.gql.generated'
 import { Maybe, Variant } from '@app/generated/civic.apollo.types'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, lastValueFrom } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
-import { Apollo, gql } from 'apollo-angular'
+import { Apollo } from 'apollo-angular'
+import { readCachedVariant } from '@app/forms/types/variant-select/cached-variant'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
 
@@ -82,7 +83,7 @@ export class VariantSubmitForm {
               hideLabel: true,
             },
           },
-          <CvcVariantSelectFieldOption>{
+          <CvcVariantSelectFieldOptions>{
             key: 'variantId',
             type: 'variant-select',
             props: {
@@ -119,37 +120,17 @@ export class VariantSubmitForm {
   }
 
   getSelectedVariant(variantId: Maybe<number>): Maybe<Variant> {
-    if (!variantId) return
-    const fragment = {
-      id: `${this.featureType}Variant:${variantId}`,
-      fragment: gql`
-        fragment VariantSelectQuery on ${this.featureType}Variant {
-          id
-          name
-          link
-          variantAliases
-          singleVariantMolecularProfileId
-          singleVariantMolecularProfile {
-            id
-            name
-            link
-            molecularProfileAliases
-          }
-        }
-      `,
-    }
-    let variant
-    try {
-      variant = this.apollo.client.readFragment(fragment) as Variant
-    } catch (err) {
-      console.error(err)
-    }
+    const variant = readCachedVariant(
+      this.apollo,
+      variantId,
+      `${this.featureType}Variant`
+    )
     if (!variant) {
       console.error(
         `Variant submit form could not resolve its Variant from the cache`
       )
       return
     }
-    return variant
+    return variant as Variant
   }
 }

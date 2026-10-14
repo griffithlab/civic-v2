@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableMolecularProfileFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type MolecularProfileSelectTypeaheadQueryVariables = Types.Exact<{
@@ -10,27 +11,23 @@ export type MolecularProfileSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type MolecularProfileSelectTypeaheadQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', nodes: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string>, deprecated: boolean, flagged: boolean }> } };
+export type MolecularProfileSelectTypeaheadQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', nodes: Array<{ __typename: 'MolecularProfile', molecularProfileAliases: Array<string>, id: number, name: string, link: string, flagged: boolean, deprecated: boolean }> } };
 
 export type MolecularProfileSelectTagQueryVariables = Types.Exact<{
   molecularProfileId: Types.Scalars['Int']['input'];
 }>;
 
 
-export type MolecularProfileSelectTagQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string>, deprecated: boolean, flagged: boolean } | undefined };
+export type MolecularProfileSelectTagQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', molecularProfileAliases: Array<string>, id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | undefined };
 
-export type MolecularProfileSelectTypeaheadFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string>, deprecated: boolean, flagged: boolean };
+export type MolecularProfileSelectTypeaheadFieldsFragment = { __typename: 'MolecularProfile', molecularProfileAliases: Array<string>, id: number, name: string, link: string, flagged: boolean, deprecated: boolean };
 
 export const MolecularProfileSelectTypeaheadFieldsFragmentDoc = gql`
     fragment MolecularProfileSelectTypeaheadFields on MolecularProfile {
-  id
-  name
-  link
+  ...LinkableMolecularProfile
   molecularProfileAliases
-  deprecated
-  flagged
 }
-    `;
+    ${LinkableMolecularProfileFragmentDoc}`;
 export const MolecularProfileSelectTypeaheadDocument = gql`
     query MolecularProfileSelectTypeahead($name: String!, $geneId: Int) {
   molecularProfiles(name: $name, geneId: $geneId, first: 25) {

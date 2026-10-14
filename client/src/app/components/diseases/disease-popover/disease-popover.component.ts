@@ -14,7 +14,7 @@ import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 import { CommonModule } from '@angular/common'
-import { LetDirective, PushPipe } from '@ngrx/component'
+import { PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -30,7 +30,6 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
   standalone: true,
   imports: [
     CommonModule,
-    LetDirective,
     PushPipe,
     NzCardModule,
     NzDescriptionsModule,

@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
   inject,
 } from '@angular/core'
 import {
@@ -67,8 +65,6 @@ export interface FusionSelectModalData {
   ],
 })
 export class CvcFusionSelectForm {
-  @Output() onFusionSelected = new EventEmitter<number>()
-
   readonly #modal = inject(NzModalRef)
   readonly nzModalData: FusionSelectModalData = inject(NZ_MODAL_DATA)
 
@@ -328,12 +324,10 @@ export class CvcFusionSelectForm {
       model,
       {},
       (data) => {
+        // destroying the modal with the id IS the result channel: this is
+        // modal-only content, so an @Output would have nothing bound to it
         if (data.createFusionFeature?.feature.id) {
-          const featureId = data.createFusionFeature.feature.id
-          this.onFusionSelected.next(featureId)
-          if (this.#modal) {
-            this.#modal.destroy({ featureId: featureId })
-          }
+          this.#modal.destroy({ featureId: data.createFusionFeature.feature.id })
         }
       }
     )

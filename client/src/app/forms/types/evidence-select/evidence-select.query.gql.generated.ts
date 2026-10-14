@@ -2,6 +2,7 @@
 import * as Types from '../../../generated/civic.apollo.types';
 
 import { gql } from 'apollo-angular';
+import { LinkableEvidenceItemFragmentDoc } from '../../../tags/linkable.fragments.gql.generated';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type EvidenceSelectTypeaheadQueryVariables = Types.Exact<{
@@ -9,22 +10,20 @@ export type EvidenceSelectTypeaheadQueryVariables = Types.Exact<{
 }>;
 
 
-export type EvidenceSelectTypeaheadQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', nodes: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, status: Types.EvidenceStatus }> } };
+export type EvidenceSelectTypeaheadQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', nodes: Array<{ __typename: 'EvidenceItem', evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, status: Types.EvidenceStatus, id: number, name: string, link: string, flagged: boolean }> } };
 
 export type EvidenceSelectTagQueryVariables = Types.Exact<{
   eid: Types.Scalars['Int']['input'];
 }>;
 
 
-export type EvidenceSelectTagQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, status: Types.EvidenceStatus } | undefined };
+export type EvidenceSelectTagQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, status: Types.EvidenceStatus, id: number, name: string, link: string, flagged: boolean } | undefined };
 
-export type EvidenceSelectTypeaheadFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, status: Types.EvidenceStatus };
+export type EvidenceSelectTypeaheadFieldsFragment = { __typename: 'EvidenceItem', evidenceType: Types.EvidenceType, evidenceDirection: Types.EvidenceDirection, evidenceLevel: Types.EvidenceLevel, evidenceRating?: number | undefined, significance: Types.EvidenceSignificance, variantOrigin: Types.VariantOrigin, status: Types.EvidenceStatus, id: number, name: string, link: string, flagged: boolean };
 
 export const EvidenceSelectTypeaheadFieldsFragmentDoc = gql`
     fragment EvidenceSelectTypeaheadFields on EvidenceItem {
-  id
-  name
-  link
+  ...LinkableEvidenceItem
   evidenceType
   evidenceDirection
   evidenceLevel
@@ -33,7 +32,7 @@ export const EvidenceSelectTypeaheadFieldsFragmentDoc = gql`
   variantOrigin
   status
 }
-    `;
+    ${LinkableEvidenceItemFragmentDoc}`;
 export const EvidenceSelectTypeaheadDocument = gql`
     query EvidenceSelectTypeahead($eid: Int!) {
   evidenceItems(id: $eid) {

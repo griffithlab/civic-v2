@@ -10,12 +10,13 @@ query FeatureSelectTag($featureId: Int!) {
   }
 }
 
+# Spreads LinkableFeature so a selected Feature lands in the cache in exactly
+# the shape cvc-tag's watchFragment reads. Note the typeahead always returns
+# __typename 'Feature'; the Gene/Factor/Fusion/Region union is nested one
+# level down in featureInstance and is metadata, not the tag's identity.
 fragment FeatureSelectTypeaheadFields on Feature {
-  id
-  name
+  ...LinkableFeature
   featureAliases
-  link
-  featureType
   featureInstance {
     __typename
     ... on Gene {
