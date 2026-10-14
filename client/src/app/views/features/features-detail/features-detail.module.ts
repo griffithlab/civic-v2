@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module'
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module'
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module'
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module'
@@ -42,7 +41,6 @@ import { CvcFeatureDeprecateForm } from '@app/forms/components/feature-deprecate
     CvcContributorAvatarsModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
-    CvcEventFeedModule,
     CvcCommentBodyModule,
     CvcFeatureDeprecateForm,
   ],

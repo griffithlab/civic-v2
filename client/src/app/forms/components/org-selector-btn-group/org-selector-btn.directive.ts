@@ -17,8 +17,8 @@ export interface ButtonMutation {
 }
 @UntilDestroy()
 @Directive({
-    selector: 'button[cvcOrgSelectorBtn]',
-    standalone: false
+  selector: 'button[cvcOrgSelectorBtn]',
+  standalone: false,
 })
 export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
   @Output()
@@ -80,9 +80,6 @@ export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    console.log(
-      `directive ngAfterViewInit classList.value: ${this.el.nativeElement.classList.value}`
-    )
     this.initialClass = this.el.nativeElement.classList.value
   }
   ngOnDestroy(): void {

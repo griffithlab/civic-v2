@@ -1,9 +1,14 @@
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * The dev session's cookies are bound to the host `127.0.0.1` and cookies ignore
- * port, so a second worktree can serve on another port and reuse the same login.
- * Never `localhost` — that is a different host, and therefore a different jar.
+ * Use host `127.0.0.1`, never `localhost`: the dev session's cookies are bound
+ * to that host, and cookies ignore port, so another worktree can serve on a
+ * different port and reuse the login.
+ *
+ * CI has no backend and runs `yarn e2e --grep @offline`: the specs that
+ * assert only on the app shell or seed the Apollo cache directly. Tag a spec
+ * `@offline` only after it passes with `**​/api/**` routed to
+ * `route.abort()`; otherwise it passes locally and fails only in CI.
  */
 const baseURL = process.env.CIVIC_BASE_URL ?? 'http://127.0.0.1:4200'
 const port = new URL(baseURL).port || '4200'

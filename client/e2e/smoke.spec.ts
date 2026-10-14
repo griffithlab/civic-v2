@@ -6,12 +6,16 @@ import { expect, test } from '@playwright/test'
  * output. Deliberately unauthenticated, so it passes on a fresh checkout with
  * no captured session.
  */
-test('the app boots and routes to welcome', async ({ page }) => {
-  await page.goto('/')
+test(
+  'the app boots and routes to welcome',
+  { tag: '@offline' },
+  async ({ page }) => {
+    await page.goto('/')
 
-  await expect(page).toHaveTitle(/CIViC/i)
-  // '' redirects to /welcome, so this asserts the router ran, not just that
-  // index.html was served
-  await expect(page).toHaveURL(/\/welcome$/)
-  await expect(page.locator('app-welcome')).toBeVisible()
-})
+    await expect(page).toHaveTitle(/CIViC/i)
+    // '' redirects to /welcome, so this asserts the router ran, not just that
+    // index.html was served
+    await expect(page).toHaveURL(/\/welcome$/)
+    await expect(page.locator('app-welcome')).toBeVisible()
+  }
+)

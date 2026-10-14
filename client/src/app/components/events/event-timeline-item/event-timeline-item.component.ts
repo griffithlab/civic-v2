@@ -4,8 +4,8 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { EventFeedNodeFragment } from '@app/components/events/event-feed/event-feed.gql.generated'
-import { EventDisplayOption } from '../event-feed/event-feed.component'
+import { EventTimelineNodeFragment } from '@app/components/events/event-timeline/event-timeline.fragments.gql.generated'
+import { EventDisplayOption } from '../event-timeline/event-timeline.types'
 
 @Component({
   selector: 'cvc-event-timeline-item',
@@ -14,14 +14,14 @@ import { EventDisplayOption } from '../event-feed/event-feed.component'
   standalone: false,
 })
 export class CvcEventTimelineItemComponent implements OnInit {
-  @Input() event!: EventFeedNodeFragment
+  @Input() event!: EventTimelineNodeFragment
   @Input() tagDisplay: EventDisplayOption = 'displayAll'
   constructor() {}
 
   ngOnInit(): void {
     if (this.event === undefined) {
       throw new Error(
-        'cvc-timeline-item component requires an EventFeedNodeFragment input.'
+        'cvc-timeline-item component requires an EventTimelineNodeFragment input.'
       )
     }
   }

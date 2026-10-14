@@ -10,7 +10,6 @@ import { CvcMpFinderFieldsModule } from './mp-finder-fields.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzFormModule } from 'ng-zorro-antd/form'
@@ -53,7 +52,6 @@ import { MpFinderComponent } from './mp-finder/mp-finder.component'
     FormsModule,
     LetDirective,
     NzAlertModule,
-    NzAutocompleteModule,
     NzButtonModule,
     NzCheckboxModule,
     NzFormModule,

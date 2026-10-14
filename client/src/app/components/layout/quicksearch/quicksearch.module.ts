@@ -4,7 +4,6 @@ import { CvcQuicksearchComponent } from './quicksearch-component'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { RouterModule } from '@angular/router'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormsModule } from '@angular/forms'
@@ -28,7 +27,6 @@ import { NzTooltipModule } from 'ng-zorro-antd/tooltip'
     NzInputModule,
     NzFormModule,
     NzIconModule,
-    NzAutocompleteModule,
     NzCheckboxModule,
     NzTooltipModule,
   ],

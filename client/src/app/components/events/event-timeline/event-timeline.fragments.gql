@@ -1,0 +1,90 @@
+# The event shape cvc-event-timeline and cvc-event-timeline-item render.
+#
+# Kept beside the components typed by it: the users-notifications query
+# spreads it, since notifications are Event-based (Notification belongs_to
+# :event).
+#
+# Use `#` comments, not a `"""` description block: descriptions are SDL syntax
+# and are only valid on schema definitions. codegen embeds one into the operation
+# document, and the server then rejects the whole request with
+# `Expected one of SCHEMA, SCALAR, TYPE, ... actual: FRAGMENT`.
+fragment eventTimelineNode on Event {
+  id
+  action
+  createdAt
+  organization {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  originatingUser {
+    id
+    username
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  subject {
+    name
+    id
+    link
+    ... on Source {
+      citation
+      sourceType
+      deprecated
+    }
+    ... on EvidenceItem {
+      status
+      flagged
+    }
+    ... on Assertion {
+      status
+      flagged
+    }
+    ... on Revision {
+      revisionSetId
+    }
+    ... on VariantInterface {
+      deprecated
+      flagged
+      feature {
+        id
+        link
+        name
+        deprecated
+        flagged
+      }
+    }
+    ... on Feature {
+      deprecated
+      flagged
+      id
+      link
+      name
+    }
+    ... on MolecularProfile {
+      deprecated
+      flagged
+    }
+    ... on VariantGroup {
+      flagged
+    }
+    __typename
+  }
+  originatingObject {
+    id
+    name
+    link
+    __typename
+    ... on Revision {
+      id
+      revisionSetId
+    }
+    ... on Comment {
+      id
+    }
+    ... on Flag {
+      id
+    }
+  }
+}
