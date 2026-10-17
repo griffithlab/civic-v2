@@ -29,6 +29,10 @@ module Types::Queries
           Scrapers::PubMed.get_citation_from_pubmed_id(citation_id)
         when "ASH"
           Scrapers::Ash.get_citation_from_doi(doi: citation_id)
+        when "bioRxiv"
+          Scrapers::BioRxiv.get_citation_from_doi(doi: citation_id)
+        when "medRxiv"
+          Scrapers::MedRxiv.get_citation_from_doi(doi: citation_id)
         else
           raise GraphQL::ExecutionError, "#{source_type} not found for existence check, non-exhaustive match"
         end

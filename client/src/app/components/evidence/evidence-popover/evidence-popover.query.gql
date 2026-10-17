@@ -48,6 +48,7 @@ fragment evidencePopover on EvidenceItem {
     citation
     sourceType
     displayType
+    displayName
     link
     deprecated
     clinicalTrials {

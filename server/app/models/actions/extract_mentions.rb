@@ -29,6 +29,7 @@ module Actions
                 entity_id: User.roles[role.singularize],
                 display_name: role,
                 tag_type: "ROLE",
+                link: "",
               }
             else
               split_segment
@@ -53,6 +54,7 @@ module Actions
                   entity_id: organization.id,
                   display_name: organization.name,
                   tag_type: "ORGANIZATION",
+                  link: organization.url,
                 }
               elsif [ "editors", "admins" ].include?(minus_at)
                 mentioned_roles << minus_at

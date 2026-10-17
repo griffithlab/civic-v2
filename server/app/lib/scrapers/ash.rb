@@ -43,6 +43,7 @@ module Scrapers
       source.title = resp.article_title
       source.full_journal_title = resp.full_journal_title
       source.citation = resp.citation
+      source.is_preprint = false
 
       source.save!
     end

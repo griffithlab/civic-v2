@@ -71,6 +71,11 @@ export const searchSourcesFieldOptions: FormlyFieldConfig[] =
           fieldGroup: INPUT_FIELD_CONFIG['StringSearchInput'],
         },
         {
+          key: 'isPreprint',
+          props: { label: 'Is Preprint' },
+          fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],
+        },
+        {
           key: 'isRetracted',
           props: { label: 'Is Retracted' },
           fieldGroup: INPUT_FIELD_CONFIG['BooleanSearchInput'],

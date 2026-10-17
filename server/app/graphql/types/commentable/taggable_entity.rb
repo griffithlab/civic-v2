@@ -9,5 +9,6 @@ module Types::Commentable
     value "ROLE"
     value "MOLECULAR_PROFILE"
     value "SOURCE"
+    value "ORGANIZATION"
   end
 end

@@ -47,15 +47,15 @@ module Scrapers
     end
 
     def day
-      json["message"]["created"]["date-parts"][0][2]
+      json["message"]["published"]["date-parts"][0][2]
     end
 
     def month
-      json["message"]["created"]["date-parts"][0][1]
+      json["message"]["published"]["date-parts"][0][1]
     end
 
     def year
-      json["message"]["created"]["date-parts"][0][0]
+      json["message"]["published"]["date-parts"][0][0]
     end
 
     def journal
@@ -82,6 +82,15 @@ module Scrapers
     def asco_presenter
       a = json["message"]["author"].first
       "#{a['given']} #{a['family']}"
+    end
+
+    def update_doi
+      preprint = json["message"]["relation"]["is-preprint-of"]&.find { |e| e["id-type"] == "doi" }
+      if preprint.nil?
+        nil
+      else
+        preprint["id"]
+      end
     end
   end
 end
