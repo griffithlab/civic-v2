@@ -206,7 +206,7 @@ class Variant < ApplicationRecord
       counts = Assertion
         .joins(:disease, molecular_profile: [ :variants ])
         .where(variants: { id: self.id, deprecated: false }, molecular_profiles: { deprecated: false })
-        .where.not(assertions: { status: "rejected" })
+        .where(assertions: { status: "accepted" })
         .group_by { |a| [ a.assertion_type, a.assertion_direction, a.significance, a.disease_id ] }
       if counts.nil?
         []
