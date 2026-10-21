@@ -25,8 +25,7 @@ import {
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention'
 import { filter, map, startWith, takeUntil } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { isNonNulled } from 'rxjs-etc'
 
@@ -36,11 +35,11 @@ interface WithDisplayNameAndValue {
 }
 
 @Component({
-    selector: 'cvc-comment-input-form',
-    templateUrl: './comment-input.form.html',
-    styleUrls: ['./comment-input.form.less'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'cvc-comment-input-form',
+  templateUrl: './comment-input.form.html',
+  styleUrls: ['./comment-input.form.less'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CvcCommentInputForm implements OnDestroy, OnChanges {
   @Input() comment?: string
@@ -82,12 +81,15 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
     this.commentText = this.comment
 
     this.userTypeaheadQueryRef$ = this.userTypeaheadGql.watch({
-      queryTerm: '',
+      variables: {
+        queryTerm: '',
+      },
     })
 
     this.userTypeaheadQueryRef$.valueChanges
       .pipe(
-        pluck('data', 'userTypeahead'),
+        onlyCompleteData(),
+        map(({ data }) => data.userTypeahead),
         filter(isNonNulled),
         takeUntil(this.destroy$)
       )
@@ -99,12 +101,15 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
       )
 
     this.entityTypeaheadQueryRef$ = this.entityTypeaheadGql.watch({
-      queryTerm: '',
+      variables: {
+        queryTerm: '',
+      },
     })
 
     this.entityTypeaheadQueryRef$.valueChanges
       .pipe(
-        pluck('data', 'entityTypeahead'),
+        onlyCompleteData(),
+        map(({ data }) => data.entityTypeahead),
         filter(isNonNulled),
         takeUntil(this.destroy$)
       )
@@ -167,13 +172,14 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   onPreviewButtonClicked() {
     if (this.commentText) {
       this.previewComment$ = this.previewCommentGql
-        .watch({ commentText: this.commentText })
+        .watch({ variables: { commentText: this.commentText } })
         .valueChanges.pipe(
-          pluck('data', 'previewCommentText'),
+          onlyCompleteData(),
+          map(({ data }) => data.previewCommentText),
           filter(isNonNulled)
         )
       this.previewLoading$ = this.previewCommentGql
-        .watch({ commentText: this.commentText })
+        .watch({ variables: { commentText: this.commentText } })
         .valueChanges.pipe(
           map(({ loading }) => {
             return loading

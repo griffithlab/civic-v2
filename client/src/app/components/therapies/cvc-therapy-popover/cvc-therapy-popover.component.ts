@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   Component,
   EventEmitter,
@@ -45,9 +46,10 @@ export class CvcTherapyPopoverComponent
 
   ngOnInit() {
     this.therapy$ = this.gql
-      .watch({ therapyId: this.therapyId })
+      .watch({ variables: { therapyId: this.therapyId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.therapyPopover),
+        onlyCompleteData(),
+        map(({ data }) => data.therapyPopover),
         filter(isNonNulled)
       )
   }

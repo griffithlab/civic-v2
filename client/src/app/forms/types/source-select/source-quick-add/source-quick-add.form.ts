@@ -172,8 +172,10 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
       this.model.sourceType !== undefined
     ) {
       this.queryRef = this.checkCitation.watch({
-        citationId: this.model.citationId,
-        sourceType: this.model.sourceType,
+        variables: {
+          citationId: this.model.citationId,
+          sourceType: this.model.sourceType,
+        },
       })
 
       this.checkResult$ = this.queryRef.valueChanges.pipe(

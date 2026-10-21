@@ -9,8 +9,7 @@ import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { environment } from 'environments/environment'
 import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'
-import { startWith, withLatestFrom } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
+import { map, startWith, withLatestFrom } from 'rxjs/operators'
 import { isNonNulled } from 'rxjs-etc'
 
 @Component({
@@ -39,20 +38,18 @@ export class CvcViewerButtonComponent implements OnInit {
     this.menuSelection$ = new Subject()
     if (environment.production) {
       this.unreadCount$ = this.unreadCountGql
-        .watch(undefined, { pollInterval: 5000 })
+        .watch({ pollInterval: 5000 })
         .valueChanges.pipe(
-          pluck('data', 'notifications', 'unreadCount'),
+          map(({ data }) => data?.notifications?.unreadCount),
           filter(isNonNulled),
           startWith(0)
         )
     } else {
-      this.unreadCount$ = this.unreadCountGql
-        .watch(undefined)
-        .valueChanges.pipe(
-          pluck('data', 'notifications', 'unreadCount'),
-          filter(isNonNulled),
-          startWith(0)
-        )
+      this.unreadCount$ = this.unreadCountGql.watch().valueChanges.pipe(
+        map(({ data }) => data?.notifications?.unreadCount),
+        filter(isNonNulled),
+        startWith(0)
+      )
     }
     this.addVariantModalVisible$ = new BehaviorSubject<boolean>(false)
   }

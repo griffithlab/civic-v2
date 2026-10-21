@@ -10,10 +10,9 @@ import {
   FlagListGQL,
   PageInfo,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
-import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
 
 export interface UniqueFlaggingUsers {
@@ -62,9 +61,11 @@ export class CvcFlagListAndFilterComponent implements OnInit {
     }
 
     this.queryRef = this.gql.watch({
-      first: this.defaultPageSize,
-      flaggable: this.flaggable,
-      state: FlagState.Open,
+      variables: {
+        first: this.defaultPageSize,
+        flaggable: this.flaggable,
+        state: FlagState.Open,
+      },
     })
 
     this.refresh = () => {
@@ -73,27 +74,28 @@ export class CvcFlagListAndFilterComponent implements OnInit {
     }
 
     this.results$ = this.queryRef.valueChanges
-    this.flags$ = this.results$.pipe(
-      pluck('data', 'flags', 'edges'),
+    const data$ = this.results$.pipe(onlyCompleteData())
+    this.flags$ = data$.pipe(
+      map(({ data }) => data.flags?.edges),
       filter(isNonNulled),
       map((edges) => {
         return edges.map((e) => e.node as FlagFragment)
       })
     )
 
-    this.pageInfo$ = this.results$.pipe(pluck('data', 'flags', 'pageInfo'))
+    this.pageInfo$ = data$.pipe(map(({ data }) => data.flags?.pageInfo))
 
-    this.unfilteredCount$ = this.results$.pipe(
-      pluck('data', 'flags', 'unfilteredCountForSubject')
+    this.unfilteredCount$ = data$.pipe(
+      map(({ data }) => data.flags?.unfilteredCountForSubject)
     )
 
-    this.uniqueFlaggingUsers$ = this.results$.pipe(
+    this.uniqueFlaggingUsers$ = data$.pipe(
       map(({ data }) => {
         return data.flags?.uniqueFlaggingUsers
       })
     )
 
-    this.uniqueResolvingUsers$ = this.results$.pipe(
+    this.uniqueResolvingUsers$ = data$.pipe(
       map(({ data }) => {
         return data.flags?.uniqueResolvingUsers
       })

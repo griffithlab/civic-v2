@@ -117,11 +117,13 @@ export class CvcFeaturesTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.queryRef = this.query.watch({
-      first: this.initialPageSize,
-      ids: this.ids,
-      sortBy: {
-        column: FeaturesSortColumns.VariantCount,
-        direction: SortDirection.Desc,
+      variables: {
+        first: this.initialPageSize,
+        ids: this.ids,
+        sortBy: {
+          column: FeaturesSortColumns.VariantCount,
+          direction: SortDirection.Desc,
+        },
       },
     })
 

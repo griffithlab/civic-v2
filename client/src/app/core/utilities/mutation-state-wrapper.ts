@@ -1,8 +1,8 @@
-import { BehaviorSubject, Subject } from 'rxjs'
-import { Mutation, MutationOptionsAlone } from 'apollo-angular'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { Apollo, Mutation } from 'apollo-angular'
 import { NetworkErrorsService } from '../services/network-errors.service'
 import { finalize, takeUntil } from 'rxjs/operators'
-import { ApolloError } from '@apollo/client/core'
+import { CombinedGraphQLErrors, toErrorLike } from '@apollo/client/errors'
 
 export interface MutationState {
   submitError$: BehaviorSubject<string[]>
@@ -22,7 +22,7 @@ export class MutatorWithState<
   mutate(
     mutation: M,
     vars: V,
-    options?: MutationOptionsAlone<T, V>,
+    options?: Omit<Mutation.MutateOptions<T, V>, 'variables'>,
     dataCallback?: (data: T) => void
   ): MutationState {
     let destroy$ = new Subject<void>()
@@ -39,8 +39,13 @@ export class MutatorWithState<
 
     stateVals.isSubmitting$.next(true)
 
-    mutation
-      .mutate(vars, options)
+    // bind + assert to sidestep the `{} extends V` conditional tuple in
+    // Mutation#mutate's signature, which cannot resolve for a generic V
+    const mutate = mutation.mutate.bind(mutation) as (
+      options: Mutation.MutateOptions<T, V>
+    ) => Observable<Apollo.MutateResult<T>>
+
+    mutate({ variables: vars, ...options } as Mutation.MutateOptions<T, V>)
       .pipe(
         takeUntil(destroy$),
         finalize(() => {
@@ -53,13 +58,11 @@ export class MutatorWithState<
             dataCallback(res.data)
           }
         },
-        error: (error: ApolloError) => {
-          if (error.graphQLErrors.length > 0) {
-            stateVals.submitError$.next(
-              error.graphQLErrors.map((e) => e.message)
-            )
-          } else if (error.networkError) {
-            this.networkErrorService.networkError$.next(error.networkError)
+        error: (error: unknown) => {
+          if (CombinedGraphQLErrors.is(error)) {
+            stateVals.submitError$.next(error.errors.map((e) => e.message))
+          } else {
+            this.networkErrorService.networkError$.next(toErrorLike(error))
           }
           stateVals.cleanup()
         },

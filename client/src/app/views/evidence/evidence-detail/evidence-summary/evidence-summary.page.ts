@@ -16,10 +16,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 
 @Component({
-    selector: 'cvc-evidence-summary',
-    templateUrl: './evidence-summary.page.html',
-    styleUrls: ['./evidence-summary.page.less'],
-    standalone: false
+  selector: 'cvc-evidence-summary',
+  templateUrl: './evidence-summary.page.html',
+  styleUrls: ['./evidence-summary.page.less'],
+  standalone: false,
 })
 export class EvidenceSummaryPage {
   @Input() evidenceId: Maybe<number>
@@ -31,7 +31,10 @@ export class EvidenceSummaryPage {
   subscribable: SubscribableInput
   statusValues = EvidenceStatus
 
-  constructor(private gql: EvidenceSummaryGQL, private route: ActivatedRoute) {
+  constructor(
+    private gql: EvidenceSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     var queryEvidenceId: number
     if (this.evidenceId) {
       queryEvidenceId = this.evidenceId
@@ -45,7 +48,9 @@ export class EvidenceSummaryPage {
       )
     }
 
-    this.queryRef = this.gql.watch({ evidenceId: queryEvidenceId })
+    this.queryRef = this.gql.watch({
+      variables: { evidenceId: queryEvidenceId },
+    })
 
     let observable = this.queryRef.valueChanges
 

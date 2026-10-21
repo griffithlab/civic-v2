@@ -17,10 +17,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-    selector: 'variants-detail',
-    templateUrl: './variants-detail.view.html',
-    styleUrls: ['./variants-detail.view.less'],
-    standalone: false
+  selector: 'variants-detail',
+  templateUrl: './variants-detail.view.html',
+  styleUrls: ['./variants-detail.view.less'],
+  standalone: false,
 })
 export class VariantsDetailView implements OnDestroy {
   queryRef?: QueryRef<VariantDetailQuery, VariantDetailQueryVariables>
@@ -72,7 +72,9 @@ export class VariantsDetailView implements OnDestroy {
     this.viewer$ = this.viewerService.viewer$
 
     this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ variantId: +params.variantId })
+      this.queryRef = this.gql.watch({
+        variables: { variantId: +params.variantId },
+      })
 
       let observable = this.queryRef.valueChanges
 
