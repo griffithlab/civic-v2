@@ -102,5 +102,8 @@ jobs:
       - run: yarn install --immutable
         working-directory: ./client
 
+      - run: yarn test
+        working-directory: ./client
+
       - run: yarn build
         working-directory: ./client
