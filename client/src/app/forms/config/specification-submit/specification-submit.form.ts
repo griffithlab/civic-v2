@@ -267,18 +267,23 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     props: {
                                       label: "Modifier",
                                       options: code.modifiers.map((m) => { return {label: m, value: m} }),
+                                      extraInfo: {
+                                        optionsLength: code.modifiers.length
+                                      },
+                                      description: code.modifiers.length > 0 ? "" : "No modifiers available for this code"
                                     },
                                     expressions: {
                                       'props.disabled': (field: FormlyFieldConfig) => {
                                         const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                        const shouldDisable = ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation)
+                                        const hasModifiers = field.props?.extraInfo?.optionsLength ? field.props.extraInfo.optionsLength > 0 : false
+                                        const shouldDisable = ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation) || !hasModifiers
                                         if (shouldDisable && field.formControl?.value !== null) {
                                           setTimeout(() => {
                                             field.formControl?.setValue(null) // Clears the form control value
                                           });
                                         }
                                         return shouldDisable
-                                      }
+                                      },
                                     },
                                   },
                                   {
@@ -361,16 +366,24 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   this.perGroupCodesModel = {}
                   this.specificationInfo.specificationCriteria.forEach((criterion) => {
                     if (criterion.assessmentGroup) {
+                      const parentEvaluation = this.currentEvaluations().find(evaluation => evaluation.code === criterion.criterion)
+                      const parentModifier = parentEvaluation?.modifier && criterion.modifiers.includes(parentEvaluation.modifier) ? parentEvaluation.modifier : undefined
+                      const portedEvaluation = parentEvaluation ? {
+                        'evaluation': parentEvaluation.evaluation,
+                        'modifier': parentModifier,
+                        'justification': parentEvaluation.justification,
+                        'evidenceItemIds': parentEvaluation.evidenceItems.map((evidence) => evidence.id),
+                      } : {
+                        'evaluation': SpecificationEvaluationStatus.NotEvaluated,
+                        'modifier': undefined,
+                        'justification': undefined,
+                        'evidenceItemIds': [],
+                      }
                       this.perGroupCodesModel = {
                         ...this.perGroupCodesModel,
                         [criterion.assessmentGroup]: {
                           ...this.perGroupCodesModel[criterion.assessmentGroup],
-                          [criterion.criterion]: {
-                            'evaluation': SpecificationEvaluationStatus.NotEvaluated,
-                            'modifier': undefined,
-                            'justification': undefined,
-                            'evidenceItemIds': [],
-                          }
+                          [criterion.criterion]: portedEvaluation
                         }
                       }
                     }
