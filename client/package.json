@@ -20,6 +20,7 @@
     "lint": "ng lint"
   },
   "private": true,
+  "packageManager": "yarn@4.10.3",
   "resolutions": {
     "error-stack-parser": "2.0.6"
   },
@@ -88,11 +89,5 @@
     "tslint": "~6.1.0",
     "typescript": "5.8.3",
     "webpack-bundle-analyzer": "^4.5.0"
-  },
-  "overrides": {
-    "@ngrx/component": {
-      "@angular/common": "@angular/common@^20.0.0",
-      "@angular/core": "@angular/core@^20.0.0"
-    }
   }
 }
