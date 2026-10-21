@@ -12911,7 +12911,7 @@ type Specification {
   organization: Organization
   organizationId: Int
   publishedOn: ISO8601Date!
-  sopPubmedId: Int!
+  sopPubmedId: Int
   specificationCriteria: [SpecificationCriterion!]!
   specificationType: SpecificationType!
   specificationUrl: String!

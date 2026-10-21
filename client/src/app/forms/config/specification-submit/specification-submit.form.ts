@@ -8,15 +8,11 @@ import {
   signal,
   effect,
   WritableSignal,
-  Signal
 } from '@angular/core'
 import {
   KeyValue
 } from '@angular/common'
 import { UntypedFormGroup, FormGroup } from '@angular/forms'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { QueryRef } from 'apollo-angular'
-import { pluck, filter, tap } from 'rxjs/operators'
 import { 
   Maybe,
   SpecificationDetailConfigFieldsFragment,
@@ -30,16 +26,12 @@ import {
   SpecificationEvaluationFields,
   CurrentAssertionSpecificationGQL,
   SpecificationEvaluationFieldsFragment,
-  CurrentAssertionSpecificationQuery,
-  CurrentAssertionSpecificationQueryVariables,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
-import { valueToObjectRepresentation } from '../../../../../node_modules/@apollo/client/utilities/index'
 
 export interface SpecificationModel {
   specification_fields: {
@@ -128,8 +120,8 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     this.submitCriteriaEvaluationsMutator = new MutatorWithState(networkErrorService)
 
     effect(() => {
-      const currentSpecificationId = +this.selectedSpecificationId()
-      if (currentSpecificationId) {
+      const specId = +this.selectedSpecificationId()
+      if (specId) {
         this.mode = 'revise'
         this.submitFields = [
           {
@@ -142,7 +134,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
           },
         ]
         this.specificationConfigGQL
-        .fetch({ specificationId: currentSpecificationId})
+        .fetch({ specificationId: specId})
         .pipe(untilDestroyed(this))
         .subscribe({
           next: ({ data: { specificationFormConfig  }}) => {
@@ -201,8 +193,20 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   }
                   
                 ]
-
-              } else {
+                if (specId == +this.currentSpecificationId()){
+                  let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
+                  if (met_category) {
+                    this.oneCodeModel = {
+                      'amp_category_fields': {
+                        'amp_category': met_category.code,
+                        'justification': met_category.justification,
+                      }
+                    }
+                  }
+                } else {
+                  this.oneCodeModel = {}
+                }
+              } else if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ALL") {
                 this.codesFields = [
                   {
                     type: "cvc-field-stepper",
@@ -334,6 +338,44 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                     }
                   }
                 ]
+                if (specId == +this.currentSpecificationId()) {
+                  this.perGroupCodesModel = {}
+                  this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+                    let group = evaluation.specificationCriterion.assessmentGroup
+                    if (group) {
+                      this.perGroupCodesModel = {
+                        ...this.perGroupCodesModel,
+                        [group]: {
+                          ...this.perGroupCodesModel[group],
+                          [evaluation.code]: {
+                            'evaluation': evaluation.evaluation,
+                            'modifier': evaluation.modifier,
+                            'justification': evaluation.justification,
+                            'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
+                          }
+                        }
+                      }
+                    }
+                  })
+                } else {
+                  this.perGroupCodesModel = {}
+                  this.specificationInfo.specificationCriteria.forEach((criterion) => {
+                    if (criterion.assessmentGroup) {
+                      this.perGroupCodesModel = {
+                        ...this.perGroupCodesModel,
+                        [criterion.assessmentGroup]: {
+                          ...this.perGroupCodesModel[criterion.assessmentGroup],
+                          [criterion.criterion]: {
+                            'evaluation': SpecificationEvaluationStatus.NotEvaluated,
+                            'modifier': undefined,
+                            'justification': undefined,
+                            'evidenceItemIds': [],
+                          }
+                        }
+                      }
+                    }
+                  })
+                }
               }
               this.cdr.detectChanges()
             }
@@ -403,41 +445,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
             }
             if (assertion.latestSpecificationEvaluations){
               this.currentEvaluations.set(assertion.latestSpecificationEvaluations)
-              if (assertion.latestSpecification && assertion.latestSpecification.evaluationMethod == "ONE") {
-                let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
-                if (met_category) {
-                  this.oneCodeModel = {
-                    'amp_category_fields': {
-                      'amp_category': met_category.code,
-                      'justification': met_category.justification,
-                    }
-                  }
-                }
-              } else {
-                assertion.latestSpecificationEvaluations.forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
-                  let group = evaluation.specificationCriterion.assessmentGroup
-                  if (group) {
-                    if (group in this.perGroupCodesModel) {
-                      this.perGroupCodesModel[group][evaluation.code] = {
-                          'evaluation': evaluation.evaluation,
-                          'modifier': evaluation.modifier,
-                          'justification': evaluation.justification,
-                          'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
-                      }
-                    } else {
-                      this.perGroupCodesModel[group] = {}
-                      this.perGroupCodesModel[group][evaluation.code] = {
-                          'evaluation': evaluation.evaluation,
-                          'modifier': evaluation.modifier,
-                          'justification': evaluation.justification,
-                          'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
-                      }
-                    }
-                  }
-                })
-              }
             }
-            this.cdr.detectChanges()
           }
         }
       })
@@ -510,43 +518,6 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   onSpecificationSelected(newModel: any) {
     this.selectedSpecificationId.set(newModel.specification_fields.specification)
-    this.perGroupCodesModel = {}
-    if (this.selectedSpecificationId() == this.currentSpecificationId()){
-      if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
-        let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
-        if (met_category) {
-          this.oneCodeModel = {
-            'amp_category_fields': {
-              'amp_category': met_category.code,
-              'justification': met_category.justification,
-            }
-          }
-        }
-      } else {
-        this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
-          let group = evaluation.specificationCriterion.assessmentGroup
-          if (group) {
-            if (group in this.perGroupCodesModel) {
-              this.perGroupCodesModel[group][evaluation.code] = {
-                  'evaluation': evaluation.evaluation,
-                  'modifier': evaluation.modifier,
-                  'justification': evaluation.justification,
-                  'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
-              }
-            } else {
-              this.perGroupCodesModel[group] = {}
-              this.perGroupCodesModel[group][evaluation.code] = {
-                  'evaluation': evaluation.evaluation,
-                  'modifier': evaluation.modifier,
-                  'justification': evaluation.justification,
-                  'evidenceItemIds': evaluation.evidenceItems.map((eid) => eid.id)
-              }
-            }
-          }
-        })
-      }
-    }
-    this.codesFields = []
   }
 
   preserveOrder = (a: KeyValue<any, any>, b: KeyValue<any, any>): number => {
@@ -555,17 +526,30 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
 
   sortByStrength(model: {}) {
     const codes = Object.assign({}, ...Object.values(model))
-    const sortOrder = ["OVS1", "OS1", "OS2", "OS3", "OM1", "OM2", "OM3", "OM4", "OP1", "OP2", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2", "N/A"]
-    const sortedCodes = sortOrder.reduce<Record<string, any>>((accumulator, key) => {
-      if (key in codes) {
-        accumulator[key] = codes[key];
+    const sortOrder = (() => {
+      //TODO store this sort order on the spec
+      if (this.specificationInfo?.name == "ClinGen/CGC/VICC Codes") {
+        return ["OVS1", "OS1", "OS2", "OS3", "OM1", "OM2", "OM3", "OM4", "OP1", "OP2", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2", "N/A"]
+      } else if (this.specificationInfo?.name == "FGFR SC-VCEP Oncogenicity specifications") {
+        return ["OS1", "OS2", "OS3", "OM3", "OM4", "OP1", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2", "N/A"]
+      } else { 
+        return undefined
+      } 
+    })();
+    if(sortOrder) {
+      const sortedCodes = sortOrder.reduce<Record<string, any>>((accumulator, key) => {
+        if (key in codes) {
+          accumulator[key] = codes[key];
+        }
+        return accumulator;
+      }, {});
+      if (Object.keys(sortedCodes).length === 0) {
+        return codes
+      } else {
+        return sortedCodes
       }
-      return accumulator;
-    }, {});
-    if (Object.keys(sortedCodes).length === 0) {
-      return codes
     } else {
-      return sortedCodes
+      return codes
     }
   }
   

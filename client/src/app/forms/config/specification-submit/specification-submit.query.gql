@@ -47,6 +47,7 @@ fragment SpecificationDetailConfigFields on Specification {
     modifiers
     mutuallyExclusiveCodes
     pointValue
+    assessmentGroup
   }
 }
 

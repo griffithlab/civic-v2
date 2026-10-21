@@ -1,4 +1,6 @@
 class Specification < ApplicationRecord
+  include Graph::HasGraphStructure
+
   belongs_to :organization, optional: true
   has_many :specification_criteria
 

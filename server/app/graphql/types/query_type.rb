@@ -427,8 +427,8 @@ module Types
     def valid_specifications(assertion_id:)
       assertion = Assertion.eager_load(specification_evaluations: [specification_criterion: :specification]).find(assertion_id)
       if assertion.specifications.any?
-        Specification.where(name: assertion.specifications.first.name, assertion_type: assertion.assertion_type)
-          .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+        children = assertion.specifications.all.flat_map{|s| s.all_children}.uniq
+        assertion.specifications + children
       else
         Specification.where(assertion_type: assertion.assertion_type)
           .order("specifications.organization_id ASC NULLS FIRST, specifications.name")

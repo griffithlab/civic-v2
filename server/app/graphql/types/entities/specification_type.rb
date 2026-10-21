@@ -11,7 +11,7 @@ module Types::Entities
     field :assertion_type, Types::AssertionTypeType, null: false
     field :version, String, null: false
     field :specification_url, String, null: false
-    field :sop_pubmed_id, Int, null: false
+    field :sop_pubmed_id, Int, null: true
     field :published_on, GraphQL::Types::ISO8601Date, null: false
     field :organization, Types::Entities::OrganizationType, null: true
     field :organization_id, Int, null: true

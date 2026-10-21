@@ -25,16 +25,27 @@
             {{ specificationInfo.publishedOn }}
           </nz-descriptions-item>
           <nz-descriptions-item nzTitle="Links">
-            <cvc-link-tag
-              [href]="specificationInfo.specificationUrl"
-              tooltip="View Specification Document">
-              Specification Document
-            </cvc-link-tag>
-            <cvc-link-tag
-              [href]="'https://pubmed.ncbi.nlm.nih.gov/' + specificationInfo.sopPubmedId"
-              tooltip="View Publication">
-              Publication
-            </cvc-link-tag>
+            @if (specificationInfo.specificationUrl) {
+              <cvc-link-tag
+                [href]="specificationInfo.specificationUrl"
+                tooltip="View Specification Document">
+                Specification Document
+              </cvc-link-tag>
+            }
+            @if (specificationInfo.sopPubmedId) {
+              <cvc-link-tag
+                [href]="'https://pubmed.ncbi.nlm.nih.gov/' + specificationInfo.sopPubmedId"
+                tooltip="View Publication">
+                Publication
+              </cvc-link-tag>
+            }
+            @if (!specificationInfo.specificationUrl && !specificationInfo.sopPubmedId) {
+              <i
+                nz-typography
+                nzType="secondary">
+                No links available
+              </i>
+            }
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-card>
