@@ -12910,6 +12910,7 @@ type Specification {
   name: String!
   organization: Organization
   organizationId: Int
+  parentSpecification: Specification
   publishedOn: ISO8601Date!
   sopPubmedId: Int
   specificationCriteria: [SpecificationCriterion!]!

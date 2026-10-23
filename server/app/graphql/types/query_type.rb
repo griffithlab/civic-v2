@@ -428,7 +428,7 @@ module Types
       assertion = Assertion.eager_load(specification_evaluations: [specification_criterion: :specification]).find(assertion_id)
       if assertion.specifications.any?
         children = assertion.specifications.all.flat_map{|s| s.all_children}.uniq
-        assertion.specifications + children
+        (assertion.specifications + children).uniq
       else
         Specification.where(assertion_type: assertion.assertion_type)
           .order("specifications.organization_id ASC NULLS FIRST, specifications.name")

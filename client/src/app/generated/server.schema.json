@@ -60494,6 +60494,18 @@
               "deprecationReason": null
             },
             {
+              "name": "parentSpecification",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Specification",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "publishedOn",
               "description": null,
               "args": [],

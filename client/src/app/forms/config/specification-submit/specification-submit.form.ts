@@ -26,6 +26,7 @@ import {
   SpecificationEvaluationFields,
   CurrentAssertionSpecificationGQL,
   SpecificationEvaluationFieldsFragment,
+  SpecificationEvaluation,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -37,6 +38,13 @@ export interface SpecificationModel {
   specification_fields: {
     specification: Maybe<number>
   }
+}
+
+export interface EvaluationModelField {
+  'evaluation': SpecificationEvaluationStatus,
+  'modifier': Maybe<string>,
+  'justification': Maybe<string>,
+  'evidenceItemIds': number[]
 }
 
 @UntilDestroy()
@@ -52,20 +60,16 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   specificationForm: UntypedFormGroup
   specificationFormFields?: FormlyFieldConfig[]
   selectedSpecificationId = signal('')
-  currentSpecificationId: WritableSignal<string> = signal("")
-  currentEvaluations: WritableSignal<SpecificationEvaluationFieldsFragment[]> = signal([])
+  latestSpecificationId: WritableSignal<number> = signal(0)
+  allSpecificationIds: WritableSignal<number[]> = signal([])
+  allEvaluations: WritableSignal<SpecificationEvaluationFieldsFragment[]> = signal([])
 
   validSpecifications: SpecificationDetailConfigFieldsFragment[] = []
   specificationInfo?: SpecificationDetailConfigFieldsFragment
 
   perGroupCodesModel: { 
     [key: string]: {
-       [key: string]: {
-         'evaluation': SpecificationEvaluationStatus,
-         'modifier': Maybe<string>,
-         'justification': Maybe<string>,
-         'evidenceItemIds': number[]
-       }
+       [key: string]: EvaluationModelField
     }
   } = {}
   oneCodeModel: { 
@@ -128,7 +132,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: this.currentEvaluations().length > 0 ? 'Revise Evaluations' : 'Submit Evaluations',
+              submitLabel: this.allEvaluations().length > 0 ? 'Revise Evaluations' : 'Submit Evaluations',
               align: 'right',
             },
           },
@@ -193,8 +197,8 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   }
                   
                 ]
-                if (specId == +this.currentSpecificationId()){
-                  let met_category = this.currentEvaluations().find(e => e.evaluation == SpecificationEvaluationStatus.Met)
+                if (this.allSpecificationIds().includes(specId)){
+                  let met_category = this.allEvaluations().find(e => e.evaluation === SpecificationEvaluationStatus.Met && e.specificationCriterion.specification.id === specId)
                   if (met_category) {
                     this.oneCodeModel = {
                       'amp_category_fields': {
@@ -343,9 +347,9 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                     }
                   }
                 ]
-                if (specId == +this.currentSpecificationId()) {
+                if (this.allSpecificationIds().includes(specId)) {
                   this.perGroupCodesModel = {}
-                  this.currentEvaluations().forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
+                  this.allEvaluations().filter((e) => e.specificationCriterion.specification.id === specId).forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
                     let group = evaluation.specificationCriterion.assessmentGroup
                     if (group) {
                       this.perGroupCodesModel = {
@@ -364,20 +368,26 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   })
                 } else {
                   this.perGroupCodesModel = {}
+                  const parentSpecId = this.specificationInfo.parentSpecification?.id
                   specificationFormConfig.assessmentGroups.forEach((group) => {
                     group.specificationCriteria.forEach((criterion) => {
-                      const parentEvaluation = this.currentEvaluations().find(evaluation => evaluation.code === criterion.criterion)
-                      const parentModifier = parentEvaluation?.modifier && criterion.modifiers.includes(parentEvaluation.modifier) ? parentEvaluation.modifier : undefined
-                      const portedEvaluation = parentEvaluation ? {
-                        'evaluation': parentEvaluation.evaluation,
-                        'modifier': parentModifier,
-                        'justification': parentEvaluation.justification,
-                        'evidenceItemIds': parentEvaluation.evidenceItems.map((evidence) => evidence.id),
-                      } : {
+                      let portedEvaluation: EvaluationModelField = {
                         'evaluation': SpecificationEvaluationStatus.NotEvaluated,
                         'modifier': undefined,
                         'justification': undefined,
                         'evidenceItemIds': [],
+                      }
+                      if (parentSpecId) {
+                        const parentEvaluation = this.allEvaluations().find(evaluation => evaluation.code === criterion.criterion && evaluation.specificationCriterion.specification.id === parentSpecId)
+                        const parentModifier = parentEvaluation?.modifier && criterion.modifiers.includes(parentEvaluation.modifier) ? parentEvaluation.modifier : undefined
+                        if (parentEvaluation) {
+                          portedEvaluation = {
+                            'evaluation': parentEvaluation.evaluation,
+                            'modifier': parentModifier,
+                            'justification': parentEvaluation.justification,
+                            'evidenceItemIds': parentEvaluation.evidenceItems.map((evidence) => evidence.id),
+                          }
+                        }
                       }
                       this.perGroupCodesModel = {
                         ...this.perGroupCodesModel,
@@ -453,12 +463,15 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         next: ({ data: { assertion }}) => {
           if (assertion) {
             if (assertion.latestSpecification) {
-              this.currentSpecificationId.set(String(assertion.latestSpecification.id))
+              this.latestSpecificationId.set(assertion.latestSpecification.id)
               this.selectedSpecificationId.set(String(assertion.latestSpecification.id))
               this.specificationModel = { "specification_fields": { "specification":  assertion.latestSpecification.id} }
             }
-            if (assertion.latestSpecificationEvaluations){
-              this.currentEvaluations.set(assertion.latestSpecificationEvaluations)
+            if (assertion.specificationEvaluations){
+              this.allEvaluations.set(assertion.specificationEvaluations)
+            }
+            if (assertion.specifications) {
+              this.allSpecificationIds.set(assertion.specifications.map(spec => spec.id))
             }
           }
         }

@@ -19,6 +19,7 @@ module Types::Entities
     field :evaluation_method, Types::Entities::SpecificationEvaluationMethodType, null: false
     field :assessment_groups, [ Types::Entities::AssessmentGroupType ], null: false
     field :assessment_group_order, [ String ], null: false
+    field :parent_specification, Types::Entities::SpecificationType, null: true
 
     def organization
       Loaders::AssociationLoader.for(Specification, :organization).load(object)
@@ -34,6 +35,10 @@ module Types::Entities
       else
         []
       end
+    end
+
+    def parent_specification
+      object.direct_parents.first
     end
   end
 end
