@@ -55,6 +55,7 @@ fragment SpecificationDetailConfigFields on Specification {
   parentSpecification {
     id
   }
+  assertionType
 }
 
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {

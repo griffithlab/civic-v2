@@ -68,11 +68,16 @@
               }
             </nz-descriptions>
           } @else if (evaluationSummaryDisplayMode() == 'strength') {
-            <nz-descriptions nzBordered nzLayout="vertical" nzSize="small">
-              <nz-descriptions-item nzTitle="Oncogenic Criteria">
+            @let columns = specificationInfo.assertionType == 'ONCOGENIC' ? 3 : 1;
+            @let title = specificationInfo.assertionType == 'ONCOGENIC' ? "Oncogenic Criteria" : "Pathogenic Criteria";
+            @let opGroups = specificationInfo.assertionType == 'ONCOGENIC' ? {"OVS": "Very Strong", "OS": "Strong", "OM": "Moderate", "OP": "Supporting"} : {"PVS": "Very Strong", "PS": "Strong", "PM": "Moderate", "PP": "Supporting"};
+            @let bGroups = specificationInfo.assertionType == 'ONCOGENIC' ? {"SBP": "Supporting", "SBS": "Strong", "SBVS": "Very Strong",} : {"BP": "Supporting", "BS": "Strong", "BA": "Very Strong"};
+            @let oCriteria = otherCriteria(perGroupCodesModel, opGroups, bGroups);
+            <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="columns" nzSize="small">
+              <nz-descriptions-item [nzTitle]="title">
                 <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
-                  @for (strength of {"OVS": "Very Strong", "OS": "Strong", "OM": "Moderate", "OP": "Supporting"} | keyvalue: preserveOrder; track strength.key) {
-                    <nz-descriptions-item [nzTitle]="strength.value">
+                  @for (strength of opGroups | keyvalue: preserveOrder; track strength.key) {
+                    <nz-descriptions-item [nzTitle]="strength.value ? strength.value : ''">
                       @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
                       @if (filteredCriteria) {
                           @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
@@ -91,8 +96,8 @@
               </nz-descriptions-item>
               <nz-descriptions-item nzTitle="Benign Critieria">
                 <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
-                  @for (strength of {"SBVS": "Very Strong", "SBS": "Strong", "SBP": "Supporting"} | keyvalue: preserveOrder; track strength.key) {
-                    <nz-descriptions-item [nzTitle]="strength.value">
+                  @for (strength of bGroups | keyvalue: preserveOrder; track strength.key) {
+                    <nz-descriptions-item [nzTitle]="strength.value? strength.value : ''">
                       @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
                       @if (filteredCriteria) {
                           @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
@@ -109,6 +114,13 @@
                   }
                 </nz-descriptions>
               </nz-descriptions-item>
+              @if (oCriteria) {
+                <nz-descriptions-item nzTitle="Other Critieria">
+                  @for (code of oCriteria | keyvalue: preserveOrder; track code.key) {
+                    <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                  }
+                </nz-descriptions-item>
+              }
             </nz-descriptions>
           }
           <ng-template #evaluationSummaryExtraTemplate>

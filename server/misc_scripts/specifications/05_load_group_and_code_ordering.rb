@@ -74,3 +74,80 @@ specs.each do |spec|
     sc.save(validate: false)
   end
 end
+
+specs = Specification.where(name: "ACMG/AMP Codes",).all
+order = {
+  "BA1" => 1,
+  "BS1" => 2,
+  "PM2" => 3,
+
+  "BS2" => 1,
+  "PS4" => 2,
+
+  "PVS1" => 1,
+
+  "PS1" => 1,
+
+  "PM1" => 1,
+
+  "PM4" => 1,
+  "BP3" => 2,
+
+  "PM5" => 1,
+
+  "PP2" => 1,
+  "BP1" => 2,
+
+  "PP3" => 1,
+  "BP4" => 2,
+
+  "BP7" => 1,
+
+  "PS3" => 1,
+  "BS3" => 2,
+
+  "PP1" => 1,
+  "BS4" => 2,
+
+  "PS2" => 1,
+  "PM6" => 2,
+
+  "PM3" => 1,
+  "BP2" => 2,
+
+  "PP5" => 1,
+  "BP6" => 2,
+
+  "PP4" => 1,
+
+  "BP5" => 1,
+}
+
+
+specs.each do |spec|
+  spec.assessment_group_order = [
+    "Population Data Assessment",
+    "Case-Control Enrichment Assessment",
+    "Null Variant Assessment",
+    "Same Amino Acid Change Assessment",
+    "Mutational Hot Spot and Functional Domain Assessment",
+    "Protein Length Change Assessment",
+    "Novel Missense Position Assessment",
+    "Variant Spectrum Assessment",
+    "In Silico Functional Impact Assessment",
+    "Predicted Silent Variant Assessment",
+    "Functional Data Assessment",
+    "Segregation Data Assessment",
+    "De Novo Occurrence Assessment",
+    "Cis/Trans Variant Assessment",
+    "Reputable Source Assessment",
+    "Phenotype-Gene Specificity Assessment",
+    "Alternative Cause Assessment"
+  ]
+  spec.save!
+
+  spec.specification_criteria.each do |sc|
+    sc.position_within_assessment_group = order[sc.criterion] || 999
+    sc.save(validate: false)
+  end
+end

@@ -551,38 +551,21 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     return 0;
   }
 
-  sortByStrength(model: {}) {
-    const codes = Object.assign({}, ...Object.values(model))
-    const sortOrder = (() => {
-      //TODO store this sort order on the spec
-      if (this.specificationInfo?.name == "ClinGen/CGC/VICC Codes") {
-        return ["OVS1", "OS1", "OS2", "OS3", "OM1", "OM2", "OM3", "OM4", "OP1", "OP2", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2", "N/A"]
-      } else if (this.specificationInfo?.name == "FGFR SC-VCEP Oncogenicity specifications") {
-        return ["OS1", "OS2", "OS3", "OM3", "OM4", "OP1", "OP3", "OP4", "SBVS1", "SBS1", "SBS2", "SBP1", "SBP2", "N/A"]
-      } else { 
-        return undefined
-      } 
-    })();
-    if(sortOrder) {
-      const sortedCodes = sortOrder.reduce<Record<string, any>>((accumulator, key) => {
-        if (key in codes) {
-          accumulator[key] = codes[key];
-        }
-        return accumulator;
-      }, {});
-      if (Object.keys(sortedCodes).length === 0) {
-        return codes
-      } else {
-        return sortedCodes
-      }
-    } else {
-      return codes
-    }
-  }
-
   groupsForStrength(model: {}, strength: string): {} | undefined {
     let values = Object.values(model)
     let results = Object.fromEntries(Object.entries(Object.assign({}, ...values)).filter(([key]) => key.startsWith(strength)))
+    if (Object.keys(results).length > 0) {
+      return results
+    } else {
+      return undefined
+    }
+  }
+
+  otherCriteria(model: {}, opGroups: {}, bGroups: {}): {} | undefined {
+    let values = Object.values(model)
+    let opKeys = Object.keys(opGroups)
+    let bKeys = Object.keys(bGroups)
+    let results = Object.fromEntries(Object.entries(Object.assign({}, ...values)).filter(([key]) => opKeys.every(prefix => !key.startsWith(prefix)) && bKeys.every(prefix => !key.startsWith(prefix))))
     if (Object.keys(results).length > 0) {
       return results
     } else {
