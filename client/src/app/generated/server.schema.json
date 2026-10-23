@@ -61447,7 +61447,13 @@
               "deprecationReason": null
             },
             {
-              "name": "ALL",
+              "name": "ALL_STRENGTH",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ALL_FLOWCHART",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

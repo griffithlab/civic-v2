@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_13_135126) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_172536) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_135126) do
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
   create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
-  create_enum "specification_evaluation_methods", ["one", "all"]
+  create_enum "specification_evaluation_methods", ["one", "all_strength", "all_flowchart"]
   create_enum "specification_evaluation_statuses", ["met", "not_met", "excluded", "not_evaluated"]
   create_enum "specification_types", ["amp_tiers", "clingen_codes", "acmg_codes"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
@@ -1130,7 +1130,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_135126) do
     t.string "assessment_group_order", default: [], array: true
     t.hstore "assessment_groups"
     t.datetime "created_at", null: false
-    t.enum "evaluation_method", default: "all", enum_type: "specification_evaluation_methods"
+    t.enum "evaluation_method", default: "all_strength", enum_type: "specification_evaluation_methods"
     t.text "name", null: false
     t.bigint "organization_id"
     t.date "published_on", null: false

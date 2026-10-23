@@ -44,7 +44,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       input_errors.append("This assertion already has specification evaluations and the selected specification is not based on any of them.")
     end
 
-    if specification.evaluation_method == 'all'
+    if specification.evaluation_method.start_with?('all')
       # evaluations include all criteria of the selected specification
       missing_criteria = expected_criteria - provided_criteria
       if missing_criteria.any?
@@ -95,7 +95,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       end
     end
 
-    if specification.evaluation_method == 'all'
+    if specification.evaluation_method.start_with?('all')
       # not more than one "met" evaluation in an assessment group
       grouped_evaluations = met_criteria.group_by{|c| SpecificationCriterion.find_by(criterion: c.specification_criterion, specification_id: fields.specification_id).assessment_group}
       grouped_evaluations.each do |group, evaluations|
@@ -149,7 +149,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
     if assertion.specifications.map{|s| s.id}.include?(fields.specification_id)
       # update existing evaluations
       evaluation_revisions_objects = fields.evaluations.map do |evaluation|
-        if specification.evaluation_method == 'all'
+        if specification.evaluation_method.start_with?('all')
           existing_criterion = SpecificationCriterion.find_by(
             specification_id: fields.specification_id,
             criterion: evaluation.specification_criterion,

@@ -210,7 +210,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                 } else {
                   this.oneCodeModel = {}
                 }
-              } else if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ALL") {
+              } else if (this.specificationInfo && this.specificationInfo.evaluationMethod != "ONE") {
                 this.codesFields = [
                   {
                     type: "cvc-field-stepper",

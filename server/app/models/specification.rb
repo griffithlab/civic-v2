@@ -11,7 +11,8 @@ class Specification < ApplicationRecord
   }, suffix: true
 
   enum :evaluation_method, {
-    all: "all",
+    all_strength: "all_strength",
+    all_flowchart: "all_flowchart",
     one: "one",
   }, suffix: true
 

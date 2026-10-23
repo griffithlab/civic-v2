@@ -13051,7 +13051,8 @@ input SpecificationEvaluationFields {
 }
 
 enum SpecificationEvaluationMethod {
-  ALL
+  ALL_FLOWCHART
+  ALL_STRENGTH
   ONE
 }
 

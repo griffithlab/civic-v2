@@ -7637,7 +7637,8 @@ export type SpecificationEvaluationFields = {
 };
 
 export enum SpecificationEvaluationMethod {
-  All = 'ALL',
+  AllFlowchart = 'ALL_FLOWCHART',
+  AllStrength = 'ALL_STRENGTH',
   One = 'ONE'
 }
 

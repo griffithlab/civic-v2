@@ -112,11 +112,13 @@
             </nz-descriptions>
           }
           <ng-template #evaluationSummaryExtraTemplate>
-            Display Mode:
-            <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
-              <label nz-radio-button nzValue="group">By Group</label>
-              <label nz-radio-button nzValue="strength">By Strength</label>
-            </nz-radio-group>
+            @if (this.specificationInfo.evaluationMethod == "ALL_STRENGTH") {
+              Display Mode:
+              <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
+                <label nz-radio-button nzValue="group">By Group</label>
+                <label nz-radio-button nzValue="strength">By Strength</label>
+              </nz-radio-group>
+            }
           </ng-template>
         </nz-card>
       </nz-col>

@@ -32,7 +32,7 @@ specifications = [
     specification_url: "https://www.clinicalgenome.org/site/assets/files/10892/ntrk_scvcep_step_2_rules_specifications_v4_11524.pdf",
     # maybe?
     sop_pubmed_id: 35366592,
-    evaluation_method: "all",
+    evaluation_method: "all_flowchart",
     assessment_groups: {},
     assessment_group_order: [],
     specification_criteria: [
@@ -212,7 +212,7 @@ specifications = [
     assertion_type: :Oncogenic,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/35101336/",
     sop_pubmed_id: 35101336,
-    evaluation_method: "all",
+    evaluation_method: "all_strength",
     assessment_groups: {},
     assessment_group_order: [],
     specification_criteria: ClingenCode.all.reject { |code| code.code.include?("_") }.map do |code|
@@ -235,7 +235,7 @@ specifications = [
     assertion_type: :Predisposing,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/25741868/",
     sop_pubmed_id: 25741868,
-    evaluation_method: "all",
+    evaluation_method: "all_strength",
     assessment_groups: {},
     assessment_group_order: [],
     specification_criteria: AcmgCode.all.reject { |code| code.code.include?("_") }.map do |code|
