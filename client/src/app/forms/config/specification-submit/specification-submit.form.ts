@@ -364,8 +364,8 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   })
                 } else {
                   this.perGroupCodesModel = {}
-                  this.specificationInfo.specificationCriteria.forEach((criterion) => {
-                    if (criterion.assessmentGroup) {
+                  specificationFormConfig.assessmentGroups.forEach((group) => {
+                    group.specificationCriteria.forEach((criterion) => {
                       const parentEvaluation = this.currentEvaluations().find(evaluation => evaluation.code === criterion.criterion)
                       const parentModifier = parentEvaluation?.modifier && criterion.modifiers.includes(parentEvaluation.modifier) ? parentEvaluation.modifier : undefined
                       const portedEvaluation = parentEvaluation ? {
@@ -381,12 +381,13 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                       }
                       this.perGroupCodesModel = {
                         ...this.perGroupCodesModel,
-                        [criterion.assessmentGroup]: {
-                          ...this.perGroupCodesModel[criterion.assessmentGroup],
+                        [group.name]: {
+                          ...this.perGroupCodesModel[group.name],
                           [criterion.criterion]: portedEvaluation
                         }
                       }
-                    }
+                      
+                    })
                   })
                 }
               }
