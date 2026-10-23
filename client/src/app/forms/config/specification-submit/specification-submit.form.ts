@@ -128,7 +128,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: 'Revise Evaluations',
+              submitLabel: this.currentEvaluations().length > 0 ? 'Revise Evaluations' : 'Submit Evaluations',
               align: 'right',
             },
           },
