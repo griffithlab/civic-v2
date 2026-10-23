@@ -219,7 +219,7 @@ export class AssertionsDetailView {
           tabConfig.splice(1, 0, 
             {
               routeName: 'codes',
-              tabLabel: assertion.specificationsWithEvaluations[0].specification.name,
+              tabLabel: assertion.assertionType == 'ONCOGENIC' ? 'Oncogenicity Evaluations' : 'Pathogenicity Evaluations',
               iconName: 'profile',
             },
           )
