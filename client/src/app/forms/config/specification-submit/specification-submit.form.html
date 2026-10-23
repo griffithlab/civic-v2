@@ -68,10 +68,48 @@
               }
             </nz-descriptions>
           } @else if (evaluationSummaryDisplayMode() == 'strength') {
-            @let strengthSortedCodesModel = sortByStrength(perGroupCodesModel);
-            @for (code of strengthSortedCodesModel | keyvalue: preserveOrder; track code.key) {
-              <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-            }
+            <nz-descriptions nzBordered nzLayout="vertical" nzSize="small">
+              <nz-descriptions-item nzTitle="Oncogenic Criteria">
+                <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
+                  @for (strength of {"OVS": "Very Strong", "OS": "Strong", "OM": "Moderate", "OP": "Supporting"} | keyvalue: preserveOrder; track strength.key) {
+                    <nz-descriptions-item [nzTitle]="strength.value">
+                      @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
+                      @if (filteredCriteria) {
+                          @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
+                            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                          }
+                      } @else {
+                        <i
+                          nz-typography
+                          nzType="secondary">
+                          No codes for this strength
+                        </i>
+                      } 
+                    </nz-descriptions-item>
+                  }
+                </nz-descriptions>
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Benign Critieria">
+                <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
+                  @for (strength of {"SBVS": "Very Strong", "SBS": "Strong", "SBP": "Supporting"} | keyvalue: preserveOrder; track strength.key) {
+                    <nz-descriptions-item [nzTitle]="strength.value">
+                      @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
+                      @if (filteredCriteria) {
+                          @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
+                            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                          }
+                      } @else {
+                        <i
+                          nz-typography
+                          nzType="secondary">
+                          No codes for this strength
+                        </i>
+                      }
+                    </nz-descriptions-item>
+                  }
+                </nz-descriptions>
+              </nz-descriptions-item>
+            </nz-descriptions>
           }
           <ng-template #evaluationSummaryExtraTemplate>
             Display Mode:

@@ -579,6 +579,16 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
       return codes
     }
   }
+
+  groupsForStrength(model: {}, strength: string): {} | undefined {
+    let values = Object.values(model)
+    let results = Object.fromEntries(Object.entries(Object.assign({}, ...values)).filter(([key]) => key.startsWith(strength)))
+    if (Object.keys(results).length > 0) {
+      return results
+    } else {
+      return undefined
+    }
+  }
   
   descriptionForCode(code: string): string {
     let criterion = this.specificationInfo?.specificationCriteria.find((c) => c.criterion == code)
