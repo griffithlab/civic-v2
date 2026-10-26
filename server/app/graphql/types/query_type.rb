@@ -425,9 +425,9 @@ module Types
     end
 
     def valid_specifications(assertion_id:)
-      assertion = Assertion.eager_load(specification_evaluations: [specification_criterion: :specification]).find(assertion_id)
+      assertion = Assertion.eager_load(specification_evaluations: [ specification_criterion: :specification ]).find(assertion_id)
       if assertion.specifications.any?
-        children = assertion.specifications.all.flat_map{|s| s.all_children}.uniq
+        children = assertion.specifications.all.flat_map { |s| s.all_children }.uniq
         (assertion.specifications + children).uniq
       else
         Specification.where(assertion_type: assertion.assertion_type)

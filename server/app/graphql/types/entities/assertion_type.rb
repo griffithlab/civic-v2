@@ -64,8 +64,8 @@ module Types::Entities
     def latest_specification_evaluations
       latest_specification.then do |spec|
         Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
-          latest_evaluations = evaluations.select{|e| e.specification_criterion.specification_id == spec.id}
-          latest_evaluations.sort_by{|e| spec.assessment_group_order.index(e.specification_criterion.assessment_group)}
+          latest_evaluations = evaluations.select { |e| e.specification_criterion.specification_id == spec.id }
+          latest_evaluations.sort_by { |e| spec.assessment_group_order.index(e.specification_criterion.assessment_group) }
         end
       end
     end
@@ -183,7 +183,7 @@ module Types::Entities
     def load_codes(code_type:)
       latest_specification_evaluations.then do |latest_evals|
         latest_specification.then do |latest_spec|
-          latest_evals.select{|e| e.evaluation == "met" && latest_spec.specification_type == code_type}.map{|e| e.specification_criterion}
+          latest_evals.select { |e| e.evaluation == "met" && latest_spec.specification_type == code_type }.map { |e| e.specification_criterion }
         end
       end
     end

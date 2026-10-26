@@ -39,7 +39,7 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
       if assertion.specification_evaluations.count == 0
         raise GraphQL::ExecutionError, "Assertion needs to be evaluated before accepting."
       end
-      if assertion.specification_evaluations.select{ |e| ['met', 'not_met'].include?(e.evaluation) }.count == 0
+      if assertion.specification_evaluations.select { |e| [ "met", "not_met" ].include?(e.evaluation) }.count == 0
         raise GraphQL::ExecutionError, "Assertion needs to have at least one 'met' or 'not met' evaluation before accepting."
       end
     end

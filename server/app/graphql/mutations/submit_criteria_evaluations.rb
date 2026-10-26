@@ -6,7 +6,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       The desired Specification, its SpecificationCriteria and the evaluation fields for each.
     DOC
 
-  #do we need a comment?
+  # do we need a comment?
 
   field :specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false,
     description: "The newly created SpecificationEvaluations"
@@ -29,9 +29,9 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
     end
 
     criteria = specification.specification_criteria
-    expected_criteria = criteria.map{|c| c.criterion}
-    provided_criteria = fields.evaluations.map{|e| e.specification_criterion}
-    met_criteria = fields.evaluations.select{|c| c.evaluation == "met"}
+    expected_criteria = criteria.map { |c| c.criterion }
+    provided_criteria = fields.evaluations.map { |e| e.specification_criterion }
+    met_criteria = fields.evaluations.select { |c| c.evaluation == "met" }
 
     # specification is valid for assertion type
     if specification.assertion_type != assertion.assertion_type
@@ -39,25 +39,25 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
     end
 
     # existing evaluations needs to be of a specification with the same name
-    existing_specs_and_children = assertion.specifications.flat_map{|s| s.all_children}
+    existing_specs_and_children = assertion.specifications.flat_map { |s| s.all_children }
     if !existing_specs_and_children.include?(specification)
       input_errors.append("This assertion already has specification evaluations and the selected specification is not based on any of them.")
     end
 
-    if specification.evaluation_method.start_with?('all')
+    if specification.evaluation_method.start_with?("all")
       # evaluations include all criteria of the selected specification
       missing_criteria = expected_criteria - provided_criteria
       if missing_criteria.any?
         input_errors.append("Evaluations missing for some of the Specification's criteria: #{missing_criteria.join(', ')}")
       end
-    elsif specification.evaluation_method == 'one'
+    elsif specification.evaluation_method == "one"
       # only one evluation was provided
       if fields.evaluations.count > 1
         input_errors.append("More than one Evaluation provided")
       end
     end
 
-    #evaluations don't include criteria not part of the selected specification
+    # evaluations don't include criteria not part of the selected specification
     extra_criteria = provided_criteria - expected_criteria
     if extra_criteria.any?
       input_errors.append("Evaluations include extra criteria not available for the selected Specification: #{extra_criteria.join(', ')}")
@@ -65,7 +65,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
 
     fields.evaluations.each do |evaluation|
       if evaluation.evaluation == "met"
-        #no op
+        # no op
       elsif evaluation.evaluation == "not_met"
         # for not_met evaluations: no modifier
         if evaluation.modifier.present?
@@ -95,19 +95,19 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       end
     end
 
-    if specification.evaluation_method.start_with?('all')
+    if specification.evaluation_method.start_with?("all")
       # not more than one "met" evaluation in an assessment group
-      grouped_evaluations = met_criteria.group_by{|c| SpecificationCriterion.find_by(criterion: c.specification_criterion, specification_id: fields.specification_id).assessment_group}
+      grouped_evaluations = met_criteria.group_by { |c| SpecificationCriterion.find_by(criterion: c.specification_criterion, specification_id: fields.specification_id).assessment_group }
       grouped_evaluations.each do |group, evaluations|
         if evaluations.count > 1
-          input_errors.append("Assessment group #{group} contains more than one met evaluation #{evaluations.map{|e| e.specification_criterion}.join(', ')}")
+          input_errors.append("Assessment group #{group} contains more than one met evaluation #{evaluations.map { |e| e.specification_criterion }.join(', ')}")
         end
       end
 
       # mututally exclusive codes
       met_criteria.each do |evaluation|
         mutually_exclusive_codes = SpecificationCriterion.find_by(criterion: evaluation.specification_criterion, specification_id: fields.specification_id).mutually_exclusive_codes
-        overlap = met_criteria.map{|c| c.specification_criterion}.intersection(mutually_exclusive_codes)
+        overlap = met_criteria.map { |c| c.specification_criterion }.intersection(mutually_exclusive_codes)
         if overlap.any?
           input_errors.append("Met code #{evaluation.specification_criterion} is mutually exclusive with #{overlap.join(', ')}")
         end
@@ -129,8 +129,6 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
       end
     end
 
-    #input_errors = InputAdaptors::SpecificationEvaluationInputAdaptor.check_input_for_errors(evaluation_input_objects: fields.evaluations)
-
     if input_errors.any?
       raise GraphQL::ExecutionError, input_errors.join("|")
     end
@@ -146,10 +144,10 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
   def resolve(fields:, organization_id: nil)
     assertion = Assertion.find(fields.assertion_id)
     specification = Specification.find(fields.specification_id)
-    if assertion.specifications.map{|s| s.id}.include?(fields.specification_id)
+    if assertion.specifications.map { |s| s.id }.include?(fields.specification_id)
       # update existing evaluations
       evaluation_revisions_objects = fields.evaluations.map do |evaluation|
-        if specification.evaluation_method.start_with?('all')
+        if specification.evaluation_method.start_with?("all")
           existing_criterion = SpecificationCriterion.find_by(
             specification_id: fields.specification_id,
             criterion: evaluation.specification_criterion,
@@ -164,8 +162,8 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
             specification_id: fields.specification_id
           ).perform
           Activities::RevisedObjectPair.new(existing_obj: existing_evaluation, updated_obj: updated_evaluation)
-        elsif specification.evaluation_method == 'one'
-          existing_criterion = assertion.specification_evaluations.first{|e| e.specification_id == fields.specification_id}.specification_criterion
+        elsif specification.evaluation_method == "one"
+          existing_criterion = assertion.specification_evaluations.first { |e| e.specification_id == fields.specification_id }.specification_criterion
           existing_evaluation = SpecificationEvaluation.find_by(
             assertion_id: fields.assertion_id,
             specification_criterion_id: existing_criterion.id,

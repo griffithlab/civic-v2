@@ -142,7 +142,7 @@ specs.each do |spec|
     "Cis/Trans Variant Assessment",
     "Reputable Source Assessment",
     "Phenotype-Gene Specificity Assessment",
-    "Alternative Cause Assessment"
+    "Alternative Cause Assessment",
   ]
   spec.save!
 
