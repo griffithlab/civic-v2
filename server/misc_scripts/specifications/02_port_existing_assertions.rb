@@ -15,13 +15,11 @@ Assertion.all.each do |assertion|
 
     met_criterion = possible_criteria.first
 
-    spec.specification_criteria.each do |criterion|
-      SpecificationEvaluation.create!(
-        assertion: assertion,
-        specification_criterion: criterion,
-        evaluation: met_criterion == criterion ? "met" : "not_met"
-      )
-    end
+    SpecificationEvaluation.create!(
+      assertion: assertion,
+      specification_criterion: met_criterion,
+      evaluation: "met"
+    )
   end
 
   if assertion.clingen_codes.present?

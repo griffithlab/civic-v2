@@ -39,7 +39,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
     end
 
     # existing evaluations needs to be of a specification with the same name
-    existing_specs_and_children = assertion.specifications.flat_map { |s| s.all_children }
+    existing_specs_and_children = (assertion.specifications + assertion.specifications.flat_map { |s| s.all_children }).uniq
     if !existing_specs_and_children.include?(specification)
       input_errors.append("This assertion already has specification evaluations and the selected specification is not based on any of them.")
     end

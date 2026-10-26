@@ -83,7 +83,6 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   codesFields?: FormlyFieldConfig[]
 
   submitModel: { organizationId?: number } = {}
-  submitForm = new UntypedFormGroup({})
   submitFields: FormlyFieldConfig[] = [
     {
       key: 'organizationId',
@@ -149,7 +148,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   {
                     wrappers: ['form-layout'],
                     props: {
-                      showDevPanel: true,
+                      showDevPanel: false,
                     },
                     fieldGroup: [
                       {
@@ -216,7 +215,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                     type: "cvc-field-stepper",
                     wrappers: ['form-layout'],
                     props: {
-                      showDevPanel: true,
+                      showDevPanel: false,
                     },
                     fieldGroup: specificationFormConfig.assessmentGroups.map((group) => {
                       return {
@@ -425,7 +424,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
               {
                 wrappers: ['form-layout'],
                 props: {
-                  //showDevPanel: true,
+                  showDevPanel: false,
                 },
                 fieldGroup: [
                   {

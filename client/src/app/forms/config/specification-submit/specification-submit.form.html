@@ -209,16 +209,14 @@
       <form
         nz-form
         nzLayout="vertical"
-        [formGroup]="submitForm"
+        [formGroup]="codesForm"
         (ngSubmit)="onSubmit()">
-        <fieldset [disabled]="!codesForm.valid">
-          <formly-form
-            [form]="submitForm"
-            [fields]="submitFields"
-            [model]="submitModel"
-            (modelChange)="submitModel = $event">
-          </formly-form>
-        </fieldset>
+        <formly-form
+          [form]="codesForm"
+          [fields]="submitFields"
+          [model]="submitModel"
+          (modelChange)="submitModel = $event">
+        </formly-form>
       </form>
     </nz-col>
   }
