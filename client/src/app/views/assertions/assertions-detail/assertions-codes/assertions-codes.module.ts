@@ -11,6 +11,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { AssertionsCodesPage } from './assertions-codes.page'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
@@ -31,6 +32,7 @@ import { CvcSpecificationEvaluationTagModule } from '@app/components/specificati
     NzGridModule,
     NzTabsModule,
     NzIconModule,
+    NzAlertModule,
     CvcEvidenceTagModule,
     CvcPipesModule,
     CvcSpecificationEvaluationTagModule,

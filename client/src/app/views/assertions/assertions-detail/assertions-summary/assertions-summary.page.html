@@ -100,6 +100,19 @@
                       specificationWithEvaluations.specification.id
                       "></cvc-specification-popover>
                   </ng-template>
+                  @if (specificationWithEvaluations.specification.isDraft) {
+                    <span style="float: right">
+                      <nz-tag
+                        nzColor="warning"
+                        nz-popover
+                        [nzPopoverContent]="draftTagPopoverTemplate">
+                        Draft
+                      </nz-tag>
+                      <ng-template #draftTagPopoverTemplate>
+                        This is a draft specification. Criteria have not been finalized and should be used with caution.
+                      </ng-template>
+                    </span>
+                  }
                 </ng-template>
                   <cvc-tag-list>
                     @for (

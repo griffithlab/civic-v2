@@ -16,4 +16,5 @@ fragment SpecificationPopover on Specification {
       name
       url
     }
+    isDraft
 }

@@ -12907,6 +12907,7 @@ type Specification {
   assessmentGroups: [AssessmentGroup!]!
   evaluationMethod: SpecificationEvaluationMethod!
   id: Int!
+  isDraft: Boolean!
   name: String!
   organization: Organization
   organizationId: Int

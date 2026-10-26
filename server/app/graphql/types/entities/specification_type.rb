@@ -21,6 +21,7 @@ module Types::Entities
     field :assessment_groups, [ Types::Entities::AssessmentGroupType ], null: false
     field :assessment_group_order, [ String ], null: false
     field :parent_specification, Types::Entities::SpecificationType, null: true
+    field :is_draft, Boolean, null: false
 
     def organization
       Loaders::AssociationLoader.for(Specification, :organization).load(object)

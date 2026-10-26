@@ -3,6 +3,13 @@
     <nz-tab [nzTitle]="specificationWithEvaluations.specification.name + ' (version ' + specificationWithEvaluations.specification.version + ')'">
       <nz-template nz-tab>
         <nz-space nzDirection="vertical">
+          @if (specificationWithEvaluations.specification.isDraft) {
+            <nz-alert
+              *nzSpaceItem
+              nzType="warning"
+              nzShowIcon
+              nzMessage="This specification is a draft. Criteria have not been finalized and should be used with caution." />
+          }
           @let groupedEvaluations = groupEvaluations(specificationWithEvaluations.evaluations);
           @for (
             group of groupedEvaluations | keyvalue;

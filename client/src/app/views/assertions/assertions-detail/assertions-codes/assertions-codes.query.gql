@@ -22,6 +22,7 @@ fragment SpecificationFields on Specification {
     group
     description
   }
+  isDraft
 }
 
 fragment SpecificationEvaluationFields on SpecificationEvaluation {

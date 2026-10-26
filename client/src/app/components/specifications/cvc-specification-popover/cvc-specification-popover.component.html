@@ -11,11 +11,13 @@
           {{ spec.name | truncate: 50 }}
         </ng-template>
         <ng-template #linkout>
-          <cvc-link-tag
-            [href]="spec.specificationUrl"
-            tooltip="View Specification Document">
-            Document
-          </cvc-link-tag>
+          @if (spec.specificationUrl) {
+            <cvc-link-tag
+              [href]="spec.specificationUrl"
+              tooltip="View Specification Document">
+              Document
+            </cvc-link-tag>
+          }
         </ng-template>
       </nz-card>
       <nz-descriptions
@@ -27,15 +29,17 @@
           nzSpan="2">
           {{ spec.name }}
         </nz-descriptions-item>
-        <nz-descriptions-item
-          nzTitle="SOP Publication"
-          nzSpan="2">
-          <cvc-link-tag
-            href="https://pubmed.ncbi.nlm.nih.gov/{{ spec.sopPubmedId }}"
-            tooltip="View SOP on PubMed">
-            {{ spec.sopPubmedId }}
-          </cvc-link-tag>
-        </nz-descriptions-item>
+        @if (spec.sopPubmedId) {
+          <nz-descriptions-item
+            nzTitle="SOP Publication"
+            nzSpan="2">
+            <cvc-link-tag
+              href="https://pubmed.ncbi.nlm.nih.gov/{{ spec.sopPubmedId }}"
+              tooltip="View SOP on PubMed">
+              {{ spec.sopPubmedId }}
+            </cvc-link-tag>
+          </nz-descriptions-item>
+        }
         <nz-descriptions-item
           nzTitle="Version"
           nzSpan="2">
@@ -45,6 +49,11 @@
             nzType="secondary"
             >(Published {{ spec.publishedOn }})</span
           >
+          @if (spec.isDraft) {
+            <span style="float: right">
+              <nz-tag nzColor="warning">Draft</nz-tag>
+            </span>
+          }
         </nz-descriptions-item>
         <nz-descriptions-item
           nzTitle="Publishing Organization"

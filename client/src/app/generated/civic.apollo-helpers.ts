@@ -2541,13 +2541,14 @@ export type SourceSuggestionValuesFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'name' | 'organization' | 'organizationId' | 'parentSpecification' | 'publishedOn' | 'sopPubmedId' | 'specificationCriteria' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
+export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'isDraft' | 'name' | 'organization' | 'organizationId' | 'parentSpecification' | 'publishedOn' | 'sopPubmedId' | 'specificationCriteria' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
 export type SpecificationFieldPolicy = {
 	assertionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroupOrder?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	evaluationMethod?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	isDraft?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizationId?: FieldPolicy<any> | FieldReadFunction<any>,

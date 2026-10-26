@@ -19,7 +19,9 @@
 
   @if (this.specificationInfo) {
     <nz-col nzSpan="24">
-      <nz-card [nzTitle]="'Selected Specification: ' + specificationInfo.name + ' (v' + specificationInfo.version + ')'">
+      <nz-card
+        [nzTitle]="'Selected Specification: ' + specificationInfo.name + ' (v' + specificationInfo.version + ')'"
+        [nzExtra]="specificationCardExtra">
         <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small">
           <nz-descriptions-item nzTitle="Publication Date">
             {{ specificationInfo.publishedOn }}
@@ -48,6 +50,21 @@
             }
           </nz-descriptions-item>
         </nz-descriptions>
+        <ng-template #specificationCardExtra>
+          @if (specificationInfo.isDraft) {
+            <span style="float: right">
+              <nz-tag
+                nzColor="warning"
+                nz-popover
+                [nzPopoverContent]="draftTagPopoverTemplate">
+                Draft
+              </nz-tag>
+              <ng-template #draftTagPopoverTemplate>
+                This is a draft specification. Criteria have not been finalized and should be used with caution.
+              </ng-template>
+            </span>
+          }
+        </ng-template>
       </nz-card>
     </nz-col>
 
