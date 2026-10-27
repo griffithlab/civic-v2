@@ -7,22 +7,7 @@
       [nzCurrent]="currentStep()"
       (nzIndexChange)="onIndexChange($event)">
       @for (step of field.fieldGroup; track step.key; let i = $index) {
-        <nz-step [nzTitle]="titleTemplate" [nzIcon]="iconTemplate"> </nz-step>
-        <ng-template #titleTemplate>
-          {{ step.props?.stepLabel }}
-          @if (step.props?.infoString) {
-            <span
-              nz-typography
-              nzType="secondary">
-              <i
-                nz-icon
-                nzType="info-circle"
-                nz-tooltip
-                [nzTooltipTitle]="step.props?.infoString">
-              </i>
-            </span>
-          }
-        </ng-template>
+        <nz-step [nzTitle]="step.props?.stepLabel" [nzIcon]="iconTemplate"> </nz-step>
         <ng-template #iconTemplate>
           @if (isValid(step)) {
             @if (i == currentStep()) {
@@ -44,12 +29,20 @@
       @let stepField =
         field.fieldGroup ? field.fieldGroup[currentStep()] : undefined;
       @if (stepField) {
+        <p>
+          {{ stepField.props?.stepLabel }}
+          <span
+            nz-typography
+            nzType="secondary">
+            <i>- {{ stepField.props?.infoString }}</i>
+          </span>
+        </p>
         @for (subField of stepField.fieldGroup; track subField.key) {
           <nz-col nzSpan="24">
             <formly-field [field]="subField"></formly-field>
           </nz-col>
           @if (!$last) {
-            <nz-divider nzText="OR"></nz-divider>
+            <nz-divider nzText="OR" nzSize="small"></nz-divider>
           }
         }
       }

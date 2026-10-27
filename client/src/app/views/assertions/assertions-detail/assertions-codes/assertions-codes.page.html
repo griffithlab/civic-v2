@@ -72,16 +72,16 @@
     style="flex-shrink: 0; width: 100%">
     <nz-descriptions nzBordered [nzColumn]="2" nzSize="small">
       <nz-descriptions-item nzTitle="Met">
-        <ng-container [ngTemplateOutlet]="table" [ngTemplateOutletContext]="{evaluations: met, tagColor: evaluationStatus.Met | specificationToTagColor}" />
+        <ng-container [ngTemplateOutlet]="table" [ngTemplateOutletContext]="{evaluations: met}" />
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="Not Met">
-        <ng-container [ngTemplateOutlet]="table" [ngTemplateOutletContext]="{evaluations: notMet, tagColor: evaluationStatus.NotMet | specificationToTagColor}" />
+        <ng-container [ngTemplateOutlet]="table" [ngTemplateOutletContext]="{evaluations: notMet}" />
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="Excluded">
-        <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: excluded, tagColor: evaluationStatus.Excluded | specificationToTagColor}" />
+        <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: excluded}" />
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="Not Evaluated">
-        <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: notEvaluated, tagColor: evaluationStatus.NotEvaluated | specificationToTagColor}" />
+        <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: notEvaluated}" />
       </nz-descriptions-item>
     </nz-descriptions>
   </nz-card>
@@ -163,7 +163,7 @@
   </nz-table>
 </ng-template>
 
-<ng-template #tagList let-evaluations="evaluations" let-tagColor="tagColor">
+<ng-template #tagList let-evaluations="evaluations">
   @if (evaluations.length == 0){
     <span nz-typography nzType="secondary"><i>None</i></span>
   }

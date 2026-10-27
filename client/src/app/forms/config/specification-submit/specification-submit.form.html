@@ -1,73 +1,111 @@
 <nz-row [nzGutter]="[16, 8]">
   @if(specificationFormFields && assertionId) {
     <nz-col nzSpan="24">
-      <form
-        nz-form
-        nzLayout="vertical"
-        [formGroup]="specificationForm"
-        (ngSubmit)="onSubmit()">
-        <formly-form
-          [form]="specificationForm"
-          [fields]="specificationFormFields"
-          [model]="specificationModel"
-          [options]="{}"
-          (modelChange)="onSpecificationSelected($event)">
-        </formly-form>
-      </form>
-    </nz-col>
+      <nz-card nzTitle="Specification">
+        <nz-row [nzGutter]="[16, 8]">
+          <nz-col nzSpan="12">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="specificationForm"
+              (ngSubmit)="onSubmit()">
+              <formly-form
+                [form]="specificationForm"
+                [fields]="specificationFormFields"
+                [model]="specificationModel"
+                [options]="{}"
+                (modelChange)="onSpecificationSelected($event)">
+              </formly-form>
+            </form>
+          </nz-col>
+          <nz-col nzSpan="12">
+            @if (this.specificationInfo) {
+              <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
+                <nz-descriptions-item nzTitle="Specification Document">
+                  @if (specificationInfo?.specificationUrl) {
+                    <cvc-link-tag
+                      [href]="specificationInfo.specificationUrl"
+                      tooltip="View Specification Document">
+                      View Specification Document
+                    </cvc-link-tag>
+                  } @else {
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      No specification document available
+                    </span>
+                  }
+                </nz-descriptions-item>
+                <nz-descriptions-item
+                  nzTitle="SOP Publication"
+                  nzSpan="2">
+                  @if (specificationInfo.sopPubmedId) {
+                    <cvc-link-tag
+                      href="https://pubmed.ncbi.nlm.nih.gov/{{ specificationInfo.sopPubmedId }}"
+                      tooltip="View SOP on PubMed">
+                      {{ specificationInfo.sopPubmedId }}
+                    </cvc-link-tag>
+                  } @else {
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      No SOP Publication available
+                    </span>
+                  }
+                </nz-descriptions-item>
+                <nz-descriptions-item
+                  nzTitle="Version"
+                  nzSpan="2">
+                  {{ specificationInfo.version }}
+                  <span
+                    nz-typography
+                    nzType="secondary"
+                    >(Published {{ specificationInfo.publishedOn }})</span
+                  >
+                  @if (specificationInfo.isDraft) {
+                    <span style="float: right">
+                      <nz-tag
+                        nzColor="warning"
+                        nz-popover
+                        [nzPopoverContent]="draftTagPopoverTemplate">
+                        Draft
+                      </nz-tag>
+                      <ng-template #draftTagPopoverTemplate>
+                        This is a draft specification. Criteria have not been finalized and should be used with caution.
+                      </ng-template>
+                    </span>
+                  }
+                </nz-descriptions-item>
+                <nz-descriptions-item
+                  nzTitle="Publishing Organization"
+                  nzSpan="2">
+                  @if (specificationInfo.organization) {
+                    <cvc-organization-tag
+                      [org]="specificationInfo.organization"
+                      [enablePopover]="false"></cvc-organization-tag>
+                  } @else {
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      None
+                    </span>
+                  }
+                </nz-descriptions-item>
+              </nz-descriptions>
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary">
+                Select a specification to see it details
+              </span>
+            }
+          </nz-col>
+        </nz-row>
+      </nz-card>
+    </nz-col> 
   }
 
   @if (this.specificationInfo) {
-    <nz-col nzSpan="24">
-      <nz-card
-        [nzTitle]="'Selected Specification: ' + specificationInfo.name + ' (v' + specificationInfo.version + ')'"
-        [nzExtra]="specificationCardExtra">
-        <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small">
-          <nz-descriptions-item nzTitle="Publication Date">
-            {{ specificationInfo.publishedOn }}
-          </nz-descriptions-item>
-          <nz-descriptions-item nzTitle="Links">
-            @if (specificationInfo.specificationUrl) {
-              <cvc-link-tag
-                [href]="specificationInfo.specificationUrl"
-                tooltip="View Specification Document">
-                Specification Document
-              </cvc-link-tag>
-            }
-            @if (specificationInfo.sopPubmedId) {
-              <cvc-link-tag
-                [href]="'https://pubmed.ncbi.nlm.nih.gov/' + specificationInfo.sopPubmedId"
-                tooltip="View Publication">
-                Publication
-              </cvc-link-tag>
-            }
-            @if (!specificationInfo.specificationUrl && !specificationInfo.sopPubmedId) {
-              <i
-                nz-typography
-                nzType="secondary">
-                No links available
-              </i>
-            }
-          </nz-descriptions-item>
-        </nz-descriptions>
-        <ng-template #specificationCardExtra>
-          @if (specificationInfo.isDraft) {
-            <span style="float: right">
-              <nz-tag
-                nzColor="warning"
-                nz-popover
-                [nzPopoverContent]="draftTagPopoverTemplate">
-                Draft
-              </nz-tag>
-              <ng-template #draftTagPopoverTemplate>
-                This is a draft specification. Criteria have not been finalized and should be used with caution.
-              </ng-template>
-            </span>
-          }
-        </ng-template>
-      </nz-card>
-    </nz-col>
-
     @if (this.specificationInfo.evaluationMethod != "ONE") {
       <nz-col nzSpan="24">
         <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
@@ -142,10 +180,10 @@
           }
           <ng-template #evaluationSummaryExtraTemplate>
             @if (this.specificationInfo.evaluationMethod == "ALL_STRENGTH") {
-              Display Mode:
+              Display By:
               <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
-                <label nz-radio-button nzValue="group">By Group</label>
-                <label nz-radio-button nzValue="strength">By Strength</label>
+                <label nz-radio-button nzValue="group">Group</label>
+                <label nz-radio-button nzValue="strength">Strength</label>
               </nz-radio-group>
             }
           </ng-template>

@@ -21,6 +21,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { FormsModule } from '@angular/forms';
 import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module';
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { CvcSpecificationEvaluationTagModule } from '@app/components/specificati
     CvcPipesModule,
     CvcFieldStepperModule,
     CvcSpecificationEvaluationTagModule,
+    CvcOrganizationTagModule,
     NgxJsonViewerModule, // debug
   ],
   exports: [

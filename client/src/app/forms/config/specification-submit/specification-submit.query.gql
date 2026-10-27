@@ -57,6 +57,11 @@ fragment SpecificationDetailConfigFields on Specification {
   }
   assertionType
   isDraft
+  organization {
+    id
+    name
+    url
+  }
 }
 
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {

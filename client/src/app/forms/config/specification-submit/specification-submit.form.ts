@@ -183,6 +183,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                 type: 'textarea',
                                 props: {
                                   label: "Justification",
+                                  placeholder: "Provide a justification for the chosen evaluation.",
                                   attributes: {
                                     rows: 1
                                   }
@@ -239,7 +240,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                 wrappers: ['form-row'],
                                 props: <CvcFormRowWrapperProps>{
                                   formRowOptions: {
-                                  spanIndexed: [4, 4, 16, 24],
+                                  spanIndexed: [4, 6, 14, 24],
                                   },
                                 },
                                 fieldGroup: [
@@ -262,8 +263,9 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                         'evaluationCrossGroupConflictingCodes'
                                       ]
                                     },
+                                    validation: { show: true },
                                   },
-                                  {
+                                  <FormlyFieldConfig>{
                                     key: "modifier",
                                     wrappers: ['form-field'],
                                     type: "select",
@@ -278,7 +280,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     expressions: {
                                       'props.disabled': (field: FormlyFieldConfig) => {
                                         const evaluation = field.parent?.formControl?.get('evaluation')?.value
-                                        const hasModifiers = field.props?.extraInfo?.optionsLength ? field.props.extraInfo.optionsLength > 0 : false
+                                        const hasModifiers = code.modifiers.length > 0
                                         const shouldDisable = ['EXCLUDED', 'NOT_EVALUATED', 'NOT_MET'].includes(evaluation) || !hasModifiers
                                         if (shouldDisable && field.formControl?.value !== null) {
                                           setTimeout(() => {
@@ -287,14 +289,27 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                         }
                                         return shouldDisable
                                       },
+                                      'props.description': (field: FormlyFieldConfig) => {
+                                        const evaluation = field.parent?.formControl?.get('evaluation')?.value
+                                        const isMet = evaluation === 'MET'
+                                        const hasModifiers = code.modifiers.length > 0
+                                        if (!isMet) {
+                                          return "Modifier selection unavailable unless code is met."
+                                        } else if (!hasModifiers) {
+                                          return "No modifiers available for this code."
+                                        } else {
+                                          return ''
+                                        }
+                                      }
                                     },
                                   },
-                                  {
+                                  <FormlyFieldConfig>{
                                     key: "justification",
                                     wrappers: ['form-field'],
                                     type: 'textarea',
                                     props: {
                                       label: "Justification",
+                                      placeholder: "Provide a justification for the chosen evaluation.",
                                       attributes: {
                                         rows: 1
                                       }
@@ -309,6 +324,14 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                           });
                                         }
                                         return shouldDisable
+                                      },
+                                      'props.description': (field: FormlyFieldConfig) => {
+                                        const evaluation = field.parent?.formControl?.get('evaluation')?.value
+                                        if (evaluation == 'NOT_EVALUATED') {
+                                          return 'Justification unavailable for "not met" evaluations'
+                                        } else {
+                                          return ''
+                                        }
                                       }
                                     },
                                   },
@@ -429,11 +452,6 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                 fieldGroup: [
                   {
                     key: 'specification_fields',
-                    wrappers: ['form-card'],
-                    props: {
-                      formCardOptions: { title: 'Select Specification' },
-
-                    },
                     fieldGroup: [
                       {
                         key: 'specification',
@@ -441,7 +459,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                         wrappers: ['form-field'],
                         props: {
                           label: "Select Specification",
-                          options: this.validSpecifications.map((s) => {return {label: `${s.name} (Version ${s.version})`, value: s.id}}),
+                          options: this.validSpecifications.map((s) => {return {label: `${s.name} (v${s.version})`, value: s.id}}),
                           required: true,
                         }
                       },

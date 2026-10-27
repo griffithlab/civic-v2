@@ -7,12 +7,14 @@
 </nz-card>
 
 <ng-template #titleTemplate>
+  <span style="text-wrap: wrap">
   {{ wrapperOptions.title }}
-  @if (wrapperOptions.infoString) {
-    <span
-      nz-typography
-      nzType="secondary">
-      <i>- {{ wrapperOptions.infoString }}</i>
-    </span>
-  }
+    @if (wrapperOptions.infoString) {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i>- {{ wrapperOptions.infoString }}</i>
+      </span>
+    }
+  </span>
 </ng-template>

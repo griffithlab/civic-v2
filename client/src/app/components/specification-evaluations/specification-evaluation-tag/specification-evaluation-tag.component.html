@@ -1,5 +1,6 @@
 <nz-tag
   [nzColor]="this.specificationEvaluation.evaluation | specificationToTagColor"
+  [style]="'color:' + (this.specificationEvaluation.evaluation | specificationToFontColor)"
   nz-popover
   [nzPopoverMouseEnterDelay]="0.5"
   [nzPopoverPlacement]="popoverPlacement"
