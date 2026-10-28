@@ -1,6 +1,6 @@
   clingen_ovs1:
     specification: clingen_specification
-    criterium: OVS1
+    criterion: OVS1
     description: "Null variant in a tumor suppressor gene"
     assessment_group: Primary Sequence Consequence
     modifiers: {Strong: null, Moderate: null, Supporting: null}
@@ -9,7 +9,7 @@
 
   clingen_os1:
     specification: clingen_specification
-    criterium: OS1
+    criterion: OS1
     description: "Same amino acid change as a previously established oncogenic variant"
     assessment_group: Amino Acid or Residue Analogy
     modifiers: {Moderate: null, Supporting: null, Very-strong: null}
@@ -18,7 +18,7 @@
 
   clingen_os2:
     specification: clingen_specification
-    criterium: OS2
+    criterion: OS2
     description: "In vitro or in vivo functional studies, supportive of an oncogenic effect"
     assessment_group: Functional Assay
     modifiers: {Moderate: null, Supporting: null, Very-strong: null}
@@ -27,7 +27,7 @@
 
   clingen_os3:
     specification: clingen_specification
-    criterium: OS3
+    criterion: OS3
     description: >-
       In cancerhotspots.org with at least 50 samples with same amino acid position,
       and the same amino acid change count in at least 10 samples.
@@ -38,7 +38,7 @@
 
   clingen_om1:
     specification: clingen_specification
-    criterium: OM1
+    criterion: OM1
     description: "Located in a critical and well-established part of a functional domain"
     assessment_group: Functional Domain Location
     modifiers: {Strong: null, Supporting: null, Very-strong: null}
@@ -47,7 +47,7 @@
 
   clingen_om2:
     specification: clingen_specification
-    criterium: OM2
+    criterion: OM2
     description: >-
       In-frame deletions/insertions in a known oncogene or tumor suppressor or
       stop-loss in tumor suppressor
@@ -58,7 +58,7 @@
 
   clingen_om3:
     specification: clingen_specification
-    criterium: OM3
+    criterion: OM3
     description: "Missense variant at an amino acid residue where different missense variant determined oncogenic"
     assessment_group: Somatic Hotspot Recurrence
     modifiers: {}
@@ -67,7 +67,7 @@
 
   clingen_om4:
     specification: clingen_specification
-    criterium: OM4
+    criterion: OM4
     description: >-
       In cancerhotspots.org with less than 50 samples with same amino acid position,
       and the same amino acid change count in at least 10 samples
@@ -78,7 +78,7 @@
 
   clingen_op1:
     specification: clingen_specification
-    criterium: OP1
+    criterion: OP1
     description: "computational evidence support an oncogenic effect of a variant"
     assessment_group: Computational Prediction
     modifiers: {Strong: null, Moderate: null, Very-strong: null}
@@ -87,7 +87,7 @@
 
   clingen_op2:
     specification: clingen_specification
-    criterium: OP2
+    criterion: OP2
     description: "Somatic variant in a gene in a malignancy with a single genetic etiology."
     assessment_group: Single Genetic Etiology Context
     modifiers: {Strong: null, Moderate: null, Very-strong: null}
@@ -96,7 +96,7 @@
 
   clingen_op3:
     specification: clingen_specification
-    criterium: OP3
+    criterion: OP3
     description: "Located in cancerhotspots.org and the amino acid change count is below 10"
     assessment_group: Somatic Hotspot Recurrence
     modifiers: {}
@@ -105,7 +105,7 @@
 
   clingen_op4:
     specification: clingen_specification
-    criterium: OP4
+    criterion: OP4
     description: "Absent from controls (or extremely low frequency) in gnomAD"
     assessment_group: Population Frequency
     modifiers: {Strong: null, Moderate: null, Very-strong: null}
@@ -114,7 +114,7 @@
 
   clingen_sbvs1:
     specification: clingen_specification
-    criterium: SBVS1
+    criterion: SBVS1
     description: "Minor allele frequency is >5% in gnomAD in any of 5 of general populations"
     assessment_group: Population Frequency
     modifiers: {Strong: null, Moderate: null, Supporting: null}
@@ -123,7 +123,7 @@
 
   clingen_sbs1:
     specification: clingen_specification
-    criterium: SBS1
+    criterion: SBS1
     description: "Minor allele frequency is >1% in gnomAD in any of 5 of general populations"
     assessment_group: Population Frequency
     modifiers: {Moderate: null, Supporting: null, Very-strong: null}
@@ -132,7 +132,7 @@
 
   clingen_sbs2:
     specification: clingen_specification
-    criterium: SBS2
+    criterion: SBS2
     description: "In vitro or in vivo functional studies, supportive of no oncogenic effect"
     assessment_group: Functional Assay
     modifiers: {Moderate: null, Supporting: null, Very-strong: null}
@@ -141,7 +141,7 @@
 
   clingen_sbp1:
     specification: clingen_specification
-    criterium: SBP1
+    criterion: SBP1
     description: "computational evidence does not support an oncogenic effect of a variant"
     assessment_group: Computational Prediction
     modifiers: {Strong: null, Moderate: null, Very-strong: null}
@@ -150,7 +150,7 @@
 
   clingen_sbp2:
     specification: clingen_specification
-    criterium: SBP2
+    criterion: SBP2
     description: "A synonymous variant for which splicing prediction algorithms predict no effect"
     assessment_group: Primary Sequence Consequence
     modifiers: {Strong: null, Moderate: null, Very-strong: null}
@@ -159,8 +159,71 @@
 
   clingen_not_applicable:
     specification: clingen_specification
-    criterium: "N/A"
+    criterion: "N/A"
     description: "ClinGen codes are not applicable to this Assertion type"
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_i_level_a:
+    specification: amp_specification
+    criterion: "Tier I - Level A"
+    description: "Biomarkers included in professional guidelines as diagnostic for a specific type of tumor."
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_i_level_b:
+    specification: amp_specification
+    criterion: "Tier I - Level B"
+    description: "Biomarkers of diagnostic significance for a specific type of tumor based on well-powered studies with consensus from experts in the field."
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_ii_level_c:
+    specification: amp_specification
+    criterion: "Tier II - Level C"
+    description: "Biomarkers of diagnostic significance based on the results of multiple small studies."
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_ii_level_d:
+    specification: amp_specification
+    criterion: "Tier II - Level D"
+    description: "Biomarkers that may assist disease diagnosis themselves or along with other biomarkers based on small studies or a few case reports."
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_iii:
+    specification: amp_specification
+    criterion: "Tier III"
+    description: "Somatic variants in cancer genes reported in the same or different cancer types with unknown clinical significance and variants in cancer genes that have not been reported in any cancers."
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_iv:
+    specification: amp_specification
+    criterion: "Tier IV"
+    description: "Benign or likely benign germline variants observed at significant allele frequencies in the general population or specific subpopulation."
+    assessment_group: null
+    modifiers: {}
+    point_value: null
+    mutually_exclusive_codes: null
+
+  amp_tier_i_na:
+    specification: amp_specification
+    criterion: "Not Applicable"
+    description: "Not Applicable"
     assessment_group: null
     modifiers: {}
     point_value: null

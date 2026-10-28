@@ -6,7 +6,7 @@
     assertion_type: Oncogenic
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/35101336/"
     sop_pubmed_id: 35101336
-    evaluation_method: all
+    evaluation_method: all_strength
     organization_id: null
     assessment_groups:
       Population Frequency: >-
@@ -37,3 +37,16 @@
         Assessment of whether the variant occurs in a gene and malignancy context
         where the disease has a single genetic etiology, making that gene-level
         event supportive of oncogenicity.
+
+  amp_specification:
+    name: "AMP/ASCO/CAP Category"
+    version: "1"
+    published_on: "2017-01-19"
+    specification_type: amp_tiers
+    assertion_type: Diagnostic
+    specification_url: "https://pubmed.ncbi.nlm.nih.gov/27993330/"
+    sop_pubmed_id: 27993330
+    evaluation_method: one
+    assessment_groups: {}
+    assessment_group_order: []
+    organization_id: null
