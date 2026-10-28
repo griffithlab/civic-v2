@@ -149,7 +149,7 @@
                   }
                 </nz-descriptions>
               </nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Benign Critieria">
+              <nz-descriptions-item nzTitle="Benign Criteria">
                 <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
                   @for (strength of bGroups | keyvalue: preserveOrder; track strength.key) {
                     <nz-descriptions-item [nzTitle]="strength.value? strength.value : ''">
@@ -170,7 +170,7 @@
                 </nz-descriptions>
               </nz-descriptions-item>
               @if (oCriteria) {
-                <nz-descriptions-item nzTitle="Other Critieria">
+                <nz-descriptions-item nzTitle="Other Criteria">
                   @for (code of oCriteria | keyvalue: preserveOrder; track code.key) {
                     <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
                   }

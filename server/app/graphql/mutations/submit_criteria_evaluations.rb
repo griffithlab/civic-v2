@@ -51,7 +51,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
         input_errors.append("Evaluations missing for some of the Specification's criteria: #{missing_criteria.join(', ')}")
       end
     elsif specification.evaluation_method == "one"
-      # only one evluation was provided
+      # only one evaluation was provided
       if fields.evaluations.count > 1
         input_errors.append("More than one Evaluation provided")
       end
