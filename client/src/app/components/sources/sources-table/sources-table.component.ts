@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -17,9 +19,9 @@ import {
   BrowseSourceRowFieldsFragment,
   BrowseSourcesGQL,
   BrowseSourcesQuery,
+  BrowseSourcesQueryVariables,
   Maybe,
   PageInfo,
-  QueryBrowseSourcesArgs,
   SortDirection,
   SourceSource,
   SourcesSortColumns,
@@ -34,7 +36,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -58,7 +59,8 @@ export interface SourcesTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcSourcesTableComponent implements OnInit {
+export class CvcSourcesTableComponent implements OnInit, OnChanges {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() clinicalTrialId: Maybe<number>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
@@ -76,7 +78,7 @@ export class CvcSourcesTableComponent implements OnInit {
   filterChange$: Subject<void>
 
   // INTERMEDIATE STREAMS
-  queryRef!: QueryRef<BrowseSourcesQuery, QueryBrowseSourcesArgs>
+  queryRef!: QueryRef<BrowseSourcesQuery, BrowseSourcesQueryVariables>
   result$!: Observable<ApolloQueryResult<BrowseSourcesQuery>>
   connection$!: Observable<BrowseSourceConnection>
 
@@ -115,6 +117,7 @@ export class CvcSourcesTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
+      ids: this.ids,
       first: this.initialPageSize,
       clinicalTrialId: this.clinicalTrialId,
       sortBy: {
@@ -204,8 +207,10 @@ export class CvcSourcesTableComponent implements OnInit {
   } // ngOnInit()
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
+        ids: this.ids,
         citationId: this.citationIdInput ? +this.citationIdInput : undefined,
         author: this.authorInput,
         year: this.yearInput ? +this.yearInput : undefined,
@@ -217,6 +222,12 @@ export class CvcSourcesTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
   }
 
   trackByIndex(

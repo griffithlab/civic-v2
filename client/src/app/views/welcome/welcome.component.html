@@ -31,19 +31,26 @@
   <nz-col [nzSpan]="24">
     <cvc-site-stats-card></cvc-site-stats-card>
   </nz-col>
-  <nz-col [nzSpan]="10">
+  <nz-col
+    [nzXs]="24"
+    [nzLg]="10">
     <nz-card
       nzTitle="News & Events"
       nzSize="small"
       class="home-card">
       <div
+        role="region"
+        aria-label="Recent news and events"
+        tabindex="0"
         cvcAutoHeightDiv="52"
         cvcAutoHeightTarget="viewport">
-        <cvc-news-item-list></cvc-news-item-list>
+        <cvc-homepage-news-items></cvc-homepage-news-items>
       </div>
     </nz-card>
   </nz-col>
-  <nz-col [nzSpan]="14">
+  <nz-col
+    [nzXs]="24"
+    [nzLg]="14">
     <div style="border-radius: 8px; overflow: hidden">
       <cvc-activity-feed
         cvcTitle="Live Activity Feed"

@@ -48,6 +48,11 @@ class EvidenceItem < ActiveRecord::Base
     as: :subject,
     class_name: "Activity"
 
+  has_one :last_moderation_activity,
+    ->() { where(type: "ModerateEvidenceItemActivity").order("activities.created_at desc") },
+    as: :subject,
+    class_name: "Activity"
+
   validates :rating, inclusion: [ 1, 2, 3, 4, 5 ]
 
 

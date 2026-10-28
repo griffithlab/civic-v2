@@ -32,8 +32,9 @@ module AdvancedSearches
         resolve_three_prime_partner_entrez_symbol(node),
         resolve_is_deprecated_filter(node),
         resolve_deprecation_reason_filter(node),
-        resolve_activity_user(node.creating_user, "CreateFeatureActivity"),
-        resolve_activity_user(node.deprecating_user, "DeprecateFeatureActivity"),
+        resolve_activity(node.creation_activity, :creation_activity),
+        resolve_activity(node.deprecation_activity, :deprecation_activity),
+        resolve_comment_filter(node),
       ]
     end
 
@@ -123,6 +124,13 @@ module AdvancedSearches
         .pluck("features.id")
 
       base_query.where(id: matching_ids)
+    end
+
+    def resolve_comment_filter(node)
+      return nil if node.comment.nil?
+      comment_ids = AdvancedSearches::Comment.new(query: node.comment).results
+      feature_ids = ::Feature.joins(:comments).where(comments: { id: comment_ids }).select(:id)
+      base_query.where(id: feature_ids)
     end
 
     def resolve_five_prime_partner_entrez_id(node)

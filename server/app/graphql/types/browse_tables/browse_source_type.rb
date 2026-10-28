@@ -4,7 +4,7 @@ module Types::BrowseTables
 
     field :id, Int, null: false
     field :source_type, Types::SourceSourceType, null: false
-    field :citation_id, Int, null: false
+    field :citation_id, String, null: false
     field :authors, [ String ], null: false
     field :publication_year, Int, null: true
     field :journal, String, null: true

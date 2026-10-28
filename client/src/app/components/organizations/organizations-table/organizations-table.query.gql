@@ -4,7 +4,7 @@ query OrganizationsBrowse(
   $before: String
   $after: String
   $id: Int
-  $orgName: String
+  $name: String
   $sortBy: OrganizationSort
 ) {
   browseOrganizations(
@@ -12,7 +12,7 @@ query OrganizationsBrowse(
     last: $last
     before: $before
     after: $after
-    name: $orgName
+    name: $name
     id: $id
     sortBy: $sortBy
   ) {

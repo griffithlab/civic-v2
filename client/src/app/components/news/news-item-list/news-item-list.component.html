@@ -1,0 +1,61 @@
+@if (loading) {
+  <nz-row
+    role="status"
+    aria-label="Loading news and events"
+    [nzGutter]="[8, 16]">
+    <nz-col nzSpan="24">
+      <nz-card nzSize="small">
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+} @else if (errorMessage) {
+  <nz-alert
+    nzType="error"
+    nzMessage="Unable to load news and events"
+    [nzDescription]="errorMessage"
+    [nzAction]="retryAction"
+    [nzShowIcon]="true">
+  </nz-alert>
+  <ng-template #retryAction>
+    <button
+      type="button"
+      nz-button
+      nzSize="small"
+      (click)="retry.emit()">
+      Retry
+    </button>
+  </ng-template>
+} @else if (items.length === 0) {
+  <nz-empty
+    nzNotFoundImage="simple"
+    nzNotFoundContent="No news or events are available.">
+  </nz-empty>
+} @else {
+  <nz-row [nzGutter]="[8, 16]">
+    @for (item of items; track item.id) {
+      <nz-col nzSpan="24">
+        <article [attr.aria-labelledby]="'news-item-title-' + item.id">
+          <nz-card
+            nzSize="small"
+            [nzTitle]="newsHeader">
+            <div
+              class="news-post"
+              [innerHTML]="item.contentHtml || ''"></div>
+          </nz-card>
+        </article>
+
+        <ng-template #newsHeader>
+          <header class="news-item-header">
+            <h2 [id]="'news-item-title-' + item.id">{{ item.title }}</h2>
+            @if (item.publishedAt) {
+              <time [attr.datetime]="item.publishedAt">
+                {{ item.publishedAt | date }}
+              </time>
+            }
+          </header>
+        </ng-template>
+      </nz-col>
+    }
+  </nz-row>
+}

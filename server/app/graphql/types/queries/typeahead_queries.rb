@@ -205,6 +205,7 @@ module Types::Queries
 
       def clingen_codes_typeahead(query_term:)
         SpecificationCriterion.where("criterion ILIKE ?", "#{query_term}%")
+          .or(SpecificationCriterion.where("description ILIKE ?", "%#{query_term}%"))
           .joins(:specification)
           .where("specifications.specification_type = 'clingen_codes'")
           .order(:criterion)

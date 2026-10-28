@@ -1,4 +1,5 @@
 query VariantTypesBrowse(
+  $ids: [Int!]
   $first: Int
   $last: Int
   $before: String
@@ -8,6 +9,7 @@ query VariantTypesBrowse(
   $sortBy: VariantTypeSort
 ) {
   variantTypes(
+    ids: $ids
     first: $first
     last: $last
     before: $before

@@ -1,12 +1,14 @@
 module Activities
   class SuggestSource < Base
-    attr_reader :source, :molecular_profile_id, :disease_id, :source_suggestion, :source_suggestion
+    attr_reader :source, :molecular_profile_id, :disease_id, :therapy_ids, :therapy_interaction_type, :source_suggestion
 
-    def initialize(source_id:, originating_user:, organization_id:, note:, molecular_profile_id: nil, disease_id: nil)
+    def initialize(source_id:, originating_user:, organization_id:, note:, molecular_profile_id: nil, disease_id: nil, therapy_ids: [], therapy_interaction_type: nil)
       super(organization_id: organization_id, user: originating_user, note: note)
       @source = Source.find(source_id)
       @molecular_profile_id = molecular_profile_id
       @disease_id = disease_id
+      @therapy_ids = therapy_ids
+      @therapy_interaction_type = therapy_interaction_type
     end
 
     private
@@ -26,6 +28,8 @@ module Activities
         organization_id: organization&.id,
         molecular_profile_id: molecular_profile_id,
         disease_id: disease_id,
+        therapy_ids: therapy_ids,
+        therapy_interaction_type: therapy_interaction_type,
       )
       cmd.perform
       if !cmd.succeeded?

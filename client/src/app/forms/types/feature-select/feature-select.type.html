@@ -6,7 +6,9 @@
     <nz-select
       [disabled]="!props.canChangeFeatureType"
       [(ngModel)]="selectedFeatureType"
-    (ngModelChange)="onFeatureType$.next($event); formControl.setValue(undefined)">
+      (ngModelChange)="
+        onFeatureType$.next($event); formControl.setValue(undefined)
+      ">
       <nz-option
         nzValue="GENE"
         nzLabel="Gene"></nz-option>
@@ -64,7 +66,7 @@
               [nzTooltipTitle]="result.featureAliases.join(', ')"
               [innerHtml]="
                 result.featureAliases.join(', ')
-                  | highlightTypeahead : searchString
+                  | highlightTypeahead: searchString
               "></span
           ></em>
         </ng-container>
@@ -82,7 +84,7 @@
   let-selected>
   <div class="ant-select-selection-item-content">
     <cvc-entity-tag
-      [cvcCacheId]="'Feature:' + selected.nzValue"
+      [cvcCacheId]="selected.nzTitle + ':' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
@@ -128,10 +130,10 @@
       </button>
     </nz-space>
   } @else {
-  <cvc-feature-quick-add-form
-    [cvcSearchString]="searchStr"
-    [cvcFeatureType]="onFeatureType$ | ngrxPush"
-    (cvcOnCreate)="onSelectOrCreate($event)">
-  </cvc-feature-quick-add-form>
+    <cvc-feature-quick-add-form
+      [cvcSearchString]="searchStr"
+      [cvcFeatureType]="onFeatureType$ | ngrxPush"
+      (cvcOnCreate)="onSelectOrCreate($event)">
+    </cvc-feature-quick-add-form>
   }
 </ng-template>

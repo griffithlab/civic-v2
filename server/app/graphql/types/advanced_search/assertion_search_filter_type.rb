@@ -21,9 +21,10 @@ module Types
       argument :id, Types::AdvancedSearch::IntSearchInput, required: false
       argument :variant_origin, Types::AdvancedSearch::EnumSearchInput.for(Types::VariantOriginType, is_activerecord_enum: true), required: false
       argument :is_flagged, Types::AdvancedSearch::BooleanSearchInput, required: false
-      argument :creating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
-      argument :moderating_user, Types::AdvancedSearch::UserSearchFilterType, required: false
+      argument :submission_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
+      argument :last_moderation_activity, Types::AdvancedSearch::ActivitySearchFilterType, required: false
       argument :revisions, Types::AdvancedSearch::RevisionSearchFilterType, required: false
+      argument :comment, Types::AdvancedSearch::CommentSearchFilterType, required: false
     end
   end
 end

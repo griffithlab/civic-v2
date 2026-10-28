@@ -20,6 +20,8 @@ export function sourceFormModelToInput(model: SourceModel): Maybe<SuggestSourceI
     sourceId: fields.sourceId!,
     molecularProfileId: fields.molecularProfileId,
     diseaseId: fields.diseaseId,
+    therapyIds: fields.therapyIds || [],
+    therapyInteractionType: fields.therapyInteractionType,
     organizationId: model.organizationId,
     comment: model.comment!
   }

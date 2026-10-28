@@ -28,7 +28,7 @@ module Types::Entities
 
     profile_image_sizes = [ 256, 128, 64, 32, 18, 12 ]
     field :profile_image_path, String, null: true do
-      argument :size, Int, required: false, default_value: 56,
+      argument :size, Int, required: false, default_value: 64,
         validates: {
           inclusion: {
             in: profile_image_sizes,
@@ -103,10 +103,14 @@ module Types::Entities
     def profile_image_path(size:)
       Loaders::ActiveStorageLoader.for(:User, :profile_image).load(object.id).then do |image|
         if image
-          Rails.application.routes.url_helpers.url_for(
-            image.variant(resize_to_limit: [ size, size ]).processed.url
+          # Proxy-mode representation URL: stable per blob+variation (permanent
+          # signed id, no expiry timestamp) and served with long-lived public
+          # cache headers, so browsers cache the image bytes. The variant is
+          # derived by the proxy controller on first GET, not here.
+          Rails.application.routes.url_helpers.rails_storage_proxy_url(
+            image.variant(resize_to_limit: [ size, size ]),
+            **ActiveStorage::Current.url_options
           )
-        else
         end
       end
     end

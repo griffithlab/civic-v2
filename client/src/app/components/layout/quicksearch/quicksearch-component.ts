@@ -118,7 +118,7 @@ export class CvcQuicksearchComponent {
     // on option select, navigate to selected entity page, clear select model
     this.onSelect$.subscribe(() => {
       if (this.selectedOpt)
-        this.router.navigateByUrl(this.urlForResult(this.selectedOpt))
+        this.router.navigateByUrl(this.selectedOpt.link)
       this.selectNode.writeValue(undefined)
     })
 
@@ -136,28 +136,6 @@ export class CvcQuicksearchComponent {
     const fetchQuery = (str: string, entities: Maybe<SearchableEntities[]>) => {
       return from(this.queryRef.refetch({ query: str, types: entities }))
     }
-  }
-
-  urlForResult(res: SearchResult): string {
-    let name: string
-    switch (res.resultType) {
-      case SearchableEntities.VariantGroup:
-        name = 'variant-groups'
-        break
-      case SearchableEntities.EvidenceItem:
-        name = 'evidence'
-        break
-      case SearchableEntities.MolecularProfile:
-        name = 'molecular-profiles'
-        break
-      case SearchableEntities.Therapy:
-        name = 'therapies'
-        break
-      default:
-        name = `${res.resultType.toLowerCase()}s`
-    }
-
-    return `/${name}/${res.id}/summary`
   }
 
   selectedEntitiesChanged(selectedEntities: string[]) {

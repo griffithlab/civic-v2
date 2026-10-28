@@ -1,0 +1,58 @@
+@import 'themes/global-variables.less';
+
+:host,
+article {
+  display: block;
+}
+
+.news-item-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: @default-padding-xs @default-padding-sm;
+  width: 100%;
+
+  h2 {
+    margin: 0;
+    color: @heading-color;
+    font-size: @font-size-lg;
+    line-height: 1.5;
+  }
+
+  time {
+    flex: 0 0 auto;
+    color: @text-color-secondary;
+    font-weight: normal;
+    white-space: nowrap;
+  }
+}
+
+.news-post {
+  overflow-wrap: anywhere;
+}
+
+:host ::ng-deep .news-post {
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 575px) {
+  .news-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: @default-padding-xss;
+  }
+}

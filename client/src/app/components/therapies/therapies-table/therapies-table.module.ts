@@ -15,6 +15,7 @@ import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-h
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module'
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module'
+import { CvcTableDownloaderComponent } from '@app/components/shared/table-downloader/table-downloader.component'
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcTherapyTagModule } from '../cvc-therapy-tag/cvc-therapy-tag.module'
@@ -44,6 +45,7 @@ import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-over
     CvcLinkTagModule,
     CvcNoMoreRowsModule,
     CvcTableCountsModule,
+    CvcTableDownloaderComponent,
     CvcTableScrollModule,
     CvcPlainTagOverflowModule,
   ],

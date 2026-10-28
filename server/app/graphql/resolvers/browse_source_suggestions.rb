@@ -33,6 +33,10 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
     scope.joins(:disease).where("diseases.name ILIKE ?", "%#{value}%")
   end
 
+  option(:therapy_name, type: String) do |scope, value|
+    scope.joins(:therapies).where("therapies.name ILIKE ?", "%#{value}%").distinct
+  end
+
   option(:comment, type: String) do |scope, value|
     scope.where("source_suggestions.initial_comment ILIKE ?", "%#{value}%")
   end

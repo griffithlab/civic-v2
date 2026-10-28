@@ -12,6 +12,14 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      {
+        path: 'search',
+        loadChildren: () =>
+          import('@app/views/search/search.module').then((m) => m.SearchModule),
+        data: {
+          breadcrumb: 'Advanced Search',
+        },
+      },
       // Primary Views
       {
         path: 'assertions',
@@ -179,6 +187,14 @@ const routes: Routes = [
           ),
         data: {
           breadcrumb: 'Welcome to CIViC',
+        },
+      },
+      {
+        path: 'news',
+        loadChildren: () =>
+          import('@app/views/news/news.module').then((m) => m.NewsModule),
+        data: {
+          breadcrumb: 'News & Events',
         },
       },
       {

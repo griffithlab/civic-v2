@@ -65,7 +65,7 @@
             [user]="user"
             [size]="22"
             shape="circle"
-            [ngClass]="{ 'update-coi': viewer.invalidCoi }"
+            [ngClass]="{ 'update-coi': viewer.coiNeedsUpdate }"
             *nzSpaceItem></cvc-user-avatar>
           <ng-container *ngIf="!cvcCollapsed">
             <div
@@ -100,9 +100,9 @@
     <!-- VIEWER BUTTON DROPDOWN MENU -->
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <ul nz-menu>
-        <!-- INVALID COI STATEMENT GROUP -->
+        <!-- COI STATEMENT UPDATE GROUP -->
         <li
-          *ngIf="viewer.invalidCoi"
+          *ngIf="viewer.coiNeedsUpdate"
           nz-menu-group
           [nzTitle]="coiGroupTitle">
           <ng-template #coiGroupTitle>
@@ -112,13 +112,13 @@
               <i
                 nz-icon
                 nzType="exclamation-circle"></i>
-              Conflict of Interest Invalid
+              Conflict of Interest Statement Needed
             </span>
           </ng-template>
           <ul>
             <li nz-menu-item>
               <button
-                *ngIf="viewer.invalidCoi"
+                *ngIf="viewer.coiNeedsUpdate"
                 (click)="coiUpdateModalVisible = true"
                 nz-button
                 nzType="primary"
@@ -126,7 +126,7 @@
                 nzSize="small"
                 nzDanger
                 nzBlock>
-                Please Update COI statement
+                Update COI Statement
               </button>
             </li>
           </ul>

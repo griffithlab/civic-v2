@@ -75,7 +75,7 @@
                 "fonts": true
               },
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": { "scripts": true, "styles": false },
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,

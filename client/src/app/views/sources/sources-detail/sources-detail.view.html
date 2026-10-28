@@ -38,6 +38,11 @@
       </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
+      <nz-alert
+        *ngIf="source.isPreprint"
+        nzBanner
+        nzMessage="This Source is a preprint. Its findings are not peer-reviewed and may not be final."
+        nzType="warning"></nz-alert>
       <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"></cvc-tab-navigation>
       <div class="content">
         <router-outlet></router-outlet>

@@ -1,0 +1,19 @@
+submitted_assertion_accepted_ei:
+  assertion_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion) %>
+  evidence_item_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+
+accepted_assertion_accepted_ei:
+  assertion_id: <%= ActiveRecord::FixtureSet.identify(:accepted_assertion) %>
+  evidence_item_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+
+accepted_unapproved_assertion_accepted_ei:
+  assertion_id: <%= ActiveRecord::FixtureSet.identify(:accepted_unapproved_assertion) %>
+  evidence_item_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+
+submitted_assertion_by_editor_accepted_ei:
+  assertion_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion_by_editor) %>
+  evidence_item_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>
+
+flagged_assertion_accepted_ei:
+  assertion_id: <%= ActiveRecord::FixtureSet.identify(:flagged_assertion) %>
+  evidence_item_id: <%= ActiveRecord::FixtureSet.identify(:accepted_ei) %>

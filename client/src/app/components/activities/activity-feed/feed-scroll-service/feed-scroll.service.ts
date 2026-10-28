@@ -22,6 +22,9 @@ export interface ScrollerState {
 }
 
 // configure ngx-ui-scroll's event listeners
+// Extends vscroll's Routines so the feed can observe its scroller: taps the
+// viewport's scroll events and pushes event/position/size readings into
+// ScrollerStateService, emitting initial readings on setup.
 export function configureScrollerRoutines(
   context: CvcActivityFeed,
   state: ScrollerStateService
@@ -44,6 +47,14 @@ export function configureScrollerRoutines(
   }
 }
 
+/**
+ * Reduces raw scroller activity into ScrollerState signals (via
+ * SignalStateService): throttles scroll events into an isScrolling flag,
+ * derives isAtTop/isAtBottom from viewport/scroller geometry, and tracks
+ * which feed items are expanded (toggledItems). Provided per-feed via
+ * FEED_SCROLL_SERVICE_TOKEN (see activity-feed.component.ts); fed by the
+ * vscroll Routines subclass below.
+ */
 @UntilDestroy()
 @Injectable({ providedIn: 'any' })
 export class ScrollerStateService extends SignalStateService<ScrollerState> {
@@ -121,7 +132,7 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
       .subscribe((item: FeedItemToggle) => {
         this.zone.run(() => {
           const toggledItems = this.state().toggledItems
-          if (item.showDetails === true) {
+          if (item.showDetails) {
             if (!toggledItems.has(item.id)) {
               toggledItems.add(item.id)
               this.set('toggledItems', toggledItems)

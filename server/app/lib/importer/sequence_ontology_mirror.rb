@@ -11,6 +11,8 @@ module Importer
 
     def import
       ActiveRecord::Base.transaction do
+        VariantType.reset_graph!
+
         parser.elements.each do |elem|
           next unless valid_entry?(elem)
           store_parent(elem)

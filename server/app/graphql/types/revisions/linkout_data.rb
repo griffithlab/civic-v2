@@ -5,6 +5,12 @@ module Types::Revisions
     field :suggested_value, Types::Revisions::ModeratedFieldType, null: false
     field :diff_value, Types::Revisions::ModeratedFieldDiffType, null: false
 
+    # Revisions on *_id/*_ids fields reference other records, so their values
+    # render as entity tags: current/suggested/diff values become
+    # ObjectField(Diff) types, with diff column membership precomputed here
+    # via set arithmetic. Exceptions listed in non_object_fields (e.g.
+    # ncit_id) hold scalar ids, not references. All other fields are diffed as
+    # text by Diffy into left/right HTML.
     def self.from_revision(r)
       if (r.field_name.ends_with?("_id") || r.field_name.ends_with?("_ids")) && ! non_object_fields.include?(r.field_name)
         current_set = Set.new(Array(r.current_value))
@@ -104,6 +110,8 @@ module Types::Revisions
         }
       end
 
+      # referenced records that no longer exist render as deleted stubs;
+      # entity_type falls back to the field's base class name
       if values.size != set.size
         found_ids = values.map { |v| v[:id] }
         set.each do |id|

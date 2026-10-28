@@ -1,0 +1,69 @@
+@if (isEmpty) {
+  <nz-row class="filter-add-btn">
+    <nz-col
+      nzSpan="12"
+      nzOffset="6">
+      <button
+        (click)="addRow()"
+        nz-button
+        nzType="primary"
+        nzBlock>
+        Add Filter
+      </button>
+    </nz-col>
+  </nz-row>
+} @else {
+  @for (subFilter of field.fieldGroup; track $index) {
+    <!-- NOTE: props.isRootFilter is used to determine:
+      * order of formly-field and button columns (reversed for non-root filter rows)
+      * nzSize of add/remove buttons
+      * nzGutter width (horizontal column padding)
+      * flex widths to accommodate size/padding adjustments
+      * row's css class -->
+    <nz-row
+      [nzGutter]="props.isRootFilter ? 8 : 4"
+      [ngClass]="{
+        'subfilter-row-root': props.isRootFilter,
+        'subfilter-row-child': !props.isRootFilter,
+      }">
+      <!-- SubFilter Field -->
+      <nz-col
+        nzFlex="auto"
+        class="subfilter-field"
+        [nzOrder]="props.isRootFilter ? 0 : 2">
+        <formly-field [field]="subFilter"></formly-field>
+      </nz-col>
+
+      <!-- SubFilter Remove Row Button-->
+      <nz-col
+        [ngClass]="{ 'filter-btn-sm': !props.isRootFilter }"
+        [nzFlex]="props.isRootFilter ? '0 0 28px' : '0 0 22px'"
+        [nzOrder]="props.isRootFilter ? 1 : 1">
+        <button
+          (click)="removeRow($index)"
+          nz-button
+          [nzSize]="props.isRootFilter ? 'default' : 'small'"
+          nzType="primary"
+          nzShape="circle">
+          <nz-icon nzType="minus" />
+        </button>
+      </nz-col>
+
+      <!-- SubFilter Add Row Button-->
+      <nz-col
+        [ngClass]="{ 'filter-btn-sm': !props.isRootFilter }"
+        [nzFlex]="props.isRootFilter ? '0 0 28px' : '0 0 22px'"
+        [nzOrder]="props.isRootFilter ? 2 : 0">
+        <button
+          (click)="addRow()"
+          [disabled]="!$last"
+          nz-button
+          [nzSize]="props.isRootFilter ? 'default' : 'small'"
+          nzType="primary"
+          nzShape="circle">
+          <nz-icon nzType="plus" />
+        </button>
+      </nz-col>
+    </nz-row>
+  }
+}

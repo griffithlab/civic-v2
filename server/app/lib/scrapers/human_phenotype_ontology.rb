@@ -26,45 +26,50 @@ module Scrapers
     end
 
     def self.update
-      parents = {}
       resp = Util.make_get_request(url())
       xml = Nokogiri::XML(resp)
-      xml.xpath("//owl:Class[@rdf:about]").each do |row|
-        about = row.attributes["about"].value
-        if about.starts_with?("http://purl.obolibrary.org/obo/HP_")
-          hpo_id = about[/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]*)/, 1]
-          hpo_id = hpo_id.sub("_", ":")
-          name = row.at_xpath("rdfs:label")&.text
-          desc = row.at_xpath("obo:IAO_0000115")&.text
-          if !row.at_xpath("owl:deprecated").nil? && row.at_xpath("owl:deprecated").text == "true"
-            p = Phenotype.find_by(hpo_id: hpo_id)
-            if !p.nil?
-              if p.evidence_items.count == 0 && p.assertions.count == 0
-                p.delete
-              else
-                civicbot_user = User.find(385)
-                (p.evidence_items + p.assertions).each do |obj|
-                  if obj.flags.select { |f| f.state == "open" && f.open_activity.note =~ /deprecated HPO term/ && f.open_activity.user_id == 385 }.count == 0
-                    Activities::FlagEntity.new(
-                      flagging_user: civicbot_user,
-                      flaggable: obj,
-                      organization_id: nil,
-                      note: "This entity uses a deprecated HPO term \"#{name}\" (#{hpo_id})"
-                    ).perform
+
+      ActiveRecord::Base.transaction do
+        Phenotype.reset_graph!
+
+        parents = {}
+        xml.xpath("//owl:Class[@rdf:about]").each do |row|
+          about = row.attributes["about"].value
+          if about.starts_with?("http://purl.obolibrary.org/obo/HP_")
+            hpo_id = about[/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]*)/, 1]
+            hpo_id = hpo_id.sub("_", ":")
+            name = row.at_xpath("rdfs:label")&.text
+            desc = row.at_xpath("obo:IAO_0000115")&.text
+            if !row.at_xpath("owl:deprecated").nil? && row.at_xpath("owl:deprecated").text == "true"
+              p = Phenotype.find_by(hpo_id: hpo_id)
+              if !p.nil?
+                if p.evidence_items.count == 0 && p.assertions.count == 0
+                  p.destroy
+                else
+                  civicbot_user = User.find(385)
+                  (p.evidence_items + p.assertions).each do |obj|
+                    if obj.flags.select { |f| f.state == "open" && f.open_activity.note =~ /deprecated HPO term/ && f.open_activity.user_id == 385 }.count == 0
+                      Activities::FlagEntity.new(
+                        flagging_user: civicbot_user,
+                        flaggable: obj,
+                        organization_id: nil,
+                        note: "This entity uses a deprecated HPO term \"#{name}\" (#{hpo_id})"
+                      ).perform
+                    end
                   end
                 end
               end
+            else
+              p = Phenotype.where(hpo_id: hpo_id).first_or_create!
+              p.hpo_class = name
+              p.description = desc
+              parents[hpo_id] = extract_parent_hpo_ids_from_row(row)
+              p.save!
             end
-          else
-            p = Phenotype.where(hpo_id: hpo_id).first_or_create!
-            p.hpo_class = name
-            p.description = desc
-            parents[hpo_id] = extract_parent_hpo_ids_from_row(row)
-            p.save!
           end
         end
+        create_graph(parents)
       end
-      create_graph(parents)
     end
 
     def self.extract_parent_hpo_ids_from_row(row)

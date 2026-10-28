@@ -13,7 +13,6 @@ import {
   AcceptRevisionMutation,
   AcceptRevisionMutationVariables,
   Maybe,
-  Organization,
   RejectRevisionGQL,
   RejectRevisionMutation,
   RejectRevisionMutationVariables,
@@ -71,7 +70,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   //TODO: Get rid of, we need a type guard pipe in the template to narrow the type safely in the template
   // (or the angular team to make ngSwitch better)
   //until then, at least its type checked at the Input level
-  untypedRevisons?: any[]
+  untypedRevisions?: any[]
   genericErrors$?: Observable<Maybe<string>[]>
   validationErrors$?: Observable<ValidationErrorFragment[]>
   totalErrorCount$?: Observable<number>
@@ -105,7 +104,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(_: SimpleChanges) {
-    this.untypedRevisons = this.revisions
+    this.untypedRevisions = this.revisions
     this.selectedRevisionIds = []
     if (this.queryRef) {
       this.queryRef.refetch({
@@ -143,7 +142,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
       startWith(0)
     )
 
-    this.untypedRevisons = this.revisions
+    this.untypedRevisions = this.revisions
   }
 
   onChangesetSelected(changesetId: number) {

@@ -1,0 +1,60 @@
+<cvc-section-navigation displayName="News & Events"></cvc-section-navigation>
+
+<nz-page-header class="site-page-header">
+  <h1 nz-page-header-title>News & Events</h1>
+  <nz-page-header-subtitle>
+    Updates and announcements from the CIViC community
+  </nz-page-header-subtitle>
+
+  <nz-page-header-content>
+    <div class="news-page-content">
+      @if (!loading() && !errorMessage() && totalCount() > 0) {
+        <p
+          class="results-summary"
+          aria-live="polite">
+          Showing {{ newsItems().length }} of {{ totalCount() }} news items
+        </p>
+      }
+
+      <cvc-news-item-list
+        [items]="newsItems()"
+        [loading]="loading()"
+        [errorMessage]="errorMessage()"
+        (retry)="retryNewsItems()">
+      </cvc-news-item-list>
+
+      <div
+        #loadMoreSentinel
+        class="load-more-sentinel"
+        aria-live="polite">
+        @if (loadMoreError()) {
+          <nz-alert
+            nzType="error"
+            nzMessage="Unable to load more news and events"
+            [nzDescription]="loadMoreError() ?? null"
+            [nzShowIcon]="true">
+          </nz-alert>
+        }
+
+        @if (hasNextPage()) {
+          <button
+            type="button"
+            nz-button
+            [nzLoading]="loadingMore()"
+            [attr.aria-busy]="loadingMore()"
+            (click)="loadMoreNewsItems()">
+            @if (loadingMore()) {
+              Loading more news and events
+            } @else if (loadMoreError()) {
+              Retry loading news and events
+            } @else {
+              Load more news and events
+            }
+          </button>
+        } @else if (!loading() && !errorMessage() && newsItems().length > 0) {
+          <span class="end-of-feed">All news and events are loaded.</span>
+        }
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>

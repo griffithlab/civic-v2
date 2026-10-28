@@ -23,6 +23,7 @@ export interface NotificationApproval {
     isClinvarSubmitter: boolean
   }
   clinvarAccession?: string
+  clinvarAccessionVisible?: boolean
 }
 
 @Component({

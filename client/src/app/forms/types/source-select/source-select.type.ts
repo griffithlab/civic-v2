@@ -45,6 +45,7 @@ export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: string
+  showAddEntity?: boolean
 }
 
 export interface CvcSourceSelectFieldConfig
@@ -79,11 +80,11 @@ const SourceSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-source-select',
-    templateUrl: './source-select.type.html',
-    styleUrls: ['./source-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-source-select',
+  templateUrl: './source-select.type.html',
+  styleUrls: ['./source-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourceSelectField
   extends SourceSelectMixin
@@ -110,14 +111,15 @@ export class CvcSourceSelectField
       isMultiSelect: false,
       minSearchStrLength: 2,
       tooltip:
-        'PubMed, ASCO, or ASH Abstract Source(s) that support items, statements or descriptions.',
+        'PubMed, ASCO, ASH, bioRxiv, or medRxiv Abstract Source(s) that support items, statements or descriptions.',
       placeholders: {
-        default: 'Search PubMed, ASCO, and ASH Sources',
+        default: 'Search PubMed, ASCO, ASH, bioRxiv, and medRxiv Sources',
         contextualFn: (sourceName: string) => {
           return `Search ${sourceName} Sources`
         },
       },
       description: 'Select Source type, then enter its ID to search Sources',
+      showAddEntity: true,
     },
   }
 

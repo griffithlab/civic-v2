@@ -232,13 +232,33 @@
                   </span>
                 </ng-container>
               </nz-descriptions-item>
+
+              @if (user.organizations.length > 0) {
+                <nz-descriptions-item
+                  [nzSpan]="4"
+                  nzTitle="Organizations with approval privileges">
+                  <ng-container *ngIf="user.organizationsWithApprovalPrivileges.length > 0">
+                    <cvc-tag-overflow
+                      tagType="organization"
+                      [maxDisplayCount]="2"
+                      [tags]="organizationsWithApprovalPrivileges$ | ngrxPush">
+                    </cvc-tag-overflow>
+                  </ng-container>
+                  <ng-container *ngIf="user.organizationsWithApprovalPrivileges.length === 0">
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      <i>User does not have approval privileges for any of their Organizations.</i>
+                    </span>
+                  </ng-container>
+                </nz-descriptions-item>
+              }
             </nz-descriptions>
 
-            <!-- Editor COI card -->
-            <ng-container
-              *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'">
+            <!-- COI card -->
+            <ng-container>
               <nz-card
-                class="editor-coi-card"
+                class="user-coi-card"
                 [nzTitle]="statementTitle"
                 nzSize="small"
                 [nzExtra]="updateCoi"
@@ -249,7 +269,7 @@
                     [nzType]="'civic-' + (user.role | lowercase)"
                     nzTheme="twotone"
                     [nzTwotoneColor]="user.role | titlecase | entityColor"></i>
-                  Editor Conflict of Interest Statement
+                  Conflict of Interest Statement
                 </ng-template>
                 <ng-template #updateCoi>
                   <ng-container *ngIf="ownProfile$ | ngrxPush">

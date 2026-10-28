@@ -2,7 +2,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -31,7 +33,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -44,12 +45,13 @@ export interface VariantTypesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variant-types-table',
-    templateUrl: './variant-types-table.component.html',
-    styleUrls: ['./variant-types-table.component.less'],
-    standalone: false
+  selector: 'cvc-variant-types-table',
+  templateUrl: './variant-types-table.component.html',
+  styleUrls: ['./variant-types-table.component.less'],
+  standalone: false,
 })
-export class CvcVariantTypesTableComponent implements OnInit {
+export class CvcVariantTypesTableComponent implements OnInit, OnChanges {
+  @Input() ids: Maybe<number[]>
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -59,8 +61,6 @@ export class CvcVariantTypesTableComponent implements OnInit {
     // assign any attributes in filters object to this class
     if (f) Object.assign(this, f)
   }
-
-  data$?: Observable<ApolloQueryResult<VariantTypesBrowseQuery>>
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -102,7 +102,10 @@ export class CvcVariantTypesTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.initialPageSize })
+    this.queryRef = this.gql.watch({
+      first: this.initialPageSize,
+      ids: this.ids,
+    })
 
     this.result$ = this.queryRef.valueChanges
 
@@ -186,8 +189,10 @@ export class CvcVariantTypesTableComponent implements OnInit {
   } // ngOnInit
 
   refresh() {
+    if (!this.queryRef) return
     this.queryRef
       .refetch({
+        ids: this.ids,
         name: this.nameFilter,
         soid: this.soidFilter,
       })
@@ -196,7 +201,16 @@ export class CvcVariantTypesTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<VariantTypeBrowseTableRowFieldsFragment>): Maybe<number> {
+  ngOnChanges(changes: SimpleChanges) {
+    if ('ids' in changes) {
+      this.refresh()
+    }
+  }
+
+  trackByIndex(
+    _: number,
+    data: Maybe<VariantTypeBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

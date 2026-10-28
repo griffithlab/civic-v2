@@ -1,0 +1,6 @@
+# defines local-only fields
+# see: https://apollo-angular.com/docs/local-state/managing-state-with-field-policies
+# and: https://www.apollographql.com/docs/react/local-state/managing-state-with-field-policies/
+extend type AdvancedSearchResult {
+  formQuery: JSON @client
+}

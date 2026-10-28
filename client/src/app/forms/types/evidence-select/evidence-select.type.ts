@@ -62,6 +62,7 @@ export interface CvcEvidenceSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   minSearchStrLength: number
+  showManager?: boolean
 }
 
 export interface CvcEvidenceSelectFieldConfig
@@ -132,6 +133,7 @@ export class CvcEvidenceSelectField
       label: 'Evidence Items',
       placeholder: 'Select Evidence Items',
       isMultiSelect: true,
+      showManager: true,
       description:
         'Select Evidence by ID, or use the manager to select with filtering',
       entityName: {
@@ -306,8 +308,9 @@ export class CvcEvidenceSelectField
   }
 
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {
+    const match = id.trim().match(/^(?:EID)?(\d+)$/i)
     return {
-      eid: +id.replace(/EID/i, ''),
+      eid: match ? +match[1] : 0,
     }
   }
 

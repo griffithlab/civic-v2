@@ -7,6 +7,10 @@ class AssertionValidator < ActiveModel::Validator
       return
     end
 
+    if record.evidence_item_ids.blank? && !allows_assertion_without_evidence_items?(record)
+      record.errors.add :evidence_item_ids, "At least one Evidence Item is required for this Assertion type and significance."
+    end
+
     if !validator[:significance].include? record.significance
       record.errors.add :significance, "Not a valid clinical significance for #{record.assertion_type} assertion type: #{record.significance}. Valid values: #{validator[:significance].join(', ')}"
     end
@@ -111,6 +115,10 @@ class AssertionValidator < ActiveModel::Validator
         record.errors.add :specifications, "You must evaluate at least one specification criteria before accepting an Assertion"
       end
     end
+  end
+
+  def allows_assertion_without_evidence_items?(record)
+    record.assertion_type == "Oncogenic"
   end
 
   def valid_types

@@ -10,7 +10,6 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   Maybe,
-  Organization,
   ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
@@ -22,9 +21,13 @@ import {
 } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
 import {
+  auditTime,
   BehaviorSubject,
+  EMPTY,
   filter,
+  merge,
   Observable,
+  startWith,
   Subject,
   Subscription,
   withLatestFrom,
@@ -79,7 +82,6 @@ export class CvcOrgSubmitButtonComponent
   buttonClass$!: BehaviorSubject<string>
   baseButtonClass = 'org-dropdown-btn'
 
-  formUpdate$!: BehaviorSubject<any>
   subscriptions: Subscription[]
   defaultOptions: Partial<FieldTypeConfig<CvcOrgSubmitButtonProps>> = {
     props: {
@@ -124,17 +126,12 @@ export class CvcOrgSubmitButtonComponent
         }
       })
 
-    // create subject for detecting changes on form update events,
-    // starting with initial form status (required for OnPush)
-    this.formUpdate$ = new BehaviorSubject(this.form.status)
-
-    // emit form update events from formUpdate$
-    const fcSub = this.form.statusChanges.subscribe((s) =>
-      this.formUpdate$.next(s)
+    const formUpdateSub = merge(
+      this.form.statusChanges as Observable<unknown>,
+      (this.field.options?.fieldChanges ?? EMPTY) as Observable<unknown>
     )
-
-    // call detectChanges for each form update event
-    const scSub = this.formUpdate$.subscribe((_) => this.cdr.detectChanges())
+      .pipe(startWith(this.form.status), auditTime(0))
+      .subscribe((_) => this.cdr.detectChanges())
 
     // set field value to emitted orgId$ updates
     const mroSub = this.mostRecentOrg$
@@ -142,7 +139,7 @@ export class CvcOrgSubmitButtonComponent
       .subscribe((id) => {
         this.formControl.setValue(id)
       })
-    this.subscriptions = this.subscriptions.concat([fcSub, scSub, mroSub])
+    this.subscriptions = this.subscriptions.concat([formUpdateSub, mroSub])
   }
 
   ngAfterViewInit() {

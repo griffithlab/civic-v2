@@ -1,6 +1,13 @@
 module AdvancedSearches
   module Shared
     module Activities
+      def resolve_activity(node_value, activity_types)
+        return nil if node_value.nil?
+        activity_ids = AdvancedSearches::Activity.new(query: node_value).results
+        base_ids = base_query.joins(activity_types).where(activities: { id: activity_ids }).select(:id)
+        base_query.where(id: base_ids)
+      end
+
       def resolve_activity_user(node_value, activity_names)
         return nil if node_value.nil?
         user_ids = AdvancedSearches::User.new(query: node_value).results

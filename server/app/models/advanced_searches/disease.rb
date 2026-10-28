@@ -19,6 +19,10 @@ module AdvancedSearches
         resolve_doid_filter(node),
         resolve_deprecated_filter(node),
         resolve_disease_aliases_filter(node),
+        resolve_has_assertion_filter(node),
+        resolve_assertion_filter(node),
+        resolve_has_evidence_item_filter(node),
+        resolve_evidence_items_filter(node),
       ]
     end
 
@@ -39,7 +43,7 @@ module AdvancedSearches
       node.doid.resolve_ontology_query(
         base_query,
         "diseases.doid",
-        value_override: node.doid.value.sub("DOID:", "")
+        value_override: node.doid.value&.sub("DOID:", "")
       )
     end
 
@@ -57,6 +61,48 @@ module AdvancedSearches
       end
       clause, value = node.disease_aliases.resolve_query_for_type("disease_aliases.name")
       base_query.where(clause, value)
+    end
+
+    def resolve_has_assertion_filter(node)
+      if node.has_assertion.nil?
+        return nil
+      end
+
+      matching_ids = ::Assertion.joins(:disease).distinct.pluck("diseases.id")
+
+      if node.has_assertion.value
+        base_query.where(id: matching_ids)
+      else
+        base_query.where.not(id: matching_ids)
+      end
+    end
+
+    def resolve_assertion_filter(node)
+      return nil if node.assertion.nil?
+      assertion_ids = ::AdvancedSearches::Assertion.new(query: node.assertion).results
+      disease_ids = ::Disease.joins(:assertions).where(assertions: { id: assertion_ids }).select(:id)
+      base_query.where(id: disease_ids)
+    end
+
+    def resolve_has_evidence_item_filter(node)
+      if node.has_evidence_item.nil?
+        return nil
+      end
+
+      matching_ids = ::EvidenceItem.joins(:disease).distinct.pluck("diseases.id")
+
+      if node.has_evidence_item.value
+        base_query.where(id: matching_ids)
+      else
+        base_query.where.not(id: matching_ids)
+      end
+    end
+
+    def resolve_evidence_items_filter(node)
+      return nil if node.evidence_items.nil?
+      matching_ids = ::AdvancedSearches::EvidenceItem.new(query: node.evidence_items).results
+      disease_ids = ::Disease.joins(:evidence_items).where(evidence_items: { id: matching_ids }).select(:id)
+      base_query.where(id: disease_ids)
     end
   end
 end

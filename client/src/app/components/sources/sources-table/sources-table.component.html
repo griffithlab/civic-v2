@@ -70,7 +70,7 @@
           Type
         </th>
         <th
-          nzWidth="80px"
+          nzWidth="220px"
           [nzColumnKey]="sortColumns.CitationId"
           [nzSortFn]="true">
           ID
@@ -160,6 +160,12 @@
             <nz-option
               nzValue="ASH"
               nzLabel="ASH"></nz-option>
+            <nz-option
+              nzValue="BIORXIV"
+              nzLabel="bioRxiv"></nz-option>
+            <nz-option
+              nzValue="MEDRXIV"
+              nzLabel="medRxiv"></nz-option>
           </nz-select>
         </th>
         <th>
@@ -281,14 +287,18 @@
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag
-    *ngIf="moreLoading$ | ngrxPush"
-    nzColor="processing">
-    <i
-      nz-icon
-      nzType="sync"
-      nzSpin></i>
-    <span>Loading…</span>
-  </nz-tag>
-  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  <span class="table-actions">
+    <nz-tag
+      *ngIf="moreLoading$ | ngrxPush"
+      nzColor="processing">
+      <i
+        nz-icon
+        nzType="sync"
+        nzSpin></i>
+      <span>Loading…</span>
+    </nz-tag>
+    <cvc-table-downloader [vars]="queryRef.variables" tableName="sources"></cvc-table-downloader>
+
+    <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  </span>
 </ng-template>

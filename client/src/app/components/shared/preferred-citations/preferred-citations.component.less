@@ -1,0 +1,43 @@
+@import 'themes/global-variables.less';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+#preferred-citations {
+  width: 100%;
+}
+
+.citation-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: @default-padding-sm;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  li {
+    min-width: 0;
+  }
+}
+
+.citation-entry {
+  height: 100%;
+}
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: @margin-xs @default-padding-sm;
+
+  a {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 767px) {
+  .citation-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

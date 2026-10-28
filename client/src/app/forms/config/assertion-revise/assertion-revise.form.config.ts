@@ -1,3 +1,4 @@
+import { AssertionFields } from '@app/forms/models/assertion-fields.model'
 import { assertionReviseFormInitialModel } from '@app/forms/models/assertion-revise.model'
 import { CvcFdaCompanionTestCheckboxFieldOptions } from '@app/forms/types/fda-companion-test-checkbox/fda-companion-test-checkbox.type'
 import { CvcFdaRegulatoryApprovalCheckboxFieldOptions } from '@app/forms/types/fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.type'
@@ -9,6 +10,7 @@ import { CvcOriginSelectFieldOptions } from '@app/forms/types/origin-select/orig
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcTherapySelectFieldOptions } from '@app/forms/types/therapy-select/therapy-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms/types/type-select/type-select.type'
+import { assertionRequiresEvidenceItems } from '@app/forms/utilities/assertion-requires-evidence-items'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
@@ -173,6 +175,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 props: {
                   required: true,
                   isMultiSelect: true,
+                },
+                expressions: {
+                  'props.required': (field: FormlyFieldConfig) =>
+                    assertionRequiresEvidenceItems(
+                      field.model as AssertionFields
+                    ),
                 },
               },
               {
