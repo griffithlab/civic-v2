@@ -125,7 +125,7 @@ GEM
     builder (3.3.0)
     byebug (13.0.0)
       reline (>= 0.6.0)
-    capistrano (3.19.2)
+    capistrano (3.20.1)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -676,7 +676,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   brakeman
   byebug
-  capistrano (~> 3.19.0)
+  capistrano (~> 3.20.0)
   capistrano-rails (~> 1.6.1)
   capistrano-rbenv (~> 2.2.0)
   capybara (>= 3.26)
@@ -776,7 +776,7 @@ CHECKSUMS
   brakeman (8.1.0) sha256=cfa9e5214e4925842f4bc849a64f8a7e6c5d0425fe98eac8d7b7bc60fdc17e07
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
-  capistrano (3.19.2) sha256=e0c79823edf604ba513533b224f85f5a9fe33c4c6c9cbde9483a56b48838f563
+  capistrano (3.20.1) sha256=b0d54ba5cf49bb194998bf6b427e889aa36ed05f545ecf7cc37acb9d529e9ae9
   capistrano-bundler (2.2.0) sha256=47b4cf2ea17ea132bb0a5cabc5663443f5190a54f4da5b322d04e1558ff1468c
   capistrano-rails (1.6.3) sha256=a7cfb325e5618c8afae4c1147b70a4f83d00fa730f7a09f5ff4d7d8f893f9316
   capistrano-rbenv (2.2.0) sha256=3c8f39b7c624f3806630dcb475484bb3579aef07a40efe85089d83f64b0c35f5
