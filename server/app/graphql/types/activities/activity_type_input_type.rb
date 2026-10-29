@@ -22,5 +22,6 @@ module Types::Activities
     value "CREATE_LINKED_SOURCE", value: "CreateLinkedSourceActivity"
     value "APPROVE_ASSERTION", value: "ApproveAssertionActivity"
     value "REVOKE_APPROVAL", value: "RevokeApprovalActivity"
+    value "SUBMIT_CRITERIA_EVALUATIONS", value: "SubmitCriteriaEvaluationsActivity"
   end
 end

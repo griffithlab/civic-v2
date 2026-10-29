@@ -10,18 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_26_124924) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "approval_status", ["active", "revoked", "requires_review"]
+  create_enum "assertion_types", ["Diagnostic", "Prognostic", "Predictive", "Predisposing", "Oncogenic"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
   create_enum "source_link_reason", ["same_clinical_trial", "overlapping_data_or_patients", "related_abstract", "other"]
+  create_enum "specification_evaluation_methods", ["one", "all_strength", "all_flowchart"]
+  create_enum "specification_evaluation_statuses", ["met", "not_met", "excluded", "not_evaluated"]
+  create_enum "specification_types", ["amp_tiers", "clingen_codes", "acmg_codes"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -299,6 +304,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
   create_table "chats_chats", force: :cascade do |t|
     t.string "chat_type", default: "curation", null: false
     t.datetime "created_at", null: false
+    t.boolean "deleted", default: false, null: false
     t.boolean "is_public", default: false, null: false
     t.bigint "model_id"
     t.string "name"
@@ -308,6 +314,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.index ["chat_type"], name: "index_chats_chats_on_chat_type"
     t.index ["model_id"], name: "index_chats_chats_on_model_id"
     t.index ["public_id"], name: "index_chats_chats_on_public_id", unique: true, where: "(public_id IS NOT NULL)"
+    t.index ["user_id", "created_at"], name: "index_active_chats_on_user_and_created_at", where: "(deleted = false)"
     t.index ["user_id"], name: "index_chats_chats_on_user_id"
   end
 
@@ -336,6 +343,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.integer "thinking_tokens"
     t.bigint "tool_call_id"
     t.datetime "updated_at", null: false
+    t.index ["chat_id", "role", "created_at"], name: "index_chats_messages_on_chat_id_and_role_and_created_at"
     t.index ["chat_id"], name: "index_chats_messages_on_chat_id"
     t.index ["model_id"], name: "index_chats_messages_on_model_id"
     t.index ["role"], name: "index_chats_messages_on_role"
@@ -369,7 +377,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.datetime "created_at", null: false
     t.bigint "message_id", null: false
     t.string "name", null: false
-    t.string "thought_signature"
+    t.text "thought_signature"
     t.string "tool_call_id", null: false
     t.datetime "updated_at", null: false
     t.index ["message_id"], name: "index_chats_tool_calls_on_message_id"
@@ -657,6 +665,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.index ["phenotype_id"], name: "index_evidence_items_phenotypes_on_phenotype_id"
   end
 
+  create_table "evidence_items_specification_evaluations", id: false, force: :cascade do |t|
+    t.bigint "evidence_item_id", null: false
+    t.bigint "specification_evaluation_id", null: false
+    t.index ["evidence_item_id", "specification_evaluation_id"], name: "idx_on_evidence_item_id_specification_evaluation_id_ce1d532569"
+    t.index ["specification_evaluation_id", "evidence_item_id"], name: "idx_on_specification_evaluation_id_evidence_item_id_98dfe129e6"
+  end
+
   create_table "evidence_items_therapies", id: false, force: :cascade do |t|
     t.integer "evidence_item_id", null: false
     t.integer "therapy_id", null: false
@@ -906,6 +921,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 
+  create_table "permission_grants", force: :cascade do |t|
+    t.text "capability", null: false
+    t.jsonb "conditions", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id"
+    t.text "notes"
+    t.bigint "scope_id"
+    t.text "scope_type"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["capability"], name: "index_permission_grants_on_capability"
+    t.index ["created_by_id"], name: "index_permission_grants_on_created_by_id"
+    t.index ["scope_type", "scope_id"], name: "index_permission_grants_on_scope_type_and_scope_id"
+    t.index ["user_id", "capability", "scope_type", "scope_id"], name: "idx_permission_grants_unique_scoped", unique: true, where: "((scope_type IS NOT NULL) AND (scope_id IS NOT NULL))"
+    t.index ["user_id", "capability", "scope_type"], name: "idx_permission_grants_unique_class", unique: true, where: "((scope_type IS NOT NULL) AND (scope_id IS NULL))"
+    t.index ["user_id", "capability"], name: "idx_permission_grants_unique_global", unique: true, where: "((scope_type IS NULL) AND (scope_id IS NULL))"
+    t.index ["user_id"], name: "index_permission_grants_on_user_id"
+  end
+
   create_table "phenotypes", id: :serial, force: :cascade do |t|
     t.text "description"
     t.text "hpo_class"
@@ -1026,14 +1060,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.text "reason"
     t.integer "source_id"
     t.text "status"
+    t.integer "therapy_interaction_type"
     t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
   end
 
   create_table "source_suggestions_therapies", id: false, force: :cascade do |t|
-    t.integer "source_suggestion_id", null: false
-    t.integer "therapy_id", null: false
+    t.bigint "source_suggestion_id", null: false
+    t.bigint "therapy_id", null: false
     t.index ["source_suggestion_id", "therapy_id"], name: "idx_source_suggestions_therapies", unique: true
     t.index ["therapy_id", "source_suggestion_id"], name: "idx_therapies_source_suggestions"
   end
@@ -1048,6 +1083,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.boolean "deprecated", default: false, null: false
     t.string "full_journal_title"
     t.boolean "fully_curated", default: false, null: false
+    t.boolean "is_preprint", default: false, null: false
     t.boolean "is_review"
     t.text "journal"
     t.boolean "open_access"
@@ -1074,6 +1110,50 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.integer "source_id", null: false
     t.datetime "updated_at", precision: nil
     t.integer "variant_group_id", null: false
+  end
+
+  create_table "specification_criteria", force: :cascade do |t|
+    t.string "assessment_group"
+    t.datetime "created_at", null: false
+    t.text "criterion", null: false
+    t.text "description", null: false
+    t.hstore "modifiers"
+    t.string "mutually_exclusive_codes", default: [], array: true
+    t.integer "point_value"
+    t.integer "position_within_assessment_group", default: 999
+    t.bigint "specification_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["specification_id"], name: "index_specification_criteria_on_specification_id"
+  end
+
+  create_table "specification_evaluations", force: :cascade do |t|
+    t.bigint "assertion_id", null: false
+    t.datetime "created_at", null: false
+    t.enum "evaluation", default: "not_evaluated", enum_type: "specification_evaluation_statuses"
+    t.string "justification"
+    t.string "modifier"
+    t.bigint "specification_criterion_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_specification_evaluations_on_assertion_id"
+    t.index ["specification_criterion_id"], name: "index_specification_evaluations_on_specification_criterion_id"
+  end
+
+  create_table "specifications", force: :cascade do |t|
+    t.enum "assertion_type", null: false, enum_type: "assertion_types"
+    t.string "assessment_group_order", default: [], array: true
+    t.hstore "assessment_groups"
+    t.datetime "created_at", null: false
+    t.enum "evaluation_method", default: "all_strength", enum_type: "specification_evaluation_methods"
+    t.boolean "is_draft", default: false, null: false
+    t.text "name", null: false
+    t.bigint "organization_id"
+    t.date "published_on", null: false
+    t.integer "sop_pubmed_id"
+    t.enum "specification_type", null: false, enum_type: "specification_types"
+    t.text "specification_url", null: false
+    t.datetime "updated_at", null: false
+    t.text "version", null: false
+    t.index ["organization_id"], name: "index_specifications_on_organization_id"
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
@@ -1146,6 +1226,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
     t.boolean "accepted_license"
     t.integer "area_of_expertise"
     t.text "bio"
+    t.boolean "chat_rate_limit_exempt", default: false, null: false
     t.integer "country_id"
     t.datetime "created_at", precision: nil
     t.boolean "deleted", default: false
@@ -1355,6 +1436,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
   add_foreign_key "notifications", "users", column: "notified_user_id"
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
+  add_foreign_key "permission_grants", "users"
+  add_foreign_key "permission_grants", "users", column: "created_by_id"
   add_foreign_key "region_members", "cytogenetic_regions"
   add_foreign_key "region_members", "regions"
   add_foreign_key "regulatory_agencies", "countries"

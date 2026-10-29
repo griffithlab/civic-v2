@@ -1,0 +1,35 @@
+module Types::Entities
+  class SpecificationEvaluationType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::WithRevisions
+
+    field :id, Int, null: false
+    field :justification, String, null: true
+    field :modifier, String, null: true
+    field :code, String, null: false
+    field :evaluation, Types::Entities::SpecificationEvaluationStatusType, null: false
+    field :assertion, Types::Entities::AssertionType, null: false
+    field :specification_criterion, Types::Entities::SpecificationCriterionType, null: false
+    field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: true
+
+    def code
+      specification_criterion.then do |sc|
+        sc.criterion
+      end
+    end
+
+    def assertion
+      Loaders::AssociationLoader.for(SpecificationEvaluation, :assertion).load(object)
+    end
+
+    def specification_criterion
+      Loaders::AssociationLoader.for(SpecificationEvaluation, :specification_criterion).load(object)
+    end
+
+    def evidence_items
+      Loaders::AssociationLoader.for(SpecificationEvaluation, :evidence_items).load(object)
+    end
+  end
+end

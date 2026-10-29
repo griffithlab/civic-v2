@@ -24,6 +24,7 @@ module AdvancedSearches
         resolve_deprecated_filter(node),
         resolve_is_retracted_filter(node),
         resolve_comment_filter(node),
+        resolve_is_preprint_filter(node),
         resolve_evidence_items_filter(node),
       ]
     end
@@ -123,6 +124,14 @@ module AdvancedSearches
       clause, value = filter.resolve_query_for_type(column_name)
       source_ids = source_author_query.where(clause, value).distinct.select(:id)
       base_query.where(id: source_ids)
+    end
+
+    def resolve_is_preprint_filter(node)
+      if node.is_preprint.nil?
+        return nil
+      end
+      clause, value = node.is_preprint.resolve_query_for_type("sources.is_preprint")
+      base_query.where(clause, value)
     end
 
     def resolve_evidence_items_filter(node)

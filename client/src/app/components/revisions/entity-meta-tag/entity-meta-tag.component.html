@@ -1,0 +1,45 @@
+@let obj = object();
+@if (obj.deleted) {
+  <nz-tag nzColor="error"
+    >Deleted {{ deletedEntityName() | camelToWords }} {{ obj.id }}</nz-tag
+  >
+} @else {
+  @switch (tagType()) {
+    @case ('disease') {
+      <cvc-disease-tag [disease]="linkable()"></cvc-disease-tag>
+    }
+    @case ('evidence') {
+      <cvc-evidence-tag [evidence]="linkable()"></cvc-evidence-tag>
+    }
+    @case ('feature') {
+      <cvc-feature-tag [feature]="featureLinkable()"></cvc-feature-tag>
+    }
+    @case ('molecular-profile') {
+      <cvc-molecular-profile-tag
+        [molecularProfile]="linkable()"></cvc-molecular-profile-tag>
+    }
+    @case ('phenotype') {
+      <cvc-phenotype-tag [phenotype]="linkable()"></cvc-phenotype-tag>
+    }
+    @case ('source') {
+      <cvc-source-tag [source]="sourceLinkable()"></cvc-source-tag>
+    }
+    @case ('therapy') {
+      <cvc-therapy-tag [therapy]="linkable()"></cvc-therapy-tag>
+    }
+    @case ('variant') {
+      @if (obj.feature) {
+        <cvc-feature-variant-tag
+          [variant]="variantLinkable()"></cvc-feature-variant-tag>
+      } @else {
+        <cvc-variant-tag [variant]="linkable()"></cvc-variant-tag>
+      }
+    }
+    @case ('variant-type') {
+      <cvc-variant-type-tag [variantType]="linkable()"></cvc-variant-type-tag>
+    }
+    @default {
+      <nz-tag>{{ obj.displayName }}</nz-tag>
+    }
+  }
+}

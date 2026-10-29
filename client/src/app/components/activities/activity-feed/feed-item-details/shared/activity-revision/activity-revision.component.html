@@ -12,6 +12,8 @@
         @let subject = revision().subject;
         @if (subject.__typename === 'ExonCoordinate') {
           {{ subject.coordinateType | enumToTitle }} {{ data.name }}
+        } @else if (subject.__typename === 'SpecificationEvaluation') {
+          {{ subject.specificationCriterion.criterion }} ({{ subject.specificationCriterion.specification.name }} v{{ subject.specificationCriterion.specification.version }}) {{ data.name }}
         } @else {
           {{ data.name }}
         }
@@ -126,7 +128,8 @@
     <ul class="object-list">
       @for (object of objects; track object.id) {
         <li>
-          <nz-tag>{{ object.displayName }}</nz-tag>
+          <cvc-entity-meta-tag
+            [cvcLinkableRevisionObject]="object"></cvc-entity-meta-tag>
         </li>
       }
     </ul>

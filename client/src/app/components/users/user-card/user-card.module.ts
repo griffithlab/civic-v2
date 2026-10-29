@@ -10,6 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { CvcUserTagModule } from '../user-tag/user-tag.module'
@@ -26,6 +27,7 @@ import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-ov
     NzSpaceModule,
     NzGridModule,
     NzDividerModule,
+    NzBadgeModule,
     CvcTagOverflowModule,
     CvcUserAvatarModule,
     CvcLinkTagModule,

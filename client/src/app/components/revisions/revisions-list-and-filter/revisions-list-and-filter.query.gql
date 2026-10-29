@@ -91,6 +91,10 @@ fragment revision on Revision {
   status
 }
 
+# NOTE: shared fragment — also consumed by revisions-table.query.gql and by
+# activity-feed.query.gql (via RevisionActivityDetail), so field changes here
+# affect revision diffs in the revisions table AND the activity feed.
+# See components/activities/activity-feed/docs/README.md §3.
 fragment revisionLinkoutData on LinkoutData {
     name
     diffValue {

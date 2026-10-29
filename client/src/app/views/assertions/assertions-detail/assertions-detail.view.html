@@ -34,6 +34,31 @@
               nzSize="small">
               Revise
             </button>
+
+            <!-- Evaluate Button -->
+            <button
+              *nzSpaceItem
+              [routerLink]="['/assertions', entity.id, 'evaluate']"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small"
+              nz-tooltip
+              [nzTooltipTitle]="tooltipText"
+              nzTooltipPlacement="top">
+              <ng-template #tooltipText>
+                @if (entity.assertionType == 'ONCOGENIC') {
+                  Evaluate Oncogenicity
+                } @else if (entity.assertionType == 'PREDISPOSING') {
+                  Evaluate Pathogenicity
+                } @else {
+                  Evaluate Clinical Significance
+                }
+              </ng-template>
+              Evaluate
+            </button>
+
             <!-- Flag Button -->
             <button
               *nzSpaceItem

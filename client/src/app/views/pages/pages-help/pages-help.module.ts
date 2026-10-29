@@ -6,6 +6,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzInputModule } from 'ng-zorro-antd/input'
+import { CvcPreferredCitationsComponent } from '@app/components/shared/preferred-citations/preferred-citations.component'
 
 @NgModule({
   declarations: [PagesHelpPage],
@@ -16,6 +17,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
     NzGridModule,
     NzSpaceModule,
     NzCardModule,
+    CvcPreferredCitationsComponent,
   ],
 })
 export class PagesHelpModule {}

@@ -9,16 +9,12 @@ import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-butto
 import { CvcOriginSelectFieldOptions } from '@app/forms/types/origin-select/origin-select.type'
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcTherapySelectFieldOptions } from '@app/forms/types/therapy-select/therapy-select.type'
+import { assertionRequiresEvidenceItems } from '@app/forms/utilities/assertion-requires-evidence-items'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
-import { AssertionType } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-
-function assertionRequiresEvidenceItems(model?: AssertionFields): boolean {
-  return model?.assertionType !== AssertionType.Oncogenic
-}
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
@@ -114,28 +110,15 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'phenotype-multi-select',
                 props: {},
               },
-              {
-                key: 'ampLevel',
-                type: 'amp-category-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
-              {
-                key: 'acmgCodeIds',
-                type: 'acmg-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
-              {
-                key: 'clingenCodeIds',
-                type: 'clingen-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
             ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 18,
+              },
+            },
           },
           {
             wrappers: ['form-row'],
@@ -206,6 +189,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'textarea',
                 wrappers: ['form-field'],
                 props: {
+                  attributes: {
+                    rows: 5
+                  },
                   tooltip: 'A short, one sentence summary of the Assertion',
                   placeholder: 'Enter an Assertion Summary',
                   label: 'Assertion Summary',

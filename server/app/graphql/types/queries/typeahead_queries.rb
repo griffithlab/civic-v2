@@ -48,14 +48,20 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :acmg_codes_typeahead, [ Types::Entities::AcmgCodeType ], null: false do
+      klass.field :acmg_codes_typeahead, [ Types::Entities::SpecificationCriterionType ], null: false do
         description "Retrieve ACMG Code options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :clingen_codes_typeahead, [ Types::Entities::ClingenCodeType ], null: false do
+      klass.field :clingen_codes_typeahead, [ Types::Entities::SpecificationCriterionType ], null: false do
         description "Retrieve Clingen Code options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
+      end
+
+      klass.field :specification_criterion_typeahead, [ Types::Entities::SpecificationCriterionType ], null: false do
+        description "Retrieve Criteria Options For a Specification and Query"
+        argument :query_term, GraphQL::Types::String, required: true
+        argument :specification_id, GraphQL::Types::Int, required: false
       end
 
       klass.field :nccn_guidelines_typeahead, [ Types::Entities::NccnGuidelineType ], null: false do
@@ -190,15 +196,33 @@ module Types::Queries
       end
 
       def acmg_codes_typeahead(query_term:)
-        AcmgCode.where("code ILIKE ?", "#{query_term}%")
-          .order(:code)
+        SpecificationCriterion.where("criterion ILIKE ?", "#{query_term}%")
+          .joins(:specification)
+          .where("specifications.specification_type = 'acmg_codes'")
+          .order(:criterion)
           .limit(20)
       end
 
       def clingen_codes_typeahead(query_term:)
-        ClingenCode.where("code ILIKE ?", "#{query_term}%")
-          .or(ClingenCode.where("description ILIKE ?", "%#{query_term}%"))
-          .order(:code)
+        SpecificationCriterion.where("criterion ILIKE ?", "#{query_term}%")
+          .or(SpecificationCriterion.where("description ILIKE ?", "%#{query_term}%"))
+          .joins(:specification)
+          .where("specifications.specification_type = 'clingen_codes'")
+          .order(:criterion)
+          .limit(20)
+      end
+
+      def specification_criterion_typeahead(query_term:, specification_id: nil)
+        if specification_id
+          SpecificationCriterion.where("criterion ILIKE ?", "#{query_term}%")
+            .where(specification_id: specification_id)
+            .order(:criterion)
+            .limit(20)
+        else
+          SpecificationCriterion.where("criterion ILIKE ?", "#{query_term}%")
+            .order(:criterion)
+            .limit(20)
+        end
       end
 
       def nccn_guidelines_typeahead(query_term:)

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
+import { AssertionEvaluateView } from './assertion-evaluate/assertion-evaluate.view'
 import { AssertionsHomeModule } from './assertions-home/assertions-home.module'
 import { AssertionsHomePage } from './assertions-home/assertions-home.page'
 import { AssertionsView } from './assertions.view'
@@ -43,6 +44,11 @@ const routes: Routes = [
                 '@app/views/assertions/assertions-revise/assertions-revise.module'
               ).then((m) => m.AssertionsReviseModule),
             data: { breadcrumb: 'Revise' },
+          },
+          {
+            path: 'evaluate',
+            component: AssertionEvaluateView,
+            data: { breadcrumb: 'Evaluate' },
           },
         ],
       },

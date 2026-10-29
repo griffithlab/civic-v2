@@ -1,5 +1,10 @@
 .btn-aligner {
-  width: 100%;
+  display: inline-block;
+  &.btn-right,
+  &.btn-left,
+  &.btn-center {
+    width: 100%;
+  }
   &.btn-right {
     text-align: right;
   }
@@ -9,4 +14,8 @@
   &.btn-center {
     text-align: center;
   }
+}
+
+:host-context(cvc-form-footer) .btn-aligner {
+  margin-top: 8px;
 }

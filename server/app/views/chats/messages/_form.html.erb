@@ -8,11 +8,16 @@
   <% end %>
 
   <div class="flex-1 relative">
-    <%= form.text_field :content,
-        class: "w-full px-4 py-3 rounded-xl border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-civic-purple focus:border-transparent text-gray-800 placeholder-gray-400 transition-shadow",
+    <%= form.text_area :content,
+        rows: 1,
+        class: "w-full px-4 py-3 rounded-xl border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-civic-purple focus:border-transparent text-gray-800 placeholder-gray-400 transition-shadow resize-none overflow-y-hidden leading-6",
         placeholder: "Send a message...",
         autofocus: true,
-        autocomplete: "off" %>
+        autocomplete: "off",
+        data: {
+          controller: "autosize",
+          action: "input->autosize#resize keydown->autosize#submit"
+        } %>
   </div>
 
   <%= form.submit "Send",

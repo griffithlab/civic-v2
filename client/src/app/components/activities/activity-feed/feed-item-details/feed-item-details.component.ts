@@ -49,6 +49,7 @@ import { CvcDeleteCommentActivity } from './delete-comment/delete-comment-activi
 import { CvcCreateSourceLinkActivity } from './create-source-link/create-source-link-activity.component'
 import { CvcApproveAssertionActivity } from './approve-assertion/approve-assertion-activity.component'
 import { CvcRevokeApprovalActivity } from './revoke-approval/revoke-approval-activity.component'
+import { CvcSubmitCriteriaEvaluationsActivity } from './submit-criteria-evaluations/submit-criteria-evaluations-activity.component'
 
 @Component({
   selector: 'cvc-activity-feed-item-details',
@@ -78,6 +79,7 @@ import { CvcRevokeApprovalActivity } from './revoke-approval/revoke-approval-act
     CvcCreateSourceLinkActivity,
     CvcApproveAssertionActivity,
     CvcRevokeApprovalActivity,
+    CvcSubmitCriteriaEvaluationsActivity
   ],
   templateUrl: './feed-item-details.component.html',
   styleUrl: './feed-item-details.component.less',

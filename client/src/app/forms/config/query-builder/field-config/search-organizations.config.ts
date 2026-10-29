@@ -3,8 +3,10 @@ import { INPUT_FIELD_CONFIG } from '@app/forms/config/query-builder/field-config
 import {
   sortByKey,
   withHideExpression,
+  withRecursive,
   withStatic,
 } from './functions/field-config-helpers'
+import { getQueryFieldConfig } from './functions/get-query-field-config'
 
 export const searchOrganizationDefaultKey = 'name'
 export const searchOrganizationsFieldOptions: FormlyFieldConfig[] = withHideExpression(
@@ -20,11 +22,9 @@ export const searchOrganizationsFieldOptions: FormlyFieldConfig[] = withHideExpr
         props: { label: 'Organization ID' },
         fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
       },
-      {
-        key: 'parent_id',
-        props: { label: 'Parent ID' },
-        fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
-      },
+    ]),
+    ...withRecursive([
+      ...getQueryFieldConfig('parentOrganization', 'searchOrganizations', 'Parent Organization'),
     ]),
   ])
 )

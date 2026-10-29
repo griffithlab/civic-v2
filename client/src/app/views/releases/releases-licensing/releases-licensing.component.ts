@@ -11,6 +11,7 @@ import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
+import { CvcPreferredCitationsComponent } from '@app/components/shared/preferred-citations/preferred-citations.component'
 
 @Component({
   selector: 'cvc-licensing',
@@ -29,6 +30,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     NzCardModule,
     CvcSectionNavigationModule,
     CvcLinkTagModule,
+    CvcPreferredCitationsComponent,
   ],
 })
 export class ReleasesLicensingComponent {}

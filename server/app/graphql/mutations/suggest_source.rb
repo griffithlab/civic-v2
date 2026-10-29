@@ -17,11 +17,14 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
   argument :therapy_ids, [ GraphQL::Types::Int ], required: true,
     description: "List of IDs of CIViC Therapy entries for this Source Suggestion. An empty list indicates none."
 
+  argument :therapy_interaction_type, Types::TherapyInteractionType, required: false,
+    description: "Therapy interaction type for cases where more than one Therapy ID is provided."
+
   field :source_suggestion, Types::Entities::SourceSuggestionType, null: false,
     description: "The newly created Source Suggestion"
 
 
-  def ready?(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids:, **kwargs)
+  def ready?(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids:, therapy_interaction_type: nil, **kwargs)
     validate_user_logged_in
     validate_user_org(organization_id)
 
@@ -56,6 +59,12 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       errors << "Therapy ID(s) #{deprecated_therapy_ids.join(', ')} are deprecated"
     end
 
+    if unique_therapy_ids.size > 1 && therapy_interaction_type.nil?
+      errors << "Multiple therapies specified but no therapy interaction type provided"
+    elsif unique_therapy_ids.size < 2 && therapy_interaction_type.present?
+      errors << "Therapy interaction type cannot be set unless multiple therapies are specified"
+    end
+
     if errors.any?
       raise GraphQL::ExecutionError, errors.join("|")
     end
@@ -68,7 +77,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids:, comment:, **kwargs)
+  def resolve(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, therapy_ids:, therapy_interaction_type: nil, comment:, **kwargs)
     cmd = Activities::SuggestSource.new(
       source_id: source_id,
       originating_user: context[:current_user],
@@ -76,6 +85,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       note: comment,
       disease_id: disease_id,
       therapy_ids: therapy_ids,
+      therapy_interaction_type: therapy_interaction_type,
       molecular_profile_id: molecular_profile_id
     )
     res = cmd.perform

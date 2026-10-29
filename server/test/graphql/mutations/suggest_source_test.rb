@@ -8,6 +8,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
     @mp = molecular_profiles(:mp1)
     @disease = diseases(:lung_cancer)
     @therapy = therapies(:erlotinib)
+    @second_therapy = Therapy.create!(name: "Gefitinib")
     @suggest_source_mutation = <<-GRAPHQL
       mutation(
         $sourceId: Int!,
@@ -15,6 +16,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
         $molecularProfileId: Int,
         $diseaseId: Int,
         $therapyIds: [Int!]!,
+        $therapyInteractionType: TherapyInteraction,
         $organizationId: Int
       ) {
         suggestSource(input: {
@@ -23,6 +25,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
           molecularProfileId: $molecularProfileId,
           diseaseId: $diseaseId,
           therapyIds: $therapyIds,
+          therapyInteractionType: $therapyInteractionType,
           organizationId: $organizationId
         }) {
           sourceSuggestion {
@@ -31,6 +34,7 @@ class SuggestSourceTest < ActiveSupport::TestCase
             therapies {
               id
             }
+            therapyInteractionType
           }
         }
       }
@@ -83,6 +87,54 @@ class SuggestSourceTest < ActiveSupport::TestCase
     assert_not_nil result, "Expected result but got errors: #{response["errors"]&.map { |e| e["message"] }}"
     assert_equal [ @therapy.id ], result["therapies"].map { |t| t["id"] }
     assert_equal [ @therapy.id ], SourceSuggestion.find(result["id"]).therapy_ids
+  end
+
+  test "suggests a source with multiple therapies and an interaction type" do
+    response = execute_mutation(
+      @suggest_source_mutation,
+      user: @user,
+      variables: {
+        sourceId: @source.id,
+        comment: "This source describes a combination therapy.",
+        therapyIds: [ @therapy.id, @second_therapy.id ],
+        therapyInteractionType: "COMBINATION",
+        organizationId: @org.id,
+      },
+    )
+    result = response.dig("data", "suggestSource", "sourceSuggestion")
+    assert_not_nil result, "Expected result but got errors: #{response["errors"]&.map { |e| e["message"] }}"
+    assert_equal [ @therapy.id, @second_therapy.id ].sort, result["therapies"].map { |t| t["id"] }.sort
+    assert_equal "COMBINATION", result["therapyInteractionType"]
+    assert_equal "Combination", SourceSuggestion.find(result["id"]).therapy_interaction_type
+  end
+
+  test "rejects multiple therapies without an interaction type" do
+    response = execute_mutation(
+      @suggest_source_mutation,
+      user: @user,
+      variables: {
+        sourceId: @source.id,
+        comment: "This source describes multiple therapies.",
+        therapyIds: [ @therapy.id, @second_therapy.id ],
+        organizationId: @org.id,
+      },
+    )
+    assert_graphql_error(response, /multiple therapies.*interaction type/i)
+  end
+
+  test "rejects an interaction type with fewer than two distinct therapies" do
+    response = execute_mutation(
+      @suggest_source_mutation,
+      user: @user,
+      variables: {
+        sourceId: @source.id,
+        comment: "This source describes one therapy.",
+        therapyIds: [ @therapy.id, @therapy.id ],
+        therapyInteractionType: "COMBINATION",
+        organizationId: @org.id,
+      },
+    )
+    assert_graphql_error(response, /cannot be set unless multiple therapies/i)
   end
 
   test "rejects non-existent source id" do

@@ -45,4 +45,9 @@ fragment OrganizationMembersFields on BrowseUser {
     name
     url
   }
+  organizationsWithApprovalPrivileges {
+    id
+    name
+    url
+  }
 }

@@ -8,6 +8,10 @@ export function formatSourceTypeEnum(value: SourceSource): string {
       return 'PubMed'
     case 'ASH':
       return 'ASH'
+    case 'BIORXIV':
+      return 'bioRxiv'
+    case 'MEDRXIV':
+      return 'medRxiv'
     default:
       return value
   }

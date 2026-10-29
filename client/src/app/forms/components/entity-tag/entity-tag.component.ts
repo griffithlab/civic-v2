@@ -179,7 +179,18 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     }
     // get linkable entity
     let fragment = undefined
-    if (!this.cvcDisableLink) {
+    if(typename == "SpecificationCriterion") {
+      fragment = {
+        id: `${typename}:${id}`,
+        fragment: gql`
+          fragment Linkable${typename}Entity on ${typename} {
+            id
+            name: criterion
+            tooltip: description
+          }
+        `,
+      }
+    } else if (!this.cvcDisableLink) {
       fragment = {
         id: `${typename}:${id}`,
         fragment: gql`
@@ -212,6 +223,8 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
         `,
       }
     }
+    console.log(cacheId)
+    console.log(typename)
     const entity = this.apollo.client.readFragment(fragment)
     if (!isLinkableEntity(entity)) {
       console.error(`entity-tag could not find cached entity ${cacheId}`)

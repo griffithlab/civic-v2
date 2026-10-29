@@ -45,4 +45,5 @@ fragment SourceSummaryFields on Source {
     reason
     note
   }
+  isPreprint
 }

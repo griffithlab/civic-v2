@@ -1,3 +1,12 @@
+@if (this.isApprover) {
+  <nz-ribbon nzText="Approver">
+    <ng-template [ngTemplateOutlet]="userCard"></ng-template>
+  </nz-ribbon>
+} @else {
+  <ng-template [ngTemplateOutlet]="userCard"></ng-template>
+}
+
+<ng-template #userCard>
 <nz-card
   nzSize="small"
   [nzActions]="[
@@ -70,6 +79,8 @@
     </nz-descriptions>
   </div>
 </nz-card>
+</ng-template>
+
 <ng-template #personalLink>
   <a
     *ngIf="user.url; else noPersonalLink"
@@ -90,6 +101,7 @@
       style="color: #aaaaaa"></i>
   </ng-template>
 </ng-template>
+
 <ng-template #twitterLink>
   <a
     *ngIf="user.twitterHandle; else noTwitterLink"
@@ -110,6 +122,7 @@
       style="color: #aaaaaa"></i>
   </ng-template>
 </ng-template>
+
 <ng-template #facebookLink>
   <a
     *ngIf="user.facebookProfile; else noFacebookLink"
@@ -130,6 +143,7 @@
       style="color: #aaaaaa"></i>
   </ng-template>
 </ng-template>
+
 <ng-template #linkedinLink>
   <a
     *ngIf="user.linkedinProfile; else noLinkedinLink"
@@ -150,6 +164,7 @@
       style="color: #aaaaaa"></i>
   </ng-template>
 </ng-template>
+
 <ng-template #orcidLink>
   <a
     *ngIf="user.orcid; else noOrcidLink"

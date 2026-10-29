@@ -39,21 +39,25 @@ module Types::Entities
     end
 
     def clinvar_accession_visible
-      Loaders::AssociationLoader.for(Approval, :clinvar_batch_entries).load(object).then do |entries|
-        if entries.blank?
-          true
-        else
-          release_status_promises = entries.map do |entry|
-            Loaders::AssociationLoader
-              .for(ClinvarBatchEntry, :clinvar_batch_submission)
-              .load(entry)
-              .then { |batch| batch&.release_status }
-          end
+      if object.clinvar_accession
+        Loaders::AssociationLoader.for(Approval, :clinvar_batch_entries).load(object).then do |entries|
+          if entries.blank?
+            true
+          else
+            release_status_promises = entries.map do |entry|
+              Loaders::AssociationLoader
+                .for(ClinvarBatchEntry, :clinvar_batch_submission)
+                .load(entry)
+                .then { |batch| batch&.release_status }
+            end
 
-          Promise.all(release_status_promises).then do |release_statuses|
-            release_statuses.any? { |s| s == "released" }
+            Promise.all(release_status_promises).then do |release_statuses|
+              release_statuses.any? { |s| s == "released" }
+            end
           end
         end
+      else
+        false
       end
     end
   end

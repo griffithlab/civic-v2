@@ -7,6 +7,7 @@ query AssertionDetail($assertionId: Int!) {
 fragment AssertionDetailFields on Assertion {
   id
   name
+  assertionType
   status
   submissionEvent {
     originatingUser {
@@ -29,9 +30,7 @@ fragment AssertionDetailFields on Assertion {
   flags(state: OPEN) {
     totalCount
   }
-  revisions(status: NEW) {
-    totalCount
-  }
+  openRevisionCount
   comments {
     totalCount
   }
@@ -42,6 +41,14 @@ fragment AssertionDetailFields on Assertion {
     }
   }
   ...assertionSubmissionActivity
+  specificationsWithEvaluations {
+    specification {
+      ...SpecificationFields
+    }
+    evaluations {
+      ...SpecificationEvaluationFields
+    }
+  }
 }
 
 fragment assertionSubmissionActivity on Assertion {

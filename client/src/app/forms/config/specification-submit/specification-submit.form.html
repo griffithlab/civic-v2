@@ -1,0 +1,273 @@
+<nz-row [nzGutter]="[16, 8]">
+  @if(specificationFormFields && assertionId) {
+    <nz-col nzSpan="24">
+      <nz-card nzTitle="Specification">
+        <nz-row [nzGutter]="[16, 8]">
+          <nz-col nzSpan="12">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="specificationForm"
+              (ngSubmit)="onSubmit()">
+              <formly-form
+                [form]="specificationForm"
+                [fields]="specificationFormFields"
+                [model]="specificationModel"
+                [options]="{}"
+                (modelChange)="onSpecificationSelected($event)">
+              </formly-form>
+            </form>
+          </nz-col>
+          <nz-col nzSpan="12">
+            @if (this.specificationInfo) {
+              <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
+                <nz-descriptions-item nzTitle="Specification Document">
+                  @if (specificationInfo?.specificationUrl) {
+                    <cvc-link-tag
+                      [href]="specificationInfo.specificationUrl"
+                      tooltip="View Specification Document">
+                      View Specification Document
+                    </cvc-link-tag>
+                  } @else {
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      No specification document available
+                    </span>
+                  }
+                </nz-descriptions-item>
+                <nz-descriptions-item
+                  nzTitle="SOP Publication"
+                  nzSpan="2">
+                  @if (specificationInfo.sopPubmedId) {
+                    <cvc-link-tag
+                      href="https://pubmed.ncbi.nlm.nih.gov/{{ specificationInfo.sopPubmedId }}"
+                      tooltip="View SOP on PubMed">
+                      {{ specificationInfo.sopPubmedId }}
+                    </cvc-link-tag>
+                  } @else {
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      No SOP Publication available
+                    </span>
+                  }
+                </nz-descriptions-item>
+                <nz-descriptions-item
+                  nzTitle="Version"
+                  nzSpan="2">
+                  {{ specificationInfo.version }}
+                  <span
+                    nz-typography
+                    nzType="secondary"
+                    >(Published {{ specificationInfo.publishedOn }})</span
+                  >
+                  @if (specificationInfo.isDraft) {
+                    <span style="float: right">
+                      <nz-tag
+                        nzColor="warning"
+                        nz-popover
+                        [nzPopoverContent]="draftTagPopoverTemplate">
+                        Draft
+                      </nz-tag>
+                      <ng-template #draftTagPopoverTemplate>
+                        This is a draft specification. Criteria have not been finalized and should be used with caution.
+                      </ng-template>
+                    </span>
+                  }
+                </nz-descriptions-item>
+                <nz-descriptions-item
+                  nzTitle="Publishing Organization"
+                  nzSpan="2">
+                  @if (specificationInfo.organization) {
+                    <cvc-organization-tag
+                      [org]="specificationInfo.organization"
+                      [enablePopover]="false"></cvc-organization-tag>
+                  } @else {
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      None
+                    </span>
+                  }
+                </nz-descriptions-item>
+              </nz-descriptions>
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary">
+                Select a specification to see it details
+              </span>
+            }
+          </nz-col>
+        </nz-row>
+      </nz-card>
+    </nz-col> 
+  }
+
+  @if (this.specificationInfo) {
+    @if (this.specificationInfo.evaluationMethod != "ONE") {
+      <nz-col nzSpan="24">
+        <nz-card nzTitle="Evaluation Summary" [nzExtra]="evaluationSummaryExtraTemplate">
+          @if (evaluationSummaryDisplayMode() == 'group') {
+            @let columns = (perGroupCodesModel | keyvalue).length > 10 ? (perGroupCodesModel | keyvalue).length / 2 : (perGroupCodesModel | keyvalue).length;
+            <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="columns" nzSize="small">
+              @for (item of perGroupCodesModel | keyvalue: preserveOrder; track item.key) {
+                <nz-descriptions-item [nzTitle]="item.key">
+                  <div style="white-space: nowrap;">
+                  @for (code of item.value | keyvalue: preserveOrder; track code.key) {
+                    <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                  }
+                  </div>
+                </nz-descriptions-item>
+              }
+            </nz-descriptions>
+          } @else if (evaluationSummaryDisplayMode() == 'strength') {
+            @let columns = specificationInfo.assertionType == 'ONCOGENIC' ? 3 : 1;
+            @let title = specificationInfo.assertionType == 'ONCOGENIC' ? "Oncogenic Criteria" : "Pathogenic Criteria";
+            @let opGroups = specificationInfo.assertionType == 'ONCOGENIC' ? {"OVS": "Very Strong", "OS": "Strong", "OM": "Moderate", "OP": "Supporting"} : {"PVS": "Very Strong", "PS": "Strong", "PM": "Moderate", "PP": "Supporting"};
+            @let bGroups = specificationInfo.assertionType == 'ONCOGENIC' ? {"SBP": "Supporting", "SBS": "Strong", "SBVS": "Very Strong",} : {"BP": "Supporting", "BS": "Strong", "BA": "Very Strong"};
+            @let oCriteria = otherCriteria(perGroupCodesModel, opGroups, bGroups);
+            <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="columns" nzSize="small">
+              <nz-descriptions-item [nzTitle]="title">
+                <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
+                  @for (strength of opGroups | keyvalue: preserveOrder; track strength.key) {
+                    <nz-descriptions-item [nzTitle]="strength.value ? strength.value : ''">
+                      @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
+                      @if (filteredCriteria) {
+                          @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
+                            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                          }
+                      } @else {
+                        <i
+                          nz-typography
+                          nzType="secondary">
+                          No codes for this strength
+                        </i>
+                      } 
+                    </nz-descriptions-item>
+                  }
+                </nz-descriptions>
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Benign Criteria">
+                <nz-descriptions nzBordered nzLayout="vertical" [nzColumn]="4" nzSize="small">
+                  @for (strength of bGroups | keyvalue: preserveOrder; track strength.key) {
+                    <nz-descriptions-item [nzTitle]="strength.value? strength.value : ''">
+                      @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
+                      @if (filteredCriteria) {
+                          @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
+                            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                          }
+                      } @else {
+                        <i
+                          nz-typography
+                          nzType="secondary">
+                          No codes for this strength
+                        </i>
+                      }
+                    </nz-descriptions-item>
+                  }
+                </nz-descriptions>
+              </nz-descriptions-item>
+              @if (oCriteria) {
+                <nz-descriptions-item nzTitle="Other Criteria">
+                  @for (code of oCriteria | keyvalue: preserveOrder; track code.key) {
+                    <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                  }
+                </nz-descriptions-item>
+              }
+            </nz-descriptions>
+          }
+          <ng-template #evaluationSummaryExtraTemplate>
+            @if (this.specificationInfo.evaluationMethod == "ALL_STRENGTH") {
+              Display By:
+              <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
+                <label nz-radio-button nzValue="group">Group</label>
+                <label nz-radio-button nzValue="strength">Strength</label>
+              </nz-radio-group>
+            }
+          </ng-template>
+        </nz-card>
+      </nz-col>
+    }
+  }
+
+  @if(codesFields) {
+    <nz-col nzSpan="24">
+      <cvc-form-submission-status-display [mutationState]="mutationState" entityType="Evaluation" [successMessage]="success" [redirectUrl]="url">
+        <ng-template #success>
+          @if (mode == 'revise') {
+            Revision(s) submitted! You will be redirected to the Revisions page or can view them <a href="{{url}}">here.</a>
+          } @else if (mode == 'create') {
+            Evaluation completed! 
+            @if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+              You will be redirected to Summary page or can view it here <a href="{{url}}">here.</a>
+            } @else {
+              You will be redirected to {{this.specificationInfo?.name}} page or can view it here <a href="{{url}}">here.</a>
+            }
+          }
+        </ng-template>
+        @if (this.specificationInfo && this.specificationInfo.evaluationMethod == "ONE") {
+          <nz-card nzTitle="Evaluation">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="codesForm"
+              (ngSubmit)="onSubmit()">
+              <formly-form
+                [form]="codesForm"
+                [fields]="codesFields"
+                [model]="oneCodeModel"
+                [options]="{}"
+                (modelChange)="oneCodeModel = $event">
+              </formly-form>
+            </form>
+          </nz-card>
+        } @else {
+          <nz-card nzTitle="Evaluation">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="codesForm"
+              (ngSubmit)="onSubmit()">
+              <formly-form
+                [form]="codesForm"
+                [fields]="codesFields"
+                [model]="perGroupCodesModel"
+                [options]="{}"
+                (modelChange)="perGroupCodesModel = $event">
+              </formly-form>
+            </form>
+          </nz-card>
+        }
+      </cvc-form-submission-status-display>
+    </nz-col>
+
+    <nz-col nzSpan="24">
+      <form
+        nz-form
+        nzLayout="vertical"
+        [formGroup]="codesForm"
+        (ngSubmit)="onSubmit()">
+        <formly-form
+          [form]="codesForm"
+          [fields]="submitFields"
+          [model]="submitModel"
+          (modelChange)="submitModel = $event">
+        </formly-form>
+      </form>
+    </nz-col>
+  }
+</nz-row>
+
+<ng-template #codeTag let-code="code" let-values="values">
+  <cvc-specification-evaluation-tag
+    [specificationEvaluation]="{
+      'code': code,
+      'modifier': values.modifier,
+      'justification': values.justification,
+      'evidenceItemIds': values.evidenceItemIds,
+      'evaluation': values.evaluation,
+      'criterionDescription': descriptionForCode(code)}">
+  </cvc-specification-evaluation-tag>
+</ng-template>

@@ -9,6 +9,9 @@ import {
   SubscribableInput,
   SubscribableEntities,
   AssertionStatus,
+  SpecificationEvaluation,
+  SpecificationEvaluationStatus,
+  Specification,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { map, startWith } from 'rxjs/operators'
@@ -33,6 +36,7 @@ export class AssertionsSummaryPage {
 
   assertionRules = new AssertionState()
   statusValues = AssertionStatus
+  evaluationStatus = SpecificationEvaluationStatus
 
   subscribable: SubscribableInput
 
@@ -42,6 +46,9 @@ export class AssertionsSummaryPage {
     getEntityColor('Approval')
   )
   queryAssertionId: Signal<number>
+  $specification: Signal<Maybe<Specification>>
+  $evaluations: Signal<SpecificationEvaluation[]>
+  $groupedEvaluations: Signal<any[]>
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
 
@@ -75,9 +82,29 @@ export class AssertionsSummaryPage {
 
     this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
+    this.$specification = toSignal(
+      observable.pipe(
+        pluck('data', 'assertion', 'specification'),
+      ),
+      { initialValue: undefined }
+    )
+
+    this.$evaluations = toSignal(
+      observable.pipe(
+        pluck('data', 'assertion', 'specificationEvaluations'),
+      ),
+      { initialValue: [] }
+    )
+
+    this.$groupedEvaluations = computed (() => (Object as any).groupBy(this.$evaluations(), (evaluation: any) => evaluation.specificationCriterion.assessmentGroup))
+
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,
       id: this.queryAssertionId(),
     }
+  }
+
+  evidenceItemIds(evidenceItems: any[]): number[] {
+    return evidenceItems.map(e => e.id)
   }
 }

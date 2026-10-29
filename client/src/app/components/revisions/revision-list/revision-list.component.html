@@ -21,7 +21,7 @@
       class="revision-list"
       *ngIf="revisions && revisions.length > 0; else noRevisions">
       <nz-collapse-panel
-        *ngFor="let revision of untypedRevisons"
+        *ngFor="let revision of untypedRevisions"
         [nzHeader]="revCardHeaderTitle"
         [nzExtra]="revCardHeaderExtra"
         [nzActive]="true">
@@ -339,9 +339,21 @@
                     id: item.id,
                     name: item.displayName,
                     link: item.link,
-                    status: item.status,
                     flagged: item.flagged,
                   }"></cvc-evidence-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
+          <ng-container *ngSwitchCase="'specification_criterion_id'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="AMP/ASCO/CAP Category">
+              <ng-template
+                #itemTemplate
+                let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>

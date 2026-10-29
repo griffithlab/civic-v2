@@ -1,5 +1,10 @@
 import { computed, NgZone, Signal, signal } from '@angular/core'
 
+/**
+ * Minimal generic signal store: holds a state object in a single signal,
+ * exposing per-key computed selectors and single/partial updates. Extended by
+ * ScrollerStateService to publish feed scroller state as signals.
+ */
 export class SignalStateService<T> {
   readonly state = signal({} as T)
 

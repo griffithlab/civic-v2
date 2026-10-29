@@ -1,0 +1,180 @@
+<nz-tabs [nzAnimated]="false">
+  @for (specificationWithEvaluations of $specificationsWithEvaluations(); track specificationWithEvaluations.specification.id){
+    <nz-tab [nzTitle]="specificationWithEvaluations.specification.name + ' (version ' + specificationWithEvaluations.specification.version + ')'">
+      <nz-template nz-tab>
+        <nz-space nzDirection="vertical">
+          @if (specificationWithEvaluations.specification.isDraft) {
+            <nz-alert
+              *nzSpaceItem
+              nzType="warning"
+              nzShowIcon
+              nzMessage="This specification is a draft. Criteria have not been finalized and should be used with caution." />
+          }
+          @let groupedEvaluations = groupEvaluations(specificationWithEvaluations.evaluations);
+          @for (
+            group of groupedEvaluations | keyvalue;
+            track group.key
+          ) {
+            @let met = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Met
+            );
+            @let notMet = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotMet
+            );
+            @let notEvaluated = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotEvaluated
+            );
+            @let excluded = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Excluded
+            );
+            @if (met.length > 0) {
+              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
+            }
+          }
+          @for (
+            group of groupedEvaluations | keyvalue;
+            track group.key
+          ) {
+            @let met = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Met
+            );
+            @let notMet = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotMet
+            );
+            @let notEvaluated = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.NotEvaluated
+            );
+            @let excluded = getEvaluationsForStatus(
+              group.value,
+              evaluationStatus.Excluded
+            );
+            @if (met.length == 0) {
+              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
+            }
+          }
+        </nz-space>
+      </nz-template>
+    </nz-tab>
+  }
+</nz-tabs>
+
+<ng-template #evaluations let-met="met" let-notMet="notMet" let-notEvaluated="notEvaluated" let-excluded="excluded" let-group="group" let-specification="specification">
+  <nz-card
+    nzSize="small"
+    [nzTitle]="assessmentGroupHeaderTemplate"
+    style="flex-shrink: 0; width: 100%">
+    <nz-descriptions nzBordered [nzColumn]="2" nzSize="small">
+      <nz-descriptions-item nzTitle="Met">
+        <ng-container [ngTemplateOutlet]="table" [ngTemplateOutletContext]="{evaluations: met}" />
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Not Met">
+        <ng-container [ngTemplateOutlet]="table" [ngTemplateOutletContext]="{evaluations: notMet}" />
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Excluded">
+        <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: excluded}" />
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Not Evaluated">
+        <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: notEvaluated}" />
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </nz-card>
+
+  <ng-template #assessmentGroupHeaderTemplate>
+    {{ group.key }}
+    @let description = descriptionForGroup(group.key, specification);
+    <span
+      nz-typography
+      nzType="secondary">
+      <i
+        nz-icon
+        nzType="info-circle"
+        nz-popover
+        [nzPopoverContent]="description"
+        [nzPopoverOverlayStyle]="{width: '300px'}">
+      </i>
+    </span>
+  </ng-template>
+</ng-template>
+
+<ng-template #table let-evaluations="evaluations" let-tagColor="tagColor">
+  <nz-table
+    nzSize="small"
+    [nzFrontPagination]="false"
+    [nzTemplateMode]="true">
+    <tbody>
+      @if (evaluations.length == 0) {
+        <tr>
+          <td>
+            <span nz-typography nzType="secondary"><i>None</i></span>
+          </td>
+        </tr>
+      }
+      @for (evaluation of evaluations; track evaluation) {
+        <tr>
+          <td>
+            <cvc-specification-evaluation-tag
+              [specificationEvaluation]="{
+                'code': evaluation.code,
+                'modifier': evaluation.modifier,
+                'evaluation': evaluation.evaluation,
+                'criterionDescription': evaluation.specificationCriterion.description}"
+              mode='description_only'>
+            </cvc-specification-evaluation-tag>
+          </td>
+          <td>
+            @if (evaluation.justification) {
+              {{ evaluation.justification }}
+            } @else {
+              <span
+                nz-typography
+                nzType="secondary">
+                <i> No justification provided</i>
+              </span>
+            }
+          </td>
+          <td>
+            @if (evaluation.evidenceItems.length == 0) {
+              <span
+                nz-typography
+                nzType="secondary">
+                <i> No linked evidence items</i>
+              </span>
+            }
+            @for (
+              evidence of evaluation.evidenceItems;
+              track evidence.id
+            ) {
+              <cvc-evidence-tag
+                [evidence]="
+                  evidence
+                "></cvc-evidence-tag>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<ng-template #tagList let-evaluations="evaluations">
+  @if (evaluations.length == 0){
+    <span nz-typography nzType="secondary"><i>None</i></span>
+  }
+  @for (evaluation of evaluations; track evaluation) {
+    <cvc-specification-evaluation-tag
+      [specificationEvaluation]="{
+        'code': evaluation.code,
+        'modifier': evaluation.modifier,
+        'evaluation': evaluation.evaluation,
+        'criterionDescription': evaluation.specificationCriterion.description}"
+      mode='description_only'>
+    </cvc-specification-evaluation-tag>
+  }
+</ng-template>

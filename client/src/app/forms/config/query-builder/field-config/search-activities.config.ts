@@ -23,9 +23,9 @@ export const searchActivitiesFieldOptions: FormlyFieldConfig[] = withHideExpress
         fieldGroup: INPUT_FIELD_CONFIG['IntSearchInput'],
       },
     ]),
-      ...withRecursive([
-        ...getQueryFieldConfig('user', 'searchUsers', 'User'),
-        ...getQueryFieldConfig('organization', 'searchOrganizations', 'Organization'),
-      ]),
+    ...withRecursive([
+      ...getQueryFieldConfig('user', 'searchUsers', 'User'),
+      ...getQueryFieldConfig('organization', 'searchOrganizations', 'Organization'),
+    ]),
   ])
 )

@@ -7,7 +7,8 @@ class ModerateAssertionTest < ActiveSupport::TestCase
     @editor_submitter = users(:editor_submitter)
     @other_curator = users(:other_curator)
     @org = organizations(:test_org)
-    @assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:submitted_assertion))
+    @assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:clingen_assertion))
+    @evaluations = specification_evaluations
     @accepted_assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:accepted_assertion))
     @assertion_by_editor = ::Assertion.find(ActiveRecord::FixtureSet.identify(:submitted_assertion_by_editor))
     @query = <<-GRAPHQL
@@ -115,7 +116,7 @@ class ModerateAssertionTest < ActiveSupport::TestCase
   end
 
   test "submitter can reject own assertion" do
-    # curator is the submitter of submitted_assertion
+    # curator is the submitter of clingen_assertion
     response = execute_mutation(
       @query,
       variables: { assertionId: @assertion.id, newStatus: "REJECTED", orgId: @org.id, comment: "Rejecting my own assertion for valid reasons." },

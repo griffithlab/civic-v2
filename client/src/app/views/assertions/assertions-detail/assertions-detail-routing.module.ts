@@ -13,6 +13,8 @@ import { AssertionsSummaryPage } from './assertions-summary/assertions-summary.p
 import { AssertionsEventsPage } from './assertions-events/assertions-events.page'
 import { AssertionsEventsModule } from './assertions-events/assertions-events.module'
 import { AssertionsApprovalsPage } from './assertions-approvals/assertions-approvals.page'
+import { AssertionsCodesModule } from './assertions-codes/assertions-codes.module'
+import { AssertionsCodesPage } from './assertions-codes/assertions-codes.page'
 
 const routes: Routes = [
   {
@@ -63,6 +65,13 @@ const routes: Routes = [
           breadcrumb: 'Approvals',
         },
       },
+      {
+        path: 'codes',
+        component: AssertionsCodesPage,
+        data: {
+          breadcrumb: 'Codes',
+        },
+      },
     ],
   },
 ]
@@ -75,6 +84,7 @@ const routes: Routes = [
     AssertionsRevisionsModule,
     AssertionsFlagsModule,
     AssertionsEventsModule,
+    AssertionsCodesModule,
   ],
   exports: [RouterModule],
 })
