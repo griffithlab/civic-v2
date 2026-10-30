@@ -12,7 +12,7 @@ export type AssertionFields = {
   assertionDirection?: AssertionDirection
   /** The Type of the Assertion */
   assertionType?: AssertionType
-  /** List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion */
+  /** The Clinical Significance of the Assertion */
   significance?: AssertionSignificance
   /** A detailed description of the Assertion including practice guidelines and approved tests. */
   description?: string

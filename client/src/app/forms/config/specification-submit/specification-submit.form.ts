@@ -125,13 +125,12 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
     effect(() => {
       const specId = +this.selectedSpecificationId()
       if (specId) {
-        this.mode = 'revise'
         this.submitFields = [
           {
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: this.allEvaluations().length > 0 ? 'Revise Evaluations' : 'Submit Evaluations',
+              submitLabel: this.allSpecificationIds().includes(specId) ? 'Revise Existing Evaluations' : 'Submit New Evaluations',
               align: 'right',
             },
           },
@@ -198,6 +197,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   
                 ]
                 if (this.allSpecificationIds().includes(specId)){
+                  this.mode = 'revise'
                   let met_category = this.allEvaluations().find(e => e.evaluation === SpecificationEvaluationStatus.Met && e.specificationCriterion.specification.id === specId)
                   if (met_category) {
                     this.oneCodeModel = {
@@ -370,6 +370,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                   }
                 ]
                 if (this.allSpecificationIds().includes(specId)) {
+                  this.mode = 'revise'
                   this.perGroupCodesModel = {}
                   this.allEvaluations().filter((e) => e.specificationCriterion.specification.id === specId).forEach((evaluation: SpecificationEvaluationFieldsFragment) => {
                     let group = evaluation.specificationCriterion.assessmentGroup
@@ -528,11 +529,6 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         organizationId: this.submitModel.organizationId,
       }
       this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
-      if (this.mode == 'create') {
-        this.url = `/assertions/${this.assertionId}/summary`
-      } else if (this.mode == 'revise') {
-        this.url = `/assertions/${this.assertionId}/revisions`
-      }
     } else {
       let evaluations: SpecificationEvaluationFields[] = Object.entries(Object.assign({}, ...Object.values(this.perGroupCodesModel))).map(([key, value]: [string, any]) => { 
         return {
@@ -552,11 +548,11 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
         organizationId: this.submitModel.organizationId,
       }
       this.mutationState = this.submitCriteriaEvaluationsMutator.mutate(this.submitCriteriaEvaluationsGQL, { input: input })
-      if (this.mode == 'create') {
-        this.url = `/assertions/${this.assertionId}/codes`
-      } else if (this.mode == 'revise') {
-        this.url = `/assertions/${this.assertionId}/revisions`
-      }
+    }
+    if (this.mode == 'create') {
+      this.url = `/assertions/${this.assertionId}/evaluations`
+    } else if (this.mode == 'revise') {
+      this.url = `/assertions/${this.assertionId}/revisions`
     }
   }
 

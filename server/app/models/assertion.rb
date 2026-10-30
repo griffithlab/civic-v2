@@ -77,6 +77,10 @@ class Assertion < ActiveRecord::Base
     Rails.application.routes.url_helpers.url_for("/assertions/#{self.id}")
   end
 
+  def latest_specification
+    self.specification_evaluations.last&.specification_criterion&.specification
+  end
+
   def self.timepoint_query
     ->(x) {
       self.where("assertions.status != 'rejected'")

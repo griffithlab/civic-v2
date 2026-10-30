@@ -1,5 +1,16 @@
+@let specificationsWithEvaluations = $specificationsWithEvaluations();
+@if (specificationsWithEvaluations.length == 0) {
+  <span
+    nz-typography
+    nzType="secondary">
+    <i>
+      This assertion has not been evaluated.
+    </i>
+  </span>
+}
+
 <nz-tabs [nzAnimated]="false">
-  @for (specificationWithEvaluations of $specificationsWithEvaluations(); track specificationWithEvaluations.specification.id){
+  @for (specificationWithEvaluations of specificationsWithEvaluations; track specificationWithEvaluations.specification.id){
     <nz-tab [nzTitle]="specificationWithEvaluations.specification.name + ' (version ' + specificationWithEvaluations.specification.version + ')'">
       <nz-template nz-tab>
         <nz-space nzDirection="vertical">
@@ -10,53 +21,72 @@
               nzShowIcon
               nzMessage="This specification is a draft. Criteria have not been finalized and should be used with caution." />
           }
-          @let groupedEvaluations = groupEvaluations(specificationWithEvaluations.evaluations);
-          @for (
-            group of groupedEvaluations | keyvalue;
-            track group.key
-          ) {
-            @let met = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.Met
-            );
-            @let notMet = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.NotMet
-            );
-            @let notEvaluated = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.NotEvaluated
-            );
-            @let excluded = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.Excluded
-            );
-            @if (met.length > 0) {
-              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
+          @if (specificationWithEvaluations.specification.evaluationMethod === 'ONE') {
+            <nz-descriptions *nzSpaceItem nzBordered [nzColumn]="2" nzSize="small">
+              <nz-descriptions-item nzTitle="Met">
+                <ng-container [ngTemplateOutlet]="tagList" [ngTemplateOutletContext]="{evaluations: specificationWithEvaluations.evaluations}" />
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Justification">
+                @if (specificationWithEvaluations.evaluations[0].justification) {
+                  {{ specificationWithEvaluations.evaluations[0].justification }}
+                } @else {
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i> No justification provided</i>
+                  </span>
+                }
+              </nz-descriptions-item>
+            </nz-descriptions>
+          } @else {
+            @let groupedEvaluations = groupEvaluations(specificationWithEvaluations.evaluations);
+            @for (
+              group of groupedEvaluations | keyvalue;
+              track group.key
+            ) {
+              @let met = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.Met
+              );
+              @let notMet = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.NotMet
+              );
+              @let notEvaluated = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.NotEvaluated
+              );
+              @let excluded = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.Excluded
+              );
+              @if (met.length > 0) {
+                <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
+              }
             }
-          }
-          @for (
-            group of groupedEvaluations | keyvalue;
-            track group.key
-          ) {
-            @let met = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.Met
-            );
-            @let notMet = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.NotMet
-            );
-            @let notEvaluated = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.NotEvaluated
-            );
-            @let excluded = getEvaluationsForStatus(
-              group.value,
-              evaluationStatus.Excluded
-            );
-            @if (met.length == 0) {
-              <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
+            @for (
+              group of groupedEvaluations | keyvalue;
+              track group.key
+            ) {
+              @let met = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.Met
+              );
+              @let notMet = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.NotMet
+              );
+              @let notEvaluated = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.NotEvaluated
+              );
+              @let excluded = getEvaluationsForStatus(
+                group.value,
+                evaluationStatus.Excluded
+              );
+              @if (met.length == 0) {
+                <ng-container *nzSpaceItem [ngTemplateOutlet]="evaluations" [ngTemplateOutletContext]="{met: met, notMet: notMet, notEvaluated: notEvaluated, excluded: excluded, group: group, specification: specificationWithEvaluations.specification}" />
+              }
             }
           }
         </nz-space>

@@ -22,7 +22,7 @@
             @if (this.specificationInfo) {
               <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small" [nzColumn]="1">
                 <nz-descriptions-item nzTitle="Specification Document">
-                  @if (specificationInfo?.specificationUrl) {
+                  @if (specificationInfo.specificationUrl) {
                     <cvc-link-tag
                       [href]="specificationInfo.specificationUrl"
                       tooltip="View Specification Document">
@@ -96,7 +96,7 @@
               <span
                 nz-typography
                 nzType="secondary">
-                Select a specification to see it details
+                Select a specification to see its details
               </span>
             }
           </nz-col>
