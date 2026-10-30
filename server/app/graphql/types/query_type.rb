@@ -12,6 +12,7 @@ module Types
     include Types::Queries::DataReleaseQuery
     include Types::Queries::LeaderboardQueries
     include Types::Queries::AdvancedSearchQueries
+    include Types::Queries::FormConfigQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
@@ -153,14 +154,35 @@ module Types
       argument :id, Int, required: true
     end
 
-    field :acmg_code, Types::Entities::AcmgCodeType, null: true do
+    field :acmg_code, Types::Entities::SpecificationCriterionType, null: true do
       description "Find an ACMG code by CIViC ID"
       argument :id, Int, required: true
     end
 
-    field :clingen_code, Types::Entities::ClingenCodeType, null: true do
+    field :clingen_code, Types::Entities::SpecificationCriterionType, null: true do
       description "Find a ClinGen code by CIViC ID"
       argument :id, Int, required: true
+    end
+
+    field :specification_criterion, Types::Entities::SpecificationCriterionType, null: true do
+      description "Find a Specification Criterion code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :specifications, [ Types::Entities::SpecificationType ], null: false do
+      description "Find specifications based on org and assertion type"
+      argument :assertion_type, Types::AssertionTypeType, required: true
+      argument :organization_id, Int, required: false
+    end
+
+    field :specification, Types::Entities::SpecificationType, null: false do
+      description "Find specification by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :valid_specifications, [ Types::Entities::SpecificationType ], null: false do
+      description "Find valid specifications that match a given assertion's assertion type"
+      argument :assertion_id, Int, required: true
     end
 
     field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
@@ -377,11 +399,40 @@ module Types
     end
 
     def acmg_code(id:)
-      AcmgCode.find(id)
+      SpecificationCriterion.joins(:specification).find_by(id: id, specification: { specification_type: "acmg_codes" })
     end
 
     def clingen_code(id:)
-      ClingenCode.find(id)
+      SpecificationCriterion.joins(:specification).find_by(id: id, specification: { specification_type: "clingen_codes" })
+    end
+
+    def specification_criterion(id:)
+      SpecificationCriterion.find_by(id: id)
+    end
+
+    def specifications(assertion_type:, organization_id: nil)
+      if organization_id
+        Specification.where(assertion_type: assertion_type, organization_id: [ organization_id, nil ])
+          .order("specifications.organization_id ASC NULLS LAST")
+      else
+        Specification.where(assertion_type: assertion_type)
+          .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+      end
+    end
+
+    def specification(id:)
+      Specification.find_by(id: id)
+    end
+
+    def valid_specifications(assertion_id:)
+      assertion = Assertion.eager_load(specification_evaluations: [ specification_criterion: :specification ]).find(assertion_id)
+      if assertion.latest_specification
+        children = assertion.latest_specification.all_children
+        (assertion.specifications + children).uniq
+      else
+        Specification.where(assertion_type: assertion.assertion_type)
+          .order("specifications.organization_id ASC NULLS FIRST, specifications.name")
+      end
     end
 
     def nccn_guideline(id:)

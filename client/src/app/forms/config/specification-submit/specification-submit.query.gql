@@ -1,0 +1,84 @@
+query ValidSpecifications($assertionId: Int!) {
+  validSpecifications(assertionId: $assertionId) {
+    ...SpecificationDetailConfigFields
+  }
+}
+
+query CurrentAssertionSpecification($assertionId: Int!){
+  assertion(id: $assertionId) {
+    latestSpecification {
+      id
+      evaluationMethod
+    }
+    specifications {
+      id
+    }
+    specificationEvaluations {
+      ...SpecificationEvaluationFields
+    }
+  }
+}
+
+query SpecificationFormConfig($specificationId: Int!) {
+  specificationFormConfig(specificationId: $specificationId) {
+    ...SpecificationConfigFields
+  }
+}
+
+fragment SpecificationConfigFields on SpecificationFormConfig {
+    specification {
+      ...SpecificationDetailConfigFields
+    }
+    assessmentGroups {
+      ...AssessmentGroupFormConfigFields
+    }
+    
+}
+
+fragment SpecificationDetailConfigFields on Specification {
+  id
+  name
+  version
+  specificationUrl
+  sopPubmedId
+  publishedOn
+  evaluationMethod
+  specificationCriteria {
+    id
+    criterion
+    description
+    modifiers
+    mutuallyExclusiveCodes
+    pointValue
+    assessmentGroup
+  }
+  parentSpecification {
+    id
+  }
+  assertionType
+  isDraft
+  organization {
+    id
+    name
+    url
+  }
+}
+
+fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
+  name
+  description
+  specificationCriteria {
+    id
+    criterion
+    description
+    modifiers
+    mutuallyExclusiveCodes
+    pointValue
+  }
+}
+
+ mutation SubmitCriteriaEvaluations($input: SubmitCriteriaEvaluationsInput!) {
+   submitCriteriaEvaluations(input: $input) {
+     clientMutationId
+   }
+ }

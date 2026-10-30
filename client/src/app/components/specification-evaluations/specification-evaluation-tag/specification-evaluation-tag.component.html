@@ -1,0 +1,21 @@
+<nz-tag
+  [nzColor]="this.specificationEvaluation.evaluation | specificationToTagColor"
+  [style]="'color:' + (this.specificationEvaluation.evaluation | specificationToFontColor)"
+  nz-popover
+  [nzPopoverMouseEnterDelay]="0.5"
+  [nzPopoverPlacement]="popoverPlacement"
+  [nzPopoverContent]="enablePopover ? evaluationPopover : undefined"
+  [nzPopoverOverlayStyle]="{width: '300px'}">
+  {{ this.specificationEvaluation.code }}
+  @if (this.specificationEvaluation.modifier) {
+    _{{this.specificationEvaluation.modifier}}
+  }
+</nz-tag>
+
+<ng-template #evaluationPopover>
+  <cvc-specification-evaluation-popover
+    [specificationEvaluation]="this.specificationEvaluation"
+    [mode]="this.mode"
+    (contentRendered)="updatePopoverPosition()">
+  </cvc-specification-evaluation-popover>
+</ng-template>

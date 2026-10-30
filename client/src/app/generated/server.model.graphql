@@ -69,8 +69,6 @@ type AcmgCode {
   code: String!
   description: String!
   id: Int!
-  name: String!
-  tooltip: String!
 }
 
 """
@@ -198,6 +196,7 @@ enum ActivityTypeInput {
   RESOLVE_FLAG
   REVOKE_APPROVAL
   SUBMIT_ASSERTION
+  SUBMIT_CRITERIA_EVALUATIONS
   SUBMIT_EVIDENCE_ITEM
   SUGGEST_REVISION
   SUGGEST_SOURCE
@@ -525,6 +524,7 @@ enum AreaOfExpertise {
 type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithDescription & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
+  ampCategory: SpecificationCriterion
   ampLevel: AmpLevel
 
   """
@@ -723,6 +723,8 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  latestSpecification: Specification
+  latestSpecificationEvaluations: [SpecificationEvaluation!]!
   link: String!
   molecularProfile: MolecularProfile!
   name: String!
@@ -784,6 +786,9 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     status: RevisionStatus
   ): RevisionConnection!
   significance: AssertionSignificance!
+  specificationEvaluations: [SpecificationEvaluation!]!
+  specifications: [Specification!]
+  specificationsWithEvaluations: [SpecificationWithEvaluations!]!
   status: EvidenceStatus!
   submissionActivity: SubmitAssertionActivity!
   submissionEvent: Event
@@ -853,16 +858,6 @@ Fields on an Assertion that curators may propose revisions to.
 """
 input AssertionFields {
   """
-  List of CIViC IDs for the ACMG/AMP codes associated with this Assertion
-  """
-  acmgCodeIds: [Int!]!
-
-  """
-  The AMP/ASCO/CAP Category for this assertion.
-  """
-  ampLevel: NullableAmpLevelTypeInput!
-
-  """
   The evidence direction for this Assertion.
   """
   assertionDirection: AssertionDirection!
@@ -871,11 +866,6 @@ input AssertionFields {
   The Type of the Assertion
   """
   assertionType: AssertionType!
-
-  """
-  List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion
-  """
-  clingenCodeIds: [Int!]!
 
   """
   A detailed description of the Assertion including practice guidelines and approved tests.
@@ -1023,6 +1013,15 @@ enum AssertionSortColumns {
   SUMMARY
 }
 
+"""
+Fields used for curating Assertion significance via specification codes
+"""
+input AssertionSpecificationFields {
+  assertionId: Int!
+  evaluations: [SpecificationEvaluationFields!]!
+  specificationId: Int!
+}
+
 enum AssertionType {
   DIAGNOSTIC
   ONCOGENIC
@@ -1034,6 +1033,11 @@ enum AssertionType {
 input AssertionTypeTypeSearchInput {
   operator: EnumSearchOperator!
   value: AssertionType!
+}
+
+type AssessmentGroup {
+  description: String!
+  group: String!
 }
 
 enum AssociatedEvidenceStatusFilter {
@@ -2076,8 +2080,6 @@ type ClingenCode {
   description: String!
   exclusive: Boolean!
   id: Int!
-  name: String!
-  tooltip: String!
 }
 
 type ClinicalSignificanceCounts {
@@ -6889,6 +6891,11 @@ type GenerateApiKeyPayload {
 }
 
 """
+An ISO 8601-encoded date
+"""
+scalar ISO8601Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
+
+"""
 An ISO 8601-encoded datetime
 """
 scalar ISO8601DateTime @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
@@ -7363,6 +7370,7 @@ enum ModeratedEntities {
   EXON_COORDINATES
   FEATURE
   MOLECULAR_PROFILE
+  SPECIFICATION_EVALUATION
   VARIANT
   VARIANT_COORDINATES
   VARIANT_GROUP
@@ -8133,6 +8141,16 @@ type Mutation {
   ): SubmitAssertionPayload
 
   """
+  Propose adding SpecificationEvaluations for a certain Specification to the CIViC database.
+  """
+  submitCriteriaEvaluations(
+    """
+    Parameters for SubmitCriteriaEvaluations
+    """
+    input: SubmitCriteriaEvaluationsInput!
+  ): SubmitCriteriaEvaluationsPayload
+
+  """
   Propose adding a new EvidenceItem to the CIViC database.
   """
   submitEvidence(
@@ -8590,24 +8608,6 @@ type NotificationEdge {
 enum NotificationReason {
   MENTION
   SUBSCRIPTION
-}
-
-"""
-An input object that represents a field value that can be "unset" or changed to null.
-To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
-This is to work around two issues with the GraphQL spec: lack of support for unions in input types
-and the inability to have an input object argument be both required _and_ nullable at the same time.
-"""
-input NullableAmpLevelTypeInput {
-  """
-  Set to true if you wish to set the field's value to null.
-  """
-  unset: Boolean
-
-  """
-  The desired value for the field. Mutually exclusive with unset.
-  """
-  value: AmpLevel
 }
 
 """
@@ -9151,12 +9151,12 @@ type Query {
   """
   Find an ACMG code by CIViC ID
   """
-  acmgCode(id: Int!): AcmgCode
+  acmgCode(id: Int!): SpecificationCriterion
 
   """
   Retrieve ACMG Code options as a typeahead
   """
-  acmgCodesTypeahead(queryTerm: String!): [AcmgCode!]!
+  acmgCodesTypeahead(queryTerm: String!): [SpecificationCriterion!]!
 
   """
   List and filter activities
@@ -9811,12 +9811,12 @@ type Query {
   """
   Find a ClinGen code by CIViC ID
   """
-  clingenCode(id: Int!): ClingenCode
+  clingenCode(id: Int!): SpecificationCriterion
 
   """
   Retrieve Clingen Code options as a typeahead
   """
-  clingenCodesTypeahead(queryTerm: String!): [ClingenCode!]!
+  clingenCodesTypeahead(queryTerm: String!): [SpecificationCriterion!]!
 
   """
   Find a clinical trial by CIViC ID
@@ -10992,6 +10992,31 @@ type Query {
   ): SourceConnection!
 
   """
+  Find specification by CIViC ID
+  """
+  specification(id: Int!): Specification!
+
+  """
+  Find a Specification Criterion code by CIViC ID
+  """
+  specificationCriterion(id: Int!): SpecificationCriterion
+
+  """
+  Retrieve Criteria Options For a Specification and Query
+  """
+  specificationCriterionTypeahead(queryTerm: String!, specificationId: Int): [SpecificationCriterion!]!
+
+  """
+  Return specification information suitable for building an edit form
+  """
+  specificationFormConfig(specificationId: Int!): SpecificationFormConfig
+
+  """
+  Find specifications based on org and assertion type
+  """
+  specifications(assertionType: AssertionType!, organizationId: Int): [Specification!]!
+
+  """
   Get the active subscription for the entity and logged in user, if any
   """
   subscriptionForEntity(subscribable: SubscribableInput!): Subscription
@@ -11119,6 +11144,11 @@ type Query {
     """
     username: String
   ): UserConnection!
+
+  """
+  Find valid specifications that match a given assertion's assertion type
+  """
+  validSpecifications(assertionId: Int!): [Specification!]!
   validateRevisionsForAcceptance(
     """
     A list of CIViC Revisions IDs to validate
@@ -13005,6 +13035,185 @@ enum SourcesSortColumns {
   YEAR
 }
 
+type Specification {
+  assertionType: AssertionType!
+  assessmentGroupOrder: [String!]!
+  assessmentGroups: [AssessmentGroup!]!
+  evaluationMethod: SpecificationEvaluationMethod!
+  id: Int!
+  isDraft: Boolean!
+  name: String!
+  organization: Organization
+  organizationId: Int
+  parentSpecification: Specification
+  publishedOn: ISO8601Date!
+  sopPubmedId: Int
+  specificationCriteria: [SpecificationCriterion!]!
+  specificationType: SpecificationType!
+  specificationUrl: String!
+  version: String!
+}
+
+type SpecificationAssessmentGroup {
+  description: String!
+  name: String!
+  specificationCriteria: [SpecificationCriterion!]!
+}
+
+type SpecificationCriterion {
+  assessmentGroup: String
+  criterion: String!
+  description: String!
+  exclusive: Boolean!
+  id: Int!
+  modifiers: [String!]!
+  mutuallyExclusiveCodes: [String!]!
+  orderWithinAssessmentGroup: Int!
+  pointValue: Int
+  specification: Specification!
+}
+
+type SpecificationEvaluation implements EventSubject & WithRevisions {
+  assertion: Assertion!
+  code: String!
+  createdAt: ISO8601DateTime
+  evaluation: SpecificationEvaluationStatus!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  evidenceItems: [EvidenceItem!]!
+  id: Int!
+  justification: String
+  lastAcceptedRevisionEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
+  modifier: String
+  name: String!
+  openRevisionCount: Int!
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionSetId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
+  specificationCriterion: SpecificationCriterion!
+  updatedAt: ISO8601DateTime
+}
+
+"""
+Fields of a Specification Evaluation
+"""
+input SpecificationEvaluationFields {
+  evaluation: SpecificationEvaluationStatus!
+  evidenceItemIds: [Int!]!
+  justification: String
+  modifier: String
+  specificationCriterion: String!
+}
+
+enum SpecificationEvaluationMethod {
+  ALL_FLOWCHART
+  ALL_STRENGTH
+  ONE
+}
+
+enum SpecificationEvaluationStatus {
+  EXCLUDED
+  MET
+  NOT_EVALUATED
+  NOT_MET
+}
+
+type SpecificationFormConfig {
+  assessmentGroups: [SpecificationAssessmentGroup!]!
+  specification: Specification!
+}
+
+enum SpecificationType {
+  ACMG_CODES
+  AMP_TIERS
+  CLINGEN_CODES
+}
+
+type SpecificationWithEvaluations {
+  evaluations: [SpecificationEvaluation!]!
+  specification: Specification!
+}
+
 type Stats {
   acceptedAssertions: Int!
   acceptedEvidenceItems: Int!
@@ -13084,6 +13293,58 @@ type SubmitAssertionPayload {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+}
+
+type SubmitCriteriaEvaluationsActivity implements ActivityInterface {
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  note: String
+  organization: Organization
+  parsedNote: [CommentBodySegment!]!
+  specification: Specification!
+  specificationEvaluations: [SpecificationEvaluation!]!
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
+}
+
+"""
+Autogenerated input type of SubmitCriteriaEvaluations
+"""
+input SubmitCriteriaEvaluationsInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The desired Specification, its SpecificationCriteria and the evaluation fields for each.
+  """
+  fields: AssertionSpecificationFields!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SubmitCriteriaEvaluations.
+"""
+type SubmitCriteriaEvaluationsPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The newly created SpecificationEvaluations
+  """
+  specificationEvaluations: [SpecificationEvaluation!]!
 }
 
 type SubmitEvidenceItemActivity implements ActivityInterface {

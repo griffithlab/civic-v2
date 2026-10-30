@@ -9,6 +9,9 @@ import {
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
+  SpecificationEvaluation,
+  SpecificationEvaluationStatus,
+  Specification,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { map, startWith } from 'rxjs/operators'
@@ -33,6 +36,7 @@ export class AssertionsSummaryPage {
 
   assertionRules = new AssertionState()
   statusValues = EvidenceStatus
+  evaluationStatus = SpecificationEvaluationStatus
 
   subscribable: SubscribableInput
 
@@ -80,5 +84,9 @@ export class AssertionsSummaryPage {
       entityType: SubscribableEntities.Assertion,
       id: this.queryAssertionId(),
     }
+  }
+
+  evidenceItemIds(evidenceItems: any[]): number[] {
+    return evidenceItems.map(e => e.id)
   }
 }

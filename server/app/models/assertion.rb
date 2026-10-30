@@ -17,6 +17,9 @@ class Assertion < ActiveRecord::Base
   has_and_belongs_to_many :phenotypes
   has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
   has_many :approvals
+  has_many :specification_evaluations
+  has_many :specification_criteria, through: :specification_evaluations
+  has_many :specifications, -> { distinct }, through: :specification_criteria
 
   enum :amp_level, Constants::AMP_LEVELS
   enum :assertion_type, Constants::ASSERTION_TYPES, suffix: true
@@ -69,6 +72,10 @@ class Assertion < ActiveRecord::Base
     Rails.application.routes.url_helpers.url_for("/assertions/#{self.id}")
   end
 
+  def latest_specification
+    self.specification_evaluations.last&.specification_criterion&.specification
+  end
+
   def self.timepoint_query
     ->(x) {
       self.where("assertions.status != 'rejected'")
@@ -96,12 +103,9 @@ class Assertion < ActiveRecord::Base
       :phenotype_ids,
       :therapy_ids,
       :therapy_interaction_type,
-      :amp_level,
       :evidence_item_ids,
       :nccn_guideline_id,
       :nccn_guideline_version,
-      :acmg_code_ids,
-      :clingen_code_ids,
       :fda_companion_test,
       :fda_regulatory_approval,
     ]

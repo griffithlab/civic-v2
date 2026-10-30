@@ -77,6 +77,11 @@ export class AssertionsDetailView {
       tabLabel: 'Summary',
     },
     {
+      routeName: 'evaluations',
+      tabLabel: 'Evaluations',
+      iconName: 'profile',
+    },
+    {
       routeName: 'comments',
       iconName: 'civic-comment',
       tabLabel: 'Comments',
@@ -215,10 +220,10 @@ export class AssertionsDetailView {
       const assertion = this.assertion()
       let tabConfig = [...this.DEFAULT_TAB_CONFIG]
       if (assertion) {
-        tabConfig = this.DEFAULT_TAB_CONFIG.map((tab) => {
+        tabConfig = tabConfig.map((tab) => {
           if (tab.tabLabel === 'Revisions') {
             return {
-              badgeCount: assertion.revisions.totalCount,
+              badgeCount: assertion.openRevisionCount,
               badgeColor: '#4096ff', // blue-5
               ...tab,
             }

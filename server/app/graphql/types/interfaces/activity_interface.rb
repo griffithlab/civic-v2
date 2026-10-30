@@ -62,7 +62,8 @@ module Types::Interfaces
       Types::Activities::DeprecateFeatureActivityType,
       Types::Activities::DeleteCommentActivityType,
       Types::Activities::ApproveAssertionActivityType,
-      Types::Activities::RevokeApprovalActivityType
+      Types::Activities::RevokeApprovalActivityType,
+      Types::Activities::SubmitCriteriaEvaluationsActivityType
     )
 
     definition_methods do
@@ -110,6 +111,8 @@ module Types::Interfaces
           Types::Activities::ApproveAssertionActivityType
         when RevokeApprovalActivity
           Types::Activities::RevokeApprovalActivityType
+        when SubmitCriteriaEvaluationsActivity
+          Types::Activities::SubmitCriteriaEvaluationsActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

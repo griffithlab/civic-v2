@@ -1,0 +1,13 @@
+fragment SubmitCriteriaEvaluationsActivityDetail on SubmitCriteriaEvaluationsActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  specification {
+    ...SpecificationFields
+  }
+  specificationEvaluations {
+    ...SpecificationEvaluationFields
+  }
+}

@@ -1,7 +1,20 @@
 <nz-card
-  [nzTitle]="wrapperOptions.title"
+  [nzTitle]="titleTemplate"
   [nzSize]="wrapperOptions.size ?? 'default'">
   <formly-field
     *ngFor="let field of field.fieldGroup"
     [field]="field"></formly-field>
 </nz-card>
+
+<ng-template #titleTemplate>
+  <span style="text-wrap: wrap">
+  {{ wrapperOptions.title }}
+    @if (wrapperOptions.infoString) {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i>- {{ wrapperOptions.infoString }}</i>
+      </span>
+    }
+  </span>
+</ng-template>

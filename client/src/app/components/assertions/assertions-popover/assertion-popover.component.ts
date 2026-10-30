@@ -9,7 +9,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core'
-import { AssertionState } from '@app/forms/states/assertion.state'
 import {
   AssertionPopoverFragment,
   AssertionPopoverGQL,
@@ -34,7 +33,6 @@ export class CvcAssertionPopoverComponent
 
   assertion$?: Observable<Maybe<AssertionPopoverFragment>>
 
-  assertionRules = new AssertionState()
   private resizeObserver: ResizeObserver
 
   constructor(

@@ -11,7 +11,7 @@ assertion_submit_event:
   description: "Assertion submission event"
   originating_user: curator
   subject_type: Assertion
-  subject_id: <%= ActiveRecord::FixtureSet.identify(:submitted_assertion) %>
+  subject_id: <%= ActiveRecord::FixtureSet.identify(:clingen_assertion) %>
   activity: assertion_submit_activity
 
 submitted_ei_by_editor_event:
