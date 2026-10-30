@@ -47,9 +47,6 @@ export class AssertionsSummaryPage {
   assertionDescriptionTagMode: string = 'eid';
 
   queryAssertionId: Signal<number>
-  $specification: Signal<Maybe<Specification>>
-  $evaluations: Signal<SpecificationEvaluation[]>
-  $groupedEvaluations: Signal<any[]>
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
 
@@ -82,22 +79,6 @@ export class AssertionsSummaryPage {
     this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
     this.assertion$ = observable.pipe(pluck('data', 'assertion'))
-
-    this.$specification = toSignal(
-      observable.pipe(
-        pluck('data', 'assertion', 'specification'),
-      ),
-      { initialValue: undefined }
-    )
-
-    this.$evaluations = toSignal(
-      observable.pipe(
-        pluck('data', 'assertion', 'specificationEvaluations'),
-      ),
-      { initialValue: [] }
-    )
-
-    this.$groupedEvaluations = computed (() => (Object as any).groupBy(this.$evaluations(), (evaluation: any) => evaluation.specificationCriterion.assessmentGroup))
 
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,

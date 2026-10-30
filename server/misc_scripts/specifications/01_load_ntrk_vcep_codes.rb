@@ -260,7 +260,8 @@ specifications.each do |spec|
       specification: db_spec,
       criterion: criterion[:criterion],
       description: criterion[:description],
-      modifiers: criterion[:modifiers] || {}
+      modifiers: criterion[:modifiers] || {},
+      mutually_exclusive_codes: [],
     ).first_or_create!
   end
 end

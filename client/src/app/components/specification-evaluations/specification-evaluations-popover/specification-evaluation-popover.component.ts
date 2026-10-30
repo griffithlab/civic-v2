@@ -8,8 +8,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  WritableSignal,
-  signal,
 } from '@angular/core'
 import { LinkableEvidence } from '@app/components/evidence/evidence-tag/evidence-tag.component'
 import {
@@ -17,7 +15,6 @@ import {
   LinkableEvidenceForIdsGQL,
   Maybe,
 } from '@app/generated/civic.apollo'
-import { untilDestroyed } from '@ngneat/until-destroy'
 import { SpecificationEvaluationTag } from '../specification-evaluation-tag/specification-evaluation-tag.component'
 
 @Component({
@@ -31,7 +28,7 @@ export class CvcSpecificationEvaluationPopoverComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   @Input() specificationEvaluation!: SpecificationEvaluationTag
-  @Input() mode: 'all'|'description_only' = 'all'
+  @Input() mode: 'all'|'partial'|'description_only' = 'all'
   @Output() contentRendered = new EventEmitter<void>()
 
   //assertion$?: Observable<Maybe<AssertionPopoverFragment>>

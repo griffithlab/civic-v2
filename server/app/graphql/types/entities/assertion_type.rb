@@ -56,9 +56,7 @@ module Types::Entities
     end
 
     def latest_specification
-      specifications.then do |specs|
-        specs.max_by { |spec| Gem::Version.new(spec.version) }
-      end
+      object.latest_specification
     end
 
     def latest_specification_evaluations
@@ -78,12 +76,14 @@ module Types::Entities
       specifications.then do |specs|
         specification_evaluations.then do |se|
           grouped = se.group_by { |s| s.specification_criterion.specification_id }
-          specs.map do |spec|
+          specs_with_evals = specs.map do |spec|
             {
               specification: spec,
               evaluations: grouped[spec.id],
+              created_at: grouped[spec.id].first.created_at,
             }
           end
+          specs_with_evals.sort_by { |s| s[:created_at] }.reverse
         end
       end
     end

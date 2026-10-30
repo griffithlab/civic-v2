@@ -12,13 +12,13 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { AssertionsCodesPage } from './assertions-codes.page'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
+import { AssertionsEvaluationsPage } from './assertions-evaluations.page'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module'
 
 @NgModule({
-  declarations: [AssertionsCodesPage],
+  declarations: [AssertionsEvaluationsPage],
   imports: [
     CommonModule,
     NzCardModule,
@@ -37,6 +37,6 @@ import { CvcSpecificationEvaluationTagModule } from '@app/components/specificati
     CvcPipesModule,
     CvcSpecificationEvaluationTagModule,
   ],
-  exports: [AssertionsCodesPage],
+  exports: [AssertionsEvaluationsPage],
 })
-export class AssertionsCodesModule {}
+export class AssertionsEvaluationsModule {}

@@ -1,13 +1,17 @@
 query AssertionCodes($assertionId: Int!) {
   assertion(id: $assertionId) {
     specificationsWithEvaluations {
-      specification {
-        ...SpecificationFields
-      }
-      evaluations {
-        ...SpecificationEvaluationFields
-      }
+      ...SpecificationWithEvaluationsFields
     }
+  }
+}
+
+fragment SpecificationWithEvaluationsFields on SpecificationWithEvaluations {
+  specification {
+    ...SpecificationFields
+  }
+  evaluations {
+    ...SpecificationEvaluationFields
   }
 }
 

@@ -74,67 +74,82 @@
           </nz-descriptions>
         </nz-col>
 
-        @for (specificationWithEvaluations of assertion.specificationsWithEvaluations; track specificationWithEvaluations.specification.id) {
-          <nz-col [nzSpan]="24">
-            <nz-descriptions
-              nzSize="small"
-              nzLayout="vertical"
-              nzBordered="true">
-              <!-- Specification Codes -->
-              <nz-descriptions-item [nzTitle]="codesTitle">
-                <ng-template #codesTitle>
-                  Specification: {{ specificationWithEvaluations.specification.name }} (v{{specificationWithEvaluations.specification.version}})
-                  <span
-                    nz-typography
-                    nzType="secondary">
-                    <i
-                      nz-icon
-                      nzType="info-circle"
-                      nz-popover
-                      [nzPopoverContent]="specificationPopoverTemplate">
-                    </i>
-                  </span>
-                  <ng-template #specificationPopoverTemplate>
-                    <cvc-specification-popover
-                      [specificationId]="
-                      specificationWithEvaluations.specification.id
-                      "></cvc-specification-popover>
-                  </ng-template>
-                  @if (specificationWithEvaluations.specification.isDraft) {
-                    <span style="float: right">
-                      <nz-tag
-                        nzColor="warning"
-                        nz-popover
-                        [nzPopoverContent]="draftTagPopoverTemplate">
-                        Draft
-                      </nz-tag>
-                      <ng-template #draftTagPopoverTemplate>
-                        This is a draft specification. Criteria have not been finalized and should be used with caution.
-                      </ng-template>
-                    </span>
-                  }
+        @if (assertion.latestSpecification) {
+
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzSize="small"
+            nzLayout="vertical"
+            nzBordered="true">
+            <!-- Specification Codes -->
+            <nz-descriptions-item [nzTitle]="codesTitle">
+              <ng-template #codesTitle>
+                Latest Evaluation: {{ assertion.latestSpecification.name }} (v{{assertion.latestSpecification.version}})
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i
+                    nz-icon
+                    nzType="info-circle"
+                    nz-popover
+                    [nzPopoverContent]="specificationPopoverTemplate">
+                  </i>
+                </span>
+                <ng-template #specificationPopoverTemplate>
+                  <cvc-specification-popover
+                    [specificationId]="
+                    assertion.latestSpecification.id
+                    "></cvc-specification-popover>
                 </ng-template>
-                  <cvc-tag-list>
-                    @for (
-                      evaluation of specificationWithEvaluations.evaluations;
-                      track evaluation.id
-                    ) {
-                      @if (evaluation.evaluation == 'MET') {
-                        <cvc-specification-evaluation-tag
+                @if (assertion.latestSpecification.isDraft) {
+                  <span style="float: right">
+                    <nz-tag
+                      nzColor="warning"
+                      nz-popover
+                      [nzPopoverContent]="draftTagPopoverTemplate">
+                      Draft
+                    </nz-tag>
+                    <ng-template #draftTagPopoverTemplate>
+                      This is a draft specification. Criteria have not been finalized and should be used with caution.
+                    </ng-template>
+                  </span>
+                }
+              </ng-template>
+              <nz-space nzDirection="vertical">
+                <cvc-tag-list *nzSpaceItem>
+                  @for (
+                    evaluation of assertion.latestSpecificationEvaluations;
+                    track evaluation.id
+                  ) {
+                    @if (evaluation.evaluation == 'MET') {
+                      @let mode = assertion.latestSpecification.evaluationMethod == 'ONE' ? 'partial' : 'all';
+                      <cvc-specification-evaluation-tag
                         [specificationEvaluation]="{
                           'code': evaluation.code,
                           'modifier': evaluation.modifier,
                           'evaluation': evaluation.evaluation,
                           'justification': evaluation.justification,
                           'evidenceItemIds': evidenceItemIds(evaluation.evidenceItems),
-                          'criterionDescription': evaluation.specificationCriterion.description}">
-                        </cvc-specification-evaluation-tag>
-                      }
+                          'criterionDescription': evaluation.specificationCriterion.description}"
+                        [mode]="mode">
+                      </cvc-specification-evaluation-tag>
                     }
-                  </cvc-tag-list>
-              </nz-descriptions-item>
-            </nz-descriptions>
-          </nz-col>
+                  }
+                </cvc-tag-list>
+                @if (assertion.specifications && assertion.specifications.length > 1) {
+                  <span
+                    *nzSpaceItem
+                    nz-typography
+                    nzType="secondary">
+                    <i>
+                      Assertion has evaluations for additional specifications. View them in the <a href="/assertions/{{assertion.id}}/evaluations">Evaluations</a> tab.
+                    </i>
+                  </span>
+                }
+              </nz-space>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-col>
         }
       </nz-row>
     </nz-col>
@@ -145,7 +160,7 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: approvals block -->
         @if (
-          assertion.activeApprovals.nodes.length > 0 ||
+          ( assertion.activeApprovals && assertion.activeApprovals.nodes.length > 0 ) ||
           assertion.requiresReviewApprovals.nodes.length > 0
         ) {
           <nz-col [nzSpan]="24">

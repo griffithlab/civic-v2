@@ -9,7 +9,6 @@ import {
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 import { SpecificationEvaluationStatus } from '@app/generated/civic.apollo'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
-import { SpecificationToTagColorPipe } from '@app/core/pipes/specification-to-tag-color.pipe'
 
 export interface SpecificationEvaluationTag {
   code: string
@@ -29,7 +28,7 @@ export interface SpecificationEvaluationTag {
 })
 export class CvcSpecificationEvaluationTagComponent implements AfterViewInit {
   @Input() specificationEvaluation!: SpecificationEvaluationTag
-  @Input() mode: 'all'|'description_only' = 'all'
+  @Input() mode: 'all'|'partial'|'description_only' = 'all'
   @Input() enablePopover?: boolean = true
   @Input() popoverPlacement: PopoverPlacement = 'top'
 
