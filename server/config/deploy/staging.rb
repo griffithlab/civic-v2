@@ -1,4 +1,4 @@
-server "52.24.251.21", user: "ubuntu", roles: %w[web db app]
+server "staging.civicdb.org", user: "ubuntu", roles: %w[web db app]
 
 set :branch, "staging"
 set :rbenv_ruby, "4.0.3"
