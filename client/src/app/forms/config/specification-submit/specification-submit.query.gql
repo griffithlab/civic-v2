@@ -62,6 +62,7 @@ fragment SpecificationDetailConfigFields on Specification {
     name
     url
   }
+  assessmentGroupOrder
 }
 
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
