@@ -4,6 +4,7 @@ import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 
 export type FormCardOptions = {
   title?: string
+  infoString?: string
   size?: 'default' | 'small'
 }
 

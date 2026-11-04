@@ -1,0 +1,46 @@
+module Types::Entities
+  class SpecificationEvaluationMethodType < Types::BaseEnum
+    value "ONE", value: "one"
+    value "ALL_STRENGTH", value: "all_strength"
+    value "ALL_FLOWCHART", value: "all_flowchart"
+  end
+
+  class SpecificationType < Types::BaseObject
+    field :id, Int, null: false
+    field :name, String, null: false
+    field :specification_type, Types::Entities::SpecificationTypeType, null: false
+    field :assertion_type, Types::AssertionTypeType, null: false
+    field :version, String, null: false
+    field :specification_url, String, null: false
+    field :sop_pubmed_id, Int, null: true
+    field :published_on, GraphQL::Types::ISO8601Date, null: false
+    field :organization, Types::Entities::OrganizationType, null: true
+    field :organization_id, Int, null: true
+    field :specification_criteria, [ Types::Entities::SpecificationCriterionType ], null: false
+    field :evaluation_method, Types::Entities::SpecificationEvaluationMethodType, null: false
+    field :assessment_groups, [ Types::Entities::AssessmentGroupType ], null: false
+    field :assessment_group_order, [ String ], null: false
+    field :parent_specification, Types::Entities::SpecificationType, null: true
+    field :is_draft, Boolean, null: false
+
+    def organization
+      Loaders::AssociationLoader.for(Specification, :organization).load(object)
+    end
+
+    def specification_criteria
+      Loaders::AssociationLoader.for(Specification, :specification_criteria).load(object)
+    end
+
+    def assessment_groups
+      if object.assessment_groups
+        object.assessment_groups.map { |k, v| { group: k, description: v } }
+      else
+        []
+      end
+    end
+
+    def parent_specification
+      object.direct_parents.first
+    end
+  end
+end

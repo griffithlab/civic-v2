@@ -52,15 +52,14 @@ fragment AssertionSummaryFields on Assertion {
     link
   }
   therapyInteractionType
-  ampLevel
-  acmgCodes {
-    code
-    description
+  latestSpecification {
+    ...SpecificationFields
   }
-  clingenCodes {
+  latestSpecificationEvaluations {
+    ...SpecificationEvaluationFields
+  }
+  specifications {
     id
-    code
-    description
   }
   nccnGuideline {
     id
@@ -74,9 +73,7 @@ fragment AssertionSummaryFields on Assertion {
   flags(state: OPEN) {
     totalCount
   }
-  revisions(status: NEW) {
-    totalCount
-  }
+  openRevisionCount
   comments {
     totalCount
   }

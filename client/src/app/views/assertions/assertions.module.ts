@@ -5,6 +5,7 @@ import { AssertionsRoutingModule } from './assertions-routing.module'
 import { AssertionsView } from './assertions.view'
 import { AssertionsReviseModule } from './assertions-revise/assertions-revise.module'
 import { AssertionsApprovalsModule } from './assertions-detail/assertions-approvals/assertions-approvals.module'
+import { AssertionEvaluateModule } from './assertion-evaluate/assertion-evaluate.module'
 
 @NgModule({
   declarations: [AssertionsView],
@@ -13,6 +14,7 @@ import { AssertionsApprovalsModule } from './assertions-detail/assertions-approv
     AssertionsRoutingModule,
     AssertionsReviseModule,
     AssertionsApprovalsModule,
+    AssertionEvaluateModule,
   ],
   exports: [AssertionsView],
 })

@@ -7,7 +7,8 @@ class ModerateAssertionTest < ActiveSupport::TestCase
     @editor_submitter = users(:editor_submitter)
     @other_curator = users(:other_curator)
     @org = organizations(:test_org)
-    @assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:submitted_assertion))
+    @assertion = ::Assertion.find(ActiveRecord::FixtureSet.identify(:clingen_assertion))
+    @evaluations = specification_evaluations
     @assertion_by_editor = ::Assertion.find(ActiveRecord::FixtureSet.identify(:submitted_assertion_by_editor))
     @query = <<-GRAPHQL
       mutation($assertionId: Int!, $newStatus: EvidenceStatus!, $orgId: Int, $comment: String) {

@@ -29,6 +29,7 @@ module Types::Entities
     field :acmg_codes, [ Types::Entities::AcmgCodeType ], null: false
     field :clingen_codes, [ Types::Entities::ClingenCodeType ], null: false
     field :amp_level, Types::AmpLevelType, null: true
+    field :amp_category, Types::Entities::SpecificationCriterionType, null: true
     field :submission_event, Types::Entities::EventType, null: true
     field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
@@ -36,6 +37,11 @@ module Types::Entities
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
     field :approvals, resolver: Resolvers::Approvals
+    field :specifications, [ Types::Entities::SpecificationType ], null: true
+    field :latest_specification, Types::Entities::SpecificationType, null: true
+    field :specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false
+    field :latest_specification_evaluations, [ Types::Entities::SpecificationEvaluationType ], null: false
+    field :specifications_with_evaluations, [ Types::Entities::SpecificationWithEvaluationsType ], null: false
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -49,12 +55,55 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :phenotypes).load(object)
     end
 
+    def latest_specification
+      object.latest_specification
+    end
+
+    def latest_specification_evaluations
+      latest_specification.then do |spec|
+        Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
+          latest_evaluations = evaluations.select { |e| e.specification_criterion.specification_id == spec.id }
+          latest_evaluations.sort_by { |e| spec.assessment_group_order.index(e.specification_criterion.assessment_group) }
+        end
+      end
+    end
+
+    def specification_evaluations
+      Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object)
+    end
+
+    def specifications_with_evaluations
+      specifications.then do |specs|
+        specification_evaluations.then do |se|
+          grouped = se.group_by { |s| s.specification_criterion.specification_id }
+          specs_with_evals = specs.map do |spec|
+            {
+              specification: spec,
+              evaluations: grouped[spec.id],
+              created_at: grouped[spec.id].first.created_at,
+            }
+          end
+          specs_with_evals.sort_by { |s| s[:created_at] }.reverse
+        end
+      end
+    end
+
     def acmg_codes
-      Loaders::AssociationLoader.for(Assertion, :acmg_codes).load(object)
+      load_codes(code_type: "acmg_codes")
     end
 
     def clingen_codes
-      Loaders::AssociationLoader.for(Assertion, :clingen_codes).load(object)
+      load_codes(code_type: "clingen_codes")
+    end
+
+    def amp_level
+      load_codes(code_type: "amp_tiers").then do |al|
+        al.map(&:criterion).first
+      end
+    end
+
+    def amp_category
+      load_codes(code_type: "amp_tiers").first
     end
 
     def molecular_profile
@@ -109,6 +158,34 @@ module Types::Entities
 
     def approvals
       Loaders::AssociationLoader.for(Assertion, :approvals).load(object)
+    end
+
+    def specifications
+      Loaders::AssociationLoader.for(Assertion, :specifications).load(object).then do |specs|
+        specs.distinct
+      end
+    end
+
+    def open_revision_count
+      Loaders::AssociationCountLoader.for(object.class, association: :open_revisions).load(object.id).then do |count|
+        Loaders::AssociationLoader.for(Assertion, :specification_evaluations).load(object).then do |evaluations|
+          eval_counts = Promise.all(
+            evaluations.map do |e|
+              Loaders::AssociationCountLoader.for(SpecificationEvaluation, association: :open_revisions).load(e.id)
+            end)
+
+          eval_counts.then { |e_counts| e_counts.sum + count }
+        end
+      end
+    end
+
+    private
+    def load_codes(code_type:)
+      latest_specification_evaluations.then do |latest_evals|
+        latest_specification.then do |latest_spec|
+          latest_evals.select { |e| e.evaluation == "met" && latest_spec.specification_type == code_type }.map { |e| e.specification_criterion }
+        end
+      end
     end
   end
 end

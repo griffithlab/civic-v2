@@ -71,111 +71,86 @@
                 ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
-
-            <!-- AMP/ASO/CAP -->
-            <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
-              <ng-container
-                *ngIf="
-                  assertionRules.requiresAmpLevel(assertion.assertionType);
-                  else valueNotApplicable
-                ">
-                <nz-tag>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-tag>
-              </ng-container>
-            </nz-descriptions-item>
-
-            <!-- ACMG Codes -->
-            <nz-descriptions-item
-              [nzSpan]="2"
-              [nzTitle]="acmgTitle">
-              <ng-template #acmgTitle>
-                ACMG Codes
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  <i
-                    nz-icon
-                    nzType="info-circle"
-                    nz-tooltip
-                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
-                  </i>
-                </span>
-              </ng-template>
-              <ng-container
-                *ngIf="
-                  assertionRules.requiresAcmgCodes(assertion.assertionType);
-                  else valueNotApplicable
-                ">
-                <ng-container *ngIf="assertion.acmgCodes.length > 0">
-                  <cvc-tag-list>
-                    <nz-tag
-                      nz-tooltip
-                      [nzTooltipTitle]="code.description"
-                      *ngFor="let code of assertion.acmgCodes"
-                      >{{ code.code }}
-                    </nz-tag>
-                  </cvc-tag-list>
-                </ng-container>
-                <ng-container *ngIf="assertion.acmgCodes.length == 0">
-                  <span
-                    nz-typography
-                    nzType="secondary"
-                    >None provided</span
-                  >
-                </ng-container>
-              </ng-container>
-            </nz-descriptions-item>
-
-            <!-- ClinGen Codes -->
-            <nz-descriptions-item
-              [nzSpan]="2"
-              [nzTitle]="clingenTitle">
-              <ng-template #clingenTitle>
-                ClinGen/CGC/VICC Codes
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  <i
-                    nz-icon
-                    nzType="info-circle"
-                    nz-tooltip
-                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
-                  </i>
-                </span>
-              </ng-template>
-              <ng-container
-                *ngIf="
-                  assertionRules.requiresClingenCodes(assertion.assertionType);
-                  else valueNotApplicable
-                ">
-                <ng-container *ngIf="assertion.clingenCodes.length > 0">
-                  <cvc-tag-list>
-                    <nz-tag
-                      nz-tooltip
-                      [nzTooltipTitle]="code.description"
-                      *ngFor="let code of assertion.clingenCodes"
-                      >{{ code.code }}
-                    </nz-tag>
-                  </cvc-tag-list>
-                </ng-container>
-                <ng-container *ngIf="assertion.clingenCodes.length == 0">
-                  <span
-                    nz-typography
-                    nzType="secondary"
-                    >None provided</span
-                  >
-                </ng-container>
-              </ng-container>
-            </nz-descriptions-item>
-
-            <ng-template #notApplicable>
-              <span
-                nz-typography
-                nzType="secondary"
-                >Not applicable</span
-              >
-            </ng-template>
           </nz-descriptions>
         </nz-col>
+
+        @if (assertion.latestSpecification) {
+
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzSize="small"
+            nzLayout="vertical"
+            nzBordered="true">
+            <!-- Specification Codes -->
+            <nz-descriptions-item [nzTitle]="codesTitle">
+              <ng-template #codesTitle>
+                Latest Evaluation: {{ assertion.latestSpecification.name }} (v{{assertion.latestSpecification.version}})
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i
+                    nz-icon
+                    nzType="info-circle"
+                    nz-popover
+                    [nzPopoverContent]="specificationPopoverTemplate">
+                  </i>
+                </span>
+                <ng-template #specificationPopoverTemplate>
+                  <cvc-specification-popover
+                    [specificationId]="
+                    assertion.latestSpecification.id
+                    "></cvc-specification-popover>
+                </ng-template>
+                @if (assertion.latestSpecification.isDraft) {
+                  <span style="float: right">
+                    <nz-tag
+                      nzColor="warning"
+                      nz-popover
+                      [nzPopoverContent]="draftTagPopoverTemplate">
+                      Draft
+                    </nz-tag>
+                    <ng-template #draftTagPopoverTemplate>
+                      This is a draft specification. Criteria have not been finalized and should be used with caution.
+                    </ng-template>
+                  </span>
+                }
+              </ng-template>
+              <nz-space nzDirection="vertical">
+                <cvc-tag-list *nzSpaceItem>
+                  @for (
+                    evaluation of assertion.latestSpecificationEvaluations;
+                    track evaluation.id
+                  ) {
+                    @if (evaluation.evaluation == 'MET') {
+                      @let mode = assertion.latestSpecification.evaluationMethod == 'ONE' ? 'partial' : 'all';
+                      <cvc-specification-evaluation-tag
+                        [specificationEvaluation]="{
+                          'code': evaluation.code,
+                          'modifier': evaluation.modifier,
+                          'evaluation': evaluation.evaluation,
+                          'justification': evaluation.justification,
+                          'evidenceItemIds': evidenceItemIds(evaluation.evidenceItems),
+                          'criterionDescription': evaluation.specificationCriterion.description}"
+                        [mode]="mode">
+                      </cvc-specification-evaluation-tag>
+                    }
+                  }
+                </cvc-tag-list>
+                @if (assertion.specifications && assertion.specifications.length > 1) {
+                  <span
+                    *nzSpaceItem
+                    nz-typography
+                    nzType="secondary">
+                    <i>
+                      Assertion has evaluations for additional specifications. View them in the <a href="/assertions/{{assertion.id}}/evaluations">Evaluations</a> tab.
+                    </i>
+                  </span>
+                }
+              </nz-space>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-col>
+        }
       </nz-row>
     </nz-col>
 
@@ -185,7 +160,7 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: approvals block -->
         @if (
-          assertion.activeApprovals.nodes.length > 0 ||
+          ( assertion.activeApprovals && assertion.activeApprovals.nodes.length > 0 ) ||
           assertion.requiresReviewApprovals.nodes.length > 0
         ) {
           <nz-col [nzSpan]="24">

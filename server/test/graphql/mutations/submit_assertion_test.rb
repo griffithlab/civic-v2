@@ -36,12 +36,9 @@ class SubmitAssertionTest < ActiveSupport::TestCase
       phenotypeIds: [],
       therapyIds: [],
       therapyInteractionType: { unset: true },
-      ampLevel: { unset: true },
       evidenceItemIds: [ @ei_id ],
       nccnGuidelineId: { unset: true },
       nccnGuidelineVersion: { unset: true },
-      acmgCodeIds: [],
-      clingenCodeIds: [],
       fdaCompanionTest: { unset: true },
       fdaRegulatoryApproval: { unset: true },
     }.merge(overrides)

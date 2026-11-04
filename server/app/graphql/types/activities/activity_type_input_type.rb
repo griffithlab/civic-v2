@@ -21,5 +21,6 @@ module Types::Activities
     value "DELETE_COMMENT", value: "DeleteCommentActivity"
     value "APPROVE_ASSERTION", value: "ApproveAssertionActivity"
     value "REVOKE_APPROVAL", value: "RevokeApprovalActivity"
+    value "SUBMIT_CRITERIA_EVALUATIONS", value: "SubmitCriteriaEvaluationsActivity"
   end
 end
