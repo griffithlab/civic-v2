@@ -13199,8 +13199,8 @@ type SpecificationCriterion {
   id: Int!
   modifiers: [String!]!
   mutuallyExclusiveCodes: [String!]!
-  orderWithinAssessmentGroup: Int!
   pointValue: Int
+  positionWithinAssessmentGroup: Int!
   specification: Specification!
 }
 
