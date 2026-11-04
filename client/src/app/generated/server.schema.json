@@ -61853,7 +61853,19 @@
               "deprecationReason": null
             },
             {
-              "name": "orderWithinAssessmentGroup",
+              "name": "pointValue",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "positionWithinAssessmentGroup",
               "description": null,
               "args": [],
               "type": {
@@ -61864,18 +61876,6 @@
                   "name": "Int",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pointValue",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

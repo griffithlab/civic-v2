@@ -9,7 +9,7 @@ module Types::Entities
     field :mutually_exclusive_codes, [ String ], null: false
     field :specification, Types::Entities::SpecificationType, null: false
     field :assessment_group, String, null: true
-    field :order_within_assessment_group, Int, null: false
+    field :position_within_assessment_group, Int, null: false
 
     def exclusive
       object.specification.specification_type == "clingen_codes" && object.criterion == "N/A"

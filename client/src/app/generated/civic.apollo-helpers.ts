@@ -2594,7 +2594,7 @@ export type SpecificationAssessmentGroupFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	specificationCriteria?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationCriterionKeySpecifier = ('assessmentGroup' | 'criterion' | 'description' | 'exclusive' | 'id' | 'modifiers' | 'mutuallyExclusiveCodes' | 'orderWithinAssessmentGroup' | 'pointValue' | 'specification' | SpecificationCriterionKeySpecifier)[];
+export type SpecificationCriterionKeySpecifier = ('assessmentGroup' | 'criterion' | 'description' | 'exclusive' | 'id' | 'modifiers' | 'mutuallyExclusiveCodes' | 'pointValue' | 'positionWithinAssessmentGroup' | 'specification' | SpecificationCriterionKeySpecifier)[];
 export type SpecificationCriterionFieldPolicy = {
 	assessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	criterion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2603,8 +2603,8 @@ export type SpecificationCriterionFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	modifiers?: FieldPolicy<any> | FieldReadFunction<any>,
 	mutuallyExclusiveCodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	orderWithinAssessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	pointValue?: FieldPolicy<any> | FieldReadFunction<any>,
+	positionWithinAssessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	specification?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SpecificationEvaluationKeySpecifier = ('assertion' | 'code' | 'createdAt' | 'evaluation' | 'events' | 'evidenceItems' | 'id' | 'justification' | 'lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'modifier' | 'name' | 'openRevisionCount' | 'revisions' | 'specificationCriterion' | 'updatedAt' | SpecificationEvaluationKeySpecifier)[];

@@ -7694,8 +7694,8 @@ export type SpecificationCriterion = {
   id: Scalars['Int']['output'];
   modifiers: Array<Scalars['String']['output']>;
   mutuallyExclusiveCodes: Array<Scalars['String']['output']>;
-  orderWithinAssessmentGroup: Scalars['Int']['output'];
   pointValue?: Maybe<Scalars['Int']['output']>;
+  positionWithinAssessmentGroup: Scalars['Int']['output'];
   specification: Specification;
 };
 
