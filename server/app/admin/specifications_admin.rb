@@ -12,7 +12,7 @@ Trestle.resource(:specifications) do
   end
 
   menu do
-    item :specifications, icon: "fa fa-clipboard-list"
+    item :specifications, label: "Specifications and Specification Criteria", icon: "fa fa-clipboard-list"
   end
 
   scope :all, default: true
@@ -51,7 +51,16 @@ Trestle.resource(:specifications) do
         end
       end
 
-      collection_select :organization_id, Organization.order(:name), :id, :name, include_blank: "(None)"
+      row do
+        col(sm: 6) do
+          collection_select :organization_id, Organization.order(:name), :id, :name, include_blank: "(None)"
+        end
+        col(sm: 6) do
+          static_field :direct_parents, label: "Based on" do
+            instance.direct_parents.map { |p| p.name }.join(", ")
+          end
+        end
+      end
 
       text_field :specification_url
       text_field :version
