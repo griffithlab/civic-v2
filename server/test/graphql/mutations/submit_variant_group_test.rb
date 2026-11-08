@@ -107,4 +107,63 @@ class SubmitVariantGroupTest < ActiveSupport::TestCase
     )
     assert_graphql_error(response, /name|5|minimum/i)
   end
+  test "rejects duplicate variant group name regardless of case" do
+    existing_vg = variant_groups(:test_variant_group)
+    response = execute_mutation(
+      @submit_vg_mutation,
+      user: @user,
+      variables: {
+        name: existing_vg.name.upcase,
+        description: "Duplicate name test description.",
+        variantIds: [ @v600e.id ],
+        sourceIds: [ @source.id ],
+        organizationId: @org.id,
+      },
+    )
+    assert_graphql_error(response, /already exists/)
+  end
+
+  test "treats LIKE wildcard characters in the name literally" do
+    # The fixture group is named "BRAF Variants"; "_" must not match the space.
+    response = execute_mutation(
+      @submit_vg_mutation,
+      user: @user,
+      variables: {
+        name: "BRAF_Variants",
+        description: "A group whose name contains an underscore.",
+        variantIds: [ @v600e.id ],
+        sourceIds: [ @source.id ],
+        organizationId: @org.id,
+      },
+    )
+    result = response.dig("data", "submitVariantGroup", "variantGroup")
+    assert_not_nil result, "Expected result but got errors: #{response["errors"]&.map { |e| e["message"] }}"
+    assert_equal "BRAF_Variants", result["name"]
+  end
+
+  test "returns model validation errors as a GraphQL error" do
+    invalid_vg = VariantGroup.new
+    invalid_vg.define_singleton_method(:valid?) do |*|
+      errors.add(:base, "Variant group is invalid")
+      false
+    end
+
+    VariantGroup.define_singleton_method(:new) { |*, **| invalid_vg }
+    begin
+      response = execute_mutation(
+        @submit_vg_mutation,
+        user: @user,
+        variables: {
+          name: "Invalid Variant Group",
+          description: "A description of the invalid variant group.",
+          variantIds: [ @v600e.id ],
+          sourceIds: [ @source.id ],
+          organizationId: @org.id,
+        },
+      )
+    ensure
+      VariantGroup.singleton_class.remove_method(:new)
+    end
+    assert_graphql_error(response, /Variant group is invalid/)
+  end
 end

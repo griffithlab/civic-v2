@@ -37,7 +37,7 @@ class Mutations::SubmitVariantGroup < Mutations::MutationWithOrg
       errors << "Provided source ids: #{source_ids.join(', ')} but only #{existing_sources.pluck(:id).join(', ')} exist."
     end
 
-    if v = VariantGroup.find_by("name ILIKE ?", name)
+    if VariantGroup.where("name ILIKE ?", VariantGroup.sanitize_sql_like(name)).exists?
       errors << "Provided variant group name: A variant group with name #{name} already exists."
     end
 
@@ -49,7 +49,7 @@ class Mutations::SubmitVariantGroup < Mutations::MutationWithOrg
         v.save!
         return { variant_group: v }
       else
-        raise GraphQl::ExecutionError, v.errors.full_messages.join(", ")
+        raise GraphQL::ExecutionError, v.errors.full_messages.join(", ")
       end
     end
   end
