@@ -47,7 +47,10 @@ fragment SpecificationDetailConfigFields on Specification {
     id
     criterion
     description
-    modifiers
+    modifiers {
+      modifier
+      adjustment
+    }
     mutuallyExclusiveCodes
     pointValue
     assessmentGroup
@@ -72,7 +75,10 @@ fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
     id
     criterion
     description
-    modifiers
+    modifiers {
+      modifier
+      adjustment
+    }
     mutuallyExclusiveCodes
     pointValue
   }

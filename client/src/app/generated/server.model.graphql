@@ -13066,11 +13066,16 @@ type SpecificationCriterion {
   description: String!
   exclusive: Boolean!
   id: Int!
-  modifiers: [String!]!
+  modifiers: [SpecificationCriterionModifier!]!
   mutuallyExclusiveCodes: [String!]!
   pointValue: Int
   positionWithinAssessmentGroup: Int!
   specification: Specification!
+}
+
+type SpecificationCriterionModifier {
+  adjustment: Int!
+  modifier: String!
 }
 
 type SpecificationEvaluation implements EventSubject & WithRevisions {

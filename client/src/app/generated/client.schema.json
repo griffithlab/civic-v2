@@ -62107,8 +62107,8 @@
                   "name": null,
                   "kind": "NON_NULL",
                   "ofType": {
-                    "name": "String",
-                    "kind": "SCALAR",
+                    "name": "SpecificationCriterionModifier",
+                    "kind": "OBJECT",
                     "ofType": null
                   }
                 }
@@ -62179,6 +62179,50 @@
               "ofType": {
                 "name": "Specification",
                 "kind": "OBJECT",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SpecificationCriterionModifier",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "adjustment",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "Int",
+                "kind": "SCALAR",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "modifier",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "String",
+                "kind": "SCALAR",
                 "ofType": null
               }
             },

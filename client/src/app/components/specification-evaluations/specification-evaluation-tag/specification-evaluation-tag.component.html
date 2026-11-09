@@ -8,7 +8,12 @@
   [nzPopoverOverlayStyle]="{width: '300px'}">
   {{ this.specificationEvaluation.code }}
   @if (this.specificationEvaluation.modifier) {
-    _{{this.specificationEvaluation.modifier}}
+    @if (this.mode == 'all') {
+      _
+    } @else {
+       - 
+    }
+    {{this.specificationEvaluation.modifier}}
   }
 </nz-tag>
 

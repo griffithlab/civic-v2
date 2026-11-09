@@ -26,7 +26,6 @@ import {
   SpecificationEvaluationFields,
   CurrentAssertionSpecificationGQL,
   SpecificationEvaluationFieldsFragment,
-  SpecificationEvaluation,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -75,6 +74,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   oneCodeModel: { 
     amp_category_fields?: {
       amp_category: string
+      modifier: Maybe<string>,
       justification: Maybe<string>,
     }
   } = {}
@@ -162,7 +162,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                             wrappers: ['form-row'],
                             props: <CvcFormRowWrapperProps>{
                               formRowOptions: {
-                              spanIndexed: [8, 16],
+                              spanIndexed: [4, 4, 16],
                               },
                             },
                             fieldGroup: [
@@ -171,10 +171,65 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                 type: 'select',
                                 wrappers: ['form-field'],
                                 props: {
-                                  label: `Select ${this.specificationInfo.name}`,
-                                  options: this.specificationInfo.specificationCriteria.map((c) => {return {label: c.criterion, value: c.criterion}}),
+                                  label: "Tier",
+                                  options: this.specificationInfo.specificationCriteria.map((c) => {return {label: c.criterion, value: c.criterion}}).sort((a, b) => a.label.localeCompare(b.label)),
                                   required: true,
-                                }
+                                },
+                                expressions: {
+                                  'props.description': (field) => {
+                                    const selectedTier = field.model?.amp_category
+                                    return this.specificationInfo?.specificationCriteria.find((c) => c.criterion == selectedTier)?.description
+                                  }
+                                },
+                                hooks: {
+                                  onInit: (field) => {
+                                    const control = field.formControl
+                                    if (control) {
+                                      control.valueChanges.subscribe(() => {
+                                        const modifier = field.form?.get('modifier')
+                                        if (modifier) {
+                                          modifier.setValue([])
+                                        }
+                                      })
+                                    }
+                                  },
+                                },
+                              },
+                              <FormlyFieldConfig>{
+                                key: "modifier",
+                                wrappers: ['form-field'],
+                                type: "select",
+                                props: {
+                                  label: "Level",
+                                  options: []
+                                },
+                                expressions: {
+                                  'props.options': (field) => {
+                                    const selectedTier = field.model?.amp_category
+                                    const tier = this.specificationInfo?.specificationCriteria.find((c) => c.criterion == selectedTier)
+                                    if (tier) {
+                                      return tier.modifiers.map((m) => {return {label: m.modifier, value: m.modifier}})
+                                    } else {
+                                      return []
+                                    }
+                                  },
+                                  'props.required': (field) => {
+                                    const options = field.props?.options
+                                    return options && (Array.isArray(options) && options.length > 0)
+                                  },
+                                  'props.disabled': (field) => {
+                                    const options = field.props?.options
+                                    return !options || (Array.isArray(options) && options.length === 0)
+                                  },
+                                  'props.description': (field) => {
+                                    const options = field.props?.options
+                                    if (!options || (Array.isArray(options) && options.length === 0)) {
+                                      return "No levels available for this tier."
+                                    } else {
+                                      return ''
+                                    }
+                                  }
+                                },
                               },
                               {
                                 key: "justification",
@@ -203,6 +258,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                     this.oneCodeModel = {
                       'amp_category_fields': {
                         'amp_category': met_category.code,
+                        'modifier': met_category.modifier,
                         'justification': met_category.justification,
                       }
                     }
@@ -271,11 +327,10 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                                     type: "select",
                                     props: {
                                       label: "Modifier",
-                                      options: code.modifiers.map((m) => { return {label: m, value: m} }),
+                                      options: code.modifiers.map((m) => { return {label: m.modifier, value: m.modifier} }),
                                       extraInfo: {
                                         optionsLength: code.modifiers.length
                                       },
-                                      description: code.modifiers.length > 0 ? "" : "No modifiers available for this code"
                                     },
                                     expressions: {
                                       'props.disabled': (field: FormlyFieldConfig) => {
@@ -402,7 +457,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
                       }
                       if (parentSpecId) {
                         const parentEvaluation = this.allEvaluations().find(evaluation => evaluation.code === criterion.criterion && evaluation.specificationCriterion.specification.id === parentSpecId)
-                        const parentModifier = parentEvaluation?.modifier && criterion.modifiers.includes(parentEvaluation.modifier) ? parentEvaluation.modifier : undefined
+                        const parentModifier = parentEvaluation?.modifier && Object.keys(criterion.modifiers).includes(parentEvaluation.modifier) ? parentEvaluation.modifier : undefined
                         if (parentEvaluation) {
                           portedEvaluation = {
                             'evaluation': parentEvaluation.evaluation,
@@ -521,7 +576,7 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
           evaluations: [{
             specificationCriterion: this.oneCodeModel.amp_category_fields.amp_category,
             evaluation: SpecificationEvaluationStatus.Met,
-            modifier: undefined,
+            modifier: this.oneCodeModel.amp_category_fields.modifier,
             justification: this.oneCodeModel.amp_category_fields.justification ? this.oneCodeModel.amp_category_fields.justification : undefined,
             evidenceItemIds: []
           }],

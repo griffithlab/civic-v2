@@ -7692,11 +7692,17 @@ export type SpecificationCriterion = {
   description: Scalars['String']['output'];
   exclusive: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
-  modifiers: Array<Scalars['String']['output']>;
+  modifiers: Array<SpecificationCriterionModifier>;
   mutuallyExclusiveCodes: Array<Scalars['String']['output']>;
   pointValue?: Maybe<Scalars['Int']['output']>;
   positionWithinAssessmentGroup: Scalars['Int']['output'];
   specification: Specification;
+};
+
+export type SpecificationCriterionModifier = {
+  __typename: 'SpecificationCriterionModifier';
+  adjustment: Scalars['Int']['output'];
+  modifier: Scalars['String']['output'];
 };
 
 export type SpecificationEvaluation = EventSubject & WithRevisions & {
@@ -11268,7 +11274,7 @@ export type ValidSpecificationsQueryVariables = Exact<{
 }>;
 
 
-export type ValidSpecificationsQuery = { __typename: 'Query', validSpecifications: Array<{ __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined }> };
+export type ValidSpecificationsQuery = { __typename: 'Query', validSpecifications: Array<{ __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined }> };
 
 export type CurrentAssertionSpecificationQueryVariables = Exact<{
   assertionId: Scalars['Int']['input'];
@@ -11282,13 +11288,13 @@ export type SpecificationFormConfigQueryVariables = Exact<{
 }>;
 
 
-export type SpecificationFormConfigQuery = { __typename: 'Query', specificationFormConfig?: { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> } | undefined };
+export type SpecificationFormConfigQuery = { __typename: 'Query', specificationFormConfig?: { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }> }> } | undefined };
 
-export type SpecificationConfigFieldsFragment = { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> }> };
+export type SpecificationConfigFieldsFragment = { __typename: 'SpecificationFormConfig', specification: { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined }, assessmentGroups: Array<{ __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }> }> };
 
-export type SpecificationDetailConfigFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined };
+export type SpecificationDetailConfigFieldsFragment = { __typename: 'Specification', id: number, name: string, version: string, specificationUrl: string, sopPubmedId?: number | undefined, publishedOn: any, evaluationMethod: SpecificationEvaluationMethod, assertionType: AssertionType, isDraft: boolean, assessmentGroupOrder: Array<string>, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, assessmentGroup?: string | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }>, parentSpecification?: { __typename: 'Specification', id: number } | undefined, organization?: { __typename: 'Organization', id: number, name: string, url: string } | undefined };
 
-export type AssessmentGroupFormConfigFieldsFragment = { __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, modifiers: Array<string>, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined }> };
+export type AssessmentGroupFormConfigFieldsFragment = { __typename: 'SpecificationAssessmentGroup', name: string, description: string, specificationCriteria: Array<{ __typename: 'SpecificationCriterion', id: number, criterion: string, description: string, mutuallyExclusiveCodes: Array<string>, pointValue?: number | undefined, modifiers: Array<{ __typename: 'SpecificationCriterionModifier', modifier: string, adjustment: number }> }> };
 
 export type SubmitCriteriaEvaluationsMutationVariables = Exact<{
   input: SubmitCriteriaEvaluationsInput;
@@ -14799,7 +14805,10 @@ export const SpecificationDetailConfigFieldsFragmentDoc = gql`
     id
     criterion
     description
-    modifiers
+    modifiers {
+      modifier
+      adjustment
+    }
     mutuallyExclusiveCodes
     pointValue
     assessmentGroup
@@ -14825,7 +14834,10 @@ export const AssessmentGroupFormConfigFieldsFragmentDoc = gql`
     id
     criterion
     description
-    modifiers
+    modifiers {
+      modifier
+      adjustment
+    }
     mutuallyExclusiveCodes
     pointValue
   }

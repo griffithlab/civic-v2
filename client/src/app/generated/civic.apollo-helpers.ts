@@ -2607,6 +2607,11 @@ export type SpecificationCriterionFieldPolicy = {
 	positionWithinAssessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	specification?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SpecificationCriterionModifierKeySpecifier = ('adjustment' | 'modifier' | SpecificationCriterionModifierKeySpecifier)[];
+export type SpecificationCriterionModifierFieldPolicy = {
+	adjustment?: FieldPolicy<any> | FieldReadFunction<any>,
+	modifier?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SpecificationEvaluationKeySpecifier = ('assertion' | 'code' | 'createdAt' | 'evaluation' | 'events' | 'evidenceItems' | 'id' | 'justification' | 'lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'modifier' | 'name' | 'openRevisionCount' | 'revisions' | 'specificationCriterion' | 'updatedAt' | SpecificationEvaluationKeySpecifier)[];
 export type SpecificationEvaluationFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -4046,6 +4051,10 @@ export type StrictTypedTypePolicies = {
 	SpecificationCriterion?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationCriterionKeySpecifier | (() => undefined | SpecificationCriterionKeySpecifier),
 		fields?: SpecificationCriterionFieldPolicy,
+	},
+	SpecificationCriterionModifier?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SpecificationCriterionModifierKeySpecifier | (() => undefined | SpecificationCriterionModifierKeySpecifier),
+		fields?: SpecificationCriterionModifierFieldPolicy,
 	},
 	SpecificationEvaluation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationEvaluationKeySpecifier | (() => undefined | SpecificationEvaluationKeySpecifier),
