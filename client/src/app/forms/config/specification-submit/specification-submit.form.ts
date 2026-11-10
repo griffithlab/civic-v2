@@ -85,10 +85,13 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   submitModel: { organizationId?: number } = {}
   submitFields: FormlyFieldConfig[] = [
     {
+      type: 'cvc-cancel-button',
+    },
+    {
       key: 'organizationId',
       type: 'org-submit-button',
       props: {
-        submitLabel: 'Submit Evaluations',
+        submitLabel: 'Submit New Evaluations',
         align: 'right',
       },
     },
@@ -126,6 +129,9 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
       const specId = +this.selectedSpecificationId()
       if (specId) {
         this.submitFields = [
+          {
+            type: 'cvc-cancel-button',
+          },
           {
             key: 'organizationId',
             type: 'org-submit-button',
