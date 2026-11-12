@@ -24,7 +24,7 @@ module Actions
 
     def move_assertion
       submission_activity.organization_id = new_organization_id
-      submission_activity.save
+      submission_activity.save!
     end
   end
 end
