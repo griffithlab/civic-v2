@@ -26,6 +26,7 @@ import {
   SpecificationEvaluationFields,
   CurrentAssertionSpecificationGQL,
   SpecificationEvaluationFieldsFragment,
+  AssertionSignificance,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -55,6 +56,7 @@ export interface EvaluationModelField {
 })
 export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
   @Input() assertionId!: number
+  @Input() significance!: AssertionSignificance
   specificationModel: SpecificationModel = { "specification_fields": { "specification": undefined } }
   specificationForm: UntypedFormGroup
   specificationFormFields?: FormlyFieldConfig[]
@@ -653,5 +655,64 @@ export class CvcSpecificationSubmitForm implements OnInit, AfterViewInit {
       return criterion.description
     }
     return ''
+  }
+
+  filterMetCodes(codes: {}): {} {
+    return Object.fromEntries(Object.entries(codes as Record<string, { evaluation?: string }>).filter(([key, nestedObj]) => nestedObj.evaluation === "MET"))
+  }
+
+  strengthForCode(code: any): number | undefined {
+    if (code.value.evaluation == SpecificationEvaluationStatus.Met) {
+      let criterion = this.specificationInfo?.specificationCriteria.find((c) => c.criterion == code.key)
+      if (criterion && criterion.pointValue) {
+        let modifier = criterion.modifiers.find((m) => m.modifier == code.value.modifier)
+        if (modifier && modifier.adjustment) {
+          return criterion.pointValue + modifier.adjustment
+        } else {
+          return criterion.pointValue
+        }
+      }
+    }
+    return undefined
+  }
+
+  totalPoints(): number {
+    let total = 0
+    for (const [group, codes] of Object.entries(this.perGroupCodesModel)) {
+      for (const [code, evaluation] of Object.entries(codes)) {
+        if (evaluation.evaluation == SpecificationEvaluationStatus.Met) {
+          let criterion = this.specificationInfo?.specificationCriteria.find((c) => c.criterion == code)
+          if (criterion && criterion.pointValue) {
+            total += criterion.pointValue
+            let modifier = criterion.modifiers.find((m) => m.modifier == evaluation.modifier)
+            if (modifier && modifier.adjustment) {
+              total += modifier.adjustment
+            }
+          }
+        }
+      }
+    }
+    return total
+  }
+
+  clinicalSignificanceForTotalPoints(points: number): AssertionSignificance | undefined {
+    const clinicalSignificances = this.specificationInfo?.clinicalSignificances
+    if (clinicalSignificances) {
+      const clinicalSignificance = clinicalSignificances.find((s) => s.points == points)
+      const largestClinicalSignificance = clinicalSignificances.reduce((max, current) => {
+        return current.points > max.points ? current : max;
+      })
+      const smallestClinicalSignificance = clinicalSignificances.reduce((min, current) => {
+        return current.points < min.points ? current : min;
+      })
+      if (clinicalSignificance) {
+        return clinicalSignificance.clinicalSignificance
+      } else if(points > largestClinicalSignificance.points) {
+        return largestClinicalSignificance.clinicalSignificance
+      } else if(points < smallestClinicalSignificance.points) {
+        return smallestClinicalSignificance.clinicalSignificance
+      }
+    }
+    return undefined
   }
 }

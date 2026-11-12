@@ -46,7 +46,7 @@
       <div class="content">
         @if (vwr && vwr.signedIn) {
           <cvc-specification-submit-form
-          [assertionId]="assertionId()"></cvc-specification-submit-form>
+          [assertionId]="assertionId()" [significance]="a.significance"></cvc-specification-submit-form>
         } @else {
           <nz-row
             nzSpan="24"

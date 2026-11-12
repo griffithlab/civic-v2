@@ -66,6 +66,10 @@ fragment SpecificationDetailConfigFields on Specification {
     url
   }
   assessmentGroupOrder
+  clinicalSignificances {
+    points
+    clinicalSignificance
+  }
 }
 
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {

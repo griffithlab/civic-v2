@@ -612,6 +612,11 @@ export type ClinicalSignificanceCountsFieldPolicy = {
 	therapyInteractionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	type?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ClinicalSignificancePointsTotalKeySpecifier = ('clinicalSignificance' | 'points' | ClinicalSignificancePointsTotalKeySpecifier)[];
+export type ClinicalSignificancePointsTotalFieldPolicy = {
+	clinicalSignificance?: FieldPolicy<any> | FieldReadFunction<any>,
+	points?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type ClinicalTrialKeySpecifier = ('description' | 'id' | 'link' | 'name' | 'nctId' | 'url' | ClinicalTrialKeySpecifier)[];
 export type ClinicalTrialFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2569,11 +2574,12 @@ export type SourceSuggestionValuesFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'isDraft' | 'name' | 'organization' | 'organizationId' | 'parentSpecification' | 'publishedOn' | 'sopPubmedId' | 'specificationCriteria' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
+export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'clinicalSignificances' | 'evaluationMethod' | 'id' | 'isDraft' | 'name' | 'organization' | 'organizationId' | 'parentSpecification' | 'publishedOn' | 'sopPubmedId' | 'specificationCriteria' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
 export type SpecificationFieldPolicy = {
 	assertionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroupOrder?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinicalSignificances?: FieldPolicy<any> | FieldReadFunction<any>,
 	evaluationMethod?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isDraft?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3363,6 +3369,10 @@ export type StrictTypedTypePolicies = {
 	ClinicalSignificanceCounts?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ClinicalSignificanceCountsKeySpecifier | (() => undefined | ClinicalSignificanceCountsKeySpecifier),
 		fields?: ClinicalSignificanceCountsFieldPolicy,
+	},
+	ClinicalSignificancePointsTotal?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ClinicalSignificancePointsTotalKeySpecifier | (() => undefined | ClinicalSignificancePointsTotalKeySpecifier),
+		fields?: ClinicalSignificancePointsTotalFieldPolicy,
 	},
 	ClinicalTrial?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ClinicalTrialKeySpecifier | (() => undefined | ClinicalTrialKeySpecifier),

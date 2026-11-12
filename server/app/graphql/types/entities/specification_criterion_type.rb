@@ -1,7 +1,7 @@
 module Types::Entities
   class SpecificationCriterionModifierType < Types::BaseObject
     field :modifier, String, null: false
-    field :adjustment, Int, null: false
+    field :adjustment, Int, null: true
   end
 
   class SpecificationCriterionType < Types::BaseObject

@@ -22,6 +22,7 @@ module Types::Entities
     field :assessment_group_order, [ String ], null: false
     field :parent_specification, Types::Entities::SpecificationType, null: true
     field :is_draft, Boolean, null: false
+    field :clinical_significances, [ Types::Entities::ClinicalSignificancePointsTotalType ], null: false
 
     def organization
       Loaders::AssociationLoader.for(Specification, :organization).load(object)
@@ -41,6 +42,14 @@ module Types::Entities
 
     def parent_specification
       object.direct_parents.first
+    end
+
+    def clinical_significances
+      if object.clinical_significances
+        object.clinical_significances.map { |k, v| { points: k, clinical_significance: v } }
+      else
+        []
+      end
     end
   end
 end

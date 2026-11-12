@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_26_124924) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_11_160422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -1145,6 +1145,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_26_124924) do
     t.enum "assertion_type", null: false, enum_type: "assertion_types"
     t.string "assessment_group_order", default: [], array: true
     t.hstore "assessment_groups"
+    t.hstore "clinical_significances"
     t.datetime "created_at", null: false
     t.enum "evaluation_method", default: "all_strength", enum_type: "specification_evaluation_methods"
     t.boolean "is_draft", default: false, null: false

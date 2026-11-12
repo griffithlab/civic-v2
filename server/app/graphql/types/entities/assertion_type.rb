@@ -97,8 +97,16 @@ module Types::Entities
     end
 
     def amp_level
-      load_codes(code_type: "amp_tiers").then do |al|
-        al.map(&:criterion).first
+      load_evals(code_type: "amp_tiers").then do |evals|
+        evaluation = evals.first
+        if evaluation
+          tier = evaluation.specification_criterion.criterion
+          if evaluation.modifier
+            tier + " - " + evaluation.modifier
+          else
+            tier
+          end
+        end
       end
     end
 
@@ -184,6 +192,14 @@ module Types::Entities
       latest_specification_evaluations.then do |latest_evals|
         latest_specification.then do |latest_spec|
           latest_evals.select { |e| e.evaluation == "met" && latest_spec.specification_type == code_type }.map { |e| e.specification_criterion }
+        end
+      end
+    end
+
+    def load_evals(code_type:)
+      latest_specification_evaluations.then do |latest_evals|
+        latest_specification.then do |latest_spec|
+          latest_evals.select { |e| e.evaluation == "met" && latest_spec.specification_type == code_type }
         end
       end
     end

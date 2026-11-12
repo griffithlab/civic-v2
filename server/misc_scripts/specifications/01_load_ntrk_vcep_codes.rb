@@ -235,7 +235,7 @@ specifications = [
     assertion_type: :Predisposing,
     specification_url: "https://pubmed.ncbi.nlm.nih.gov/25741868/",
     sop_pubmed_id: 25741868,
-    evaluation_method: "all_strength",
+    evaluation_method: "all_flowchart",
     assessment_groups: {},
     assessment_group_order: [],
     specification_criteria: AcmgCode.all.reject { |code| code.code.include?("_") }.map do |code|

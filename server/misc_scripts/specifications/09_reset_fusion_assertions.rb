@@ -1,8 +1,8 @@
 civicbot_user = User.find(Constants::CIVICBOT_USER_ID)
 
-Assertion.where(assertion_type: 'Oncogenic').all.select{ |a| [14, 16].include?(a.submission_activity.organization_id) }.each do |assertion|
+Assertion.where(assertion_type: 'Oncogenic').all.select { |a| [ 14, 16 ].include?(a.submission_activity.organization_id) }.each do |assertion|
   evaluations = assertion.specification_evaluations
-  met_evaluations = evaluations.select{ |e| e.evaluation == 'met' }
+  met_evaluations = evaluations.select { |e| e.evaluation == 'met' }
   if met_evaluations.count == 1
     met_evaluation = met_evaluations.first
     if met_evaluation.specification_criterion.criterion == "N/A"
