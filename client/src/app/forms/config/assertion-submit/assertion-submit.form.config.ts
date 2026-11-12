@@ -110,28 +110,15 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'phenotype-multi-select',
                 props: {},
               },
-              {
-                key: 'ampLevel',
-                type: 'amp-category-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
-              {
-                key: 'acmgCodeIds',
-                type: 'acmg-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
-              {
-                key: 'clingenCodeIds',
-                type: 'clingen-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
-              },
             ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 18,
+              },
+            },
           },
           {
             wrappers: ['form-row'],
@@ -202,6 +189,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'textarea',
                 wrappers: ['form-field'],
                 props: {
+                  attributes: {
+                    rows: 5
+                  },
                   tooltip: 'A short, one sentence summary of the Assertion',
                   placeholder: 'Enter an Assertion Summary',
                   label: 'Assertion Summary',

@@ -19,14 +19,11 @@ class InputAdaptors::AssertionInputAdaptor
       phenotype_ids: input.phenotype_ids,
       therapy_ids: input.therapy_ids,
       therapy_interaction_type: input.therapy_interaction_type,
-      amp_level: input.amp_level,
       evidence_item_ids: input.evidence_item_ids,
       nccn_guideline_id: input.nccn_guideline_id,
       nccn_guideline_version: input.nccn_guideline_version,
-      acmg_code_ids: input.acmg_code_ids,
-      clingen_code_ids: input.clingen_code_ids,
       fda_companion_test: input.fda_companion_test,
-      fda_regulatory_approval: input.fda_regulatory_approval
+      fda_regulatory_approval: input.fda_regulatory_approval,
     )
   end
 
@@ -67,16 +64,6 @@ class InputAdaptors::AssertionInputAdaptor
 
     if fields.nccn_guideline_id && !NccnGuideline.where(id: fields.nccn_guideline_id).exists?
       errors << "Provided NCCN Guideline id: #{fields.nccn_guideline_id} is not found."
-    end
-
-    existing_acmg_ids = AcmgCode.where(id: fields.acmg_code_ids).pluck(:id)
-    if existing_acmg_ids.size != fields.acmg_code_ids.size
-      errors << "Provided ACMG code ids: #{fields.acmg_code_ids.join(', ')} but only #{existing_acmg_ids.join(', ')} exist."
-    end
-
-    existing_clingen_ids = ClingenCode.where(id: fields.clingen_code_ids).pluck(:id)
-    if existing_clingen_ids.size != fields.clingen_code_ids.size
-      errors << "Provided ClinGen code ids: #{fields.clingen_code_ids.join(', ')} but only #{existing_clingen_ids.join(', ')} exist."
     end
 
     if !MolecularProfile.where(id: fields.molecular_profile_id).exists?

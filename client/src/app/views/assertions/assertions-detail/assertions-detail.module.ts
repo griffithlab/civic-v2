@@ -26,6 +26,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module'
 import { AssertionsDetailView } from './assertions-detail.view'
 import { CvcCanPerformApprovalActionsPipe } from '@app/components/approvals/approval-pipes/can-perform-approval-actions.pipe'
@@ -53,6 +54,7 @@ import { CvcApprovableDirective } from '@app/components/approvals/approvable/app
     NzPopoverModule,
     NzSpinModule,
     NzEmptyModule,
+    NzToolTipModule,
     CvcPipesModule,
     CvcCanCreateApprovalPipe,
     CvcApprovalActionTooltipPipe,

@@ -1,0 +1,70 @@
+<div nz-row [nzGutter]="[16, 8]">
+  <div
+    nz-col
+    nzSpan="4">
+    <nz-steps
+      nzDirection="vertical"
+      [nzCurrent]="currentStep()"
+      (nzIndexChange)="onIndexChange($event)">
+      @for (step of field.fieldGroup; track step.key; let i = $index) {
+        <nz-step [nzTitle]="step.props?.stepLabel" [nzIcon]="iconTemplate"> </nz-step>
+        <ng-template #iconTemplate>
+          @if (isValid(step)) {
+            @if (i == currentStep()) {
+              <p style="font-size: 12px;">&#11044;</p>
+            } @else {
+              <p style="font-size: 8px;">&#11044;</p>
+            }
+          } @else {
+            <nz-icon nzType="warning" nzTheme="twotone" nzTwotoneColor="#CD1C18" />
+          }
+        </ng-template>
+      }
+    </nz-steps>
+  </div>
+  <div
+    nz-col
+    nzSpan="20">
+    <nz-row [nzGutter]="[16, 8]">
+      @let stepField =
+        field.fieldGroup ? field.fieldGroup[currentStep()] : undefined;
+      @if (stepField) {
+        <p>
+          {{ stepField.props?.stepLabel }}
+          <span
+            nz-typography
+            nzType="secondary">
+            <i>- {{ stepField.props?.infoString }}</i>
+          </span>
+        </p>
+        @for (subField of stepField.fieldGroup; track subField.key) {
+          <nz-col nzSpan="24">
+            <formly-field [field]="subField"></formly-field>
+          </nz-col>
+          @if (!$last) {
+            <nz-divider nzText="OR" nzSize="small"></nz-divider>
+          }
+        }
+      }
+      <nz-col nzSpan="24">
+        @if (currentStep() > 0) {
+          <button
+            nz-button
+            nzType="default"
+            (click)="previousStep()">
+            <span>Previous</span>
+          </button>
+        }
+        @if (currentStep() < field.fieldGroup!.length - 1) {
+          <button
+            nz-button
+            nzType="default"
+            (click)="nextStep()"
+            style="float: right;">
+            <span>Next</span>
+          </button>
+        }
+      </nz-col>
+    </nz-row>
+  </div>
+</div>

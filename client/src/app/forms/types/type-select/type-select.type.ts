@@ -95,6 +95,10 @@ export class CvcEntityTypeSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
+    let evaluationCount = this.model.evaluationCount
+    if (evaluationCount && evaluationCount > 0) {
+      this.props.disabled = true
+    }
     if (this.state && this.state.formReady$) {
       this.state.formReady$
         .pipe(
@@ -143,6 +147,9 @@ export class CvcEntityTypeSelectField
       this.state.entityName
     )
     this.props.tooltip = `Type of clinical outcome associated with the ${this.state.entityName} statement.`
+    if (this.state.entityName == 'Assertion' && this.options.formState.formMode == 'revise') {
+      this.props.tooltip += " Can't be changed once the Assertion has been evaluated."
+    }
 
     // subscribe to state's type options
     if (!this.state.enums.entityType$) {

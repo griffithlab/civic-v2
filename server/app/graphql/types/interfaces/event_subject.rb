@@ -47,6 +47,8 @@ module Types::Interfaces
           Types::Entities::RevisionSetType
         when Comment
           Types::Entities::CommentType
+        when SpecificationEvaluation
+          Types::Entities::SpecificationEvaluationType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

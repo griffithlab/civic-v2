@@ -29,7 +29,7 @@ class AssertionValidator < ActiveModel::Validator
 
     if validator[:therapy]
       if record.therapy_ids.blank?
-        record.errors.add :therapy_ids, "Therapy required for #{record.evidence_type} evidence type"
+        record.errors.add :therapy_ids, "Therapy required for #{record.assertion_type} assertion type"
       else
         deprecated_therapies = record.therapies.select { |t| t.deprecated }
         if deprecated_therapies.count > 0
@@ -48,16 +48,42 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :therapy_interaction_type, "Therapy interaction type cannot be set unless multiple therapys are specified."
     end
 
-    if !validator[:acmg_codes] && record.acmg_code_ids.size > 0
-      record.errors.add :acmg_code_ids, "Assertions of type #{record.assertion_type} may not have ACMG codes attached."
+    # TODO - eventually we want to allow multiple specifications but only one "active" or "current"
+    if record.specifications.distinct.count > 1
+      record.errors.add(:specifications, "Assertions must have a single specification under which they are curated.")
     end
 
-    if !validator[:clingen_codes] && record.clingen_code_ids.size > 0
-      record.errors.add :acmg_code_ids, "Assertions of type #{record.assertion_type} may not have ClinGen/CGC/VICC codes attached."
+    record.specifications.each do |spec|
+      if spec.assertion_type != record.assertion_type
+        record.errors.add(:specification, "Assertions of type #{record.assertion_type} may not have #{spec.name} classifications attached.")
+      end
     end
 
-    if !validator[:amp_level] && record.amp_level.present?
-      record.errors.add :amp_level, "Assertions of type #{record.assertion_type} may not have an AMP/ASCO/CAP level attached."
+    # TODO - this will not work if multiple specifications are applied.
+    met_evaluations = record.specification_evaluations
+    .eager_load(:specification_criterion)
+    .where(evaluation: "met")
+    met_code_names = met_evaluations.map { |e| e.specification_criterion.criterion }
+
+    met_evaluations.each do |me|
+      exclusive_codes = me.specification_criterion.mutually_exclusive_codes.intersection(met_code_names)
+      if exclusive_codes.any?
+        record.errors.add(:specification, "Code #{me.specification_criterion.criterion} is incompatible with #{exclusive_codes.join(",")}")
+      end
+    end
+
+    # TODO - the following several validations assume multiple specifications are possible. we dont currently support that
+    utilized_specifications = record.specification_criteria.map(&:specification)
+    if utilized_specifications.uniq.size > 1
+      record.errors.add(:specification, "All classifications must come from the same specification. #{utilized_specifications.map(&:name).join(",")} found.")
+    end
+
+    utilized_amp_tiers = utilized_specifications
+      .map(&:specification_type)
+      .tally["amp_tiers"]
+
+    if utilized_amp_tiers.present? && utilized_amp_tiers > 1
+      record.errors.add(:specification, "Only one AMP Tier can be assigned to an Assertion.")
     end
 
     if !validator[:allow_regulatory_approval] && !record.fda_regulatory_approval.nil?
@@ -80,6 +106,15 @@ class AssertionValidator < ActiveModel::Validator
     if record.variant_origin == "Combined" && !record.molecular_profile.is_multi_variant?
       record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
     end
+
+    if record.status == "accepted"
+      if record.specifications.size == 0
+        record.errors.add :specifications, "Assertions must have at least one selected specification in order to be accepted"
+      end
+      if record.specification_evaluations.all? { |se| se.evaluation == "not_evaluated" }
+        record.errors.add :specifications, "You must evaluate at least one specification criteria before accepting an Assertion"
+      end
+    end
   end
 
   def allows_assertion_without_evidence_items?(record)
@@ -93,9 +128,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: true,
-        acmg_codes: false,
-        amp_level: true,
-        clingen_codes: false,
         allow_regulatory_approval: true,
       },
      "Diagnostic" => {
@@ -103,9 +135,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: false,
-        acmg_codes: false,
-        amp_level: true,
-        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      "Prognostic" => {
@@ -113,9 +142,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: false,
-        acmg_codes: false,
-        amp_level: true,
-        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      "Predisposing" => {
@@ -123,9 +149,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports" ],
         disease: true,
         therapy: false,
-        acmg_codes: true,
-        amp_level: false,
-        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      "Oncogenic" => {
@@ -133,9 +156,6 @@ class AssertionValidator < ActiveModel::Validator
         assertion_direction: [ "Supports" ],
         disease: true,
         therapy: false,
-        acmg_codes: false,
-        amp_level: false,
-        clingen_codes: true,
         allow_regulatory_approval: false,
       },
     }
