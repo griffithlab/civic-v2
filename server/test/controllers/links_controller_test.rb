@@ -39,6 +39,19 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     check_redirect "/genes/#{gene.id}", "/features/#{gene.feature.id}"
   end
 
+  test "revision permalinks open the revision's set, whatever its status" do
+    [ :new_revision, :accepted_revision, :rejected_revision ].each do |name|
+      revision = revisions(name)
+
+      get "/links/revisions/#{revision.id}"
+
+      assert_response :redirect
+      location = URI.parse(@response["Location"])
+      assert_equal "/evidence/#{revision.subject_id}/revisions", location.path
+      assert_equal({ "revisionSetId" => revision.revision_set_id.to_s }, URI.decode_www_form(location.query).to_h)
+    end
+  end
+
   def check_redirect(input_path, output_path)
     get input_path
     assert_response :redirect
