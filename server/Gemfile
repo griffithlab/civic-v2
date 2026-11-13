@@ -15,7 +15,7 @@ gem "importmap-rails"
 
 gem "rack-cors", "~> 1.1.1"
 
-gem "omniauth", "~> 2.0.2"
+gem "omniauth", "~> 2.2.0"
 gem "omniauth-github", "~> 2.0.0"
 gem "omniauth-google-oauth2", "~> 0.8.1"
 gem "omniauth-orcid", "~> 2.1.1"
