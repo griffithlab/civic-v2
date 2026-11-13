@@ -28,10 +28,10 @@ jobs:
         with:
           node-version: 24
 
-      - run: npm install -g yarn
+      - run: corepack enable
         working-directory: ./client
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
         working-directory: ./client
 
       - run: rm -f public/*.js
