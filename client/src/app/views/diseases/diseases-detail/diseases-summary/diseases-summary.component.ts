@@ -7,9 +7,9 @@ import {
   DiseasesSummaryQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
-import { QueryRef } from 'apollo-angular'
+import { onlyCompleteData, QueryRef } from 'apollo-angular'
 import { Observable, Subscription } from 'rxjs'
-import { pluck, startWith } from 'rxjs/operators'
+import { map, startWith } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-diseases-summary',
@@ -30,12 +30,20 @@ export class DiseasesSummaryComponent implements OnDestroy {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.diseaseId = +params.diseaseId
-      this.queryRef = this.gql.watch({ diseaseId: this.diseaseId })
+      this.queryRef = this.gql.watch({
+        variables: { diseaseId: this.diseaseId },
+      })
 
       let observable = this.queryRef.valueChanges
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
+      this.loading$ = observable.pipe(
+        map(({ loading }) => loading),
+        startWith(true)
+      )
 
-      this.disease$ = observable.pipe(pluck('data', 'disease'))
+      this.disease$ = observable.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.disease)
+      )
     })
   }
 

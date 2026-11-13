@@ -43,6 +43,7 @@ import {
   CvcRegionSelectForm,
   RegionSelectModalData,
 } from './region-select/region-select.form'
+import { Apollo } from 'apollo-angular'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -58,8 +59,7 @@ export interface CvcFeatureSelectFieldProps extends FormlyFieldProps {
   alwaysShowCreate?: boolean
 }
 
-export interface CvcFeatureSelectFieldConfig
-  extends FormlyFieldConfig<CvcFeatureSelectFieldProps> {
+export interface CvcFeatureSelectFieldConfig extends FormlyFieldConfig<CvcFeatureSelectFieldProps> {
   type: 'feature-select' | 'feature-multi-select' | Type<CvcFeatureSelectField>
 }
 
@@ -157,8 +157,8 @@ export class CvcFeatureSelectField
     return { queryTerm: str, featureType: this.selectedFeatureType }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<FeatureSelectTypeaheadQuery>) {
-    return r.data.featureTypeahead
+  getTypeaheadResultsFn(r: Apollo.QueryResult<FeatureSelectTypeaheadQuery>) {
+    return r.data?.featureTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): FeatureSelectTagQueryVariables {
@@ -166,9 +166,9 @@ export class CvcFeatureSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<FeatureSelectTagQuery>
+    r: Apollo.QueryResult<FeatureSelectTagQuery>
   ): Maybe<FeatureSelectTypeaheadFieldsFragment> {
-    return r.data.feature
+    return r.data?.feature
   }
 
   getSelectedItemOptionFn(

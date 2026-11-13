@@ -7,21 +7,32 @@ import {
   OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { RegionRevisableFieldsGQL, SuggestRegionRevisionGQL, SuggestRegionRevisionMutation, SuggestRegionRevisionMutationVariables } from '@app/generated/civic.apollo'
+import {
+  RegionRevisableFieldsGQL,
+  SuggestRegionRevisionGQL,
+  SuggestRegionRevisionMutation,
+  SuggestRegionRevisionMutationVariables,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { RegionReviseModel } from '@app/forms/models/region-revise.model'
-import { regionFormModelToReviseInput, regionToModelFields } from '@app/forms/utilities/region-to-model-fields'
+import {
+  regionFormModelToReviseInput,
+  regionToModelFields,
+} from '@app/forms/utilities/region-to-model-fields'
 import { regionReviseFields } from './region-revise.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-region-revise-form',
-    templateUrl: './region-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-region-revise-form',
+  templateUrl: './region-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcRegionReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number
@@ -55,10 +66,11 @@ export class CvcRegionReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ featureId: this.featureId })
+      .fetch({ variables: { featureId: this.featureId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { feature } }) => {
+        next: ({ data }) => {
+          const feature = data?.feature
           if (feature) {
             this.model = {
               id: feature.id,
@@ -71,16 +83,20 @@ export class CvcRegionReviseForm implements OnInit, AfterViewInit {
           console.error('Error retrieving Region.')
           console.error(error)
         },
-        complete: () => {
-        },
+        complete: () => {},
       })
   }
 
   onSubmit(model: RegionReviseModel) {
-    if(!this.featureId) {return}
+    if (!this.featureId) {
+      return
+    }
     let input = regionFormModelToReviseInput(this.featureId, model)
     if (input) {
-      this.mutationState = this.reviseRegionMutator.mutate(this.submitRevisionsGQL, { input: input})
+      this.mutationState = this.reviseRegionMutator.mutate(
+        this.submitRevisionsGQL,
+        { input: input }
+      )
     }
   }
 }

@@ -40,7 +40,9 @@ export class ClinicalTrialsSummaryComponent implements OnDestroy {
       this.clinicalTrialId = +params.clinicalTrialId
 
       this.queryRef = this.gql.watch({
-        clinicalTrialId: this.clinicalTrialId,
+        variables: {
+          clinicalTrialId: this.clinicalTrialId,
+        },
       })
 
       let observable = this.queryRef.valueChanges

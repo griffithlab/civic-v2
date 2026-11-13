@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import { Component, Input, OnInit } from '@angular/core'
 import {
   Maybe,
@@ -9,10 +10,10 @@ import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 
 @Component({
-    selector: 'cvc-variant-type-popover',
-    templateUrl: './variant-type-popover.component.html',
-    styleUrls: ['./variant-type-popover.component.less'],
-    standalone: false
+  selector: 'cvc-variant-type-popover',
+  templateUrl: './variant-type-popover.component.html',
+  styleUrls: ['./variant-type-popover.component.less'],
+  standalone: false,
 })
 export class CvcVariantTypePopoverComponent implements OnInit {
   @Input() variantTypeId!: number
@@ -28,9 +29,10 @@ export class CvcVariantTypePopoverComponent implements OnInit {
       )
     }
     this.variantType$ = this.gql
-      .watch({ variantTypeId: this.variantTypeId })
+      .watch({ variables: { variantTypeId: this.variantTypeId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.variantTypePopover),
+        onlyCompleteData(),
+        map(({ data }) => data.variantTypePopover),
         filter(isNonNulled)
       )
   }

@@ -7,7 +7,7 @@
       (keydown.enter)="$event.preventDefault()">
       <formly-form
         [form]="form"
-        [fields]="fields"
+        [fields]="fields()"
         [model]="formModel()"
         [options]="options"
         style="width: 100%">
