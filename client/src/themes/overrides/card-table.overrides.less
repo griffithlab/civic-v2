@@ -44,6 +44,13 @@ tr.filter-row th {
       padding-right: 12px;
     }
   }
+  // Keep select filters inside their column. Otherwise a selected value
+  // widens the select past a narrow column, the next column covers its clear
+  // button, and the filter can't be cleared (#989, #1390). The selected value
+  // is truncated with an ellipsis instead; the dropdown keeps its own width.
+  nz-select {
+    width: 100%;
+  }
 }
 
 tr.data-row td.ant-table-cell {
