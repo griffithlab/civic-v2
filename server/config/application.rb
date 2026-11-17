@@ -23,6 +23,7 @@ module Civic2
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
+    config.active_storage.variant_processor = :mini_magick
     config.active_support.cache_format_version = 7.1
     config.active_record.async_query_executor = :global_thread_pool
     config.active_record.global_executor_concurrency = 4
