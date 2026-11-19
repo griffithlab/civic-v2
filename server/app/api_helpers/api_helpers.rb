@@ -19,12 +19,14 @@ module ApiHelpers
 
     resp = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") { |http| http.request(req) }
     case resp.code.to_i
-    when 200 || 201
+    when 200..299
       resp.body
-    when (400..499)
+    when 400..499
       raise BadRequest.new(req, resp)
-    when (500..599)
+    when 500..599
       raise RemoteServerError.new(req, resp)
+    else
+      raise ApiFailure.new(req, resp)
     end
   end
 end
