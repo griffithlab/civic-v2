@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "/status", to: "static#status"
     post "/graphql", to: "graphql#execute"
     get "/auth/:provider/callback" => "sessions#create"
+    get "/auth/failure" => "sessions#failure"
     get "/sign_out" => "sessions#destroy", as: :signout
     post "/upload_profile_image" => "profile_images#upload"
 
