@@ -37,4 +37,12 @@ class ActiveSupport::TestCase
     matched = messages.any? { |message| message.match?(pattern) }
     assert matched, "Expected one error matching #{pattern.inspect}, got: #{messages.inspect}"
   end
+
+  def assert_validation_error(obj, field, pattern)
+    obj.validate
+    errors = obj.errors[field]
+    refute_empty errors, "Expected a validation error but did not find one"
+    matched = errors.any? { |error| error.match?(pattern) }
+    assert matched, "Expected at least one error matching #{pattern.inspect}, got: #{errors.join(", ")}"
+  end
 end

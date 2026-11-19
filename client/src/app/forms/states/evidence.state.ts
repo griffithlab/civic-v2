@@ -45,9 +45,6 @@ export type EvidenceRequires = {
   requiresDisease$: BehaviorSubject<boolean>
   requiresTherapy$: BehaviorSubject<boolean>
   requiresTherapyInteractionType$: BehaviorSubject<boolean>
-  requiresClingenCodes$: BehaviorSubject<boolean>
-  requiresAcmgCodes$: BehaviorSubject<boolean>
-  requiresAmpLevel$: BehaviorSubject<boolean>
   allowsFdaApproval$: BehaviorSubject<boolean>
 }
 
@@ -108,9 +105,6 @@ class EvidenceState extends BaseState {
       requiresDisease$: new BehaviorSubject<boolean>(false),
       requiresTherapy$: new BehaviorSubject<boolean>(false),
       requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
-      requiresClingenCodes$: new BehaviorSubject<boolean>(false),
-      requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
-      requiresAmpLevel$: new BehaviorSubject<boolean>(false),
       allowsFdaApproval$: new BehaviorSubject<boolean>(false),
     }
 
@@ -137,8 +131,6 @@ class EvidenceState extends BaseState {
         this.requires.requiresTherapyInteractionType$.next(
           this.requiresTherapy(et)
         )
-        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(et))
-        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(et))
         this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(et))
       })
 
@@ -167,9 +159,6 @@ class EvidenceState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: true,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
 
@@ -185,9 +174,6 @@ class EvidenceState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
 
@@ -204,9 +190,6 @@ class EvidenceState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
 
@@ -222,9 +205,6 @@ class EvidenceState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
 
@@ -240,9 +220,6 @@ class EvidenceState extends BaseState {
       ],
       requiresDisease: true,
       requiresTherapy: false,
-      requiresClingenCodes: false,
-      requiresAcmgCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
 
@@ -262,9 +239,6 @@ class EvidenceState extends BaseState {
       ],
       requiresDisease: false,
       requiresTherapy: false,
-      requiresAcmgCodes: false,
-      requiresClingenCodes: false,
-      requiresAmpLevel: false,
       allowsFdaApproval: false,
     })
   }

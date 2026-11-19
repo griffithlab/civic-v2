@@ -33,6 +33,10 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { CvcApprovalNotificationComponent } from '@app/components/approvals/approval-notification/approval-notification.component'
 import { CvcEntityDescription } from '@app/components/shared/entity-description/entity-description.component'
+import { CvcSpecificationPopoverComponent } from '@app/components/specifications/cvc-specification-popover/cvc-specification-popover.component'
+import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
+import { CvcSpecificationSubmitFormModule } from '@app/forms/config/specification-submit/specification-submit.form.module'
+import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -73,6 +77,10 @@ import { CvcEntityDescription } from '@app/components/shared/entity-description/
     CvcApprovalNotificationComponent,
     CvcCommentBodyModule,
     CvcEntityDescription,
+    CvcSpecificationPopoverComponent,
+    CvcEvidenceTagModule,
+    CvcSpecificationSubmitFormModule,
+    CvcSpecificationEvaluationTagModule,
   ],
   exports: [AssertionsSummaryPage],
 })

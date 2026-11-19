@@ -2,7 +2,7 @@
   <nz-col [nzSpan]="8">
     <!-- show original items -->
     <nz-list
-      nzHeader="Original {{ entityType }} List"
+      nzHeader="Original {{ entityType }} {{ diffObject.currentObjects.length > 1 ? 'List' : ''}}"
       nzBordered
       nzType="inner"
       nzSize="small">
@@ -33,7 +33,7 @@
       <!-- show removed items -->
       <ng-container *ngIf="diffObject.currentObjects.length > 0">
         <nz-list
-          nzHeader="Removed {{ entityType }}"
+          nzHeader="Removed {{ entityType }} {{ diffObject.removedObjects.length > 1 ? 'List' : ''}}"
           nzBordered
           nzType="inner"
           nzSize="small"
@@ -63,7 +63,7 @@
       </ng-container>
       <!-- show added items -->
       <nz-list
-        nzHeader="Added {{ entityType }}"
+        nzHeader="Added {{ entityType }} {{ diffObject.addedObjects.length > 1 ? 'List' : ''}}"
         nzBordered
         nzType="inner"
         nzSize="small"
@@ -92,7 +92,7 @@
       </nz-list>
       <ng-container *ngIf="diffObject.currentObjects.length > 0">
         <nz-list
-          nzHeader="Kept {{ entityType }}"
+          nzHeader="Kept {{ entityType }} {{ diffObject.keptObjects.length > 1 ? 'List' : ''}}"
           nzBordered
           nzType="inner"
           nzSize="small"
@@ -125,7 +125,7 @@
   <nz-col [nzSpan]="8">
     <!-- show final list -->
     <nz-list
-      nzHeader="Revised {{ entityType }} List"
+      nzHeader="Revised {{ entityType }} {{ diffObject.suggestedObjects.length > 1 ? 'List' : ''}}"
       nzBordered
       nzType="inner"
       nzSize="small">

@@ -1,0 +1,51 @@
+query AssertionCodes($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    specificationsWithEvaluations {
+      ...SpecificationWithEvaluationsFields
+    }
+  }
+}
+
+fragment SpecificationWithEvaluationsFields on SpecificationWithEvaluations {
+  specification {
+    ...SpecificationFields
+  }
+  evaluations {
+    ...SpecificationEvaluationFields
+  }
+}
+
+fragment SpecificationFields on Specification {
+  id
+  name
+  version
+  evaluationMethod
+  specificationUrl
+  specificationType
+  assessmentGroups {
+    group
+    description
+  }
+  isDraft
+}
+
+fragment SpecificationEvaluationFields on SpecificationEvaluation {
+  id
+  code
+  justification
+  modifier
+  evaluation
+  specificationCriterion {
+    assessmentGroup
+    description
+    specification {
+      id
+    }
+  }
+  evidenceItems {
+    id
+    name
+    status
+    link
+  }
+}

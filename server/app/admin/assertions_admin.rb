@@ -112,16 +112,6 @@ Trestle.resource(:assertions) do
       end
 
       row do
-        col(sm: 6) do
-          select :acmg_code_ids, AcmgCode.order(:code), { label: "ACMG Codes" }, multiple: true
-        end
-        col(sm: 6) do
-          amp_levels = Assertion.amp_levels.keys.map { |amp_level| [ amp_level, amp_level ] }
-          select :amp_level, amp_levels
-        end
-      end
-
-      row do
         col(sm: 3) { check_box :fda_companion_test }
         col(sm: 3) { check_box :fda_regulatory_approval }
       end

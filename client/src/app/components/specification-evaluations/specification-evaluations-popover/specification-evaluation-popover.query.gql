@@ -1,0 +1,17 @@
+query LinkableEvidenceForIds($evidenceItemIds: [Int!]) {
+  evidenceItems(ids: $evidenceItemIds, status: ALL, first: 100) {
+    edges {
+      node {
+        ...LinkableEvidenceForIds
+      }
+    }
+  }
+}
+
+fragment LinkableEvidenceForIds on EvidenceItem {
+  id
+  name
+  status
+  flagged
+  link
+}

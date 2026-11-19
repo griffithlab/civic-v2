@@ -1,14 +1,11 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
-import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
 import { CvcBaseBooleanRadioModule } from './base/boolean-radio/boolean-radio.module'
 import { CvcBaseCheckboxModule } from './base/checkbox/checkbox.module'
 import { CvcBaseInputModule } from './base/input/input.module'
 import { CvcBaseSelectModule } from './base/select/select.module'
 import { CvcBaseTextareaFieldModule } from './base/textarea/textarea.module'
 import { CvcCancelButtonModule } from './cancel-button/cancel-button.module'
-import { CvcClingenCodeSelectModule } from './clingen-code-select/clingen-code-select.module'
 import { CvcClinvarInputFieldModule } from './clinvar-input/clinvar-input.module'
 import { CvcCvcFdaCompanionTestCheckboxFieldModule } from './fda-companion-test-checkbox/fda-companion-test-checkbox.module'
 import { CvcCvcFdaRegulatoryApprovalCheckboxFieldModule } from './fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.module'
@@ -43,8 +40,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
 @NgModule({
   imports: [
     CommonModule,
-    CvcAcmgCodeSelectModule,
-    CvcAmpCategorySelectModule,
     CvcBaseBooleanRadioModule,
     CvcBaseCheckboxModule,
     CvcBaseInputModule,
@@ -52,7 +47,6 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcBaseTextareaFieldModule,
     CvcBaseRadioFieldModule,
     CvcCancelButtonModule,
-    CvcClingenCodeSelectModule,
     CvcClinvarInputFieldModule,
     CvcCvcFdaCompanionTestCheckboxFieldModule,
     CvcCvcFdaRegulatoryApprovalCheckboxFieldModule,
@@ -82,6 +76,7 @@ import { CvcRegionVariantNameSelectModule } from './region-variant-name-select/r
     CvcQueryFilterModule,
     CvcStructFilterModule,
     CvcRegionVariantNameSelectModule,
+
   ],
 })
 export class CvcFormTypesModule {}

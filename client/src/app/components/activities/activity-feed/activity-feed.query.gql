@@ -206,6 +206,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
   ...ApproveAssertionActivityDetail @include(if: $requestDetails)
   ...RevokeApprovalActivityDetail @include(if: $requestDetails)
+  ...SubmitCriteriaEvaluationsActivityDetail @include(if: $requestDetails)
 }
 
 # revision data for suggest/accept/reject-revisions details. NOTE:
@@ -226,6 +227,15 @@ fragment RevisionActivityDetail on Revision {
   subject {
     ... on ExonCoordinate {
       coordinateType
+    }
+    ... on SpecificationEvaluation {
+      specificationCriterion {
+        criterion
+        specification {
+          name
+          version
+        }
+      }
     }
   }
 }

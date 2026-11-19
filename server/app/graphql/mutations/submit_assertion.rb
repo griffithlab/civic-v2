@@ -36,7 +36,6 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
   def resolve(fields:, organization_id: nil, comment: nil)
     assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
 
-
     cmd = Activities::SubmitAssertion.new(
       assertion: assertion,
       originating_user: context[:current_user],

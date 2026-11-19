@@ -136,86 +136,11 @@
       </nz-descriptions-item>
     </nz-descriptions>
 
-    <!-- AMP, ACMG, Clingen Codes -->
     <nz-descriptions
       nzSize="small"
       nzLayout="horizontal"
       [nzColumn]="2"
-      nzBordered="true"
-      *ngIf="
-        assertionRules.requiresAmpLevel(assertion.assertionType) ||
-        assertionRules.requiresAcmgCodes(assertion.assertionType) ||
-        assertionRules.requiresClingenCodes(assertion.assertionType)
-      ">
-      <!-- AMP/ASO/CAP -->
-      <nz-descriptions-item
-        nzTitle="AMP/ASCO/CAP Category"
-        nzSpan="2"
-        *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType)">
-        <nz-tag>
-          {{ assertion.ampLevel | formatAmp: 'verbose' }}
-        </nz-tag>
-      </nz-descriptions-item>
-
-      <!-- ACMG Codes -->
-      <nz-descriptions-item
-        nzSpan="2"
-        [nzTitle]="acmgTitle"
-        *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType)">
-        <ng-template #acmgTitle>
-          ACMG&nbsp;Codes&nbsp;<span
-            nz-typography
-            nzType="secondary">
-            <i
-              nz-icon
-              nzType="info-circle"
-              nz-tooltip
-              nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
-            </i>
-          </span>
-        </ng-template>
-        <cvc-tag-list
-          *ngIf="assertion.acmgCodes.length > 0; else valueUnspecified">
-          <nz-tag
-            nz-tooltip
-            [nzTooltipTitle]="code.description"
-            *ngFor="let code of assertion.acmgCodes">
-            {{ code.code }}
-          </nz-tag>
-        </cvc-tag-list>
-      </nz-descriptions-item>
-
-      <!-- ClinGen Codes -->
-      <nz-descriptions-item
-        nzSpan="2"
-        [nzTitle]="clingenTitle"
-        *ngIf="
-          assertionRules.requiresClingenCodes(assertion.assertionType) &&
-          assertion.clingenCodes[0].code !== 'N/A'
-        ">
-        <ng-template #clingenTitle>
-          ClinGen/CGC/VICC&nbsp;Codes&nbsp;<span
-            nz-typography
-            nzType="secondary"
-            ><i
-              nz-icon
-              nzType="info-circle"
-              nz-tooltip
-              nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
-            </i>
-          </span>
-        </ng-template>
-        <cvc-tag-list
-          *ngIf="assertion.clingenCodes.length > 0; else valueUnspecified">
-          <nz-tag
-            nz-tooltip
-            [nzTooltipTitle]="code.description"
-            *ngFor="let code of assertion.clingenCodes">
-            {{ code.code }}
-          </nz-tag>
-        </cvc-tag-list>
-      </nz-descriptions-item>
-
+      nzBordered="true">
       <!-- molecular profile -->
       <nz-descriptions-item
         [nzTitle]="mpTitle"
