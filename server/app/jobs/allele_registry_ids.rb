@@ -2,11 +2,25 @@ require "rbconfig"
 
 class AlleleRegistryIds < ApplicationJob
   def delete_allele_registry_link(allele_registry_id)
-    system("#{ruby_executable} #{script_path} delete \"reg.genome.network/allele/#{allele_registry_id}/externalSource/civic\" \"p1=#{allele_registry_id}\" #{allele_registry_username} #{allele_registry_password}")
+    run_allele_registry_script("delete", allele_registry_id)
   end
 
   def add_allele_registry_link(allele_registry_id)
-    system("#{ruby_executable} #{script_path} put \"reg.genome.network/allele/#{allele_registry_id}/externalSource/civic\" \"p1=#{allele_registry_id}\" #{allele_registry_username} #{allele_registry_password}")
+    run_allele_registry_script("put", allele_registry_id)
+  end
+
+  # Pass each argument to the script as-is, without a shell, so that a
+  # password with spaces or shell characters reaches it unchanged.
+  def run_allele_registry_script(method, allele_registry_id)
+    system(
+      ruby_executable,
+      script_path,
+      method,
+      "reg.genome.network/allele/#{allele_registry_id}/externalSource/civic",
+      "p1=#{allele_registry_id}",
+      allele_registry_username.to_s,
+      allele_registry_password.to_s
+    )
   end
 
   def ruby_executable
