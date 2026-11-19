@@ -3,11 +3,11 @@
     Welcome, <%= current_user.name %>!
     <%= link_to "Sign Out", signout_path %>
   <% else %>
-    <%= link_to "Sign in with Github", "/api/auth/github", method: :post %>
-    <%= link_to "Sign in with Orcid", "/api/auth/orcid", method: :post %>
-    <%= link_to "Sign in with Google", "/api/auth/google_oauth2", method: :post %>
-    <% unless Rails.env.production? %>
-      <%= link_to "Development Sign-in", "/api/auth/developer", method: :post %>
+    <%= button_to "Sign in with GitHub", "/api/auth/github", form: { data: { turbo: false } } %>
+    <%= button_to "Sign in with ORCID", "/api/auth/orcid", form: { data: { turbo: false } } %>
+    <%= button_to "Sign in with Google", "/api/auth/google_oauth2", form: { data: { turbo: false } } %>
+    <% if Rails.env.development? || Rails.env.test? %>
+      <%= button_to "Development Sign-in", "/api/auth/developer", form: { data: { turbo: false } } %>
     <% end %>
   <% end %>
 </div>

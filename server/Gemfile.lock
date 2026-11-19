@@ -89,10 +89,14 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     angular_rails_csrf (7.0.2)
       railties (>= 3, < 9)
+    anonymous_loader (0.1.5)
+      version_gem (~> 1.1, >= 1.1.17)
     ast (2.4.3)
     audited (5.8.0)
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
+    auth-sanitizer (0.2.5)
+      version_gem (~> 1.1, >= 1.1.16)
     aws-eventstream (1.4.0)
     aws-partitions (1.1233.0)
     aws-sdk-core (3.244.0)
@@ -291,7 +295,6 @@ GEM
     mini_magick (5.4.0)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -320,9 +323,6 @@ GEM
       net-protocol
     net-ssh (7.3.2)
     nio4r (2.7.5)
-    nokogiri (1.19.7)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-musl)
@@ -337,32 +337,37 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.7-x86_64-linux-musl)
       racc (~> 1.4)
-    oauth2 (1.4.11)
-      faraday (>= 0.17.3, < 3.0)
-      jwt (>= 1.0, < 3.0)
-      multi_json (~> 1.3)
+    oauth2 (2.1.0)
+      anonymous_loader (~> 0.1, >= 0.1.5)
+      auth-sanitizer (~> 0.2, >= 0.2.5)
+      faraday (>= 0.17.3, < 4.0)
+      jwt (>= 1.0, < 4.0)
+      logger (~> 1.2)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0, >= 2.0.9)
+      version_gem (~> 1.1, >= 1.1.17)
     obo (0.1.5)
     observer (0.1.2)
     oj (3.17.3)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
-    omniauth (2.0.4)
-      hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
-      rack-protection
+    omniauth (2.4.1)
+      hashie (>= 3.5.2)
+      logger
+      rack (>= 2.2.8)
+      rack-protection (>= 2.2.0)
     omniauth-github (2.0.1)
       omniauth (~> 2.0)
       omniauth-oauth2 (~> 1.8)
-    omniauth-google-oauth2 (0.8.1)
-      jwt (>= 2.0)
-      oauth2 (~> 1.1)
-      omniauth (>= 1.1.1)
-      omniauth-oauth2 (>= 1.6)
-    omniauth-oauth2 (1.8.0)
-      oauth2 (>= 1.4, < 3)
+    omniauth-google-oauth2 (1.2.3)
+      jwt (>= 2.9.2, < 4)
+      oauth2 (~> 2.0)
       omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
+    omniauth-oauth2 (1.10.1)
+      oauth2 (>= 2.0.2, < 3)
+      omniauth (~> 2.3, >= 2.3.1)
     omniauth-orcid (2.1.1)
       omniauth-oauth2 (~> 1.3)
       ruby_dig (~> 0.0.2)
@@ -564,6 +569,9 @@ GEM
     simplecov-lcov (0.9.0)
     simplecov_json_formatter (0.1.4)
     simpleidn (0.2.3)
+    snaky_hash (2.0.9)
+      hashie (>= 0.1.0, < 6)
+      version_gem (~> 1.1, >= 1.1.16)
     solargraph (0.58.3)
       ast (~> 2.4.3)
       backport (~> 1.2)
@@ -634,6 +642,7 @@ GEM
     unicode-emoji (4.2.0)
     uri (1.1.2)
     useragent (0.16.11)
+    version_gem (1.1.17)
     web-console (4.3.0)
       actionview (>= 8.0.0)
       bindex (>= 0.4.0)
@@ -698,11 +707,11 @@ DEPENDENCIES
   net-ftp (~> 0.3.3)
   obo (~> 0.1.5)
   oj (~> 3.17.3)
-  omniauth (~> 2.0.2)
-  omniauth-github (~> 2.0.0)
-  omniauth-google-oauth2 (~> 0.8.1)
+  omniauth (~> 2.4.1)
+  omniauth-github (~> 2.0.1)
+  omniauth-google-oauth2 (~> 1.2.3)
   omniauth-orcid (~> 2.1.1)
-  omniauth-rails_csrf_protection (~> 2.0.0)
+  omniauth-rails_csrf_protection (~> 2.0.1)
   pdf-reader (~> 2.15)
   pg (~> 1.1)
   propshaft
@@ -758,8 +767,10 @@ CHECKSUMS
   afm (1.0.0) sha256=5bd4d6f6241e7014ef090985ec6f4c3e9745f6de0828ddd58bc1efdd138f4545
   airbrussh (1.6.1) sha256=9a5fc95583cefe722054a016d26ff0338cf00072b031b829086dde2039d5836a
   angular_rails_csrf (7.0.2) sha256=b9672752efa7ec1089c864e3bd130b44bd7711471380f3dc179b03d368d31e7f
+  anonymous_loader (0.1.5) sha256=c96a4a1b5f49f320037fae63e931ac15b3823686e4f0ee6f24f75a0ade4227cb
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   audited (5.8.0) sha256=35cd63f9ee1eb2a1f773e7abf5915bb4e870b6338173e27c31e0e604e353f371
+  auth-sanitizer (0.2.5) sha256=eec0f5ee354931a1431be6f7025bc38d03db1731a2185726cbe6248e49bee177
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
   aws-partitions (1.1233.0) sha256=928d3486082db11659397eb4c957f41e33fac8848bf87eb42fd921bbb96213c2
   aws-sdk-core (3.244.0) sha256=3e458c078b0c5bdee95bc370c3a483374b3224cf730c1f9f0faf849a5d9a18ea
@@ -859,7 +870,6 @@ CHECKSUMS
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
   mini_magick (5.4.0) sha256=f120af581d9ed4ec52c57f35a67a605d112bb1d8f582d1415b147fda42d11d78
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
-  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   minitest (6.1.0) sha256=ff373595aa8888631e8a5463986a76b3845346ae6d7fa46e139c1633d418076e
   msgpack (1.8.7) sha256=dfefec761b5f9047e6e8d95d2c7f8af4b3725d984a01942adc533aa819a2df33
   multi_json (1.19.1) sha256=7aefeff8f2c854bf739931a238e4aea64592845e0c0395c8a7d2eea7fdd631b7
@@ -875,7 +885,6 @@ CHECKSUMS
   net-smtp (0.5.1) sha256=ed96a0af63c524fceb4b29b0d352195c30d82dd916a42f03c62a3a70e5b70736
   net-ssh (7.3.2) sha256=65029e213c380e20e5fd92ece663934ab0a0fe888e0cd7cc6a5b664074362dd4
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
-  nokogiri (1.19.7) sha256=abe94507c54cb18f872777b16bdca4aad32b1abdc4c52fe843f1c80fbdf992b8
   nokogiri (1.19.7-aarch64-linux-gnu) sha256=8f5e15d299602456406e1f03a9f3456cceb33a0722811e818d2ee2214eb4c84a
   nokogiri (1.19.7-aarch64-linux-musl) sha256=efe0c3602e6e54521bc21c681930ce5568e2d11203de17400710b2b3ca2e4cb4
   nokogiri (1.19.7-arm-linux-gnu) sha256=7fd1907125691aa89e838cc91161761c758b4e17bb32f0dd9b5515a82cc759af
@@ -883,14 +892,14 @@ CHECKSUMS
   nokogiri (1.19.7-arm64-darwin) sha256=f27d7f25f4873fbc3aa35a2cc2fb680c98555fec1925348da439d0869d541142
   nokogiri (1.19.7-x86_64-linux-gnu) sha256=25865ccb462f714e712fdf8906fde07849cb6704a808e3d629d75baa5af5dd3b
   nokogiri (1.19.7-x86_64-linux-musl) sha256=464d1f3dfb0d53cf54c0c6a7e23e8e91cf68ec3cafc2b27dc4a7682f2d9bf546
-  oauth2 (1.4.11) sha256=6739fcc8872bc94f476b0cae3e8bd78a56d8364b1b79b0757794c25e152d5c10
+  oauth2 (2.1.0) sha256=69925a45030c231cdca3ef4a54a8e848e5319f12c3fdbbfa5065dfbeb4efe835
   obo (0.1.5) sha256=7a242ca55c44a43d9dbfb27321c1c7df930c9db85d3525c53ab9ac6d974a6484
   observer (0.1.2) sha256=d8a3107131ba661138d748e7be3dbafc0d82e732fffba9fccb3d7829880950ac
   oj (3.17.3) sha256=ebe3967b0bb7ac4f206561d0d9ac8875b9973f778600d7b61b5c355662a707ed
-  omniauth (2.0.4) sha256=403d011497d4b0cd70573d5cde739808d9a4187813c6992d022b15b5db2c581c
+  omniauth (2.4.1) sha256=99950c2cf9231d4e960d2bda87e7efec5ace7c3e2d1860016ad3f2e40366489c
   omniauth-github (2.0.1) sha256=8ff8e70ac6d6db9d52485eef52cfa894938c941496e66b52b5e2773ade3ccad4
-  omniauth-google-oauth2 (0.8.1) sha256=a3b4510b27723481e94236d55690b9cfabb5be845cedb4af9d86b0a185545c81
-  omniauth-oauth2 (1.8.0) sha256=b2f8e9559cc7e2d4efba57607691d6d2b634b879fc5b5b6ccfefa3da85089e78
+  omniauth-google-oauth2 (1.2.3) sha256=bdbab67e64e50b7902eee2dcfc2225575cefba15ab89a3b6e92c8947987c1da9
+  omniauth-oauth2 (1.10.1) sha256=3f0055baa46c83706e621c67b496864df826f00d1ae153b9cfd9ba8b8ea8d2a3
   omniauth-orcid (2.1.1) sha256=46456e6d6ce3ba03943d299a109c07133ad9c64487f1e9194159a0f880b719a2
   omniauth-rails_csrf_protection (2.0.1) sha256=c6e3204d7e3925bb537cb52d50fdfc9f05293f1a9d87c5d4ab4ca3a39ba8c32d
   open3 (0.2.1) sha256=8e2d7d2113526351201438c1aa35c8139f0141c9e8913baa007c898973bf3952
@@ -967,6 +976,7 @@ CHECKSUMS
   simplecov-lcov (0.9.0) sha256=7a77a31e200a595ed4b0249493056efd0c920601f53d2ef135ca34ee796346cd
   simplecov_json_formatter (0.1.4) sha256=529418fbe8de1713ac2b2d612aa3daa56d316975d307244399fa4838c601b428
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
+  snaky_hash (2.0.9) sha256=e93e6ec80632f8c8c4a3fe6e25d51eaef253e0e58dc7100f0f8370320feb3128
   solargraph (0.58.3) sha256=debefdc927d1e72383b2c4add89e71373d902b9904617efdb687749509fe2e69
   solargraph-rails (1.3) sha256=0af6159f4fe2b716857884a9d758d124eae2bd64c27cb43028792027f2973114
   solid_errors (0.6.1) sha256=f215ebf3ed6ee3bcb00f276c7bb41d1544e18df22b6b7b840a7477f4321bf2dd
@@ -989,6 +999,7 @@ CHECKSUMS
   unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
   uri (1.1.2) sha256=89292e98eabbef6248b0a0ed5e7e398e152f83f17560023a6d94a7f492b169fb
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
+  version_gem (1.1.17) sha256=70420b9675fbb77a7e7e7eb8ed6580dd4dd25be53b1454c1a79cc18f3c5a8dfd
   web-console (4.3.0) sha256=e13b71301cdfc2093f155b5aa3a622db80b4672d1f2f713119cc7ec7ac6a6da4
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   websocket-driver (0.8.2) sha256=97c556b019bf3410b4961002ac501621e9322d3f8a7bc02161a09301cc4c4146
