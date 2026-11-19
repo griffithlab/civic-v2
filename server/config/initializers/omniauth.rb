@@ -11,10 +11,17 @@ unless Rails.env.headless?
   Rails.application.config.middleware.use OmniAuth::Builder do
     configure do |config|
       config.path_prefix = "/api/auth"
+      config.full_host = Rails.application.config.x.omniauth_full_host
     end
-    provider :github, civic_github_key, civic_github_secret
-    provider :orcid, civic_orcid_key, civic_orcid_secret, authorize_params: { scope: "/authenticate" }, client_options: { token_url: "https://pub.orcid.org/oauth/token" }
-    provider :google_oauth2, civic_google_key, civic_google_secret
-    provider :developer unless Rails.env.production?
+    # Preserve the token authentication used by oauth2 1.x; oauth2 2.x defaults
+    # to HTTP Basic authentication. ORCID supplies its own canonical token URL.
+    provider :github, civic_github_key, civic_github_secret,
+      client_options: { auth_scheme: :request_body }
+    provider :orcid, civic_orcid_key, civic_orcid_secret,
+      authorize_params: { scope: "/authenticate" },
+      client_options: { auth_scheme: :request_body }
+    provider :google_oauth2, civic_google_key, civic_google_secret,
+      client_options: { auth_scheme: :request_body }
+    provider :developer if Rails.env.development? || Rails.env.test?
   end
 end
