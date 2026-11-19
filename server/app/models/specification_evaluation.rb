@@ -14,10 +14,17 @@ class SpecificationEvaluation < ApplicationRecord
   }, instance_methods: false, scopes: false
 
   validate :evidence_items_only_on_evaluated_evaluations
+  validate :allowed_modifier
 
   def evidence_items_only_on_evaluated_evaluations
     if self.evaluation != "met" && self.evaluation != "not_met" && self.evidence_items.any?
       errors.add(:evidence_items, "Evidence items can only be added to evaluations that are marked 'met' or 'not_met'")
+    end
+  end
+
+  def allowed_modifier
+    if self.modifier.present? && !self.specification_criterion.modifiers.include?(self.modifier)
+      errors.add(:modifier, "Modifier is not an allowed modifier for the selected criterion")
     end
   end
 

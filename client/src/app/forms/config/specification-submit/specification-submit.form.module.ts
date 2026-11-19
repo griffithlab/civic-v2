@@ -19,6 +19,8 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { FormsModule } from '@angular/forms';
 import { CvcSpecificationEvaluationTagModule } from '@app/components/specification-evaluations/specification-evaluation-tag/specification-evaluation-tag.module';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
@@ -42,6 +44,8 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
     NzRadioModule,
     NzSelectModule,
     NzGridModule,
+    NzIconModule,
+    NzToolTipModule,
     FormsModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,

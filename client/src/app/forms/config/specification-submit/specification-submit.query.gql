@@ -47,7 +47,10 @@ fragment SpecificationDetailConfigFields on Specification {
     id
     criterion
     description
-    modifiers
+    modifiers {
+      modifier
+      adjustment
+    }
     mutuallyExclusiveCodes
     pointValue
     assessmentGroup
@@ -63,6 +66,10 @@ fragment SpecificationDetailConfigFields on Specification {
     url
   }
   assessmentGroupOrder
+  clinicalSignificances {
+    points
+    clinicalSignificance
+  }
 }
 
 fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
@@ -72,7 +79,10 @@ fragment AssessmentGroupFormConfigFields on SpecificationAssessmentGroup {
     id
     criterion
     description
-    modifiers
+    modifiers {
+      modifier
+      adjustment
+    }
     mutuallyExclusiveCodes
     pointValue
   }

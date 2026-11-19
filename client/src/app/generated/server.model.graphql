@@ -2116,6 +2116,11 @@ type ClinicalSignificanceCounts {
   type: AssertionType!
 }
 
+type ClinicalSignificancePointsTotal {
+  clinicalSignificance: AssertionSignificance!
+  points: Int!
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -13170,6 +13175,7 @@ type Specification {
   assertionType: AssertionType!
   assessmentGroupOrder: [String!]!
   assessmentGroups: [AssessmentGroup!]!
+  clinicalSignificances: [ClinicalSignificancePointsTotal!]!
   evaluationMethod: SpecificationEvaluationMethod!
   id: Int!
   isDraft: Boolean!
@@ -13197,11 +13203,16 @@ type SpecificationCriterion {
   description: String!
   exclusive: Boolean!
   id: Int!
-  modifiers: [String!]!
+  modifiers: [SpecificationCriterionModifier!]!
   mutuallyExclusiveCodes: [String!]!
   pointValue: Int
   positionWithinAssessmentGroup: Int!
   specification: Specification!
+}
+
+type SpecificationCriterionModifier {
+  adjustment: Int
+  modifier: String!
 }
 
 type SpecificationEvaluation implements EventSubject & WithRevisions {

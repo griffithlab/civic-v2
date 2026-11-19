@@ -175,6 +175,7 @@ class Mutations::SubmitCriteriaEvaluations < Mutations::MutationWithOrg
           updated_evaluation = SpecificationEvaluation.new(
             assertion_id: fields.assertion_id,
             evaluation: evaluation.evaluation,
+            modifier: evaluation.modifier,
             justification: evaluation.justification,
             specification_criterion_id: new_criterion.id
           )

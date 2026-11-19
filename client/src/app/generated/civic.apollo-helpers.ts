@@ -613,6 +613,11 @@ export type ClinicalSignificanceCountsFieldPolicy = {
 	therapyInteractionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	type?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ClinicalSignificancePointsTotalKeySpecifier = ('clinicalSignificance' | 'points' | ClinicalSignificancePointsTotalKeySpecifier)[];
+export type ClinicalSignificancePointsTotalFieldPolicy = {
+	clinicalSignificance?: FieldPolicy<any> | FieldReadFunction<any>,
+	points?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type ClinicalTrialKeySpecifier = ('description' | 'id' | 'link' | 'name' | 'nctId' | 'url' | ClinicalTrialKeySpecifier)[];
 export type ClinicalTrialFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2607,11 +2612,12 @@ export type SourceSuggestionValuesFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'evaluationMethod' | 'id' | 'isDraft' | 'name' | 'organization' | 'organizationId' | 'parentSpecification' | 'publishedOn' | 'sopPubmedId' | 'specificationCriteria' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
+export type SpecificationKeySpecifier = ('assertionType' | 'assessmentGroupOrder' | 'assessmentGroups' | 'clinicalSignificances' | 'evaluationMethod' | 'id' | 'isDraft' | 'name' | 'organization' | 'organizationId' | 'parentSpecification' | 'publishedOn' | 'sopPubmedId' | 'specificationCriteria' | 'specificationType' | 'specificationUrl' | 'version' | SpecificationKeySpecifier)[];
 export type SpecificationFieldPolicy = {
 	assertionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroupOrder?: FieldPolicy<any> | FieldReadFunction<any>,
 	assessmentGroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinicalSignificances?: FieldPolicy<any> | FieldReadFunction<any>,
 	evaluationMethod?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isDraft?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2644,6 +2650,11 @@ export type SpecificationCriterionFieldPolicy = {
 	pointValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	positionWithinAssessmentGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	specification?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SpecificationCriterionModifierKeySpecifier = ('adjustment' | 'modifier' | SpecificationCriterionModifierKeySpecifier)[];
+export type SpecificationCriterionModifierFieldPolicy = {
+	adjustment?: FieldPolicy<any> | FieldReadFunction<any>,
+	modifier?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SpecificationEvaluationKeySpecifier = ('assertion' | 'code' | 'createdAt' | 'evaluation' | 'events' | 'evidenceItems' | 'id' | 'justification' | 'lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'modifier' | 'name' | 'openRevisionCount' | 'revisions' | 'specificationCriterion' | 'updatedAt' | SpecificationEvaluationKeySpecifier)[];
 export type SpecificationEvaluationFieldPolicy = {
@@ -3397,6 +3408,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | ClinicalSignificanceCountsKeySpecifier | (() => undefined | ClinicalSignificanceCountsKeySpecifier),
 		fields?: ClinicalSignificanceCountsFieldPolicy,
 	},
+	ClinicalSignificancePointsTotal?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ClinicalSignificancePointsTotalKeySpecifier | (() => undefined | ClinicalSignificancePointsTotalKeySpecifier),
+		fields?: ClinicalSignificancePointsTotalFieldPolicy,
+	},
 	ClinicalTrial?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ClinicalTrialKeySpecifier | (() => undefined | ClinicalTrialKeySpecifier),
 		fields?: ClinicalTrialFieldPolicy,
@@ -4096,6 +4111,10 @@ export type StrictTypedTypePolicies = {
 	SpecificationCriterion?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationCriterionKeySpecifier | (() => undefined | SpecificationCriterionKeySpecifier),
 		fields?: SpecificationCriterionFieldPolicy,
+	},
+	SpecificationCriterionModifier?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SpecificationCriterionModifierKeySpecifier | (() => undefined | SpecificationCriterionModifierKeySpecifier),
+		fields?: SpecificationCriterionModifierFieldPolicy,
 	},
 	SpecificationEvaluation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SpecificationEvaluationKeySpecifier | (() => undefined | SpecificationEvaluationKeySpecifier),

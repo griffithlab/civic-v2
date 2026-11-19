@@ -85,9 +85,23 @@
             <nz-descriptions-item [nzTitle]="codesTitle">
               <ng-template #codesTitle>
                 Latest Evaluation: {{ assertion.latestSpecification.name }} (v{{assertion.latestSpecification.version}})
+                @if (assertion.latestSpecification.isDraft) {
+                  <span>
+                    <nz-tag
+                      nzColor="warning"
+                      nz-popover
+                      [nzPopoverContent]="draftTagPopoverTemplate">
+                      Draft
+                    </nz-tag>
+                    <ng-template #draftTagPopoverTemplate>
+                      This is a draft specification. Criteria have not been finalized and should be used with caution.
+                    </ng-template>
+                  </span>
+                }
                 <span
                   nz-typography
-                  nzType="secondary">
+                  nzType="secondary"
+                  style="float: right">
                   <i
                     nz-icon
                     nzType="info-circle"
@@ -101,19 +115,6 @@
                     assertion.latestSpecification.id
                     "></cvc-specification-popover>
                 </ng-template>
-                @if (assertion.latestSpecification.isDraft) {
-                  <span style="float: right">
-                    <nz-tag
-                      nzColor="warning"
-                      nz-popover
-                      [nzPopoverContent]="draftTagPopoverTemplate">
-                      Draft
-                    </nz-tag>
-                    <ng-template #draftTagPopoverTemplate>
-                      This is a draft specification. Criteria have not been finalized and should be used with caution.
-                    </ng-template>
-                  </span>
-                }
               </ng-template>
               <nz-space nzDirection="vertical">
                 <cvc-tag-list *nzSpaceItem>

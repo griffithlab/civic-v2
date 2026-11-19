@@ -49,6 +49,7 @@ fragment AssertionDetailFields on Assertion {
       ...SpecificationEvaluationFields
     }
   }
+  significance
 }
 
 fragment assertionSubmissionActivity on Assertion {

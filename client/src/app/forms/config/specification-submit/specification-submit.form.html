@@ -116,9 +116,10 @@
                 @let items = perGroupCodesModel[group];
                 <nz-descriptions-item [nzTitle]="group">
                   <div style="white-space: nowrap;">
-                  @for (code of items | keyvalue: preserveOrder; track code.key) {
-                    <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-                  }
+                    @for (code of items | keyvalue: preserveOrder; track code.key) {
+                      <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                    }
+                    <ng-container [ngTemplateOutlet]="points" [ngTemplateOutletContext]="{items: items}" />
                   </div>
                 </nz-descriptions-item>
               }
@@ -136,9 +137,10 @@
                     <nz-descriptions-item [nzTitle]="strength.value ? strength.value : ''">
                       @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
                       @if (filteredCriteria) {
-                          @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
-                            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-                          }
+                        @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
+                          <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                        }
+                        <ng-container [ngTemplateOutlet]="points" [ngTemplateOutletContext]="{items: filteredCriteria}" />
                       } @else {
                         <i
                           nz-typography
@@ -156,9 +158,10 @@
                     <nz-descriptions-item [nzTitle]="strength.value? strength.value : ''">
                       @let filteredCriteria = groupsForStrength(perGroupCodesModel, strength.key);
                       @if (filteredCriteria) {
-                          @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
-                            <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
-                          }
+                        @for (code of filteredCriteria | keyvalue: preserveOrder; track code.key) {
+                          <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
+                        }
+                        <ng-container [ngTemplateOutlet]="points" [ngTemplateOutletContext]="{items: filteredCriteria}" />
                       } @else {
                         <i
                           nz-typography
@@ -175,12 +178,31 @@
                   @for (code of oCriteria | keyvalue: preserveOrder; track code.key) {
                     <ng-container [ngTemplateOutlet]="codeTag" [ngTemplateOutletContext]="{code: code.key, values: code.value}" />
                   }
+                  <ng-container [ngTemplateOutlet]="points" [ngTemplateOutletContext]="{items: oCriteria}" />
                 </nz-descriptions-item>
               }
             </nz-descriptions>
           }
+          @if (this.specificationInfo.evaluationMethod == "ALL_STRENGTH") {
+            @let points = totalPoints();
+            <nz-descriptions nzBordered nzLayout="horizontal" nzSize="small">
+              <nz-descriptions-item nzTitle="Total Points">
+                {{ points }}
+              </nz-descriptions-item>
+              <nz-descriptions-item [nzTitle]="specificationInfo.assertionType == 'ONCOGENIC' ? 'Oncogenicity' : 'Pathogenicity'">
+                @let s = clinicalSignificanceForTotalPoints(points);
+                {{ s | evidenceEnumDisplay }}
+                @if (s != significance) {
+                  <span nz-tooltip
+                    [nzTooltipTitle]="'Assertion significance \'' + (significance | evidenceEnumDisplay) + '\' doesn\'t match calculated signifiance \'' + (s | evidenceEnumDisplay) + '\''" >
+                    <nz-icon nzType="warning" nzTheme="twotone" nzTwotoneColor="#CD1C18" />
+                  </span>
+                }
+              </nz-descriptions-item>
+            </nz-descriptions>
+          }
           <ng-template #evaluationSummaryExtraTemplate>
-            @if (this.specificationInfo.evaluationMethod == "ALL_STRENGTH") {
+            @if (this.specificationInfo.evaluationMethod == "ALL_STRENGTH" || this.specificationInfo.assertionType == 'PREDISPOSING') {
               Display By:
               <nz-radio-group [(ngModel)]="evaluationSummaryDisplayMode">
                 <label nz-radio-button nzValue="group">Group</label>
@@ -271,4 +293,27 @@
       'evaluation': values.evaluation,
       'criterionDescription': descriptionForCode(code)}">
   </cvc-specification-evaluation-tag>
+</ng-template>
+
+<ng-template #points let-items="items">
+  @if (this.specificationInfo?.evaluationMethod == "ALL_STRENGTH") {
+    <nz-divider nzSize="small" />
+    <p style="text-align: center">
+      @let metItems = filterMetCodes(items);
+      @if ((metItems | keyvalue).length > 0) {
+        @for (code of metItems | keyvalue: preserveOrder; track code.key; let last = $last) {
+          {{ strengthForCode(code) }}pts
+          @if (!last) {
+            + 
+          }
+        }
+      } @else {
+        <i
+          nz-typography
+          nzType="secondary">
+          0pts
+        </i>
+      }
+    </p>
+  }
 </ng-template>
