@@ -6,7 +6,7 @@ jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - uses: mheap/github-action-required-labels@v3
+      - uses: mheap/github-action-required-labels@bddc3b922a9fc4398a96b7da18ec5a1ce7d75b93 # v3.0.1
         with:
           mode: exactly
           count: 1

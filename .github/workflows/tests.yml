@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1
         with:
           bundler-cache: true
           ruby-version: '4.0'
@@ -28,10 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1
         with:
           ruby-version: '4.0'
           working-directory: ./server
@@ -56,13 +56,13 @@ jobs:
 
     steps:
       - name: 'Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: 'Setup elasticsearch'
-        uses: ankane/setup-elasticsearch@v1
+        uses: ankane/setup-elasticsearch@31ef32c3c8f64eb06167398f88ca6582fd2aad6d # v1
 
       - name: 'Setup Ruby'
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1
         with:
           bundler-cache: true
           ruby-version: '4.0'
@@ -89,10 +89,10 @@ jobs:
 
     steps:
       - name: 'Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
 
