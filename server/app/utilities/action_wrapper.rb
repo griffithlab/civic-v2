@@ -2,6 +2,7 @@ class ActionWrapper
   AVAILABLE_ACTIONS = [
     MergeAccounts,
     ToggleMaintenanceMode,
+    ChangeAssertionSubmittingOrg,
   ]
 
   def self.name

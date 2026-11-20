@@ -23,6 +23,7 @@ module Actions
       move_source_suggestions
       merge_organizations
       move_legacy_changes
+      move_audits
       account_to_keep.save!
       account_to_merge.destroy!
     end
@@ -138,6 +139,14 @@ module Actions
       existing_orgs = account_to_keep.organizations
       all_orgs = orgs_to_add + existing_orgs
       account_to_keep.organizations = all_orgs.uniq
+    end
+
+    def move_audits
+      audits = Audited::Audit.where(user_id: old_account_id)
+      audits.each do |a|
+        a.user_id = account_to_keep.id
+        a.save!
+      end
     end
 
     class SuggestedChange < ActiveRecord::Base; end
