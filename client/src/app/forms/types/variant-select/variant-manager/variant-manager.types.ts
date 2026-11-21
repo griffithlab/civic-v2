@@ -1,5 +1,5 @@
 import { TemplateRef } from '@angular/core'
-import { ApolloError } from '@apollo/client/core'
+import { ErrorLike } from '@apollo/client'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueCategory } from '@app/forms/components/empty-value/empty-value.component'
@@ -210,7 +210,8 @@ export type ColumnConfig =
   | TextTagType
 
 export interface DefaultColumnType
-  extends BaseColumnConfig,
+  extends
+    BaseColumnConfig,
     FixedConfig,
     InputFilterConfig,
     SortConfig,
@@ -225,14 +226,13 @@ export interface HiddenColumnType extends BaseColumnConfig {
 
 // displays a checkbox for the table's select feature
 export interface SelectColumnType
-  extends BaseColumnConfig,
-    SelectionConfig,
-    FixedConfig {
+  extends BaseColumnConfig, SelectionConfig, FixedConfig {
   type: 'select'
 }
 
 export interface EntityTagType
-  extends BaseColumnConfig,
+  extends
+    BaseColumnConfig,
     TagConfig,
     EntityTagConfig,
     SortConfig,
@@ -242,7 +242,8 @@ export interface EntityTagType
 }
 
 export interface EnumTagType
-  extends BaseColumnConfig,
+  extends
+    BaseColumnConfig,
     TagConfig,
     EnumTagConfig,
     SortConfig,
@@ -252,7 +253,8 @@ export interface EnumTagType
 }
 
 export interface TextTagType
-  extends BaseColumnConfig,
+  extends
+    BaseColumnConfig,
     TextTagConfig,
     SortConfig,
     InputFilterConfig,
@@ -288,7 +290,7 @@ export type RowSelection = {
 }
 
 export type RequestError = {
-  network?: ApolloError
+  network?: ErrorLike
   query?: ReadonlyArray<GraphQLFormattedError>
 }
 

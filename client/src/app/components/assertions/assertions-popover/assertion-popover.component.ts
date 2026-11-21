@@ -47,11 +47,13 @@ export class CvcAssertionPopoverComponent
   }
 
   ngOnInit() {
-    this.assertion$ = this.gql.fetch({ assertionId: this.assertionId }).pipe(
-      map((r) => r.data),
-      filter(isNonNulled),
-      map(({ assertion }) => assertion)
-    )
+    this.assertion$ = this.gql
+      .fetch({ variables: { assertionId: this.assertionId } })
+      .pipe(
+        map((r) => r.data),
+        filter(isNonNulled),
+        map(({ assertion }) => assertion)
+      )
   }
 
   ngAfterViewInit() {

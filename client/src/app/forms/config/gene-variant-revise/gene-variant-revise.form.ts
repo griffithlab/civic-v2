@@ -29,10 +29,10 @@ import {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-gene-variant-revise-form',
-    templateUrl: './gene-variant-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-gene-variant-revise-form',
+  templateUrl: './gene-variant-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcGeneVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number
@@ -66,10 +66,11 @@ export class CvcGeneVariantReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ variantId: this.variantId })
+      .fetch({ variables: { variantId: this.variantId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { variant } }) => {
+        next: ({ data }) => {
+          const variant = data?.variant
           if (variant && variant.__typename == 'GeneVariant') {
             this.model = {
               id: variant.id,

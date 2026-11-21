@@ -29,10 +29,10 @@ import {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-factor-variant-revise-form',
-    templateUrl: './factor-variant-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-factor-variant-revise-form',
+  templateUrl: './factor-variant-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFactorVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number
@@ -66,10 +66,11 @@ export class CvcFactorVariantReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ variantId: this.variantId })
+      .fetch({ variables: { variantId: this.variantId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { variant } }) => {
+        next: ({ data }) => {
+          const variant = data?.variant
           if (variant && variant.__typename == 'FactorVariant') {
             this.model = {
               id: variant.id,

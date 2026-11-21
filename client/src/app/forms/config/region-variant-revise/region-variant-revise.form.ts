@@ -29,10 +29,10 @@ import {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-region-variant-revise-form',
-    templateUrl: './region-variant-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-region-variant-revise-form',
+  templateUrl: './region-variant-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcRegionVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number
@@ -66,10 +66,11 @@ export class CvcRegionVariantReviseForm implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ variantId: this.variantId })
+      .fetch({ variables: { variantId: this.variantId } })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { variant } }) => {
+        next: ({ data }) => {
+          const variant = data?.variant
           if (variant && variant.__typename == 'RegionVariant') {
             this.model = {
               id: variant.id,

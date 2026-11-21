@@ -1,3 +1,4 @@
+import { onlyCompleteData } from 'apollo-angular'
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -45,9 +46,10 @@ export class CvcFeaturePopoverComponent
 
   ngOnInit() {
     this.feature$ = this.gql
-      .watch({ featureId: this.featureId })
+      .watch({ variables: { featureId: this.featureId } })
       .valueChanges.pipe(
-        map(({ data }) => data?.feature),
+        onlyCompleteData(),
+        map(({ data }) => data.feature),
         filter(isNonNulled)
       )
   }

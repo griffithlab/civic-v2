@@ -11,10 +11,10 @@ import { startWith, map } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-variant-groups-revise-view',
-    templateUrl: './variant-groups-revise.view.html',
-    styleUrls: ['./variant-groups-revise.view.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-revise-view',
+  templateUrl: './variant-groups-revise.view.html',
+  styleUrls: ['./variant-groups-revise.view.less'],
+  standalone: false,
 })
 export class VariantGroupsReviseView implements OnInit {
   loading$?: Observable<boolean>
@@ -29,7 +29,9 @@ export class VariantGroupsReviseView implements OnInit {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({
-        variantGroupId: +params.variantGroupId,
+        variables: {
+          variantGroupId: +params.variantGroupId,
+        },
       }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))

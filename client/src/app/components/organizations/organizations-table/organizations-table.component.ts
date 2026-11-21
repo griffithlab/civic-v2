@@ -44,10 +44,10 @@ export interface OrganizationsTableFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-organizations-table',
-    templateUrl: './organizations-table.component.html',
-    styleUrls: ['./organizations-table.component.less'],
-    standalone: false
+  selector: 'cvc-organizations-table',
+  templateUrl: './organizations-table.component.html',
+  styleUrls: ['./organizations-table.component.less'],
+  standalone: false,
 })
 export class CvcOrganizationsTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -104,7 +104,9 @@ export class CvcOrganizationsTableComponent implements OnInit {
 
   ngOnInit() {
     this.queryRef = this.gql.watch({
-      first: this.initialPageSize,
+      variables: {
+        first: this.initialPageSize,
+      },
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -200,7 +202,10 @@ export class CvcOrganizationsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<OrganizationBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<OrganizationBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

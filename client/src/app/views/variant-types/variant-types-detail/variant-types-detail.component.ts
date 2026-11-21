@@ -13,10 +13,10 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-variant-types-detail',
-    templateUrl: './variant-types-detail.component.html',
-    styleUrls: ['./variant-types-detail.component.less'],
-    standalone: false
+  selector: 'cvc-variant-types-detail',
+  templateUrl: './variant-types-detail.component.html',
+  styleUrls: ['./variant-types-detail.component.less'],
+  standalone: false,
 })
 export class VariantTypesDetailComponent implements OnDestroy {
   routeSub: Subscription
@@ -35,7 +35,9 @@ export class VariantTypesDetailComponent implements OnDestroy {
       this.variantTypeId = +params.variantTypeId
 
       this.queryRef = this.gql.watch({
-        variantTypeId: this.variantTypeId,
+        variables: {
+          variantTypeId: this.variantTypeId,
+        },
       })
 
       let observable = this.queryRef.valueChanges

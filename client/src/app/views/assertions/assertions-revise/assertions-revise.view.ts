@@ -11,10 +11,10 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-assertions-revise-view',
-    templateUrl: './assertions-revise.view.html',
-    styleUrls: ['./assertions-revise.view.less'],
-    standalone: false
+  selector: 'cvc-assertions-revise-view',
+  templateUrl: './assertions-revise.view.html',
+  styleUrls: ['./assertions-revise.view.less'],
+  standalone: false,
 })
 export class AssertionsReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>
@@ -29,7 +29,9 @@ export class AssertionsReviseView implements OnInit, OnDestroy {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({
-        assertionId: +params.assertionId,
+        variables: {
+          assertionId: +params.assertionId,
+        },
       }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))

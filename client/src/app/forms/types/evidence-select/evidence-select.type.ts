@@ -65,8 +65,9 @@ export interface CvcEvidenceSelectFieldProps extends FormlyFieldProps {
   showManager?: boolean
 }
 
-export interface CvcEvidenceSelectFieldConfig
-  extends FormlyFieldConfig<Partial<CvcEvidenceSelectFieldProps>> {
+export interface CvcEvidenceSelectFieldConfig extends FormlyFieldConfig<
+  Partial<CvcEvidenceSelectFieldProps>
+> {
   type:
     | 'evidence-select'
     | 'evidence-multi-select'
@@ -314,8 +315,8 @@ export class CvcEvidenceSelectField
     }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<EvidenceSelectTypeaheadQuery>) {
-    return r.data.evidenceItems.nodes
+  getTypeaheadResultsFn(r: Apollo.QueryResult<EvidenceSelectTypeaheadQuery>) {
+    return r.data?.evidenceItems.nodes ?? []
   }
 
   getTagQueryVarsFn(id: number): EvidenceSelectTagQueryVariables {
@@ -323,9 +324,9 @@ export class CvcEvidenceSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<EvidenceSelectTagQuery>
+    r: Apollo.QueryResult<EvidenceSelectTagQuery>
   ): Maybe<EvidenceSelectTypeaheadFieldsFragment> {
-    return r.data.evidenceItem
+    return r.data?.evidenceItem
   }
 
   getSelectedItemOptionFn(
