@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # Keep the commit SHAs that pin the workflow actions up to date.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
