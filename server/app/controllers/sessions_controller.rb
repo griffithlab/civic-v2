@@ -30,12 +30,31 @@ class SessionsController < ApplicationController
     head :no_content, status: :success
   end
 
+  def failure
+    render :failure, formats: [ :html ], status: :unauthorized
+  end
+
   private
   def get_redirect_path
-    if origin = request.env["omniauth.origin"]
-      origin
-    else
-      root_url
+    origin = request.env["omniauth.origin"]
+    return root_path unless origin.is_a?(String)
+    return root_path if origin.match?(/[\\\x00-\x20\x7f]/)
+
+    uri = URI.parse(origin)
+    return root_path if uri.userinfo
+
+    if uri.host || uri.scheme
+      trusted = URI.parse(OmniAuth.config.full_host)
+      return root_path unless [ uri.scheme, uri.host, uri.port ] == [ trusted.scheme, trusted.host, trusted.port ]
     end
+
+    path = uri.path.presence || "/"
+    return root_path unless path.start_with?("/") && !path.start_with?("//")
+
+    path += "?#{uri.query}" if uri.query
+    path += "##{uri.fragment}" if uri.fragment
+    path
+  rescue URI::InvalidURIError
+    root_path
   end
 end
