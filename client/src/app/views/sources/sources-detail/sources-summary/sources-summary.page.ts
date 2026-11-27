@@ -13,10 +13,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable, Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-sources-summary',
-    templateUrl: './sources-summary.page.html',
-    styleUrls: ['./sources-summary.page.less'],
-    standalone: false
+  selector: 'cvc-sources-summary',
+  templateUrl: './sources-summary.page.html',
+  styleUrls: ['./sources-summary.page.less'],
+  standalone: false,
 })
 export class SourcesSummaryPage implements OnDestroy {
   routeSub: Subscription
@@ -27,12 +27,17 @@ export class SourcesSummaryPage implements OnDestroy {
   loading$?: Observable<boolean>
   source$?: Observable<Maybe<SourceSummaryFieldsFragment>>
 
-  constructor(private route: ActivatedRoute, private gql: SourceSummaryGQL) {
+  constructor(
+    private route: ActivatedRoute,
+    private gql: SourceSummaryGQL
+  ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.sourceId = +params.sourceId
 
       this.queryRef = this.gql.watch({
-        sourceId: this.sourceId,
+        variables: {
+          sourceId: this.sourceId,
+        },
       })
 
       let observable = this.queryRef.valueChanges

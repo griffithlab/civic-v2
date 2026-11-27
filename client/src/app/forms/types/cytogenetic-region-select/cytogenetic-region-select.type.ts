@@ -33,6 +33,7 @@ import mixin from 'ts-mixin-extended'
 import { BehaviorSubject } from 'rxjs'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzModalService } from 'ng-zorro-antd/modal'
+import { Apollo } from 'apollo-angular'
 
 export type CvcCytogeneticRegionSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcCytogeneticRegionSelectFieldProps>>
@@ -47,9 +48,11 @@ export interface CvcCytogeneticRegionSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcCytogeneticRegionSelectFieldConfig
-  extends FormlyFieldConfig<CvcCytogeneticRegionSelectFieldProps> {
-  type: 'cytogenetic-region-select' | 'cytogenetic-region-multi-select' | Type<CvcCytogeneticRegionSelectField>
+export interface CvcCytogeneticRegionSelectFieldConfig extends FormlyFieldConfig<CvcCytogeneticRegionSelectFieldProps> {
+  type:
+    | 'cytogenetic-region-select'
+    | 'cytogenetic-region-multi-select'
+    | Type<CvcCytogeneticRegionSelectField>
 }
 
 const CytogeneticRegionSelectMixin = mixin(
@@ -69,11 +72,11 @@ const CytogeneticRegionSelectMixin = mixin(
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-cytogenetic-region-select',
-    templateUrl: './cytogenetic-region-select.type.html',
-    styleUrls: ['./cytogenetic-region-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-cytogenetic-region-select',
+  templateUrl: './cytogenetic-region-select.type.html',
+  styleUrls: ['./cytogenetic-region-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcCytogeneticRegionSelectField
   extends CytogeneticRegionSelectMixin
@@ -122,12 +125,16 @@ export class CvcCytogeneticRegionSelectField
     // this.onOpenChange$.pipe(tag('feature-select onOpenChange$')).subscribe()
   } // ngAfterViewInit()
 
-  getTypeaheadVarsFn(str: string): CytogeneticRegionSelectTypeaheadQueryVariables {
+  getTypeaheadVarsFn(
+    str: string
+  ): CytogeneticRegionSelectTypeaheadQueryVariables {
     return { queryTerm: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<CytogeneticRegionSelectTypeaheadQuery>) {
-    return r.data.cytogeneticRegionTypeahead
+  getTypeaheadResultsFn(
+    r: Apollo.QueryResult<CytogeneticRegionSelectTypeaheadQuery>
+  ) {
+    return r.data?.cytogeneticRegionTypeahead ?? []
   }
 
   getTagQueryVarsFn(id: number): CytogeneticRegionSelectTagQueryVariables {
@@ -135,9 +142,9 @@ export class CvcCytogeneticRegionSelectField
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<CytogeneticRegionSelectTagQuery>
+    r: Apollo.QueryResult<CytogeneticRegionSelectTagQuery>
   ): Maybe<CytogeneticRegionSelectTypeaheadFieldsFragment> {
-    return r.data.cytogeneticRegion
+    return r.data?.cytogeneticRegion
   }
 
   getSelectedItemOptionFn(
@@ -151,7 +158,10 @@ export class CvcCytogeneticRegionSelectField
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (cytogeneticRegion: CytogeneticRegionSelectTypeaheadFieldsFragment, index: number) => {
+      (
+        cytogeneticRegion: CytogeneticRegionSelectTypeaheadFieldsFragment,
+        index: number
+      ) => {
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || cytogeneticRegion.name,
           value: cytogeneticRegion.id,

@@ -153,8 +153,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
      * REVISIONS
      */
     this.commentsQueryRef = this.commentsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.commentsQueryRef.valueChanges
@@ -162,7 +164,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
         map(
           (result: ApolloQueryResult<OrganizationCommentsLeaderboardQuery>) => {
             let rows: OrganizationLeaderboardRow[] = []
-            if (result.data) {
+            if (result.dataState === 'complete') {
               result.data.organizationLeaderboards.commentsLeaderboard.edges.map(
                 (e) => {
                   if (e.node) {
@@ -190,8 +192,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
      * MODERATIONS
      */
     this.moderationQueryRef = this.moderationGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.moderationQueryRef.valueChanges
@@ -201,7 +205,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
             result: ApolloQueryResult<OrganizationModerationLeaderboardQuery>
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
-            if (result.data) {
+            if (result.dataState === 'complete') {
               result.data.organizationLeaderboards.moderationLeaderboard.edges.map(
                 (e) => {
                   if (e.node) {
@@ -229,8 +233,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     //  * REVISIONS
     //  */
     this.revisionsQueryRef = this.revisionsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.revisionsQueryRef.valueChanges
@@ -240,7 +246,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
             result: ApolloQueryResult<OrganizationRevisionsLeaderboardQuery>
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
-            if (result.data) {
+            if (result.dataState === 'complete') {
               result.data.organizationLeaderboards.revisionsLeaderboard.edges.map(
                 (e) => {
                   if (e.node) {
@@ -268,8 +274,10 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
      * SUBMISSIONS
      */
     this.submissionsQueryRef = this.submissionsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
+      variables: {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
     })
 
     this.submissionsQueryRef.valueChanges
@@ -279,7 +287,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
             result: ApolloQueryResult<OrganizationSubmissionsLeaderboardQuery>
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
-            if (result.data) {
+            if (result.dataState === 'complete') {
               result.data.organizationLeaderboards.submissionsLeaderboard.edges.map(
                 (e) => {
                   if (e.node) {

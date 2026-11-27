@@ -11,14 +11,20 @@ import {
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
-import { FeatureSelectTypeaheadFieldsFragment, Maybe, ReferenceBuild, RegionVariantName, RegionVariantNameForFeatureGQL } from '@app/generated/civic.apollo'
+import {
+  FeatureSelectTypeaheadFieldsFragment,
+  Maybe,
+  ReferenceBuild,
+  RegionVariantName,
+  RegionVariantNameForFeatureGQL,
+} from '@app/generated/civic.apollo'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal'
-import { BehaviorSubject, from, lastValueFrom, map} from 'rxjs'
+import { BehaviorSubject, from, lastValueFrom, map } from 'rxjs'
 import { $enum } from 'ts-enum-util'
 import mixin from 'ts-mixin-extended'
 
@@ -38,8 +44,7 @@ export interface RegionVariantSelectModalData {
   feature?: FeatureSelectTypeaheadFieldsFragment
 }
 
-export interface CvcLevelSelectFieldConfig
-  extends FormlyFieldConfig<CvcRegionVariantNameSelectFieldProps> {
+export interface CvcLevelSelectFieldConfig extends FormlyFieldConfig<CvcRegionVariantNameSelectFieldProps> {
   type: 'level-select' | Type<CvcRegionVariantNameSelectField>
 }
 
@@ -52,10 +57,10 @@ const RegionVariantNameSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-region-variant-name-select',
-    templateUrl: './region-variant-name-select.type.html',
-    styleUrls: ['./region-variant-name-select.type.less'],
-    standalone: false
+  selector: 'cvc-region-variant-name-select',
+  templateUrl: './region-variant-name-select.type.html',
+  styleUrls: ['./region-variant-name-select.type.less'],
+  standalone: false,
 })
 export class CvcRegionVariantNameSelectField
   extends RegionVariantNameSelectMixin
@@ -88,7 +93,7 @@ export class CvcRegionVariantNameSelectField
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private variantQuery: RegionVariantNameForFeatureGQL,
+    private variantQuery: RegionVariantNameForFeatureGQL
   ) {
     super()
     this.nameEnum$ = new BehaviorSubject<CvcInputEnum[]>([])
@@ -96,17 +101,19 @@ export class CvcRegionVariantNameSelectField
     if (this.nzModalData.feature?.id) {
       const fid = this.nzModalData.feature?.id
       lastValueFrom(
-        this.variantQuery.fetch(
-          { featureId: fid },
-          { fetchPolicy: 'cache-first' }
-        )
-      ).then(({data}) => {
+        this.variantQuery.fetch({
+          variables: { featureId: fid },
+          fetchPolicy: 'cache-first',
+        })
+      ).then(({ data }) => {
         if (!data || !data.regionVariantNamesForFeatureId) {
           console.error(
             `${this.field.id} could not fetch variant names for Feature:${fid}.`
           )
         } else {
-          this.nameEnum$.next(data.regionVariantNamesForFeatureId.map((level) => level))
+          this.nameEnum$.next(
+            data.regionVariantNamesForFeatureId.map((level) => level)
+          )
         }
       })
     }

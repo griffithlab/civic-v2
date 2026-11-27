@@ -15,7 +15,6 @@ import {
 } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { filter, map } from 'rxjs/operators'
 
 interface RevisionsTab {
@@ -25,10 +24,10 @@ interface RevisionsTab {
 }
 
 @Component({
-    selector: 'cvc-variants-revisions',
-    templateUrl: './variants-revisions.page.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variants-revisions',
+  templateUrl: './variants-revisions.page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VariantsRevisionsPage implements OnDestroy, OnInit {
   routeSub?: Subscription
@@ -61,10 +60,13 @@ export class VariantsRevisionsPage implements OnDestroy, OnInit {
         ])
 
         this.coordsSub = this.gql
-          .fetch({ variantId: variantId }, { fetchPolicy: 'no-cache' })
+          .fetch({
+            variables: { variantId: variantId },
+            fetchPolicy: 'no-cache',
+          })
           .pipe(
             filter(isNonNulled),
-            pluck('data', 'variant'),
+            map((r) => r.data?.variant),
             filter(isNonNulled)
           )
           .subscribe((variant) => {

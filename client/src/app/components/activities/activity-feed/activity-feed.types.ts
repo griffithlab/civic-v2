@@ -74,8 +74,8 @@ export type ActivityFeedCounts = {
 export type FetchParams = {
   first?: number
   after?: string
-  before?: number
-  last?: string
+  before?: string
+  last?: number
 }
 
 // query params object composed of filter and settings UI values,
